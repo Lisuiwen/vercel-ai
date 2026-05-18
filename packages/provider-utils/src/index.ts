@@ -91,10 +91,10 @@ export { VERSION } from './version';
 export { withUserAgentSuffix } from './with-user-agent-suffix';
 export * from './without-trailing-slash';
 
-// folder re-exports
+// 文件夹重新导出
 export * from './types';
 
-// external re-exports
+// 对外再出口
 export type * from '@standard-schema/spec';
 export { WORKFLOW_DESERIALIZE, WORKFLOW_SERIALIZE } from '@workflow/serde';
 export {

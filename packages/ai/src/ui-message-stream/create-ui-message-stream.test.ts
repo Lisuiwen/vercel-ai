@@ -362,7 +362,7 @@ describe('createUIMessageStream', () => {
 
     await vi.advanceTimersByTimeAsync(0); // 放弃控制权
 
-    // 它应该仍然能够写入controller2
+    // 它应该仍然能够读取controller2
     controller2!.enqueue({ type: 'text-delta', id: '2', delta: '2a' });
     controller2!.close();
 
@@ -530,7 +530,7 @@ describe('createUIMessageStream', () => {
 
     const stream = createUIMessageStream({
       execute: ({ writer }) => {
-        writer.write({ type: 'start' }); // 没有消息 ID
+        writer.write({ type: 'start' }); // 没有消息ID
       },
       originalMessages: [
         { id: '0', role: 'user', parts: [{ type: 'text', text: '0a' }] },

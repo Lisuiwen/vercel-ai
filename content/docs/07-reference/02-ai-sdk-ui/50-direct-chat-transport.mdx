@@ -1,17 +1,17 @@
 ---
 title: DirectChatTransport
-description: API Reference for the DirectChatTransport class.
+description: DirectChatTransport 类的 API 参考。
 ---
 
 # `DirectChatTransport`
 
-A transport that directly communicates with an [Agent](/docs/reference/ai-sdk-core/agent) in-process, without going through HTTP. This is useful for:
+一种直接在进程内与 [Agent](/docs/reference/ai-sdk-core/agent) 通信、无需经过 HTTP 的 transport。这适用于：
 
-- Server-side rendering scenarios
-- Testing without network
-- Single-process applications
+- 服务端渲染场景
+- 无网络测试
+- 单进程应用
 
-Unlike `DefaultChatTransport` which sends HTTP requests to an API endpoint, `DirectChatTransport` invokes the agent's `stream()` method directly and converts the result to a UI message stream.
+与向 API 端点发送 HTTP 请求的 `DefaultChatTransport` 不同，`DirectChatTransport` 会直接调用 agent 的 `stream()` 方法，并将结果转换为 UI message stream。
 
 ```tsx
 import { useChat } from '@ai-sdk/react';
@@ -32,13 +32,13 @@ export default function Chat() {
 }
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { DirectChatTransport } from "ai"`} prompt={false} />
 
-## Constructor
+## 构造函数
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -47,77 +47,77 @@ export default function Chat() {
       type: 'Agent',
       isRequired: true,
       description:
-        'The Agent instance to use for generating responses. The agent will be called with `stream()` for each message.',
+        '用于生成响应的 Agent 实例。每条消息都会通过 `stream()` 调用该 agent。',
     },
     {
       name: 'options',
       type: 'CALL_OPTIONS',
       isOptional: true,
       description:
-        'Options to pass to the agent when calling it. These are agent-specific options defined when creating the agent.',
+        '调用 agent 时传递给它的选项。这些是在创建 agent 时定义的 agent 专属选项。',
     },
     {
       name: 'originalMessages',
       type: 'UIMessage[]',
       isOptional: true,
       description:
-        'The original messages. If provided, persistence mode is assumed, and a message ID is provided for the response message.',
+        '原始消息。提供后会假定使用持久化模式，并为响应消息提供消息 ID。',
     },
     {
       name: 'generateMessageId',
       type: 'IdGenerator',
       isOptional: true,
       description:
-        'Generate a message ID for the response message. If not provided, no message ID will be set for the response message.',
+        '为响应消息生成消息 ID。未提供时，不会为响应消息设置消息 ID。',
     },
     {
       name: 'messageMetadata',
       type: '(options: { part: TextStreamPart }) => METADATA | undefined',
       isOptional: true,
       description:
-        'Extracts message metadata that will be sent to the client. Called on `start` and `finish` events.',
+        '提取将发送给客户端的消息元数据。在 `start` 和 `finish` 事件上调用。',
     },
     {
       name: 'sendReasoning',
       type: 'boolean',
       isOptional: true,
-      description: 'Send reasoning parts to the client. Defaults to true.',
+      description: '向客户端发送 reasoning part。默认值：true。',
     },
     {
       name: 'sendSources',
       type: 'boolean',
       isOptional: true,
-      description: 'Send source parts to the client. Defaults to false.',
+      description: '向客户端发送 source part。默认值：false。',
     },
     {
       name: 'sendFinish',
       type: 'boolean',
       isOptional: true,
       description:
-        'Send the finish event to the client. Set to false if you are using additional streamText calls that send additional data. Defaults to true.',
+        '向客户端发送 finish 事件。如果你使用额外的 streamText 调用发送额外数据，请设置为 false。默认值：true。',
     },
     {
       name: 'sendStart',
       type: 'boolean',
       isOptional: true,
       description:
-        'Send the message start event to the client. Set to false if you are using additional streamText calls and the message start event has already been sent. Defaults to true.',
+        '向客户端发送消息开始事件。如果你使用额外的 streamText 调用且消息开始事件已经发送，请设置为 false。默认值：true。',
     },
     {
       name: 'onError',
       type: '(error: unknown) => string',
       isOptional: true,
       description:
-        "Process an error, e.g. to log it. Defaults to `() => 'An error occurred.'`. Return the error message to include in the data stream.",
+        "处理错误，例如记录日志。默认值：`() => 'An error occurred.'`。返回要包含在数据流中的错误消息。",
     },
   ]}
 />
 
-## Methods
+## 方法
 
 ### `sendMessages()`
 
-Sends messages to the agent and returns a streaming response. This method validates and converts UI messages to model messages, calls the agent's `stream()` method, and returns the result as a UI message stream.
+向 agent 发送消息并返回流式响应。此方法会验证 UI message 并将其转换为模型消息，调用 agent 的 `stream()` 方法，并将结果作为 UI message stream 返回。
 
 ```ts
 const stream = await transport.sendMessages({
@@ -133,68 +133,68 @@ const stream = await transport.sendMessages({
     {
       name: 'chatId',
       type: 'string',
-      description: 'Unique identifier for the chat session.',
+      description: '聊天会话的唯一标识符。',
     },
     {
       name: 'trigger',
       type: "'submit-message' | 'regenerate-message'",
       description:
-        'The type of message submission - either new message or regeneration.',
+        '消息提交类型：新消息或重新生成。',
     },
     {
       name: 'messageId',
       type: 'string | undefined',
       description:
-        'ID of the message to regenerate, or undefined for new messages.',
+        '要重新生成的消息 ID；新消息则为 undefined。',
     },
     {
       name: 'messages',
       type: 'UIMessage[]',
       description:
-        'Array of UI messages representing the conversation history.',
+        '表示对话历史的 UI message 数组。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal | undefined',
-      description: 'Signal to abort the request if needed.',
+      description: '需要时用于中止请求的信号。',
     },
     {
       name: 'headers',
       type: 'Record<string, string> | Headers',
       isOptional: true,
-      description: 'Additional headers (ignored by DirectChatTransport).',
+      description: '额外标头（DirectChatTransport 会忽略）。',
     },
     {
       name: 'body',
       type: 'object',
       isOptional: true,
       description:
-        'Additional body properties (ignored by DirectChatTransport).',
+        '额外 body 属性（DirectChatTransport 会忽略）。',
     },
     {
       name: 'metadata',
       type: 'unknown',
       isOptional: true,
-      description: 'Custom metadata (ignored by DirectChatTransport).',
+      description: '自定义元数据（DirectChatTransport 会忽略）。',
     },
   ]}
 />
 
-#### Returns
+#### 返回值
 
-Returns a `Promise<ReadableStream<UIMessageChunk>>` - a stream of UI message chunks that can be processed by the chat UI.
+返回 `Promise<ReadableStream<UIMessageChunk>>`，即可由 chat UI 处理的 UI message chunk 流。
 
 ### `reconnectToStream()`
 
-Direct transport does not support reconnection since there is no persistent server-side stream to reconnect to.
+Direct transport 不支持重连，因为没有可重新连接的持久服务端流。
 
-#### Returns
+#### 返回值
 
-Always returns `Promise<null>`.
+始终返回 `Promise<null>`。
 
-## Examples
+## 示例
 
-### Basic Usage
+### 基本用法
 
 ```tsx
 import { useChat } from '@ai-sdk/react';
@@ -227,7 +227,7 @@ export default function Chat() {
 }
 ```
 
-### With Agent Tools
+### 使用 Agent 工具
 
 ```tsx
 import { useChat } from '@ai-sdk/react';
@@ -260,7 +260,7 @@ export default function Chat() {
 }
 ```
 
-### With Custom Agent Options
+### 使用自定义 Agent 选项
 
 ```tsx
 import { useChat } from '@ai-sdk/react';
@@ -289,7 +289,7 @@ export default function Chat({ userId }: { userId: string }) {
 }
 ```
 
-### With Reasoning
+### 使用 Reasoning
 
 ```tsx
 import { useChat } from '@ai-sdk/react';

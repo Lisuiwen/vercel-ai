@@ -57,12 +57,12 @@ export type PrepareReconnectToStreamRequest = (options: {
 /**
  * `HttpChatTransport` 类的选项。
  *
- * @param UI_MESSAGE - The type of message to be used in the chat.
+ * @param UI_MESSAGE - 聊天中使用的消息类型。
  */
 export type HttpChatTransportInitOptions<UI_MESSAGE extends UIMessage> = {
   /**
-   * 用于聊天传输的 API URL。
-   * 默认为“/api/chat”。
+   * 用于聊天传输的API URL。
+   * 默认为`/api/chat`。
    */
   api?: string;
 
@@ -80,12 +80,12 @@ export type HttpChatTransportInitOptions<UI_MESSAGE extends UIMessage> = {
 
   /**
    * 与 API 请求一起发送的额外主体对象。
-   * @example
-   * 将“sessionId”与消息一起发送到 API。
+   * @例子
+   * 将`sessionId`与消息一起发送到API。
    * ````js
    * 使用聊天（{
    *   正文：{
-   *     会话 ID: '123',
+   * 会话 ID: '123',
    *   }
    * })
    * ```
@@ -185,7 +185,7 @@ export abstract class HttpChatTransport<
           };
     const credentials = preparedRequest?.credentials ?? resolvedCredentials;
 
-    // 避免缓存 globalThis.fetch，以防它被其他库修补
+    // 避免保存globalThis.fetch，它被其他库修复
     const fetch = this.fetch ?? globalThis.fetch;
 
     const response = await fetch(api, {
@@ -240,7 +240,7 @@ export abstract class HttpChatTransport<
         : baseHeaders;
     const credentials = preparedRequest?.credentials ?? resolvedCredentials;
 
-    // 避免缓存 globalThis.fetch，以防它被其他库修补
+    // 避免保存globalThis.fetch，它被其他库修复
     const fetch = this.fetch ?? globalThis.fetch;
 
     const response = await fetch(api, {

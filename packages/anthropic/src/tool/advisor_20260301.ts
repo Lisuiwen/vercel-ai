@@ -44,14 +44,14 @@ const advisor_20260301InputSchema = lazySchema(() =>
 );
 
 const factory = createProviderExecutedToolFactory<
-  // Input is always empty: the executor emits server_tool_use with empty input
-  // and the server constructs the advisor's view from the full transcript.
+  // 输入始终为空：执行器发出带有空输入的 server_tool_use
+  // 服务器根据完整的记录构建顾问的视图。
   {},
   | {
       type: 'advisor_result';
 
       /**
-       * Plaintext advice from the advisor model.
+       * 来自顾问模型的明文建议。
        */
       text: string;
     }
@@ -59,9 +59,9 @@ const factory = createProviderExecutedToolFactory<
       type: 'advisor_redacted_result';
 
       /**
-       * Opaque, encrypted advice. Must be round-tripped verbatim on subsequent
-       * turns; the server decrypts it server-side when rendering the advisor's
-       * advice into the executor's prompt.
+       * 不透明、加密的建议。后续必须逐字往返
+       * 轮流；服务器在呈现顾问程序时在服务器端对其进行解密
+       * 建议进入执行者的提示。
        */
       encryptedContent: string;
     }
@@ -69,47 +69,47 @@ const factory = createProviderExecutedToolFactory<
       type: 'advisor_tool_result_error';
 
       /**
-       * Available options: `max_uses_exceeded`, `too_many_requests`,
-       * `overloaded`, `prompt_too_long`, `execution_time_exceeded`,
-       * `unavailable`.
+       * 可用选项：`max_uses_exceeded`、`too_many_requests`、
+       * `超载`、`prompt_too_long`、`execution_time_exceeded`、
+       * `不可用`。
        */
       errorCode: string;
     },
   {
     /**
-     * The advisor model ID, such as `"claude-opus-4-7"`. Billed at this
-     * model's rates for the sub-inference.
+     * Advisor 模型 ID，例如“claude-opus-4-7”。在此计费
+     * 模型的子推理率。
      *
-     * The advisor must be at least as capable as the executor; an invalid
-     * pair returns a `400 invalid_request_error` from the API.
+     * 顾问必须至少与遗嘱执行人一样有能力；无效的
+     * 对从 API 返回“400 invalid_request_error”。
      */
     model: string;
 
     /**
-     * Maximum number of advisor calls allowed in a single request. Once the
-     * executor reaches this cap, further advisor calls return an
-     * `advisor_tool_result_error` with `error_code: "max_uses_exceeded"` and
-     * the executor continues without further advice.
+     * 单个请求中允许的顾问调用的最大数量。一旦
+     * 执行者达到此上限，进一步的顾问调用返回
+     * `advisor_tool_result_error` 和 `error_code: "max_uses_exceeded"` 和
+     * 执行人在没有进一步建议的情况下继续进行。
      *
-     * This is a per-request cap, not a per-conversation cap. To enforce
-     * conversation-level limits, count advisor calls client-side; when you
-     * hit your cap, remove the advisor tool from `tools` AND strip all
-     * `advisor_tool_result` blocks from your message history (otherwise the
-     * API returns `400 invalid_request_error`).
+     * 这是每个请求的上限，而不是每个对话的上限。强制执行
+     * 会话级别限制，计算顾问调用客户端；当你
+     * 尽全力，从“工具”中删除顾问工具并删除所有内容
+     * `advisor_tool_result` 会阻止您的消息历史记录（否则
+     * API 返回“400 invalid_request_error”）。
      */
     maxUses?: number;
 
     /**
-     * Enables prompt caching for the advisor's own transcript across calls
-     * within a conversation. Unlike `cache_control` on content blocks, this
-     * is not a breakpoint marker; it is an on/off switch. The server decides
-     * where cache boundaries go.
+     * 跨呼叫启用座席自己的文字记录的提示缓存
+     * 在一次谈话中。与内容块上的“cache_control”不同，这
+     * 不是断点标记；它是一个开/关开关。服务器决定
+     * 缓存边界在哪里。
      *
-     * The cache write costs more than the reads save when the advisor is
-     * called two or fewer times per conversation; caching breaks even at
-     * roughly three advisor calls. Enable it for long agent loops; keep it
-     * off for short tasks. Keep it consistent across a conversation —
-     * toggling causes cache misses.
+     * 当顾问程序处于运行状态时，缓存写入的成本高于读取节省的成本
+     * 每次通话呼叫两次或更少；缓存甚至在
+     * 大约三个顾问电话。为长代理循环启用它；保留它
+     * 关闭短期任务。在对话中保持一致——
+     * 切换会导致缓存未命中。
      */
     caching?: {
       type: 'ephemeral';

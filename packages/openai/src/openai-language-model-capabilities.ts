@@ -5,7 +5,7 @@ export type OpenAILanguageModelCapabilities = {
   supportsPriorityProcessing: boolean;
 
   /**
-   * Allow temperature, topP, logProbs when reasoningEffort is none.
+   * 当reasoningEffort为none时允许温度、topP、logProbs。
    */
   supportsNonReasoningParameters: boolean;
 };
@@ -27,8 +27,8 @@ export function getOpenAILanguageModelCapabilities(
     modelId.startsWith('o3') ||
     modelId.startsWith('o4-mini');
 
-  // Use allowlist approach: only known reasoning models should use 'developer' role
-  // This prevents issues with fine-tuned models, third-party models, and custom models
+  // 使用白名单方法：只有已知的推理模型才应使用“开发人员”角色
+  // 这可以防止微调模型、第三方模型和自定义模型出现问题
   const isReasoningModel =
     modelId.startsWith('o1') ||
     modelId.startsWith('o3') ||
@@ -36,7 +36,7 @@ export function getOpenAILanguageModelCapabilities(
     (modelId.startsWith('gpt-5') && !modelId.startsWith('gpt-5-chat'));
 
   // https://platform.openai.com/docs/guides/latest-model#gpt-5-1-parameter-compatibility
-  // GPT-5.1 and later model families support temperature, topP, logProbs when reasoningEffort is none.
+  // 当reasoningEffort为none时，GPT-5.1及更高版本的模型系列支持温度、topP、logProbs。
   const supportsNonReasoningParameters =
     modelId.startsWith('gpt-5.1') ||
     modelId.startsWith('gpt-5.2') ||

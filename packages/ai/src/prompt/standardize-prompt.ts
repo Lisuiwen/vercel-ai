@@ -24,12 +24,12 @@ export type StandardizedPrompt = {
  * 将提示输入转换为具有经过验证的模型的标准化提示
  * 消息。
  *
- * @param prompt - The prompt definition to standardize.
- * 将“allowSystemInMessages”设置为 true 以允许系统消息
+ * @param prompt - 提示定义要标准化。
+ * 将`allowSystemInMessages`设置为true以允许系统消息
  * “提示”或“消息”字段。 “说明”中的系统消息
  * 选项始终是允许的。
- * @returns The standardized prompt.
- * @throws {InvalidPromptError} When the prompt is invalid.
+ * @returns 标准化提示。
+ * @throws {InvalidPromptError} 当提示无效时。
  */
 export async function standardizePrompt({
   allowSystemInMessages = false,
@@ -52,7 +52,7 @@ export async function standardizePrompt({
     });
   }
 
-  // 验证指令是字符串还是 SystemModelMessage
+  // 验证指令是字符串还是SystemModelMessage
   if (
     typeof instructions !== 'string' &&
     !asArray(instructions).every(message => message.role === 'system')

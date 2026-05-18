@@ -36,9 +36,9 @@ function parseBase64DataUrl(
 function convertUrlToolResultPart(
   url: string,
 ): GoogleFunctionResponsePart | undefined {
-  // Per https://ai.google.dev/api/caching#FunctionResponsePart, only inline data is supported.
-  // https://docs.cloud.google.com/vertex-ai/generative-ai/docs/model-reference/function-calling#functionresponsepart suggests that this
-  // may be different for Vertex, but this needs to be confirmed and further tested for both APIs.
+  // 根据 https://ai.google.dev/api/caching#FunctionResponsePart，仅支持内联数据。
+  // https://docs.cloud.google.com/vertex-ai/generative-ai/docs/model-reference/function-calling#functionresponsepart 建议这
+  // Vertex 可能有所不同，但这需要针对这两个 API 进行确认和进一步测试。
   const parsedDataUrl = parseBase64DataUrl(url);
   if (parsedDataUrl == null) {
     return undefined;
@@ -53,9 +53,9 @@ function convertUrlToolResultPart(
 }
 
 /*
- * Appends tool result content parts to the message using the functionResponse
- * format with support for multimodal parts (e.g. inline images/files alongside
- * text). This format is supported by Gemini 3+ models.
+ * 使用 Response 函数将工具结果内容部分附加到消息中
+ * 支持多模式部分的格式（例如内联图像/文件并排
+ * 文本）。 Gemini 3+ 模型支持此格式。
  */
 function appendToolResultParts(
   parts: GoogleContentPart[],
@@ -124,9 +124,9 @@ function appendToolResultParts(
 }
 
 /*
- * Appends tool result content parts using a legacy format for pre-Gemini 3
- * models that do not support multimodal parts within functionResponse. Instead,
- * non-text content like images is sent as separate top-level inlineData parts.
+ * 使用 Gemini 3 之前版本的旧格式附加工具结果内容部分
+ * 不支持 functionResponse 中的多模态部分的模型。相反，
+ * 像图像这样的非文本内容作为单独的顶级 inlineData 部分发送。
  */
 function appendLegacyToolResultParts(
   parts: GoogleContentPart[],
@@ -184,10 +184,10 @@ export function convertToGoogleMessages(
   options?: {
     isGemmaModel?: boolean;
     /**
-     * Names to look up under `providerOptions` when reading per-part metadata
-     * (e.g. thought signatures). Tried in order; first match wins. For the
-     * Vertex provider this is `['googleVertex', 'vertex']` (new key first,
-     * legacy key as fallback) and for the Google provider it is `['google']`.
+     * 读取每个部件元数据时要在“providerOptions”下查找的名称
+     * （例如思想签名）。按顺序尝试；第一场比赛获胜。对于
+     * 顶点提供程序，这是“['googleVertex', 'vertex']”（首先是新密钥，
+     * 旧密钥作为后备），对于 Google 提供商来说，它是“['google']”。
      */
     providerOptionsNames?: readonly string[];
     supportsFunctionResponseParts?: boolean;
@@ -209,9 +209,9 @@ export function convertToGoogleMessages(
       const v = part.providerOptions?.[name];
       if (v != null) return v as Record<string, unknown>;
     }
-    // Cross-namespace fallback (gateway interop): Vertex providers may receive
-    // metadata under `google`, and the Google provider may receive metadata
-    // under `googleVertex`/`vertex`.
+    // 跨命名空间回退（网关互操作）：顶点提供者可能会收到
+    // “google”下的元数据，Google 提供商可能会收到元数据
+    // 在`googleVertex`/`vertex`下。
     if (isVertexLike) {
       return part.providerOptions?.google as
         | Record<string, unknown>

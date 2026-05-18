@@ -13,19 +13,19 @@ const CHUNKING_REGEXPS = {
 /**
  * 检测缓冲区中的第一个块。
  *
- * @param buffer - The buffer to detect the first chunk in.
+ * @param buffer - 用于检测第一个块的缓冲区。
  *
- * @returns The first detected chunk, or `undefined` if no chunk was detected.
+ * @returns 第一个检测到的块，如果未检测到块，则为`未定义`。
  */
 export type ChunkDetector = (buffer: string) => string | undefined | null;
 
 /**
  * 平滑文本和推理流输出。
  *
- * @param delayInMs - The delay in milliseconds between each chunk. Defaults to 10ms. Can be set to `null` to skip the delay.
- * @param chunking - Controls how the text is chunked for streaming. Use "word" to stream word by word (default), "line" to stream line by line, provide a custom RegExp pattern for custom chunking, provide an Intl.Segmenter for locale-aware word segmentation (recommended for CJK languages), or provide a custom ChunkDetector function.
+ * @param delayInMs - 每个块之间的延迟（以毫秒为单位）。默认为 10 毫秒。可以设置为`null`来跳过延迟。
+ * @param chunking - 控制如何对文本进行分块以进行流式传输。使用`word`逐字流式传输（默认），使用`line`逐行流式传输，为自定义分块提供自定义 RegExp 模式，为区域设置感知分词提供 Intl.Segmenter（推荐用于 CJK 语言），或提供自定义 ChunkDetector 函数。
  *
- * @returns A transform stream that smooths text streaming output.
+ * @returns 平滑文本流输出的转换流。
  */
 export function smoothStream<TOOLS extends ToolSet>({
   delayInMs = 10,
@@ -45,7 +45,7 @@ export function smoothStream<TOOLS extends ToolSet>({
 }) => TransformStream<TextStreamPart<TOOLS>, TextStreamPart<TOOLS>> {
   let detectChunk: ChunkDetector;
 
-  // 检查分块是否是 Intl.Segmenter（分段方法的鸭子类型）
+  // 检查分块是否为Intl.Segmenter（分割方法的鸭子类型）
   if (
     chunking != null &&
     typeof chunking === 'object' &&
@@ -135,7 +135,7 @@ export function smoothStream<TOOLS extends ToolSet>({
           return;
         }
 
-        // 当类型或 ID 更改时刷新缓冲区
+        // 当类型或 ID 更改时刷新状态
         if ((chunk.type !== type || chunk.id !== id) && buffer.length > 0) {
           flushBuffer(controller);
         }

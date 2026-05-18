@@ -16,9 +16,9 @@ import type { ResponseMessage } from './response-message';
 import type { StepResult } from './step-result';
 
 /**
- * 事件传递给“onStart”回调。
+ * 事件提交给`onStart`回调。
  *
- * 在生成操作开始时、在任何 LLM 调用之前调用。
+ * 在生成操作开始时、在任何LLM调用之前调用。
  */
 export type GenerateTextStartEvent<
   TOOLS extends ToolSet = ToolSet,
@@ -28,14 +28,14 @@ export type GenerateTextStartEvent<
   /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /* * 标识操作类型（例如“ai.generateText”或“ai.streamText”）。 */
+  /* * 操作标识类型（例如`ai.generateText`或`ai.streamText`）。 */
   // 移至遥测调度员
   readonly operationId: string;
 
-  /* * 提供者标识符（例如“openai”、“anthropic”）。 */
+  /* * 提供者标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /* * 特定型号标识符（例如“gpt-4o”）。 */
+  /* * 特定型号标识符（例如`gpt-4o`）。 */
   readonly modelId: string;
 
   /* * 本代可用的工具。 */
@@ -52,7 +52,7 @@ export type GenerateTextStartEvent<
 
   /**
    * 生成的超时配置。
-   * 可以是数字（毫秒）或具有totalMs、stepMs、chunkMs、toolMs 和通过工具覆盖的每个工具的对象。
+   * 可以是数字（毫秒）或具有totalMs、stepMs、chunkMs、toolMs和通过工具覆盖的每个工具的对象。
    */
   readonly timeout: TimeoutConfiguration<TOOLS> | undefined;
 
@@ -78,10 +78,10 @@ export type GenerateTextStartEvent<
   StandardizedPrompt;
 
 /**
- * 事件传递给“onStepStart”回调。
+ * 事件提交给`onStepStart`回调。
  *
- * 在调用提供者之前，在步骤（LLM 调用）开始时调用。
- * 每个步骤代表一次 LLM 调用。
+ * 在调用提供者之前，在步骤（LLM 调用）时开始调用。
+ * 每个步骤代表一次LLM调用。
  */
 export type GenerateTextStepStartEvent<
   TOOLS extends ToolSet = ToolSet,
@@ -91,10 +91,10 @@ export type GenerateTextStepStartEvent<
   /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /* * 提供者标识符（例如“openai”、“anthropic”）。 */
+  /* * 提供者标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /* * 特定型号标识符（例如“gpt-4o”）。 */
+  /* * 特定型号标识符（例如`gpt-4o`）。 */
   readonly modelId: string;
 
   /* * 当前步骤的从零开始的索引。 */
@@ -119,21 +119,21 @@ export type GenerateTextStepStartEvent<
   readonly output: OUTPUT | undefined;
 
   /**
-   * 运行时上下文。可以在步骤之间从“prepareStep”进行更新。
+   * 可以在从`prepareStep`步骤之间进行更新。
    */
   readonly runtimeContext: RUNTIME_CONTEXT;
 
   /**
-   * 工具上下文。可以在步骤之间从“prepareStep”进行更新。
+   * 可以在从`prepareStep`步骤之间进行更新。
    */
   readonly toolsContext: InferToolSetContext<TOOLS>;
 } & StandardizedPrompt;
 
 /**
- * 事件传递给“onStepFinish”回调。
+ * 事件传递给`onStepFinish`回调。
  *
- * 当步骤（LLM 调用）完成时调用。
- * 包括该步骤的 StepResult 以及调用标识符。
+ * 当步骤完成（LLM调用）时调用。
+ * 包括该步骤的StepResult以及调用标识符。
  */
 export type GenerateTextStepEndEvent<
   TOOLS extends ToolSet = ToolSet,
@@ -141,7 +141,7 @@ export type GenerateTextStepEndEvent<
 > = StepResult<TOOLS, RUNTIME_CONTEXT>;
 
 /**
- * 事件传递给“onFinish”回调。
+ * 事件提交给`onFinish`回调。
  *
  * 当整个生成完成时调用（所有步骤完成）。
  * 包括最后一步的结果以及所有步骤的汇总数据。
@@ -187,13 +187,13 @@ export type OnFinishEvent<
 > = GenerateTextEndEvent<TOOLS, RUNTIME_CONTEXT>;
 
 /**
- * 使用“experimental_onStart”选项设置的回调。
+ * 使用`experimental_onStart`选项设置的回调。
  *
- * 在generateText 操作开始时、在任何LLM 调用之前调用。
+ * 在generateText操作开始时、在任何LLM调用之前调用。
  * 使用此回调进行日志记录、分析或初始化状态
  * 一代人的开始。
  *
- * @param event - The event object containing generation configuration.
+ * @param event - 包含生成配置的事件对象。
  */
 export type GenerateTextOnStartCallback<
   TOOLS extends ToolSet = ToolSet,
@@ -202,13 +202,13 @@ export type GenerateTextOnStartCallback<
 > = Callback<GenerateTextStartEvent<TOOLS, RUNTIME_CONTEXT, OUTPUT>>;
 
 /**
- * 使用“experimental_onStepStart”选项设置的回调。
+ * 使用`experimental_onStepStart`选项设置的回调。
  *
- * 在调用提供者之前，在步骤（LLM 调用）开始时调用。
- * 每个步骤代表一次 LLM 调用。当发生多个步骤时
+ * 在调用提供者之前，在步骤（LLM 调用）时开始调用。
+ * 每个步骤代表一次LLM调用。当发生多个步骤时
  * 使用工具调用（模型可以在循环中多次调用）。
  *
- * @param event - The event object containing step configuration.
+ * @param event - 包含步骤配置的事件对象。
  */
 export type GenerateTextOnStepStartCallback<
   TOOLS extends ToolSet = ToolSet,
@@ -217,12 +217,12 @@ export type GenerateTextOnStepStartCallback<
 > = Callback<GenerateTextStepStartEvent<TOOLS, RUNTIME_CONTEXT, OUTPUT>>;
 
 /**
- * 使用“onStepFinish”选项设置的回调。
+ * 使用`onStepFinish`选项设置的回调。
  *
- * 当步骤（LLM 调用）完成时调用。该事件包括所有步骤结果
+ * 当步骤完成（LLM 调用）时调用。该事件包括所有步骤结果
  * 属性（文本、工具调用、用法等）以及其他元数据。
  *
- * @param stepResult - The result of the step.
+ * @param stepResult - 该步骤的结果。
  */
 export type GenerateTextOnStepFinishCallback<
   TOOLS extends ToolSet = ToolSet,
@@ -230,13 +230,13 @@ export type GenerateTextOnStepFinishCallback<
 > = Callback<GenerateTextStepEndEvent<TOOLS, RUNTIME_CONTEXT>>;
 
 /**
- * 使用“onFinish”选项设置的回调。
+ * 使用`onFinish`选项设置回调。
  *
  * 当整个生成完成时调用（所有步骤完成）。
  * 该事件包括最后一步的结果属性以及
  * 所有步骤的汇总数据。
  *
- * @param event - The final result along with aggregated step data.
+ * @param event - 最终结果以及聚合的步骤数据。
  */
 export type GenerateTextOnFinishCallback<
   TOOLS extends ToolSet = ToolSet,

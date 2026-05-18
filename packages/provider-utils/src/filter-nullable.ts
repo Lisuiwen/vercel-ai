@@ -1,5 +1,5 @@
 /**
- * Filters `null` and `undefined` values out of a list of values.
+ * 从值列表中过滤“null”和“undefined”值。
  *
  * @param values - The values to filter.
  * @returns A new array containing only non-nullish values.

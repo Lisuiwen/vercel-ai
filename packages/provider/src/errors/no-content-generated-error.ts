@@ -5,10 +5,10 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 /**
- * Thrown when the AI provider fails to generate any content.
+ * 当 AI 提供者无法生成任何内容时抛出。
  */
 export class NoContentGeneratedError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   constructor({
     message = 'No content generated.',

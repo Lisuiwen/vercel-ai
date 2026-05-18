@@ -7,7 +7,7 @@ import { generateId as defaultGenerateId } from './generate-id';
 import { isParsableJson } from './parse-json';
 
 /**
- * Minimal interface for a streaming tool call delta from an OpenAI-compatible API.
+ * 流媒体工具从兼容 OpenAI 的 API 调用 delta 的最小接口。
  */
 export interface StreamingToolCallDelta {
   index?: number | null;
@@ -23,31 +23,31 @@ export interface StreamingToolCallTrackerOptions<
   DELTA extends StreamingToolCallDelta = StreamingToolCallDelta,
 > {
   /**
-   * ID generator function for tool call IDs.
-   * Defaults to the standard generateId.
+   * 用于工具调用 ID 的 ID 生成器函数。
+   * 默认为标准的generateId。
    */
   generateId?: () => string;
 
   /**
-   * How to validate the `type` field on new tool call deltas.
-   * - `'none'`: no validation (default)
-   * - `'if-present'`: throw if type is present and not `'function'`
-   * - `'required'`: throw if type is not exactly `'function'`
+   * 如何验证新工具调用增量上的“类型”字段。
+   * - `'none'`：不验证（默认）
+   * - `'if-present'`：如果类型存在而不是`'function'`则抛出异常
+   * - “required”：如果类型不完全是“function”，则抛出异常
    */
   typeValidation?: 'none' | 'if-present' | 'required';
 
   /**
-   * Extract provider-specific metadata from a tool call delta.
-   * Called once when a new tool call is detected.
-   * The returned metadata is stored on the tool call and passed to
-   * `buildToolCallProviderMetadata` when the tool call is finalized.
+   * 从工具调用增量中提取特定于提供者的元数据。
+   * 当检测到新的工具调用时调用一次。
+   * 返回的元数据存储在工具调用中并传递给
+   * 工具调用完成时的“buildToolCallProviderMetadata”。
    */
   extractMetadata?: (delta: DELTA) => SharedV4ProviderMetadata | undefined;
 
   /**
-   * Build the `providerMetadata` object for a `tool-call` event.
-   * Receives the metadata previously extracted via `extractMetadata`.
-   * If `undefined` is returned, no `providerMetadata` is included in the event.
+   * 为“工具调用”事件构建“providerMetadata”对象。
+   * 接收之前通过“extractMetadata”提取的元数据。
+   * 如果返回“undefined”，则事件中不包含“providerMetadata”。
    */
   buildToolCallProviderMetadata?: (
     metadata: SharedV4ProviderMetadata | undefined,
@@ -68,12 +68,12 @@ type StreamingToolCallTrackerController = Pick<
 >;
 
 /**
- * Tracks streaming tool call state across multiple deltas from an
- * OpenAI-compatible chat completion stream. Handles argument accumulation,
- * emits tool-input-start/delta/end and tool-call events, and finalizes
- * unfinished tool calls on flush.
+ * 跟踪跨多个增量的流工具调用状态
+ * 兼容 OpenAI 的聊天完成流。处理参数积累，
+ * 发出工具输入开始/增量/结束和工具调用事件，并完成
+ * 未完成的工具调用刷新。
  *
- * Used by openai, openai-compatible, groq, deepseek, and alibaba providers.
+ * 由 openai、openai 兼容、groq、deepseek 和阿里巴巴提供商使用。
  */
 export class StreamingToolCallTracker<
   DELTA extends StreamingToolCallDelta = StreamingToolCallDelta,
@@ -101,9 +101,9 @@ export class StreamingToolCallTracker<
   }
 
   /**
-   * Process a tool call delta from a streaming response chunk.
-   * Emits tool-input-start, tool-input-delta, tool-input-end, and tool-call
-   * events as appropriate.
+   * 处理来自流响应块的工具调用增量。
+   * 发出工具输入开始、工具输入增量、工具输入结束和工具调用
+   * 适当的事件。
    */
   processDelta(toolCallDelta: DELTA): void {
     const index = toolCallDelta.index ?? this.toolCalls.length;
@@ -116,8 +116,8 @@ export class StreamingToolCallTracker<
   }
 
   /**
-   * Finalize any unfinished tool calls. Should be called during the stream's
-   * flush handler to ensure all tool calls are properly completed.
+   * 完成所有未完成的工具调用。应该在流期间调用
+   * 刷新处理程序以确保所有工具调用均正确完成。
    */
   flush(): void {
     for (const toolCall of this.toolCalls) {
@@ -179,7 +179,7 @@ export class StreamingToolCallTracker<
 
     const toolCall = this.toolCalls[index];
 
-    // Emit initial delta if arguments already present
+    // 如果参数已存在，则发出初始增量
     if (toolCall.function.arguments.length > 0) {
       this.controller.enqueue({
         type: 'tool-input-delta',
@@ -188,8 +188,8 @@ export class StreamingToolCallTracker<
       });
     }
 
-    // Check if tool call is complete
-    // (some providers send the full tool call in one chunk)
+    // 检查工具调用是否完成
+    // （一些提供商以一大块形式发送完整的工具调用）
     if (isParsableJson(toolCall.function.arguments)) {
       this.finishToolCall(toolCall);
     }
@@ -212,7 +212,7 @@ export class StreamingToolCallTracker<
       });
     }
 
-    // Check if tool call is complete
+    // 检查工具调用是否完成
     if (isParsableJson(toolCall.function.arguments)) {
       this.finishToolCall(toolCall);
     }

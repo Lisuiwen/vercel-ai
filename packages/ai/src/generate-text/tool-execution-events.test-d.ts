@@ -16,9 +16,9 @@ import type {
  * 工具执行事件的类型测试。
  *
  * `toolCall` ↔ `toolContext` 相关性表示为可区分联合；使用
- * `Extract<...>` 来断言它。 TypeScript 不会缩小“toolContext”的范围
- * 控制流中的“toolCall.toolName”（在静态分支上保持“未知”），而
- * 在排除“dynamic === true”后，“toolCall.input”确实缩小了。
+ * `Extract<...>` 来断言它。TypeScript 不会缩小`toolContext`的范围
+ * 控制流中的`toolCall.toolName`（在静态分支上保持`未知`），而
+ * 在排除`dynamic === true`后，`toolCall.input`确实缩小了。
  */
 describe('ToolExecutionStartEvent', () => {
   const tools = {

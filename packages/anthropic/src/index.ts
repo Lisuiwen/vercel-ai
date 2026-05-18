@@ -4,7 +4,7 @@ export type {
 } from './anthropic-message-metadata';
 export type {
   AnthropicLanguageModelOptions,
-  /** @deprecated Use `AnthropicLanguageModelOptions` instead. */
+  /* * @deprecated 使用 `AnthropicLanguageModelOptions` 代替。 */
   AnthropicLanguageModelOptions as AnthropicProviderOptions,
 } from './anthropic-language-model-options';
 export type { AnthropicToolOptions } from './anthropic-prepare-tools';

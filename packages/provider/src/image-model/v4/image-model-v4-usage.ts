@@ -1,19 +1,19 @@
 /**
- * Usage information for an image model call.
+ * 图像模型调用的使用信息。
  */
 export type ImageModelV4Usage = {
   /**
-   * The number of input (prompt) tokens used.
+   * 使用的输入（提示）标记的数量。
    */
   inputTokens: number | undefined;
 
   /**
-   * The number of output tokens used, if reported by the provider.
+   * 使用的输出令牌的数量（如果提供者报告）。
    */
   outputTokens: number | undefined;
 
   /**
-   * The total number of tokens as reported by the provider.
+   * 提供商报告的代币总数。
    */
   totalTokens: number | undefined;
 };

@@ -4,20 +4,20 @@ import type { TranscriptionModelV2CallOptions } from './transcription-model-v2-c
 import type { TranscriptionModelV2CallWarning } from './transcription-model-v2-call-warning';
 
 /**
- * Transcription model specification version 2.
+ * 转录模型规范版本 2。
  */
 export type TranscriptionModelV2 = {
   /**
-   * The transcription model must specify which transcription model interface
-   * version it implements. This will allow us to evolve the transcription
-   * model interface and retain backwards compatibility. The different
-   * implementation versions can be handled as a discriminated union
-   * on our side.
+   * 转录模型必须指定哪个转录模型接口
+   * 它实现的版本。这将使我们能够进化转录
+   * 模型接口并保留向后兼容性。不同的
+   * 实现版本可以作为有区别的联合来处理
+   * 在我们这边。
    */
   readonly specificationVersion: 'v2';
 
   /**
-   * Name of the provider for logging purposes.
+   * 用于记录目的的提供商名称。
    */
   readonly provider: string;
 
@@ -27,90 +27,90 @@ export type TranscriptionModelV2 = {
   readonly modelId: string;
 
   /**
-   * Generates a transcript.
+   * 生成成绩单。
    */
   doGenerate(options: TranscriptionModelV2CallOptions): PromiseLike<{
     /**
-     * The complete transcribed text from the audio.
+     * 音频的完整转录文本。
      */
     text: string;
 
     /**
-     * Array of transcript segments with timing information.
-     * Each segment represents a portion of the transcribed text with start and end times.
+     * 带有时间信息的转录片段数组。
+     * 每个片段代表转录文本的一部分以及开始和结束时间。
      */
     segments: Array<{
       /**
-       * The text content of this segment.
+       * 该段的文本内容。
        */
       text: string;
       /**
-       * The start time of this segment in seconds.
+       * 该段的开始时间（以秒为单位）。
        */
       startSecond: number;
       /**
-       * The end time of this segment in seconds.
+       * 该段的结束时间（以秒为单位）。
        */
       endSecond: number;
     }>;
 
     /**
-     * The detected language of the audio content, as an ISO-639-1 code (e.g., 'en' for English).
-     * May be undefined if the language couldn't be detected.
+     * 检测到的音频内容的语言，作为 ISO-639-1 代码（例如，“en”表示英语）。
+     * 如果无法检测到语言，则可能是未定义的。
      */
     language: string | undefined;
 
     /**
-     * The total duration of the audio file in seconds.
-     * May be undefined if the duration couldn't be determined.
+     * 音频文件的总持续时间（以秒为单位）。
+     * 如果无法确定持续时间，则可能是未定义的。
      */
     durationInSeconds: number | undefined;
 
     /**
-     * Warnings for the call, e.g. unsupported settings.
+     * 通话警告，例如不支持的设置。
      */
     warnings: Array<TranscriptionModelV2CallWarning>;
 
     /**
-     * Optional request information for telemetry and debugging purposes.
+     * 用于遥测和调试目的的可选请求信息。
      */
     request?: {
       /**
-       * Raw request HTTP body that was sent to the provider API as a string (JSON should be stringified).
-       * Non-HTTP(s) providers should not set this.
+       * 以字符串形式发送到提供商 API 的原始请求 HTTP 正文（JSON 应进行字符串化）。
+       * 非 HTTP(s) 提供商不应设置此项。
        */
       body?: string;
     };
 
     /**
-     * Response information for telemetry and debugging purposes.
+     * 用于遥测和调试目的的响应信息。
      */
     response: {
       /**
-       * Timestamp for the start of the generated response.
+       * 生成的响应的开始时间戳。
        */
       timestamp: Date;
 
       /**
-       * The ID of the response model that was used to generate the response.
+       * 用于生成响应的响应模型的 ID。
        */
       modelId: string;
 
       /**
-       * Response headers.
+       * 响应标头。
        */
       headers?: SharedV2Headers;
 
       /**
-       * Response body.
+       * 响应体。
        */
       body?: unknown;
     };
 
     /**
-     * Additional provider-specific metadata. They are passed through
-     * from the provider to the AI SDK and enable provider-specific
-     * results that can be fully encapsulated in the provider.
+     * 其他特定于提供商的元数据。他们通过
+     * 从提供商到 AI SDK 并启用提供商特定的
+     * 可以完全封装在提供者中的结果。
      */
     providerMetadata?: Record<string, Record<string, JSONValue>>;
   }>;

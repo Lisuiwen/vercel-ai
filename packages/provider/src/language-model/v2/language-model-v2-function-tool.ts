@@ -2,36 +2,36 @@ import type { JSONSchema7 } from 'json-schema';
 import type { SharedV2ProviderOptions } from '../../shared';
 
 /**
- * A tool has a name, a description, and a set of parameters.
+ * 工具具有名称、描述和一组参数。
  *
- * Note: this is **not** the user-facing tool definition. The AI SDK methods will
- * map the user-facing tool definitions to this format.
+ * 注意：这不是面向用户的工具定义。 AI SDK 方法将
+ * 将面向用户的工具定义映射到此格式。
  */
 export type LanguageModelV2FunctionTool = {
   /**
-   * The type of the tool (always 'function').
+   * 工具的类型（始终为“功能”）。
    */
   type: 'function';
 
   /**
-   * The name of the tool. Unique within this model call.
+   * 工具的名称。在该模型调用中是独一无二的。
    */
   name: string;
 
   /**
-   * A description of the tool. The language model uses this to understand the
-   * tool's purpose and to provide better completion suggestions.
+   * 该工具的描述。语言模型使用它来理解
+   * 工具的目的并提供更好的完成建议。
    */
   description?: string;
 
   /**
-   * The parameters that the tool expects. The language model uses this to
-   * understand the tool's input requirements and to provide matching suggestions.
+   * 该工具期望的参数。语言模型使用它来
+   * 了解工具的输入要求并提供匹配建议。
    */
   inputSchema: JSONSchema7;
 
   /**
-   * The provider-specific options for the tool.
+   * 该工具的特定于提供商的选项。
    */
   providerOptions?: SharedV2ProviderOptions;
 };

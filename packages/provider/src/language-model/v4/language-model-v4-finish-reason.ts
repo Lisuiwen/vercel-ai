@@ -1,21 +1,21 @@
 /**
- * Reason why a language model finished generating a response.
+ * 语言模型完成生成响应的原因。
  *
- * Contains both a unified finish reason and a raw finish reason from the provider.
- * The unified finish reason is used to provide a consistent finish reason across different providers.
- * The raw finish reason is used to provide the original finish reason from the provider.
+ * 包含统一的完成原因和来自提供商的原始完成原因。
+ * 统一的完成原因用于在不同的提供商之间提供一致的完成原因。
+ * 原始完成原因用于提供来自提供商的原始完成原因。
  */
 export type LanguageModelV4FinishReason = {
   /**
-   * Unified finish reason. This enables using the same finish reason across different providers.
+   * 统一完成原因。这使得不同提供商能够使用相同的完成原因。
    *
-   * Can be one of the following:
-   * - `stop`: model generated stop sequence
-   * - `length`: model generated maximum number of tokens
-   * - `content-filter`: content filter violation stopped the model
-   * - `tool-calls`: model triggered tool calls
-   * - `error`: model stopped because of an error
-   * - `other`: model stopped for other reasons
+   * 可以是以下之一：
+   * - `stop`：模型生成的停止序列
+   * - `length`：模型生成的最大令牌数
+   * - `content-filter`：内容过滤器违规停止了模型
+   * - `tool-calls`：模型触发的工具调用
+   * - `error`：模型因错误而停止
+   * - `other`：模型因其他原因停止
    */
   unified:
     | 'stop'
@@ -26,8 +26,8 @@ export type LanguageModelV4FinishReason = {
     | 'other';
 
   /**
-   * Raw finish reason from the provider.
-   * This is the original finish reason from the provider.
+   * 来自提供商的原始完成原因。
+   * 这是提供商最初的结束原因。
    */
   raw: string | undefined;
 };

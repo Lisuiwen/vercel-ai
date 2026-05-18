@@ -1,8 +1,8 @@
 /**
- * Type-guard for Node.js `Buffer` instances.
+ * Node.js `Buffer` 实例的类型保护。
  *
- * Uses optional chaining on `globalThis.Buffer` so it returns `false` in
- * runtimes where `Buffer` is not available (e.g. CloudFlare Workers).
+ * 在 `globalThis.Buffer` 上使用可选链接，因此它返回 `false`
+ * `Buffer` 不可用的运行时（例如 CloudFlare Workers）。
  */
 export function isBuffer(value: unknown): value is Buffer {
   return globalThis.Buffer?.isBuffer(value) ?? false;

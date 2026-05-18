@@ -43,7 +43,7 @@ export interface GoogleProvider extends ProviderV4 {
   chat(modelId: GoogleModelId): LanguageModelV4;
 
   /**
-   * Creates a model for image generation.
+   * 创建图像生成模型。
    */
   image(
     modelId: GoogleImageModelId,
@@ -51,46 +51,46 @@ export interface GoogleProvider extends ProviderV4 {
   ): ImageModelV4;
 
   /**
-   * @deprecated Use `chat()` instead.
+   * @deprecated 请改用“chat()”。
    */
   generativeAI(modelId: GoogleModelId): LanguageModelV4;
 
   /**
-   * Creates a model for text embeddings.
+   * 创建文本嵌入模型。
    */
   embedding(modelId: GoogleEmbeddingModelId): EmbeddingModelV4;
 
   /**
-   * Creates a model for text embeddings.
+   * 创建文本嵌入模型。
    */
   embeddingModel(modelId: GoogleEmbeddingModelId): EmbeddingModelV4;
 
   /**
-   * @deprecated Use `embedding` instead.
+   * @deprecated 请改用“嵌入”。
    */
   textEmbedding(modelId: GoogleEmbeddingModelId): EmbeddingModelV4;
 
   /**
-   * @deprecated Use `embeddingModel` instead.
+   * @deprecated 请改用“embeddingModel”。
    */
   textEmbeddingModel(modelId: GoogleEmbeddingModelId): EmbeddingModelV4;
 
   /**
-   * Creates a model for video generation.
+   * 创建视频生成模型。
    */
   video(modelId: GoogleVideoModelId): Experimental_VideoModelV4;
 
   /**
-   * Creates a model for video generation.
+   * 创建视频生成模型。
    */
   videoModel(modelId: GoogleVideoModelId): Experimental_VideoModelV4;
 
   files(): FilesV4;
 
   /**
-   * Creates a language model targeting the Gemini Interactions API
-   * (`POST /v1beta/interactions`). Pass either a model ID (string) or
-   * `{ agent: <name> }` to use a Gemini agent preset.
+   * 创建针对 Gemini Interactions API 的语言模型
+   * （`POST /v1beta/交互`）。传递模型 ID（字符串）或
+   * `{ agent: <name> }` 使用 Gemini 代理预设。
    */
   interactions(
     modelIdOrAgent:
@@ -103,42 +103,42 @@ export interface GoogleProvider extends ProviderV4 {
 
 export interface GoogleProviderSettings {
   /**
-   * Use a different URL prefix for API calls, e.g. to use proxy servers.
-   * The default prefix is `https://generativelanguage.googleapis.com/v1beta`.
+   * 对 API 调用使用不同的 URL 前缀，例如使用代理服务器。
+   * 默认前缀是“https://generativelanguage.googleapis.com/v1beta”。
    */
   baseURL?: string;
 
   /**
-   * API key that is being send using the `x-goog-api-key` header.
-   * It defaults to the `GOOGLE_GENERATIVE_AI_API_KEY` environment variable.
+   * 使用“x-goog-api-key”标头发送的 API 密钥。
+   * 它默认为“GOOGLE_GENERATIVE_AI_API_KEY”环境变量。
    */
   apiKey?: string;
 
   /**
-   * Custom headers to include in the requests.
+   * 要包含在请求中的自定义标头。
    */
   headers?: Record<string, string | undefined>;
 
   /**
-   * Custom fetch implementation. You can use it as a middleware to intercept requests,
-   * or to provide a custom fetch implementation for e.g. testing.
+   * 自定义获取实现。您可以将其用作拦截请求的中间件，
+   * 或者提供自定义的获取实现，例如测试。
    */
   fetch?: FetchFunction;
 
   /**
-   * Optional function to generate a unique ID for each request.
+   * 为每个请求生成唯一 ID 的可选函数。
    */
   generateId?: () => string;
 
   /**
-   * Custom provider name
-   * Defaults to 'google.generative-ai'.
+   * 自定义提供商名称
+   * 默认为“google.generative-ai”。
    */
   name?: string;
 }
 
 /**
- * Create a Google provider instance.
+ * 创建一个 Google 提供程序实例。
  */
 export function createGoogle(
   options: GoogleProviderSettings = {},
@@ -170,10 +170,10 @@ export function createGoogle(
       generateId: options.generateId ?? generateId,
       supportedUrls: () => ({
         '*': [
-          // Google Generative Language "files" endpoint
-          // e.g. https://generativelanguage.googleapis.com/v1beta/files/...
+          // Google 生成语言“文件”端点
+          // 例如https://generativelanguage.googleapis.com/v1beta/files/...
           new RegExp(`^${baseURL}/files/.*$`),
-          // YouTube URLs (public or unlisted videos)
+          // YouTube URL（公开或不公开的视频）
           new RegExp(
             `^https://(?:www\\.)?youtube\\.com/watch\\?v=[\\w-]+(?:&[\\w=&.-]*)?$`,
           ),
@@ -265,6 +265,6 @@ export function createGoogle(
 }
 
 /**
- * Default Google Generative AI provider instance.
+ * 默认 Google Generative AI 提供程序实例。
  */
 export const google = createGoogle();

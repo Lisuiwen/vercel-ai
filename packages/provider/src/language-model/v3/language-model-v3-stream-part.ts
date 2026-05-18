@@ -10,7 +10,7 @@ import type { LanguageModelV3ToolResult } from './language-model-v3-tool-result'
 import type { LanguageModelV3Usage } from './language-model-v3-usage';
 
 export type LanguageModelV3StreamPart =
-  // Text blocks:
+  // 文本块：
   | {
       type: 'text-start';
       providerMetadata?: SharedV3ProviderMetadata;
@@ -28,7 +28,7 @@ export type LanguageModelV3StreamPart =
       id: string;
     }
 
-  // Reasoning blocks:
+  // 推理块：
   | {
       type: 'reasoning-start';
       providerMetadata?: SharedV3ProviderMetadata;
@@ -46,7 +46,7 @@ export type LanguageModelV3StreamPart =
       providerMetadata?: SharedV3ProviderMetadata;
     }
 
-  // Tool calls and results:
+  // 工具调用和结果：
   | {
       type: 'tool-input-start';
       id: string;
@@ -71,21 +71,21 @@ export type LanguageModelV3StreamPart =
   | LanguageModelV3ToolCall
   | LanguageModelV3ToolResult
 
-  // Files and sources:
+  // 文件和来源：
   | LanguageModelV3File
   | LanguageModelV3Source
 
-  // stream start event with warnings for the call, e.g. unsupported settings:
+  // 带有调用警告的流启动事件，例如不支持的设置：
   | {
       type: 'stream-start';
       warnings: Array<SharedV3Warning>;
     }
 
-  // metadata for the response.
-  // separate stream part so it can be sent once it is available.
+  // 响应的元数据。
+  // 单独的流部分，以便一旦可用就可以发送。
   | ({ type: 'response-metadata' } & LanguageModelV3ResponseMetadata)
 
-  // metadata that is available after the stream is finished:
+  // 流结束后可用的元数据：
   | {
       type: 'finish';
       usage: LanguageModelV3Usage;
@@ -93,13 +93,13 @@ export type LanguageModelV3StreamPart =
       providerMetadata?: SharedV3ProviderMetadata;
     }
 
-  // raw chunks if enabled
+  // 原始块（如果启用）
   | {
       type: 'raw';
       rawValue: unknown;
     }
 
-  // error parts are streamed, allowing for multiple errors
+  // 错误部分是流式传输的，允许出现多个错误
   | {
       type: 'error';
       error: unknown;

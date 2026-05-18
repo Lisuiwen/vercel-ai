@@ -5,10 +5,10 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 /**
- * A function argument is invalid.
+ * 函数参数无效。
  */
 export class InvalidArgumentError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly argument: string;
 

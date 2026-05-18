@@ -1,7 +1,7 @@
 export function getRuntimeEnvironmentUserAgent(
   globalThisAny: any = globalThis as any,
 ): string {
-  // Browsers
+  // 浏览器
   if (globalThisAny.window) {
     return `runtime/browser`;
   }
@@ -11,7 +11,7 @@ export function getRuntimeEnvironmentUserAgent(
     return `runtime/${globalThisAny.navigator.userAgent.toLowerCase()}`;
   }
 
-  // Nodes.js < 21.1
+  // 节点.js < 21.1
   if (globalThisAny.process?.versions?.node) {
     return `runtime/node.js/${globalThisAny.process.version.substring(0)}`;
   }

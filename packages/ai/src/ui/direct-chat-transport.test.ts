@@ -277,7 +277,7 @@ describe('DirectChatTransport', () => {
 
       const agent = new ToolLoopAgent({ model: mockModelWithReasoning });
 
-      // 使用 sendReasoning 进行测试：true
+      // 使用sendReasoning进行测试：true
       const transportWithReasoning = new DirectChatTransport({
         agent,
         sendReasoning: true,

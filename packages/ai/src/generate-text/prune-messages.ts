@@ -7,12 +7,12 @@ import type {
 /**
  * 从模型消息列表中删除模型消息。
  *
- * @param messages - The list of model messages to prune.
- * @param reasoning - How to remove reasoning content from assistant messages. Default is `'none'`.
- * @param toolCalls - How to prune tool call/results/approval content. Default is `[]`.
- * @param emptyMessages - Whether to keep or remove messages whose content is empty after pruning. Default is `'remove'`.
+ * @param messages - 要修剪的模型消息列表。
+ * @param reasoning - 如何从助理消息中删除推理内容。默认为`无`。
+ * @param toolCalls - 如何修剪工具调用/结果/批准内容。默认为`[]`。
+ * @param emptyMessages - 修剪后是否保留或删除内容为空的消息。默认为`删除`。
  *
- * @returns The pruned list of model messages.
+ * @returns 模型消息的修剪列表。
  */
 export function pruneMessages({
   messages,

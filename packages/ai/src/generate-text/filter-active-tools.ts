@@ -12,11 +12,11 @@ export type ActiveToolSubset<
 
 /**
  * 过滤工具以仅包含活动工具。
- * 当提供 activeTools 时，我们仅包含列表中的工具。
+ * 当提供 activeTools 时，我们只包含列表中的工具。
  *
- * @param tools - The tools to filter.
- * @param activeTools - The active tools to include.
- * @returns The filtered tools.
+ * @param tools - 过滤的工具。
+ * @param activeTools - 要包含的活动工具。
+ * @returns 过滤后的工具。
  */
 export function filterActiveTools<
   TOOLS extends ToolSet | undefined,

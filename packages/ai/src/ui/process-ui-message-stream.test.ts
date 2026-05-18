@@ -6455,7 +6455,7 @@ describe('processUIMessageStream', () => {
     });
 
     it('should propagate providerMetadata during input-streaming state', async () => {
-      // 查找 tool-input-start 之后的第一个更新（当状态为 input-streaming 时）
+      // 找到tool-input-start之后的第一个更新（当状态为input-streaming时）
       const inputStreamingUpdate = writeCalls.find(call =>
         call.message.parts.some(
           (p: any) =>
@@ -6468,7 +6468,7 @@ describe('processUIMessageStream', () => {
         (p: any) => p.toolCallId === 'tool-call-id',
       ) as any;
 
-      // 关键断言：providerMetadata 在输入流期间应该可用
+      // 关键断言：providerMetadata在输入流期间应该可用
       expect(toolPart.callProviderMetadata).toEqual({
         testProvider: { someKey: 'someValue' },
       });
@@ -6670,7 +6670,7 @@ describe('processUIMessageStream', () => {
   });
 
   describe('tool input error with dynamic flag mismatch', () => {
-    // 回归：当 tool-input-start 创建静态部分时（动态是
+    // 恢复：当 tool-input-start 创建静态部分时（动态是）
     // 未定义，因为该工具不在工具对象中）和工具输入错误
     // 到达时动态：true（来自 parseToolCall 的 NoSuchToolError 捕获），
     // 该错误应该更新现有的静态部分而不是创建

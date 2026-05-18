@@ -5,7 +5,7 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 export class APICallError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly url: string;
   readonly requestBodyValues: unknown;
@@ -26,10 +26,10 @@ export class APICallError extends AISDKError {
     responseBody,
     cause,
     isRetryable = statusCode != null &&
-      (statusCode === 408 || // request timeout
-        statusCode === 409 || // conflict
-        statusCode === 429 || // too many requests
-        statusCode >= 500), // server error
+      (statusCode === 408 || // 请求超时
+        statusCode === 409 || // 冲突
+        statusCode === 429 || // 请求太多
+        statusCode >= 500), // 服务器错误
     data,
   }: {
     message: string;

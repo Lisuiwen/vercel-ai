@@ -5,8 +5,8 @@ import {
   zodSchema,
   type InferSchema,
 } from '@ai-sdk/provider-utils';
-// limited version of the schema, focussed on what is needed for the implementation
-// this approach limits breakages when the API changes and increases efficiency
+// 模式的有限版本，重点关注实现所需的内容
+// 这种方法可以限制 API 更改时的损坏并提高效率
 export const openaiCompletionResponseSchema = lazySchema(() =>
   zodSchema(
     z.object({
@@ -37,8 +37,8 @@ export const openaiCompletionResponseSchema = lazySchema(() =>
   ),
 );
 
-// limited version of the schema, focussed on what is needed for the implementation
-// this approach limits breakages when the API changes and increases efficiency
+// 模式的有限版本，重点关注实现所需的内容
+// 这种方法可以限制 API 更改时的损坏并提高效率
 export const openaiCompletionChunkSchema = lazySchema(() =>
   zodSchema(
     z.union([

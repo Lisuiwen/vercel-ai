@@ -18,7 +18,7 @@ const defaultOptions = {
   seed: undefined,
   providerOptions: {
     google: {
-      pollIntervalMs: 10, // Use short polling interval for tests
+      pollIntervalMs: 10, // 使用短轮询间隔进行测试
     },
   },
 } as const;

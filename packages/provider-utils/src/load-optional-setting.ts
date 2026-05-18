@@ -1,5 +1,5 @@
 /**
- * Loads an optional `string` setting from the environment or a parameter.
+ * 从环境或参数加载可选的“字符串”设置。
  *
  * @param settingValue - The setting value.
  * @param environmentVariableName - The environment variable name.

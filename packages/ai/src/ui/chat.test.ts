@@ -1528,7 +1528,7 @@ describe('Chat', () => {
         output: 'test-output',
       });
 
-      // UI 应显示工具输出
+      // UI显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -1569,7 +1569,7 @@ describe('Chat', () => {
         ]
       `);
 
-      // 应该还没有调用 API
+      // 应该还没有调用API
       expect(server.calls.length).toBe(1);
 
       // 完成流
@@ -1685,7 +1685,7 @@ describe('Chat', () => {
         output: 'test-output',
       });
 
-      // UI 应显示工具输出
+      // UI显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -1829,7 +1829,7 @@ describe('Chat', () => {
         errorText: 'test-error',
       });
 
-      // UI 应显示工具输出
+      // UI显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -1984,7 +1984,7 @@ describe('Chat', () => {
         output: 'test-output',
       });
 
-      // UI 应显示工具输出
+      // UI显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2070,7 +2070,7 @@ describe('Chat', () => {
         }
       `);
 
-      // UI should show the response
+      // UI 应显示响应
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2176,7 +2176,7 @@ describe('Chat', () => {
         output: 'test-output',
       });
 
-      // UI 应显示工具输出
+      // UI显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2262,7 +2262,7 @@ describe('Chat', () => {
         }
       `);
 
-      // UI should not show the response
+      // UI 不应显示响应
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2303,7 +2303,7 @@ describe('Chat', () => {
         ]
       `);
 
-      // UI 应处于错误状态
+      // UI 应出现错误状态
       expect(chat.status).toBe('error');
       expect(chat.error).toMatchInlineSnapshot(
         `[Error: Internal Server Error]`,
@@ -2356,7 +2356,7 @@ describe('Chat', () => {
         output: 'test-output',
       });
 
-      // UI 应显示工具输出
+      // UI显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2866,7 +2866,7 @@ describe('Chat', () => {
         output: 'test-output',
       });
 
-      // UI 应显示工具输出
+      // UI显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {

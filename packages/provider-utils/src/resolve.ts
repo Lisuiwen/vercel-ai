@@ -1,32 +1,32 @@
 import type { MaybePromiseLike } from './maybe-promise-like';
 
 /**
- * A value or a lazy provider of a value, each of which may be synchronous or asynchronous.
+ * 值或值的惰性提供者，其中每一个都可以是同步的或异步的。
  *
  * @template T The resolved type after {@link resolve} runs.
  *
- * One of:
- * - A plain value of type {@link T}
- * - A {@link PromiseLike} of {@link T} (e.g. a `Promise<T>`)
- * - A zero-argument function that returns a plain {@link T}
- * - A zero-argument function that returns a {@link PromiseLike} of {@link T}
+ * 其中之一：
+ * - {@link T} 类型的普通值
+ * - {@link T} 的 {@link PromiseLike} （例如 `Promise<T>`）
+ * - 一个零参数函数，返回一个简单的 {@link T}
+ * - 一个零参数函数，返回 {@link PromiseLike} 的 {@link T}
  *
- * The function form is only invoked when passed to {@link resolve}; it is not distinguished from
- * a {@link T} that happens to be a function—callers should wrap function values if disambiguation
- * is required.
+ * 函数形式仅在传递给{@linkresolve}时才会被调用；它不区分于
+ * {@link T} 恰好是一个函数——如果消除歧义，调用者应该包装函数值
+ * 是必需的。
  */
 export type Resolvable<T> = MaybePromiseLike<T> | (() => MaybePromiseLike<T>);
 
 /**
- * Resolves a value that could be a raw value, a Promise, a function returning a value,
- * or a function returning a Promise.
+ * 解析可能是原始值、Promise、返回值的函数的值，
+ * 或返回 Promise 的函数。
  */
 export async function resolve<T>(value: Resolvable<T>): Promise<T> {
-  // If it's a function, call it to get the value/promise
+  // 如果它是一个函数，则调用它来获取值/承诺
   if (typeof value === 'function') {
     value = (value as Function)();
   }
 
-  // Otherwise just resolve whatever we got (value or promise)
+  // 否则就解决我们得到的任何东西（价值或承诺）
   return Promise.resolve(value as T);
 }

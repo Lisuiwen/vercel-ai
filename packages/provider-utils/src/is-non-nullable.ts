@@ -1,5 +1,5 @@
 /**
- * Type guard that checks whether a value is not `null` or `undefined`.
+ * 检查值是否不为“null”或“undefined”的类型保护。
  *
  * @template T - The type of the value to check.
  * @param value - The value to check.

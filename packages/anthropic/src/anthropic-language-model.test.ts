@@ -1557,11 +1557,11 @@ describe('AnthropicLanguageModel', () => {
       });
 
       expect(response?.headers).toStrictEqual({
-        // default headers:
+        // 默认标头：
         'content-length': '237',
         'content-type': 'application/json',
 
-        // custom header
+        // 自定义标头
         'test-header': 'test-value',
       });
       expect(server.calls[0].requestUserAgent).toContain(
@@ -2692,7 +2692,7 @@ describe('AnthropicLanguageModel', () => {
                 id: 'toolu_01Test',
                 name: 'get_weather',
                 input: { city: 'Tokyo' },
-                // No caller field
+                // 没有来电者字段
               },
             ],
             model: 'claude-3-haiku-20240307',
@@ -2763,7 +2763,7 @@ describe('AnthropicLanguageModel', () => {
             part => part.type === 'tool-call',
           );
 
-          // The rollDie calls should have caller metadata pointing to code_execution
+          // rollDie 调用应具有指向 code_execution 的调用者元数据
           const rollDieCalls = toolCalls.filter(
             tc => tc.toolName === 'rollDie',
           );
@@ -3797,8 +3797,8 @@ describe('AnthropicLanguageModel', () => {
             ],
           });
 
-          // The tool result should be correctly mapped to 'tool_search' (the user's custom name)
-          // even though serverToolCalls map is empty (no server_tool_use in this response)
+          // 工具结果应正确映射到“tool_search”（用户的自定义名称）
+          // 即使 serverToolCalls 映射为空（此响应中没有 server_tool_use）
           const toolResult = result.content.find(
             part => part.type === 'tool-result',
           );
@@ -6614,8 +6614,8 @@ describe('AnthropicLanguageModel', () => {
     });
 
     it('should use input_tokens from message_delta when different from message_start', async () => {
-      // Fixture has message_start.usage.input_tokens=43, message_delta.usage.input_tokens=61
-      // The final usage should use the value from message_delta (61)
+      // 夹具有 message_start.usage.input_tokens=43，message_delta.usage.input_tokens=61
+      // 最终用法应使用 message_delta (61) 中的值
       prepareChunksFixtureResponse('anthropic-message-delta-input-tokens');
 
       const { stream } = await model.doStream({
@@ -7062,14 +7062,14 @@ describe('AnthropicLanguageModel', () => {
 
       const result = await convertReadableStreamToArray(stream);
 
-      // No parsing errors should occur (schema must accept null content)
+      // 不应发生解析错误（架构必须接受空内容）
       const errors = result.filter(part => part.type === 'error');
       expect(errors).toHaveLength(0);
 
       const compactionDeltas = result.filter(
         part => part.type === 'text-delta' && part.id === '0',
       );
-      // null content delta should be skipped, only the string delta comes through
+      // 应跳过空内容增量，仅字符串增量通过
       expect(compactionDeltas).toHaveLength(1);
       expect((compactionDeltas[0] as { delta: string }).delta).toBe(
         'Summary of conversation.',
@@ -7485,12 +7485,12 @@ describe('AnthropicLanguageModel', () => {
       });
 
       expect(response?.headers).toStrictEqual({
-        // default headers:
+        // 默认标头：
         'content-type': 'text/event-stream',
         'cache-control': 'no-cache',
         connection: 'keep-alive',
 
-        // custom header
+        // 自定义标头
         'test-header': 'test-value',
       });
     });
@@ -7516,7 +7516,7 @@ describe('AnthropicLanguageModel', () => {
       expect(await server.calls[0].requestBodyJson).toStrictEqual({
         stream: true,
         model: 'claude-3-haiku-20240307',
-        max_tokens: 4096, // default value
+        max_tokens: 4096, // 默认值
         messages: [
           { role: 'user', content: [{ type: 'text', text: 'Hello' }] },
         ],
@@ -7718,7 +7718,7 @@ describe('AnthropicLanguageModel', () => {
         chunks: [
           `data: {"type":"message_start","message":{"id":"msg_01KfpJoAEabmH2iHRRFjQMAG","type":"message","role":"assistant","content":[],` +
             `"model":"claude-3-haiku-20240307","stop_reason":null,"stop_sequence":null,"usage":` +
-            // send cache output tokens:
+            // 发送缓存输出令牌：
             `{"input_tokens":17,"output_tokens":1,"cache_creation_input_tokens":10,"cache_read_input_tokens":5}}      }\n\n`,
           `data: {"type":"content_block_start","index":0,"content_block":{"type":"text","text":""}          }\n\n`,
           `data: {"type": "ping"}\n\n`,
@@ -7809,7 +7809,7 @@ describe('AnthropicLanguageModel', () => {
         chunks: [
           `data: {"type":"message_start","message":{"id":"msg_01KfpJoAEabmH2iHRRFjQMAG","type":"message","role":"assistant","content":[],` +
             `"model":"claude-3-haiku-20240307","stop_reason":null,"stop_sequence":null,"usage":` +
-            // send cache output tokens:
+            // 发送缓存输出令牌：
             `{"input_tokens":17,"output_tokens":1,"cache_creation_input_tokens":10,"cache_read_input_tokens":5,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":10}}}}\n\n`,
           `data: {"type":"content_block_start","index":0,"content_block":{"type":"text","text":""}          }\n\n`,
           `data: {"type": "ping"}\n\n`,
@@ -7911,7 +7911,7 @@ describe('AnthropicLanguageModel', () => {
           `data: {"type": "ping"}\n\n`,
           `data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"Hello"}}\n\n`,
           `data: {"type":"content_block_stop","index":0}\n\n`,
-          // cache tokens sent in message_delta:
+          // message_delta 中发送的缓存令牌：
           `data: {"type":"message_delta","delta":{"stop_reason":"end_turn","stop_sequence":null},"usage":{"output_tokens":227,"cache_creation_input_tokens":10,"cache_read_input_tokens":5}}\n\n`,
           `data: {"type":"message_stop"}\n\n`,
         ],
@@ -8058,7 +8058,7 @@ describe('AnthropicLanguageModel', () => {
         prompt: TEST_PROMPT,
       });
 
-      // consume stream
+      // 消费流
       const chunks = await convertReadableStreamToArray(result.stream);
 
       expect(chunks.filter(chunk => chunk.type === 'finish'))
@@ -8284,14 +8284,14 @@ describe('AnthropicLanguageModel', () => {
       });
 
       it('should process PDF citation responses in streaming', async () => {
-        // Create a model with predictable ID generation for testing
+        // 创建具有可预测 ID 生成的模型以进行测试
         const mockProvider = createAnthropic({
           apiKey: 'test-api-key',
           generateId: mockId(),
         });
         const modelWithMockId = mockProvider('claude-3-haiku-20240307');
 
-        // Mock streaming response with PDF citations
+        // 带有 PDF 引文的模拟流响应
         server.urls['https://api.anthropic.com/v1/messages'].response = {
           type: 'stream-chunks',
           chunks: [
@@ -8887,7 +8887,7 @@ describe('AnthropicLanguageModel', () => {
           type: 'stream-chunks',
           chunks: [
             `data: {"type":"message_start","message":{"id":"msg_01Test","type":"message","role":"assistant","content":[],"model":"claude-3-haiku-20240307","stop_reason":null,"stop_sequence":null,"usage":{"input_tokens":100,"output_tokens":1}}}\n\n`,
-            // Note: input is {} (empty object) - this should NOT be used as initial input
+            // 注意：输入是 {} （空对象） - 不应将其用作初始输入
             `data: {"type":"content_block_start","index":0,"content_block":{"type":"tool_use","id":"toolu_01Test","name":"get_weather","input":{}}}\n\n`,
             `data: {"type":"content_block_delta","index":0,"delta":{"type":"input_json_delta","partial_json":""}}\n\n`,
             `data: {"type":"content_block_delta","index":0,"delta":{"type":"input_json_delta","partial_json":"{\\"city\\""}}\n\n`,
@@ -8979,13 +8979,13 @@ describe('AnthropicLanguageModel', () => {
               p.type === 'tool-call',
           );
 
-          // Filter rollDie calls (not code_execution)
+          // 过滤 rollDie 调用（不是 code_execution）
           const rollDieCalls = toolCalls.filter(
             tc => tc.toolName === 'rollDie',
           );
           expect(rollDieCalls.length).toBeGreaterThan(0);
 
-          // Each rollDie call should have caller metadata
+          // 每个 rollDie 调用都应该有调用者元数据
           for (const call of rollDieCalls) {
             expect(call.providerMetadata?.anthropic?.caller).toEqual({
               type: 'code_execution_20250825',
@@ -9020,7 +9020,7 @@ describe('AnthropicLanguageModel', () => {
           const parts = await convertReadableStreamToArray(result.stream);
           const toolResults = parts.filter(p => p.type === 'tool-result');
 
-          // Should have code_execution result
+          // 应该有 code_execution 结果
           const codeExecResult = toolResults.find(
             tr => tr.type === 'tool-result' && tr.toolName === 'code_execution',
           );
@@ -9718,7 +9718,7 @@ describe('AnthropicLanguageModel', () => {
         prompt: TEST_PROMPT,
       });
 
-      // Verify transform was called
+      // 验证转换被调用
       expect(transformFn).toHaveBeenCalledOnce();
       expect(transformFn).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -9730,7 +9730,7 @@ describe('AnthropicLanguageModel', () => {
         expect.any(Set),
       );
 
-      // Verify transformed body was sent
+      // 验证变形尸体已发送
       expect(await server.calls[0].requestBodyJson).toMatchObject({
         custom_field: 'added-by-transform',
       });
@@ -9757,10 +9757,10 @@ describe('AnthropicLanguageModel', () => {
         prompt: TEST_PROMPT,
       });
 
-      // Consume the stream
+      // 消费流
       await convertReadableStreamToArray(stream);
 
-      // Verify transform was called
+      // 验证转换被调用
       expect(transformFn).toHaveBeenCalledOnce();
       expect(transformFn).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -9773,7 +9773,7 @@ describe('AnthropicLanguageModel', () => {
         expect.any(Set),
       );
 
-      // Verify transformed body was sent
+      // 验证变形尸体已发送
       expect(await server.calls[0].requestBodyJson).toMatchObject({
         custom_field: 'added-by-transform',
       });
@@ -9848,7 +9848,7 @@ describe('AnthropicLanguageModel', () => {
     }
 
     describe('doGenerate', () => {
-      // Case 1: providerOptions with 'anthropic' key → only 'anthropic' in providerMetadata
+      // 情况 1：providerOptions 带有 'anthropic' 键→providerMetadata 中只有 'anthropic'
       it('should only include "anthropic" key in providerMetadata when providerOptions uses "anthropic" key', async () => {
         prepareCustomJsonResponse();
 
@@ -9863,14 +9863,14 @@ describe('AnthropicLanguageModel', () => {
           },
         });
 
-        // Only 'anthropic' key should be in providerMetadata
+        // 只有“人择”键应该位于提供程序元数据中
         expect(result.providerMetadata).toHaveProperty('anthropic');
         expect(Object.keys(result.providerMetadata ?? {})).toStrictEqual([
           'anthropic',
         ]);
       });
 
-      // Case 2: providerOptions with custom key → both 'anthropic' and custom key in providerMetadata
+      // 案例 2：具有自定义键的providerOptions→providerMetadata 中的“anthropic”和自定义键
       it('should include both "anthropic" and custom key in providerMetadata when providerOptions uses custom key', async () => {
         prepareCustomJsonResponse();
 
@@ -9885,12 +9885,12 @@ describe('AnthropicLanguageModel', () => {
           },
         });
 
-        // Both 'anthropic' and custom key should be in providerMetadata
+        // “anthropic”和自定义密钥都应位于providerMetadata中
         expect(result.providerMetadata).toHaveProperty('anthropic');
         expect(result.providerMetadata).toHaveProperty('my-custom-anthropic');
       });
 
-      // Fallback: no providerOptions → only 'anthropic' in providerMetadata
+      // 后备：没有providerOptions→providerMetadata中只有“anthropic”
       it('should only include "anthropic" key in providerMetadata when no providerOptions used', async () => {
         prepareCustomJsonResponse();
 
@@ -9900,14 +9900,14 @@ describe('AnthropicLanguageModel', () => {
           prompt: TEST_PROMPT,
         });
 
-        // Only 'anthropic' key should be in providerMetadata (default)
+        // 只有“anthropic”键应该位于providerMetadata中（默认）
         expect(result.providerMetadata).toHaveProperty('anthropic');
         expect(Object.keys(result.providerMetadata ?? {})).toStrictEqual([
           'anthropic',
         ]);
       });
 
-      // providerOptions parsing tests
+      // providerOptions 解析测试
       it('should accept providerOptions with custom provider name key', async () => {
         prepareCustomJsonResponse();
 
@@ -9962,7 +9962,7 @@ describe('AnthropicLanguageModel', () => {
     });
 
     describe('doStream', () => {
-      // Case 1: providerOptions with 'anthropic' key → only 'anthropic' in providerMetadata
+      // 情况 1：providerOptions 带有 'anthropic' 键→providerMetadata 中只有 'anthropic'
       it('should only include "anthropic" key in providerMetadata when providerOptions uses "anthropic" key', async () => {
         prepareCustomStreamResponse();
 
@@ -9980,14 +9980,14 @@ describe('AnthropicLanguageModel', () => {
         const chunks = await convertReadableStreamToArray(stream);
         const finishChunk = chunks.find(chunk => chunk.type === 'finish');
 
-        // Only 'anthropic' key should be in providerMetadata
+        // 只有“人择”键应该位于提供程序元数据中
         expect(finishChunk?.providerMetadata).toHaveProperty('anthropic');
         expect(Object.keys(finishChunk?.providerMetadata ?? {})).toStrictEqual([
           'anthropic',
         ]);
       });
 
-      // Case 2: providerOptions with custom key → both 'anthropic' and custom key in providerMetadata
+      // 案例 2：具有自定义键的providerOptions→providerMetadata 中的“anthropic”和自定义键
       it('should include both "anthropic" and custom key in providerMetadata when providerOptions uses custom key', async () => {
         prepareCustomStreamResponse();
 
@@ -10005,14 +10005,14 @@ describe('AnthropicLanguageModel', () => {
         const chunks = await convertReadableStreamToArray(stream);
         const finishChunk = chunks.find(chunk => chunk.type === 'finish');
 
-        // Both 'anthropic' and custom key should be in providerMetadata
+        // “anthropic”和自定义密钥都应位于providerMetadata中
         expect(finishChunk?.providerMetadata).toHaveProperty('anthropic');
         expect(finishChunk?.providerMetadata).toHaveProperty(
           'my-custom-anthropic',
         );
       });
 
-      // Fallback: no providerOptions → only 'anthropic' in providerMetadata
+      // 后备：没有providerOptions→providerMetadata中只有“anthropic”
       it('should only include "anthropic" key in providerMetadata when no providerOptions used', async () => {
         prepareCustomStreamResponse();
 
@@ -10025,7 +10025,7 @@ describe('AnthropicLanguageModel', () => {
         const chunks = await convertReadableStreamToArray(stream);
         const finishChunk = chunks.find(chunk => chunk.type === 'finish');
 
-        // Only 'anthropic' key should be in providerMetadata (default)
+        // 只有“anthropic”键应该位于providerMetadata中（默认）
         expect(finishChunk?.providerMetadata).toHaveProperty('anthropic');
         expect(Object.keys(finishChunk?.providerMetadata ?? {})).toStrictEqual([
           'anthropic',

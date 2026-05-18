@@ -4,20 +4,20 @@ import type { SpeechModelV2CallOptions } from './speech-model-v2-call-options';
 import type { SpeechModelV2CallWarning } from './speech-model-v2-call-warning';
 
 /**
- * Speech model specification version 2.
+ * 语音模型规范版本 2。
  */
 export type SpeechModelV2 = {
   /**
-   * The speech model must specify which speech model interface
-   * version it implements. This will allow us to evolve the speech
-   * model interface and retain backwards compatibility. The different
-   * implementation versions can be handled as a discriminated union
-   * on our side.
+   * 语音模型必须指定哪个语音模型接口
+   * 它实现的版本。这将使我们能够改进演讲
+   * 模型接口并保留向后兼容性。不同的
+   * 实现版本可以作为有区别的联合来处理
+   * 在我们这边。
    */
   readonly specificationVersion: 'v2';
 
   /**
-   * Name of the provider for logging purposes.
+   * 用于记录目的的提供商名称。
    */
   readonly provider: string;
 
@@ -27,62 +27,62 @@ export type SpeechModelV2 = {
   readonly modelId: string;
 
   /**
-   * Generates speech audio from text.
+   * 从文本生成语音音频。
    */
   doGenerate(options: SpeechModelV2CallOptions): PromiseLike<{
     /**
-     * Generated audio as an ArrayBuffer.
-     * The audio should be returned without any unnecessary conversion.
-     * If the API returns base64 encoded strings, the audio should be returned
-     * as base64 encoded strings. If the API returns binary data, the audio
-     * should be returned as binary data.
+     * 生成音频作为 ArrayBuffer。
+     * 返回音频时应不进行任何不必要的转换。
+     * 如果API返回base64编码的字符串，则应返回音频
+     * 作为 base64 编码的字符串。如果 API 返回二进制数据，则音频
+     * 应作为二进制数据返回。
      */
     audio: string | Uint8Array;
 
     /**
-     * Warnings for the call, e.g. unsupported settings.
+     * 通话警告，例如不支持的设置。
      */
     warnings: Array<SpeechModelV2CallWarning>;
 
     /**
-     * Optional request information for telemetry and debugging purposes.
+     * 用于遥测和调试目的的可选请求信息。
      */
     request?: {
       /**
-       * Response body (available only for providers that use HTTP requests).
+       * 响应正文（仅适用于使用 HTTP 请求的提供商）。
        */
       body?: unknown;
     };
 
     /**
-     * Response information for telemetry and debugging purposes.
+     * 用于遥测和调试目的的响应信息。
      */
     response: {
       /**
-       * Timestamp for the start of the generated response.
+       * 生成的响应的开始时间戳。
        */
       timestamp: Date;
 
       /**
-       * The ID of the response model that was used to generate the response.
+       * 用于生成响应的响应模型的 ID。
        */
       modelId: string;
 
       /**
-       * Response headers.
+       * 响应标头。
        */
       headers?: SharedV2Headers;
 
       /**
-       * Response body.
+       * 响应体。
        */
       body?: unknown;
     };
 
     /**
-     * Additional provider-specific metadata. They are passed through
-     * from the provider to the AI SDK and enable provider-specific
-     * results that can be fully encapsulated in the provider.
+     * 其他特定于提供商的元数据。他们通过
+     * 从提供商到 AI SDK 并启用提供商特定的
+     * 可以完全封装在提供者中的结果。
      */
     providerMetadata?: Record<string, Record<string, JSONValue>>;
   }>;

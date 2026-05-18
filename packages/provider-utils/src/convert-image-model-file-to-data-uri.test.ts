@@ -48,7 +48,7 @@ describe('convertImageModelFileToDataUri()', () => {
 
   describe('Uint8Array files', () => {
     it('should convert Uint8Array to base64 and return a data URI', () => {
-      // "Hello" in bytes
+      // “你好”以字节为单位
       const data = new Uint8Array([72, 101, 108, 108, 111]);
 
       const result = convertImageModelFileToDataUri({

@@ -1,34 +1,34 @@
 import type { SharedV4ProviderMetadata } from '../../shared/v4/shared-v4-provider-metadata';
 
 /**
- * A source that has been used as input to generate the response.
+ * 已用作生成响应的输入的源。
  */
 export type LanguageModelV4Source =
   | {
       type: 'source';
 
       /**
-       * The type of source - URL sources reference web content.
+       * 源类型 - URL 源引用 Web 内容。
        */
       sourceType: 'url';
 
       /**
-       * The ID of the source.
+       * 源的 ID。
        */
       id: string;
 
       /**
-       * The URL of the source.
+       * 源的 URL。
        */
       url: string;
 
       /**
-       * The title of the source.
+       * 来源的标题。
        */
       title?: string;
 
       /**
-       * Additional provider metadata for the source.
+       * 源的其他提供者元数据。
        */
       providerMetadata?: SharedV4ProviderMetadata;
     }
@@ -36,22 +36,22 @@ export type LanguageModelV4Source =
       type: 'source';
 
       /**
-       * The type of source - document sources reference files/documents.
+       * 来源类型 - 文档来源参考文件/文档。
        */
       sourceType: 'document';
 
       /**
-       * The ID of the source.
+       * 源的 ID。
        */
       id: string;
 
       /**
-       * IANA media type of the document (e.g., 'application/pdf').
+       * 文档的 IANA 媒体类型（例如“application/pdf”）。
        */
       mediaType: string;
 
       /**
-       * The title of the document.
+       * 文档的标题。
        */
       title: string;
 
@@ -61,7 +61,7 @@ export type LanguageModelV4Source =
       filename?: string;
 
       /**
-       * Additional provider metadata for the source.
+       * 源的其他提供者元数据。
        */
       providerMetadata?: SharedV4ProviderMetadata;
     };

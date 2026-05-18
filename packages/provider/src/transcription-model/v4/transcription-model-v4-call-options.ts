@@ -4,28 +4,28 @@ type TranscriptionModelV4ProviderOptions = Record<string, JSONObject>;
 
 export type TranscriptionModelV4CallOptions = {
   /**
-   * Audio data to transcribe.
-   * Accepts a `Uint8Array` or `string`, where `string` is a base64 encoded audio file.
+   * 要转录的音频数据。
+   * 接受`Uint8Array`或`string`，其中`string`是base64编码的音频文件。
    */
   audio: Uint8Array | string;
 
   /**
-   * The IANA media type of the audio data.
+   * 音频数据的 IANA 媒体类型。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
   mediaType: string;
 
   /**
-   * Additional provider-specific options that are passed through to the provider
-   * as body parameters.
+   * 传递给提供商的其他特定于提供商的选项
+   * 作为身体参数。
    *
-   * The outer record is keyed by the provider name, and the inner
-   * record is keyed by the provider-specific metadata key.
-   * ```ts
+   * 外部记录以提供者名称为键，内部记录以提供者名称为键
+   * 记录由特定于提供者的元数据密钥作为密钥。
+   * ````ts
    * {
-   * "openai": {
-   * "timestampGranularities": ["word"]
+   * “开放”：{
+   * “时间戳粒度”：[“字”]
    * }
    * }
    * ```
@@ -33,13 +33,13 @@ export type TranscriptionModelV4CallOptions = {
   providerOptions?: TranscriptionModelV4ProviderOptions;
 
   /**
-   * Abort signal for cancelling the operation.
+   * 用于取消操作的中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional HTTP headers to be sent with the request.
-   * Only applicable for HTTP-based providers.
+   * 与请求一起发送的附加 HTTP 标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string | undefined>;
 };

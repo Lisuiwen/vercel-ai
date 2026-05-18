@@ -2,9 +2,9 @@ import type { LanguageModelV4FinishReason } from '@ai-sdk/provider';
 import type { GoogleInteractionsStatus } from './google-interactions-prompt';
 
 /*
- * `tool-calls` is selected when the response includes a client-side function
- * call. The API itself signals this via `requires_action`, but
- * `completed + hasFunctionCall` also occurs in practice.
+ * 当响应包含客户端函数时选择“工具调用”
+ * 打电话。 API 本身通过“require_action”发出信号，但是
+ * 实践中也会出现“completed + hasFunctionCall”。
  */
 export function mapGoogleInteractionsFinishReason({
   status,

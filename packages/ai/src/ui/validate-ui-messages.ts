@@ -348,8 +348,8 @@ export type SafeValidateUIMessagesResult<UI_MESSAGE extends UIMessage> =
     };
 
 /**
- * 验证 UI 消息列表，例如“validateUIMessages”，
- * 但它不会抛出，而是返回 `{ success: true, data }`
+ * 验证UI消息列表，例如`validateUIMessages`，
+ * 但它不会提交，而是返回 `{ success: true, data }`
  * 或“{成功：错误，错误}”。
  */
 export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
@@ -520,7 +520,7 @@ export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
 }
 
 /**
- * 验证 UI 消息列表。
+ * 验证UI消息列表。
  *
  * 仅在以下情况下才验证元数据、数据部分和通用工具调用结构：
  * 提供了相应的模式。否则，它们被假定为

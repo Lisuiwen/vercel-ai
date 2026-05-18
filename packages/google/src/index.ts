@@ -1,32 +1,32 @@
 export type { GoogleErrorData } from './google-error';
 export type {
   GoogleLanguageModelOptions,
-  /** @deprecated Use `GoogleLanguageModelOptions` instead. */
+  /* * @deprecated 使用 `GoogleLanguageModelOptions` 代替。 */
   GoogleLanguageModelOptions as GoogleGenerativeAIProviderOptions,
 } from './google-language-model-options';
 export type {
   GoogleProviderMetadata,
-  /** @deprecated Use `GoogleProviderMetadata` instead. */
+  /* * @deprecated 使用 `GoogleProviderMetadata` 代替。 */
   GoogleProviderMetadata as GoogleGenerativeAIProviderMetadata,
 } from './google-prompt';
 export type {
   GoogleImageModelOptions,
-  /** @deprecated Use `GoogleImageModelOptions` instead. */
+  /* * @deprecated 使用 `GoogleImageModelOptions` 代替。 */
   GoogleImageModelOptions as GoogleGenerativeAIImageProviderOptions,
 } from './google-image-model-options';
 export type {
   GoogleEmbeddingModelOptions,
-  /** @deprecated Use `GoogleEmbeddingModelOptions` instead. */
+  /* * @deprecated 使用 `GoogleEmbeddingModelOptions` 代替。 */
   GoogleEmbeddingModelOptions as GoogleGenerativeAIEmbeddingProviderOptions,
 } from './google-embedding-model-options';
 export type {
   GoogleVideoModelOptions,
-  /** @deprecated Use `GoogleVideoModelOptions` instead. */
+  /* * @deprecated 使用 `GoogleVideoModelOptions` 代替。 */
   GoogleVideoModelOptions as GoogleGenerativeAIVideoProviderOptions,
 } from './google-video-model-options';
 export type {
   GoogleVideoModelId,
-  /** @deprecated Use `GoogleVideoModelId` instead. */
+  /* * @deprecated 使用 `GoogleVideoModelId` 代替。 */
   GoogleVideoModelId as GoogleGenerativeAIVideoModelId,
 } from './google-video-settings';
 export type { GoogleFilesUploadOptions } from './google-files';
@@ -39,15 +39,15 @@ export type { GoogleInteractionsAgentName } from './interactions/google-interact
 export {
   createGoogle,
   google,
-  /** @deprecated Use `createGoogle` instead. */
+  /* * @deprecated 使用 `createGoogle` 代替。 */
   createGoogle as createGoogleGenerativeAI,
 } from './google-provider';
 export type {
   GoogleProvider,
   GoogleProviderSettings,
-  /** @deprecated Use `GoogleProvider` instead. */
+  /* * @deprecated 使用 `GoogleProvider` 代替。 */
   GoogleProvider as GoogleGenerativeAIProvider,
-  /** @deprecated Use `GoogleProviderSettings` instead. */
+  /* * @deprecated 使用 `GoogleProviderSettings` 代替。 */
   GoogleProviderSettings as GoogleGenerativeAIProviderSettings,
 } from './google-provider';
 

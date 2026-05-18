@@ -1,11 +1,11 @@
 ---
 title: Output
-description: API Reference for Output.
+description: Output 的 API 参考。
 ---
 
 # `Output`
 
-The `Output` object provides output specifications for structured data generation with [`generateText`](/docs/reference/ai-sdk-core/generate-text) and [`streamText`](/docs/reference/ai-sdk-core/stream-text). It allows you to specify the expected shape of the generated data and handles validation automatically.
+`Output` 对象为 [`generateText`](/docs/reference/ai-sdk-core/generate-text) 和 [`streamText`](/docs/reference/ai-sdk-core/stream-text) 的结构化数据生成提供输出规范。它允许你指定生成数据的预期形状，并自动处理验证。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -24,15 +24,15 @@ const { output } = await generateText({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { Output } from "ai"`} prompt={false} />
 
-## Output Types
+## 输出类型
 
 ### `Output.text()`
 
-Output specification for plain text generation. This is the default behavior when no `output` is specified.
+纯文本生成的输出规范。未指定 `output` 时，这是默认行为。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -45,19 +45,19 @@ const { output } = await generateText({
 // output is a string
 ```
 
-#### Parameters
+#### 参数
 
-No parameters required.
+无需参数。
 
-#### Returns
+#### 返回值
 
-An `Output<string, string>` specification that generates plain text without schema validation.
+一个 `Output<string, string>` 规范，用于生成不经过 schema 验证的纯文本。
 
 ---
 
 ### `Output.object()`
 
-Output specification for typed object generation using schemas. The output is validated against the provided schema to ensure type safety.
+使用 schema 生成类型化对象的输出规范。输出会根据提供的 schema 进行验证，以确保类型安全。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -77,7 +77,7 @@ const { output } = await generateText({
 // output matches the schema type
 ```
 
-#### Parameters
+#### 参数
 
 <PropertiesTable
   content={[
@@ -85,31 +85,31 @@ const { output } = await generateText({
       name: 'schema',
       type: 'FlexibleSchema<OBJECT>',
       description:
-        'The schema that defines the structure of the object to generate. Supports Zod schemas, Standard JSON schemas, and custom JSON schemas.',
+        '定义要生成对象结构的 schema。支持 Zod schema、Standard JSON schema 和自定义 JSON schema。',
     },
     {
       name: 'name',
       type: 'string',
       isOptional: true,
       description:
-        'Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.',
+        '应生成输出的可选名称。某些 provider 会将其用于额外的 LLM 指导，例如作为工具或 schema 名称。',
     },
     {
       name: 'description',
       type: 'string',
       isOptional: true,
       description:
-        'Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.',
+        '应生成输出的可选描述。某些 provider 会将其用于额外的 LLM 指导，例如作为工具或 schema 描述。',
     },
   ]}
 />
 
-#### Returns
+#### 返回值
 
-An `Output<OBJECT, DeepPartial<OBJECT>>` specification where:
+一个 `Output<OBJECT, DeepPartial<OBJECT>>` 规范，其中：
 
-- Complete output is fully validated against the schema
-- Partial output (during streaming) is a deep partial version of the schema type
+- 完整输出会根据 schema 完全验证
+- 部分输出（流式传输期间）是 schema 类型的深度 partial 版本
 
 <Note>
   Partial outputs streamed via `streamText` cannot be validated against your
@@ -121,7 +121,7 @@ An `Output<OBJECT, DeepPartial<OBJECT>>` specification where:
 
 ### `Output.array()`
 
-Output specification for generating arrays of typed elements. Each element is validated against the provided element schema.
+用于生成类型化元素数组的输出规范。每个元素都会根据提供的元素 schema 进行验证。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -141,7 +141,7 @@ const { output } = await generateText({
 // output is an array of weather objects
 ```
 
-#### Parameters
+#### 参数
 
 <PropertiesTable
   content={[
@@ -156,26 +156,26 @@ const { output } = await generateText({
       type: 'string',
       isOptional: true,
       description:
-        'Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.',
+        '应生成输出的可选名称。某些 provider 会将其用于额外的 LLM 指导，例如作为工具或 schema 名称。',
     },
     {
       name: 'description',
       type: 'string',
       isOptional: true,
       description:
-        'Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.',
+        '应生成输出的可选描述。某些 provider 会将其用于额外的 LLM 指导，例如作为工具或 schema 描述。',
     },
   ]}
 />
 
-#### Returns
+#### 返回值
 
-An `Output<Array<ELEMENT>, Array<ELEMENT>>` specification where:
+一个 `Output<Array<ELEMENT>, Array<ELEMENT>>` 规范，其中：
 
-- Complete output is an array with all elements validated
-- Partial output contains only fully validated elements (incomplete elements are excluded)
+- 完整输出是所有元素均已验证的数组
+- 部分输出只包含已完全验证的元素（不完整元素会被排除）
 
-#### Streaming with `elementStream`
+#### 使用 `elementStream` 流式传输
 
 When using `streamText` with `Output.array()`, you can iterate over elements as they are generated using `elementStream`:
 
@@ -209,7 +209,7 @@ for await (const hero of elementStream) {
 
 ### `Output.choice()`
 
-Output specification for selecting from a predefined set of string options. Useful for classification tasks or fixed-enum answers.
+用于从预定义字符串选项集合中选择的输出规范。适用于分类任务或固定枚举答案。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -224,7 +224,7 @@ const { output } = await generateText({
 // output is 'sunny' | 'rainy' | 'snowy'
 ```
 
-#### Parameters
+#### 参数
 
 <PropertiesTable
   content={[
@@ -232,36 +232,36 @@ const { output } = await generateText({
       name: 'options',
       type: 'Array<CHOICE>',
       description:
-        'An array of string options that the model can choose from. The output will be exactly one of these values.',
+        '模型可以选择的字符串选项数组。输出将恰好是其中一个值。',
     },
     {
       name: 'name',
       type: 'string',
       isOptional: true,
       description:
-        'Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.',
+        '应生成输出的可选名称。某些 provider 会将其用于额外的 LLM 指导，例如作为工具或 schema 名称。',
     },
     {
       name: 'description',
       type: 'string',
       isOptional: true,
       description:
-        'Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.',
+        '应生成输出的可选描述。某些 provider 会将其用于额外的 LLM 指导，例如作为工具或 schema 描述。',
     },
   ]}
 />
 
-#### Returns
+#### 返回值
 
-An `Output<CHOICE, CHOICE>` specification where:
+一个 `Output<CHOICE, CHOICE>` 规范，其中：
 
-- Complete output is validated to be exactly one of the provided options
+- 完整输出会被验证为恰好是提供选项之一
 
 ---
 
 ### `Output.json()`
 
-Output specification for unstructured JSON generation. Use this when you want to generate arbitrary JSON without enforcing a specific schema.
+用于非结构化 JSON 生成的输出规范。当你想生成任意 JSON 且不强制指定结构时使用。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -275,7 +275,7 @@ const { output } = await generateText({
 // output is any valid JSON value
 ```
 
-#### Parameters
+#### 参数
 
 <PropertiesTable
   content={[
@@ -284,24 +284,24 @@ const { output } = await generateText({
       type: 'string',
       isOptional: true,
       description:
-        'Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.',
+        '应生成输出的可选名称。某些 provider 会将其用于额外的 LLM 指导，例如作为工具或 schema 名称。',
     },
     {
       name: 'description',
       type: 'string',
       isOptional: true,
       description:
-        'Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.',
+        '应生成输出的可选描述。某些 provider 会将其用于额外的 LLM 指导，例如作为工具或 schema 描述。',
     },
   ]}
 />
 
-#### Returns
+#### 返回值
 
-An `Output<JSONValue, JSONValue>` specification that:
+一个 `Output<JSONValue, JSONValue>` 规范，它会：
 
-- Validates that the output is valid JSON
-- Does not enforce any specific structure
+- 验证输出是有效 JSON
+- 不强制任何特定结构
 
 <Note>
   With `Output.json()`, the AI SDK only checks that the response is valid JSON;
@@ -309,9 +309,9 @@ An `Output<JSONValue, JSONValue>` specification that:
   validation, use `Output.object()` or `Output.array()` instead.
 </Note>
 
-## Error Handling
+## 错误处理
 
-When `generateText` with structured output cannot generate a valid object, it throws a [`NoObjectGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-object-generated-error).
+当带结构化输出的 `generateText` 无法生成有效对象时，会抛出 [`NoObjectGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-object-generated-error)。
 
 ```ts
 import { generateText, Output, NoObjectGeneratedError } from 'ai';

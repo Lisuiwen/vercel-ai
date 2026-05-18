@@ -57,7 +57,7 @@ export async function resolveToolApproval<
   toolsContext: InferToolSetContext<TOOLS>;
 
   /**
-   * 用户定义的运行时上下文（与“generateText”/“streamText”上的“runtimeContext”相同）。
+   * 用户定义的运行时上下文（与`generateText`/`streamText`上的`runtimeContext`相同）。
    */
   runtimeContext: RUNTIME_CONTEXT;
 }): Promise<Exclude<ToolApprovalStatus, string | undefined>> {

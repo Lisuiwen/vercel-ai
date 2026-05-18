@@ -11,23 +11,23 @@ import type { ProviderOptions } from './provider-options';
 import type { ToolApprovalRequest } from './tool-approval-request';
 
 /**
- * An assistant message. It can contain text, tool calls, or a combination of text and tool calls.
+ * 助理消息。它可以包含文本、工具调用或文本和工具调用的组合。
  */
 export type AssistantModelMessage = {
   role: 'assistant';
   content: AssistantContent;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 };
 
 /**
- * Content of an assistant message.
- * It can be a string or an array of text, image, reasoning, redacted reasoning, and tool call parts.
+ * 助理消息的内容。
+ * 它可以是文本、图像、推理、编辑推理和工具调用部分的字符串或数组。
  */
 export type AssistantContent =
   | string

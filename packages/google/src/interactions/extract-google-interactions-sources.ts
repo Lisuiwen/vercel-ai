@@ -34,10 +34,10 @@ function basename(uriOrName: string): string | undefined {
 }
 
 /**
- * Maps a single text-block annotation (`url_citation` / `file_citation` /
- * `place_citation`) onto a `LanguageModelV4Source`. Returns `undefined` when
- * the annotation lacks the minimum payload to form a source (e.g. a URL
- * citation without a `url`).
+ * 映射单个文本块注释（`url_引用`/`file_引用`/
+ * `place_itation`) 到 `LanguageModelV4Source` 上。返回“未定义”时
+ * 注释缺少形成源的最小有效负载（例如 URL
+ * 没有“url”的引用）。
  */
 export function annotationToSource({
   annotation,
@@ -99,17 +99,17 @@ export function annotationToSource({
 }
 
 /**
- * Maps a built-in tool *result* content block to zero or more
- * `LanguageModelV4Source` parts. The Interactions API exposes grounding
- * sources both inline (via `text_annotation` deltas) and via tool-result
- * content blocks; the latter is what this function consumes.
+ * 将内置工具*结果*内容块映射到零个或多个
+ * `LanguageModelV4Source` 部分。 Interactions API 暴露了接地点
+ * 内联来源（通过“text_annotation”增量）和工具结果
+ * 内容块；后者是该函数所消耗的。
  *
- * Supported result kinds:
- * - `url_context_result`   -> URL sources for each fetched URL with `status: 'success'`
- * - `google_search_result` -> URL sources (when `url` is present), search-suggestion
- *                              entries are skipped (they are HTML widgets, not citations)
- * - `google_maps_result`   -> URL sources for each place with a `url`
- * - `file_search_result`   -> document sources (best-effort -- `result[]` is loosely typed)
+ * 支持的结果类型：
+ * - `url_context_result` -> 每个获取的 URL 的 URL 源，具有 `status: 'success'`
+ * - `google_search_result` -> URL 来源（当存在 `url` 时），搜索建议
+ *                              条目被跳过（它们是 HTML 小部件，而不是引用）
+ * - `google_maps_result` -> 每个带有 `url` 的地点的 URL 来源
+ * - `file_search_result` -> 文档源（尽力而为 - `result[]` 是松散类型的）
  */
 export function builtinToolResultToSources({
   block,
@@ -212,10 +212,10 @@ export function builtinToolResultToSources({
 }
 
 /**
- * Given a list of annotations attached to a single `text` content block,
- * returns the corresponding `LanguageModelV4Source` parts (de-duplicated by
- * URL/filename to avoid double-counting when the same citation reappears
- * across deltas).
+ * 给定附加到单个“文本”内容块的注释列表，
+ * 返回相应的“LanguageModelV4Source”部分（通过删除重复
+ * URL/文件名以避免相同引文再次出现时重复计算
+ * 跨越三角洲）。
  */
 export function annotationsToSources({
   annotations,

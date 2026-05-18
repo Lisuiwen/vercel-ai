@@ -7,20 +7,20 @@ import type {
 import type { SharedV4ProviderOptions } from '../../shared/v4/shared-v4-provider-options';
 
 /**
- * A prompt is a list of messages.
+ * 提示是消息列表。
  *
- * Note: Not all models and prompt formats support multi-modal inputs and
- * tool calls. The validation happens at runtime.
+ * 注意：并非所有模型和提示格式都支持多模态输入和
+ * 工具调用。验证发生在运行时。
  *
- * Note: This is not a user-facing prompt. The AI SDK methods will map the
- * user-facing prompt types such as chat or instruction prompts to this format.
+ * 注意：这不是面向用户的提示。 AI SDK 方法将映射
+ * 面向用户的提示类型（例如聊天或指令提示）采用此格式。
  */
 export type LanguageModelV4Prompt = Array<LanguageModelV4Message>;
 
 export type LanguageModelV4Message =
-  // Note: there could be additional parts for each role in the future,
-  // e.g. when the assistant can return images or the user can share files
-  // such as PDFs.
+  // 注意：将来每个角色可能会有额外的部分，
+  // 例如当助手可以返回图像或用户可以共享文件时
+  // 例如 PDF。
   (
     | {
         role: 'system';
@@ -51,250 +51,250 @@ export type LanguageModelV4Message =
       }
   ) & {
     /**
-     * Additional provider-specific options. They are passed through
-     * to the provider from the AI SDK and enable provider-specific
-     * functionality that can be fully encapsulated in the provider.
+     * 其他特定于提供商的选项。他们通过
+     * 从 AI SDK 发送给提供商并启用特定于提供商的
+     * 可以完全封装在提供者中的功能。
      */
     providerOptions?: SharedV4ProviderOptions;
   };
 
 /**
- * Text content part of a prompt. It contains a string of text.
+ * 提示的文本内容部分。它包含一串文本。
  */
 export interface LanguageModelV4TextPart {
   type: 'text';
 
   /**
-   * The text content.
+   * 文字内容。
    */
   text: string;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 }
 
 /**
- * Reasoning content part of a prompt. It contains a string of reasoning text.
+ * 推理内容是提示的一部分。它包含一串推理文本。
  */
 export interface LanguageModelV4ReasoningPart {
   type: 'reasoning';
 
   /**
-   * The reasoning text.
+   * 推理文本。
    */
   text: string;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 }
 
 /**
- * Reasoning file content part of a prompt. It contains a file generated as part of reasoning.
+ * 推理文件内容是提示的一部分。它包含作为推理的一部分生成的文件。
  */
 export interface LanguageModelV4ReasoningFilePart {
   type: 'reasoning-file';
 
   /**
-   * File data as a tagged discriminated union:
+   * 将数据文件作为标记的可区分联合：
    *
-   * - `{ type: 'data', data }`: raw bytes (Uint8Array) or base64-encoded string.
-   * - `{ type: 'url', url }`: a URL that points to the file.
+   * - `{ type: 'data', data }`：原始字节 (Uint8Array) 或 base64 编码的字符串。
+   * - `{ type: 'url', url }`：指向文件的 URL。
    */
   data: SharedV4FileDataData | SharedV4FileDataUrl;
 
   /**
-   * IANA media type of the file.
+   * 文件的 IANA 媒体类型。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
   mediaType: string;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 }
 
 /**
- * Provider-specific content part of a prompt. It contains no standardized
- * payload beyond provider-specific options.
+ * 提示中特定于提供者的内容部分。它不包含标准化的
+ * 有效负载超出了提供商特定的选项。
  */
 export interface LanguageModelV4CustomPart {
   type: 'custom';
 
   /**
-   * The kind of custom content, in the format `{provider}.{provider-type}`.
+   * 自定义内容的类型，格式为“{provider}.{provider-type}”。
    */
   kind: `${string}.${string}`;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 }
 
 /**
- * File content part of a prompt. It contains a file.
+ * 文件内容是提示的一部分。它包含一个文件。
  */
 export interface LanguageModelV4FilePart {
   type: 'file';
 
   /**
-   * Optional filename of the file.
+   * 文件的可选文件名。
    */
   filename?: string;
 
   /**
-   * File data as a tagged discriminated union:
+   * 将数据文件作为标记的可区分联合：
    *
-   * - `{ type: 'data', data }`: raw bytes (Uint8Array) or base64-encoded string.
-   * - `{ type: 'url', url }`: a URL that points to the file.
-   * - `{ type: 'reference', reference }`: a provider reference (`{ [provider]: id }`).
-   * - `{ type: 'text', text }`: inline text content (e.g. an inline text document).
+   * - `{ type: 'data', data }`：原始字节 (Uint8Array) 或 base64 编码的字符串。
+   * - `{ type: 'url', url }`：指向文件的 URL。
+   * - `{ type: 'reference', reference }`：提供者引用 (`{ [provider]: id }`)。
+   * - `{ type: 'text', text }`：内联文本内容（例如内联文本文档）。
    */
   data: SharedV4FileData;
 
   /**
-   * Either a full IANA media type (`type/subtype`, e.g. `image/png`) or just
-   * the top-level IANA segment (e.g. `image`, `audio`, `video`, `text`).
+   * 完整的 IANA 媒体类型（“类型/子类型”，例如“image/png”）或只是
+   * 顶级 IANA 部分（例如“图像”、“音频”、“视频”、“文本”）。
    *
-   * `*`-subtype wildcards (e.g. `image/*`) are normalized as equivalent to the
-   * top-level segment alone (e.g. `image`). Providers can use the helpers in
+   * `*`-子类型通配符（例如`image/*`）被规范化为等同于
+   * 单独的顶级段（例如“image”）。提供者可以使用以下帮助程序
    * `@ai-sdk/provider-utils` (`isFullMediaType`, `getTopLevelMediaType`,
-   * `detectMediaType`) to resolve the field according to their API
-   * requirements.
+   * `detectMediaType`) 根据其 API 解析该字段
+   * 要求。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
   mediaType: string;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 }
 
 /**
- * Tool call content part of a prompt. It contains a tool call (usually generated by the AI model).
+ * 工具调用提示内容的一部分。它包含一个工具调用（通常由 AI 模型生成）。
  */
 export interface LanguageModelV4ToolCallPart {
   type: 'tool-call';
 
   /**
-   * ID of the tool call. This ID is used to match the tool call with the tool result.
+   * 工具调用的 ID。该 ID 用于将工具调用与工具结果进行匹配。
    */
   toolCallId: string;
 
   /**
-   * Name of the tool that is being called.
+   * 正在调用的工具的名称。
    */
   toolName: string;
 
   /**
-   * Arguments of the tool call. This is a JSON-serializable object that matches the tool's input schema.
+   * 工具调用的参数。这是一个与工具的输入架构匹配的 JSON 可序列化对象。
    */
   input: unknown;
 
   /**
-   * Whether the tool call will be executed by the provider.
-   * If this flag is not set or is false, the tool call will be executed by the client.
+   * 工具调用是否将由提供者执行。
+   * 如果此标志未设置或为 false，则工具调用将由客户端执行。
    */
   providerExecuted?: boolean;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 }
 
 /**
- * Tool result content part of a prompt. It contains the result of the tool call with the matching ID.
+ * 工具结果内容是提示的一部分。它包含具有匹配 ID 的工具调用结果。
  */
 export interface LanguageModelV4ToolResultPart {
   type: 'tool-result';
 
   /**
-   * ID of the tool call that this result is associated with.
+   * 与该结果关联的工具调用的 ID。
    */
   toolCallId: string;
 
   /**
-   * Name of the tool that generated this result.
+   * 生成此结果的工具的名称。
    */
   toolName: string;
 
   /**
-   * Result of the tool call.
+   * 工具调用的结果。
    */
   output: LanguageModelV4ToolResultOutput;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 }
 
 /**
- * Tool approval response content part of a prompt. It contains the user's
- * decision to approve or deny a provider-executed tool call.
+ * 工具批准响应内容是提示的一部分。它包含用户的
+ * 决定批准或拒绝提供商执行的工具调用。
  */
 export interface LanguageModelV4ToolApprovalResponsePart {
   type: 'tool-approval-response';
 
   /**
-   * ID of the approval request that this response refers to.
+   * 此响应引用的批准请求的 ID。
    */
   approvalId: string;
 
   /**
-   * Whether the approval was granted (true) or denied (false).
+   * 批准是被批准（正确）还是被拒绝（错误）。
    */
   approved: boolean;
 
   /**
-   * Optional reason for approval or denial.
+   * 批准或拒绝的可选原因。
    */
   reason?: string;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 }
 
 /**
- * Result of a tool call.
+ * 工具调用的结果。
  */
 export type LanguageModelV4ToolResultOutput =
   | {
       /**
-       * Text tool output that should be directly sent to the API.
+       * 应直接发送到 API 的文本工具输出。
        */
       type: 'text';
       value: string;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: SharedV4ProviderOptions;
     }
@@ -303,23 +303,23 @@ export type LanguageModelV4ToolResultOutput =
       value: JSONValue;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: SharedV4ProviderOptions;
     }
   | {
       /**
-       * Type when the user has denied the execution of the tool call.
+       * 当用户拒绝执行工具调用时键入。
        */
       type: 'execution-denied';
 
       /**
-       * Optional reason for the execution denial.
+       * 拒绝执行的可选原因。
        */
       reason?: string;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: SharedV4ProviderOptions;
     }
@@ -328,7 +328,7 @@ export type LanguageModelV4ToolResultOutput =
       value: string;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: SharedV4ProviderOptions;
     }
@@ -337,7 +337,7 @@ export type LanguageModelV4ToolResultOutput =
       value: JSONValue;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: SharedV4ProviderOptions;
     }
@@ -348,7 +348,7 @@ export type LanguageModelV4ToolResultOutput =
             type: 'text';
 
             /**
-             * Text content.
+             * 文字内容。
              */
             text: string;
 
@@ -361,31 +361,31 @@ export type LanguageModelV4ToolResultOutput =
             type: 'file';
 
             /**
-             * File data as a tagged discriminated union:
+             * 将数据文件作为标记的可区分联合：
              *
-             * - `{ type: 'data', data }`: raw bytes (Uint8Array) or base64-encoded string.
-             * - `{ type: 'url', url }`: a URL that points to the file.
-             * - `{ type: 'reference', reference }`: a provider reference (`{ [provider]: id }`).
-             * - `{ type: 'text', text }`: inline text content (e.g. an inline text document).
+             * - `{ type: 'data', data }`：原始字节 (Uint8Array) 或 base64 编码的字符串。
+             * - `{ type: 'url', url }`：指向文件的 URL。
+             * - `{ type: 'reference', reference }`：提供者引用 (`{ [provider]: id }`)。
+             * - `{ type: 'text', text }`：内联文本内容（例如内联文本文档）。
              */
             data: SharedV4FileData;
 
             /**
-             * Either a full IANA media type (`type/subtype`, e.g. `image/png`) or just
-             * the top-level IANA segment (e.g. `image`, `audio`, `video`, `text`).
+             * 完整的 IANA 媒体类型（“类型/子类型”，例如“image/png”）或只是
+             * 顶级 IANA 部分（例如“图像”、“音频”、“视频”、“文本”）。
              *
-             * `*`-subtype wildcards (e.g. `image/*`) are normalized as equivalent to the
-             * top-level segment alone (e.g. `image`). Providers can use the helpers in
+             * `*`-子类型通配符（例如`image/*`）被规范化为等同于
+             * 单独的顶级段（例如“image”）。提供者可以使用以下帮助程序
              * `@ai-sdk/provider-utils` (`isFullMediaType`, `getTopLevelMediaType`,
-             * `detectMediaType`) to resolve the field according to their API
-             * requirements.
+             * `detectMediaType`) 根据其 API 解析该字段
+             * 要求。
              *
              * @see https://www.iana.org/assignments/media-types/media-types.xhtml
              */
             mediaType: string;
 
             /**
-             * Optional filename of the file.
+             * 文件的可选文件名。
              */
             filename?: string;
 
@@ -396,8 +396,8 @@ export type LanguageModelV4ToolResultOutput =
           }
         | {
             /**
-             * Custom content part. This can be used to implement
-             * provider-specific content parts.
+             * 自定义内容部分。这可以用来实现
+             * 提供商特定的内容部分。
              */
             type: 'custom';
 

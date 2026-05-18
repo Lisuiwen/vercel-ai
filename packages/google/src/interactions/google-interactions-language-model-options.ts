@@ -6,13 +6,13 @@ import {
 import { z } from 'zod/v4';
 
 /**
- * Type-only union of Gemini model IDs that the Interactions API accepts via
- * `model:`. Mirrors `Model` from `googleapis/js-genai`
- * `src/interactions/resources/interactions.ts`.
+ * 交互 API 接受的 Gemini 模型 ID 的仅类型联合
+ * `模型：`。镜像来自“googleapis/js-genai”的“模型”
+ * `src/interactions/resources/interactions.ts`。
  *
- * Kept as a separate type from `GoogleModelId` even though most IDs overlap;
- * the two surfaces (`:generateContent` vs `/interactions`) are independent and
- * may diverge over time.
+ * 即使大多数 ID 重叠，仍保留为与“GoogleModelId”不同的类型；
+ * 两个表面（`:generateContent` vs `/interactions`）是独立的并且
+ * 随着时间的推移可能会有所不同。
  */
 export type GoogleInteractionsModelId =
   | 'gemini-2.5-computer-use-preview-10-2025'
@@ -37,11 +37,11 @@ export type GoogleInteractionsModelId =
   | (string & {});
 
 /**
- * Provider-options schema for `google.interactions(...)` calls. Read from the
- * shared `providerOptions.google.*` namespace (per PRD); per-call options that
- * the AI SDK doesn't natively expose live here.
+ * 用于“google.interactions(...)”调用的提供程序选项架构。读自
+ * 共享 `providerOptions.google.*` 命名空间（每个 PRD）；每次调用选项
+ * AI SDK 本身并不在这里公开。
  *
- * All fields are `.nullish()` per the existing google provider convention.
+ * 根据现有的 Google 提供商约定，所有字段均为“.nullish()”。
  */
 export const googleInteractionsLanguageModelOptions = lazySchema(() =>
   zodSchema(
@@ -70,13 +70,13 @@ export const googleInteractionsLanguageModelOptions = lazySchema(() =>
       thinkingSummaries: z.enum(['auto', 'none']).nullish(),
 
       /**
-       * Output-format entries that map directly to the API's `response_format`
-       * array. Use this to request image, audio, or non-JSON text outputs
-       * with full control over `mime_type`, `aspect_ratio`, and `image_size`.
+       * 直接映射到 API 的“response_format”的输出格式条目
+       * 数组。使用它来请求图像、音频或非 JSON 文本输出
+       * 完全控制“mime_type”、“aspect_ratio”和“image_size”。
        *
-       * Entries are sent in order. The AI SDK call-level `responseFormat: {
-       * type: 'json', schema }` still drives JSON-mode and adds a matching
-       * text entry automatically; entries listed here are appended.
+       * 参赛作品按顺序发送。 AI SDK 调用级别 `responseFormat: {
+       * type: 'json', schema }` 仍然驱动 JSON 模式并添加匹配
+       * 自动输入文字；此处列出的条目是附加的。
        */
       responseFormat: z
         .array(
@@ -124,10 +124,10 @@ export const googleInteractionsLanguageModelOptions = lazySchema(() =>
         .nullish(),
 
       /**
-       * @deprecated Use `responseFormat` with a `{ type: 'image', ... }`
-       * entry instead. Retained for backwards compatibility; the SDK
-       * translates it into a matching `response_format` image entry and
-       * emits a warning when set.
+       * @deprecated 将 `responseFormat` 与 `{ type: 'image', ... }` 一起使用
+       * 代替条目。保留是为了向后兼容；软件开发工具包
+       * 将其转换为匹配的“response_format”图像条目并
+       * 设置后发出警告。
        */
       imageConfig: z
         .object({
@@ -162,30 +162,30 @@ export const googleInteractionsLanguageModelOptions = lazySchema(() =>
       serviceTier: z.enum(['flex', 'standard', 'priority']).nullish(),
 
       /**
-       * Alternative to AI SDK `system` message. If both are set, the AI SDK
-       * `system` message wins and a warning is emitted.
+       * AI SDK“系统”消息的替代方案。如果两者都设置了，则AI SDK
+       * `system` 消息获胜并发出警告。
        */
       systemInstruction: z.string().nullish(),
 
       /**
-       * Per-block signature for round-tripping `thought.signature` and
-       * `function_call.signature` blocks. Set by the SDK on output reasoning /
-       * tool-call parts; passed back unchanged on input parts so the API
-       * accepts the prior turn.
+       * 用于往返“thought.signature”的每块签名和
+       * `function_call.signature` 块。由SDK对输出推理设置/
+       * 工具调用部分；输入部分不变地传回，因此 API
+       * 接受先前的回合。
        */
       signature: z.string().nullish(),
 
       /**
-       * Set by the SDK on output assistant messages. The converter uses it to
-       * decide which messages to drop when compacting under
-       * `previousInteractionId`.
+       * 由 SDK 在输出助手消息上设置。转换器使用它来
+       * 决定在压缩时丢弃哪些消息
+       * `previousInteractionId`。
        */
       interactionId: z.string().nullish(),
 
       /**
-       * Maximum time, in milliseconds, to poll a background interaction (agent
-       * call) before giving up. Defaults to 30 minutes. Long-running agents
-       * such as deep research can take tens of minutes — increase if needed.
+       * 轮询后台交互（代理
+       * 打电话）在放弃之前。默认为 30 分钟。长期代理
+       * 例如深度研究可能需要数十分钟——如果需要的话可以增加时间。
        */
       pollingTimeoutMs: z.number().int().positive().nullish(),
     }),

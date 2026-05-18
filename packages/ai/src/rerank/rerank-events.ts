@@ -4,7 +4,7 @@ import type { ProviderMetadata } from '../types';
 import type { Warning } from '../types/warning';
 
 /**
- * 事件传递给“onStart”回调以进行重新排名操作。
+ * 事件提交给`onStart`回调以进行重新排名操作。
  *
  * 在操作开始时调用重排序模型之前调用。
  */
@@ -12,13 +12,13 @@ export type RerankStartEvent = {
   /* * 此重新排序调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /* * 标识操作类型（'ai.rerank'）。 */
+  /* * 操作标识类型（'ai.rerank'）。 */
   readonly operationId: string;
 
-  // ** 提供商标识符（例如“openai”、“anthropic”）。 */
+  // ** 明星标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /* * 特定型号标识符（例如“gpt-4o”）。 */
+  /* * 特定型号标识符（例如`gpt-4o`）。 */
   readonly modelId: string;
   /* * 文档被重新排序。 */
   readonly documents: Array<JSONObject | string>;
@@ -39,7 +39,7 @@ export type RerankStartEvent = {
 };
 
 /**
- * 事件传递给“onFinish”回调以进行重新排名操作。
+ * 事件提交给`onFinish`回调以进行重新排名操作。
  *
  * 在操作完成、重排序模型返回后调用。
  */
@@ -47,13 +47,13 @@ export type RerankEndEvent = {
   /* * 此重新排序调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /* * 标识操作类型（'ai.rerank'）。 */
+  /* * 操作标识类型（'ai.rerank'）。 */
   readonly operationId: string;
 
-  // ** 提供商标识符（例如“openai”、“anthropic”）。 */
+  // ** 明星标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /* * 特定型号标识符（例如“gpt-4o”）。 */
+  /* * 特定型号标识符（例如`gpt-4o`）。 */
   readonly modelId: string;
 
   /* * 重新排序的文档。 */
@@ -86,13 +86,13 @@ export type RerankEndEvent = {
 };
 
 /**
- * 当单独的重新排序模型调用（内部 doRerank）开始时触发事件。
+ * 当单独的重新排序模型调用（内部doRerank）开始时触发事件。
  */
 export type RerankingModelCallStartEvent = {
   /* * 此重新排序调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /* * 标识内部操作（'ai.rerank.doRerank'）。 */
+  /* * 标识操作内部（'ai.rerank.doRerank'）。 */
   readonly operationId: string;
 
   /* * 提供商标识符。 */
@@ -115,7 +115,7 @@ export type RerankingModelCallStartEvent = {
 };
 
 /**
- * 当单个重新排序模型调用 (doRerank) 完成时触发事件。
+ * 当单个重新排序模型调用（doRerank）完成时触发事件。
  *
  * 包含模型响应的排名结果。
  */
@@ -123,7 +123,7 @@ export type RerankingModelCallEndEvent = {
   /* * 此重新排序调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /* * 标识内部操作（'ai.rerank.doRerank'）。 */
+  /* * 标识操作内部（'ai.rerank.doRerank'）。 */
   readonly operationId: string;
 
   /* * 提供商标识符。 */

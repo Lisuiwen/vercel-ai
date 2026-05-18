@@ -4033,7 +4033,7 @@ describe('streamText', () => {
       });
 
       const uiMessageStream = result.toUIMessageStream({
-        onFinish: () => {}, // 提供的 onFinish 应该触发一个新的消息 ID
+        onFinish: () => {}, // 提供 onFinish 应该触发一个新的消息 ID
       });
 
       expect(await convertReadableStreamToArray(uiMessageStream))
@@ -4397,7 +4397,7 @@ describe('streamText', () => {
         onFinish,
       });
 
-      // 获取 UI 消息流并在第三块后中断
+      // 获取UI消息流并在第三块后中断
       const stream = result.toUIMessageStream();
       let chunkCount = 0;
 
@@ -4408,7 +4408,7 @@ describe('streamText', () => {
         }
       }
 
-      // 验证取消流时未调用 onFinish
+      // 验证取消流时未调用onFinish
       expect(onFinish).not.toHaveBeenCalled();
     });
 
@@ -4452,7 +4452,7 @@ describe('streamText', () => {
       await reader.cancel();
       reader.releaseLock();
 
-      // 验证取消流时未调用 onFinish
+      // 验证取消流时未调用onFinish
       expect(onFinishCallback).not.toHaveBeenCalled();
     });
   });
@@ -15473,11 +15473,11 @@ describe('streamText', () => {
           },
         }),
         prompt: 'test-input',
-        timeout: { chunkMs: 50 }, // 50ms 块超时
+        timeout: { chunkMs: 50 }, // 50ms块超时
         onError: () => {},
       });
 
-      // 开始使用流（在delayedPromise解析之前不会完成）
+      // 开始使用流（在delayedPromise解析之前无法完成）
       const consumePromise = result.consumeStream();
 
       // 提前时间超过块超时
@@ -15864,7 +15864,7 @@ describe('streamText', () => {
           super({
             supportedUrls() {
               supportedUrlsCalled = true;
-              // 引用“this”来验证上下文
+              // 引用`this`来验证上下文
               return this.modelId === 'mock-model-id'
                 ? ({ 'image/*': [/^https:\/\/.*$/] } as Record<
                     string,
@@ -21592,7 +21592,7 @@ describe('streamText', () => {
       }>;
       let rollDieExecutions: Array<{ player: string }>;
 
-      // 基于夹具的工具调用 ID（来自 anthropic-programmatic-tool-calling.1.chunks.txt）
+      // 基于夹具的工具调用ID（来自anthropic-programmatic-tool-calling.1.chunks.txt）
       const CODE_EXEC_ID = 'srvtoolu_01MzSrFWsmzBdcoQkGWLyRjK';
       const CONTAINER_ID = 'container_011CWHPPTDTn1XufeRB9uHeH';
 
@@ -21669,7 +21669,7 @@ describe('streamText', () => {
                   };
 
                 case 1:
-                  // 第 2 步：rollDie 调用（玩家 2）
+                  // 第2步：rollDie调用（玩家2）
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -21711,7 +21711,7 @@ describe('streamText', () => {
                   };
 
                 case 2:
-                  // 第 3 步：rollDie 调用（第 2 轮）
+                  // 第3步：rollDie调用（第2轮）
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -21753,7 +21753,7 @@ describe('streamText', () => {
                   };
 
                 case 3:
-                  // 第 4 步：更多 rollDie 调用
+                  // 第4步：更多rollDie调用
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -21899,7 +21899,7 @@ describe('streamText', () => {
               messages: [...messages],
             });
 
-            // 转发上一步的容器 ID（模拟forwardAnthropicContainerIdFromLastStep）
+            // 转发上一步的容器ID（模拟forwardAnthropicContainerIdFromLastStep）
             if (stepNumber > 0 && steps.length > 0) {
               const lastStep = steps[steps.length - 1];
               const containerId = (

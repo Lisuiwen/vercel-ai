@@ -6,13 +6,13 @@ import {
 import { z } from 'zod/v4';
 
 /*
- * Zod schemas for the Gemini Interactions API wire format.
+ * Gemini Interactions API 有线格式的 Zod 模式。
  *
- * Helpers are defined as factories (invoked only inside the exported
- * `lazySchema(() => ...)` callbacks) so no `z.object(...)` / `z.union(...)`
- * runs at module import. Schemas are intentionally narrow on the fields the
- * SDK consumes and lenient (`loose()` / `unknown`) on the rest, so subsequent
- * additions can widen without breaking the basic path.
+ * 助手被定义为工厂（仅在导出的内部调用）
+ * `lazySchema(() => ...)` 回调）所以没有 `z.object(...)` / `z.union(...)`
+ * 在模块导入时运行。模式故意缩小领域范围
+ * SDK 对其余部分进行消耗和宽松（`loose()` / `unknown`），因此后续
+ * 可以在不破坏基本路径的情况下扩展扩展。
  */
 
 const tokenByModalitySchema = () =>
@@ -116,10 +116,10 @@ const thoughtSummaryItemSchema = () =>
     .loose();
 
 /*
- * Content block schemas — these populate the `content` array of a
- * `model_output` step. Function calls, thoughts, and built-in tool
- * call/result blocks are top-level step types (see `stepSchema` below), not
- * content blocks.
+ * 内容块模式 - 这些填充 a 的“内容”数组
+ * `model_output` 步骤。函数调用、思考和内置工具
+ * 调用/结果块是顶级步骤类型（请参阅下面的“stepSchema”），而不是
+ * 内容块。
  */
 const contentBlockSchema = () => {
   const textContent = z
@@ -170,14 +170,14 @@ const BUILTIN_TOOL_RESULT_STEP_TYPES = [
 ] as const;
 
 /*
- * Step schema union — elements of `response.steps[]` and the `step` field on
- * `step.start` SSE events.
+ * 步骤模式联合 — `response.steps[]` 的元素和 `step` 字段
+ * `step.start` SSE 事件。
  *
- * - `user_input` echoes a turn the client sent; only appears on
- *   `GET /interactions/{id}` (the full timeline). The SDK skips it.
- * - `model_output` wraps the model's text/image content in `step.content[]`.
- * - `function_call`, `thought`, and the built-in `*_call`/`*_result` steps
- *   carry their payload directly on the step (no `content` indirection).
+ * - `user_input` 回显客户端发送的轮次；仅出现在
+ *   `GET /interactions/{id}`（完整时间线）。 SDK 会跳过它。
+ * - `model_output` 将模型的文本/图像内容包装在 `step.content[]` 中。
+ * - `function_call`、`thought` 和内置的 `*_call`/`*_result` 步骤
+ *   直接在步骤上携带它们的有效负载（没有“内容”间接）。
  */
 const stepSchema = () => {
   const userInputStep = z
@@ -254,9 +254,9 @@ export const googleInteractionsResponseSchema = lazySchema(() =>
     z
       .object({
         /*
-         * `id` is omitted from the response body when `store: false` (fully
-         * stateless mode) — there is no server-side interaction record for the
-         * client to reference. `nullish` lets the schema accept that shape.
+         * 当“store: false”时，响应正文中会省略“id”（完全
+         * 无状态模式）——没有服务器端交互记录
+         * 供客户参考。 “nullish”让模式接受该形状。
          */
         id: z.string().nullish(),
         created: z.string().nullish(),
@@ -292,8 +292,8 @@ export const googleInteractionsEventSchema = lazySchema(() =>
           interaction: z
             .object({
               /*
-               * `id` is omitted when `store: false` (fully stateless mode);
-               * see the matching note on `googleInteractionsResponseSchema.id`.
+               * 当`store: false`时省略`id`（完全无状态模式）；
+               * 请参阅“googleInteractionsResponseSchema.id”上的匹配注释。
                */
               id: z.string().nullish(),
               created: z.string().nullish(),
@@ -306,9 +306,9 @@ export const googleInteractionsEventSchema = lazySchema(() =>
         .loose();
 
       /*
-       * `step.start` carries the discriminated step shape under `step`. For
-       * `function_call` steps the `name` is included here; for `thought`
-       * steps the initial `signature` and `summary` arrive here when set.
+       * `step.start` 在 `step` 下携带有区别的步骤形状。对于
+       * `function_call` 步骤中包含 `name`；为了‘思想’
+       * 步骤初始“签名”和“摘要”在设置后到达此处。
        */
       const stepStartEvent = z
         .object({
@@ -341,13 +341,13 @@ export const googleInteractionsEventSchema = lazySchema(() =>
         .loose();
 
       /*
-       * `function_call` step deltas stream the JSON arguments as a partial
-       * string. Wire shape:
-       *   { type: 'arguments_delta', arguments: '<partial-json-string>' }
-       * The partial JSON lives in `arguments` (a string), not in a separate
-       * `arguments_delta` field — the discriminator name is the only place
-       * `arguments_delta` appears. Consumers accumulate the substrings and
-       * parse on `step.stop`.
+       * `function_call` 步骤增量将 JSON 参数作为部分流传输
+       * 字符串。线材形状：
+       *   { 类型：'arguments_delta'，参数：'<partial-json-string>' }
+       * 部分 JSON 位于“arguments”（字符串）中，而不是单独的
+       * `arguments_delta` 字段 — 鉴别器名称是唯一的地方
+       * 出现“arguments_delta”。消费者累积子串并
+       * 解析 `step.stop`。
        */
       const stepDeltaArgumentsDelta = z
         .object({
@@ -359,9 +359,9 @@ export const googleInteractionsEventSchema = lazySchema(() =>
         .loose();
 
       /*
-       * URL/file/place-citation deltas. The discriminator is
-       * `text_annotation_delta` (matching the `_delta` suffix used by
-       * `arguments_delta`); `text_annotation` is also accepted as an alias.
+       * URL/文件/地点引用增量。判别器是
+       * `text_annotation_delta` （匹配使用的 `_delta` 后缀
+       * `arguments_delta`); `text_annotation` 也被接受作为别名。
        */
       const stepDeltaTextAnnotation = z
         .object({
@@ -371,8 +371,8 @@ export const googleInteractionsEventSchema = lazySchema(() =>
         .loose();
 
       /*
-       * `image` deltas carry the entire payload per delta (`data` base64 +
-       * `mime_type`, or `uri`) — there is no per-byte streaming.
+       * “image”增量携带每个增量的整个有效负载（“data”base64 +
+       * `mime_type` 或 `uri`) — 没有每字节流。
        */
       const stepDeltaImage = z
         .object({
@@ -385,10 +385,10 @@ export const googleInteractionsEventSchema = lazySchema(() =>
         .loose();
 
       /*
-       * Built-in tool call/result step deltas mirror the shape of their step
-       * counterparts (full payload per delta — there is no per-token
-       * streaming of arguments). Result deltas carry the populated `result`
-       * payload.
+       * 内置工具调用/结果步骤增量反映了其步骤的形状
+       * 对应物（每个增量的完整有效负载 - 没有每个令牌
+       * 参数流）。结果增量携带填充的“结果”
+       * 有效负载。
        */
       const stepDeltaBuiltinToolCall = z
         .object({
@@ -446,10 +446,10 @@ export const googleInteractionsEventSchema = lazySchema(() =>
         .loose();
 
       /*
-       * Status-transition events. The API emits `interaction.status_update`
-       * for in-progress and requires-action transitions; the more specific
-       * `interaction.in_progress` and `interaction.requires_action` shapes
-       * are accepted so all three route through the same handler.
+       * 状态转换事件。 API 发出“interaction.status_update”
+       * 用于正在进行的和需要采取行动的过渡；更具体的
+       * `interaction.in_progress` 和 `interaction.requires_action` 形状
+       * 被接受，因此所有三个路由都通过同一个处理程序。
        */
       const interactionStatusUpdateEvent = z
         .object({

@@ -6,43 +6,43 @@ import type {
 import type { EmbeddingModelV4Embedding } from './embedding-model-v4-embedding';
 
 /**
- * The result of a embedding model doEmbed call.
+ * 嵌入模型 doEmbed 调用的结果。
  */
 export type EmbeddingModelV4Result = {
   /**
-   * Generated embeddings. They are in the same order as the input values.
+   * 生成的嵌入。它们的顺序与输入值相同。
    */
   embeddings: Array<EmbeddingModelV4Embedding>;
 
   /**
-   * Token usage. We only have input tokens for embeddings.
+   * 代币使用。我们只有用于嵌入的输入标记。
    */
   usage?: { tokens: number };
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * from the provider to the AI SDK and enable provider-specific
-   * results that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从提供商到 AI SDK 并启用提供商特定的
+   * 可以完全封装在提供者中的结果。
    */
   providerMetadata?: SharedV4ProviderMetadata;
 
   /**
-   * Optional response information for debugging purposes.
+   * 用于调试目的的可选响应信息。
    */
   response?: {
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers?: SharedV4Headers;
 
     /**
-     * The response body.
+     * 响应主体。
      */
     body?: unknown;
   };
 
   /**
-   * Warnings for the call, e.g. unsupported settings.
+   * 通话警告，例如不支持的设置。
    */
   warnings: Array<SharedV4Warning>;
 };

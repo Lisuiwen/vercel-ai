@@ -32,22 +32,22 @@ import type { TranscriptionModel } from '../types/transcription-model';
 import type { VideoModel } from '../types/video-model';
 
 /**
- * 使用指定的语言模型、文本嵌入模型、图像模型、转录模型、语音模型、文件 API、技能 API 和可选的后备提供程序创建自定义提供程序。
+ * 使用指定的语言模型、文本嵌入模型、图像模型、校正模型、语音模型、文件API、技能API和可选的后备提供程序创建自定义提供程序。
  *
- * @param {Object} options - The options for creating the custom provider.
- * @param {Record<string, LanguageModel>} [options.languageModels] - A record of language models, where keys are model IDs and values are language model instances.
- * @param {Record<string, EmbeddingModel>} [options.embeddingModels] - A record of text embedding models, where keys are model IDs and values are embedding model instances.
- * @param {Record<string, ImageModel>} [options.imageModels] - A record of image models, where keys are model IDs and values are image model instances.
- * @param {Record<string, TranscriptionModel>} [options.transcriptionModels] - A record of transcription models, where keys are model IDs and values are transcription model instances.
- * @param {Record<string, SpeechModel>} [options.speechModels] - A record of speech models, where keys are model IDs and values are speech model instances.
- * @param {Record<string, RerankingModel>} [options.rerankingModels] - A record of reranking models, where keys are model IDs and values are reranking model instances.
- * @param {Record<string, VideoModel>} [options.videoModels] - A record of video models, where keys are model IDs and values are video model instances.
- * @param {FilesV4} [options.files] - A files interface for uploading files.
- * @param {SkillsV4} [options.skills] - A skills interface for uploading skills.
- * @param {ProviderV2 | ProviderV3 | ProviderV4} [options.fallbackProvider] - An optional fallback provider to use when a requested model is not found in the custom provider.
- * @returns {ProviderV4} A ProviderV4 object with languageModel, embeddingModel, imageModel, transcriptionModel, speechModel, rerankingModel, and videoModel methods.
+ * @param {Object} options - 用于创建自定义提供程序的选项。
+ * @param {Record<string, LanguageModel>} [options.languageModels] - 语言模型的记录，其中键是模型 ID，值是语言模型实例。
+ * @param {Record<string, EmbeddingModel>} [options.embeddingModels] - 文本嵌入模型的记录，其中键是模型 ID，值是嵌入模型实例。
+ * @param {Record<string, ImageModel>} [options.imageModels] - 图像模型的记录，其中键是模型 ID，值是图像模型实例。
+ * @param {Record<string, TranscriptionModel>} [options.transcriptionModels] - 转录模型的记录，其中键是模型 ID，值是转录模型实例。
+ * @param {Record<string, SpeechModel>} [options.speechModels] - 语音模型的记录，其中键是模型 ID，值是语音模型实例。
+ * @param {Record<string, RerankingModel>} [options.rerankingModels] - 重新排名模型的记录，其中键是模型 ID，值是重新排名模型实例。
+ * @param {Record<string, VideoModel>} [options.videoModels] - 视频模型的记录，其中键是模型 ID，值是视频模型实例。
+ * @param {FilesV4} [options.files] - 用于上传文件的文件接口。
+ * @param {SkillsV4} [options.skills] - 用于上传技能的技能界面。
+ * @param {ProviderV2 |供应商V3 | ProviderV4} [options.fallbackProvider] - 当在自定义提供程序中找不到请求的模型时使用的可选后备提供程序。
+ * @returns {ProviderV4} 具有 languageModel、embeddingModel、imageModel、transcriptionModel、speechModel、rerankingModel 和 videoModel 方法的 ProviderV4 对象。
  *
- * @throws {NoSuchModelError} Throws when a requested model is not found and no fallback provider is available.
+ * @throws {NoSuchModelError} 当找不到请求的模型并且没有可用的后备提供程序时抛出。
  */
 export function customProvider<
   LANGUAGE_MODELS extends Record<string, LanguageModel>,

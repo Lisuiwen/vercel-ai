@@ -50,9 +50,9 @@ export type UIMessageStreamOptions<UI_MESSAGE extends UIMessage> = {
   originalMessages?: UI_MESSAGE[];
 
   /**
-   * 为响应消息生成消息 ID。
+   * 为响应消息生成消息ID。
    *
-   * 如果未提供，则不会为响应消息设置消息 ID（除非
+   * 如果未提供，则不会为响应消息设置消息ID（替代
    * 提供了原始消息，最后一条消息是辅助消息）。
    */
   generateMessageId?: IdGenerator;
@@ -62,7 +62,7 @@ export type UIMessageStreamOptions<UI_MESSAGE extends UIMessage> = {
   /**
    * 提取将发送到客户端的消息元数据。
    *
-   * 调用“start”和“finish”事件。
+   * 调用`开始`和`结束`事件。
    */
   messageMetadata?: (options: {
     part: TextStreamPart<ToolSet>;
@@ -99,7 +99,7 @@ export type UIMessageStreamOptions<UI_MESSAGE extends UIMessage> = {
   /**
    * 处理错误，例如记录它。默认为 `() => '发生错误。'`。
    *
-   * @returns error message to include in the data stream.
+   * @returns 要包含在数据流中的错误消息。
    */
   onError?: (error: unknown) => string;
 };
@@ -135,7 +135,7 @@ export interface StreamTextResult<
    *
    * 自动消耗流。
    *
-   * @deprecated 请改用“finalStep.reasoning”。
+   * @deprecated 请改用`finalStep.reasoning`。
    */
   readonly reasoning: PromiseLike<Array<ReasoningOutput | ReasoningFileOutput>>;
 
@@ -144,7 +144,7 @@ export interface StreamTextResult<
    *
    * 自动消耗流。
    *
-   * @deprecated 请改用“finalStep.reasoningText”。
+   * @deprecated 请改用`finalStep.reasoningText`。
    */
   readonly reasoningText: PromiseLike<string | undefined>;
 
@@ -232,7 +232,7 @@ export interface StreamTextResult<
    *
    * 自动消耗流。
    *
-   * @deprecated 请改用“用法”。
+   * @deprecated 请改用`最合适`。
    */
   readonly totalUsage: PromiseLike<LanguageModelUsage>;
 
@@ -253,7 +253,7 @@ export interface StreamTextResult<
   readonly steps: PromiseLike<Array<StepResult<TOOLS, RUNTIME_CONTEXT>>>;
 
   /**
-   * 最后一步。这是“steps.at(-1)”的快捷方式。
+   * 最后一步。这是`steps.at(-1)`的快捷方式。
    *
    * 自动消耗流。
    */
@@ -264,7 +264,7 @@ export interface StreamTextResult<
    *
    * 自动消耗流。
    *
-   * @deprecated 请改用“finalStep.request”。
+   * @deprecated 请改用`finalStep.request`。
    */
   readonly request: PromiseLike<LanguageModelRequestMetadata>;
 
@@ -273,7 +273,7 @@ export interface StreamTextResult<
    *
    * 自动消耗流。
    *
-   * @deprecated 请改用“finalStep.response”。
+   * @deprecated 请改用`finalStep.response`。
    */
   readonly response: PromiseLike<LanguageModelResponseMetadata>;
 
@@ -286,10 +286,10 @@ export interface StreamTextResult<
 
   /**
    * 最后一步中的其他特定于提供商的元数据。
-   * 元数据从提供商传递到 AI SDK，
+   * 元数据从开始交付到AI SDK，
    * 启用可以完全封装在提供程序中的特定于提供程序的结果。
    *
-   * @deprecated 请改用“finalStep.providerMetadata”。
+   * @deprecated 请改用`finalStep.providerMetadata`。
    */
   readonly providerMetadata: PromiseLike<ProviderMetadata | undefined>;
 
@@ -303,7 +303,7 @@ export interface StreamTextResult<
   /**
    * 包含所有事件的流，包括文本增量、工具调用、工具结果和
    * 错误。
-   * 您可以将其用作 AsyncIterable 或 ReadableStream。
+   * 您可以将其用法 AsyncIterable 或 ReadableStream。
    * 仅抛出停止流的错误，例如网络错误。
    */
   readonly fullStream: AsyncIterableStream<TextStreamPart<TOOLS>>;
@@ -311,7 +311,7 @@ export interface StreamTextResult<
   /**
    * 部分输出流。它使用“输出”规范。
    *
-   * @deprecated 请改用“partialOutputStream”。
+   * @deprecated 请改用`partialOutputStream`。
    */
   readonly experimental_partialOutputStream: AsyncIterableStream<
     InferPartialOutput<OUTPUT>
@@ -324,7 +324,7 @@ export interface StreamTextResult<
 
   /**
    * 完成时的各个数组元素的流。
-   * 仅在使用“output: Output.array()”时可用。
+   * 只需在使用`output: Output.array()`时可用。
    */
   readonly elementStream: AsyncIterableStream<InferElementOutput<OUTPUT>>;
 
@@ -337,16 +337,16 @@ export interface StreamTextResult<
    * 消耗流而不处理部件。
    * 这对于强制流完成很有用。
    * 它有效地消除了背压并允许流完成，
-   * 触发“onFinish”回调和承诺解析。
+   * 触发`onFinish`回调和承诺解析。
    *
-   * 如果发生错误，则会将其传递给可选的“onError”回调。
+   * 如果发生错误，则将其提交给任选的`onError`回调。
    */
   consumeStream(options?: ConsumeStreamOptions): PromiseLike<void>;
 
   /**
    * 将结果转换为 UI 消息流。
    *
-   * @returns A UI message stream.
+   * @returns UI 消息流。
    */
   toUIMessageStream<UI_MESSAGE extends UIMessage>(
     options?: UIMessageStreamOptions<UI_MESSAGE>,
@@ -362,18 +362,18 @@ export interface StreamTextResult<
 
   /**
    * 将文本增量输出写入 Node.js 类似响应的对象。
-   * 它将“Content-Type”标头设置为“text/plain”；字符集=utf-8` 和
+   * 将`Content-Type`标头设置为`text/plain`；字符集=utf-8`和
    * 将每个文本增量写入一个单独的块。
    *
-   * @param response A Node.js response-like object (ServerResponse).
-   * @param init Optional headers, status code, and status text.
+   * @param response 类似 Node.js 响应的对象 (ServerResponse)。
+   * @param init 可选标头、状态代码和状态文本。
    */
   pipeTextStreamToResponse(response: ServerResponse, init?: ResponseInit): void;
 
   /**
    * 将结果转换为带有流数据部分流的流式响应对象。
    *
-   * @returns A response object.
+   * @returns 一个响应对象。
    */
   toUIMessageStreamResponse<UI_MESSAGE extends UIMessage>(
     options?: UIMessageStreamResponseInit & UIMessageStreamOptions<UI_MESSAGE>,
@@ -383,7 +383,7 @@ export interface StreamTextResult<
    * 创建简单的文本流响应。
    * 每个文本增量都编码为 UTF-8 并作为单独的块发送。
    * 非文本增量事件将被忽略。
-   * @param init Optional headers, status code, and status text.
+   * @param init 可选标头、状态代码和状态文本。
    */
   toTextStreamResponse(init?: ResponseInit): Response;
 }

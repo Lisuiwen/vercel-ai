@@ -1,20 +1,20 @@
 ---
 title: pipeAgentUIStreamToResponse
-description: API Reference for the pipeAgentUIStreamToResponse utility.
+description: pipeAgentUIStreamToResponse 工具函数的 API 参考。
 ---
 
 # `pipeAgentUIStreamToResponse`
 
-The `pipeAgentUIStreamToResponse` function runs an [Agent](/docs/reference/ai-sdk-core/agent) and streams the resulting UI message output directly to a Node.js [`ServerResponse`](https://nodejs.org/api/http.html#class-httpserverresponse) object. This is ideal for building real-time streaming API endpoints (for chat, tool use, etc.) in Node.js-based frameworks like Express, Hono, or custom Node servers.
+`pipeAgentUIStreamToResponse` 函数运行一个 [Agent](/docs/reference/ai-sdk-core/agent)，并将生成的 UI message 输出直接流式传输到 Node.js [`ServerResponse`](https://nodejs.org/api/http.html#class-httpserverresponse) 对象。它非常适合在 Express、Hono 或自定义 Node 服务器等基于 Node.js 的框架中构建实时流式 API 端点（用于聊天、工具使用等）。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { pipeAgentUIStreamToResponse } from "ai"`}
   prompt={false}
 />
 
-## Usage
+## 用法
 
 ```ts
 import { pipeAgentUIStreamToResponse } from 'ai';
@@ -36,7 +36,7 @@ export async function handler(req, res) {
 }
 ```
 
-## Parameters
+## 参数
 
 <PropertiesTable
   content={[
@@ -45,79 +45,79 @@ export async function handler(req, res) {
       type: 'ServerResponse',
       isRequired: true,
       description:
-        'The Node.js ServerResponse object to pipe UI message stream output into.',
+        '要将 UI message stream 输出传输到的 Node.js ServerResponse 对象。',
     },
     {
       name: 'agent',
       type: 'Agent',
       isRequired: true,
       description:
-        'An agent instance implementing `.stream({ prompt, ... })` and defining a `tools` property.',
+        '实现 `.stream({ prompt, ... })` 并定义 `tools` 属性的 agent 实例。',
     },
     {
       name: 'uiMessages',
       type: 'unknown[]',
       isRequired: true,
       description:
-        'Array of input UI messages sent to the agent (such as user/assistant message objects).',
+        '发送给 agent 的输入 UI message 数组（例如用户/assistant 消息对象）。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal',
       isRequired: false,
       description:
-        'Optional abort signal to cancel streaming (e.g., on client disconnect). Supply an [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal), for example from an `AbortController`.',
+        '用于取消流式传输的可选中止信号（例如客户端断开连接时）。请提供 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)，例如来自 `AbortController` 的信号。',
     },
     {
       name: 'timeout',
       type: 'number | { totalMs?: number }',
       isRequired: false,
       description:
-        'Timeout in milliseconds. Can be specified as a number or as an object with a totalMs property. The call will be aborted if it takes longer than the specified timeout. Can be used alongside abortSignal.',
+        '超时时间，单位为毫秒。可指定为数字，也可指定为包含 totalMs 属性的对象。如果调用耗时超过指定超时时间，将被中止。可与 abortSignal 一起使用。',
     },
     {
       name: 'experimental_sandbox',
       type: 'Experimental_Sandbox',
       isRequired: false,
       description:
-        'Optional experimental sandbox environment that is passed through to tool execution. Tools can access it from their execution context.',
+        '传递给工具执行的可选实验性沙箱环境。工具可以从其执行上下文访问它。',
     },
     {
       name: 'options',
       type: 'CALL_OPTIONS',
       isRequired: false,
       description:
-        'Optional agent call options, for agents configured with generic parameter `CALL_OPTIONS`.',
+        '可选的 agent 调用选项，适用于配置了泛型参数 `CALL_OPTIONS` 的 agent。',
     },
     {
       name: 'experimental_transform',
       type: 'StreamTextTransform | StreamTextTransform[]',
       isRequired: false,
       description:
-        'Optional stream text transformation(s) applied to agent output.',
+        '应用于 agent 输出的可选流式文本转换。',
     },
     {
       name: 'onStepFinish',
       type: 'GenerateTextOnStepFinishCallback',
       isRequired: false,
       description:
-        'Callback invoked after each agent step (LLM/tool call) completes. Useful for tracking token usage, per-step performance, or logging intermediate steps.',
+        '每个 agent step（LLM/工具调用）完成后调用的回调。可用于跟踪 token 用量、每个 step 的性能，或记录中间步骤。',
     },
     {
       name: '...UIMessageStreamResponseInit & UIMessageStreamOptions',
       type: 'object',
       isRequired: false,
       description:
-        'Options for streaming headers, status, SSE stream config, and additional UI message stream control.',
+        '用于流式传输标头、状态、SSE 流配置以及额外 UI message stream 控制的选项。',
     },
   ]}
 />
 
-## Returns
+## 返回值
 
-A `Promise<void>`. The function completes when the UI message stream has been fully sent to the provided ServerResponse.
+一个 `Promise<void>`。当 UI message stream 已完整发送到提供的 ServerResponse 时，该函数完成。
 
-## Example: Express Route Handler
+## 示例: Express Route Handler
 
 ```ts
 import { pipeAgentUIStreamToResponse } from 'ai';
@@ -138,22 +138,22 @@ app.post('/chat', async (req, res) => {
 });
 ```
 
-## How It Works
+## 工作原理
 
-1. **Runs the Agent:** Calls the agent’s `.stream` method with the provided UI messages and options, converting them into model messages as needed and passing through options such as `experimental_sandbox`.
-2. **Streams UI Message Output:** Pipes the agent output as a UI message stream to the `ServerResponse`, sending data via streaming HTTP responses (including appropriate headers).
-3. **Abort Signal Handling:** If `abortSignal` is supplied, streaming is cancelled as soon as the signal is triggered (such as on client disconnect).
-4. **No Response Return:** Unlike Edge/serverless APIs that return a `Response`, this function writes bytes directly to the ServerResponse and does not return a response object.
+1. **运行 Agent：** 使用提供的 UI message 和选项调用 agent 的 `.stream` 方法，按需将它们转换为模型消息，并透传 `experimental_sandbox` 等选项。
+2. **流式传输 UI Message 输出：** 将 agent 输出作为 UI message stream 传输到 `ServerResponse`，通过流式 HTTP 响应发送数据（包括适当标头）。
+3. **中止信号处理：** 如果提供了 `abortSignal`，信号触发时（例如客户端断开连接）会立即取消流式传输。
+4. **不返回 Response：** 与返回 `Response` 的 Edge/serverless API 不同，此函数会直接向 ServerResponse 写入字节，不返回响应对象。
 
-## Notes
+## 备注
 
-- **Abort Handling:** For best robustness, use an `AbortSignal` (for example, wired to Express/Hono client disconnects) to ensure quick cancellation of agent computation and streaming.
-- **Node.js Only:** Only works with Node.js [ServerResponse](https://nodejs.org/api/http.html#class-httpserverresponse) objects (e.g., in Express, Hono’s node adapter, etc.), not Edge/serverless/web Response APIs.
-- **Streaming Support:** Make sure your client (and any proxies) correctly support streaming HTTP responses for full effect.
-- **Parameter Names:** The property for input messages is `uiMessages` (not `messages`) for consistency with SDK agent utilities.
-- Pass `experimental_sandbox` when your agent tools need an experimental sandbox environment during execution.
+- **中止处理：** 为获得最佳稳健性，请使用 `AbortSignal`（例如连接到 Express/Hono 客户端断开事件），以确保快速取消 agent 计算和流式传输。
+- **仅 Node.js：** 仅适用于 Node.js [ServerResponse](https://nodejs.org/api/http.html#class-httpserverresponse) 对象（例如 Express、Hono 的 node adapter 等），不适用于 Edge/serverless/web Response API。
+- **流式支持：** 确保你的客户端（以及任何代理）正确支持流式 HTTP 响应，以获得完整效果。
+- **参数名称：** 输入消息属性是 `uiMessages`（不是 `messages`），以保持与 SDK agent 工具一致。
+- 当你的 agent 工具在执行期间需要实验性沙箱环境时，请传入 `experimental_sandbox`。
 
-## See Also
+## 另请参阅
 
 - [`createAgentUIStreamResponse`](/docs/reference/ai-sdk-core/create-agent-ui-stream-response)
 - [`Agent`](/docs/reference/ai-sdk-core/agent)

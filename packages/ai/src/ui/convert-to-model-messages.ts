@@ -33,15 +33,15 @@ import {
   type UIMessage,
 } from './ui-messages';
 /**
- * 将 useChat 中的 UI 消息数组转换为可以使用的 ModelMessages 数组
- * 使用 AI 功能（例如“streamText”、“generateText”）。
+ * 将 useChat 中的 UI 消息队列转换为可以使用的 ModelMessages 队列
+ * 使用AI功能（例如`streamText`、`generateText`）。
  *
- * @param messages - The UI messages to convert.
- * @param options.tools - The tools to use.
- * @param options.ignoreIncompleteToolCalls - Whether to ignore incomplete tool calls. Default is `false`.
- * @param options.convertDataPart - Optional function to convert data parts to text or file model message parts. Returns `undefined` if the part should be ignored.
+ * @param messages - 要转换的 UI 消息。
+ * @param options.tools - 要使用的工具。
+ * @param options.ignoreIncompleteToolCalls - 是否忽略不完整的工具调用。默认为`假`。
+ * @param options.convertDataPart - 将数据部分转换为文本或文件模型消息部分的可选功能。如果该部分应被忽略，则返回`未定义`。
  *
- * @returns An array of ModelMessages.
+ * @returns ModelMessage 数组。
  */
 export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
   messages: Array<Omit<UI_MESSAGE, 'id'>>,
@@ -332,7 +332,7 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
 
                   // 对于提供商执行的工具，工具结果已经在
                   // 助理内容。跳过添加到工具消息以避免重复
-                  // （这将创建孤立的 function_call_output 条目）。
+                  // （这将创建隔离的 function_call_output 入口）。
                   if (toolPart.providerExecuted === true) {
                     continue;
                   }

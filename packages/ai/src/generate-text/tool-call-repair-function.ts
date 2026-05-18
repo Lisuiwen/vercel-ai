@@ -10,18 +10,18 @@ import type { ToolSet } from '@ai-sdk/provider-utils';
  * 它接收错误和上下文作为参数并返回修复
  * 工具将 JSON 作为文本调用。
  *
- * @param options.instructions - The instructions provided to the model.
- * @param options.system - The instructions provided to the model.
- * @param options.messages - The messages in the current generation step.
- * @param options.toolCall - The tool call that failed to parse.
- * @param options.tools - The tools that are available.
- * @param options.inputSchema - A function that returns the JSON Schema for a tool.
- * @param options.error - The error that occurred while parsing the tool call.
+ * @param options.instructions - 提供给模型的说明。
+ * @param options.system - 提供给模型的说明。
+ * @param options.messages - 当前生成步骤中的消息。
+ * @param options.toolCall - 解析失败的工具调用。
+ * @param options.tools - 可用的工具。
+ * @param options.inputSchema - 返回工具的 JSON 架构的函数。
+ * @param options.error - 解析工具调用时发生的错误。
  */
 export type ToolCallRepairFunction<TOOLS extends ToolSet> = (options: {
   instructions: Instructions | undefined;
   /**
-   * @deprecated 请改用“说明”。
+   * @deprecated 请改用`说明`。
    */
   system: Instructions | undefined;
   messages: ModelMessage[];

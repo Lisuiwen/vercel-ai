@@ -6,7 +6,7 @@ import {
 import { z } from 'zod/v4';
 
 export type GoogleModelId =
-  // Stable models
+  // 稳定的模型
   // https://ai.google.dev/gemini-api/docs/models/gemini
   | 'gemini-2.0-flash'
   | 'gemini-2.0-flash-001'
@@ -30,7 +30,7 @@ export type GoogleModelId =
   | 'gemini-3.1-flash-image-preview'
   | 'gemini-3.1-flash-lite-preview'
   | 'gemini-3.1-flash-tts-preview'
-  // latest version
+  // 最新版本
   // https://ai.google.dev/gemini-api/docs/models#latest
   | 'gemini-pro-latest'
   | 'gemini-flash-latest'
@@ -38,7 +38,7 @@ export type GoogleModelId =
   | 'deep-research-pro-preview-12-2025'
   | 'nano-banana-pro-preview'
   | 'aqa'
-  // Experimental models
+  // 实验模型
   // https://ai.google.dev/gemini-api/docs/models/experimental-models
   | 'gemini-robotics-er-1.5-preview'
   | 'gemma-3-1b-it'
@@ -66,24 +66,24 @@ export const googleLanguageModelOptions = lazySchema(() =>
         .optional(),
 
       /**
-       * Optional.
-       * The name of the cached content used as context to serve the prediction.
-       * Format: cachedContents/{cachedContent}
+       * 选修的。
+       * 用作预测服务上下文的缓存内容的名称。
+       * 格式：cachedContents/{cachedContent}
        */
       cachedContent: z.string().optional(),
 
       /**
-       * Optional. Enable structured output. Default is true.
+       * 选修的。启用结构化输出。默认为 true。
        *
-       * This is useful when the JSON Schema contains elements that are
-       * not supported by the OpenAPI schema version that
-       * Google uses. You can use this to disable
-       * structured outputs if you need to.
+       * 当 JSON 模式包含以下元素时，这非常有用
+       * OpenAPI 架构版本不支持
+       * 谷歌使用。您可以使用它来禁用
+       * 如果需要的话，结构化输出。
        */
       structuredOutputs: z.boolean().optional(),
 
       /**
-       * Optional. A list of unique safety settings for blocking unsafe content.
+       * 选修的。用于阻止不安全内容的独特安全设置列表。
        */
       safetySettings: z
         .array(
@@ -120,21 +120,21 @@ export const googleLanguageModelOptions = lazySchema(() =>
         .optional(),
 
       /**
-       * Optional. Enables timestamp understanding for audio-only files.
+       * 选修的。启用纯音频文件的时间戳理解。
        *
        * https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/audio-understanding
        */
       audioTimestamp: z.boolean().optional(),
 
       /**
-       * Optional. Defines labels used in billing reports. Available on Vertex AI only.
+       * 选修的。定义帐单报告中使用的标签。仅适用于 Vertex AI。
        *
        * https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/add-labels-to-api-calls
        */
       labels: z.record(z.string(), z.string()).optional(),
 
       /**
-       * Optional. If specified, the media resolution specified will be used.
+       * 选修的。如果指定，将使用指定的媒体分辨率。
        *
        * https://ai.google.dev/api/generate-content#MediaResolution
        */
@@ -148,9 +148,9 @@ export const googleLanguageModelOptions = lazySchema(() =>
         .optional(),
 
       /**
-       * Optional. Configures the image generation aspect ratio for Gemini models.
+       * 选修的。配置 Gemini 模型的图像生成纵横比。
        *
-       * https://ai.google.dev/gemini-api/docs/image-generation#aspect_ratios
+       * https://ai.google.dev/gemini-api/docs/image- Generation#aspect_ratios
        */
       imageConfig: z
         .object({
@@ -177,8 +177,8 @@ export const googleLanguageModelOptions = lazySchema(() =>
         .optional(),
 
       /**
-       * Optional. Configuration for grounding retrieval.
-       * Used to provide location context for Google Maps and Google Search grounding.
+       * 选修的。接地恢复配置。
+       * 用于为 Google 地图和 Google 搜索接地提供位置上下文。
        *
        * https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/grounding-with-google-maps
        */
@@ -194,10 +194,10 @@ export const googleLanguageModelOptions = lazySchema(() =>
         .optional(),
 
       /**
-       * Optional. When set to true, function call arguments will be streamed
-       * incrementally via partialArgs in streaming responses. Only supported
-       * on the Vertex AI API (not the Gemini API) and only for Gemini 3+
-       * models.
+       * 选修的。当设置为 true 时，函数调用参数将被流式传输
+       * 通过流响应中的partialArgs 增量。仅支持
+       * 在 Vertex AI API（不是 Gemini API）上且仅适用于 Gemini 3+
+       * 模型。
        *
        * @default false
        *
@@ -206,7 +206,7 @@ export const googleLanguageModelOptions = lazySchema(() =>
       streamFunctionCallArguments: z.boolean().optional(),
 
       /**
-       * Optional. The service tier to use for the request.
+       * 选修的。用于请求的服务层。
        */
       serviceTier: z.enum(['standard', 'flex', 'priority']).optional(),
     }),
@@ -217,7 +217,7 @@ export type GoogleLanguageModelOptions = InferSchema<
   typeof googleLanguageModelOptions
 >;
 
-// Vertex API requires another service tier format.
+// Vertex API 需要另一种服务层格式。
 export const VertexServiceTierMap = {
   standard: 'SERVICE_TIER_STANDARD',
   flex: 'SERVICE_TIER_FLEX',

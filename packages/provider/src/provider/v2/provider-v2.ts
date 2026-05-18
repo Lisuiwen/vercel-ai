@@ -5,12 +5,12 @@ import type { SpeechModelV2 } from '../../speech-model/v2/speech-model-v2';
 import type { TranscriptionModelV2 } from '../../transcription-model/v2/transcription-model-v2';
 
 /**
- * Provider for language, text embedding, and image generation models.
+ * 语言、文本嵌入和图像生成模型的提供者。
  */
 export interface ProviderV2 {
   /**
-   * Returns the language model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的语言模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -21,8 +21,8 @@ export interface ProviderV2 {
   languageModel(modelId: string): LanguageModelV2;
 
   /**
-   * Returns the text embedding model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的文本嵌入模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -33,8 +33,8 @@ export interface ProviderV2 {
   textEmbeddingModel(modelId: string): EmbeddingModelV2<string>;
 
   /**
-   * Returns the image model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的图像模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -43,8 +43,8 @@ export interface ProviderV2 {
   imageModel(modelId: string): ImageModelV2;
 
   /**
-   * Returns the transcription model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的转录模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -53,8 +53,8 @@ export interface ProviderV2 {
   transcriptionModel?(modelId: string): TranscriptionModelV2;
 
   /**
-   * Returns the speech model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的语音模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *

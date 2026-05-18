@@ -4,8 +4,8 @@ import {
 } from '@ai-sdk/provider';
 import { asSchema, type FlexibleSchema } from './schema';
 /**
- * Validates the types of an unknown object using a schema and
- * return a strongly-typed object.
+ * 使用模式验证未知对象的类型并
+ * 返回一个强类型对象。
  *
  * @template T - The type of the object to validate.
  * @param {string} options.value - The object to validate.
@@ -32,8 +32,8 @@ export async function validateTypes<OBJECT>({
 }
 
 /**
- * Safely validates the types of an unknown object using a schema and
- * return a strongly-typed object.
+ * 使用模式安全地验证未知对象的类型并
+ * 返回一个强类型对象。
  *
  * @template T - The type of the object to validate.
  * @param {string} options.value - The JSON object to validate.

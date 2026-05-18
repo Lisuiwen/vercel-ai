@@ -27,7 +27,7 @@ export type StaticToolCall<TOOLS extends ToolSet> = ValueOf<{
 }>;
 
 /**
- * 其`toolName`仅在运行时才知道的工具调用，例如无效
+ * 其`toolName`只有在运行时才知道的工具调用，例如无效
  * 或其他无法与声明的工具集匹配的无类型调用。
  */
 export type DynamicToolCall = BaseToolCall & {
@@ -40,14 +40,14 @@ export type DynamicToolCall = BaseToolCall & {
    * 如果这是由无法解析的工具调用引起的，则为 true 或
    * 一个不存在的工具。
    */
-  // 添加到 DynamicToolCall 以避免重大更改。
-  // TODO AI SDK 6：分离成新的InvalidToolCall类型
+  // 添加到 DynamicToolCall 西雅图重大更改。
+  // TODO AI SDK 6：分离生成新的InvalidToolCall类型
   invalid?: boolean;
 
   /**
    * 导致工具调用无效的错误。
    */
-  // TODO AI SDK 6：分离成新的InvalidToolCall类型
+  // TODO AI SDK 6：分离生成新的InvalidToolCall类型
   error?: unknown;
 };
 

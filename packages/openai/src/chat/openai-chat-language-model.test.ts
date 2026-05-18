@@ -2759,7 +2759,7 @@ describe('doStream', () => {
           `"model":"meta/llama-3.1-8b-instruct:fp8","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,` +
           `"function":{"arguments":" ai\\"}"}}]},"logprobs":null,"finish_reason":null}],` +
           `"usage":{"prompt_tokens":226,"total_tokens":245,"completion_tokens":19}}\n\n`,
-        // empty arguments chunk after the tool call has already been finished:
+        // 工具调用完成后为空参数块：
         `data: {"id":"chat-2267f7e2910a4254bac0650ba74cfc1c","object":"chat.completion.chunk","created":1733162241,` +
           `"model":"meta/llama-3.1-8b-instruct:fp8","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,` +
           `"function":{"arguments":""}}]},"logprobs":null,"finish_reason":"tool_calls","stop_reason":128008}],` +
@@ -2887,8 +2887,8 @@ describe('doStream', () => {
   });
 
   it('should stream tool call with missing type field (Azure AI Foundry / Mistral)', async () => {
-    // Azure AI Foundry and Mistral omit the `type` field in streaming tool call deltas.
-    // The parser should accept null/undefined type as equivalent to "function".
+    // Azure AI Foundry 和 Mistral 省略了流工具调用增量中的“类型”字段。
+    // 解析器应该接受空/未定义类型作为等同于“函数”。
     server.urls['https://api.openai.com/v1/chat/completions'].response = {
       type: 'stream-chunks',
       chunks: [
@@ -3220,12 +3220,12 @@ describe('doStream', () => {
     });
 
     expect(response?.headers).toStrictEqual({
-      // default headers:
+      // 默认标头：
       'content-type': 'text/event-stream',
       'cache-control': 'no-cache',
       connection: 'keep-alive',
 
-      // custom header
+      // 自定义标头
       'test-header': 'test-value',
     });
   });

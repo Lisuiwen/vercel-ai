@@ -9,7 +9,7 @@ import type { LanguageModelV2ToolResult } from './language-model-v2-tool-result'
 import type { LanguageModelV2Usage } from './language-model-v2-usage';
 
 export type LanguageModelV2StreamPart =
-  // Text blocks:
+  // 文本块：
   | {
       type: 'text-start';
       providerMetadata?: SharedV2ProviderMetadata;
@@ -27,7 +27,7 @@ export type LanguageModelV2StreamPart =
       id: string;
     }
 
-  // Reasoning blocks:
+  // 推理块：
   | {
       type: 'reasoning-start';
       providerMetadata?: SharedV2ProviderMetadata;
@@ -45,7 +45,7 @@ export type LanguageModelV2StreamPart =
       providerMetadata?: SharedV2ProviderMetadata;
     }
 
-  // Tool calls and results:
+  // 工具调用和结果：
   | {
       type: 'tool-input-start';
       id: string;
@@ -67,21 +67,21 @@ export type LanguageModelV2StreamPart =
   | LanguageModelV2ToolCall
   | LanguageModelV2ToolResult
 
-  // Files and sources:
+  // 文件和来源：
   | LanguageModelV2File
   | LanguageModelV2Source
 
-  // stream start event with warnings for the call, e.g. unsupported settings:
+  // 带有调用警告的流启动事件，例如不支持的设置：
   | {
       type: 'stream-start';
       warnings: Array<LanguageModelV2CallWarning>;
     }
 
-  // metadata for the response.
-  // separate stream part so it can be sent once it is available.
+  // 响应的元数据。
+  // 单独的流部分，以便一旦可用就可以发送。
   | ({ type: 'response-metadata' } & LanguageModelV2ResponseMetadata)
 
-  // metadata that is available after the stream is finished:
+  // 流结束后可用的元数据：
   | {
       type: 'finish';
       usage: LanguageModelV2Usage;
@@ -89,13 +89,13 @@ export type LanguageModelV2StreamPart =
       providerMetadata?: SharedV2ProviderMetadata;
     }
 
-  // raw chunks if enabled
+  // 原始块（如果启用）
   | {
       type: 'raw';
       rawValue: unknown;
     }
 
-  // error parts are streamed, allowing for multiple errors
+  // 错误部分是流式传输的，允许出现多个错误
   | {
       type: 'error';
       error: unknown;

@@ -1,35 +1,35 @@
 /**
- * Typed tool result that is returned by `generateText` and `streamText`.
- * It contains the tool call ID, the tool name, the tool arguments, and the tool result.
+ * 由“generateText”和“streamText”返回的类型化工具结果。
+ * 它包含工具调用 ID、工具名称、工具参数和工具结果。
  */
 export interface ToolResult<NAME extends string, INPUT, OUTPUT> {
   /**
-   * ID of the tool call. This ID is used to match the tool call with the tool result.
+   * 工具调用的 ID。该 ID 用于将工具调用与工具结果进行匹配。
    */
   toolCallId: string;
 
   /**
-   * Name of the tool that was called.
+   * 调用的工具的名称。
    */
   toolName: NAME;
 
   /**
-   * Arguments of the tool call. This is a JSON-serializable object that matches the tool's input schema.
+   * 工具调用的参数。这是一个与工具的输入架构匹配的 JSON 可序列化对象。
    */
   input: INPUT;
 
   /**
-   * Result of the tool call. This is the result of the tool's execution.
+   * 工具调用的结果。这是该工具的执行结果。
    */
   output: OUTPUT;
 
   /**
-   * Whether the tool result has been executed by the provider.
+   * 工具结果是否已被提供者执行。
    */
   providerExecuted?: boolean;
 
   /**
-   * Whether the tool is dynamic.
+   * 该工具是否是动态的。
    */
   dynamic?: boolean;
 }

@@ -89,8 +89,8 @@ describe('paths', () => {
       subcategories: Category[];
     };
 
-    // cast to z.ZodSchema<Category>
-    // @ts-ignore
+    // 转换为 z.ZodSchema<Category>
+    // @ts-忽略
     const categorySchema: z.ZodSchema<Category> = z.lazy(() =>
       z.object({
         name: z.string(),
@@ -127,8 +127,8 @@ describe('paths', () => {
       };
     };
 
-    // cast to z.ZodSchema<Category>
-    // @ts-ignore
+    // 转换为 z.ZodSchema<Category>
+    // @ts-忽略
     const categorySchema: z.ZodSchema<Category> = z.lazy(() =>
       z.object({
         name: z.string(),
@@ -307,8 +307,8 @@ describe('paths', () => {
       subcategories: Category[];
     };
 
-    // cast to z.ZodSchema<Category>
-    // @ts-ignore
+    // 转换为 z.ZodSchema<Category>
+    // @ts-忽略
     const categorySchema: z.ZodSchema<Category> = z.lazy(() =>
       z.object({
         name: z.string(),

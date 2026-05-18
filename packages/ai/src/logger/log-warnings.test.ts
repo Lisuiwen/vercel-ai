@@ -7,7 +7,7 @@ import {
   resetLogWarningsState,
 } from './log-warnings';
 
-// 模拟 console.warn 和 console.info
+// 模拟console.warn和console.info
 const mockConsoleWarn = vi.fn();
 const mockConsoleInfo = vi.fn();
 vi.stubGlobal('console', { warn: mockConsoleWarn, info: mockConsoleInfo });

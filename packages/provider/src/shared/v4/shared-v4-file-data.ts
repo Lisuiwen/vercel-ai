@@ -1,8 +1,8 @@
 import type { SharedV4ProviderReference } from './shared-v4-provider-reference';
 
 /**
- * File data variant containing raw bytes (`Uint8Array`) or a base64-encoded
- * string.
+ * 包含原始字节（“Uint8Array”）或 Base64 编码的文件数据变体
+ * 字符串。
  */
 export interface SharedV4FileDataData {
   type: 'data';
@@ -10,7 +10,7 @@ export interface SharedV4FileDataData {
 }
 
 /**
- * File data variant containing a URL that points to the file.
+ * 包含指向该文件的 URL 的文件数据变体。
  */
 export interface SharedV4FileDataUrl {
   type: 'url';
@@ -18,7 +18,7 @@ export interface SharedV4FileDataUrl {
 }
 
 /**
- * File data variant containing a provider reference (`{ [provider]: id }`).
+ * 包含提供程序引用的文件数据变体 (`{ [provider]: id }`)。
  */
 export interface SharedV4FileDataReference {
   type: 'reference';
@@ -26,8 +26,8 @@ export interface SharedV4FileDataReference {
 }
 
 /**
- * File data variant containing inline text content (e.g. an inline text
- * document).
+ * 包含内联文本内容的文件数据变体（例如内联文本
+ * 文件）。
  */
 export interface SharedV4FileDataText {
   type: 'text';
@@ -35,12 +35,12 @@ export interface SharedV4FileDataText {
 }
 
 /**
- * File data as a tagged discriminated union:
+ * 将数据文件作为标记的可区分联合：
  *
- * - `{ type: 'data', data }`: raw bytes (`Uint8Array`) or base64-encoded string.
- * - `{ type: 'url', url }`: a URL that points to the file.
- * - `{ type: 'reference', reference }`: a provider reference (`{ [provider]: id }`).
- * - `{ type: 'text', text }`: inline text content (e.g. an inline text document).
+ * - `{ type: 'data', data }`：原始字节 (`Uint8Array`) 或 base64 编码的字符串。
+ * - `{ type: 'url', url }`：指向文件的 URL。
+ * - `{ type: 'reference', reference }`：提供者引用 (`{ [provider]: id }`)。
+ * - `{ type: 'text', text }`：内联文本内容（例如内联文本文档）。
  */
 export type SharedV4FileData =
   | SharedV4FileDataData

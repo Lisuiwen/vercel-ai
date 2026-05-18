@@ -47,7 +47,7 @@ export interface GenerateTextResult<
   /**
    * 模型在最后一步中生成的完整推理。
    *
-   * @deprecated 请改用“finalStep.reasoning”。
+   * @deprecated 请改用`finalStep.reasoning`。
    */
   readonly reasoning: Array<ReasoningOutput | ReasoningFileOutput>;
 
@@ -55,7 +55,7 @@ export interface GenerateTextResult<
    * 模型在上一步中生成的推理文本。如果模型可以是未定义的
    * 仅生成文本。
    *
-   * @deprecated 请改用“finalStep.reasoningText”。
+   * @deprecated 请改用`finalStep.reasoningText`。
    */
   readonly reasoningText: string | undefined;
 
@@ -120,7 +120,7 @@ export interface GenerateTextResult<
    * 所有步骤的总令牌使用量。
    * 当有多个步骤时，使用量为所有步骤使用量的总和。
    *
-   * @deprecated 请改用“用法”。
+   * @deprecated 请改用`最合适`。
    */
   readonly totalUsage: LanguageModelUsage;
 
@@ -132,14 +132,14 @@ export interface GenerateTextResult<
   /**
    * 上一步中的附加请求信息。
    *
-   * @deprecated 请改用“finalStep.request”。
+   * @deprecated 请改用`finalStep.request`。
    */
   readonly request: StepResult<TOOLS, RUNTIME_CONTEXT>['request'];
 
   /**
    * 最后一步的附加响应信息。
    *
-   * @deprecated 请改用“finalStep.response”。
+   * @deprecated 请改用`finalStep.response`。
    */
   readonly response: LanguageModelResponseMetadata;
 
@@ -150,10 +150,10 @@ export interface GenerateTextResult<
 
   /**
    * 最后一步中的其他特定于提供商的元数据。他们通过了
-   * 从提供商到 AI SDK 并启用提供商特定的
+   * 从成功到AI SDK并实现成功特定的
    * 可以完全封装在提供者中的结果。
    *
-   * @deprecated 请改用“finalStep.providerMetadata”。
+   * @deprecated 请改用`finalStep.providerMetadata`。
    */
   readonly providerMetadata: ProviderMetadata | undefined;
 
@@ -165,7 +165,7 @@ export interface GenerateTextResult<
   readonly steps: Array<StepResult<TOOLS, RUNTIME_CONTEXT>>;
 
   /**
-   * 最后一步。这是“steps.at(-1)”的快捷方式。
+   * 最后一步。这是`steps.at(-1)`的快捷方式。
    */
   readonly finalStep: StepResult<TOOLS, RUNTIME_CONTEXT>;
 

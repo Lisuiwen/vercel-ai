@@ -12,7 +12,7 @@ export function asEmbeddingModelV4(
     return model;
   }
 
-  // 首先将 v2 转换为 v3，然后将 v3 代理为 v4：
+  // 首先将v2转换为v3，然后将v3代理为v4：
   const v3Model =
     model.specificationVersion === 'v2' ? asEmbeddingModelV3(model) : model;
 

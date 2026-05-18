@@ -49,7 +49,7 @@ const webSearch_20250305InputSchema = lazySchema(() =>
 const factory = createProviderExecutedToolFactory<
   {
     /**
-     * The search query to execute.
+     * 要执行的搜索查询。
      */
     query: string;
   },
@@ -57,67 +57,67 @@ const factory = createProviderExecutedToolFactory<
     type: 'web_search_result';
 
     /**
-     * The URL of the source page.
+     * 源页面的 URL。
      */
     url: string;
 
     /**
-     * The title of the source page.
+     * 源页面的标题。
      */
     title: string | null;
 
     /**
-     * When the site was last updated
+     * 网站上次更新时间
      */
     pageAge: string | null;
 
     /**
-     * Encrypted content that must be passed back in multi-turn conversations for citations
+     * 必须在多轮对话中传回以供引用的加密内容
      */
     encryptedContent: string;
   }>,
   {
     /**
-     * Maximum number of web searches Claude can perform during the conversation.
+     * 对话期间克劳德可以执行的网络搜索的最大数量。
      */
     maxUses?: number;
 
     /**
-     * Optional list of domains that Claude is allowed to search.
+     * 允许 Claude 搜索的可选域列表。
      */
     allowedDomains?: string[];
 
     /**
-     * Optional list of domains that Claude should avoid when searching.
+     * 克劳德在搜索时应避免的可选域列表。
      */
     blockedDomains?: string[];
 
     /**
-     * Optional user location information to provide geographically relevant search results.
+     * 可选的用户位置信息以提供地理相关的搜索结果。
      */
     userLocation?: {
       /**
-       * The type of location (must be approximate)
+       * 位置类型（必须是近似值）
        */
       type: 'approximate';
 
       /**
-       * The city name
+       * 城市名称
        */
       city?: string;
 
       /**
-       * The region or state
+       * 地区或州
        */
       region?: string;
 
       /**
-       * The country
+       * 国家
        */
       country?: string;
 
       /**
-       * The IANA timezone ID.
+       * IANA 时区 ID。
        */
       timezone?: string;
     };
@@ -130,7 +130,7 @@ const factory = createProviderExecutedToolFactory<
 });
 
 export const webSearch_20250305 = (
-  args: Parameters<typeof factory>[0] = {}, // default
+  args: Parameters<typeof factory>[0] = {}, // 默认
 ) => {
   return factory(args);
 };

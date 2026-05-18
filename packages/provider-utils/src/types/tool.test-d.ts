@@ -51,7 +51,7 @@ describe('DynamicTool', () => {
     const _toolWithProviderId: DynamicTool<{ location: string }, never> = {
       type: 'dynamic',
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error dynamic tools cannot have provider ids
+      // @ts-expect-error 动态工具不能有提供者 ID
       id: 'test.tool',
     };
 
@@ -61,21 +61,21 @@ describe('DynamicTool', () => {
     > = {
       type: 'dynamic',
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error dynamic tools cannot be provider executed
+      // @ts-expect-error 动态工具无法由提供者执行
       isProviderExecuted: true,
     };
 
     const _toolWithProviderArgs: DynamicTool<{ location: string }, never> = {
       type: 'dynamic',
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error dynamic tools cannot have provider args
+      // @ts-expect-error 动态工具不能有提供者参数
       args: {},
     };
 
     const _toolWithDeferredResults: DynamicTool<{ location: string }, never> = {
       type: 'dynamic',
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error dynamic tools cannot support deferred provider results
+      // @ts-expect-error 动态工具无法支持延迟的提供程序结果
       supportsDeferredResults: true,
     };
   });
@@ -156,7 +156,7 @@ describe('ProviderDefinedTool', () => {
       isProviderExecuted: false,
       args: {},
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error provider tools cannot have function descriptions
+      // @ts-expect-error 提供程序工具不能有功能描述
       description: 'Get weather',
     };
 
@@ -166,7 +166,7 @@ describe('ProviderDefinedTool', () => {
       isProviderExecuted: false,
       args: {},
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error provider tools cannot have strict mode
+      // @ts-expect-error 提供程序工具不能有严格模式
       strict: true,
     };
 
@@ -179,14 +179,14 @@ describe('ProviderDefinedTool', () => {
       isProviderExecuted: false,
       args: {},
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error provider tools cannot have input examples
+      // @ts-expect-error 提供程序工具不能有输入示例
       inputExamples: [{ input: { location: 'San Francisco' } }],
     };
 
     const _toolWithInvalidId: ProviderDefinedTool<{ location: string }, never> =
       {
         type: 'provider',
-        // @ts-expect-error provider tool ids must follow provider.tool format
+        // @ts-expect-error 提供程序工具 ID 必须遵循provider.tool 格式
         id: 'tool',
         isProviderExecuted: false,
         args: {},
@@ -199,7 +199,7 @@ describe('ProviderDefinedTool', () => {
     > = {
       type: 'provider',
       id: 'test.tool',
-      // @ts-expect-error provider-defined tools are not provider executed
+      // @ts-expect-error 提供商定义的工具未由提供商执行
       isProviderExecuted: true,
       args: {},
       inputSchema: z.object({ location: z.string() }),
@@ -214,13 +214,13 @@ describe('ProviderDefinedTool', () => {
       isProviderExecuted: false,
       args: {},
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error only provider-executed tools can support deferred results
+      // @ts-expect-error 只有提供者执行的工具才能支持延迟结果
       supportsDeferredResults: true,
     };
   });
 
   it('should require an output schema when there is no execute function', () => {
-    // @ts-expect-error tools with a concrete output need outputSchema or execute
+    // 具有具体输出的@ts-expect-error工具需要outputSchema或execute
     const _tool: ProviderDefinedTool<{ location: string }, string, Context> = {
       type: 'provider',
       id: 'test.tool',
@@ -279,7 +279,7 @@ describe('ProviderExecutedTool', () => {
       isProviderExecuted: true,
       args: {},
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error provider tools cannot have function descriptions
+      // @ts-expect-error 提供程序工具不能有功能描述
       description: 'Get weather',
     };
 
@@ -289,7 +289,7 @@ describe('ProviderExecutedTool', () => {
       isProviderExecuted: true,
       args: {},
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error provider tools cannot have strict mode
+      // @ts-expect-error 提供程序工具不能有严格模式
       strict: true,
     };
 
@@ -302,7 +302,7 @@ describe('ProviderExecutedTool', () => {
       isProviderExecuted: true,
       args: {},
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error provider tools cannot have input examples
+      // @ts-expect-error 提供程序工具不能有输入示例
       inputExamples: [{ input: { location: 'San Francisco' } }],
     };
 
@@ -311,7 +311,7 @@ describe('ProviderExecutedTool', () => {
       never
     > = {
       type: 'provider',
-      // @ts-expect-error provider tool ids must follow provider.tool format
+      // @ts-expect-error 提供程序工具 ID 必须遵循provider.tool 格式
       id: 'tool',
       isProviderExecuted: true,
       args: {},
@@ -324,7 +324,7 @@ describe('ProviderExecutedTool', () => {
     > = {
       type: 'provider',
       id: 'test.tool',
-      // @ts-expect-error provider-executed tools must be provider executed
+      // @ts-expect-error 提供商执行的工具必须由提供商执行
       isProviderExecuted: false,
       args: {},
       inputSchema: z.object({ location: z.string() }),
@@ -332,7 +332,7 @@ describe('ProviderExecutedTool', () => {
   });
 
   it('should require an output schema when there is no execute function', () => {
-    // @ts-expect-error tools with a concrete output need outputSchema or execute
+    // 具有具体输出的@ts-expect-error工具需要outputSchema或execute
     const _tool: ProviderExecutedTool<{ location: string }, string, Context> = {
       type: 'provider',
       id: 'test.tool',
@@ -378,39 +378,39 @@ describe('FunctionTool', () => {
 
   it('should reject dynamic and provider-only properties', () => {
     const _toolWithDynamicType: FunctionTool<{ location: string }, never> = {
-      // @ts-expect-error function tools cannot use the dynamic discriminator
+      // @ts-expect-error函数工具不能使用动态鉴别器
       type: 'dynamic',
       inputSchema: z.object({ location: z.string() }),
     };
 
     const _toolWithProviderType: FunctionTool<{ location: string }, never> = {
-      // @ts-expect-error function tools cannot use the provider discriminator
+      // @ts-expect-error 函数工具无法使用提供者鉴别器
       type: 'provider',
       inputSchema: z.object({ location: z.string() }),
     };
 
     const _toolWithProviderId: FunctionTool<{ location: string }, never> = {
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error function tools cannot have provider ids
+      // @ts-expect-error 函数工具不能有提供者 ID
       id: 'test.tool',
     };
 
     const _toolWithProviderArgs: FunctionTool<{ location: string }, never> = {
       inputSchema: z.object({ location: z.string() }),
-      // @ts-expect-error function tools cannot have provider args
+      // @ts-expect-error 函数工具不能有提供者参数
       args: {},
     };
 
     const _toolWithDeferredResults: FunctionTool<{ location: string }, never> =
       {
         inputSchema: z.object({ location: z.string() }),
-        // @ts-expect-error function tools cannot support deferred provider results
+        // @ts-expect-error 函数工具无法支持延迟的提供程序结果
         supportsDeferredResults: true,
       };
   });
 
   it('should require an output schema when there is no execute function', () => {
-    // @ts-expect-error tools with a concrete output need outputSchema or execute
+    // 具有具体输出的@ts-expect-error工具需要outputSchema或execute
     const _tool: FunctionTool<{ location: string }, string, Context> = {
       inputSchema: z.object({ location: z.string() }),
     };

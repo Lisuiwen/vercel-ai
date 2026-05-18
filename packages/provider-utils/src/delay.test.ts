@@ -14,7 +14,7 @@ describe('delay', () => {
     it('should resolve after the specified delay', async () => {
       const delayPromise = delay(1000);
 
-      // Promise should not be resolved immediately
+      // 承诺不应立即解决
       let resolved = false;
       delayPromise.then(() => {
         resolved = true;
@@ -22,15 +22,15 @@ describe('delay', () => {
 
       expect(resolved).toBe(false);
 
-      // Advance timers by less than the delay
+      // 将计时器提前小于延迟
       await vi.advanceTimersByTimeAsync(500);
       expect(resolved).toBe(false);
 
-      // Advance timers to complete the delay
+      // 提前计时器完成延迟
       await vi.advanceTimersByTimeAsync(500);
       expect(resolved).toBe(true);
 
-      // Verify the promise resolves
+      // 验证承诺是否解决
       await expect(delayPromise).resolves.toBeUndefined();
     });
 
@@ -47,7 +47,7 @@ describe('delay', () => {
     it('should resolve immediately when delayInMs is 0', async () => {
       const delayPromise = delay(0);
 
-      // Even with 0 delay, setTimeout is used, so we need to advance timers
+      // 即使延迟为0，也会使用setTimeout，因此我们需要提前计时器
       await vi.advanceTimersByTimeAsync(0);
       await expect(delayPromise).resolves.toBeUndefined();
     });
@@ -61,17 +61,17 @@ describe('delay', () => {
       const delayPromise = delay(1000, { abortSignal: controller.signal });
 
       await expect(delayPromise).rejects.toThrow('Delay was aborted');
-      expect(vi.getTimerCount()).toBe(0); // No timer should be set
+      expect(vi.getTimerCount()).toBe(0); // 不应设置计时器
     });
 
     it('should reject when signal is aborted during delay', async () => {
       const controller = new AbortController();
       const delayPromise = delay(1000, { abortSignal: controller.signal });
 
-      // Advance time partially
+      // 部分提前时间
       await vi.advanceTimersByTimeAsync(500);
 
-      // Abort the signal
+      // 中止信号
       controller.abort();
 
       await expect(delayPromise).rejects.toThrow('Delay was aborted');
@@ -88,7 +88,7 @@ describe('delay', () => {
       try {
         await delayPromise;
       } catch {
-        // Expected to throw
+        // 预计会抛出
       }
 
       expect(vi.getTimerCount()).toBe(0);
@@ -159,7 +159,7 @@ describe('delay', () => {
 
       expect(resolved).toBe(false);
 
-      // Fast forward to complete
+      // 快进完成
       await vi.advanceTimersByTimeAsync(1000);
       await expect(delayPromise).resolves.toBeUndefined();
     });
@@ -190,19 +190,19 @@ describe('delay', () => {
         resolved3 = true;
       });
 
-      // After 100ms, only first should resolve
+      // 100ms后，只有第一个应该解决
       await vi.advanceTimersByTimeAsync(100);
       expect(resolved1).toBe(true);
       expect(resolved2).toBe(false);
       expect(resolved3).toBe(false);
 
-      // After 200ms, first two should resolve
+      // 200 毫秒后，前两个应该解决
       await vi.advanceTimersByTimeAsync(100);
       expect(resolved1).toBe(true);
       expect(resolved2).toBe(true);
       expect(resolved3).toBe(false);
 
-      // After 300ms, all should resolve
+      // 300 毫秒后，一切都应该解决
       await vi.advanceTimersByTimeAsync(100);
       expect(resolved1).toBe(true);
       expect(resolved2).toBe(true);

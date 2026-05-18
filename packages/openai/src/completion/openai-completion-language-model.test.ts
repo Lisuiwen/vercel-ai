@@ -705,12 +705,12 @@ describe('doStream', () => {
     });
 
     expect(response?.headers).toStrictEqual({
-      // default headers:
+      // 默认标头：
       'content-type': 'text/event-stream',
       'cache-control': 'no-cache',
       connection: 'keep-alive',
 
-      // custom header
+      // 自定义标头
       'test-header': 'test-value',
     });
   });

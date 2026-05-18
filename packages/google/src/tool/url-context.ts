@@ -7,7 +7,7 @@ import { z } from 'zod/v4';
 
 export const urlContext = createProviderExecutedToolFactory<
   {
-    // Url context does not have any input schema, it will directly use the url from the prompt
+    // url context 没有任何输入模式，它将直接使用提示中的 url
   },
   {},
   {}

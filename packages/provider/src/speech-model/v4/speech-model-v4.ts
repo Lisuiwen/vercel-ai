@@ -2,20 +2,20 @@ import type { SpeechModelV4CallOptions } from './speech-model-v4-call-options';
 import type { SpeechModelV4Result } from './speech-model-v4-result';
 
 /**
- * Speech model specification version 3.
+ * 语音模型规范第 3 版。
  */
 export type SpeechModelV4 = {
   /**
-   * The speech model must specify which speech model interface
-   * version it implements. This will allow us to evolve the speech
-   * model interface and retain backwards compatibility. The different
-   * implementation versions can be handled as a discriminated union
-   * on our side.
+   * 语音模型必须指定哪个语音模型接口
+   * 它实现的版本。这将使我们能够改进演讲
+   * 模型接口并保留向后兼容性。不同的
+   * 实现版本可以作为有区别的联合来处理
+   * 在我们这边。
    */
   readonly specificationVersion: 'v4';
 
   /**
-   * Name of the provider for logging purposes.
+   * 用于记录目的的提供商名称。
    */
   readonly provider: string;
 
@@ -25,7 +25,7 @@ export type SpeechModelV4 = {
   readonly modelId: string;
 
   /**
-   * Generates speech audio from text.
+   * 从文本生成语音音频。
    */
   doGenerate(
     options: SpeechModelV4CallOptions,

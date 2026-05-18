@@ -6,7 +6,7 @@ export default defineConfig([
     format: ['esm'],
     dts: true,
     sourcemap: true,
-    // Keep library target conservative for wide compatibility
+    // 保持库目标保守以获得广泛的兼容性
     target: 'es2018',
     platform: 'node',
     define: {
@@ -22,7 +22,7 @@ export default defineConfig([
     format: ['esm'],
     dts: true,
     sourcemap: true,
-    // Chai uses BigInt literals; ensure the target supports it and avoid bundling chai
+    // Chai 使用 BigInt 文字；确保目标支持它并避免捆绑柴
     target: 'es2020',
     platform: 'node',
     external: [

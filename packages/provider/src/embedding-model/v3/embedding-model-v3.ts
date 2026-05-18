@@ -2,23 +2,23 @@ import type { EmbeddingModelV3CallOptions } from './embedding-model-v3-call-opti
 import type { EmbeddingModelV3Result } from './embedding-model-v3-result';
 
 /**
- * Specification for an embedding model that implements the embedding model
- * interface version 3.
+ * 实现嵌入模型的嵌入模型规范
+ * 接口版本3.
  *
- * It is specific to text embeddings.
+ * 它特定于文本嵌入。
  */
 export type EmbeddingModelV3 = {
   /**
-   * The embedding model must specify which embedding model interface
-   * version it implements. This will allow us to evolve the embedding
-   * model interface and retain backwards compatibility. The different
-   * implementation versions can be handled as a discriminated union
-   * on our side.
+   * 嵌入模型必须指定哪个嵌入模型接口
+   * 它实现的版本。这将使我们能够发展嵌入
+   * 模型接口并保留向后兼容性。不同的
+   * 实现版本可以作为有区别的联合来处理
+   * 在我们这边。
    */
   readonly specificationVersion: 'v3';
 
   /**
-   * Name of the provider for logging purposes.
+   * 用于记录目的的提供商名称。
    */
   readonly provider: string;
 
@@ -28,9 +28,9 @@ export type EmbeddingModelV3 = {
   readonly modelId: string;
 
   /**
-   * Limit of how many embeddings can be generated in a single API call.
+   * 单个 API 调用中可以生成的嵌入数量的限制。
    *
-   * Use Infinity for models that do not have a limit.
+   * 对于没有限制的模型使用 Infinity。
    */
   readonly maxEmbeddingsPerCall:
     | PromiseLike<number | undefined>
@@ -38,15 +38,15 @@ export type EmbeddingModelV3 = {
     | undefined;
 
   /**
-   * True if the model can handle multiple embedding calls in parallel.
+   * 如果模型可以并行处理多个嵌入调用，则为 true。
    */
   readonly supportsParallelCalls: PromiseLike<boolean> | boolean;
 
   /**
-   * Generates a list of embeddings for the given input text.
+   * 生成给定输入文本的嵌入列表。
    *
-   * Naming: "do" prefix to prevent accidental direct usage of the method
-   * by the user.
+   * 命名：“do”前缀，防止意外直接使用该方法
+   * 由用户。
    */
   doEmbed(
     options: EmbeddingModelV3CallOptions,

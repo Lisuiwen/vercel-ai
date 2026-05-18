@@ -4,21 +4,21 @@ import type {
 } from '@ai-sdk/provider';
 import type { AnthropicCacheControl } from './anthropic-api';
 
-// Anthropic allows a maximum of 4 cache breakpoints per request
+// Anthropic 允许每个请求最多 4 个缓存断点
 const MAX_CACHE_BREAKPOINTS = 4;
 
-// Helper function to extract cache_control from provider metadata
-// Allows both cacheControl and cache_control for flexibility
+// 从提供者元数据中提取cache_control的辅助函数
+// 允许同时使用cacheControl和cache_control以实现灵活性
 function getCacheControl(
   providerMetadata: SharedV4ProviderMetadata | undefined,
 ): AnthropicCacheControl | undefined {
   const anthropic = providerMetadata?.anthropic;
 
-  // allow both cacheControl and cache_control:
+  // 允许cacheControl 和cache_control：
   const cacheControlValue = anthropic?.cacheControl ?? anthropic?.cache_control;
 
-  // Pass through value assuming it is of the correct type.
-  // The Anthropic API will validate the value.
+  // 假设值的类型正确，则传递该值。
+  // Anthropic API 将验证该值。
   return cacheControlValue as AnthropicCacheControl | undefined;
 }
 
@@ -36,7 +36,7 @@ export class CacheControlValidator {
       return undefined;
     }
 
-    // Validate that cache_control is allowed in this context
+    // 验证在此上下文中是否允许使用cache_control
     if (!context.canCache) {
       this.warnings.push({
         type: 'unsupported',
@@ -46,7 +46,7 @@ export class CacheControlValidator {
       return undefined;
     }
 
-    // Validate cache breakpoint limit
+    // 验证缓存断点限制
     this.breakpointCount++;
     if (this.breakpointCount > MAX_CACHE_BREAKPOINTS) {
       this.warnings.push({

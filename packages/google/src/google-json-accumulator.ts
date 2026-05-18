@@ -16,33 +16,33 @@ type StackEntry = {
 };
 
 /**
- * Incrementally builds a JSON object from Google's streaming `partialArgs`
- * chunks emitted during tool-call function calling. Tracks both the structured
- * object and a running JSON text representation so callers can emit text deltas
- * that, when concatenated, form valid nested JSON matching JSON.stringify output.
+ * 从 Google 的流“partialArgs”增量构建 JSON 对象
+ * 在工具调用函数调用期间发出的块。跟踪结构化
+ * 对象和运行的 JSON 文本表示形式，以便调用者可以发出文本增量
+ * 连接时，形成有效的嵌套 JSON 匹配 JSON.stringify 输出。
  *
- * Input: [{jsonPath:"$.location",stringValue:"Boston"}]
- * Output: '{"location":"Boston"', then finalize() → closingDelta='}'
+ * 输入：[{jsonPath:"$.location",stringValue:"波士顿"}]
+ * 输出：'{"location":"Boston"'，然后 Finalize() → openingDelta='}'
  */
 export class GoogleJSONAccumulator {
   private accumulatedArgs: Record<string, unknown> = {};
   private jsonText = '';
 
   /**
-   * Stack representing the currently "open" containers in the JSON output.
-   * Entry 0 is always the root `{` object once the first value is written.
+   * 表示 JSON 输出中当前“打开”容器的堆栈。
+   * 一旦写入第一个值，条目 0 始终是根“{”对象。
    */
   private pathStack: StackEntry[] = [];
 
   /**
-   * Whether a string value is currently "open" (willContinue was true),
-   * meaning the closing quote has not yet been emitted.
+   * 字符串值当前是否“打开”（willContinue 为 true），
+   * 这意味着收盘价尚未发出。
    */
   private stringOpen = false;
 
   /**
-   * Input: [{jsonPath:"$.brightness",numberValue:50}]
-   * Output: { currentJSON:{brightness:50}, textDelta:'{"brightness":50' }
+   * 输入：[{jsonPath:"$.brightness",numberValue:50}]
+   * 输出：{ currentJSON:{brightness:50}, textDelta:'{"brightness":50' }
    */
   processPartialArgs(partialArgs: PartialArg[]): {
     currentJSON: Record<string, unknown>;
@@ -87,8 +87,8 @@ export class GoogleJSONAccumulator {
   }
 
   /**
-   * Input: jsonText='{"brightness":50', accumulatedArgs={brightness:50}
-   * Output: { finalJSON:'{"brightness":50}', closingDelta:'}' }
+   * 输入：jsonText='{"亮度":50',accumulatedArgs={亮度:50}
+   * 输出: { FinalJSON:'{"brightness":50}', openingDelta:'}' }
    */
   finalize(): { finalJSON: string; closingDelta: string } {
     const finalArgs = JSON.stringify(this.accumulatedArgs);
@@ -97,8 +97,8 @@ export class GoogleJSONAccumulator {
   }
 
   /**
-   * Input: pathStack=[] (first call) or pathStack=[root,...] (subsequent calls)
-   * Output: '{' (first call) or '' (subsequent calls)
+   * 输入：pathStack=[]（第一次调用）或pathStack=[root,...]（后续调用）
+   * 输出：'{'（第一次调用）或''（后续调用）
    */
   private ensureRoot(): string {
     if (this.pathStack.length === 0) {
@@ -109,11 +109,11 @@ export class GoogleJSONAccumulator {
   }
 
   /**
-   * Emits the JSON text fragment needed to navigate from the current open
-   * path to the new leaf at `targetSegments`, then writes the value.
+   * 发出从当前打开位置导航所需的 JSON 文本片段
+   * `targetSegments` 处新叶子的路径，然后写入值。
    *
-   * Input: targetSegments=["recipe","name"], arg={jsonPath:"$.recipe.name",stringValue:"Lasagna"}, valueJson='"Lasagna"'
-   * Output: '{"recipe":{"name":"Lasagna"'
+   * 输入：targetSegments=["recipe","name"], arg={jsonPath:"$.recipe.name",stringValue:"Lasagna"}, valueJson='"Lasagna"'
+   * 输出：'{“食谱”：{“名称”：“烤宽面条”'
    */
   private emitNavigationTo(
     targetSegments: PathSegment[],
@@ -142,11 +142,11 @@ export class GoogleJSONAccumulator {
   }
 
   /**
-   * Returns the stack depth to preserve when navigating to a new target
-   * container path. Always >= 1 (the root is never popped).
+   * 返回导航到新目标时要保留的堆栈深度
+   * 容器路径。始终 >= 1（根永远不会弹出）。
    *
-   * Input: stack=[root,"recipe","ingredients",0], target=["recipe","ingredients",1]
-   * Output: 3 (keep root+"recipe"+"ingredients")
+   * 输入：stack=[root,"菜谱","原料",0], target=["菜谱","原料",1]
+   * 输出：3（保留根+“配方”+“原料”）
    */
   private findCommonStackDepth(targetContainer: PathSegment[]): number {
     const maxDepth = Math.min(
@@ -165,10 +165,10 @@ export class GoogleJSONAccumulator {
   }
 
   /**
-   * Closes containers from the current stack depth back down to `targetDepth`.
+   * 关闭从当前堆栈深度回到“targetDepth”的容器。
    *
-   * Input: this.pathStack=[root,"recipe","ingredients",0], targetDepth=3
-   * Output: '}'
+   * 输入：this.pathStack=[root,"菜谱","配料",0], targetDepth=3
+   * 输出：'}'
    */
   private closeDownTo(targetDepth: number): string {
     let fragment = '';
@@ -180,11 +180,11 @@ export class GoogleJSONAccumulator {
   }
 
   /**
-   * Opens containers from the current stack depth down to the full target
-   * container path, emitting opening `{`, `[`, keys, and commas as needed.
-   * `leafSegment` is used to determine if the innermost container is an array.
+   * 打开从当前堆栈深度到完整目标的容器
+   * 容器路径，根据需要发出开头“{”、“[”、键和逗号。
+   * `leafSegment` 用于判断最里面的容器是否是数组。
    *
-   * Input: this.pathStack=[root], targetContainer=["recipe","ingredients"], leafSegment=0
+   * 输入：this.pathStack=[root], targetContainer=["recipe","ingredients"], leafSegment=0
    * Output: '"recipe":{"ingredients":['
    */
   private openDownTo(
@@ -221,10 +221,10 @@ export class GoogleJSONAccumulator {
   }
 
   /**
-   * Emits the comma, key, and value for a leaf entry in the current container.
+   * 发出当前容器中叶条目的逗号、键和值。
    *
-   * Input: leafSegment="name", arg={stringValue:"Lasagna"}, valueJson='"Lasagna"'
-   * Output: '"name":"Lasagna"' (or ',"name":"Lasagna"' if container.childCount > 0)
+   * 输入：leafSegment =“name”，arg = {stringValue：“烤宽面条”}，valueJson ='“烤宽面条”'
+   * 输出：'“name”：“Lasagna”'（或'，“name”：“Lasagna”'如果container.childCount> 0）
    */
   private emitLeaf(
     leafSegment: PathSegment,
@@ -255,10 +255,10 @@ export class GoogleJSONAccumulator {
 }
 
 /**
- * Splits a dotted/bracketed JSON path like `recipe.ingredients[0].name` into segments.
+ * 将点/括号内的 JSON 路径（如“recipe.ingredients[0].name”）拆分为段。
  *
- * Input: "recipe.ingredients[0].name"
- * Output: ["recipe", "ingredients", 0, "name"]
+ * 输入：“recipe.ingredients[0].name”
+ * 输出：[“食谱”，“成分”，0，“名称”]
  */
 function parsePath(rawPath: string): Array<string | number> {
   const segments: Array<string | number> = [];
@@ -277,10 +277,10 @@ function parsePath(rawPath: string): Array<string | number> {
 }
 
 /**
- * Traverses a nested object along the given path segments and returns the leaf value.
+ * 沿着给定的路径段遍历嵌套对象并返回叶子值。
  *
- * Input: ({recipe:{name:"Lasagna"}}, ["recipe","name"])
- * Output: "Lasagna"
+ * 输入：（{食谱：{名称：“千层面”}}，[“食谱”，“名称”]）
+ * 输出：“烤宽面条”
  */
 function getNestedValue(
   obj: Record<string, unknown>,
@@ -295,10 +295,10 @@ function getNestedValue(
 }
 
 /**
- * Sets a value at a nested path, creating intermediate objects or arrays as needed.
+ * 在嵌套路径处设置一个值，根据需要创建中间对象或数组。
  *
- * Input: obj={}, segments=["recipe","ingredients",0,"name"], value="Noodles"
- * Output: {recipe:{ingredients:[{name:"Noodles"}]}}
+ * 输入：obj={},segment=["菜谱","配料",0,"名称"], value="面条"
+ * 输出：{食谱：{成分：[{名称：“面条”}]}}
  */
 function setNestedValue(
   obj: Record<string, unknown>,
@@ -318,10 +318,10 @@ function setNestedValue(
 }
 
 /**
- * Extracts the first non-null typed value from a partial arg and returns it with its JSON representation.
+ * 从部分 arg 中提取第一个非空类型值，并以其 JSON 表示形式返回它。
  *
- * Input: arg={stringValue:"Boston"} or arg={numberValue:50}
- * Output: {value:"Boston", json:'"Boston"'} or {value:50, json:'50'}
+ * 输入：arg={stringValue:"Boston"} 或 arg={numberValue:50}
+ * 输出：{value:"Boston", json:'"Boston"'} 或 {value:50, json:'50'}
  */
 function resolvePartialArgValue(arg: {
   stringValue?: string | null;

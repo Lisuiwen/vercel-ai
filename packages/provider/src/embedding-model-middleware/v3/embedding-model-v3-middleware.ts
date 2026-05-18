@@ -2,30 +2,30 @@ import type { EmbeddingModelV3 } from '../../embedding-model/v3/embedding-model-
 import type { EmbeddingModelV3CallOptions } from '../../embedding-model/v3/embedding-model-v3-call-options';
 
 /**
- * Middleware for EmbeddingModelV3.
- * This type defines the structure for middleware that can be used to modify
- * the behavior of EmbeddingModelV3 operations.
+ * EmbeddingModelV3 的中间件。
+ * 该类型定义了可用于修改的中间件的结构
+ * EmbeddingModelV3 操作的行为。
  */
 export type EmbeddingModelV3Middleware = {
   /**
-   * Middleware specification version. Use `v3` for the current version.
+   * 中间件规范版本。当前版本使用“v3”。
    */
   readonly specificationVersion: 'v3';
 
   /**
-   * Override the provider name if desired.
+   * 如果需要，可以覆盖提供者名称。
    * @param options.model - The embedding model instance.
    */
   overrideProvider?: (options: { model: EmbeddingModelV3 }) => string;
 
   /**
-   * Override the model ID if desired.
+   * 如果需要，可以覆盖模型 ID。
    * @param options.model - The embedding model instance.
    */
   overrideModelId?: (options: { model: EmbeddingModelV3 }) => string;
 
   /**
-   * Override the limit of how many embeddings can be generated in a single API call if desired.
+   * 如果需要，可以覆盖单个 API 调用中可以生成的嵌入数量的限制。
    * @param options.model - The embedding model instance.
    */
   overrideMaxEmbeddingsPerCall?: (options: {
@@ -33,7 +33,7 @@ export type EmbeddingModelV3Middleware = {
   }) => PromiseLike<number | undefined> | number | undefined;
 
   /**
-   * Override support for handling multiple embedding calls in parallel, if desired..
+   * 如果需要，可以覆盖对并行处理多个嵌入调用的支持。
    * @param options.model - The embedding model instance.
    */
   overrideSupportsParallelCalls?: (options: {
@@ -41,7 +41,7 @@ export type EmbeddingModelV3Middleware = {
   }) => PromiseLike<boolean> | boolean;
 
   /**
-   * Transforms the parameters before they are passed to the embed model.
+   * 在将参数传递到嵌入模型之前对其进行转换。
    * @param options - Object containing the type of operation and the parameters.
    * @param options.params - The original parameters for the embedding model call.
    * @returns A promise that resolves to the transformed parameters.
@@ -52,12 +52,12 @@ export type EmbeddingModelV3Middleware = {
   }) => PromiseLike<EmbeddingModelV3CallOptions>;
 
   /**
-   * Wraps the embed operation of the embedding model.
+   * 包装嵌入模型的嵌入操作。
    *
    * @param options - Object containing the embed function, parameters, and model.
    * @param options.doEmbed - The original embed function.
    * @param options.params - The parameters for the embed call. If the
-   * `transformParams` middleware is used, this will be the transformed parameters.
+   * 使用“transformParams”中间件，这将是转换后的参数。
    * @param options.model - The embedding model instance.
    * @returns A promise that resolves to the result of the generate operation.
    */

@@ -1,17 +1,17 @@
 ---
 title: createAgentUIStream
-description: API Reference for the createAgentUIStream utility.
+description: createAgentUIStream 工具函数的 API 参考。
 ---
 
 # `createAgentUIStream`
 
-The `createAgentUIStream` function executes an [Agent](/docs/reference/ai-sdk-core/agent), consumes an array of UI messages, and streams the agent's output as UI message chunks via an async iterable. This enables real-time, incremental rendering of AI assistant output with full access to tool use, intermediate reasoning, and interactive UI features in your own runtime—perfect for building chat APIs, dashboards, or bots powered by agents.
+`createAgentUIStream` 函数执行一个 [Agent](/docs/reference/ai-sdk-core/agent)，消费 UI message 数组，并通过异步 iterable 将 agent 的输出作为 UI message chunk 流式传输。这使你能在自己的运行时中实时、增量渲染 AI assistant 输出，并完整访问工具使用、中间推理和交互式 UI 功能，非常适合构建由 agent 驱动的聊天 API、仪表盘或机器人。
 
-## Import
+## 导入
 
 <Snippet text={`import { createAgentUIStream } from "ai"`} prompt={false} />
 
-## Usage
+## 用法
 
 ```ts
 import { ToolLoopAgent, createAgentUIStream } from 'ai';
@@ -41,7 +41,7 @@ export async function* streamAgent(
 }
 ```
 
-## Parameters
+## 参数
 
 <PropertiesTable
   content={[
@@ -50,72 +50,72 @@ export async function* streamAgent(
       type: 'Agent',
       isRequired: true,
       description:
-        'The agent to run. Must define its `tools` and implement `.stream({ prompt, ... })`.',
+        '要运行的 agent。必须定义其 `tools` 并实现 `.stream({ prompt, ... })`。',
     },
     {
       name: 'uiMessages',
       type: 'unknown[]',
       isRequired: true,
       description:
-        'Array of input UI message objects (e.g., user/assistant/chat history). These will be validated and converted for the agent.',
+        '输入 UI message 对象数组（例如用户/assistant/聊天历史）。这些消息会被验证并转换后提供给 agent。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal',
       isRequired: false,
       description:
-        'Optional abort signal to cancel the stream early (for example, if the client disconnects).',
+        '用于提前取消流的可选中止信号（例如客户端断开连接时）。',
     },
     {
       name: 'timeout',
       type: 'number | { totalMs?: number }',
       isRequired: false,
       description:
-        'Timeout in milliseconds. Can be specified as a number or as an object with a totalMs property. The call will be aborted if it takes longer than the specified timeout. Can be used alongside abortSignal.',
+        '超时时间，单位为毫秒。可指定为数字，也可指定为包含 totalMs 属性的对象。如果调用耗时超过指定超时时间，将被中止。可与 abortSignal 一起使用。',
     },
     {
       name: 'experimental_sandbox',
       type: 'Experimental_Sandbox',
       isRequired: false,
       description:
-        'Optional experimental sandbox environment that is passed through to tool execution. Tools can access it from their execution context.',
+        '传递给工具执行的可选实验性沙箱环境。工具可以从其执行上下文访问它。',
     },
     {
       name: 'options',
       type: 'CALL_OPTIONS',
       isRequired: false,
       description:
-        'Optional agent call options, only needed if your agent expects extra configuration (see agent generic parameters).',
+        '可选的 agent 调用选项，仅当你的 agent 需要额外配置时才需要（参见 agent 泛型参数）。',
     },
     {
       name: 'experimental_transform',
       type: 'StreamTextTransform | StreamTextTransform[]',
       isRequired: false,
       description:
-        'Optional transformations to apply to the agent output stream (experimental).',
+        '应用于 agent 输出流的可选转换（实验性）。',
     },
     {
       name: 'onStepFinish',
       type: 'GenerateTextOnStepFinishCallback',
       isRequired: false,
       description:
-        'Callback invoked after each agent step (LLM/tool call) completes. Useful for tracking token usage, per-step performance, or logging intermediate steps.',
+        '每个 agent step（LLM/工具调用）完成后调用的回调。可用于跟踪 token 用量、每个 step 的性能，或记录中间步骤。',
     },
     {
       name: '...UIMessageStreamOptions',
       type: 'UIMessageStreamOptions',
       isRequired: false,
       description:
-        'Additional options to control the output stream, such as including sources or usage data.',
+        '用于控制输出流的额外选项，例如包含来源或用量数据。',
     },
   ]}
 />
 
-## Returns
+## 返回值
 
-A `Promise<AsyncIterableStream<UIMessageChunk>>`, where each yielded chunk is a UI message output from the agent (see [`UIMessage`](/docs/reference/ai-sdk-core/ui-message)). This can be consumed with any async iterator loop, or piped to a streaming HTTP response, socket, or any other sink.
+一个 `Promise<AsyncIterableStream<UIMessageChunk>>`，其中每个 yield 的 chunk 都是来自 agent 的 UI message 输出（参见 [`UIMessage`](/docs/reference/ai-sdk-core/ui-message)）。它可由任意异步迭代器循环消费，也可传输到流式 HTTP 响应、socket 或任何其他 sink。
 
-## Example
+## 示例
 
 ```ts
 import { createAgentUIStream } from 'ai';
@@ -139,23 +139,23 @@ for await (const chunk of stream) {
 // Call controller.abort() to cancel the agent operation early.
 ```
 
-## How It Works
+## 工作原理
 
-1. **UI Message Validation:** The input `uiMessages` array is validated and normalized using the agent's `tools` definition. Any invalid messages cause an error.
-2. **Conversion to Model Messages:** The validated UI messages are converted into model-specific message format, as required by the agent.
-3. **Agent Streaming:** The agent's `.stream({ prompt, ... })` method is invoked with the converted model messages, optional call options, abort signal, experimental_sandbox, and any experimental transforms.
-4. **UI Message Stream Building:** The result stream is converted and exposed as a streaming async iterable of UI message chunks for you to consume.
+1. **UI Message 验证：** 使用 agent 的 `tools` 定义验证并规范化输入 `uiMessages` 数组。任何无效消息都会导致错误。
+2. **转换为模型消息：** 根据 agent 要求，将已验证的 UI message 转换为模型专属消息格式。
+3. **Agent 流式传输：** 使用转换后的模型消息、可选调用选项、中止信号、experimental_sandbox 和任何实验性转换调用 agent 的 `.stream({ prompt, ... })` 方法。
+4. **UI Message Stream 构建：** 结果流会被转换并暴露为 UI message chunk 的流式异步 iterable，供你消费。
 
-## Notes
+## 备注
 
-- The agent **must** implement the `.stream({ prompt, ... })` method and define its supported `tools` property.
-- This utility returns an async iterable for maximal streaming flexibility. For HTTP responses, see [`createAgentUIStreamResponse`](/docs/reference/ai-sdk-core/create-agent-ui-stream-response) (Web) or [`pipeAgentUIStreamToResponse`](/docs/reference/ai-sdk-core/pipe-agent-ui-stream-to-response) (Node.js).
-- The `uiMessages` parameter is named `uiMessages`, **not** just `messages`.
-- You can provide advanced options via `UIMessageStreamOptions` (for example, to include sources or usage).
-- To cancel the stream, pass an [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) via the `abortSignal` parameter.
-- Pass `experimental_sandbox` when your agent tools need an experimental sandbox environment during execution.
+- agent **必须**实现 `.stream({ prompt, ... })` 方法，并定义其支持的 `tools` 属性。
+- 该工具返回异步 iterable，以提供最大的流式传输灵活性。对于 HTTP 响应，请参阅 [`createAgentUIStreamResponse`](/docs/reference/ai-sdk-core/create-agent-ui-stream-response)（Web）或 [`pipeAgentUIStreamToResponse`](/docs/reference/ai-sdk-core/pipe-agent-ui-stream-to-response)（Node.js）。
+- `uiMessages` 参数名是 `uiMessages`，**不是**简单的 `messages`。
+- 你可以通过 `UIMessageStreamOptions` 提供高级选项（例如包含来源或用量）。
+- 若要取消流，请通过 `abortSignal` 参数传入 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)。
+- 当你的 agent 工具在执行期间需要实验性沙箱环境时，请传入 `experimental_sandbox`。
 
-## See Also
+## 另请参阅
 
 - [`Agent`](/docs/reference/ai-sdk-core/agent)
 - [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent)

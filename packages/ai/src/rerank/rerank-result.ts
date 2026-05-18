@@ -1,7 +1,7 @@
 import type { ProviderMetadata } from '../types/provider-metadata';
 
 /**
- * “rerank”调用的结果。
+ * `rerank`调用的结果。
  * 它包含原始文档、重新排序的文档和附加信息。
  */
 export interface RerankResult<VALUE> {
@@ -15,7 +15,7 @@ export interface RerankResult<VALUE> {
    *
    * 按相关性得分降序排序。
    *
-   * 如果有 topN 限制，则可以小于原始文档。
+   * 如果有topN个限制，则可以小于原始文档。
    */
   readonly rerankedDocuments: Array<VALUE>;
 
@@ -25,7 +25,7 @@ export interface RerankResult<VALUE> {
    *
    * 按相关性得分降序排序。
    *
-   * 如果有 topN 限制，则可以小于原始文档。
+   * 如果有topN个限制，则可以小于原始文档。
    */
   readonly ranking: Array<{
     originalIndex: number;
@@ -43,7 +43,7 @@ export interface RerankResult<VALUE> {
    */
   readonly response: {
     /**
-     * 生成的响应的 ID（如果提供商发送响应）。
+     * 生成的响应的ID（如果开始发送响应）。
      */
     id?: string;
 
@@ -53,7 +53,7 @@ export interface RerankResult<VALUE> {
     timestamp: Date;
 
     /**
-     * 用于生成响应的模型的 ID。
+     * 用于生成响应的模型的ID。
      */
     modelId: string;
 

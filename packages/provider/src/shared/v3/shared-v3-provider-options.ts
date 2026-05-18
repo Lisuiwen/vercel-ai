@@ -1,22 +1,22 @@
 import type { JSONObject } from '../../json-value/json-value';
 
 /**
- * Additional provider-specific options.
- * Options are additional input to the provider.
- * They are passed through to the provider from the AI SDK
- * and enable provider-specific functionality
- * that can be fully encapsulated in the provider.
+ * 其他特定于提供商的选项。
+ * 选项是对提供者的额外输入。
+ * 它们从 AI SDK 传递给提供商
+ * 并启用特定于提供商的功能
+ * 可以完全封装在提供者中。
  *
- * This enables us to quickly ship provider-specific functionality
- * without affecting the core AI SDK.
+ * 这使我们能够快速提供提供商特定的功能
+ * 不影响核心AI SDK。
  *
- * The outer record is keyed by the provider name, and the inner
- * record is keyed by the provider-specific metadata key.
+ * 外部记录以提供者名称为键，内部记录以提供者名称为键
+ * 记录由特定于提供者的元数据密钥作为密钥。
  *
- * ```ts
+ * ````ts
  * {
- *   "anthropic": {
- *     "cacheControl": { "type": "ephemeral" }
+ *   “人择”：{
+ *     “cacheControl”：{“类型”：“短暂”}
  *   }
  * }
  * ```

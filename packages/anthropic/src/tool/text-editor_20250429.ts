@@ -23,43 +23,43 @@ const textEditor_20250429InputSchema = lazySchema(() =>
 export const textEditor_20250429 = createProviderDefinedToolFactory<
   {
     /**
-     * The commands to run. Allowed options are: `view`, `create`, `str_replace`, `insert`.
-     * Note: `undo_edit` is not supported in Claude 4 models.
+     * 要运行的命令。允许的选项有：“view”、“create”、“str_replace”、“insert”。
+     * 注意：Claude 4 模型不支持 `undo_edit`。
      */
     command: 'view' | 'create' | 'str_replace' | 'insert';
 
     /**
-     * Absolute path to file or directory, e.g. `/repo/file.py` or `/repo`.
+     * 文件或目录的绝对路径，例如`/repo/file.py` 或 `/repo`。
      */
     path: string;
 
     /**
-     * Required parameter of `create` command, with the content of the file to be created.
+     * `create` 命令必需的参数，包含要创建的文件的内容。
      */
     file_text?: string;
 
     /**
-     * Required parameter of `insert` command. The `new_str` will be inserted AFTER the line `insert_line` of `path`.
+     * `insert` 命令的必需参数。 `new_str` 将被插入到 `path` 的 `insert_line` 行之后。
      */
     insert_line?: number;
 
     /**
-     * Optional parameter of `str_replace` command containing the new string (if not given, no string will be added).
+     * 包含新字符串的 `str_replace` 命令的可选参数（如果未给出，则不会添加任何字符串）。
      */
     new_str?: string;
 
     /**
-     * Required parameter of `insert` command containing the text to insert.
+     * 包含要插入的文本的“insert”命令的必需参数。
      */
     insert_text?: string;
 
     /**
-     * Required parameter of `str_replace` command containing the string in `path` to replace.
+     * `str_replace` 命令的必需参数，包含要替换的 `path` 中的字符串。
      */
     old_str?: string;
 
     /**
-     * Optional parameter of `view` command when `path` points to a file. If none is given, the full file is shown. If provided, the file will be shown in the indicated line number range, e.g. [11, 12] will show lines 11 and 12. Indexing at 1 to start. Setting `[start_line, -1]` shows all lines from `start_line` to the end of the file.
+     * 当“path”指向文件时，“view”命令的可选参数。如果没有给出，则显示完整文件。如果提供，文件将显示在指定的行号范围内，例如[11, 12] 将显示第 11 行和第 12 行。索引从 1 开始。设置“[start_line, -1]”显示从“start_line”到文件末尾的所有行。
      */
     view_range?: number[];
   },

@@ -2,20 +2,20 @@ import type { Context } from './context';
 import type { Tool } from './tool';
 
 /**
- * Detects the `any` type so untyped tools can be treated as having no explicit
- * context type.
+ * 检测“any”类型，因此无类型工具可以被视为没有显式工具
+ * 上下文类型。
  */
 type IsAny<T> = 0 extends 1 & T ? true : false;
 
 /**
- * Detects exact empty object contexts, including `{}` combined with
- * `undefined`, which do not provide tool-specific context properties.
+ * 检测精确的空对象上下文，包括“{}”与
+ * “未定义”，不提供特定于工具的上下文属性。
  */
 type IsEmptyObject<T> = keyof NonNullable<T> extends never ? true : false;
 
 /**
- * Detects context types that come from omitted or broad context declarations
- * rather than a concrete tool context schema.
+ * 检测来自省略或广泛上下文声明的上下文类型
+ * 而不是具体的工具上下文模式。
  */
 type IsUntypedContext<CONTEXT> =
   IsAny<CONTEXT> extends true
@@ -31,7 +31,7 @@ type IsUntypedContext<CONTEXT> =
           : false;
 
 /**
- * Infer the context type of a tool.
+ * 推断工具的上下文类型。
  */
 export type InferToolContext<TOOL extends Tool> =
   TOOL extends Tool<any, any, infer CONTEXT>

@@ -39,51 +39,51 @@ export const toolSearchOutputSchema: FlexibleSchema<{
 const toolSearchToolFactory = createProviderDefinedToolFactoryWithOutputSchema<
   {
     /**
-     * The arguments from the tool_search_call.
-     * This is preserved for multi-turn conversation reconstruction.
+     * 来自 tool_search_call 的参数。
+     * 这是为了多轮对话重建而保留的。
      */
     arguments?: unknown;
 
     /**
-     * The call ID from the tool_search_call.
-     * Present for client-executed tool search; null for hosted.
+     * 来自 tool_search_call 的调用 ID。
+     * 提供客户端执行的工具搜索；托管为空。
      */
     call_id?: string | null;
   },
   {
     /**
-     * The tools that were loaded by the tool search.
-     * These are the deferred tools that the model requested to load.
-     * Each tool is represented as a JSON object with properties depending on its type.
+     * 通过工具搜索加载的工具。
+     * 这些是模型请求加载的延迟工具。
+     * 每个工具都表示为一个 JSON 对象，其属性取决于其类型。
      *
-     * Common properties include:
-     * - `type`: The type of the tool (e.g., 'function', 'web_search', etc.)
-     * - `name`: The name of the tool (for function tools)
-     * - `description`: A description of the tool
-     * - `deferLoading`: Whether this tool was deferred (had defer_loading: true)
-     * - `parameters`: The JSON Schema for the function parameters (for function tools)
-     * - `strict`: Whether to enable strict schema adherence (for function tools)
+     * 常见属性包括：
+     * - `type`：工具的类型（例如，'function'、'web_search' 等）
+     * - `name`：工具的名称（对于功能工具）
+     * - `description`：工具的描述
+     * - `deferLoading`：该工具是否被延迟（有 defer_loading: true）
+     * - `parameters`：函数参数的 JSON 模式（对于函数工具）
+     * - `strict`：是否启用严格模式遵守（对于函数工具）
      */
     tools: Array<JSONObject>;
   },
   {
     /**
-     * Whether the tool search is executed by the server (hosted) or client.
-     * - `'server'` (default): OpenAI performs the search across deferred tools.
-     * - `'client'`: The model emits a `tool_search_call` and your `execute`
-     *   function performs the lookup, returning the tools to load.
+     * 工具搜索是由服务器（托管）还是客户端执行。
+     * - “服务器”（默认）：OpenAI 跨延迟工具执行搜索。
+     * - “client”：模型发出一个“tool_search_call”和您的“execute”
+     *   函数执行查找，返回要加载的工具。
      */
     execution?: 'server' | 'client';
 
     /**
-     * A description of the tool search capability.
-     * Only used for client-executed tool search.
+     * 工具搜索功能的描述。
+     * 仅用于客户端执行的工具搜索。
      */
     description?: string;
 
     /**
-     * JSON Schema for the search arguments your application expects.
-     * Only used for client-executed tool search.
+     * 应用程序所需的搜索参数的 JSON 架构。
+     * 仅用于客户端执行的工具搜索。
      */
     parameters?: Record<string, unknown>;
   }

@@ -5,7 +5,7 @@ import type {
 import type { LanguageModelMiddleware } from '../types/language-model-middleware';
 
 /**
- * 默认转换函数，从文本中去除 Markdown 代码围栏。
+ * 默认转换函数，从文本中取出 Markdown 代码。
  */
 function defaultTransform(text: string): string {
   return text
@@ -16,20 +16,20 @@ function defaultTransform(text: string): string {
 
 /**
  * 通过剥离从文本内容中提取 JSON 的中间件
- * Markdown 代码围栏和其他格式。
+ * Markdown 代码大致和其他格式。
  *
  * 当将 Output.object() 与包装模型一起使用时，这非常有用
  * Markdown 代码块中的 JSON 响应。
  *
- * @param options - Configuration options for the middleware.
- * @param options.transform - Custom transform function. If provided, this will be
+ * @param options - 中间件的配置选项。
+ * @param options.transform - 自定义变换函数。如果提供的话，这将是
  * 使用而不是默认的降价栅栏剥离。
  */
 export function extractJsonMiddleware(options?: {
   /**
    * 应用于文本内容的自定义转换函数。
    * 接收原始文本并应返回转换后的文本。
-   * 如果未提供，默认转换会去除 Markdown 代码围栏。
+   * 如果未提供，默认转换会获取大量 Markdown 代码。
    */
   transform?: (text: string) => string;
 }): LanguageModelMiddleware {

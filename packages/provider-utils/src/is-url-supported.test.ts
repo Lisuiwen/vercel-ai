@@ -65,7 +65,7 @@ describe('isUrlSupported', () => {
     it('should return false for URL match but media type mismatch', async () => {
       expect(
         isUrlSupported({
-          mediaType: 'image/png', // Different media type
+          mediaType: 'image/png', // 不同的媒体类型
           url: 'https://example.com',
           supportedUrls: { 'text/plain': [/https:\/\/example\.com/] },
         }),
@@ -122,11 +122,11 @@ describe('isUrlSupported', () => {
     });
 
     it('should return true if URL matches under wildcard media type even if specific exists', async () => {
-      // Assumes the logic checks specific first, then falls back to wildcard
+      // 假设逻辑首先检查具体内容，然后回退到通配符
       expect(
         isUrlSupported({
-          mediaType: 'text/plain', // Specific type exists
-          url: 'https://any.com', // Matches wildcard
+          mediaType: 'text/plain', // 存在特定类型
+          url: 'https://any.com', // 匹配通配符
           supportedUrls,
         }),
       ).toBe(true);
@@ -135,8 +135,8 @@ describe('isUrlSupported', () => {
     it('should return true if URL matches under wildcard for a non-specified media type', async () => {
       expect(
         isUrlSupported({
-          mediaType: 'image/png', // No specific entry for this type
-          url: 'https://any.com', // Matches wildcard
+          mediaType: 'image/png', // 此类型没有具体条目
+          url: 'https://any.com', // 匹配通配符
           supportedUrls,
         }),
       ).toBe(true);
@@ -169,7 +169,7 @@ describe('isUrlSupported', () => {
         isUrlSupported({
           mediaType: 'text/plain',
           url: '',
-          supportedUrls: { 'text/plain': [/.*/] }, // Matches any string, including empty
+          supportedUrls: { 'text/plain': [/.*/] }, // 匹配任何字符串，包括空字符串
         }),
       ).toBe(true);
     });
@@ -179,7 +179,7 @@ describe('isUrlSupported', () => {
         isUrlSupported({
           mediaType: 'text/plain',
           url: '',
-          supportedUrls: { 'text/plain': [/https:\/\/.+/] }, // Requires non-empty string
+          supportedUrls: { 'text/plain': [/https:\/\/.+/] }, // 需要非空字符串
         }),
       ).toBe(false);
     });
@@ -189,9 +189,9 @@ describe('isUrlSupported', () => {
     it('should be case-insensitive for media types', async () => {
       expect(
         isUrlSupported({
-          mediaType: 'TEXT/PLAIN', // Uppercase
+          mediaType: 'TEXT/PLAIN', // 大写
           url: 'https://example.com',
-          supportedUrls: { 'text/plain': [/https:\/\/example\.com/] }, // Lowercase
+          supportedUrls: { 'text/plain': [/https:\/\/example\.com/] }, // 小写
         }),
       ).toBe(true);
     });
@@ -200,7 +200,7 @@ describe('isUrlSupported', () => {
       expect(
         isUrlSupported({
           mediaType: 'text/plain',
-          url: 'https://EXAMPLE.com/path', // Uppercase domain
+          url: 'https://EXAMPLE.com/path', // 大写域
           supportedUrls: { 'text/plain': [/https:\/\/example\.com\/path/] },
         }),
       ).toBe(true);
@@ -210,8 +210,8 @@ describe('isUrlSupported', () => {
       expect(
         isUrlSupported({
           mediaType: 'text/plain',
-          url: 'https://example.com/PATH', // Uppercase path
-          supportedUrls: { 'text/plain': [/https:\/\/example\.com\/path/] }, // Lowercase path in regex
+          url: 'https://example.com/PATH', // 大写路径
+          supportedUrls: { 'text/plain': [/https:\/\/example\.com\/path/] }, // 正则表达式中的小写路径
         }),
       ).toBe(true);
     });
@@ -234,8 +234,8 @@ describe('isUrlSupported', () => {
           mediaType: 'image/png',
           url: 'https://any.com',
           supportedUrls: {
-            'image/*': [/https:\/\/images\.com/], // Doesn't match URL
-            '*': [/https:\/\/any\.com/], // Matches URL
+            'image/*': [/https:\/\/images\.com/], // 与网址不匹配
+            '*': [/https:\/\/any\.com/], // 匹配网址
           },
         }),
       ).toBe(true);

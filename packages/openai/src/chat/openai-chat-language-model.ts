@@ -103,7 +103,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
   }: LanguageModelV4CallOptions) {
     const warnings: SharedV4Warning[] = [];
 
-    // Parse provider options
+    // 解析提供者选项
     const openaiOptions =
       (await parseProviderOptions({
         provider: 'openai',
@@ -113,7 +113,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
 
     const modelCapabilities = getOpenAILanguageModelCapabilities(this.modelId);
 
-    // AI SDK reasoning values map directly to the OpenAI reasoning values.
+    // AI SDK 推理值直接映射到 OpenAI 推理值。
     const resolvedReasoningEffort =
       openaiOptions.reasoningEffort ??
       (isCustomReasoning(reasoning) ? reasoning : undefined);
@@ -141,10 +141,10 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
     const strictJsonSchema = openaiOptions.strictJsonSchema ?? true;
 
     const baseArgs = {
-      // model id:
+      // 模型编号：
       model: this.modelId,
 
-      // model specific settings:
+      // 模型具体设置：
       logit_bias: openaiOptions.logitBias,
       logprobs:
         openaiOptions.logprobs === true ||
@@ -162,7 +162,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
       user: openaiOptions.user,
       parallel_tool_calls: openaiOptions.parallelToolCalls,
 
-      // standardized settings:
+      // 标准化设置：
       max_tokens: maxOutputTokens,
       temperature,
       top_p: topP,
@@ -186,8 +186,8 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
       seed,
       verbosity: openaiOptions.textVerbosity,
 
-      // openai specific settings:
-      // TODO AI SDK 6: remove, we auto-map maxOutputTokens now
+      // openai具体设置：
+      // TODO AI SDK 6：删除，我们现在自动映射 maxOutputTokens
       max_completion_tokens: openaiOptions.maxCompletionTokens,
       store: openaiOptions.store,
       metadata: openaiOptions.metadata,
@@ -198,15 +198,15 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
       prompt_cache_retention: openaiOptions.promptCacheRetention,
       safety_identifier: openaiOptions.safetyIdentifier,
 
-      // messages:
+      // 消息：
       messages,
     };
 
-    // remove unsupported settings for reasoning models
-    // see https://platform.openai.com/docs/guides/reasoning#limitations
+    // 删除推理模型不支持的设置
+    // 请参阅 https://platform.openai.com/docs/guides/reasoning#limitations
     if (isReasoningModel) {
-      // when reasoning effort is none, gpt-5.1 models allow temperature, topP, logprobs
-      //  https://platform.openai.com/docs/guides/latest-model#gpt-5-1-parameter-compatibility
+      // 当没有推理工作时，gpt-5.1 模型允许温度、topP、logprobs
+      // https://platform.openai.com/docs/guides/latest-model#gpt-5-1-parameter-compatibility
       if (
         resolvedReasoningEffort !== 'none' ||
         !modelCapabilities.supportsNonReasoningParameters
@@ -268,7 +268,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
         });
       }
 
-      // reasoning models use max_completion_tokens instead of max_tokens:
+      // 推理模型使用 max_completion_tokens 而不是 max_tokens：
       if (baseArgs.max_tokens != null) {
         if (baseArgs.max_completion_tokens == null) {
           baseArgs.max_completion_tokens = baseArgs.max_tokens;
@@ -290,7 +290,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
       }
     }
 
-    // Validate flex processing support
+    // 验证柔性处理支持
     if (
       openaiOptions.serviceTier === 'flex' &&
       !modelCapabilities.supportsFlexProcessing
@@ -304,7 +304,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
       baseArgs.service_tier = undefined;
     }
 
-    // Validate priority processing support
+    // 验证优先级处理支持
     if (
       openaiOptions.serviceTier === 'priority' &&
       !modelCapabilities.supportsPriorityProcessing
@@ -364,13 +364,13 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
     const choice = response.choices[0];
     const content: Array<LanguageModelV4Content> = [];
 
-    // text content:
+    // 文字内容：
     const text = choice.message.content;
     if (text != null && text.length > 0) {
       content.push({ type: 'text', text });
     }
 
-    // tool calls:
+    // 工具调用：
     for (const toolCall of choice.message.tool_calls ?? []) {
       content.push({
         type: 'tool-call' as const,
@@ -380,7 +380,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
       });
     }
 
-    // annotations/citations:
+    // 注释/引文：
     for (const annotation of choice.message.annotations ?? []) {
       content.push({
         type: 'source',
@@ -391,7 +391,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
       });
     }
 
-    // provider metadata:
+    // 提供者元数据：
     const completionTokenDetails = response.usage?.completion_tokens_details;
     const providerMetadata: SharedV4ProviderMetadata = { openai: {} };
     if (completionTokenDetails?.accepted_prediction_tokens != null) {
@@ -483,7 +483,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
               controller.enqueue({ type: 'raw', rawValue: chunk.rawValue });
             }
 
-            // handle failed chunk parsing / validation:
+            // 处理失败的块解析/验证：
             if (!chunk.success) {
               finishReason = { unified: 'error', raw: undefined };
               controller.enqueue({ type: 'error', error: chunk.error });
@@ -492,15 +492,15 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
 
             const value = chunk.value;
 
-            // handle error chunks:
+            // 处理错误块：
             if ('error' in value) {
               finishReason = { unified: 'error', raw: undefined };
               controller.enqueue({ type: 'error', error: value.error });
               return;
             }
 
-            // extract and emit response metadata once. Usually it comes in the first chunk.
-            // Azure may prepend a chunk with a `"prompt_filter_results"` key which does not contain other metadata,
+            // 提取并发出一次响应元数据。通常它出现在第一个块中。
+            // Azure 可能会在一个块前面添加一个不包含其他元数据的“prompt_filter_results”键，
             // https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/content-filter-annotations?tabs=powershell
             if (!metadataExtracted) {
               const metadata = getResponseMetadata(value);
@@ -570,7 +570,7 @@ export class OpenAIChatLanguageModel implements LanguageModelV4 {
               }
             }
 
-            // annotations/citations:
+            // 注释/引文：
             if (delta.annotations != null) {
               for (const annotation of delta.annotations) {
                 controller.enqueue({

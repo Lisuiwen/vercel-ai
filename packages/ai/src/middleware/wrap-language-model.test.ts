@@ -276,7 +276,7 @@ describe('wrapLanguageModel', () => {
 
       get supportedUrls() {
         supportedUrlsCalled = true;
-        // 引用“this”来验证上下文
+        // 引用`this`来验证上下文
         return this.value;
       }
     }

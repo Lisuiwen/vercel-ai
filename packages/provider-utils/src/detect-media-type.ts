@@ -3,11 +3,11 @@ import { convertBase64ToUint8Array } from './uint8-utils';
 const imageMediaTypeSignatures = [
   {
     mediaType: 'image/gif' as const,
-    bytesPrefix: [0x47, 0x49, 0x46], // GIF
+    bytesPrefix: [0x47, 0x49, 0x46], // 动图
   },
   {
     mediaType: 'image/png' as const,
-    bytesPrefix: [0x89, 0x50, 0x4e, 0x47], // PNG
+    bytesPrefix: [0x89, 0x50, 0x4e, 0x47], // 巴布亚新几内亚
   },
   {
     mediaType: 'image/jpeg' as const,
@@ -19,15 +19,15 @@ const imageMediaTypeSignatures = [
       0x52,
       0x49,
       0x46,
-      0x46, // "RIFF"
+      0x46, // “即兴”
       null,
       null,
       null,
-      null, // file size (variable)
+      null, // 文件大小（可变）
       0x57,
       0x45,
       0x42,
-      0x50, // "WEBP"
+      0x50, // “网页”
     ],
   },
   {
@@ -162,7 +162,7 @@ const videoMediaTypeSignatures = [
   },
   {
     mediaType: 'video/x-msvideo' as const,
-    bytesPrefix: [0x52, 0x49, 0x46, 0x46], // RIFF (AVI)
+    bytesPrefix: [0x52, 0x49, 0x46, 0x46], // 即兴演奏 (AVI)
   },
 ] as const;
 
@@ -175,7 +175,7 @@ const stripID3 = (data: Uint8Array | string) => {
     ((bytes[8] & 0x7f) << 7) |
     (bytes[9] & 0x7f);
 
-  // The raw MP3 starts here
+  // 原始 MP3 从这里开始
   return bytes.slice(id3Size + 10);
 };
 
@@ -205,7 +205,7 @@ function detectMediaTypeBySignatures<T extends MediaTypeSignatures>({
 }): T[number]['mediaType'] | undefined {
   const processedData = stripID3TagsIfPresent(data);
 
-  // Convert the first ~18 bytes (24 base64 chars) for consistent detection logic:
+  // 转换前 ~18 个字节（24 个 base64 字符）以获得一致的检测逻辑：
   const bytes =
     typeof processedData === 'string'
       ? convertBase64ToUint8Array(
@@ -237,14 +237,14 @@ const topLevelSignatureTables = {
 type TopLevelMediaType = keyof typeof topLevelSignatureTables;
 
 /**
- * Detect the IANA media type of a file from its raw bytes or base64 string.
+ * 从文件的原始字节或 Base64 字符串检测文件的 IANA 媒体类型。
  *
- * - When `topLevelType` is omitted, every known signature is considered
- *   (image, audio, video, and application). Returns `undefined` when the
- *   bytes do not match any known signature.
- * - When `topLevelType` is provided, only signatures for that top-level
- *   segment are considered. Returns `undefined` for unsupported segments
- *   (e.g. `"text"`) or when no signature matches.
+ * - 当省略“topLevelType”时，将考虑每个已知的签名
+ *   （图像、音频、视频和应用程序）。当
+ *   字节与任何已知签名都不匹配。
+ * - 当提供“topLevelType”时，仅对该顶级进行签名
+ *   部分被考虑。对于不支持的段返回“未定义”
+ *   （例如“文本”）或没有签名匹配时。
  */
 export function detectMediaType({
   data,
@@ -275,13 +275,13 @@ export function detectMediaType({
 }
 
 /**
- * Returns the top-level segment of a media type (the portion before `/`).
+ * 返回媒体类型的顶级段（“/”之前的部分）。
  *
- * Examples:
- *   - `"image/png"` -> `"image"`
- *   - `"image/*"` -> `"image"`
- *   - `"image"` -> `"image"`
- *   - `"image/"` -> `"image"`
+ * 示例：
+ *   - `"图像/png"` -> `"图像"`
+ *   - `"图像/*"` -> `"图像"`
+ *   - `“图像”` -> `“图像”`
+ *   - `“图像/”` -> `“图像”`
  *   - `""` -> `""`
  *   - `"/"` -> `""`
  */
@@ -291,16 +291,16 @@ export function getTopLevelMediaType(mediaType: string): string {
 }
 
 /**
- * Returns `true` only when the given media type has a non-empty, non-wildcard
- * subtype (i.e. matches the form `type/subtype`, and `subtype` is not `*`).
+ * 仅当给定媒体类型具有非空、非通配符时才返回“true”
+ * 子类型（即匹配形式“type/subtype”，并且“subtype”不是“*”）。
  *
- * Examples:
+ * 示例：
  *   - `"image/png"` -> `true`
- *   - `"image/*"` -> `false`
- *   - `"image"` -> `false`
- *   - `"image/"` -> `false`
- *   - `""` -> `false`
- *   - `"/"` -> `false`
+ *   - `“图像/*”` -> `假`
+ *   - `“图像”` -> `假`
+ *   - `“图像/”` -> `假`
+ *   - `""` -> `假`
+ *   - `"/"` -> `假`
  */
 export function isFullMediaType(mediaType: string): boolean {
   const slashIndex = mediaType.indexOf('/');

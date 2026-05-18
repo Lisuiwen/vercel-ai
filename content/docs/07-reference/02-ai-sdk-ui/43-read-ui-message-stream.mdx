@@ -1,23 +1,23 @@
 ---
 title: readUIMessageStream
-description: API Reference for readUIMessageStream.
+description: readUIMessageStream 的 API 参考。
 ---
 
 # readUIMessageStream
 
-Transforms a stream of `UIMessageChunk`s into an `AsyncIterableStream` of `UIMessage`s.
+将 `UIMessageChunk` 流转换为 `UIMessage` 的 `AsyncIterableStream`。
 
-UI message streams are useful outside of Chat use cases, e.g. for terminal UIs, custom stream consumption on the client, or RSC (React Server Components).
+UI message stream 也适用于 Chat 之外的场景，例如终端 UI、客户端上的自定义流消费，或 RSC（React Server Components）。
 
-## Import
+## 导入
 
 ```tsx
 import { readUIMessageStream } from 'ai';
 ```
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -26,32 +26,32 @@ import { readUIMessageStream } from 'ai';
       type: 'UIMessage',
       isOptional: true,
       description:
-        'The last assistant message to use as a starting point when the conversation is resumed. Otherwise undefined.',
+        '恢复对话时用作起点的最后一条 assistant 消息。否则为 undefined。',
     },
     {
       name: 'stream',
       type: 'ReadableStream<UIMessageChunk>',
-      description: 'The stream of UIMessageChunk objects to read.',
+      description: '要读取的 UIMessageChunk 对象流。',
     },
     {
       name: 'onError',
       type: '(error: unknown) => void',
       isOptional: true,
       description:
-        'A function that is called when an error occurs during stream processing.',
+        '流处理期间发生错误时调用的函数。',
     },
     {
       name: 'terminateOnError',
       type: 'boolean',
       isOptional: true,
       description:
-        'Whether to terminate the stream if an error occurs. Defaults to false.',
+        '发生错误时是否终止流。默认值：false。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-An `AsyncIterableStream` of `UIMessage`s. Each stream part represents a different state of the same message as it is being completed.
+`UIMessage` 的 `AsyncIterableStream`。每个流部分表示同一条消息在完成过程中的不同状态。
 
-For comprehensive examples and use cases, see [Reading UI Message Streams](/docs/ai-sdk-ui/reading-ui-message-streams).
+完整示例和使用场景请参阅[读取 UI Message Streams](/docs/ai-sdk-ui/reading-ui-message-streams)。

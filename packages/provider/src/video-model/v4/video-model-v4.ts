@@ -6,20 +6,20 @@ type GetMaxVideosPerCallFunction = (options: {
 }) => PromiseLike<number | undefined> | number | undefined;
 
 /**
- * Video generation model specification version 3.
+ * 视频生成模型规范版本 3。
  */
 export type VideoModelV4 = {
   /**
-   * The video model must specify which video model interface
-   * version it implements. This will allow us to evolve the video
-   * model interface and retain backwards compatibility. The different
-   * implementation versions can be handled as a discriminated union
-   * on our side.
+   * 视频模型必须指定哪个视频模型接口
+   * 它实现的版本。这将使我们能够改进视频
+   * 模型接口并保留向后兼容性。不同的
+   * 实现版本可以作为有区别的联合来处理
+   * 在我们这边。
    */
   readonly specificationVersion: 'v4';
 
   /**
-   * Name of the provider for logging purposes.
+   * 用于记录目的的提供商名称。
    */
   readonly provider: string;
 
@@ -29,18 +29,18 @@ export type VideoModelV4 = {
   readonly modelId: string;
 
   /**
-   * Limit of how many videos can be generated in a single API call.
-   * Can be set to a number for a fixed limit, to undefined to use
-   * the global limit, or a function that returns a number or undefined,
-   * optionally as a promise.
+   * 一次 API 调用可以生成多少视频的限制。
+   * 可以设置为一个数字进行固定限制，以undefined来使用
+   * 全局限制，或返回数字或未定义的函数，
+   * 可选地作为承诺。
    *
-   * Most video models only support generating 1 video at a time due to
-   * computational cost. Default is typically 1.
+   * 大多数视频模型一次仅支持生成 1 个视频，因为
+   * 计算成本。默认值通常为 1。
    */
   readonly maxVideosPerCall: number | undefined | GetMaxVideosPerCallFunction;
 
   /**
-   * Generates an array of videos.
+   * 生成视频数组。
    */
   doGenerate(options: VideoModelV4CallOptions): PromiseLike<VideoModelV4Result>;
 };

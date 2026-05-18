@@ -1,5 +1,5 @@
 export type LanguageModelV3ToolChoice =
-  | { type: 'auto' } // the tool selection is automatic (can be no tool)
-  | { type: 'none' } // no tool must be selected
-  | { type: 'required' } // one of the available tools must be selected
-  | { type: 'tool'; toolName: string }; // a specific tool must be selected:
+  | { type: 'auto' } // 自动选择工具（可以没有工具）
+  | { type: 'none' } // 无需选择任何工具
+  | { type: 'required' } // 必须选择可用工具之一
+  | { type: 'tool'; toolName: string }; // 必须选择一个特定的工具：

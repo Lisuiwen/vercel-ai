@@ -6,16 +6,16 @@ import { wrapLanguageModel } from './wrap-language-model';
 import { asProviderV4 } from '../model/as-provider-v4';
 
 /**
- * 使用中间件功能包装 ProviderV4 实例。
+ * 使用中间件功能封装ProviderV4实例。
  * 该功能允许您将中间件应用于所有语言模型
  * 来自提供者，使您能够转换参数、包装生成
  * 操作，以及每种语言模型的包装流操作。
  *
- * @param options - Configuration options for wrapping the provider.
- * @param options.provider - The original ProviderV4 instance to be wrapped.
- * @param options.languageModelMiddleware - The middleware to be applied to all language models from the provider. When multiple middlewares are provided, the first middleware will transform the input first, and the last middleware will be wrapped directly around the model.
- * @param options.imageModelMiddleware - Optional middleware to be applied to all image models from the provider. When multiple middlewares are provided, the first middleware will transform the input first, and the last middleware will be wrapped directly around the model.
- * @returns A new ProviderV4 instance with middleware applied to all language models.
+ * @param options - 用于包装提供程序的配置选项。
+ * @param options.provider - 要包装的原始 ProviderV4 实例。
+ * @param options.languageModelMiddleware - 该中间件适用于提供商的所有语言模型。当提供多个中间件时，第一个中间件将首先转换输入，最后一个中间件将直接包裹模型。
+ * @param options.imageModelMiddleware - 可选的中间件适用于提供商的所有图像模型。当提供多个中间件时，第一个中间件将首先转换输入，最后一个中间件将直接包裹模型。
+ * @returns 一个新的 ProviderV4 实例，其中间件适用于所有语言模型。
  */
 export function wrapProvider({
   provider,

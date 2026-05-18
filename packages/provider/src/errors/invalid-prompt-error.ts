@@ -5,11 +5,11 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 /**
- * A prompt is invalid. This error should be thrown by providers when they cannot
- * process a prompt.
+ * 提示无效。当提供者无法执行此操作时，应抛出此错误
+ * 处理提示。
  */
 export class InvalidPromptError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly prompt: unknown;
 

@@ -22,7 +22,7 @@ export type UITool = {
 };
 
 /**
- * 推断工具的输入和输出类型，以便将其用作 UI 工具。
+ * 推断工具的输入和输出类型，以便将其用于UI工具。
  */
 export type InferUITool<TOOL extends Tool> = {
   input: InferToolInput<TOOL>;
@@ -30,7 +30,7 @@ export type InferUITool<TOOL extends Tool> = {
 };
 
 /**
- * 推断工具集的输入和输出类型，以便将其用作 UI 工具集。
+ * 推断工具集的输入和输出类型，以便将其用于UI工具集。
  */
 export type InferUITools<TOOLS extends ToolSet> = {
   [NAME in keyof TOOLS & string]: InferUITool<TOOLS[NAME]>;
@@ -39,7 +39,7 @@ export type InferUITools<TOOLS extends ToolSet> = {
 export type UITools = Record<string, UITool>;
 
 /**
- * AI SDK UI 消息。它们用于客户端并在前端和 API 路由之间进行通信。
+ * AI SDK UI消息。它们用于客户端并在前端和API路由之间进行通信。
  */
 export interface UIMessage<
   METADATA = unknown,
@@ -62,7 +62,7 @@ export interface UIMessage<
   metadata?: METADATA;
 
   /**
-   * 消息的各个部分。使用它在 UI 中呈现消息。
+   * 消息的各个部分。使用它在 UI 中传递消息。
    *
    * 应避免系统消息（而是在服务器上设置系统提示符）。
    * 它们可以有文本部分。
@@ -119,7 +119,7 @@ export type CustomContentUIPart = {
   type: 'custom';
 
   /**
-   * 自定义内容的类型，格式为“{provider}.{provider-type}”。
+   * 自定义内容的类型，格式为`{provider}.{provider-type}`。
    */
   kind: `${string}.${string}`;
 
@@ -181,11 +181,11 @@ export type FileUIPart = {
   type: 'file';
 
   /**
-   * 完整的 IANA 媒体类型（“类型/子类型”，例如“image/png”）或只是
-   * 顶级 IANA 部分（例如“图像”、“音频”、“视频”、“文本”）。
+   * 完整的 IANA 媒体类型（`类型/子类型`，例如`image/png`）或只是
+   * 严格的 IANA 部分（例如`图像`、`音频`、`视频`、`文本`）。
    *
-   * `*`-子类型通配符（例如`image/*`）被规范化为等同于
-   * 单独的顶级段（例如“image”）。提供者可以使用以下帮助程序
+   * `*`-子类型通配符（例如`image/*`）被规范化为符合于
+   * 单独的核心部分（例如`image`）。提供者可以使用以下帮助程序
    * `@ai-sdk/provider-utils` (`isFullMediaType`, `getTopLevelMediaType`,
    * `detectMediaType`) 根据其 API 解析该字段
    * 要求。
@@ -200,15 +200,15 @@ export type FileUIPart = {
   filename?: string;
 
   /**
-   * 文件的 URL。
-   * 它可以是托管文件的 URL，也可以是[数据 URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)。
+   * 文件的URL。
+   * 它可以是托管文件的URL，也可以是[数据URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)。
    */
   url: string;
 
   /**
-   * 通过“uploadFile”上传的文件的提供者参考。
+   * 通过`uploadFile`上传文件的提供者参考。
    * 将提供程序名称映射到提供程序特定的文件标识符。
-   * 如果存在，则在模型消息中优先于“url”。
+   * 如果存在，则在模型消息中优先于`url`。
    */
   providerReference?: ProviderReference;
 
@@ -232,8 +232,8 @@ export type ReasoningFileUIPart = {
   mediaType: string;
 
   /**
-   * 文件的 URL。
-   * 它可以是托管文件的 URL，也可以是[数据 URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)。
+   * 文件的URL。
+   * 它可以是托管文件的URL，也可以是[数据URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)。
    */
   url: string;
 
@@ -272,13 +272,13 @@ export function isDataUIPart<DATA_TYPES extends UIDataTypes>(
 }
 
 /**
- * UI 工具调用包含在 UI 中呈现工具调用所需的所有信息。
+ * UI工具调用包含在UI工具调用中获取所需的所有信息。
  * 它可以在不知道工具名称的情况下从工具派生出来，并且可以用来定义
  * 该工具的 UI 组件。
  */
 export type UIToolInvocation<TOOL extends UITool | Tool> = {
   /**
-   * 工具调用的 ID。
+   * 工具调用的ID。
    */
   toolCallId: string;
   title?: string;
@@ -347,7 +347,7 @@ export type UIToolInvocation<TOOL extends UITool | Tool> = {
       };
     }
   | {
-      state: 'output-error'; // TODO AI SDK 6：更改为“错误”状态
+      state: 'output-error'; // TODO AI SDK 6：更改为`错误`状态
       input: asUITool<TOOL>['input'] | undefined;
       rawInput?: unknown; // TODO AI SDK 6：删除此字段，输入应该是未知的
       output?: never;
@@ -391,7 +391,7 @@ export type DynamicToolUIPart = {
   toolName: string;
 
   /**
-   * 工具调用的 ID。
+   * 工具调用的ID。
    */
   toolCallId: string;
   title?: string;
@@ -460,7 +460,7 @@ export type DynamicToolUIPart = {
       };
     }
   | {
-      state: 'output-error'; // TODO AI SDK 6：更改为“错误”状态
+      state: 'output-error'; // TODO AI SDK 6：更改为`错误`状态
       input: unknown;
       output?: never;
       errorText: string;
@@ -489,7 +489,7 @@ export type DynamicToolUIPart = {
 );
 
 /**
- * 输入guard 来检查消息部分是否是文本部分。
+ * 输入guard来检查消息部分是否是文本部分。
  */
 export function isTextUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -498,7 +498,7 @@ export function isTextUIPart(
 }
 
 /**
- * 键入guard 以检查消息部分是否是自定义部分。
+ * 输入guard以检查消息部分是否是自定义部分。
  */
 export function isCustomContentUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -507,7 +507,7 @@ export function isCustomContentUIPart(
 }
 
 /**
- * 输入guard 来检查消息部分是否是文件部分。
+ * 输入guard来检查消息部分是否是文件部分。
  */
 export function isFileUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -516,7 +516,7 @@ export function isFileUIPart(
 }
 
 /**
- * 键入guard 以检查消息部分是否是推理文件部分。
+ * 输入guard以检查消息部分是否是推理文件部分。
  */
 export function isReasoningFileUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -525,7 +525,7 @@ export function isReasoningFileUIPart(
 }
 
 /**
- * 输入guard 来检查消息部分是否是推理部分。
+ * 输入guard来检查消息部分是否是推理部分。
  */
 export function isReasoningUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -560,7 +560,7 @@ export function isDynamicToolUIPart(
  *
  * 工具部件可以是静态工具，也可以是动态工具。
  *
- * 使用“isStaticToolUIPart”或“isDynamicToolUIPart”检查工具的类型。
+ * 使用`isStaticToolUIPart`或`isDynamicToolUIPart`检查工具的类型。
  */
 export function isToolUIPart<TOOLS extends UITools>(
   part: UIMessagePart<UIDataTypes, TOOLS>,
@@ -583,7 +583,7 @@ export function getStaticToolName<TOOLS extends UITools>(
  * 返回工具的名称（静态或动态）。
  *
  * 此功能不会将名称限制为工具集的按键。
- * 如果您需要将名称限制为工具集的键，请改用“getStaticToolName”。
+ * 如果您需要将名称限制为工具集的键，请改用`getStaticToolName`。
  */
 export function getToolName(
   part: ToolUIPart<UITools> | DynamicToolUIPart,
@@ -592,7 +592,7 @@ export function getToolName(
 }
 
 /**
- * @deprecated 请改用 getToolName。
+ * @deprecated 请改用getToolName。
  */
 export const getToolOrDynamicToolName = getToolName;
 

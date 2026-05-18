@@ -12,7 +12,7 @@ import type { ToolNeedsApprovalFunction } from './tool-needs-approval-function';
 import type { Experimental_Sandbox as Sandbox } from './sandbox';
 
 /**
- * Helper type to determine the outputSchema and execute function properties of a tool.
+ * 用于确定工具的输出模式和执行函数属性的帮助程序类型。
  */
 type ToolOutputProperties<
   INPUT,
@@ -22,15 +22,15 @@ type ToolOutputProperties<
   OUTPUT,
   | {
       /**
-       * The optional schema of the output that the tool produces.
+       * 该工具生成的输出的可选架构。
        *
-       * If not provided, the output shape will be inferred from the execute function.
+       * 如果未提供，则将从执行函数推断输出形状。
        */
       outputSchema?: FlexibleSchema<OUTPUT>;
 
       /**
-       * An async function that is called with the arguments from the tool call and produces a result.
-       * If not provided, the tool will not be executed automatically.
+       * 使用工具调用中的参数进行调用并生成结果的异步函数。
+       * 如果未提供，该工具将不会自动执行。
        *
        * @args is the input of the tool call.
        * @options.abortSignal is a signal that can be used to abort the tool call.
@@ -39,9 +39,9 @@ type ToolOutputProperties<
     }
   | {
       /**
-       * The schema of the output that the tool produces.
+       * 该工具生成的输出的架构。
        *
-       * Required when no execute function is provided.
+       * 当没有提供执行函数时需要。
        */
       outputSchema: FlexibleSchema<OUTPUT>;
 
@@ -50,7 +50,7 @@ type ToolOutputProperties<
 >;
 
 /**
- * Common properties shared by all tool kinds.
+ * 所有工具类型共享的通用属性。
  */
 type BaseTool<
   INPUT extends JSONValue | unknown | never = any,
@@ -58,50 +58,50 @@ type BaseTool<
   CONTEXT extends Context | unknown | never = any,
 > = {
   /**
-   * An optional title of the tool.
+   * 该工具的可选标题。
    *
-   * @deprecated Use `providerMetadata` for source-specific tool display metadata.
+   * @deprecated 使用“providerMetadata”来获取特定于源的工具显示元数据。
    */
   title?: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 
   /**
-   * Optional metadata about the tool itself (e.g. its source).
+   * 有关工具本身的可选元数据（例如其来源）。
    *
-   * Unlike `providerOptions`, this metadata is not sent to the language
-   * model. Instead, it is propagated onto the resulting tool call's
-   * `toolMetadata` so consumers can read it from tool call / result parts
-   * and UI message parts. This is useful for sources of dynamic tools (e.g.
-   * an MCP server) to identify themselves.
+   * 与“providerOptions”不同，此元数据不会发送到语言
+   * 模型。相反，它会传播到生成的工具调用上
+   * “toolMetadata”，以便消费者可以从工具调用/结果部分读取它
+   * 和 UI 消息部分。这对于动态工具的来源很有用（例如
+   * MCP 服务器）来识别自己的身份。
    */
   metadata?: JSONObject;
 
   /**
-   * The schema of the input that the tool expects.
-   * The language model will use this to generate the input.
-   * It is also used to validate the output of the language model.
+   * 工具期望的输入架构。
+   * 语言模型将使用它来生成输入。
+   * 它还用于验证语言模型的输出。
    *
-   * You can use descriptions on the schema properties to make the input understandable for the language model.
+   * 您可以使用架构属性的描述来使输入易于语言模型理解。
    */
   inputSchema: FlexibleSchema<INPUT>;
 
   /**
-   * An optional schema describing the context that the tool expects.
+   * 描述工具期望的上下文的可选模式。
    *
-   * The context is passed to execute function as part of the execution options.
+   * 上下文作为执行选项的一部分传递给执行函数。
    */
   contextSchema?: FlexibleSchema<CONTEXT>;
 
   /**
-   * Whether the tool needs approval before it can be executed.
+   * 该工具在执行之前是否需要批准。
    *
-   * @deprecated Tool approval is handled on a `generateText` / `streamText` level now.
+   * @deprecated 工具批准现在在“generateText”/“streamText”级别上处理。
    */
   needsApproval?:
     | boolean
@@ -111,16 +111,16 @@ type BaseTool<
       >;
 
   /**
-   * Optional function that is called when the argument streaming starts.
-   * Only called when the tool is used in a streaming context.
+   * 参数流开始时调用的可选函数。
+   * 仅当在流上下文中使用该工具时才调用。
    */
   onInputStart?: (
     options: ToolExecutionOptions<NoInfer<CONTEXT>>,
   ) => void | PromiseLike<void>;
 
   /**
-   * Optional function that is called when an argument streaming delta is available.
-   * Only called when the tool is used in a streaming context.
+   * 当参数流增量可用时调用的可选函数。
+   * 仅当在流上下文中使用该工具时才调用。
    */
   onInputDelta?: (
     options: { inputTextDelta: string } & ToolExecutionOptions<
@@ -129,8 +129,8 @@ type BaseTool<
   ) => void | PromiseLike<void>;
 
   /**
-   * Optional function that is called when a tool call can be started,
-   * even if the execute function is not provided.
+   * 可以启动工具调用时调用的可选函数，
+   * 即使没有提供执行功能。
    */
   onInputAvailable?: (
     options: {
@@ -139,25 +139,25 @@ type BaseTool<
   ) => void | PromiseLike<void>;
 
   /**
-   * Optional conversion function that maps the tool result to an output that can be used by the language model.
+   * 可选的转换函数，将工具结果映射到语言模型可以使用的输出。
    *
-   * If not provided, the tool result will be sent as a JSON object.
+   * 如果未提供，工具结果将作为 JSON 对象发送。
    *
-   * This function is invoked on the server by `convertToModelMessages`, so ensure that you pass the same "tools" (ToolSet) to both "convertToModelMessages" and "streamText" (or other generation APIs).
+   * 此函数由 `convertToModelMessages` 在服务器上调用，因此请确保将相同的“工具”(ToolSet) 传递给“convertToModelMessages”和“streamText”（或其他生成 API）。
    */
   toModelOutput?: (options: {
     /**
-     * The ID of the tool call. You can use it e.g. when sending tool-call related information with stream data.
+     * 工具调用的 ID。您可以使用它，例如当使用流数据发送工具调用相关信息时。
      */
     toolCallId: string;
 
     /**
-     * The input of the tool call.
+     * 工具调用的输入。
      */
     input: [INPUT] extends [never] ? unknown : INPUT;
 
     /**
-     * The output of the tool call.
+     * 工具调用的输出。
      */
     output: 0 extends 1 & OUTPUT
       ? any
@@ -168,7 +168,7 @@ type BaseTool<
 } & ToolOutputProperties<INPUT, OUTPUT, NoInfer<CONTEXT>>;
 
 /**
- * Common properties shared by function-style tools.
+ * 函数式工具共享的公共属性。
  */
 type BaseFunctionTool<
   INPUT extends JSONValue | unknown | never = any,
@@ -176,14 +176,14 @@ type BaseFunctionTool<
   CONTEXT extends Context | unknown | never = any,
 > = BaseTool<INPUT, OUTPUT, CONTEXT> & {
   /**
-   * Optional description of what the tool does.
+   * 该工具功能的可选描述。
    *
-   * Included in the tool definition sent to the language model so it can
-   * decide when and how to call the tool.
+   * 包含在发送到语言模型的工具定义中，以便它可以
+   * 决定何时以及如何调用该工具。
    *
-   * Provide a string for a fixed description, or a function that returns a
-   * string from the current `context` (and optional `experimental_sandbox`) when the
-   * description should vary per call.
+   * 提供固定描述的字符串，或返回
+   * 来自当前“上下文”（和可选的“experimental_sandbox”）的字符串
+   * 每次调用的描述应有所不同。
    */
   description?:
     | string
@@ -193,21 +193,21 @@ type BaseFunctionTool<
       }) => string);
 
   /**
-   * Strict mode setting for the tool.
+   * 工具的严格模式设置。
    *
-   * Providers that support strict mode will use this setting to determine
-   * how the input should be generated. Strict mode will always produce
-   * valid inputs, but it might limit what input schemas are supported.
+   * 支持严格模式的提供商将使用此设置来确定
+   * 如何生成输入。严格模式总会产生
+   * 有效的输入，但它可能会限制支持的输入模式。
    */
   strict?: boolean;
 
   /**
-   * An optional list of input examples that show the language
-   * model what the input should look like.
+   * 显示语言的输入示例的可选列表
+   * 对输入应该是什么样子进行建模。
    */
   inputExamples?: Array<{ input: NoInfer<INPUT> }>;
 
-  // make all properties available to improve usage dx
+  // 使所有属性都可用以提高使用率 dx
   id?: never;
   isProviderExecuted?: never;
   args?: never;
@@ -215,7 +215,7 @@ type BaseFunctionTool<
 };
 
 /**
- * Tool with user-defined input and output schemas that is executed by the AI SDK.
+ * 由 AI SDK 执行的具有用户定义的输入和输出模式的工具。
  */
 export type FunctionTool<
   INPUT extends JSONValue | unknown | never = any,
@@ -226,10 +226,10 @@ export type FunctionTool<
 };
 
 /**
- * Tool that is defined at runtime.
- * The types of input and output are not known at development time.
+ * 在运行时定义的工具。
+ * 输入和输出的类型在开发时是未知的。
  *
- * For example, MCP tools that are not known at development time.
+ * 例如，在开发时未知的 MCP 工具。
  */
 export type DynamicTool<
   INPUT extends JSONValue | unknown | never = any,
@@ -240,7 +240,7 @@ export type DynamicTool<
 };
 
 /**
- * Common properties shared by provider tools.
+ * 提供者工具共享的公共属性。
  */
 type BaseProviderTool<
   INPUT extends JSONValue | unknown | never = any,
@@ -250,26 +250,26 @@ type BaseProviderTool<
   type: 'provider';
 
   /**
-   * The ID of the tool. Must follow the format `<provider-name>.<unique-tool-name>`.
+   * 工具的 ID。必须遵循格式“<provider-name>.<unique-tool-name>”。
    */
   id: `${string}.${string}`;
 
   /**
-   * The arguments for configuring the tool. Must match the expected arguments defined by the provider for this tool.
+   * 用于配置工具的参数。必须匹配提供者为此工具定义的预期参数。
    */
   args: Record<string, unknown>;
 
-  // make all properties available to improve usage dx
+  // 使所有属性都可用以提高使用率 dx
   description?: never;
   strict?: never;
   inputExamples?: never;
 };
 
 /**
- * Tool with provider-defined input and output schemas that is executed by the
- * user.
+ * 具有提供者定义的输入和输出模式的工具，由
+ * 用户。
  *
- * For example, shell tools that are executed in a local shell, but have provider-defined input and output schemas.
+ * 例如，在本地 shell 中执行的 shell 工具，但具有提供程序定义的输入和输出架构。
  */
 export type ProviderDefinedTool<
   INPUT extends JSONValue | unknown | never = any,
@@ -277,19 +277,19 @@ export type ProviderDefinedTool<
   CONTEXT extends Context | unknown | never = any,
 > = BaseProviderTool<INPUT, OUTPUT, CONTEXT> & {
   /**
-   * Flag that indicates whether the tool is executed by the provider.
+   * 指示该工具是否由提供者执行的标志。
    */
   isProviderExecuted: false;
 
-  // make all properties available to improve usage dx
+  // 使所有属性都可用以提高使用率 dx
   supportsDeferredResults?: never;
 };
 
 /**
- * Tool with provider-defined input and output schemas that is executed by the
- * provider.
+ * 具有提供者定义的输入和输出模式的工具，由
+ * 提供者。
  *
- * For example, web search tools and code execution tools that are executed by the provider itself.
+ * 例如，由提供商本身执行的网络搜索工具和代码执行工具。
  */
 export type ProviderExecutedTool<
   INPUT extends JSONValue | unknown | never = any,
@@ -297,20 +297,20 @@ export type ProviderExecutedTool<
   CONTEXT extends Context | unknown | never = any,
 > = BaseProviderTool<INPUT, OUTPUT, CONTEXT> & {
   /**
-   * Flag that indicates whether the tool is executed by the provider.
+   * 指示该工具是否由提供者执行的标志。
    */
   isProviderExecuted: true;
 
   /**
-   * Whether this provider-executed tool supports deferred results.
+   * 此提供商执行的工具是否支持延迟结果。
    *
-   * When true, the tool result may not be returned in the same turn as the
-   * tool call (e.g., when using programmatic tool calling where a server tool
-   * triggers a client-executed tool, and the server tool's result is deferred
-   * until the client tool is resolved).
+   * 当 true 时，工具结果可能不会与
+   * 工具调用（例如，当使用编程工具调用服务器工具时
+   * 触发客户端执行的工具，并且服务器工具的结果被延迟
+   * 直到客户端工具解决）。
    *
-   * This flag allows the AI SDK to handle tool results that arrive without
-   * a matching tool call in the current response.
+   * 该标志允许 AI SDK 处理未经处理而到达的工具结果
+   * 当前响应中的匹配工具调用。
    *
    * @default false
    */
@@ -318,11 +318,11 @@ export type ProviderExecutedTool<
 };
 
 /**
- * A tool can either be user-defined or provider-defined.
+ * 工具可以是用户定义的，也可以是提供商定义的。
  *
- * It contains the schemas and metadata needed for the language model to call
- * the tool and can include an execute function for tools that are executed by
- * the AI SDK.
+ * 它包含语言模型调用所需的模式和元数据
+ * 该工具可以包含由以下工具执行的工具的执行函数
+ * 人工智能 SDK。
  */
 export type Tool<
   INPUT extends JSONValue | unknown | never = any,
@@ -337,9 +337,9 @@ export type Tool<
 /**
  * Infer the tool type from a tool object.
  *
- * This is useful for type inference when working with tool objects.
+ * 这对于使用工具对象时的类型推断很有用。
  */
-// Note: overload order is important for auto-completion
+// 注意：重载顺序对于自动完成很重要
 export function tool<INPUT, OUTPUT, CONTEXT extends Context>(
   tool: Tool<INPUT, OUTPUT, CONTEXT>,
 ): Tool<INPUT, OUTPUT, CONTEXT>;
@@ -357,7 +357,7 @@ export function tool(tool: any): any {
 }
 
 /**
- * Define a dynamic tool.
+ * 定义动态工具。
  */
 export function dynamicTool(
   tool: Omit<DynamicTool<unknown, unknown, Context>, 'type'>,

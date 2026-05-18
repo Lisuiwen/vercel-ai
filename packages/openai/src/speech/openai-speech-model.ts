@@ -58,14 +58,14 @@ export class OpenAISpeechModel implements SpeechModelV4 {
   }: Parameters<SpeechModelV4['doGenerate']>[0]) {
     const warnings: SharedV4Warning[] = [];
 
-    // Parse provider options
+    // 解析提供者选项
     const openAIOptions = await parseProviderOptions({
       provider: 'openai',
       providerOptions,
       schema: openaiSpeechModelOptionsSchema,
     });
 
-    // Create request body
+    // 创建请求正文
     const requestBody: Record<string, unknown> = {
       model: this.modelId,
       input: text,
@@ -87,7 +87,7 @@ export class OpenAISpeechModel implements SpeechModelV4 {
       }
     }
 
-    // Add provider-specific options
+    // 添加特定于提供商的选项
     if (openAIOptions) {
       const speechModelOptions: OpenAISpeechAPITypes = {};
 

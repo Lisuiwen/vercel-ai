@@ -1,23 +1,23 @@
 ---
 title: createProviderRegistry
-description: Registry for managing multiple providers and models (API Reference)
+description: 用于管理多个 provider 和模型的注册表（API 参考）
 ---
 
 # `createProviderRegistry()`
 
-When you work with multiple providers and models, it is often desirable to manage them
-in a central place and access the models through simple string ids.
+使用多个 provider 和模型时，通常需要
+在一个中心位置管理它们，并通过简单的字符串 id 访问模型。
 
-`createProviderRegistry` lets you create a registry with multiple providers that you
-can access by their ids in the format `providerId:modelId`.
+`createProviderRegistry` 允许你创建一个包含多个 provider 的注册表，
+并可通过 `providerId:modelId` 格式的 id 访问它们。
 
-In TypeScript, registry model IDs are inferred from the registered provider IDs.
-When a provider exposes literal model ID types, editors can suggest the combined
-`providerId:modelId` values.
+在 TypeScript 中，注册表模型 ID 会从已注册的 provider ID 推断出来。
+当 provider 暴露字面量模型 ID 类型时，编辑器可以建议组合后的
+`providerId:modelId` 值。
 
-### Setup
+### 设置
 
-You can create a registry with multiple providers and models using `createProviderRegistry`.
+你可以使用 `createProviderRegistry` 创建包含多个 provider 和模型的注册表。
 
 ```ts
 import { anthropic } from '@ai-sdk/anthropic';
@@ -35,9 +35,9 @@ export const registry = createProviderRegistry({
 });
 ```
 
-### Custom Separator
+### 自定义分隔符
 
-By default, the registry uses `:` as the separator between provider and model IDs. You can customize this separator by passing a `separator` option:
+默认情况下，注册表使用 `:` 作为 provider 和模型 ID 之间的分隔符。你可以通过传入 `separator` 选项自定义该分隔符：
 
 ```ts
 const registry = createProviderRegistry(
@@ -52,10 +52,10 @@ const registry = createProviderRegistry(
 const model = registry.languageModel('anthropic > claude-3-opus-20240229');
 ```
 
-### Language models
+### 语言模型
 
-You can access language models by using the `languageModel` method on the registry.
-The provider id will become the prefix of the model id: `providerId:modelId`.
+你可以使用注册表上的 `languageModel` 方法访问语言模型。
+provider id 会成为模型 id 的前缀：`providerId:modelId`。
 
 ```ts highlight={"5"}
 import { generateText } from 'ai';
@@ -67,10 +67,10 @@ const { text } = await generateText({
 });
 ```
 
-### Text embedding models
+### 文本嵌入模型
 
-You can access text embedding models by using the `.embeddingModel` method on the registry.
-The provider id will become the prefix of the model id: `providerId:modelId`.
+你可以使用注册表上的 `.embeddingModel` 方法访问文本嵌入模型。
+provider id 会成为模型 id 的前缀：`providerId:modelId`。
 
 ```ts highlight={"5"}
 import { embed } from 'ai';
@@ -82,10 +82,10 @@ const { embedding } = await embed({
 });
 ```
 
-### Image models
+### 图像模型
 
-You can access image models by using the `imageModel` method on the registry.
-The provider id will become the prefix of the model id: `providerId:modelId`.
+你可以使用注册表上的 `imageModel` 方法访问图像模型。
+provider id 会成为模型 id 的前缀：`providerId:modelId`。
 
 ```ts highlight={"5"}
 import { generateImage } from 'ai';
@@ -97,10 +97,10 @@ const { image } = await generateImage({
 });
 ```
 
-### Video models
+### 视频模型
 
-You can access video models by using the `videoModel` method on the registry.
-The provider id will become the prefix of the model id: `providerId:modelId`.
+你可以使用注册表上的 `videoModel` 方法访问视频模型。
+provider id 会成为模型 id 的前缀：`providerId:modelId`。
 
 ```ts highlight={"5"}
 import { fal } from '@ai-sdk/fal';
@@ -114,18 +114,18 @@ const { videos } = await experimental_generateVideo({
 });
 ```
 
-### Files and skills
+### 文件和 skills
 
-You can access a provider's files and skills interfaces by calling
+你可以通过调用以下方法访问 provider 的 files 和 skills 接口
 `registry.files(providerId)` and `registry.skills(providerId)`.
 
-## Import
+## 导入
 
 <Snippet text={`import { createProviderRegistry } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -133,7 +133,7 @@ You can access a provider's files and skills interfaces by calling
       name: 'providers',
       type: 'Record<string, Provider>',
       description:
-        'The unique identifier for the provider. It should be unique within the registry.',
+        'provider 的唯一标识符。它在注册表中应是唯一的。',
       properties: [
         {
           type: 'Provider',
@@ -142,58 +142,58 @@ You can access a provider's files and skills interfaces by calling
               name: 'languageModel',
               type: '(id: string) => LanguageModel',
               description:
-                'A function that returns a language model by its id.',
+                '根据 id 返回语言模型的函数。',
             },
             {
               name: 'embeddingModel',
               type: '(id: string) => EmbeddingModel<string>',
               description:
-                'A function that returns a text embedding model by its id.',
+                '根据 id 返回文本嵌入模型的函数。',
             },
             {
               name: 'imageModel',
               type: '(id: string) => ImageModel',
-              description: 'A function that returns an image model by its id.',
+              description: '根据 id 返回图像模型的函数。',
             },
             {
               name: 'transcriptionModel',
               type: '(id: string) => TranscriptionModel',
               isOptional: true,
               description:
-                'A function that returns a transcription model by its id.',
+                '根据 id 返回转录模型的函数。',
             },
             {
               name: 'speechModel',
               type: '(id: string) => SpeechModel',
               isOptional: true,
-              description: 'A function that returns a speech model by its id.',
+              description: '根据 id 返回语音模型的函数。',
             },
             {
               name: 'rerankingModel',
               type: '(id: string) => RerankingModel',
               isOptional: true,
               description:
-                'A function that returns a reranking model by its id.',
+                '根据 id 返回重排序模型的函数。',
             },
             {
               name: 'videoModel',
               type: '(id: string) => VideoModelV4',
               isOptional: true,
-              description: 'A function that returns a video model by its id.',
+              description: '根据 id 返回视频模型的函数。',
             },
             {
               name: 'files',
               type: '() => FilesV4',
               isOptional: true,
               description:
-                'A function that returns the provider files API interface.',
+                '返回 provider files API 接口的函数。',
             },
             {
               name: 'skills',
               type: '() => SkillsV4',
               isOptional: true,
               description:
-                'A function that returns the provider skills API interface.',
+                '返回 provider skills API 接口的函数。',
             },
           ],
         },
@@ -203,7 +203,7 @@ You can access a provider's files and skills interfaces by calling
       name: 'options',
       type: 'object',
       isOptional: true,
-      description: 'Optional configuration for the registry.',
+      description: '注册表的可选配置。',
       properties: [
         {
           type: 'Options',
@@ -213,21 +213,21 @@ You can access a provider's files and skills interfaces by calling
               type: 'string',
               isOptional: true,
               description:
-                'Custom separator between provider and model IDs. Defaults to ":".',
+                'provider 与模型 ID 之间的自定义分隔符。默认值为 ":"。',
             },
             {
               name: 'languageModelMiddleware',
               type: 'LanguageModelMiddleware | LanguageModelMiddleware[]',
               isOptional: true,
               description:
-                'Middleware to wrap all language models obtained from the registry.',
+                '用于包装从注册表获取的所有语言模型的 middleware。',
             },
             {
               name: 'imageModelMiddleware',
               type: 'ImageModelMiddleware | ImageModelMiddleware[]',
               isOptional: true,
               description:
-                'Middleware to wrap all image models obtained from the registry.',
+                '用于包装从注册表获取的所有图像模型的 middleware。',
             },
           ],
         },
@@ -236,9 +236,9 @@ You can access a provider's files and skills interfaces by calling
   ]}
 />
 
-### Returns
+### 返回值
 
-The `createProviderRegistry` function returns a `Provider` instance. It has the following methods:
+`createProviderRegistry` 函数返回一个 `Provider` 实例。它包含以下方法：
 
 <PropertiesTable
   content={[
@@ -246,55 +246,55 @@ The `createProviderRegistry` function returns a `Provider` instance. It has the 
       name: 'languageModel',
       type: '(id: string) => LanguageModel',
       description:
-        'A function that returns a language model by its id (format: providerId:modelId)',
+        '根据 id 返回语言模型的函数（格式：providerId:modelId）',
     },
     {
       name: 'embeddingModel',
       type: '(id: string) => EmbeddingModel<string>',
       description:
-        'A function that returns a text embedding model by its id (format: providerId:modelId)',
+        '根据 id 返回文本嵌入模型的函数（格式：providerId:modelId）',
     },
     {
       name: 'imageModel',
       type: '(id: string) => ImageModel',
       description:
-        'A function that returns an image model by its id (format: providerId:modelId)',
+        '根据 id 返回图像模型的函数（格式：providerId:modelId）',
     },
     {
       name: 'transcriptionModel',
       type: '(id: string) => TranscriptionModel',
       description:
-        'A function that returns a transcription model by its id (format: providerId:modelId)',
+        '根据 id 返回转录模型的函数（格式：providerId:modelId）',
     },
     {
       name: 'speechModel',
       type: '(id: string) => SpeechModel',
       description:
-        'A function that returns a speech model by its id (format: providerId:modelId)',
+        '根据 id 返回语音模型的函数（格式：providerId:modelId）',
     },
     {
       name: 'rerankingModel',
       type: '(id: string) => RerankingModel',
       description:
-        'A function that returns a reranking model by its id (format: providerId:modelId)',
+        '根据 id 返回重排序模型的函数（格式：providerId:modelId）',
     },
     {
       name: 'videoModel',
       type: '(id: string) => VideoModelV4',
       description:
-        'A function that returns a video model by its id (format: providerId:modelId)',
+        '根据 id 返回视频模型的函数（格式：providerId:modelId）',
     },
     {
       name: 'files',
       type: '(providerId: string) => FilesV4',
       description:
-        'A function that returns a provider files API interface by provider id.',
+        '根据 provider id 返回 provider files API 接口的函数。',
     },
     {
       name: 'skills',
       type: '(providerId: string) => SkillsV4',
       description:
-        'A function that returns a provider skills API interface by provider id.',
+        '根据 provider id 返回 provider skills API 接口的函数。',
     },
   ]}
 />

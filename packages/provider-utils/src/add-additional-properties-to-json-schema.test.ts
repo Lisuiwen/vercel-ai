@@ -221,7 +221,7 @@ describe('addAdditionalPropertiesToJsonSchema', () => {
           type: 'object',
           properties: {
             value: { type: 'string' },
-            next: { $ref: '#/definitions/Node' }, // recursive reference
+            next: { $ref: '#/definitions/Node' }, // 递归引用
           },
         },
       },

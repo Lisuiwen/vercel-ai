@@ -3,8 +3,8 @@ import type { LanguageModelV2FunctionTool } from './language-model-v2-function-t
 import type { LanguageModelV2ProviderDefinedTool } from './language-model-v2-provider-defined-tool';
 
 /**
- * Warning from the model provider for this call. The call will proceed, but e.g.
- * some settings might not be supported, which can lead to suboptimal results.
+ * 来自模型提供商对此调用的警告。呼叫将继续进行，但例如
+ * 某些设置可能不受支持，这可能会导致结果不理想。
  */
 export type LanguageModelV2CallWarning =
   | {

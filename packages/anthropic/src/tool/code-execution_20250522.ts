@@ -36,7 +36,7 @@ const codeExecution_20250522InputSchema = lazySchema(() =>
 const factory = createProviderExecutedToolFactory<
   {
     /**
-     * The Python code to execute.
+     * 要执行的 Python 代码。
      */
     code: string;
   },

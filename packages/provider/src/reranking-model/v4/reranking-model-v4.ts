@@ -2,28 +2,28 @@ import type { RerankingModelV4CallOptions } from './reranking-model-v4-call-opti
 import type { RerankingModelV4Result } from './reranking-model-v4-result';
 
 /**
- * Specification for a reranking model that implements the reranking model interface version 3.
+ * 实现重新排序模型接口版本 3 的重新排序模型规范。
  */
 export type RerankingModelV4 = {
   /**
-   * The reranking model must specify which reranking model interface version it implements.
+   * 重排序模型必须指定它实现的重排序模型接口版本。
    */
   readonly specificationVersion: 'v4';
 
   /**
-   * Provider ID.
+   * 提供商 ID。
    */
   readonly provider: string;
 
   /**
-   * Provider-specific model ID.
+   * 提供商特定的模型 ID。
    */
   readonly modelId: string;
 
   /**
-   * Reranking a list of documents using the query.
+   * 使用查询对文档列表重新排序。
    */
-  // Naming: "do" prefix to prevent accidental direct usage of the method by the user.
+  // 命名：“do”前缀，防止用户意外直接使用该方法。
   doRerank(
     options: RerankingModelV4CallOptions,
   ): PromiseLike<RerankingModelV4Result>;

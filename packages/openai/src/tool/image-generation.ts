@@ -39,67 +39,67 @@ export const imageGenerationOutputSchema = lazySchema(() =>
 
 type ImageGenerationArgs = {
   /**
-   * Background type for the generated image. Default is 'auto'.
+   * 生成图像的背景类型。默认为“自动”。
    */
   background?: 'auto' | 'opaque' | 'transparent';
 
   /**
-   * Input fidelity for the generated image. Default is 'low'.
+   * 生成图像的输入保真度。默认值为“低”。
    */
   inputFidelity?: 'low' | 'high';
 
   /**
-   * Optional mask for inpainting.
-   * Contains image_url (string, optional) and file_id (string, optional).
+   * 可选的修复面罩。
+   * 包含 image_url（字符串，可选）和 file_id（字符串，可选）。
    */
   inputImageMask?: {
     /**
-     * File ID for the mask image.
+     * 遮罩图像的文件 ID。
      */
     fileId?: string;
 
     /**
-     * Base64-encoded mask image.
+     * Base64 编码的蒙版图像。
      */
     imageUrl?: string;
   };
 
   /**
-   * The image generation model to use. Default: gpt-image-1.
+   * 要使用的图像生成模型。默认值：gpt-image-1。
    */
   model?: string;
 
   /**
-   * Moderation level for the generated image. Default: auto.
+   * 生成图像的审核级别。默认值：自动。
    */
   moderation?: 'auto';
 
   /**
-   * Compression level for the output image. Default: 100.
+   * 输出图像的压缩级别。默认值：100。
    */
   outputCompression?: number;
 
   /**
-   * The output format of the generated image. One of png, webp, or jpeg.
-   * Default: png
+   * 生成图像的输出格式。 png、webp 或 jpeg 之一。
+   * 默认值：png
    */
   outputFormat?: 'png' | 'jpeg' | 'webp';
 
   /**
-   * Number of partial images to generate in streaming mode, from 0 (default value) to 3.
+   * 流模式下生成的部分图像的数量，从 0（默认值）到 3。
    */
   partialImages?: number;
 
   /**
-   * The quality of the generated image.
-   * One of low, medium, high, or auto. Default: auto.
+   * 生成图像的质量。
+   * 低、中、高或自动之一。默认值：自动。
    */
   quality?: 'auto' | 'low' | 'medium' | 'high';
 
   /**
-   * The size of the generated image.
-   * One of 1024x1024, 1024x1536, 1536x1024, or auto.
-   * Default: auto.
+   * 生成图像的大小。
+   * 1024x1024、1024x1536、1536x1024 或自动之一。
+   * 默认值：自动。
    */
   size?: 'auto' | '1024x1024' | '1024x1536' | '1536x1024';
 };
@@ -108,7 +108,7 @@ const imageGenerationToolFactory = createProviderExecutedToolFactory<
   {},
   {
     /**
-     * The generated image encoded in base64.
+     * 生成的图像以 base64 编码。
      */
     result: string;
   },
@@ -120,7 +120,7 @@ const imageGenerationToolFactory = createProviderExecutedToolFactory<
 });
 
 export const imageGeneration = (
-  args: ImageGenerationArgs = {}, // default
+  args: ImageGenerationArgs = {}, // 默认
 ) => {
   return imageGenerationToolFactory(args);
 };

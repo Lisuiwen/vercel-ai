@@ -2,11 +2,11 @@ import type { JSONObject } from '@ai-sdk/provider';
 import type { AnthropicMessageMetadata } from './anthropic-message-metadata';
 
 /**
- * Sets the Anthropic container ID in the provider options based on
- * any previous step's provider metadata.
+ * 根据提供者选项设置 Anthropic 容器 ID
+ * 任何先前步骤的提供者元数据。
  *
- * Searches backwards through steps to find the most recent container ID.
- * You can use this function in `prepareStep` to forward the container ID between steps.
+ * 通过步骤向后搜索以查找最新的容器 ID。
+ * 您可以在`prepareStep`中使用此函数在步骤之间转发容器ID。
  */
 export function forwardAnthropicContainerIdFromLastStep({
   steps,
@@ -15,7 +15,7 @@ export function forwardAnthropicContainerIdFromLastStep({
     providerMetadata?: Record<string, JSONObject>;
   }>;
 }): undefined | { providerOptions?: Record<string, JSONObject> } {
-  // Search backwards through steps to find the most recent container ID
+  // 通过步骤向后搜索以找到最新的容器 ID
   for (let i = steps.length - 1; i >= 0; i--) {
     const containerId = (
       steps[i].providerMetadata?.anthropic as

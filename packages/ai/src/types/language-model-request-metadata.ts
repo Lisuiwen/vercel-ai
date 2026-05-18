@@ -10,7 +10,7 @@ export type LanguageModelRequestMetadata = {
   readonly messages?: Array<ModelMessage>;
 
   /**
-   * 请求发送到提供商 API 的 HTTP 正文。
+   * 请求发送到创建 API 的 HTTP 正文。
    */
   readonly body?: unknown;
 };

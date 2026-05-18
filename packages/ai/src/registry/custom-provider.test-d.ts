@@ -36,8 +36,8 @@ import { MockVideoModelV3 } from '../test/mock-video-model-v3';
 import { MockVideoModelV4 } from '../test/mock-video-model-v4';
 
 /**
- * `customProvider` 的类型级测试。文字模型标识符遵循私有
- * “custom-provider.ts”中的“ExtractModelId”帮助器（每个模型记录的字符串键）。
+ * `customProvider` 的类型级测试。文字模型设计师遵循原生
+ * `custom-provider.ts`中的`ExtractModelId`帮助器（模型每个记录的字符串键）。
  */
 
 describe('customProvider autocomplete / literal model identifiers', () => {
@@ -458,9 +458,9 @@ describe('customProvider negative typing', () => {
       (typeof configuredProvider)['imageModel']
     >[0];
 
-    // @ts-expect-error 拼写错误不是配置的嵌入模型 ID
+    // @ts-expect-error 提示错误不是配置的嵌入模型 ID
     const _wrongEmbeddingIdentifier: EmbeddingIdentifier = 'typo';
-    // @ts-expect-error 拼写错误不是配置的图像模型 ID
+    // @ts-expect-error 提示错误不是配置的图像模型 ID
     const _wrongImageIdentifier: ImageIdentifier = 'typo';
   });
 });
@@ -487,7 +487,7 @@ describe('customProvider with fallback provider typing', () => {
 
     provider.languageModel('alias');
 
-    // 仅通过后备解决的 @ts-expect-error 标识符不是 ExtractModelId 的一部分
+    // 仅通过后备解决的@ts-expect-error 标识符不是 ExtractModelId 的一部分
     const _fallbackOnlyIdentifier: LanguageIdentifiers = 'fallback-language';
   });
 

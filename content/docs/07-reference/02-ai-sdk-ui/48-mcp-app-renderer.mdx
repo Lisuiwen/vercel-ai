@@ -1,20 +1,20 @@
 ---
 title: experimental_MCPAppRenderer
-description: API reference for rendering MCP Apps with @ai-sdk/react.
+description: 使用 @ai-sdk/react 渲染 MCP Apps 的 API 参考。
 ---
 
 # `experimental_MCPAppRenderer`
 
 <Note type="warning">
-  `experimental_MCPAppRenderer` is experimental and may change in a future
-  release.
+  `experimental_MCPAppRenderer` 是实验性功能，可能会在未来
+  版本中发生变化。
 </Note>
 
-`experimental_MCPAppRenderer` renders an MCP App for an AI SDK tool UI part. It detects MCP App metadata on the tool part, loads the app resource, renders the app in a sandbox proxy iframe, and bridges MCP Apps JSON-RPC messages between the iframe and your host application.
+`experimental_MCPAppRenderer` 为 AI SDK 工具 UI part 渲染 MCP App。它会检测工具 part 上的 MCP App 元数据，加载 app 资源，在沙箱代理 iframe 中渲染 app，并在 iframe 与宿主应用之间桥接 MCP Apps JSON-RPC 消息。
 
-For tool parts without MCP App metadata, the component renders the `fallback`.
+对于没有 MCP App 元数据的工具 part，该组件会渲染 `fallback`。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { experimental_MCPAppRenderer as MCPAppRenderer } from "@ai-sdk/react"`}
@@ -97,54 +97,54 @@ export function MessagePart({ part }: { part: unknown }) {
       name: 'sandbox',
       type: 'MCPAppSandboxConfig',
       description:
-        'Configuration for the outer sandbox proxy iframe used to host the app.',
+        '用于托管 app 的外层沙箱代理 iframe 配置。',
     },
     {
       name: 'resource',
       type: 'MCPAppResource',
       isOptional: true,
       description:
-        'A preloaded MCP App resource. Provide either `resource` or `loadResource`.',
+        '预加载的 MCP App 资源。请提供 `resource` 或 `loadResource` 之一。',
     },
     {
       name: 'loadResource',
       type: '(app: MCPAppMetadata) => Promise<MCPAppResource>',
       isOptional: true,
       description:
-        'Loads the MCP App resource for the app metadata found on the tool part.',
+        '为工具 part 上找到的 app 元数据加载 MCP App 资源。',
     },
     {
       name: 'handlers',
       type: 'MCPAppBridgeHandlers',
       isOptional: true,
       description:
-        'Callbacks used to handle iframe requests such as `tools/call`, `resources/read`, `ui/open-link`, and display mode changes.',
+        '用于处理 iframe 请求的回调，例如 `tools/call`、`resources/read`、`ui/open-link` 和显示模式变更。',
     },
     {
       name: 'hostInfo',
       type: '{ name: string; version: string }',
       isOptional: true,
       description:
-        'Host identity returned to the app during the `ui/initialize` handshake.',
+        '在 `ui/initialize` 握手期间返回给 app 的宿主身份。',
     },
     {
       name: 'hostContext',
       type: 'MCPAppHostContext',
       isOptional: true,
       description:
-        'Host context sent to the app, such as theme, display mode, and available display modes.',
+        '发送给 app 的宿主上下文，例如主题、显示模式和可用显示模式。',
     },
     {
       name: 'fallback',
       type: 'ReactNode',
       isOptional: true,
       description:
-        'Rendered while the resource is loading, when loading fails, or when the tool part is not an MCP App.',
+        '在资源加载中、加载失败，或工具 part 不是 MCP App 时渲染。',
     },
   ]}
 />
 
-## Sandbox Config
+## 沙箱配置
 
 <PropertiesTable
   content={[
@@ -152,53 +152,53 @@ export function MessagePart({ part }: { part: unknown }) {
       name: 'url',
       type: 'string | URL',
       description:
-        'The URL of the sandbox proxy iframe. The proxy receives app HTML from the host and creates the inner app iframe.',
+        '沙箱代理 iframe 的 URL。代理从宿主接收 app HTML，并创建内部 app iframe。',
     },
     {
       name: 'title',
       type: 'string',
       isOptional: true,
-      description: 'Accessible iframe title.',
+      description: '可访问的 iframe 标题。',
     },
     {
       name: 'className',
       type: 'string',
       isOptional: true,
-      description: 'Class name applied to the outer iframe.',
+      description: '应用于外层 iframe 的 class 名称。',
     },
     {
       name: 'style',
       type: 'CSSProperties',
       isOptional: true,
-      description: 'Inline styles applied to the outer iframe.',
+      description: '应用于外层 iframe 的内联样式。',
     },
     {
       name: 'targetOrigin',
       type: 'string',
       isOptional: true,
       description:
-        'Target origin used for `postMessage`. Defaults to `*`; set this to your sandbox origin in production.',
+        '用于 `postMessage` 的目标 origin。默认值为 `*`；生产环境中请将其设置为你的沙箱 origin。',
     },
     {
       name: 'outerSandbox',
       type: 'string',
       isOptional: true,
       description:
-        'Sandbox attribute for the outer proxy iframe. Defaults to `allow-scripts allow-same-origin allow-forms`.',
+        '外层代理 iframe 的 sandbox 属性。默认值为 `allow-scripts allow-same-origin allow-forms`。',
     },
     {
       name: 'innerSandbox',
       type: 'string',
       isOptional: true,
       description:
-        'Sandbox attribute sent to the proxy for the inner app iframe. Defaults to `allow-scripts allow-forms`.',
+        '发送给代理并用于内部 app iframe 的 sandbox 属性。默认值为 `allow-scripts allow-forms`。',
     },
   ]}
 />
 
-## Bridge Handlers
+## Bridge 处理器
 
-`experimental_MCPAppRenderer` uses these handlers to respond to iframe requests. In production, server-backed handlers should validate authorization and MCP Apps tool visibility before calling the MCP server.
+`experimental_MCPAppRenderer` 使用这些处理器响应 iframe 请求。生产环境中，由服务端支持的处理器应在调用 MCP server 前验证授权和 MCP Apps 工具可见性。
 
 <PropertiesTable
   content={[
@@ -207,94 +207,94 @@ export function MessagePart({ part }: { part: unknown }) {
       type: 'string[]',
       isOptional: true,
       description:
-        'Optional client-side allowlist checked before forwarding `tools/call` requests.',
+        '转发 `tools/call` 请求前检查的可选客户端 allowlist。',
     },
     {
       name: 'callTool',
       type: '(params: MCPAppToolCallParams) => Promise<unknown> | unknown',
       isOptional: true,
-      description: 'Handles app-initiated `tools/call` requests.',
+      description: '处理 app 发起的 `tools/call` 请求。',
     },
     {
       name: 'readResource',
       type: '(params: { uri: string }) => Promise<unknown> | unknown',
       isOptional: true,
-      description: 'Handles app-initiated `resources/read` requests.',
+      description: '处理 app 发起的 `resources/read` 请求。',
     },
     {
       name: 'listResources',
       type: '(params?: unknown) => Promise<unknown> | unknown',
       isOptional: true,
-      description: 'Handles app-initiated `resources/list` requests.',
+      description: '处理 app 发起的 `resources/list` 请求。',
     },
     {
       name: 'openLink',
       type: '(params: { url: string }) => Promise<unknown> | unknown',
       isOptional: true,
-      description: 'Handles app-initiated `ui/open-link` requests.',
+      description: '处理 app 发起的 `ui/open-link` 请求。',
     },
     {
       name: 'sendMessage',
       type: '(params: unknown) => Promise<unknown> | unknown',
       isOptional: true,
-      description: 'Handles app-initiated `ui/message` requests.',
+      description: '处理 app 发起的 `ui/message` 请求。',
     },
     {
       name: 'updateModelContext',
       type: '(params: unknown) => Promise<unknown> | unknown',
       isOptional: true,
-      description: 'Handles app-initiated `ui/update-model-context` requests.',
+      description: '处理 app 发起的 `ui/update-model-context` 请求。',
     },
     {
       name: 'requestDisplayMode',
       type: "(params: { mode: 'inline' | 'fullscreen' | 'pip' }) => Promise<{ mode: MCPAppDisplayMode }> | { mode: MCPAppDisplayMode }",
       isOptional: true,
-      description: 'Handles app-initiated `ui/request-display-mode` requests.',
+      description: '处理 app 发起的 `ui/request-display-mode` 请求。',
     },
     {
       name: 'onSizeChange',
       type: '(params: { width?: number; height?: number }) => void',
       isOptional: true,
-      description: 'Called when the app sends a size change notification.',
+      description: '当 app 发送尺寸变更通知时调用。',
     },
     {
       name: 'onInitialized',
       type: '() => void',
       isOptional: true,
-      description: 'Called after the app sends `ui/notifications/initialized`.',
+      description: '当 app 发送 `ui/notifications/initialized` 后调用。',
     },
     {
       name: 'onRequestTeardown',
       type: '(params: unknown) => void',
       isOptional: true,
-      description: 'Called when the app requests teardown.',
+      description: '当 app 请求 teardown 时调用。',
     },
     {
       name: 'onLog',
       type: '(params: unknown) => void',
       isOptional: true,
-      description: 'Called when the app sends a log notification.',
+      description: '当 app 发送日志通知时调用。',
     },
     {
       name: 'onError',
       type: '(error: Error) => void',
       isOptional: true,
       description:
-        'Called when a supported iframe request fails while being handled.',
+        '处理受支持 iframe 请求失败时调用。',
     },
   ]}
 />
 
-## See Also
+## 另请参阅
 
 <ExampleLinks
   examples={[
     {
-      title: 'MCP Apps guide',
+      title: 'MCP Apps 指南',
       link: '/docs/ai-sdk-core/mcp-apps',
     },
     {
-      title: 'MCP Apps helpers',
+      title: 'MCP Apps 辅助函数',
       link: '/docs/reference/ai-sdk-core/mcp-apps',
     },
   ]}

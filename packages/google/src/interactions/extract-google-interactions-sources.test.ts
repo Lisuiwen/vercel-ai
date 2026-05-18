@@ -200,7 +200,7 @@ describe('builtinToolResultToSources', () => {
         {
           places: [
             { name: 'Foo Cafe', url: 'https://maps.google.com/?q=foo' },
-            { name: 'Bar Bar' }, // no URL -> skipped
+            { name: 'Bar Bar' }, // 无 URL -> 已跳过
           ],
         },
       ],

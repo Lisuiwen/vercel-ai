@@ -36,8 +36,8 @@ export async function convertToLanguageModelPrompt({
   prompt,
   supportedUrls,
   download = createDefaultDownloadFunction(),
-  // 这里仅需要“provider”来通过“mapToolResultOutput”转换旧工具输出类型。
-  // TODO：在 v8 中删除“file-id”和“image-file-id”类型时删除
+  // 这里只需要`provider`来通过`mapToolResultOutput`转换旧工具输出类型。
+  // TODO：在 v8 中删除`file-id`和`image-file-id`类型时删除
   provider,
 }: {
   prompt: StandardizedPrompt;
@@ -171,15 +171,15 @@ export async function convertToLanguageModelPrompt({
 /**
  * 将 ModelMessage 转换为 LanguageModelV4Message。
  *
- * @param message - The ModelMessage to convert.
- * @param downloadedAssets - A map of URLs to their downloaded data. Only
- * 如果模型不支持 URL，则可用，否则为 null。
+ * @param message - 要转换的 ModelMessage。
+ * @param downloadedAssets - 下载数据的 URL 映射。仅有的
+ * 如果模型不支持URL，则可用，否则为null。
  */
 export function convertToLanguageModelMessage({
   message,
   downloadedAssets,
-  // 这里仅需要“provider”来通过“mapToolResultOutput”转换旧工具输出类型。
-  // TODO：在 v8 中删除“file-id”和“image-file-id”类型时删除
+  // 这里只需要`provider`来通过`mapToolResultOutput`转换旧工具输出类型。
+  // TODO：在 v8 中删除`file-id`和`image-file-id`类型时删除
   provider,
 }: {
   message: ModelMessage;
@@ -403,10 +403,10 @@ export function convertToLanguageModelMessage({
 }
 
 /*
- * 将旧版“ImagePart”重写为等效的“FilePart”。默认
- * 裸露的“ImagePart”（无“mediaType”）的“mediaType”是“image”（顶级
- * 段）；显式的“mediaType”是逐字传递的。在此之后
- * 预传递，只有“TextPart”和“FilePart”到达面向提供者的
+ * 将旧版`ImagePart`重写为对应的`FilePart`。默认
+ * 裸露的`ImagePart`（无`mediaType`）的`mediaType`是`image`（严格
+ * 段）；显式的`mediaType`是逐字提交的。此后
+ * 预交付，只有`TextPart`和`FilePart`到达提供者的
  * 转换逻辑。
  */
 function convertImagePartToFilePart(
@@ -424,7 +424,7 @@ function convertImagePartToFilePart(
 }
 
 /**
- * 从用户消息中的 URL 下载文件。
+ * 从消息用户中的URL下载文件。
  */
 async function downloadAssets(
   messages: ModelMessage[],
@@ -525,12 +525,12 @@ async function downloadAssets(
 }
 
 /**
- * 将部分用户消息转换为 LanguageModelV4Part。
+ * 将部分用户消息转换为LanguageModelV4Part。
  *
- * @param part - The part to convert.
- * @param downloadedAssets - A map of URLs to their downloaded data. Only
- * 如果模型不支持 URL，则可用，否则为 null。
- * @returns The converted part.
+ * @param part - 要转换的部分。
+ * @param downloadedAssets - 下载数据的 URL 映射。仅有的
+ * 如果模型不支持URL，则可用，否则为null。
+ * @returns 转换后的部分。
  */
 function convertPartToLanguageModelPart(
   part: TextPart | FilePart,
@@ -594,8 +594,8 @@ function convertPartToLanguageModelPart(
 
 function mapToolResultOutput({
   output,
-  // 此处仅需要“provider”将旧的“file-id”和“image-file-id”类型转换为提供程序引用（以防它们使用字符串 ID 值）。
-  // TODO：在 v8 中删除“file-id”和“image-file-id”类型时删除
+  // 这里只需要`provider`将旧的`file-id`和`image-file-id`类型转换为提供程序引用（它们使用字符串ID值）。
+  // TODO：在 v8 中删除`file-id`和`image-file-id`类型时删除
   provider,
   warnings = [],
   downloadedAssets,
@@ -701,7 +701,7 @@ function mapToolResultOutput({
             providerOptions: item.providerOptions,
           };
         }
-        // “image-*”类型是旧的且已弃用。
+        // `image-*`类型是旧的且已废弃。
         // TODO：删除 v8 中的迁移并结合从提供程序实用程序中删除这些类型。
         case 'image-data': {
           warnings.push({
@@ -815,10 +815,10 @@ const URL_EXTENSION_TO_MEDIA_TYPE: Record<string, string> = {
 
 /*
  * 尝试从 URL 中的文件扩展名推断 IANA 媒体类型
- * 路径名。当扩展不存在时返回“fallbackMediaType”，
+ * 路径名。当扩展不存在时返回`fallbackMediaType`，
  * 无法识别，或者无法解析 URL。
  *
- * 临时私人助手作为“file-url”内容部分上缺少媒体类型的最佳解决方案。
+ * 临时私人助手作为`file-url`内容部分上缺少媒体类型的最佳解决方案。
  */
 function getMediaTypeFromUrl(
   url: string,

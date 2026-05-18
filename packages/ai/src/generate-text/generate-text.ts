@@ -151,60 +151,60 @@ export type GenerateTextInclude = {
 /**
  * 使用语言模型为给定提示生成文本并调用工具。
  *
- * 此函数不流式输出。如果您想流式传输输出，请改用“streamText”。
+ * 此函数不是流式输出。如果您想流式传输输出，请改用`streamText`。
  *
- * @param model - The language model to use.
+ * @param model - 要使用的语言模型。
  *
- * @param tools - Tools that are accessible to and can be called by the model. The model needs to support calling tools.
- * @param toolChoice - The tool choice strategy. Default: 'auto'.
+ * @param tools - 模型可以访问并调用的工具。模型需要支持调用工具。
+ * @param toolChoice - 工具选择策略。默认值：`自动`。
  *
- * @param system - A system message that will be part of the prompt.
- * @param prompt - A simple text prompt. You can either use `prompt` or `messages` but not both.
- * @param messages - A list of messages. You can either use `prompt` or `messages` but not both.
- * @param allowSystemInMessages - Whether system messages are allowed in the `prompt` or `messages` fields. Default: false.
+ * @param system - 将作为提示的一部分的系统消息。
+ * @param prompt - 一个简单的文字提示。您可以使用`提示`或`消息`，但不能同时使用两者。
+ * @param messages - 消息列表。您可以使用`提示`或`消息`，但不能同时使用两者。
+ * @param allowSystemInMessages - `提示`或`消息`字段中是否允许系统消息。默认值：假。
  *
- * @param maxOutputTokens - Maximum number of tokens to generate.
- * @param temperature - Temperature setting.
+ * @param maxOutputTokens - 生成的最大令牌数。
+ * @param temperature - 温度设定。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * 建议设置“温度”或“topP”，但不能同时设置两者。
- * @param topP - Nucleus sampling.
+ * 建议设置`温度`或`topP`，但不能同时设置两者。
+ * @param topP - 细胞核取样。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * 建议设置“温度”或“topP”，但不能同时设置两者。
- * @param topK - Only sample from the top K options for each subsequent token.
+ * 建议设置`温度`或`topP`，但不能同时设置两者。
+ * @param topK - 对于每个后续标记，仅从前 K 个选项中进行采样。
  * 用于删除“长尾”低概率响应。
  * 仅推荐用于高级用例。通常您只需要使用温度。
- * @param presencePenalty - Presence penalty setting.
+ * @param presencePenalty - 存在惩罚设置。
  * 它会影响模型重复提示中已有信息的可能性。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * @param frequencyPenalty - Frequency penalty setting.
+ * @param frequencyPenalty - 频率惩罚设置。
  * 它影响模型重复使用相同单词或短语的可能性。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * @param stopSequences - Stop sequences.
+ * @param stopSequences - 停止序列。
  * 如果设置，模型将在生成停止序列之一时停止生成文本。
- * @param seed - The seed (integer) to use for random sampling.
+ * @param seed - 用于随机采样的种子（整数）。
  * 如果模型设置并支持，调用将生成确定性结果。
  *
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param timeout - An optional timeout in milliseconds. The call will be aborted if it takes longer than the specified timeout.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param timeout - 可选超时（以毫秒为单位）。如果调用时间超过指定的超时时间，调用将被中止。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
  *
- * @param experimental_sandbox - The sandbox environment that is passed through to tool execution.
- * @param runtimeContext - User-defined runtime context that flows through the entire generation lifecycle.
- * @param experimental_refineToolInput - Optional mapping of tool names to functions that refine parsed tool inputs before tools are executed and before outputs, callbacks, and telemetry are recorded.
- * @param experimental_onStart - Callback invoked when generation begins, before any LLM calls.
- * @param experimental_onStepStart - Callback invoked when each step begins, before the provider is called.
- * 接收步骤号、消息（采用 ModelMessage 格式）、工具和运行时上下文。
- * @param onToolExecutionStart - Callback invoked before each tool execution begins.
- * 接收工具名称、调用 ID、输入和上下文。
- * @param experimental_onToolCallStart - Deprecated alias for `onToolExecutionStart`.
- * @param onToolExecutionEnd - Callback invoked after each tool execution completes.
+ * @param experimental_sandbox - 传递到工具执行的沙箱环境。
+ * @param runtimeContext - 用户定义的运行时上下文贯穿整个生成生命周期。
+ * @param experimental_refineToolInput - 工具名称到函数的可选映射，用于在执行工具之前以及记录输出、回调和遥测之前细化已解析的工具输入。
+ * @param experimental_onStart - 生成开始时、任何 LLM 调用之前调用的回调。
+ * @param experimental_onStepStart - 每个步骤开始时、调用提供程序之前都会调用回调。
+ * 接收步骤号、消息（采用ModelMessage格式）、工具和运行时上下文。
+ * @param onToolExecutionStart - 在每个工具执行开始之前调用回调。
+ * 接收工具名称、调用ID、输入和上下文。
+ * @param experimental_onToolCallStart - 已弃用`onToolExecutionStart`的别名。
+ * @param onToolExecutionEnd - 每个工具执行完成后调用的回调。
  * 使用可区分联合：检查“成功”以确定是否存在“输出”或“错误”。
- * @param experimental_onToolCallFinish - Deprecated alias for `onToolExecutionEnd`.
- * @param onStepFinish - Callback that is called when each step (LLM call) is finished, including intermediate steps.
- * @param onFinish - Callback that is called when all steps are finished and the response is complete.
+ * @param experimental_onToolCallFinish - 已弃用`onToolExecutionEnd`的别名。
+ * @param onStepFinish - 每个步骤（LLM 调用）完成时调用的回调，包括中间步骤。
+ * @param onFinish - 当所有步骤完成并且响应完成时调用的回调。
  *
- * @returns
+ * @返回
  * 一个结果对象，包含生成的文本、工具调用的结果以及附加信息。
  */
 export async function generateText<
@@ -286,13 +286,13 @@ export async function generateText<
     /**
      * 可选遥测配置。
      *
-     * @deprecated 请改用“遥测”。该别名将在未来的主要版本中删除。
+     * @deprecated 请改用`遥测`。该别名将在未来的主要版本中删除。
      */
     experimental_telemetry?: TelemetryOptions<RUNTIME_CONTEXT, NoInfer<TOOLS>>;
 
     /**
      * 其他特定于提供商的选项。他们通过
-     * 从 AI SDK 发送给提供商并启用特定于提供商的
+     * 从AI SDK发送给成功并实现特定的成功
      * 可以完全封装在提供者中的功能。
      */
     providerOptions?: ProviderOptions;
@@ -304,7 +304,7 @@ export async function generateText<
 
     /**
      * 运行时上下文。将运行时上下文视为不可变。
-     * 如果您需要改变运行时上下文，请在“prepareStep”中更新它。
+     * 如果您需要改变运行时上下文，请在`prepareStep`中更新它。
      */
     runtimeContext?: RUNTIME_CONTEXT;
 
@@ -315,7 +315,7 @@ export async function generateText<
     activeTools?: ActiveTools<NoInfer<TOOLS>>;
 
     /**
-     * 用于解析 LLM 响应的结构化输出的可选规范。
+     * 用于解析LLM响应的构造输出的任选规范。
      */
     output?: OUTPUT;
 
@@ -327,9 +327,9 @@ export async function generateText<
     toolApproval?: ToolApprovalConfiguration<TOOLS, RUNTIME_CONTEXT>;
 
     /**
-     * 用于 URL 的自定义下载功能。
+     * 使用URL的自定义下载功能。
      *
-     * 默认情况下，如果模型不支持给定媒体类型的 URL，则会下载文件。
+     * 默认情况下，如果模型不支持给定媒体类型的URL，则下载文件。
      */
     experimental_download?: DownloadFunction | undefined;
 
@@ -352,8 +352,8 @@ export async function generateText<
     experimental_refineToolInput?: ToolInputRefinement<NoInfer<TOOLS>>;
 
     /**
-     * generateText 操作开始时调用的回调，
-     * 在拨打任何 LLM 电话之前。
+     * generateText操作开始时调用的回调，
+     * 在拨打任何LLM电话之前。
      */
     experimental_onStart?: GenerateTextOnStartCallback<
       NoInfer<TOOLS>,
@@ -362,7 +362,7 @@ export async function generateText<
     >;
 
     /**
-     * 步骤（LLM 调用）开始时调用的回调，
+     * 步骤（LLM调用）开始时调用的回调，
      * 在调用提供者之前。
      */
     experimental_onStepStart?: GenerateTextOnStepStartCallback<
@@ -392,7 +392,7 @@ export async function generateText<
     /**
      * 在工具的执行函数运行之前调用的回调。
      *
-     * @deprecated 请改用“onToolExecutionStart”。
+     * @deprecated 请改用`onToolExecutionStart`。
      */
     experimental_onToolCallStart?: OnToolExecutionStartCallback<NoInfer<TOOLS>>;
 
@@ -404,12 +404,12 @@ export async function generateText<
     /**
      * 在工具的执行函数完成（或出错）后立即调用的回调。
      *
-     * @deprecated 请改用“onToolExecutionEnd”。
+     * @deprecated 请改用`onToolExecutionEnd`。
      */
     experimental_onToolCallFinish?: OnToolExecutionEndCallback<NoInfer<TOOLS>>;
 
     /**
-     * 每个步骤（LLM 调用）完成时调用的回调，包括中间步骤。
+     * 每个步骤（LLM调用）完成时调用的回调，包括中间步骤。
      */
     onStepFinish?: GenerateTextOnStepFinishCallback<
       NoInfer<TOOLS>,
@@ -437,7 +437,7 @@ export async function generateText<
     /**
      * 用于控制步骤结果中包含哪些数据的设置。
      *
-     * @deprecated 请改用“include”。
+     * @deprecated 请改用`包含`。
      */
     experimental_include?: GenerateTextInclude;
 
@@ -612,7 +612,7 @@ export async function generateText<
           output: {
             type: 'execution-denied' as const,
             reason: toolApproval.approvalResponse.reason,
-            // 对于提供商执行的工具，请包含approvalId，以便提供商可以关联
+            // 对于项目执行的工具，请包含approvalId，以便项目可以关联
             ...(toolApproval.toolCall.providerExecuted && {
               providerOptions: {
                 openai: {
@@ -646,7 +646,7 @@ export async function generateText<
     let messagesForNextStep = [...initialMessages, ...initialResponseMessages];
 
     // 跟踪提供者执行的支持延迟结果的工具调用
-    // （例如，编程工具调用场景中的 code_execution）。
+    // （例如，Smashing Tool 调用场景中的 code_execution）。
     // 这些工具可能不会在调用的同时返回结果。
     const pendingDeferredToolCalls = new Map<string, { toolName: string }>();
 
@@ -957,7 +957,7 @@ export async function generateText<
         }
 
         // 插入无效工具调用的错误工具输出：
-        // TODO AI SDK 6：无效输入不应需要输出部分
+        // TODO AI SDK 6：无效输入不需要输出部分
         const invalidToolCalls = stepToolCalls.filter(
           toolCall => toolCall.invalid && toolCall.dynamic,
         );
@@ -1090,7 +1090,7 @@ export async function generateText<
         });
 
         // 添加步骤信息（响应消息更新后）：
-        // 根据包含设置有条件地包含 request.body 和 response.body。
+        // 根据包含设置有条件地包含request.body和response.body。
         // 大负载（例如，base64 编码的图像）可能会导致内存问题。
         const stepRequest: LanguageModelRequestMetadata = {
           ...currentModelResponse.request,
@@ -1225,7 +1225,7 @@ export async function generateText<
       callbacks: [onFinish, telemetryDispatcher.onEnd],
     });
 
-    // 仅当最后一步以“stop”完成时才解析输出：
+    // 仅当最后一步以`stop`完成时才解析输出：
     let resolvedOutput;
     if (lastStep.finishReason === 'stop') {
       const outputSpecification = output ?? text();
@@ -1488,7 +1488,7 @@ function asContent<TOOLS extends ToolSet>({
         );
 
         // 处理提供者执行的工具的延迟结果（例如，编程工具调用）。
-        // 当服务器工具（如 code_execution）触发客户端工具时，服务器工具的
+        // 当服务器工具（如code_execution）触发客户端工具时，服务器工具的
         // 结果可能会推迟到稍后的回合。在这种情况下，没有匹配的工具调用
         // 在当前的响应中。
         if (toolCall == null) {

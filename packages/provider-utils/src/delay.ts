@@ -1,5 +1,5 @@
 /**
- * Creates a Promise that resolves after a specified delay
+ * 创建一个在指定延迟后解析的 Promise
  * @param delayInMs - The delay duration in milliseconds. If null or undefined, resolves immediately.
  * @param signal - Optional AbortSignal to cancel the delay
  * @returns A Promise that resolves after the specified delay

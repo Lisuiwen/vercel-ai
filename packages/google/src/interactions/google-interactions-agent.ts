@@ -1,13 +1,13 @@
 /**
- * Type-only module: declares the union of supported Gemini Interactions agent
- * names. Used by the `google.interactions({ agent })` factory branch.
+ * 仅类型模块：声明受支持的 Gemini Interactions 代理的联合
+ * 名称。由 `google.interactions({ agent })` 工厂分支使用。
  *
- * Sourced from `googleapis/js-genai` `src/interactions/resources/interactions.ts`
- * (`Interaction.agent` enum). Subject to expansion as Google adds new agents.
+ * 源自 `googleapis/js-genai` `src/interactions/resources/interactions.ts`
+ * （“Interaction.agent”枚举）。随着 Google 添加新代理，可能会进行扩展。
  *
- * This is a strict string-literal union (no `string` escape hatch) so that
- * passing an unknown agent name is a compile-time error. Add new agents here
- * as Google publishes them.
+ * 这是一个严格的字符串-文字联合（没有“字符串”转义舱口），因此
+ * 传递未知的代理名称会导致编译时错误。在此添加新代理
+ * 当谷歌发布它们时。
  */
 
 export type GoogleInteractionsAgentName =

@@ -82,7 +82,7 @@ export class GoogleImageModel implements ImageModelV4 {
   async doGenerate(
     options: Parameters<ImageModelV4['doGenerate']>[0],
   ): Promise<Awaited<ReturnType<ImageModelV4['doGenerate']>>> {
-    // Gemini image models use the language model API internally
+    // Gemini图像模型内部使用语言模型API
     if (isGeminiModel(this.modelId)) {
       return this.doGenerateGemini(options);
     }
@@ -106,7 +106,7 @@ export class GoogleImageModel implements ImageModelV4 {
     } = options;
     const warnings: Array<SharedV4Warning> = [];
 
-    // Imagen API endpoints do not support image editing
+    // Imagen API端点不支持图像编辑
     if (files != null && files.length > 0) {
       throw new Error(
         'Google Gemini API does not support image editing with Imagen models. ' +
@@ -188,7 +188,7 @@ export class GoogleImageModel implements ImageModelV4 {
       providerMetadata: {
         google: {
           images: response.predictions.map(() => ({
-            // Add any prediction-specific metadata here
+            // 在此处添加任何特定于预测的元数据
           })),
         },
       },
@@ -217,14 +217,14 @@ export class GoogleImageModel implements ImageModelV4 {
     } = options;
     const warnings: Array<SharedV4Warning> = [];
 
-    // Gemini does not support mask-based inpainting
+    // Gemini 不支持基于蒙版的修复
     if (mask != null) {
       throw new Error(
         'Gemini image models do not support mask-based image editing.',
       );
     }
 
-    // Gemini does not support generating multiple images per call via n parameter
+    // Gemini 不支持通过 n 参数每次调用生成多个图像
     if (n != null && n > 1) {
       throw new Error(
         'Gemini image models do not support generating a set number of images per call. Use n=1 or omit the n parameter.',
@@ -283,7 +283,7 @@ export class GoogleImageModel implements ImageModelV4 {
       { role: 'user', content: userContent },
     ];
 
-    // Instantiate language model
+    // 实例化语言模型
     const languageModel = new GoogleLanguageModel(this.modelId, {
       provider: this.config.provider,
       baseURL: this.config.baseURL,
@@ -292,7 +292,7 @@ export class GoogleImageModel implements ImageModelV4 {
       generateId: this.config.generateId ?? defaultGenerateId,
     });
 
-    // Call language model with image-only response modality
+    // 具有纯图像响应模式的调用语言模型
     const result = await languageModel.doGenerate({
       prompt: languageModelPrompt,
       seed,
@@ -359,7 +359,7 @@ function isGeminiModel(modelId: string): boolean {
   return modelId.startsWith('gemini-');
 }
 
-// minimal version of the schema
+// 架构的最小版本
 const googleImageResponseSchema = lazySchema(() =>
   zodSchema(
     z.object({

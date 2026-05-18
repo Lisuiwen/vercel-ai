@@ -57,23 +57,23 @@ describe('DelayedPromise', () => {
     const dp = new DelayedPromise<string>();
     let resolved = false;
 
-    // Access the promise before resolving
+    // 在解决之前访问 Promise
     const promise = dp.promise.then(value => {
       resolved = true;
       return value;
     });
 
-    // Promise should not be resolved yet
+    // Promise 应该还没有解决
     expect(resolved).toBe(false);
 
-    // Wait a bit to ensure it's truly blocking
+    // 稍等一下以确保它确实被阻止
     await vi.advanceTimersByTimeAsync(10);
     expect(resolved).toBe(false);
 
-    // Now resolve it
+    // 现在解决它
     dp.resolve('delayed-success');
 
-    // Should now resolve
+    // 现在应该解决
     const result = await promise;
     expect(result).toBe('delayed-success');
     expect(resolved).toBe(true);
@@ -83,24 +83,24 @@ describe('DelayedPromise', () => {
     const dp = new DelayedPromise<string>();
     let rejected = false;
 
-    // Access the promise before rejecting
+    // 在拒绝之前访问承诺
     const promise = dp.promise.catch(error => {
       rejected = true;
       throw error;
     });
 
-    // Promise should not be rejected yet
+    // 承诺还不应该被拒绝
     expect(rejected).toBe(false);
 
-    // Wait a bit to ensure it's truly blocking
+    // 稍等一下以确保它确实被阻止
     await vi.advanceTimersByTimeAsync(10);
     expect(rejected).toBe(false);
 
-    // Now reject it
+    // 现在拒绝它
     const error = new Error('delayed-failure');
     dp.reject(error);
 
-    // Should now reject
+    // 现在应该拒绝
     await expect(promise).rejects.toThrow('delayed-failure');
     expect(rejected).toBe(true);
   });
@@ -109,7 +109,7 @@ describe('DelayedPromise', () => {
     const dp = new DelayedPromise<string>();
     const results: string[] = [];
 
-    // Access the promise multiple times before resolution
+    // 在解决之前多次访问承诺
     const promise1 = dp.promise.then(value => {
       results.push(`first: ${value}`);
       return value;
@@ -120,17 +120,17 @@ describe('DelayedPromise', () => {
       return value;
     });
 
-    // Neither should be resolved yet
+    // 两者都尚未解决
     expect(results).toHaveLength(0);
 
-    // Wait to ensure they're blocking
+    // 等待以确保他们被阻止
     await vi.advanceTimersByTimeAsync(10);
     expect(results).toHaveLength(0);
 
-    // Resolve the promise
+    // 解决承诺
     dp.resolve('success');
 
-    // Both should resolve
+    // 两者都应该解决
     await Promise.all([promise1, promise2]);
     expect(results).toHaveLength(2);
     expect(results).toContain('first: success');

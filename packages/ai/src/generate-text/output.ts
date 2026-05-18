@@ -60,7 +60,7 @@ export interface Output<OUTPUT = any, PARTIAL = any, ELEMENT = any> {
  * 文本生成的输出规范。
  * 这是生成纯文本的默认输出模式。
  *
- * @returns An output specification for generating text.
+ * @returns 用于生成文本的输出规范。
  */
 export const text = (): Output<string, string, never> => ({
   name: 'text',
@@ -83,11 +83,11 @@ export const text = (): Output<string, string, never> => ({
  * 使用模式生成类型化对象的输出规范。
  * 当模型生成文本响应时，它将返回与模式匹配的对象。
  *
- * @param schema - The schema of the object to generate.
- * @param name - Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.
- * @param description - Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.
+ * @param schema - 要生成的对象的架构。
+ * @param name - 应生成的输出的可选名称。一些提供者使用额外的法学硕士指导，例如通过工具或模式名称。
+ * @param description - 应生成的输出的可选描述。一些提供者使用额外的法学硕士指导，例如通过工具或模式描述。
  *
- * @returns An output specification for generating objects with the specified schema.
+ * @returns 用于生成具有指定模式的对象的输出规范。
  */
 export const object = <OBJECT>({
   schema: inputSchema,
@@ -187,11 +187,11 @@ export const object = <OBJECT>({
  * 数组生成的输出规范。
  * 当模型生成文本响应时，它将返回一个元素数组。
  *
- * @param element - The schema of the array elements to generate.
- * @param name - Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.
- * @param description - Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.
+ * @param element - 要生成的数组元素的架构。
+ * @param name - 应生成的输出的可选名称。一些提供者使用额外的法学硕士指导，例如通过工具或模式名称。
+ * @param description - 应生成的输出的可选描述。一些提供者使用额外的法学硕士指导，例如通过工具或模式描述。
  *
- * @returns An output specification for generating an array of elements.
+ * @returns 用于生成元素数组的输出规范。
  */
 export const array = <ELEMENT>({
   element: inputElementSchema,
@@ -215,9 +215,9 @@ export const array = <ELEMENT>({
   return {
     name: 'array',
 
-    // 描述元素数组的 JSON 模式：
+    // 元素描述 JSON 模式：
     responseFormat: resolve(elementSchema.jsonSchema).then(jsonSchema => {
-      // 从 schema.jsonSchema 中删除 $schema：
+      // 从 schema.jsonSchema 中删除$schema：
       const { $schema: _$schema, ...itemSchema } = jsonSchema;
 
       return {
@@ -372,11 +372,11 @@ export const array = <ELEMENT>({
  * 选择生成的输出规范。
  * 当模型生成文本响应时，它将返回选择选项之一。
  *
- * @param options - The available choices.
- * @param name - Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.
- * @param description - Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.
+ * @param options - 可用的选择。
+ * @param name - 应生成的输出的可选名称。一些提供者使用额外的法学硕士指导，例如通过工具或模式名称。
+ * @param description - 应生成的输出的可选描述。一些提供者使用额外的法学硕士指导，例如通过工具或模式描述。
  *
- * @returns An output specification for generating a choice.
+ * @returns 用于生成选择的输出规范。
  */
 export const choice = <CHOICE extends string>({
   options: choiceOptions,
@@ -509,13 +509,13 @@ export const choice = <CHOICE extends string>({
 };
 
 /**
- * 非结构化 JSON 生成的输出规范。
- * 当模型生成文本响应时，它将返回一个 JSON 对象。
+ * 非构造JSON生成的输出规范。
+ * 当模型生成文本响应时，会返回一个 JSON 对象。
  *
- * @param name - Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.
- * @param description - Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.
+ * @param name - 应生成的输出的可选名称。一些提供者使用额外的法学硕士指导，例如通过工具或模式名称。
+ * @param description - 应生成的输出的可选描述。一些提供者使用额外的法学硕士指导，例如通过工具或模式描述。
  *
- * @returns An output specification for generating JSON.
+ * @returns 用于生成 JSON 的输出规范。
  */
 export const json = ({
   name,

@@ -18,7 +18,7 @@ function createMockResponse({
     body != null
       ? new ReadableStream<Uint8Array>({
           start(controller) {
-            // Send in small chunks to simulate streaming
+            // 发送小块以模拟流式传输
             const chunkSize = 4;
             for (let i = 0; i < body.length; i += chunkSize) {
               controller.enqueue(body.slice(i, i + chunkSize));
@@ -73,7 +73,7 @@ describe('readResponseWithSizeLimit', () => {
   });
 
   it('should abort when streamed bytes exceed limit', async () => {
-    // Body is larger than maxBytes, but Content-Length is not set
+    // Body 大于 maxBytes，但未设置 Content-Length
     const largeBody = new Uint8Array(200);
     largeBody.fill(42);
 
@@ -102,7 +102,7 @@ describe('readResponseWithSizeLimit', () => {
 
     const response = createMockResponse({
       body: largeBody,
-      contentLength: '10', // Claims to be small
+      contentLength: '10', // 声称规模较小
     });
 
     await expect(

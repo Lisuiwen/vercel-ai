@@ -19,7 +19,7 @@ export function prepareChatTools({
   toolChoice?: OpenAIChatToolChoice;
   toolWarnings: Array<SharedV4Warning>;
 } {
-  // when the tools array is empty, change it to undefined to prevent errors:
+  // 当tools数组为空时，将其更改为undefined以防止错误：
   tools = tools?.length ? tools : undefined;
 
   const toolWarnings: SharedV4Warning[] = [];

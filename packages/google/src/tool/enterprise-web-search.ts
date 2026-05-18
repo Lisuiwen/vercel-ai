@@ -9,13 +9,13 @@ import { z } from 'zod/v4';
 
 export const enterpriseWebSearch = createProviderExecutedToolFactory<
   {
-    // Enterprise Web Search does not have any input schema
+    // 企业 Web 搜索没有任何输入架构
   },
   {
-    // Enterprise Web Search does not have any output parameters
+    // 企业 Web 搜索没有任何输出参数
   },
   {
-    // Enterprise Web Search does not have any configuration options
+    // 企业 Web 搜索没有任何配置选项
   }
 >({
   id: 'google.enterprise_web_search',

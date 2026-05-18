@@ -41,7 +41,7 @@ describe('zod3-to-json-schema', () => {
                 return undefined;
               }
 
-              // Important! Do not return `undefined` or void unless you want to remove the property from the resulting schema completely.
+              // 重要的！除非您想从结果模式中完全删除该属性，否则不要返回“undefined”或 void。
               return ignoreOverride;
             },
           },
@@ -76,20 +76,20 @@ describe('zod3-to-json-schema', () => {
         myNumber: z.number(),
       });
 
-      // Define the callback to be used to process the output using the PostProcessCallback type:
+      // 使用 PostProcessCallback 类型定义用于处理输出的回调：
       const postProcess: PostProcessCallback = (
-        // The original output produced by the package itself:
+        // 包本身产生的原始输出：
         jsonSchema,
-        // The ZodSchema def used to produce the original schema:
+        // 用于生成原始模式的 ZodSchema def：
         def,
-        // The refs object containing the current path, passed options, etc.
+        // refs 对象包含当前路径、传递的选项等。
         refs,
       ) => {
         if (!jsonSchema) {
           return jsonSchema;
         }
 
-        // Try to expand description as JSON meta:
+        // 尝试将描述扩展为 JSON 元：
         if (jsonSchema.description) {
           try {
             jsonSchema = {
@@ -99,12 +99,12 @@ describe('zod3-to-json-schema', () => {
           } catch {}
         }
 
-        // Make all numbers nullable:
+        // 使所有数字可为空：
         if ('type' in jsonSchema! && jsonSchema.type === 'number') {
           jsonSchema.type = ['number', 'null'];
         }
 
-        // Add the refs path, just because
+        // 添加refs路径，只是因为
         (jsonSchema as any).path = refs.currentPath;
 
         return jsonSchema;
@@ -530,7 +530,7 @@ describe('zod3-to-json-schema', () => {
           z.literal('abc'),
           z.literal(null),
           z.literal(true),
-          // z.literal(1n), // target es2020
+          // z.literal(1n), // 目标 es2020
         ]),
         unionNonPrimitives: z.union([
           z.string(),

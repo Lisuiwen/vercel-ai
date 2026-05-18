@@ -3,58 +3,58 @@ import type { ImageModelV4File } from './image-model-v4-file';
 
 export type ImageModelV4CallOptions = {
   /**
-   * Prompt for the image generation. Some operations, like upscaling, may not require a prompt.
+   * 提示图像生成。某些操作（例如升级）可能不需要提示。
    */
   prompt: string | undefined;
 
   /**
-   * Number of images to generate.
+   * 要生成的图像数量。
    */
   n: number;
 
   /**
-   * Size of the images to generate.
-   * Must have the format `{width}x{height}`.
-   * `undefined` will use the provider's default size.
+   * 要生成的图像的大小。
+   * 格式必须为“{宽度}x{高度}”。
+   * `undefined` 将使用提供者的默认大小。
    */
   size: `${number}x${number}` | undefined;
 
   /**
-   * Aspect ratio of the images to generate.
-   * Must have the format `{width}:{height}`.
-   * `undefined` will use the provider's default aspect ratio.
+   * 要生成的图像的长宽比。
+   * 必须采用“{width}:{height}”格式。
+   * `undefined` 将使用提供者的默认宽高比。
    */
   aspectRatio: `${number}:${number}` | undefined;
 
   /**
-   * Seed for the image generation.
-   * `undefined` will use the provider's default seed.
+   * 图像生成的种子。
+   * `undefined` 将使用提供者的默认种子。
    */
   seed: number | undefined;
 
   /**
-   * Array of images for image editing or variation generation.
-   * The images should be provided as base64 encoded strings or binary data.
+   * 用于图像编辑或变体生成的图像数组。
+   * 图像应以 base64 编码字符串或二进制数据的形式提供。
    */
   files: ImageModelV4File[] | undefined;
 
   /**
-   * Mask image for inpainting operations.
-   * The mask should be provided as base64 encoded strings or binary data.
+   * 用于修复操作的蒙版图像。
+   * 掩码应以 base64 编码字符串或二进制数据形式提供。
    */
   mask: ImageModelV4File | undefined;
 
   /**
-   * Additional provider-specific options that are passed through to the provider
-   * as body parameters.
+   * 传递给提供商的其他特定于提供商的选项
+   * 作为身体参数。
    *
-   * The outer record is keyed by the provider name, and the inner
-   * record is keyed by the provider-specific metadata key.
+   * 外部记录以提供者名称为键，内部记录以提供者名称为键
+   * 记录由特定于提供者的元数据密钥作为密钥。
    *
-   * ```ts
+   * ````ts
    * {
-   *   "openai": {
-   *     "style": "vivid"
+   *   “开放”：{
+   *     “风格”：“生动”
    *   }
    * }
    * ```
@@ -62,13 +62,13 @@ export type ImageModelV4CallOptions = {
   providerOptions: SharedV4ProviderOptions;
 
   /**
-   * Abort signal for cancelling the operation.
+   * 用于取消操作的中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional HTTP headers to be sent with the request.
-   * Only applicable for HTTP-based providers.
+   * 与请求一起发送的附加 HTTP 标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string | undefined>;
 };

@@ -1,24 +1,24 @@
 /**
- * Symbol used for identifying AI SDK Error instances.
- * Enables checking if an error is an instance of AISDKError across package versions.
+ * 用于识别AI SDK错误实例的符号。
+ * 允许跨包版本检查错误是否是 AISDKError 的实例。
  */
 const marker = 'vercel.ai.error';
 const symbol = Symbol.for(marker);
 
 /**
- * Custom error class for AI SDK related errors.
+ * AI SDK 相关错误的自定义错误类。
  * @extends Error
  */
 export class AISDKError extends Error {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   /**
-   * The underlying cause of the error, if any.
+   * 错误的根本原因（如果有）。
    */
   readonly cause?: unknown;
 
   /**
-   * Creates an AI SDK Error.
+   * 创建 AI SDK 错误。
    *
    * @param {Object} params - The parameters for creating the error.
    * @param {string} params.name - The name of the error.
@@ -41,7 +41,7 @@ export class AISDKError extends Error {
   }
 
   /**
-   * Checks if the given error is an AI SDK Error.
+   * 检查给定错误是否为 AI SDK 错误。
    * @param {unknown} error - The error to check.
    * @returns {boolean} True if the error is an AI SDK Error, false otherwise.
    */

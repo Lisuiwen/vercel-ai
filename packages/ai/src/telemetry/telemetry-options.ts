@@ -27,7 +27,7 @@ export type TelemetryOptions<
 > = {
   /**
    * 启用或禁用遥测。遥测时默认启用
-   * 集成已注册。设置为“false”以选择退出。
+   * 集成已注册。设置为`false`即可选择退出。
    */
   isEnabled?: boolean;
 
@@ -54,7 +54,7 @@ export type TelemetryOptions<
 
   /**
    * 应包含在遥测中的顶级运行时上下文属性。
-   * 除非显式设置为“true”，否则运行时上下文属性将被排除。
+   * 除非显式设置为`true`，否则运行时上下文属性将被排除。
    */
   includeRuntimeContext?: IncludedContext<RUNTIME_CONTEXT>;
 
@@ -62,7 +62,7 @@ export type TelemetryOptions<
    * 应包含在遥测中的顶级工具上下文属性，
    * 每个工具配置。
    *
-   * 工具上下文属性被排除，除非它们明确设置为“true”。
+   * 工具上下文属性被排除，除非它们明确设置为`true`。
    */
   includeToolsContext?: IncludedToolsContext<TOOLS>;
 

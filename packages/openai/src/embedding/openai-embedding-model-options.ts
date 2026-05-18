@@ -15,14 +15,14 @@ export const openaiEmbeddingModelOptions = lazySchema(() =>
   zodSchema(
     z.object({
       /**
-       * The number of dimensions the resulting output embeddings should have.
-       * Only supported in text-embedding-3 and later models.
+       * 生成的输出嵌入应具有的维度数。
+       * 仅在 text-embedding-3 及更高版本中受支持。
        */
       dimensions: z.number().optional(),
 
       /**
-       * A unique identifier representing your end-user, which can help OpenAI to
-       * monitor and detect abuse. Learn more.
+       * 代表您的最终用户的唯一标识符，可以帮助 OpenAI
+       * 监控和发现滥用行为。了解更多。
        */
       user: z.string().optional(),
     }),

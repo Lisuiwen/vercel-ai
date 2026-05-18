@@ -1,28 +1,28 @@
 /**
- * The configuration of a provider tool.
+ * 提供者工具的配置。
  *
- * Provider tools are tools that are specific to a certain provider.
- * The input and output schemas are defined be the provider, and
- * some of the tools are also executed on the provider systems.
+ * 提供商工具是特定于某个提供商的工具。
+ * 输入和输出模式由提供者定义，并且
+ * 一些工具也在提供商系统上执行。
  */
 export type LanguageModelV3ProviderTool = {
   /**
-   * The type of the tool (always 'provider').
+   * 工具的类型（始终为“提供者”）。
    */
   type: 'provider';
 
   /**
-   * The ID of the tool. Should follow the format `<provider-id>.<unique-tool-name>`.
+   * 工具的 ID。应遵循格式“<provider-id>.<unique-tool-name>”。
    */
   id: `${string}.${string}`;
 
   /**
-   * The name of the tool. Unique within this model call.
+   * 工具的名称。在该模型调用中是独一无二的。
    */
   name: string;
 
   /**
-   * The arguments for configuring the tool. Must match the expected arguments defined by the provider for this tool.
+   * 用于配置工具的参数。必须匹配提供者为此工具定义的预期参数。
    */
   args: Record<string, unknown>;
 };

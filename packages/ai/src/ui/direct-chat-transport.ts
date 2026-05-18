@@ -13,7 +13,7 @@ import type {
 import { validateUIMessages } from './validate-ui-messages';
 
 /**
- * “DirectChatTransport”类的选项。
+ * `DirectChatTransport`类的选项。
  */
 export type DirectChatTransportOptions<
   CALL_OPTIONS,
@@ -28,26 +28,26 @@ export type DirectChatTransportOptions<
   agent: Agent<CALL_OPTIONS, TOOLS, RUNTIME_CONTEXT, OUTPUT>;
 
   /**
-   * Options to pass to the agent when calling it.
+   * 呼叫代理时传递给代理的选项。
    */
   options?: CALL_OPTIONS;
 } & Omit<UIMessageStreamOptions<UI_MESSAGE>, 'onFinish'>;
 
 /**
  * 直接与进程内代理通信的传输，
- * 无需通过 HTTP。这对于：
+ * 通过HTTP消耗。这对于：
  * - 服务端渲染场景
  * - 无网络测试
  * - 单进程应用程序
  *
- * @example
+ * @例子
  * ````tsx
  * 从'@ai-sdk/react'导入{useChat}；
  * 从 'ai' 导入 { DirectChatTransport }；
  * 从 './my-agent' 导入 { myAgent }；
  *
  * const { 消息, sendMessage } = useChat({
- *   传输：新的 DirectChatTransport({ 代理: myAgent }),
+ * 传输：新的DirectChatTransport({代理: myAgent }),
  * });
  * ```
  */
@@ -91,7 +91,7 @@ export class DirectChatTransport<
   }: Parameters<ChatTransport<UI_MESSAGE>['sendMessages']>[0]): Promise<
     ReadableStream<UIMessageChunk>
   > {
-    // 验证传入的 UI 消息
+    // 验证确定的 UI 消息
     const validatedMessages = await validateUIMessages<UI_MESSAGE>({
       messages,
       // 工具兼容；需要进行转换，因为上下文参数是
@@ -128,7 +128,7 @@ export class DirectChatTransport<
    * 直接传输不支持重连，因为没有
    * 要重新连接的持久服务器端流。
    *
-   * @returns Always returns `null`
+   * @returns 总是返回`null`
    */
   async reconnectToStream(
     _options: Parameters<ChatTransport<UI_MESSAGE>['reconnectToStream']>[0],

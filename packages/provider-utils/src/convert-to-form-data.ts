@@ -1,31 +1,31 @@
 /**
- * Converts an input object to FormData for multipart/form-data requests.
+ * 将输入对象转换为 FormData 以进行多部分/表单数据请求。
  *
- * Handles the following cases:
- * - `null` or `undefined` values are skipped
- * - Arrays with a single element are appended as a single value
- * - Arrays with multiple elements are appended with `[]` suffix (e.g., `image[]`)
- *   unless `useArrayBrackets` is set to `false`
- * - All other values are appended directly
+ * 处理以下情况：
+ * - 跳过“null”或“未定义”值
+ * - 具有单个元素的数组作为单个值附加
+ * - 具有多个元素的数组附加“[]”后缀（例如“image[]”）
+ *   除非`useArrayBrackets`设置为`false`
+ * - 所有其他值均直接附加
  *
  * @param input - The input object to convert. Use a generic type for type validation.
  * @param options - Optional configuration object.
  * @param options.useArrayBrackets - Whether to add `[]` suffix for multi-element arrays.
- *   Defaults to `true`. Set to `false` for APIs that expect repeated keys without brackets.
+ *   默认为“true”。对于需要不带括号的重复键的 API，设置为“false”。
  * @returns A FormData object containing the input values.
  *
  * @example
- * ```ts
- * type MyInput = {
- *   model: string;
- *   prompt: string;
- *   images: Blob[];
+ * ````ts
+ * 输入我的输入 = {
+ *   模型：字符串；
+ *   提示：字符串；
+ *   图像：Blob[]；
  * };
  *
- * const formData = convertToFormData<MyInput>({
- *   model: 'gpt-image-1',
- *   prompt: 'A cat',
- *   images: [blob1, blob2],
+ * const formData = ConvertToFormData<MyInput>({
+ *   模型：'gpt-image-1'，
+ *   提示：'一只猫'，
+ *   图像：[blob1，blob2]，
  * });
  * ```
  */

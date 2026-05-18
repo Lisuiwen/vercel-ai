@@ -19,7 +19,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect GIF from base64', () => {
-      const gifBase64 = 'R0lGabc123'; // Base64 string starting with GIF signature
+      const gifBase64 = 'R0lGabc123'; // 以 GIF 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: gifBase64,
@@ -41,7 +41,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect PNG from base64', () => {
-      const pngBase64 = 'iVBORwabc123'; // Base64 string starting with PNG signature
+      const pngBase64 = 'iVBORwabc123'; // 以 PNG 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: pngBase64,
@@ -63,7 +63,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect JPEG from base64', () => {
-      const jpegBase64 = '/9j/abc123'; // Base64 string starting with JPEG signature
+      const jpegBase64 = '/9j/abc123'; // 以 JPEG 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: jpegBase64,
@@ -75,24 +75,24 @@ describe('detectMediaType signature matching', () => {
 
   describe('WebP', () => {
     it('should detect WebP from bytes (positive webp image uint8)', () => {
-      // WebP format: RIFF + 4 bytes file size + WEBP
+      // WebP 格式：RIFF + 4 字节文件大小 + WEBP
       const webpBytes = new Uint8Array([
         0x52,
         0x49,
         0x46,
-        0x46, // "RIFF"
+        0x46, // “即兴”
         0x24,
         0x00,
         0x00,
-        0x00, // file size (example: 36 bytes)
+        0x00, // 文件大小（示例：36 字节）
         0x57,
         0x45,
         0x42,
-        0x50, // "WEBP"
+        0x50, // “网页”
         0x56,
         0x50,
         0x38,
-        0x20, // VP8 chunk (additional WebP data)
+        0x20, // VP8 块（附加 WebP 数据）
       ]);
       expect(
         detectMediaType({
@@ -103,24 +103,24 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect WebP from base64 (positive webp image base64)', () => {
-      // WebP: RIFF + file size + WEBP encoded to base64
+      // WebP：RIFF + 文件大小 + WEBP 编码为 base64
       const webpBytes = new Uint8Array([
         0x52,
         0x49,
         0x46,
-        0x46, // "RIFF"
+        0x46, // “即兴”
         0x24,
         0x00,
         0x00,
-        0x00, // file size
+        0x00, // 文件大小
         0x57,
         0x45,
         0x42,
-        0x50, // "WEBP"
+        0x50, // “网页”
         0x56,
         0x50,
         0x38,
-        0x20, // VP8 chunk
+        0x20, // VP8 块
       ]);
       const webpBase64 = convertUint8ArrayToBase64(webpBytes);
       expect(
@@ -132,52 +132,52 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should NOT detect RIFF audio as WebP from bytes (negative riff audio uint8)', () => {
-      // WAV format: RIFF + file size + WAVE (not WEBP)
+      // WAV 格式：RIFF + 文件大小 + WAVE（不是 WEBP）
       const wavBytes = new Uint8Array([
         0x52,
         0x49,
         0x46,
-        0x46, // "RIFF"
+        0x46, // “即兴”
         0x24,
         0x00,
         0x00,
-        0x00, // file size
+        0x00, // 文件大小
         0x57,
         0x41,
         0x56,
-        0x45, // "WAVE" (not "WEBP")
+        0x45, // “WAVE”（不是“WEBP”）
         0x66,
         0x6d,
         0x74,
-        0x20, // fmt chunk
+        0x20, // fmt块
       ]);
       expect(
         detectMediaType({
           data: wavBytes,
           topLevelType: 'image',
         }),
-      ).toBeUndefined(); // Should not detect as WebP
+      ).toBeUndefined(); // 不应检测为 WebP
     });
 
     it('should NOT detect RIFF audio as WebP from base64 (negative riff audio base64)', () => {
-      // WAV format encoded to base64
+      // 编码为 Base64 的 WAV 格式
       const wavBytes = new Uint8Array([
         0x52,
         0x49,
         0x46,
-        0x46, // "RIFF"
+        0x46, // “即兴”
         0x24,
         0x00,
         0x00,
-        0x00, // file size
+        0x00, // 文件大小
         0x57,
         0x41,
         0x56,
-        0x45, // "WAVE" (not "WEBP")
+        0x45, // “WAVE”（不是“WEBP”）
         0x66,
         0x6d,
         0x74,
-        0x20, // fmt chunk
+        0x20, // fmt块
       ]);
       const wavBase64 = convertUint8ArrayToBase64(wavBytes);
       expect(
@@ -185,7 +185,7 @@ describe('detectMediaType signature matching', () => {
           data: wavBase64,
           topLevelType: 'image',
         }),
-      ).toBeUndefined(); // Should not detect as WebP
+      ).toBeUndefined(); // 不应检测为 WebP
     });
   });
 
@@ -223,7 +223,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect TIFF (little endian) from base64', () => {
-      const tiffLEBase64 = 'SUkqAAabc123'; // Base64 string starting with TIFF LE signature
+      const tiffLEBase64 = 'SUkqAAabc123'; // 以 TIFF LE 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: tiffLEBase64,
@@ -243,7 +243,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect TIFF (big endian) from base64', () => {
-      const tiffBEBase64 = 'TU0AKgabc123'; // Base64 string starting with TIFF BE signature
+      const tiffBEBase64 = 'TU0AKgabc123'; // 以 TIFF BE 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: tiffBEBase64,
@@ -268,7 +268,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect AVIF from base64', () => {
-      const avifBase64 = 'AAAAIGZ0eXBhdmlmabc123'; // Base64 string starting with AVIF signature
+      const avifBase64 = 'AAAAIGZ0eXBhdmlmabc123'; // 以 AVIF 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: avifBase64,
@@ -293,7 +293,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect HEIC from base64', () => {
-      const heicBase64 = 'AAAAIGZ0eXBoZWljabc123'; // Base64 string starting with HEIC signature
+      const heicBase64 = 'AAAAIGZ0eXBoZWljabc123'; // 以 HEIC 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: heicBase64,
@@ -315,7 +315,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect MP3 from base64', () => {
-      const mp3Base64 = '//s='; // Base64 string starting with MP3 signature
+      const mp3Base64 = '//s='; // 以 MP3 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: mp3Base64,
@@ -330,24 +330,24 @@ describe('detectMediaType signature matching', () => {
         0x44,
         0x33, // 'ID3'
         0x03,
-        0x00, // version
-        0x00, // flags
+        0x00, // 版本
+        0x00, // 旗帜
         0x00,
         0x00,
         0x00,
-        0x0a, // size (10 bytes)
-        // 10 bytes of ID3 data
-        0x00,
-        0x00,
-        0x00,
-        0x00,
+        0x0a, // 大小（10 字节）
+        // 10字节的ID3数据
         0x00,
         0x00,
         0x00,
         0x00,
         0x00,
         0x00,
-        // MP3 frame header
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        // MP3帧头
         0xff,
         0xfb,
         0x00,
@@ -366,24 +366,24 @@ describe('detectMediaType signature matching', () => {
         0x44,
         0x33, // 'ID3'
         0x03,
-        0x00, // version
-        0x00, // flags
+        0x00, // 版本
+        0x00, // 旗帜
         0x00,
         0x00,
         0x00,
-        0x0a, // size (10 bytes)
-        // 10 bytes of ID3 data
-        0x00,
-        0x00,
-        0x00,
-        0x00,
+        0x0a, // 大小（10 字节）
+        // 10字节的ID3数据
         0x00,
         0x00,
         0x00,
         0x00,
         0x00,
         0x00,
-        // MP3 frame header
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        // MP3帧头
         0xff,
         0xfb,
         0x00,
@@ -400,43 +400,43 @@ describe('detectMediaType signature matching', () => {
   });
 
   describe('WAV', () => {
-    // WebP format: RIFF + 4 bytes file size + WEBP
+    // WebP 格式：RIFF + 4 字节文件大小 + WEBP
     const webpBytes = new Uint8Array([
       0x52,
       0x49,
       0x46,
-      0x46, // "RIFF"
+      0x46, // “即兴”
       0x24,
       0x00,
       0x00,
-      0x00, // file size (example: 36 bytes)
+      0x00, // 文件大小（示例：36 字节）
       0x57,
       0x45,
       0x42,
-      0x50, // "WEBP"
+      0x50, // “网页”
       0x56,
       0x50,
       0x38,
-      0x20, // VP8 chunk (additional WebP data)
+      0x20, // VP8 块（附加 WebP 数据）
     ]);
 
     const wavBytes = new Uint8Array([
       0x52,
       0x49,
       0x46,
-      0x46, // "RIFF"
+      0x46, // “即兴”
       0x24,
       0x00,
       0x00,
-      0x00, // file size (example: 36 bytes)
+      0x00, // 文件大小（示例：36 字节）
       0x57,
       0x41,
       0x56,
-      0x45, // "WAVE" (not "WEBP")
+      0x45, // “WAVE”（不是“WEBP”）
       0x66,
       0x6d,
       0x74,
-      0x20, // fmt chunk
+      0x20, // fmt块
     ]);
 
     it('should detect WAV from bytes', () => {
@@ -463,7 +463,7 @@ describe('detectMediaType signature matching', () => {
           data: webpBytes,
           topLevelType: 'audio',
         }),
-      ).toBeUndefined(); // Should not detect as WAV
+      ).toBeUndefined(); // 不应检测为 WAV
     });
 
     it('should NOT detect WebP as WAV from base64 (negative webp image base64)', () => {
@@ -472,7 +472,7 @@ describe('detectMediaType signature matching', () => {
           data: convertUint8ArrayToBase64(webpBytes),
           topLevelType: 'audio',
         }),
-      ).toBeUndefined(); // Should not detect as WAV
+      ).toBeUndefined(); // 不应检测为 WAV
     });
   });
 
@@ -488,7 +488,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect OGG from base64', () => {
-      const oggBase64 = 'T2dnUw'; // Base64 string starting with OGG signature
+      const oggBase64 = 'T2dnUw'; // 以 OGG 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: oggBase64,
@@ -510,7 +510,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect FLAC from base64', () => {
-      const flacBase64 = 'ZkxhQw'; // Base64 string starting with FLAC signature
+      const flacBase64 = 'ZkxhQw'; // 以 FLAC 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: flacBase64,
@@ -554,7 +554,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect MP4 from base64', () => {
-      const mp4Base64 = 'ZnR5cA'; // Base64 string starting with MP4 signature
+      const mp4Base64 = 'ZnR5cA'; // 以 MP4 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: mp4Base64,
@@ -576,7 +576,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should detect WEBM from base64', () => {
-      const webmBase64 = 'GkXfow=='; // Base64 string starting with WEBM signature
+      const webmBase64 = 'GkXfow=='; // 以 WEBM 签名开头的 Base64 字符串
       expect(
         detectMediaType({
           data: webmBase64,
@@ -628,7 +628,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should return undefined for arrays shorter than signature length for image', () => {
-      const shortBytes = new Uint8Array([0x89, 0x50]); // Incomplete PNG signature
+      const shortBytes = new Uint8Array([0x89, 0x50]); // PNG签名不完整
       expect(
         detectMediaType({
           data: shortBytes,
@@ -638,7 +638,7 @@ describe('detectMediaType signature matching', () => {
     });
 
     it('should return undefined for arrays shorter than signature length for audio', () => {
-      const shortBytes = new Uint8Array([0x4f, 0x67]); // Incomplete OGG signature
+      const shortBytes = new Uint8Array([0x4f, 0x67]); // OGG签名不完整
       expect(
         detectMediaType({
           data: shortBytes,
@@ -775,7 +775,7 @@ describe('detectMediaType', () => {
   });
 
   it('returns undefined for the "text" top-level segment', () => {
-    const data = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f]); // "Hello"
+    const data = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f]); // “你好”
     expect(
       detectMediaType({
         data,

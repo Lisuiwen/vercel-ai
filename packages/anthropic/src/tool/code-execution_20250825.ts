@@ -70,7 +70,7 @@ export const codeExecution_20250825OutputSchema = lazySchema(() =>
 export const codeExecution_20250825InputSchema = lazySchema(() =>
   zodSchema(
     z.discriminatedUnion('type', [
-      // Programmatic tool calling format (mapped from { code } by AI SDK)
+      // 程序化工具调用格式（AI SDK从{code}映射）
       z.object({
         type: z.literal('programmatic-tool-call'),
         code: z.string(),
@@ -107,8 +107,8 @@ const factory = createProviderExecutedToolFactory<
   | {
       type: 'programmatic-tool-call';
       /**
-       * Programmatic tool calling: Python code to execute when code_execution
-       * is used with allowedCallers to trigger client-executed tools.
+       * 编程工具调用：code_execution时执行的Python代码
+       * 与 allowedCallers 一起使用来触发客户端执行的工具。
        */
       code: string;
     }
@@ -116,7 +116,7 @@ const factory = createProviderExecutedToolFactory<
       type: 'bash_code_execution';
 
       /**
-       * Shell command to execute.
+       * 要执行的 shell 命令。
        */
       command: string;
     }
@@ -125,7 +125,7 @@ const factory = createProviderExecutedToolFactory<
       command: 'view';
 
       /**
-       * The path to the file to view.
+       * 要查看的文件的路径。
        */
       path: string;
     }
@@ -134,12 +134,12 @@ const factory = createProviderExecutedToolFactory<
       command: 'create';
 
       /**
-       * The path to the file to edit.
+       * 要编辑的文件的路径。
        */
       path: string;
 
       /**
-       * The text of the file to edit.
+       * 要编辑的文件的文本。
        */
       file_text?: string | null;
     }
@@ -148,44 +148,44 @@ const factory = createProviderExecutedToolFactory<
       command: 'str_replace';
 
       /**
-       * The path to the file to edit.
+       * 要编辑的文件的路径。
        */
       path: string;
 
       /**
-       * The string to replace.
+       * 要替换的字符串。
        */
       old_str: string;
 
       /**
-       * The new string to replace the old string with.
+       * 用于替换旧字符串的新字符串。
        */
       new_str: string;
     },
   | {
       /**
-       * Programmatic tool calling result: returned when code_execution runs code
-       * that calls client-executed tools via allowedCallers.
+       * 编程工具调用结果：code_execution运行代码时返回
+       * 通过 allowedCallers 调用客户端执行的工具。
        */
       type: 'code_execution_result';
 
       /**
-       * Output from successful execution
+       * 成功执行的输出
        */
       stdout: string;
 
       /**
-       * Error messages if execution fails
+       * 如果执行失败则出现错误消息
        */
       stderr: string;
 
       /**
-       * 0 for success, non-zero for failure
+       * 0 表示成功，非 0 表示失败
        */
       return_code: number;
 
       /**
-       * Output file Id list
+       * 输出文件 ID 列表
        */
       content: Array<{ type: 'code_execution_output'; file_id: string }>;
     }
@@ -193,7 +193,7 @@ const factory = createProviderExecutedToolFactory<
       type: 'bash_code_execution_result';
 
       /**
-       * Output file Id list
+       * 输出文件 ID 列表
        */
       content: Array<{
         type: 'bash_code_execution_output';
@@ -201,17 +201,17 @@ const factory = createProviderExecutedToolFactory<
       }>;
 
       /**
-       * Output from successful execution
+       * 成功执行的输出
        */
       stdout: string;
 
       /**
-       * Error messages if execution fails
+       * 如果执行失败则出现错误消息
        */
       stderr: string;
 
       /**
-       * 0 for success, non-zero for failure
+       * 0 表示成功，非 0 表示失败
        */
       return_code: number;
     }
@@ -219,8 +219,8 @@ const factory = createProviderExecutedToolFactory<
       type: 'bash_code_execution_tool_result_error';
 
       /**
-       * Available options: invalid_tool_input, unavailable, too_many_requests,
-       * execution_time_exceeded, output_file_too_large.
+       * 可用选项：invalid_tool_input、不可用、too_many_requests、
+       * 执行时间超出，输出文件太大。
        */
       error_code: string;
     }
@@ -228,8 +228,8 @@ const factory = createProviderExecutedToolFactory<
       type: 'text_editor_code_execution_tool_result_error';
 
       /**
-       * Available options: invalid_tool_input, unavailable, too_many_requests,
-       * execution_time_exceeded, file_not_found.
+       * 可用选项：invalid_tool_input、不可用、too_many_requests、
+       * 执行时间超过，文件未找到。
        */
       error_code: string;
     }
@@ -239,7 +239,7 @@ const factory = createProviderExecutedToolFactory<
       content: string;
 
       /**
-       * The type of the file. Available options: text, image, pdf.
+       * 文件的类型。可用选项：文本、图像、pdf。
        */
       file_type: string;
 
@@ -262,15 +262,15 @@ const factory = createProviderExecutedToolFactory<
       old_start: number | null;
     },
   {
-    // no arguments
+    // 没有参数
   }
 >({
   id: 'anthropic.code_execution_20250825',
   inputSchema: codeExecution_20250825InputSchema,
   outputSchema: codeExecution_20250825OutputSchema,
-  // Programmatic tool calling: tool results may be deferred to a later turn
-  // when code execution triggers a client-executed tool that needs to be
-  // resolved before the code execution result can be returned.
+  // 编程工具调用：工具结果可能会推迟到稍后的回合
+  // 当代码执行触发客户端执行的工具时，需要
+  // 在返回代码执行结果之前已解决。
   supportsDeferredResults: true,
 });
 

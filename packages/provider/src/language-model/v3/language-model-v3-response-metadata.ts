@@ -1,16 +1,16 @@
 export interface LanguageModelV3ResponseMetadata {
   /**
-   * ID for the generated response, if the provider sends one.
+   * 生成的响应的 ID（如果提供商发送了响应）。
    */
   id?: string;
 
   /**
-   * Timestamp for the start of the generated response, if the provider sends one.
+   * 生成的响应的开始时间戳（如果提供者发送响应）。
    */
   timestamp?: Date;
 
   /**
-   * The ID of the response model that was used to generate the response, if the provider sends one.
+   * 用于生成响应的响应模型的 ID（如果提供者发送了响应模型）。
    */
   modelId?: string;
 }

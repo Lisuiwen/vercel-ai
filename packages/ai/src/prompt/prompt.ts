@@ -21,7 +21,7 @@ export type Prompt = {
   /**
    * 要包含在提示中的说明。可以与“提示”或“消息”一起使用。
    *
-   * @deprecated 请改用“说明”。
+   * @deprecated 请改用`说明`。
    */
   system?: Instructions;
 

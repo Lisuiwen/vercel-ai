@@ -1,19 +1,19 @@
 ---
 title: experimental_generateVideo
-description: API Reference for experimental_generateVideo.
+description: experimental_generateVideo 的 API 参考。
 ---
 
 # `experimental_generateVideo()`
 
 <Note>
-  Video generation is an experimental feature. The API may change in future
-  versions.
+  视频生成是实验性功能。API 可能会在未来
+  版本中发生变化。
 </Note>
 
-Generates videos based on a given prompt using a video model.
+使用视频模型根据给定提示生成视频。
 
-It is ideal for use cases where you need to generate videos programmatically,
-such as creating visual content, animations, or generating videos from images.
+它非常适合需要以编程方式生成视频的使用场景，
+例如创建视觉内容、动画，或根据图像生成视频。
 
 ```ts
 import { experimental_generateVideo as generateVideo } from 'ai';
@@ -28,45 +28,45 @@ const { videos } = await generateVideo({
 console.log(videos);
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { experimental_generateVideo } from "ai"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'model',
       type: 'VideoModelV4',
-      description: 'The video model to use.',
+      description: '要使用的视频模型。',
     },
     {
       name: 'prompt',
       type: 'string | GenerateVideoPrompt',
-      description: 'The input prompt to generate the video from.',
+      description: '用于生成视频的输入提示。',
       properties: [
         {
           type: 'GenerateVideoPrompt',
           type: 'object',
           description:
-            'A prompt object for video generation with optional input image',
+            '用于视频生成的提示对象，可包含可选输入图像',
           parameters: [
             {
               name: 'image',
               type: 'DataContent',
               description:
-                'Input image for image-to-video generation. Can be a URL string, base64-encoded string, a `Uint8Array`, an `ArrayBuffer`, or a `Buffer`.',
+                '用于图生视频生成的输入图像。可以是 URL 字符串、base64 编码字符串、`Uint8Array`、`ArrayBuffer` 或 `Buffer`。',
             },
             {
               name: 'text',
               type: 'string',
-              description: 'The text prompt.',
+              description: '文本提示。',
             },
           ],
         },
@@ -76,89 +76,89 @@ console.log(videos);
       name: 'n',
       type: 'number',
       isOptional: true,
-      description: 'Number of videos to generate. Default: 1.',
+      description: '要生成的视频数量。默认值：1。',
     },
     {
       name: 'aspectRatio',
       type: 'string',
       isOptional: true,
       description:
-        'Aspect ratio of the videos to generate. Format: `{width}:{height}`.',
+        '要生成视频的宽高比。格式：`{width}:{height}`。',
     },
     {
       name: 'resolution',
       type: 'string',
       isOptional: true,
       description:
-        'Resolution of the videos to generate. Format: `{width}x{height}`.',
+        '要生成视频的分辨率。格式：`{width}x{height}`。',
     },
     {
       name: 'duration',
       type: 'number',
       isOptional: true,
-      description: 'Duration of the video in seconds.',
+      description: '视频时长，单位为秒。',
     },
     {
       name: 'fps',
       type: 'number',
       isOptional: true,
-      description: 'Frames per second for the video.',
+      description: '视频的每秒帧数。',
     },
     {
       name: 'seed',
       type: 'number',
       isOptional: true,
-      description: 'Seed for the video generation.',
+      description: '视频生成使用的种子。',
     },
     {
       name: 'providerOptions',
       type: 'ProviderOptions',
       isOptional: true,
-      description: 'Additional provider-specific options.',
+      description: '额外的 provider 专属选项。',
     },
     {
       name: 'maxVideosPerCall',
       type: 'number',
       isOptional: true,
       description:
-        'Maximum number of videos to generate per API call. When n exceeds this value, multiple API calls will be made.',
+        '每次 API 调用最多生成的视频数量。当 n 超过该值时，会发起多次 API 调用。',
     },
     {
       name: 'maxRetries',
       type: 'number',
       isOptional: true,
-      description: 'Maximum number of retries. Default: 2.',
+      description: '最大重试次数。默认值：2。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal',
       isOptional: true,
-      description: 'An optional abort signal to cancel the call.',
+      description: '可选的中止信号，可用于取消调用。',
     },
     {
       name: 'headers',
       type: 'Record<string, string>',
       isOptional: true,
-      description: 'Additional HTTP headers for the request.',
+      description: '请求的额外 HTTP 标头。',
     },
     {
       name: 'download',
       type: '(options: { url: URL; abortSignal?: AbortSignal }) => Promise<{ data: Uint8Array; mediaType: string | undefined }>',
       isOptional: true,
       description:
-        'Custom download function for fetching videos from URLs. Use `createDownload()` from `ai` to create a download function with custom size limits, e.g. `createDownload({ maxBytes: 50 * 1024 * 1024 })`. Default: built-in download with 2 GiB limit.',
+        '用于从 URL 获取视频的自定义下载函数。使用 `ai` 中的 `createDownload()` 创建带自定义大小限制的下载函数，例如 `createDownload({ maxBytes: 50 * 1024 * 1024 })`。默认值：内置下载函数，限制为 2 GiB。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
 <PropertiesTable
   content={[
     {
       name: 'video',
       type: 'GeneratedFile',
-      description: 'The first video that was generated.',
+      description: '生成的第一个视频。',
       properties: [
         {
           type: 'GeneratedFile',
@@ -166,18 +166,18 @@ console.log(videos);
             {
               name: 'base64',
               type: 'string',
-              description: 'Video as a base64 encoded string.',
+              description: '以 base64 编码字符串表示的视频。',
             },
             {
               name: 'uint8Array',
               type: 'Uint8Array',
-              description: 'Video as a Uint8Array.',
+              description: '以 Uint8Array 表示的视频。',
             },
             {
               name: 'mediaType',
               type: 'string',
               description:
-                'The IANA media type of the video (e.g., video/mp4).',
+                '视频的 IANA 媒体类型（例如 video/mp4）。',
             },
           ],
         },
@@ -186,7 +186,7 @@ console.log(videos);
     {
       name: 'videos',
       type: 'Array<GeneratedFile>',
-      description: 'All videos that were generated.',
+      description: '所有生成的视频。',
       properties: [
         {
           type: 'GeneratedFile',
@@ -194,18 +194,18 @@ console.log(videos);
             {
               name: 'base64',
               type: 'string',
-              description: 'Video as a base64 encoded string.',
+              description: '以 base64 编码字符串表示的视频。',
             },
             {
               name: 'uint8Array',
               type: 'Uint8Array',
-              description: 'Video as a Uint8Array.',
+              description: '以 Uint8Array 表示的视频。',
             },
             {
               name: 'mediaType',
               type: 'string',
               description:
-                'The IANA media type of the video (e.g., video/mp4).',
+                '视频的 IANA 媒体类型（例如 video/mp4）。',
             },
           ],
         },
@@ -215,20 +215,20 @@ console.log(videos);
       name: 'warnings',
       type: 'Warning[]',
       description:
-        'Warnings from the model provider (e.g. unsupported settings).',
+        '模型 provider 返回的警告（例如不支持的设置）。',
     },
     {
       name: 'providerMetadata',
       type: 'VideoModelProviderMetadata',
       isOptional: true,
       description:
-        'Optional metadata from the provider. The outer key is the provider name. The inner values are the metadata. A `videos` key is typically present in the metadata and is an array with the same length as the top level `videos` key. Details depend on the provider.',
+        '来自 provider 的可选元数据。外层键是 provider 名称，内层值是元数据。元数据通常包含 `videos` 键，该数组与顶层 `videos` 键长度相同。具体细节取决于 provider。',
     },
     {
       name: 'responses',
       type: 'Array<VideoModelResponseMetadata>',
       description:
-        'Response metadata from the provider. There may be multiple responses if we made multiple calls to the model.',
+        '来自 provider 的响应元数据。如果对模型发起了多次调用，可能会有多个响应。',
       properties: [
         {
           type: 'VideoModelResponseMetadata',
@@ -236,26 +236,26 @@ console.log(videos);
             {
               name: 'timestamp',
               type: 'Date',
-              description: 'Timestamp for the start of the generated response.',
+              description: '生成响应开始时的时间戳。',
             },
             {
               name: 'modelId',
               type: 'string',
               description:
-                'The ID of the response model that was used to generate the response.',
+                '用于生成响应的响应模型 ID。',
             },
             {
               name: 'headers',
               type: 'Record<string, string>',
               isOptional: true,
-              description: 'Response headers.',
+              description: '响应标头。',
             },
             {
               name: 'providerMetadata',
               type: 'VideoModelProviderMetadata',
               isOptional: true,
               description:
-                'Provider-specific metadata for this individual API call. Useful for accessing per-call metadata when multiple calls are made.',
+                '此单次 API 调用的 provider 专属元数据。在发起多次调用时，可用于访问每次调用的元数据。',
             },
           ],
         },

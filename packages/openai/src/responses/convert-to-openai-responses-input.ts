@@ -42,10 +42,10 @@ function serializeToolCallArguments(input: unknown): string {
 }
 
 /**
- * This is soft-deprecated. Use provider references instead. Kept for backward compatibility
- * with the `fileIdPrefixes` option.
+ * 这是软弃用的。请改用提供者参考。保留向后兼容性
+ * 使用“fileIdPrefixes”选项。
  *
- * TODO: remove in v8
+ * TODO：在 v8 中删除
  */
 function isFileId(data: string, prefixes?: readonly string[]): boolean {
   if (!prefixes) return false;
@@ -70,11 +70,11 @@ export async function convertToOpenAIResponsesInput({
   toolNameMapping: ToolNameMapping;
   systemMessageMode: 'system' | 'developer' | 'remove';
   providerOptionsName: string;
-  /** @deprecated Use provider references instead. */
+  /* * @deprecated 使用提供者引用代替。 */
   fileIdPrefixes?: readonly string[];
   passThroughUnsupportedFiles?: boolean;
   store: boolean;
-  hasConversation?: boolean; // when true, skip assistant messages that already have item IDs
+  hasConversation?: boolean; // 如果为 true，则跳过已有项目 ID 的助理消息
   hasLocalShellTool?: boolean;
   hasShellTool?: boolean;
   hasApplyPatchTool?: boolean;
@@ -228,12 +228,12 @@ export async function convertToOpenAIResponsesInput({
                 | null
                 | undefined;
 
-              // when using conversation, skip items that already exist in the conversation context to avoid "Duplicate item found" errors
+              // 使用对话时，跳过对话上下文中已存在的项目，以避免“找到重复项目”错误
               if (hasConversation && id != null) {
                 break;
               }
 
-              // item references reduce the payload size
+              // 项目引用减少了有效负载大小
               if (store && id != null) {
                 input.push({ type: 'item_reference', id });
                 break;
@@ -393,11 +393,11 @@ export async function convertToOpenAIResponsesInput({
               break;
             }
 
-            // assistant tool result parts are from provider-executed tools:
+            // 辅助工具结果部分来自提供商执行的工具：
             case 'tool-result': {
-              // Skip execution-denied results - these are synthetic results from denied
-              // approvals and have no corresponding item in OpenAI's store.
-              // Check both the direct type and if it was transformed to json with execution-denied inside
+              // 跳过执行被拒绝的结果 - 这些是来自被拒绝的合成结果
+              // 已获得批准，并且 OpenAI 商店中没有相应的商品。
+              // 检查直接类型以及是否已转换为内部带有执行拒绝的 json
               if (
                 part.output.type === 'execution-denied' ||
                 (part.output.type === 'json' &&
@@ -447,11 +447,11 @@ export async function convertToOpenAIResponsesInput({
               }
 
               /*
-               * Shell tool results are separate output items (shell_call_output)
-               * with their own item IDs distinct from the shell_call's item ID.
-               * Since the pipeline only preserves the shell_call's item ID in
-               * callProviderMetadata, we reconstruct the full shell_call_output
-               * instead of using an item_reference with the wrong ID.
+               * Shell工具结果是单独的输出项（shell_call_output）
+               * 它们自己的项目 ID 与 shell_call 的项目 ID 不同。
+               * 由于管道仅保留 shell_call 的项目 ID
+               * callProviderMetadata，我们重建完整的 shell_call_output
+               * 而不是使用 ID 错误的 item_reference。
                */
               if (hasShellTool && resolvedResultToolName === 'shell') {
                 if (part.output.type === 'json') {
@@ -513,12 +513,12 @@ export async function convertToOpenAIResponsesInput({
                 const reasoningMessage = reasoningMessages[reasoningId];
 
                 if (store) {
-                  // use item references to refer to reasoning (single reference)
-                  // when the first part is encountered
+                  // 使用项目引用来引用推理（单个引用）
+                  // 当遇到第一部分时
                   if (reasoningMessage === undefined) {
                     input.push({ type: 'item_reference', id: reasoningId });
 
-                    // store unused reasoning message to mark id as used
+                    // 存储未使用的推理消息以将 id 标记为已使用
                     reasoningMessages[reasoningId] = {
                       type: 'reasoning',
                       id: reasoningId,
@@ -555,7 +555,7 @@ export async function convertToOpenAIResponsesInput({
                   } else {
                     reasoningMessage.summary.push(...summaryParts);
 
-                    // updated encrypted content to enable setting it in the last summary part:
+                    // 更新了加密内容以允许在最后一个摘要部分中进行设置：
                     if (providerOptions?.reasoningEncryptedContent != null) {
                       reasoningMessage.encrypted_content =
                         providerOptions.reasoningEncryptedContent;
@@ -563,11 +563,11 @@ export async function convertToOpenAIResponsesInput({
                   }
                 }
               } else {
-                // No itemId — fall back to encrypted_content if available.
-                // The OpenAI Responses API accepts reasoning items without an
-                // id when encrypted_content is provided, enabling multi-turn
-                // reasoning even when server-side item persistence is not used
-                // or when itemId has been stripped from providerOptions.
+                // 没有 itemId — 如果可用，则回退到 crypto_content。
+                // OpenAI Responses API 接受推理项，无需
+                // 提供 crypto_content 时的 id，启用多轮
+                // 即使不使用服务器端项目持久性也能进行推理
+                // 或者当 itemId 已从providerOptions中删除时。
                 const encryptedContent =
                   providerOptions?.reasoningEncryptedContent;
 
@@ -660,7 +660,7 @@ export async function convertToOpenAIResponsesInput({
 
           const output = part.output;
 
-          // Skip execution-denied with approvalId - already handled via tool-approval-response
+          // 跳过执行拒绝并带有 ApprovalId - 已通过工具批准响应进行处理
           if (output.type === 'execution-denied') {
             const approvalId = (
               output.providerOptions?.openai as { approvalId?: string }
@@ -937,7 +937,7 @@ export async function convertToOpenAIResponsesInput({
     }
   }
 
-  // when store is false, remove reasoning parts without encrypted content
+  // 当 store 为 false 时，删除没有加密内容的推理部分
   if (
     !store &&
     input.some(

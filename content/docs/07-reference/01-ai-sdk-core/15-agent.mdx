@@ -1,15 +1,15 @@
 ---
 title: Agent (Interface)
-description: API Reference for the Agent interface.
+description: Agent interface 的 API 参考。
 ---
 
 # `Agent` (interface)
 
-The `Agent` interface defines a contract for agents that can generate or stream AI-generated responses in response to prompts. Agents may encapsulate advanced logic such as tool usage, multi-step workflows, or prompt handling, enabling both simple and autonomous AI agents.
+`Agent` interface 为 agent 定义了一份契约，使其能够根据提示生成或流式传输 AI 生成的响应。Agent 可以封装工具使用、多步骤工作流或提示处理等高级逻辑，从而支持简单和自主式 AI agent。
 
-Implementations of the `Agent` interface—such as `ToolLoopAgent`—fulfill the same contract and integrate seamlessly with all SDK APIs and utilities that expect an agent. This design allows users to supply custom agent classes or wrappers for third-party chains, while maximizing compatibility with AI SDK features.
+`Agent` interface 的实现（例如 `ToolLoopAgent`）遵循同一契约，并能与所有需要 agent 的 SDK API 和工具无缝集成。该设计允许用户提供自定义 agent 类或第三方 chain 的包装器，同时尽可能保持与 AI SDK 功能的兼容性。
 
-## Interface Definition
+## 接口定义
 
 ```ts
 import { ModelMessage, Experimental_Sandbox } from '@ai-sdk/provider-utils';
@@ -139,44 +139,44 @@ export interface Agent<
 }
 ```
 
-## Core Properties & Methods
+## 核心属性与方法
 
-| Name         | Type                                             | Description                                                         |
+| 名称         | 类型                                             | 描述                                                                |
 | ------------ | ------------------------------------------------ | ------------------------------------------------------------------- |
-| `version`    | `'agent-v1'`                                     | Interface version for compatibility.                                |
-| `id`         | `string \| undefined`                            | Optional agent identifier.                                          |
-| `tools`      | `ToolSet`                                        | The set of tools available to this agent.                           |
-| `generate()` | `PromiseLike<GenerateTextResult<TOOLS, OUTPUT>>` | Generates full, non-streaming output for a text prompt or messages. |
-| `stream()`   | `PromiseLike<StreamTextResult<TOOLS, OUTPUT>>`   | Streams output (chunks or steps) for a text prompt or messages.     |
+| `version`    | `'agent-v1'`                                     | 用于兼容性的接口版本。                                              |
+| `id`         | `string \| undefined`                            | 可选的 agent 标识符。                                               |
+| `tools`      | `ToolSet`                                        | 此 agent 可用的工具集合。                                           |
+| `generate()` | `PromiseLike<GenerateTextResult<TOOLS, OUTPUT>>` | 为文本提示或消息生成完整的非流式输出。                              |
+| `stream()`   | `PromiseLike<StreamTextResult<TOOLS, OUTPUT>>`   | 为文本提示或消息流式传输输出（chunk 或 step）。                     |
 
-## Generic Parameters
+## 泛型参数
 
-| Parameter      | Default | Description                                                                |
+| 参数           | 默认值  | 描述                                                                       |
 | -------------- | ------- | -------------------------------------------------------------------------- |
-| `CALL_OPTIONS` | `never` | Optional type for additional call options that can be passed to the agent. |
-| `TOOLS`        | `{}`    | The type of the tool set available to this agent.                          |
-| `OUTPUT`       | `never` | The type of additional output data that the agent can produce.             |
+| `CALL_OPTIONS` | `never` | 可传递给 agent 的额外调用选项的可选类型。                                  |
+| `TOOLS`        | `{}`    | 此 agent 可用工具集的类型。                                                |
+| `OUTPUT`       | `never` | agent 可以生成的额外输出数据类型。                                         |
 
-## Method Parameters
+## 方法参数
 
-Both `generate()` and `stream()` accept an `AgentCallParameters<CALL_OPTIONS, TOOLS>` object with:
+`generate()` 和 `stream()` 都接受一个 `AgentCallParameters<CALL_OPTIONS, TOOLS>` 对象，其中包含：
 
-- `prompt` (optional): A string prompt or array of `ModelMessage` objects
-- `messages` (optional): An array of `ModelMessage` objects (mutually exclusive with `prompt`)
-- `options` (optional): Additional call options when `CALL_OPTIONS` is not `never`
-- `abortSignal` (optional): An `AbortSignal` to cancel the operation
-- `timeout` (optional): A timeout in milliseconds. Can be specified as a number or as an object with a `totalMs` property. The call will be aborted if it takes longer than the specified timeout. Can be used alongside `abortSignal`.
-- `experimental_sandbox` (optional): An experimental sandbox environment forwarded to tool execution.
-- `experimental_onStart` (optional): Callback invoked when the agent operation begins, before any LLM calls. Experimental.
-- `experimental_onStepStart` (optional): Callback invoked when a step (LLM call) begins, before the provider is called. Experimental.
-- `onToolExecutionStart` (optional): Callback invoked right before a tool's execute function runs.
-- `onToolExecutionEnd` (optional): Callback invoked right after a tool's execute function completes or errors.
-- `onStepFinish` (optional): A callback invoked after each agent step (LLM/tool call) completes. Useful for tracking token usage, per-step performance, or logging.
-- `onFinish` (optional): A callback invoked when all steps are finished and the response is complete.
+- `prompt`（可选）：字符串提示或 `ModelMessage` 对象数组
+- `messages`（可选）：`ModelMessage` 对象数组（与 `prompt` 互斥）
+- `options`（可选）：当 `CALL_OPTIONS` 不是 `never` 时的额外调用选项
+- `abortSignal`（可选）：用于取消操作的 `AbortSignal`
+- `timeout`（可选）：超时时间，单位为毫秒。可指定为数字，也可指定为包含 `totalMs` 属性的对象。如果调用耗时超过指定超时时间，将被中止。可与 `abortSignal` 一起使用。
+- `experimental_sandbox`（可选）：转发给工具执行的实验性沙箱环境。
+- `experimental_onStart`（可选）：agent 操作开始时、任何 LLM 调用之前触发的回调。实验性功能。
+- `experimental_onStepStart`（可选）：step（LLM 调用）开始时、调用 provider 之前触发的回调。实验性功能。
+- `onToolExecutionStart`（可选）：工具的 execute 函数运行前立即触发的回调。
+- `onToolExecutionEnd`（可选）：工具的 execute 函数完成或出错后立即触发的回调。
+- `onStepFinish`（可选）：每个 agent step（LLM/工具调用）完成后触发的回调。可用于跟踪 token 用量、每个 step 的性能或日志记录。
+- `onFinish`（可选）：所有 step 完成且响应完整后触发的回调。
 
-## Example: Custom Agent Implementation
+## 示例：自定义 Agent 实现
 
-Here's how you might implement your own Agent:
+下面是一个自定义 Agent 的实现示例：
 
 ```ts
 import { Agent, GenerateTextResult, StreamTextResult } from 'ai';
@@ -203,11 +203,11 @@ class MyEchoAgent implements Agent {
 }
 ```
 
-## Usage: Interacting with Agents
+## 用法：与 Agent 交互
 
-All SDK utilities that accept an agent—including [`createAgentUIStream`](/docs/reference/ai-sdk-core/create-agent-ui-stream), [`createAgentUIStreamResponse`](/docs/reference/ai-sdk-core/create-agent-ui-stream-response), and [`pipeAgentUIStreamToResponse`](/docs/reference/ai-sdk-core/pipe-agent-ui-stream-to-response)—expect an object adhering to the `Agent` interface.
+所有接受 agent 的 SDK 工具（包括 [`createAgentUIStream`](/docs/reference/ai-sdk-core/create-agent-ui-stream)、[`createAgentUIStreamResponse`](/docs/reference/ai-sdk-core/create-agent-ui-stream-response) 和 [`pipeAgentUIStreamToResponse`](/docs/reference/ai-sdk-core/pipe-agent-ui-stream-to-response)）都期望传入遵循 `Agent` interface 的对象。
 
-You can use the official [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent) (recommended for multi-step AI workflows with tool use), or supply your own implementation:
+你可以使用官方的 [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent)（推荐用于包含工具使用的多步骤 AI 工作流），也可以提供自己的实现：
 
 ```ts
 import { ToolLoopAgent, createAgentUIStream } from "ai";
@@ -224,17 +224,17 @@ for await (const chunk of stream) {
 }
 ```
 
-## See Also
+## 另请参阅
 
-- [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent) &mdash; Official multi-step agent implementation
+- [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent) &mdash; 官方多步骤 agent 实现
 - [`createAgentUIStream`](/docs/reference/ai-sdk-core/create-agent-ui-stream)
 - [`GenerateTextResult`](/docs/reference/ai-sdk-core/generate-text)
 - [`StreamTextResult`](/docs/reference/ai-sdk-core/stream-text)
 
-## Notes
+## 备注
 
-- Agents should define their `tools` property, even if empty (`{}`), for compatibility with SDK utilities.
-- The interface accepts both plain prompts and message arrays as input, but only one at a time.
-- The `CALL_OPTIONS` generic parameter allows agents to accept additional call-specific options when needed.
-- The `abortSignal` parameter enables cancellation of agent operations.
-- This design is extensible for both complex autonomous agents and simple LLM wrappers.
+- Agent 应定义其 `tools` 属性，即使为空（`{}`），以便与 SDK 工具兼容。
+- 该接口接受纯提示和消息数组作为输入，但一次只能使用其中一种。
+- `CALL_OPTIONS` 泛型参数允许 agent 在需要时接受额外的调用专属选项。
+- `abortSignal` 参数支持取消 agent 操作。
+- 该设计可扩展到复杂的自主式 agent 和简单的 LLM 包装器。

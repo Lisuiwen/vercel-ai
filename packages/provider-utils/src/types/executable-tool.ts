@@ -1,14 +1,14 @@
 import type { Tool } from './tool';
 
 /**
- * A tool that is guaranteed to expose an execute function.
+ * 保证公开执行函数的工具。
  */
 export type ExecutableTool<TOOL extends Tool = Tool> = TOOL & {
   execute: NonNullable<TOOL['execute']>;
 };
 
 /**
- * Checks whether a tool exposes an execute function.
+ * 检查工具是否公开执行函数。
  */
 export function isExecutableTool<TOOL extends Tool>(
   tool: TOOL | undefined,

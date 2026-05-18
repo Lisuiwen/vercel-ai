@@ -34,21 +34,21 @@ export type ConvertToGoogleInteractionsInputResult = {
 };
 
 /**
- * Converts an AI SDK `LanguageModelV4Prompt` into the Gemini Interactions
- * request shape (`{ input: Array<Step>, system_instruction }`).
+ * 将 AI SDK `LanguageModelV4Prompt` 转换为 Gemini 交互
+ * 请求形状 (`{ input: Array<Step>, system_instruction }`)。
  *
- * Prior assistant content round-trips as discrete steps:
- *   - text / image content → `model_output` step with a single `content` array
- *   - reasoning → `thought` step (`signature` + `summary`)
- *   - tool-call → `function_call` step
- * User turns (and tool-result turns from the previous round) are sent as
- * `user_input` steps whose `content[]` holds the user's parts (text, files,
- * and — for tool-result turns — `function_result` blocks).
+ * 先前的助理内容往返为离散步骤：
+ *   - 文本/图像内容→带有单个“content”数组的“model_output”步骤
+ *   - 推理→“思考”步骤（“签名”+“摘要”）
+ *   - 工具调用 → `function_call` 步骤
+ * 用户回合（以及上一轮的工具结果回合）发送为
+ * `user_input` 步骤的 `content[]` 保存用户的部分（文本、文件、
+ * 以及 - 对于工具结果轮换 - `function_result` 块）。
  *
- * Handles text parts, file parts (image / audio / document / video, all four
- * `data.type` shapes), tool-call/tool-result round-tripping, per-step
- * `signature` round-tripping, and statefulness compaction (drop assistant/tool
- * turns whose `providerOptions.google.interactionId === previousInteractionId`).
+ * 处理文本部分、文件部分（图像/音频/文档/视频，所有四个部分）
+ * `data.type` 形状），工具调用/工具结果往返，每步
+ * `signature` 往返和状态压缩（放置助手/工具
+ * 轮到其 `providerOptions.google.interactionId === previousInteractionId`)。
  */
 export function convertToGoogleInteractionsInput({
   prompt,
@@ -64,15 +64,15 @@ export function convertToGoogleInteractionsInput({
   const warnings: Array<SharedV4Warning> = [];
 
   /*
-   * Behavior matrix for compaction:
+   * 压实行为矩阵：
    *
-   * - `previousInteractionId` set + `store !== false` → compact history (drop
-   *   assistant/tool turns whose `providerMetadata.google.interactionId`
-   *   matches), emit `previous_interaction_id`.
-   * - `previousInteractionId` set + `store === false` → emit warning
-   *   (incoherent combo), still send full history (NO compaction).
-   * - `store === false`, no `previousInteractionId` → no compaction.
-   * - Default → no compaction.
+   * - `previousInteractionId` set + `store !== false` → 紧凑的历史记录 (drop
+   *   助理/工具将其“providerMetadata.google.interactionId”
+   *   匹配），发出“previous_interaction_id”。
+   * - `previousInteractionId` set + `store === false` → 发出警告
+   *   （不连贯的组合），仍然发送完整的历史记录（无压缩）。
+   * - `store === false`，没有 `previousInteractionId` → 不压缩。
+   * - 默认 → 不压缩。
    */
   const incoherentCombo = previousInteractionId != null && store === false;
   const shouldCompact = previousInteractionId != null && store !== false;
@@ -124,10 +124,10 @@ export function convertToGoogleInteractionsInput({
       }
       case 'assistant': {
         /*
-         * Prior assistant content fans out into one step per logical block.
-         * Adjacent text/image content blocks are coalesced into a single
-         * `model_output` step (matching how the API emits them on output);
-         * reasoning and tool-calls each become their own step.
+         * 先前的助理内容分散到每个逻辑块的一个步骤中。
+         * 相邻的文本/图像内容块合并为一个
+         * `model_output` 步骤（匹配 API 在输出中发出它们的方式）；
+         * 推理和工具调用各自成为自己的步骤。
          */
         let pendingModelOutput: Array<GoogleInteractionsContentBlock> = [];
         const flushModelOutput = () => {
@@ -190,10 +190,10 @@ export function convertToGoogleInteractionsInput({
       }
       case 'tool': {
         /*
-         * Tool-result messages are emitted as a `user_input` step whose
-         * content holds one `function_result` block per tool-result part.
-         * `function_result` remains a content-block type (it sits inside
-         * a step), not a top-level step type.
+         * 工具结果消息作为“user_input”步骤发出，其
+         * content 为每个工具结果部分保存一个“function_result”块。
+         * `function_result` 仍然是一个内容块类型（它位于
+         * 步骤），而不是顶级步骤类型。
          */
         const content: Array<GoogleInteractionsContentBlock> = [];
         for (const part of message.content) {
@@ -230,8 +230,8 @@ export function convertToGoogleInteractionsInput({
 }
 
 /**
- * Maps a single AI SDK `LanguageModelV4FilePart` to a Gemini Interactions
- * content block (`image` / `audio` / `document` / `video`).
+ * 将单个 AI SDK“LanguageModelV4FilePart”映射到 Gemini 交互
+ * 内容块（“图像”/“音频”/“文档”/“视频”）。
  */
 function convertFilePartToContent({
   part,
@@ -319,9 +319,9 @@ function convertFilePartToContent({
 }
 
 /*
- * Drops assistant messages that were part of the linked interaction
- * (`previousInteractionId`). Tool-result turns whose tool-call counterpart
- * was dropped are also pruned to keep the message stream well-formed.
+ * 删除属于链接交互一部分的辅助消息
+ * (`前一个交互Id`)。工具结果轮流其工具调用对应项
+ * 被丢弃的消息也会被修剪以保持消息流的格式良好。
  */
 function compactPromptForPreviousInteraction({
   prompt,
@@ -523,10 +523,10 @@ function filePartToImageBlock({
 }
 
 /*
- * Collapses runs of adjacent text content blocks within a single user step
- * into one combined text block, separated by a blank line. Text blocks
- * carrying `annotations` are left untouched (annotations are tied to specific
- * text spans).
+ * 折叠单个用户步骤中相邻文本内容块的运行
+ * 到一个组合文本块中，并用空行分隔。文本块
+ * 带有“注释”的内容保持不变（注释与特定的
+ * 文本跨度）。
  */
 function mergeAdjacentTextContent(
   content: Array<GoogleInteractionsContentBlock>,

@@ -1,8 +1,8 @@
 import { DownloadError } from './download-error';
 
 /**
- * Validates that a URL is safe to download from, blocking private/internal addresses
- * to prevent SSRF attacks.
+ * 验证 URL 是否可以安全下载，阻止私人/内部地址
+ * 以防止 SSRF 攻击。
  *
  * @param url - The URL string to validate.
  * @throws DownloadError if the URL is unsafe.
@@ -18,12 +18,12 @@ export function validateDownloadUrl(url: string): void {
     });
   }
 
-  // data: URLs are inline content, so they do not trigger a network fetch or SSRF risk.
+  // data：URL 是内联内容，因此它们不会触发网络获取或 SSRF 风险。
   if (parsed.protocol === 'data:') {
     return;
   }
 
-  // Only allow http and https network protocols
+  // 只允许http和https网络协议
   if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
     throw new DownloadError({
       url,
@@ -33,7 +33,7 @@ export function validateDownloadUrl(url: string): void {
 
   const hostname = parsed.hostname;
 
-  // Block empty hostname
+  // 阻止空主机名
   if (!hostname) {
     throw new DownloadError({
       url,
@@ -41,7 +41,7 @@ export function validateDownloadUrl(url: string): void {
     });
   }
 
-  // Block localhost and .local domains
+  // 阻止 localhost 和 .local 域
   if (
     hostname === 'localhost' ||
     hostname.endsWith('.local') ||
@@ -53,7 +53,7 @@ export function validateDownloadUrl(url: string): void {
     });
   }
 
-  // Check for IPv6 addresses (enclosed in brackets in URLs)
+  // 检查 IPv6 地址（用 URL 中的括号括起来）
   if (hostname.startsWith('[') && hostname.endsWith(']')) {
     const ipv6 = hostname.slice(1, -1);
     if (isPrivateIPv6(ipv6)) {
@@ -65,7 +65,7 @@ export function validateDownloadUrl(url: string): void {
     return;
   }
 
-  // Check for IPv4 addresses
+  // 检查 IPv4 地址
   if (isIPv4(hostname)) {
     if (isPrivateIPv4(hostname)) {
       throw new DownloadError({
@@ -111,19 +111,19 @@ function isPrivateIPv4(ip: string): boolean {
 function isPrivateIPv6(ip: string): boolean {
   const normalized = ip.toLowerCase();
 
-  // ::1 (loopback)
+  // ::1（环回）
   if (normalized === '::1') return true;
-  // :: (unspecified)
+  // ::（未指定）
   if (normalized === '::') return true;
 
-  // Check for IPv4-mapped addresses (::ffff:x.x.x.x or ::ffff:HHHH:HHHH)
+  // 检查 IPv4 映射地址（::ffff:x.x.x.x 或 ::ffff:HHHH:HHHH）
   if (normalized.startsWith('::ffff:')) {
     const mappedPart = normalized.slice(7);
-    // Dotted-decimal form: ::ffff:127.0.0.1
+    // 点分十进制形式：::ffff:127.0.0.1
     if (isIPv4(mappedPart)) {
       return isPrivateIPv4(mappedPart);
     }
-    // Hex form: ::ffff:7f00:1 (URL parser normalizes to this)
+    // 十六进制形式：::ffff:7f00:1（URL 解析器对此进行规范化）
     const hexParts = mappedPart.split(':');
     if (hexParts.length === 2) {
       const high = parseInt(hexParts[0], 16);
@@ -138,10 +138,10 @@ function isPrivateIPv6(ip: string): boolean {
     }
   }
 
-  // fc00::/7 (unique local addresses - fc00:: and fd00::)
+  // fc00::/7（唯一本地地址 - fc00:: 和 fd00::）
   if (normalized.startsWith('fc') || normalized.startsWith('fd')) return true;
 
-  // fe80::/10 (link-local)
+  // fe80::/10（链接本地）
   if (normalized.startsWith('fe80')) return true;
 
   return false;

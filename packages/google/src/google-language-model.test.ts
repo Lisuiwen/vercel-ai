@@ -94,7 +94,7 @@ describe('groundingMetadataSchema', () => {
       groundingChunks: [
         {
           web: {
-            // Missing `title`
+            // 缺少“标题”
             uri: 'https://example.com/weather',
           },
         },
@@ -138,7 +138,7 @@ describe('groundingMetadataSchema', () => {
       groundingChunks: [
         {
           retrievedContext: {
-            // Missing `title`
+            // 缺少“标题”
             uri: 'https://vertexaisearch.cloud.google.com/grounding-api-redirect/AXiHM.....QTN92V5ePQ==',
           },
         },
@@ -173,7 +173,7 @@ describe('groundingMetadataSchema', () => {
           retrievedContext: {
             text: 'Content without uri field',
             fileSearchStore: 'fileSearchStores/store-abc',
-            // Missing `uri` - should still be valid
+            // 缺少“uri” - 应该仍然有效
           },
         },
       ],
@@ -221,7 +221,7 @@ describe('groundingMetadataSchema', () => {
   it('validates partial grounding metadata', () => {
     const metadata = {
       webSearchQueries: ['sample query'],
-      // Missing other optional fields
+      // 缺少其他可选字段
     };
 
     const result = groundingMetadataSchema.safeParse(metadata);
@@ -282,7 +282,7 @@ describe('groundingMetadataSchema', () => {
     const metadata = {
       groundingSupports: [
         {
-          // Missing `segment`
+          // 缺少“段”
           groundingChunkIndices: [0],
         },
       ],
@@ -294,10 +294,10 @@ describe('groundingMetadataSchema', () => {
 
   it('rejects invalid data types', () => {
     const metadata = {
-      webSearchQueries: 'not an array', // Should be an array
+      webSearchQueries: 'not an array', // 应该是一个数组
       groundingSupports: [
         {
-          confidenceScores: 'not an array', // Should be an array of numbers
+          confidenceScores: 'not an array', // 应该是一个数字数组
         },
       ],
     };
@@ -1381,7 +1381,7 @@ describe('doGenerate', () => {
             retrievedContext: {
               text: 'Another document content...',
               fileSearchStore: 'fileSearchStores/another-store-abc',
-              // Missing title - should default to 'Unknown Document'
+              // 缺少标题 - 应默认为“未知文档”
             },
           },
         ],
@@ -1427,13 +1427,13 @@ describe('doGenerate', () => {
           {
             web: {
               uri: 'https://example.com/page1',
-              // No title provided
+              // 未提供标题
             },
           },
           {
             retrievedContext: {
               uri: 'https://example.com/page2',
-              // No title provided
+              // 未提供标题
             },
           },
         ],
@@ -1685,7 +1685,7 @@ describe('doGenerate', () => {
         prompt: TEST_PROMPT,
         headers: {
           'X-Sync-Request': 'sync-request-value',
-          'X-Common': 'request-value', // Should override config value
+          'X-Common': 'request-value', // 应该覆盖配置值
         },
       });
 
@@ -2109,8 +2109,8 @@ describe('doGenerate', () => {
       prompt: TEST_PROMPT,
     });
 
-    // Provider-executed tools should not trigger 'tool-calls' finish reason
-    // since they don't require SDK iteration
+    // 提供者执行的工具不应触发“工具调用”完成原因
+    // 因为它们不需要 SDK 迭代
     expect(finishReason).toMatchInlineSnapshot(`
       {
         "raw": "STOP",
@@ -2164,7 +2164,7 @@ describe('doGenerate', () => {
       prompt: TEST_PROMPT,
     });
 
-    // Should return 'stop' so structured output can be parsed
+    // 应该返回“stop”，以便可以解析结构化输出
     expect(finishReason).toMatchInlineSnapshot(`
       {
         "raw": "STOP",
@@ -2172,7 +2172,7 @@ describe('doGenerate', () => {
       }
     `);
 
-    // Verify text content is included
+    // 验证是否包含文本内容
     const textPart = content.find(part => part.type === 'text');
     expect(textPart).toBeDefined();
     expect((textPart as { type: 'text'; text: string }).text).toBe(
@@ -2236,7 +2236,7 @@ describe('doGenerate', () => {
       prompt: TEST_PROMPT,
     });
 
-    // Should return 'tool-calls' because there's a client-executed function tool
+    // 应该返回“工具调用”，因为有一个客户端执行的函数工具
     expect(finishReason).toMatchInlineSnapshot(`
       {
         "raw": "STOP",
@@ -3730,7 +3730,7 @@ describe('doGenerate', () => {
         baseURL: 'https://generativelanguage.googleapis.com/v1beta',
         headers: { 'x-goog-api-key': 'test-api-key' },
         generateId: () => 'test-id',
-        //should default to 'google'
+        // 应默认为“google”
       });
 
       const { providerMetadata } = await model.doGenerate({
@@ -4163,11 +4163,11 @@ describe('doStream', () => {
 
       const events = await convertReadableStreamToArray(stream);
 
-      // The fixture is a real Vertex recording where the model picked the
-      // no-args `read_theme` first (carrying the response's only
-      // thoughtSignature), then streamed three parallel `read_screen` calls
-      // for A, B, C. Pre-fix the read_theme call and its signature were
-      // dropped entirely.
+      // 该夹具是真实的顶点记录，其中模型选择了
+      // 首先无参数“read_theme”（仅携带响应
+      // ThoughtSignature），然后流式传输三个并行的“read_screen”调用
+      // 对于 A、B、C。预先修复 read_theme 调用及其签名
+      // 完全下降了。
       const toolCalls = events.filter(e => e.type === 'tool-call');
       expect(
         toolCalls.map(c => ({ toolName: c.toolName, input: c.input })),
@@ -4187,8 +4187,8 @@ describe('doStream', () => {
         readThemeCall.providerMetadata?.googleVertex?.thoughtSignature,
       ).toBe(signature);
 
-      // The no-args call must emit start/end framing too, so the signature
-      // is exposed at every stage downstream consumers might inspect.
+      // 无参数调用也必须发出开始/结束帧，因此签名
+      // 暴露在下游消费者可能检查的每个阶段。
       const toolInputStarts = events.filter(e => e.type === 'tool-input-start');
       const noArgsStart = toolInputStarts.find(
         e => e.toolName === 'read_theme',
@@ -4203,7 +4203,7 @@ describe('doStream', () => {
       );
       expect(noArgsEnd).toBeDefined();
 
-      // The no-args branch must not emit any tool-input-delta events.
+      // no-args 分支不得发出任何工具输入增量事件。
       const deltas = events.filter(e => e.type === 'tool-input-delta');
       expect(
         deltas.every(
@@ -4919,8 +4919,8 @@ describe('doStream', () => {
 
     const finishEvent = events.find(e => e.type === 'finish');
 
-    // Provider-executed tools should not trigger 'tool-calls' finish reason
-    // since they don't require SDK iteration - allows structured output to work
+    // 提供者执行的工具不应触发“工具调用”完成原因
+    // 因为它们不需要 SDK 迭代 - 允许结构化输出工作
     expect(finishEvent).toMatchObject({
       type: 'finish',
       finishReason: {
@@ -5587,7 +5587,7 @@ describe('doStream', () => {
 
     const events = await convertReadableStreamToArray(stream);
 
-    // Filter to content events only (excluding metadata)
+    // 仅过滤内容事件（不包括元数据）
     const contentEvents = events.filter(
       event =>
         event.type === 'text-start' ||
@@ -5596,7 +5596,7 @@ describe('doStream', () => {
         event.type === 'file',
     );
 
-    // Verify that text and file parts are interleaved in the correct order
+    // 验证文本和文件部分是否按正确的顺序交错
     expect(contentEvents).toMatchInlineSnapshot(`
       [
         {
@@ -6886,7 +6886,7 @@ describe('GEMMA Model System Instruction Fix', () => {
       prompt: TEST_PROMPT_WITH_SYSTEM,
     });
 
-    // Verify that systemInstruction was NOT sent for GEMMA model
+    // 验证未针对 GEMMA 模型发送系统指令
     const lastCall = server.calls[server.calls.length - 1];
     const requestBody = await lastCall.requestBodyJson;
 

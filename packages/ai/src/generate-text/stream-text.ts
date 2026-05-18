@@ -174,11 +174,11 @@ export type StreamTextInclude = {
   /**
    * 是否在流中包含来自提供者的原始块。
    *
-   * 启用后，您将收到类型为“raw”的原始块，其中包含
+   * 启用后，您将收到类型为`raw`的原始块，其中包含
    * 来自提供商的未处理的数据。
    *
    * 这允许访问尚未包含的尖端提供商功能
-   * 人工智能 SDK。
+   * 人工智能SDK。
    *
    * @default false
    */
@@ -188,8 +188,8 @@ export type StreamTextInclude = {
 /**
  * 应用于流的转换。
  *
- * @param stopStream - A function that stops the source stream.
- * @param tools - The tools that are accessible to and can be called by the model. The model needs to support calling tools.
+ * @param stopStream - 停止源流的函数。
+ * @param tools - 模型可以访问并调用的工具。模型需要支持调用工具。
  */
 export type StreamTextTransform<TOOLS extends ToolSet> = (options: {
   tools: TOOLS; // 用于类型推断
@@ -197,18 +197,18 @@ export type StreamTextTransform<TOOLS extends ToolSet> = (options: {
 }) => TransformStream<TextStreamPart<TOOLS>, TextStreamPart<TOOLS>>;
 
 /**
- * 使用“onError”选项设置的回调。
+ * 使用`onError`选项设置的回调。
  *
- * @param event - The event that is passed to the callback.
+ * @param event - 传递给回调的事件。
  */
 export type StreamTextOnErrorCallback = Callback<{
   error: unknown;
 }>;
 
 /**
- * 使用“onChunk”选项设置的回调。
+ * 使用`onChunk`选项设置回调。
  *
- * @param event - The event that is passed to the callback.
+ * @param event - 传递给回调的事件。
  */
 export type StreamTextOnChunkCallback<TOOLS extends ToolSet> = (event: {
   chunk: Extract<
@@ -229,9 +229,9 @@ export type StreamTextOnChunkCallback<TOOLS extends ToolSet> = (event: {
 }) => PromiseLike<void> | void;
 
 /**
- * 使用“onAbort”选项设置的回调。
+ * 使用`onAbort`选项设置回调。
  *
- * @param event - The event that is passed to the callback.
+ * @param event - 传递给回调的事件。
  */
 export type StreamTextOnAbortCallback<
   TOOLS extends ToolSet,
@@ -246,56 +246,56 @@ export type StreamTextOnAbortCallback<
 /**
  * 使用语言模型为给定提示生成文本并调用工具。
  *
- * 该函数输出流。如果您不想流式传输输出，请改用“generateText”。
+ * 该函数输出流。如果您不想流式传输输出，请改用`generateText`。
  *
- * @param model - The language model to use.
- * @param tools - Tools that are accessible to and can be called by the model. The model needs to support calling tools.
+ * @param model - 要使用的语言模型。
+ * @param tools - 模型可以访问并调用的工具。模型需要支持调用工具。
  *
- * @param system - A system message that will be part of the prompt.
- * @param prompt - A simple text prompt. You can either use `prompt` or `messages` but not both.
- * @param messages - A list of messages. You can either use `prompt` or `messages` but not both.
- * @param allowSystemInMessages - Whether system messages are allowed in the `prompt` or `messages` fields. Default: false.
+ * @param system - 将作为提示的一部分的系统消息。
+ * @param prompt - 一个简单的文字提示。您可以使用`提示`或`消息`，但不能同时使用两者。
+ * @param messages - 消息列表。您可以使用`提示`或`消息`，但不能同时使用两者。
+ * @param allowSystemInMessages - `提示`或`消息`字段中是否允许系统消息。默认值：假。
  *
- * @param maxOutputTokens - Maximum number of tokens to generate.
- * @param temperature - Temperature setting.
+ * @param maxOutputTokens - 生成的最大令牌数。
+ * @param temperature - 温度设定。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * 建议设置“温度”或“topP”，但不能同时设置两者。
- * @param topP - Nucleus sampling.
+ * 建议设置`温度`或`topP`，但不能同时设置两者。
+ * @param topP - 细胞核取样。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * 建议设置“温度”或“topP”，但不能同时设置两者。
- * @param topK - Only sample from the top K options for each subsequent token.
+ * 建议设置`温度`或`topP`，但不能同时设置两者。
+ * @param topK - 对于每个后续标记，仅从前 K 个选项中进行采样。
  * 用于删除“长尾”低概率响应。
  * 仅推荐用于高级用例。通常您只需要使用温度。
- * @param presencePenalty - Presence penalty setting.
+ * @param presencePenalty - 存在惩罚设置。
  * 它会影响模型重复提示中已有信息的可能性。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * @param frequencyPenalty - Frequency penalty setting.
+ * @param frequencyPenalty - 频率惩罚设置。
  * 它影响模型重复使用相同单词或短语的可能性。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * @param stopSequences - Stop sequences.
+ * @param stopSequences - 停止序列。
  * 如果设置，模型将在生成停止序列之一时停止生成文本。
- * @param seed - The seed (integer) to use for random sampling.
+ * @param seed - 用于随机采样的种子（整数）。
  * 如果模型设置并支持，调用将生成确定性结果。
  *
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param timeout - An optional timeout in milliseconds. The call will be aborted if it takes longer than the specified timeout.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param timeout - 可选超时（以毫秒为单位）。如果调用时间超过指定的超时时间，调用将被中止。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
  *
- * @param experimental_sandbox - The sandbox environment that is passed through to tool execution.
- * @param runtimeContext - User-defined runtime context that flows through the entire generation lifecycle.
- * @param experimental_refineToolInput - Optional mapping of tool names to functions that refine parsed tool inputs before tools are executed and before outputs, callbacks, and telemetry are recorded.
+ * @param experimental_sandbox - 传递到工具执行的沙箱环境。
+ * @param runtimeContext - 用户定义的运行时上下文贯穿整个生成生命周期。
+ * @param experimental_refineToolInput - 工具名称到函数的可选映射，用于在执行工具之前以及记录输出、回调和遥测之前细化已解析的工具输入。
  *
- * @param onChunk - Callback that is called for each chunk of the stream. The stream processing will pause until the callback promise is resolved.
- * @param onError - Callback that is called when an error occurs during streaming. You can use it to log errors.
- * @param onToolExecutionStart - Callback invoked before each tool execution begins.
- * @param experimental_onToolCallStart - Deprecated alias for `onToolExecutionStart`.
- * @param onToolExecutionEnd - Callback invoked after each tool execution completes.
- * @param experimental_onToolCallFinish - Deprecated alias for `onToolExecutionEnd`.
- * @param onStepFinish - Callback that is called when each step (LLM call) is finished, including intermediate steps.
- * @param onFinish - Callback that is called when all steps are finished and the response is complete.
+ * @param onChunk - 为流的每个块调用的回调。流处理将暂停，直到回调承诺得到解决。
+ * @param onError - 流式传输过程中发生错误时调用的回调。您可以使用它来记录错误。
+ * @param onToolExecutionStart - 在每个工具执行开始之前调用回调。
+ * @param experimental_onToolCallStart - 已弃用`onToolExecutionStart`的别名。
+ * @param onToolExecutionEnd - 每个工具执行完成后调用的回调。
+ * @param experimental_onToolCallFinish - 已弃用`onToolExecutionEnd`的别名。
+ * @param onStepFinish - 每个步骤（LLM 调用）完成时调用的回调，包括中间步骤。
+ * @param onFinish - 当所有步骤完成并且响应完成时调用的回调。
  *
- * @returns
+ * @返回
  * 用于访问不同流类型和附加信息的结果对象。
  */
 export function streamText<
@@ -384,13 +384,13 @@ export function streamText<
     /**
      * 可选遥测配置。
      *
-     * @deprecated 请改用“遥测”。该别名将在未来的主要版本中删除。
+     * @deprecated 请改用`遥测`。该别名将在未来的主要版本中删除。
      */
     experimental_telemetry?: TelemetryOptions<RUNTIME_CONTEXT, NoInfer<TOOLS>>;
 
     /**
      * 其他特定于提供商的选项。他们通过
-     * 从 AI SDK 发送给提供商并启用特定于提供商的
+     * 从AI SDK发送给成功并实现特定的成功
      * 可以完全封装在提供者中的功能。
      */
     providerOptions?: ProviderOptions;
@@ -402,7 +402,7 @@ export function streamText<
 
     /**
      * 运行时上下文。将运行时上下文视为不可变。
-     * 如果您需要改变运行时上下文，请在“prepareStep”中更新它。
+     * 如果您需要改变运行时上下文，请在`prepareStep`中更新它。
      */
     runtimeContext?: RUNTIME_CONTEXT;
 
@@ -413,7 +413,7 @@ export function streamText<
     activeTools?: ActiveTools<NoInfer<TOOLS>>;
 
     /**
-     * 用于解析 LLM 响应的结构化输出的可选规范。
+     * 用于解析LLM响应的构造输出的任选规范。
      */
     output?: OUTPUT;
 
@@ -427,12 +427,12 @@ export function streamText<
     /**
      * 您可以使用可选函数为步骤提供不同的设置。
      *
-     * @param options - The options for the step.
-     * @param options.steps - The steps that have been executed so far.
-     * @param options.stepNumber - The number of the step that is being executed.
-     * @param options.model - The model that is being used.
+     * @param options - 该步骤的选项。
+     * @param options.steps - 到目前为止已执行的步骤。
+     * @param options.stepNumber - 正在执行的步骤的编号。
+     * @param options.model - 正在使用的模型。
      *
-     * @returns An object that contains the settings for the step.
+     * @returns 包含步骤设置的对象。
      * 如果返回未定义（或未定义的设置），则将使用外层的设置。
      */
     prepareStep?: PrepareStepFunction<NoInfer<TOOLS>, RUNTIME_CONTEXT>;
@@ -453,24 +453,24 @@ export function streamText<
     /**
      * 可选的流转换。
      * 它们按照提供的顺序应用。
-     * 流转换必须维护流结构，streamText 才能正常工作。
+     * 流转换必须维护流结构，streamText才能正常工作。
      */
     experimental_transform?: Arrayable<StreamTextTransform<TOOLS>>;
 
     /**
-     * 用于 URL 的自定义下载功能。
+     * 使用URL的自定义下载功能。
      *
-     * 默认情况下，如果模型不支持给定媒体类型的 URL，则会下载文件。
+     * 默认情况下，如果模型不支持给定媒体类型的URL，则下载文件。
      */
     experimental_download?: DownloadFunction | undefined;
 
     /**
      * 是否在流中包含来自提供者的原始块。
-     * 启用后，您将收到类型为“raw”的原始块，其中包含来自提供商的未处理的数据。
-     * 这允许访问 AI SDK 尚未包含的尖端提供商功能。
+     * 启用后，您将收到类型为`raw`的原始块，其中包含来自成功的未处理的数据。
+     * 这允许访问 AI SDK 尚未包含的尖端功能。
      * 默认为 false。
      *
-     * @deprecated 请改用“include.rawChunks”。
+     * @deprecated 请改用`include.rawChunks`。
      */
     includeRawChunks?: boolean;
 
@@ -504,7 +504,7 @@ export function streamText<
     >;
 
     /**
-     * 每个步骤（LLM 调用）完成时调用的回调，包括中间步骤。
+     * 每个步骤（LLM调用）完成时调用的回调，包括中间步骤。
      */
     onStepFinish?: GenerateTextOnStepFinishCallback<
       NoInfer<TOOLS>,
@@ -513,7 +513,7 @@ export function streamText<
 
     /**
      * 当streamText操作开始时调用的回调，
-     * 在拨打任何 LLM 电话之前。
+     * 在拨打任何LLM电话之前。
      */
     experimental_onStart?: GenerateTextOnStartCallback<
       NoInfer<TOOLS>,
@@ -522,7 +522,7 @@ export function streamText<
     >;
 
     /**
-     * 步骤（LLM 调用）开始时调用的回调，
+     * 步骤（LLM调用）开始时调用的回调，
      * 在调用提供者之前。
      */
     experimental_onStepStart?: GenerateTextOnStepStartCallback<
@@ -552,7 +552,7 @@ export function streamText<
     /**
      * 在工具的执行函数运行之前调用的回调。
      *
-     * @deprecated 请改用“onToolExecutionStart”。
+     * @deprecated 请改用`onToolExecutionStart`。
      */
     experimental_onToolCallStart?: OnToolExecutionStartCallback<NoInfer<TOOLS>>;
 
@@ -564,7 +564,7 @@ export function streamText<
     /**
      * 在工具的执行函数完成（或出错）后立即调用的回调。
      *
-     * @deprecated 请改用“onToolExecutionEnd”。
+     * @deprecated 请改用`onToolExecutionEnd`。
      */
     experimental_onToolCallFinish?: OnToolExecutionEndCallback<NoInfer<TOOLS>>;
 
@@ -580,7 +580,7 @@ export function streamText<
     /**
      * 用于控制步骤结果中包含哪些数据的设置。
      *
-     * @deprecated 请改用“include”。
+     * @deprecated 请改用`包含`。
      */
     experimental_include?: StreamTextInclude;
 
@@ -751,13 +751,13 @@ function createOutputTransformStream<
       textChunk += chunk.text;
       textProviderMetadata = chunk.providerMetadata ?? textProviderMetadata;
 
-      // 仅在可以解析部分 json 的情况下发布：
+      // 仅在可以解析部分json的情况下发布：
       const result = await output.parsePartialOutput({ text });
 
       // 应该允许 null（有效的 JSON 值），但不应该允许 undefined：
       if (result !== undefined) {
         // 仅在更改时发送新值：
-        // 对于字符串部分（文本输出），直接比较以避免不必要的 JSON.stringify 开销
+        // 对于字符串部分（文本输出），直接比较不需要的 JSON.stringify 开销
         const currentValue =
           typeof result.partial === 'string'
             ? result.partial
@@ -961,7 +961,7 @@ class DefaultStreamTextResult<
     let currentStepMessages: Array<ModelMessage> = [];
 
     // 跟踪提供者执行的支持延迟结果的工具调用
-    // （例如，编程工具调用场景中的 code_execution）。
+    // （例如，Smashing Tool 调用场景中的 code_execution）。
     // 这些工具可能不会在调用的同时返回结果。
     const pendingDeferredToolCalls = new Map<string, { toolName: string }>();
 
@@ -1237,7 +1237,7 @@ class DefaultStreamTextResult<
           // 汇总结果：
           self._steps.resolve(recordedSteps);
 
-          // 调用 onFinish 回调：
+          // 调用onFinish回调：
           const finalStep = recordedSteps[recordedSteps.length - 1];
           const files = recordedSteps.flatMap(step => step.files);
           const warnings = recordedSteps.flatMap(step => step.warnings ?? []);
@@ -1523,7 +1523,7 @@ class DefaultStreamTextResult<
               });
             }
 
-            // add execution denied tool results for denied local tool approvals:
+            // 添加执行被拒绝的工具结果以获取被拒绝的本地工具批准：
             for (const toolApproval of localDeniedToolApprovals) {
               localToolContent.push({
                 type: 'tool-result' as const,
@@ -1752,8 +1752,8 @@ class DefaultStreamTextResult<
             runtimeContext,
             generateId,
 
-            // 回调需要由executeToolCall向下传递和处理
-            // 确保在工具执行函数之前调用 onToolExecutionStart 回调
+            // 回调需要由executeToolCall传递和处理
+            // 确保在工具执行函数调用 onToolExecutionStart 回调之前
             onToolExecutionStart: filterNullable(
               onToolExecutionStart,
               telemetryDispatcher.onToolExecutionStart,
@@ -1766,7 +1766,7 @@ class DefaultStreamTextResult<
             executeToolInTelemetryContext: telemetryDispatcher.executeTool,
           });
 
-          // 根据包含设置有条件地包含 request.body。
+          // 根据包含设置有条件地包含request.body。
           // 大负载（例如，base64 编码的图像）可能会导致内存问题。
           const stepRequest: LanguageModelRequestMetadata = {
             ...request,
@@ -1897,7 +1897,7 @@ class DefaultStreamTextResult<
 
                     case 'model-call-end': {
                       // 注意：发出完成事件时，工具执行可能尚未完成。
-                      // 存储承诺和 onFinish 回调的使用情况和完成原因：
+                      // 存储承诺和onFinish回调的使用情况和完成原因：
                       stepUsage = chunk.usage;
                       stepFinishReason = chunk.finishReason;
                       stepRawFinishReason = chunk.rawFinishReason;
@@ -1937,7 +1937,7 @@ class DefaultStreamTextResult<
                   }
                 },
 
-                // 当流即将关闭时调用 onFinish 回调并解析 toolResults 承诺：
+                // 当流即将关闭时调用onFinish回调并解析工具结果承诺：
                 async flush(controller) {
                   const stepTimeMs = now() - stepStartTimestampMs;
 
@@ -2346,7 +2346,7 @@ class DefaultStreamTextResult<
           })
         : undefined;
 
-    // 一旦无效工具输入不再需要动态，TODO 就会简化
+    // 一旦工具无效输入不再需要动态，TODO就会减轻
     const isDynamic = (part: { toolName: string; dynamic?: boolean }) => {
       const tool = this.tools?.[part.toolName];
 

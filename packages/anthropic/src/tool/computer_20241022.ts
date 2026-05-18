@@ -29,19 +29,19 @@ const computer_20241022InputSchema = lazySchema(() =>
 export const computer_20241022 = createProviderDefinedToolFactory<
   {
     /**
-     * The action to perform. The available actions are:
-     * - `key`: Press a key or key-combination on the keyboard.
-     *   - This supports xdotool's `key` syntax.
-     *   - Examples: "a", "Return", "alt+Tab", "ctrl+s", "Up", "KP_0" (for the numpad 0 key).
-     * - `type`: Type a string of text on the keyboard.
-     * - `cursor_position`: Get the current (x, y) pixel coordinate of the cursor on the screen.
-     * - `mouse_move`: Move the cursor to a specified (x, y) pixel coordinate on the screen.
-     * - `left_click`: Click the left mouse button.
-     * - `left_click_drag`: Click and drag the cursor to a specified (x, y) pixel coordinate on the screen.
-     * - `right_click`: Click the right mouse button.
-     * - `middle_click`: Click the middle mouse button.
-     * - `double_click`: Double-click the left mouse button.
-     * - `screenshot`: Take a screenshot of the screen.
+     * 要执行的操作。可用的操作有：
+     * - `key`：按键盘上的键或组合键。
+     *   - 这支持 xdotool 的“key”语法。
+     *   - 示例：“a”、“Return”、“alt+Tab”、“ctrl+s”、“Up”、“KP_0”（用于数字键盘 0 键）。
+     * - `type`：在键盘上输入文本字符串。
+     * - `cursor_position`：获取光标在屏幕上的当前（x，y）像素坐标。
+     * - `mouse_move`：将光标移动到屏幕上指定的（x，y）像素坐标。
+     * - `left_click`：单击鼠标左键。
+     * - `left_click_drag`：单击并将光标拖动到屏幕上指定的（x，y）像素坐标。
+     * - `right_click`：单击鼠标右键。
+     * - `middle_click`：单击鼠标中键。
+     * - `double_click`：双击鼠标左键。
+     * - `屏幕截图`：截取屏幕截图。
      */
     action:
       | 'key'
@@ -56,28 +56,28 @@ export const computer_20241022 = createProviderDefinedToolFactory<
       | 'cursor_position';
 
     /**
-     * (x, y): The x (pixels from the left edge) and y (pixels from the top edge) coordinates to move the mouse to. Required only by `action=mouse_move` and `action=left_click_drag`.
+     * (x, y)：鼠标移动到的 x（距左边缘的像素）和 y（距上边缘的像素）坐标。仅“action=mouse_move”和“action=left_click_drag”需要。
      */
     coordinate?: number[];
 
     /**
-     * Required only by `action=type` and `action=key`.
+     * 仅“action=type”和“action=key”需要。
      */
     text?: string;
   },
   {
     /**
-     * The width of the display being controlled by the model in pixels.
+     * 由模型控制的显示宽度（以像素为单位）。
      */
     displayWidthPx: number;
 
     /**
-     * The height of the display being controlled by the model in pixels.
+     * 由模型控制的显示高度（以像素为单位）。
      */
     displayHeightPx: number;
 
     /**
-     * The display number to control (only relevant for X11 environments). If specified, the tool will be provided a display number in the tool definition.
+     * 要控制的显示编号（仅与 X11 环境相关）。如果指定，将在工具定义中为工具提供显示编号。
      */
     displayNumber?: number;
   }

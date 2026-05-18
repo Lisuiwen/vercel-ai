@@ -21,92 +21,92 @@ import { webSearch_20250305 } from './tool/web-search_20250305';
 
 export const anthropicTools = {
   /**
-   * Pairs a faster executor model with a higher-intelligence advisor model
-   * that provides strategic guidance mid-generation.
+   * 将更快的执行器模型与更高智能的顾问模型配对
+   * 为中期一代提供战略指导。
    *
-   * The advisor lets a faster, lower-cost executor model consult a
-   * higher-intelligence advisor model server-side. The advisor reads the
-   * executor's full transcript and produces a plan or course correction;
-   * the executor continues with the task, informed by the advice. All of
-   * this happens inside a single `/v1/messages` request.
+   * 顾问让更快、成本更低的执行者模型咨询
+   * 服务器端的更高智能顾问模型。顾问阅读
+   * 遗嘱执行人的完整成绩单并制定计划或路线修正；
+   * 执行者根据建议继续执行任务。所有的
+   * 这发生在单个“/v1/messages”请求内。
    *
-   * Beta header `advisor-tool-2026-03-01` is added automatically when this
-   * tool is included.
+   * Beta 标头 `advisor-tool-2026-03-01` 会自动添加
+   * 包括工具。
    *
-   * Multi-turn conversations: pass the full assistant content (including
-   * `advisor_tool_result` blocks) back to the API on subsequent turns. If
-   * you omit the advisor tool from `tools` on a follow-up turn while the
-   * message history still contains `advisor_tool_result` blocks, the API
-   * returns a `400 invalid_request_error`.
+   * 多轮对话：传递完整的助手内容（包括
+   * `advisor_tool_result` 块）在后续回合中返回到 API。如果
+   * 您在后续回合中省略了“tools”中的顾问工具，而
+   * 消息历史记录仍然包含“advisor_tool_result”块，API
+   * 返回“400 invalid_request_error”。
    *
-   * Supported executor models: Claude Haiku 4.5, Sonnet 4.6, Opus 4.6,
-   * Opus 4.7. The advisor must be at least as capable as the executor.
+   * 支持的执行器模型：Claude Haiku 4.5、Sonnet 4.6、Opus 4.6、
+   * 作品 4.7。顾问必须至少与执行人一样有能力。
    *
    * @param model - The advisor model ID (required), e.g. `"claude-opus-4-7"`.
    * @param maxUses - Maximum advisor calls per request (per-request cap).
    * @param caching - Enables prompt caching for the advisor's transcript
-   * across calls within a conversation. Worthwhile from ~3 advisor calls
-   * per conversation.
+   * 对话中的跨通话。值得约 3 次顾问来电
+   * 每次谈话。
    */
   advisor_20260301,
 
   /**
-   * The bash tool enables Claude to execute shell commands in a persistent bash session,
-   * allowing system operations, script execution, and command-line automation.
+   * bash 工具使 Claude 能够在持久的 bash 会话中执行 shell 命令，
+   * 允许系统操作、脚本执行和命令行自动化。
    *
-   * Image results are supported.
+   * 支持图像结果。
    */
   bash_20241022,
 
   /**
-   * The bash tool enables Claude to execute shell commands in a persistent bash session,
-   * allowing system operations, script execution, and command-line automation.
+   * bash 工具使 Claude 能够在持久的 bash 会话中执行 shell 命令，
+   * 允许系统操作、脚本执行和命令行自动化。
    *
-   * Image results are supported.
+   * 支持图像结果。
    */
   bash_20250124,
 
   /**
-   * Claude can analyze data, create visualizations, perform complex calculations,
-   * run system commands, create and edit files, and process uploaded files directly within
-   * the API conversation.
+   * 克劳德可以分析数据、创建可视化、执行复杂的计算、
+   * 运行系统命令、创建和编辑文件以及直接在其中处理上传的文件
+   * API 对话。
    *
-   * The code execution tool allows Claude to run Bash commands and manipulate files,
-   * including writing code, in a secure, sandboxed environment.
+   * 代码执行工具允许Claude运行Bash命令和操作文件，
+   * 包括在安全的沙盒环境中编写代码。
    */
   codeExecution_20250522,
 
   /**
-   * Claude can analyze data, create visualizations, perform complex calculations,
-   * run system commands, create and edit files, and process uploaded files directly within
-   * the API conversation.
+   * 克劳德可以分析数据、创建可视化、执行复杂的计算、
+   * 运行系统命令、创建和编辑文件以及直接在其中处理上传的文件
+   * API 对话。
    *
-   * The code execution tool allows Claude to run both Python and Bash commands and manipulate files,
-   * including writing code, in a secure, sandboxed environment.
+   * 代码执行工具允许 Claude 运行 Python 和 Bash 命令并操作文件，
+   * 包括在安全的沙盒环境中编写代码。
    *
-   * This is the latest version with enhanced Bash support and file operations.
+   * 这是最新版本，增强了 Bash 支持和文件操作。
    */
   codeExecution_20250825,
 
   /**
-   * Claude can analyze data, create visualizations, perform complex calculations,
-   * run system commands, create and edit files, and process uploaded files directly within
-   * the API conversation.
+   * 克劳德可以分析数据、创建可视化、执行复杂的计算、
+   * 运行系统命令、创建和编辑文件以及直接在其中处理上传的文件
+   * API 对话。
    *
-   * The code execution tool allows Claude to run both Python and Bash commands and manipulate files,
-   * including writing code, in a secure, sandboxed environment.
+   * 代码执行工具允许 Claude 运行 Python 和 Bash 命令并操作文件，
+   * 包括在安全的沙盒环境中编写代码。
    *
-   * This is the recommended version. Does not require a beta header.
+   * 这是推荐版本。不需要 beta 标头。
    *
-   * Supported models: Claude Opus 4.6, Sonnet 4.6, Sonnet 4.5, Opus 4.5
+   * 支持的模型：克劳德 Opus 4.6、Sonnet 4.6、Sonnet 4.5、Opus 4.5
    */
   codeExecution_20260120,
 
   /**
-   * Claude can interact with computer environments through the computer use tool, which
-   * provides screenshot capabilities and mouse/keyboard control for autonomous desktop interaction.
+   * 克劳德可以通过计算机使用工具与计算机环境进行交互，
+   * 提供屏幕截图功能和鼠标/键盘控制，以实现自主桌面交互。
    *
-   * Image results are supported.
+   * 支持图像结果。
    *
    * @param displayWidthPx - The width of the display being controlled by the model in pixels.
    * @param displayHeightPx - The height of the display being controlled by the model in pixels.
@@ -115,10 +115,10 @@ export const anthropicTools = {
   computer_20241022,
 
   /**
-   * Claude can interact with computer environments through the computer use tool, which
-   * provides screenshot capabilities and mouse/keyboard control for autonomous desktop interaction.
+   * 克劳德可以通过计算机使用工具与计算机环境进行交互，
+   * 提供屏幕截图功能和鼠标/键盘控制，以实现自主桌面交互。
    *
-   * Image results are supported.
+   * 支持图像结果。
    *
    * @param displayWidthPx - The width of the display being controlled by the model in pixels.
    * @param displayHeightPx - The height of the display being controlled by the model in pixels.
@@ -127,14 +127,14 @@ export const anthropicTools = {
   computer_20250124,
 
   /**
-   * Claude can interact with computer environments through the computer use tool, which
-   * provides screenshot capabilities and mouse/keyboard control for autonomous desktop interaction.
+   * 克劳德可以通过计算机使用工具与计算机环境进行交互，
+   * 提供屏幕截图功能和鼠标/键盘控制，以实现自主桌面交互。
    *
-   * This version adds the zoom action for detailed screen region inspection.
+   * 此版本添加了缩放操作以进行详细的屏幕区域检查。
    *
-   * Image results are supported.
+   * 支持图像结果。
    *
-   * Supported models: Claude Opus 4.5
+   * 支持的模型：克劳德 Opus 4.5
    *
    * @param displayWidthPx - The width of the display being controlled by the model in pixels.
    * @param displayHeightPx - The height of the display being controlled by the model in pixels.
@@ -144,59 +144,59 @@ export const anthropicTools = {
   computer_20251124,
 
   /**
-   * The memory tool enables Claude to store and retrieve information across conversations through a memory file directory.
-   * Claude can create, read, update, and delete files that persist between sessions,
-   * allowing it to build knowledge over time without keeping everything in the context window.
-   * The memory tool operates client-side—you control where and how the data is stored through your own infrastructure.
+   * 记忆工具使克劳德能够通过记忆文件目录存储和检索对话中的信息。
+   * 克劳德可以创建、读取、更新和删除会话之间持续存在的文件，
+   * 允许它随着时间的推移积累知识，而无需将所有内容都保留在上下文窗口中。
+   * 内存工具在客户端运行——您可以通过自己的基础设施控制数据的存储位置和方式。
    *
-   * Supported models: Claude Sonnet 4.5, Claude Sonnet 4, Claude Opus 4.1, Claude Opus 4.
+   * 支持的模型：克劳德十四行诗 4.5、克劳德十四行诗 4、克劳德 Opus 4.1、克劳德 Opus 4。
    */
   memory_20250818,
 
   /**
-   * Claude can use an Anthropic-defined text editor tool to view and modify text files,
-   * helping you debug, fix, and improve your code or other text documents. This allows Claude
-   * to directly interact with your files, providing hands-on assistance rather than just suggesting changes.
+   * Claude 可以使用 Anthropic 定义的文本编辑器工具来查看和修改文本文件，
+   * 帮助您调试、修复和改进代码或其他文本文档。这让克劳德
+   * 直接与您的文件交互，提供实际帮助，而不仅仅是建议更改。
    *
-   * Supported models: Claude Sonnet 3.5
+   * 支持的模型：克劳德十四行诗 3.5
    */
   textEditor_20241022,
 
   /**
-   * Claude can use an Anthropic-defined text editor tool to view and modify text files,
-   * helping you debug, fix, and improve your code or other text documents. This allows Claude
-   * to directly interact with your files, providing hands-on assistance rather than just suggesting changes.
+   * Claude 可以使用 Anthropic 定义的文本编辑器工具来查看和修改文本文件，
+   * 帮助您调试、修复和改进代码或其他文本文档。这让克劳德
+   * 直接与您的文件交互，提供实际帮助，而不仅仅是建议更改。
    *
-   * Supported models: Claude Sonnet 3.7
+   * 支持的模型：克劳德十四行诗 3.7
    */
   textEditor_20250124,
 
   /**
-   * Claude can use an Anthropic-defined text editor tool to view and modify text files,
-   * helping you debug, fix, and improve your code or other text documents. This allows Claude
-   * to directly interact with your files, providing hands-on assistance rather than just suggesting changes.
+   * Claude 可以使用 Anthropic 定义的文本编辑器工具来查看和修改文本文件，
+   * 帮助您调试、修复和改进代码或其他文本文档。这让克劳德
+   * 直接与您的文件交互，提供实际帮助，而不仅仅是建议更改。
    *
-   * Note: This version does not support the "undo_edit" command.
+   * 注意：该版本不支持“undo_edit”命令。
    *
-   * @deprecated Use textEditor_20250728 instead
+   * @deprecated 使用textEditor_20250728代替
    */
   textEditor_20250429,
 
   /**
-   * Claude can use an Anthropic-defined text editor tool to view and modify text files,
-   * helping you debug, fix, and improve your code or other text documents. This allows Claude
-   * to directly interact with your files, providing hands-on assistance rather than just suggesting changes.
+   * Claude 可以使用 Anthropic 定义的文本编辑器工具来查看和修改文本文件，
+   * 帮助您调试、修复和改进代码或其他文本文档。这让克劳德
+   * 直接与您的文件交互，提供实际帮助，而不仅仅是建议更改。
    *
-   * Note: This version does not support the "undo_edit" command and adds optional max_characters parameter.
+   * 注意：该版本不支持“undo_edit”命令，并添加了可选的 max_characters 参数。
    *
-   * Supported models: Claude Sonnet 4, Opus 4, and Opus 4.1
+   * 支持的模型：Claude Sonnet 4、Opus 4 和 Opus 4.1
    *
    * @param maxCharacters - Optional maximum number of characters to view in the file
    */
   textEditor_20250728,
 
   /**
-   * Creates a web fetch tool that gives Claude direct access to real-time web content.
+   * 创建一个 Web 获取工具，使 Claude 可以直接访问实时 Web 内容。
    *
    * @param maxUses - The max_uses parameter limits the number of web fetches performed
    * @param allowedDomains - Only fetch from these domains
@@ -207,7 +207,7 @@ export const anthropicTools = {
   webFetch_20250910,
 
   /**
-   * Creates a web fetch tool that gives Claude direct access to real-time web content.
+   * 创建一个 Web 获取工具，使 Claude 可以直接访问实时 Web 内容。
    *
    * @param maxUses - The max_uses parameter limits the number of web fetches performed
    * @param allowedDomains - Only fetch from these domains
@@ -218,7 +218,7 @@ export const anthropicTools = {
   webFetch_20260209,
 
   /**
-   * Creates a web search tool that gives Claude direct access to real-time web content.
+   * 创建一个网络搜索工具，使 Claude 可以直接访问实时网络内容。
    *
    * @param maxUses - Maximum number of web searches Claude can perform during the conversation.
    * @param allowedDomains - Optional list of domains that Claude is allowed to search.
@@ -228,7 +228,7 @@ export const anthropicTools = {
   webSearch_20250305,
 
   /**
-   * Creates a web search tool that gives Claude direct access to real-time web content.
+   * 创建一个网络搜索工具，使 Claude 可以直接访问实时网络内容。
    *
    * @param maxUses - Maximum number of web searches Claude can perform during the conversation.
    * @param allowedDomains - Optional list of domains that Claude is allowed to search.
@@ -238,32 +238,32 @@ export const anthropicTools = {
   webSearch_20260209,
 
   /**
-   * Creates a tool search tool that uses regex patterns to find tools.
+   * 创建一个使用正则表达式模式来查找工具的工具搜索工具。
    *
-   * The tool search tool enables Claude to work with hundreds or thousands of tools
-   * by dynamically discovering and loading them on-demand. Instead of loading all
-   * tool definitions into the context window upfront, Claude searches your tool
-   * catalog and loads only the tools it needs.
+   * 工具搜索工具使 Claude 能够使用数百或数千种工具
+   * 通过动态发现并按需加载它们。而不是加载全部
+   * 工具定义预先放入上下文窗口中，Claude 搜索您的工具
+   * 目录并仅加载所需的工具。
    *
-   * Use `providerOptions: { anthropic: { deferLoading: true } }` on other tools
-   * to mark them for deferred loading.
+   * 在其他工具上使用“providerOptions: { anthropic: { deferLoading: true } }”
+   * 将它们标记为延迟加载。
    *
-   * Supported models: Claude Opus 4.5, Claude Sonnet 4.5
+   * 支持的模型：Claude Opus 4.5、Claude Sonnet 4.5
    */
   toolSearchRegex_20251119,
 
   /**
-   * Creates a tool search tool that uses BM25 (natural language) to find tools.
+   * 创建一个使用 BM25（自然语言）来查找工具的工具搜索工具。
    *
-   * The tool search tool enables Claude to work with hundreds or thousands of tools
-   * by dynamically discovering and loading them on-demand. Instead of loading all
-   * tool definitions into the context window upfront, Claude searches your tool
-   * catalog and loads only the tools it needs.
+   * 工具搜索工具使 Claude 能够使用数百或数千种工具
+   * 通过动态发现并按需加载它们。而不是加载全部
+   * 工具定义预先放入上下文窗口中，Claude 搜索您的工具
+   * 目录并仅加载所需的工具。
    *
-   * Use `providerOptions: { anthropic: { deferLoading: true } }` on other tools
-   * to mark them for deferred loading.
+   * 在其他工具上使用“providerOptions: { anthropic: { deferLoading: true } }”
+   * 将它们标记为延迟加载。
    *
-   * Supported models: Claude Opus 4.5, Claude Sonnet 4.5
+   * 支持的模型：Claude Opus 4.5、Claude Sonnet 4.5
    */
   toolSearchBm25_20251119,
 };

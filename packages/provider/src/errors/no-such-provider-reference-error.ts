@@ -6,11 +6,11 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 /**
- * Thrown when a provider reference cannot be resolved because the specified
- * provider is not found in the provider reference mapping.
+ * 当由于指定的原因而无法解析提供者引用时抛出
+ * 在提供程序引用映射中找不到提供程序。
  */
 export class NoSuchProviderReferenceError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly provider: string;
   readonly reference: SharedV4ProviderReference;

@@ -3,38 +3,38 @@ import type { SharedV4Headers, SharedV4ProviderOptions } from '../../shared/v4';
 
 export type RerankingModelV4CallOptions = {
   /**
-   * Documents to rerank.
-   * Either a list of texts or a list of JSON objects.
+   * 要重新排序的文档。
+   * 文本列表或 JSON 对象列表。
    */
   documents:
     | { type: 'text'; values: string[] }
     | { type: 'object'; values: JSONObject[] };
 
   /**
-   * The query is a string that represents the query to rerank the documents against.
+   * 查询是一个字符串，表示用于对文档重新排序的查询。
    */
   query: string;
 
   /**
-   * Optional limit returned documents to the top n documents.
+   * 可选限制返回的文档为前 n 个文档。
    */
   topN?: number;
 
   /**
-   * Abort signal for cancelling the operation.
+   * 用于取消操作的中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 
   /**
-   * Additional HTTP headers to be sent with the request.
-   * Only applicable for HTTP-based providers.
+   * 与请求一起发送的附加 HTTP 标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: SharedV4Headers;
 };

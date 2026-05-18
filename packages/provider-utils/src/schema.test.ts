@@ -215,7 +215,7 @@ describe('zodSchema', () => {
 });
 
 describe('StandardSchema (StandardJSONSchemaV1)', () => {
-  // Helper to create a StandardSchema mock
+  // 创建 StandardSchema 模拟的帮助程序
   function createStandardSchema<T>(options: {
     jsonSchema: object;
     validate: (value: unknown) => Promise<{ value: T } | { issues: Error[] }>;
@@ -455,13 +455,13 @@ describe('StandardSchema (StandardJSONSchemaV1)', () => {
           jsonSchema: {
             type: 'object',
             properties: {
-              id: { type: 'string' }, // Input is string
+              id: { type: 'string' }, // 输入是字符串
               name: { type: 'string' },
             },
           },
           validate: async value => {
             const obj = value as any;
-            // Transform string id to number
+            // 将字符串 id 转换为数字
             return {
               value: {
                 id: parseInt(obj.id, 10),
@@ -487,7 +487,7 @@ describe('StandardSchema (StandardJSONSchemaV1)', () => {
       const standardSchema: StandardSchema<{ text: string }> = {
         '~standard': {
           version: 1,
-          vendor: 'valibot', // non-zod vendor
+          vendor: 'valibot', // 非 zod 供应商
           validate: async value => ({ value: value as { text: string } }),
           jsonSchema: {
             input: () => ({

@@ -3,12 +3,12 @@ import type { Warning } from '../types';
 /**
  * 记录警告的功能。
  *
- * 您可以将其分配给“AI_SDK_LOG_WARNINGS”全局变量，以将其用作默认警告记录器。
+ * 您可以将其分配给`AI_SDK_LOG_WARNINGS`全局变量，以将其全局默认警告记录器。
  *
- * @example
+ * @例子
  * ````ts
  * globalThis.AI_SDK_LOG_WARNINGS =（选项）=> {
- *   console.log('警告：', options.warnings, options.provider, options.model);
+ * console.log('警告：', options.warnings, options.provider, options.model);
  * };
  * ```
  */
@@ -19,24 +19,24 @@ export type LogWarningsFunction = (options: {
   warnings: Warning[];
 
   /**
-   * 用于调用的提供者 ID（如果范围仅限于特定提供者）。
+   * 用于调用的提供者ID（如果范围仅限于特定提供者）。
    */
   provider?: string;
 
   /**
-   * 用于调用的模型 ID（如果范围仅限于特定提供商）。
+   * 用于调用的模型ID（如果范围仅限于特定产品）。
    */
   model?: string;
 }) => void;
 
 /**
- * 将警告对象格式化为具有清晰 AI SDK 品牌的人类可读字符串。
+ * 将警告对象品牌为带有 AI SDK 的人类便携式字符串。
  *
- * @param options - The options for formatting the warning.
- * @param options.warning - The warning to format.
- * @param options.provider - The provider id used for the call, if scoped to a specific provider.
- * @param options.model - The model id used for the call, if scoped to a specific provider.
- * @returns A formatted warning message string.
+ * @param options - 用于设置警告格式的选项。
+ * @param options.warning - 格式化警告。
+ * @param options.provider - 用于调用的提供者 ID（如果范围仅限于特定提供者）。
+ * @param options.model - 用于调用的模型 ID（如果范围仅限于特定提供商）。
+ * @returns 格式化的警告消息字符串。
  */
 function formatWarning({
   warning,
@@ -91,15 +91,15 @@ let hasLoggedBefore = false;
 /**
  * 将警告记录到控制台或使用自定义记录器（如果已配置）。
  *
- * 可以通过“AI_SDK_LOG_WARNINGS”全局变量自定义该行为：
- * - 如果设置为“false”，则会抑制警告。
+ * 可以通过`AI_SDK_LOG_WARNINGS`全局变量自定义行为：
+ * - 如果设置为`false`，则瞳孔关闭警告。
  * - 如果设置为函数，则调用该函数并发出警告。
- * - 否则，警告将使用“console.warn”记录到控制台。
+ * -否则，警告将使用`console.warn`记录到控制台。
  *
- * @param options - The options containing warnings and context.
- * @param options.warnings - The warnings to log.
- * @param options.provider - The provider id used for the call, if scoped to a specific provider.
- * @param options.model - The model id used for the call, if scoped to a specific provider.
+ * @param options - 包含警告和上下文的选项。
+ * @param options.warnings - 要记录的警告。
+ * @param options.provider - 用于调用的提供者 ID（如果范围仅限于特定提供者）。
+ * @param options.model - 用于调用的模型 ID（如果范围仅限于特定提供商）。
  */
 export const logWarnings: LogWarningsFunction = options => {
   // 如果警告数组为空，则不执行任何操作

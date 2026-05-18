@@ -30,7 +30,7 @@ export const zodPatterns = {
    * See:
    * https://github.com/colinhacks/zod/issues/2433
    * Fix in Zod:
-   * https://github.com/colinhacks/zod/commit/9340fd51e48576a75adc919bff65dbc4a5d4c99b
+   * https:// github.com/colinhacks/zod/commit/9340fd51e48576a75adc919bff65dbc4a5d4c99b
    */
   emoji: () => {
     if (emojiRegex === undefined) {
@@ -42,17 +42,17 @@ export const zodPatterns = {
     return emojiRegex;
   },
   /**
-   * Unused
+   * 未使用
    */
   uuid: /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/,
   /**
-   * Unused
+   * 未使用
    */
   ipv4: /^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])$/,
   ipv4Cidr:
     /^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\/(3[0-2]|[12]?[0-9])$/,
   /**
-   * Unused
+   * 未使用
    */
   ipv6: /^(([a-f0-9]{1,4}:){7}|::([a-f0-9]{1,4}:){0,6}|([a-f0-9]{1,4}:){1}:([a-f0-9]{1,4}:){0,5}|([a-f0-9]{1,4}:){2}:([a-f0-9]{1,4}:){0,4}|([a-f0-9]{1,4}:){3}:([a-f0-9]{1,4}:){0,3}|([a-f0-9]{1,4}:){4}:([a-f0-9]{1,4}:){0,2}|([a-f0-9]{1,4}:){5}:([a-f0-9]{1,4}:){0,1})([a-f0-9]{1,4}|(((25[0-5])|(2[0-4][0-9])|(1[0-9]{2})|([0-9]{1,2}))\.){3}((25[0-5])|(2[0-4][0-9])|(1[0-9]{2})|([0-9]{1,2})))$/,
   ipv6Cidr:
@@ -247,7 +247,7 @@ export function parseStringDef(
         case 'trim':
           break;
         default:
-          /* c8 ignore next */
+          /* c8 忽略下一个 */
           ((_: never) => {})(check);
       }
     }
@@ -280,7 +280,7 @@ function escapeNonAlphaNumeric(source: string) {
   return result;
 }
 
-// Adds a "format" keyword to the schema. If a format exists, both formats will be joined in an allOf-node, along with subsequent ones.
+// 向架构添加“format”关键字。如果存在某种格式，则两种格式以及后续格式都将连接到 allOf 节点中。
 function addFormat(
   schema: JsonSchema7StringType,
   value: Required<JsonSchema7StringType>['format'],
@@ -309,7 +309,7 @@ function addFormat(
   }
 }
 
-// Adds a "pattern" keyword to the schema. If a pattern exists, both patterns will be joined in an allOf-node, along with subsequent ones.
+// 将“pattern”关键字添加到架构中。如果存在某个模式，则两个模式以及后续模式都将连接到 allOf 节点中。
 function addPattern(
   schema: JsonSchema7StringType,
   regex: RegExp,
@@ -338,20 +338,20 @@ function addPattern(
   }
 }
 
-// Mutate z.string.regex() in a best attempt to accommodate for regex flags when applyRegexFlags is true
+// 当 applyRegexFlags 为 true 时，尝试改变 z.string.regex() 以适应正则表达式标志
 function stringifyRegExpWithFlags(regex: RegExp, refs: Refs): string {
   if (!refs.applyRegexFlags || !regex.flags) {
     return regex.source;
   }
 
-  // Currently handled flags
+  // 当前处理的标志
   const flags = {
-    i: regex.flags.includes('i'), // Case-insensitive
-    m: regex.flags.includes('m'), // `^` and `$` matches adjacent to newline characters
-    s: regex.flags.includes('s'), // `.` matches newlines
+    i: regex.flags.includes('i'), // 不区分大小写
+    m: regex.flags.includes('m'), // `^` 和 `$` 匹配邻近换行符
+    s: regex.flags.includes('s'), // `.` 匹配换行符
   };
 
-  // The general principle here is to step through each character, one at a time, applying mutations as flags require. We keep track when the current character is escaped, and when it's inside a group /like [this]/ or (also) a range like /[a-z]/. The following is fairly brittle imperative code; edit at your peril!
+  // 这里的一般原则是逐步遍历每个字符，一次一个，根据标志需要应用突变。我们跟踪当前字符何时被转义，以及何时位于组 / 如 [this]/ 或（也）如 /[a-z]/ 的范围内。以下是相当脆弱的命令式代码；编辑后果自负！
   const source = flags.i ? regex.source.toLowerCase() : regex.source;
   let pattern = '';
   let isEscaped = false;

@@ -1,13 +1,13 @@
 ---
 title: generateSpeech
-description: API Reference for generateSpeech.
+description: generateSpeech 的 API 参考。
 ---
 
 # `generateSpeech()`
 
-<Note type="warning">`generateSpeech` is an experimental feature.</Note>
+<Note type="warning">`generateSpeech` 是实验性功能。</Note>
 
-Generates speech audio from text.
+从文本生成语音音频。
 
 ```ts
 import { experimental_generateSpeech as generateSpeech } from 'ai';
@@ -22,7 +22,7 @@ const { audio } = await generateSpeech({
 console.log(audio);
 ```
 
-## Examples
+## 示例
 
 ### OpenAI
 
@@ -50,96 +50,96 @@ const { audio } = await generateSpeech({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { experimental_generateSpeech as generateSpeech } from "ai"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'model',
       type: 'SpeechModelV4',
-      description: 'The speech model to use.',
+      description: '要使用的语音模型。',
     },
     {
       name: 'text',
       type: 'string',
-      description: 'The text to generate the speech from.',
+      description: '用于生成语音的文本。',
     },
     {
       name: 'voice',
       type: 'string',
       isOptional: true,
-      description: 'The voice to use for the speech.',
+      description: '语音使用的声音。',
     },
     {
       name: 'outputFormat',
       type: 'string',
       isOptional: true,
       description:
-        'The output format to use for the speech e.g. "mp3", "wav", etc.',
+        '语音使用的输出格式，例如 "mp3"、"wav" 等。',
     },
     {
       name: 'instructions',
       type: 'string',
       isOptional: true,
-      description: 'Instructions for the speech generation.',
+      description: '语音生成的指令。',
     },
     {
       name: 'speed',
       type: 'number',
       isOptional: true,
-      description: 'The speed of the speech generation.',
+      description: '语音生成的速度。',
     },
     {
       name: 'language',
       type: 'string',
       isOptional: true,
       description:
-        'The language for speech generation. This should be an ISO 639-1 language code (e.g. "en", "es", "fr") or "auto" for automatic language detection. Provider support varies.',
+        '语音生成的语言。应为 ISO 639-1 语言代码（例如 "en"、"es"、"fr"），或使用 "auto" 自动检测语言。provider 支持情况各不相同。',
     },
     {
       name: 'providerOptions',
       type: 'Record<string, JSONObject>',
       isOptional: true,
-      description: 'Additional provider-specific options.',
+      description: '额外的 provider 专属选项。',
     },
     {
       name: 'maxRetries',
       type: 'number',
       isOptional: true,
-      description: 'Maximum number of retries. Default: 2.',
+      description: '最大重试次数。默认值：2。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal',
       isOptional: true,
-      description: 'An optional abort signal to cancel the call.',
+      description: '可选的中止信号，可用于取消调用。',
     },
     {
       name: 'headers',
       type: 'Record<string, string>',
       isOptional: true,
-      description: 'Additional HTTP headers for the request.',
+      description: '请求的额外 HTTP 标头。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
 <PropertiesTable
   content={[
     {
       name: 'audio',
       type: 'GeneratedAudioFile',
-      description: 'The generated audio.',
+      description: '生成的音频。',
       properties: [
         {
           type: 'GeneratedAudioFile',
@@ -147,22 +147,22 @@ const { audio } = await generateSpeech({
             {
               name: 'base64',
               type: 'string',
-              description: 'Audio as a base64 encoded string.',
+              description: '以 base64 编码字符串表示的音频。',
             },
             {
               name: 'uint8Array',
               type: 'Uint8Array',
-              description: 'Audio as a Uint8Array.',
+              description: '以 Uint8Array 表示的音频。',
             },
             {
               name: 'mediaType',
               type: 'string',
-              description: 'Media type of the audio (e.g. "audio/mpeg").',
+              description: '音频的媒体类型（例如 "audio/mpeg"）。',
             },
             {
               name: 'format',
               type: 'string',
-              description: 'Format of the audio (e.g. "mp3").',
+              description: '音频格式（例如 "mp3"）。',
             },
           ],
         },
@@ -172,20 +172,20 @@ const { audio } = await generateSpeech({
       name: 'warnings',
       type: 'Warning[]',
       description:
-        'Warnings from the model provider (e.g. unsupported settings).',
+        '模型 provider 返回的警告（例如不支持的设置）。',
     },
     {
       name: 'providerMetadata',
       type: 'Record<string, JSONObject>',
       isOptional: true,
       description:
-        'Optional metadata from the provider. The outer key is the provider name. The inner values are the metadata. Details depend on the provider.',
+        '来自 provider 的可选元数据。外层键是 provider 名称，内层值是元数据。具体细节取决于 provider。',
     },
     {
       name: 'responses',
       type: 'Array<SpeechModelResponseMetadata>',
       description:
-        'Response metadata from the provider. There may be multiple responses if we made multiple calls to the model.',
+        '来自 provider 的响应元数据。如果对模型发起了多次调用，可能会有多个响应。',
       properties: [
         {
           type: 'SpeechModelResponseMetadata',
@@ -193,25 +193,25 @@ const { audio } = await generateSpeech({
             {
               name: 'timestamp',
               type: 'Date',
-              description: 'Timestamp for the start of the generated response.',
+              description: '生成响应开始时的时间戳。',
             },
             {
               name: 'modelId',
               type: 'string',
               description:
-                'The ID of the response model that was used to generate the response.',
+                '用于生成响应的响应模型 ID。',
             },
             {
               name: 'body',
               isOptional: true,
               type: 'unknown',
-              description: 'Optional response body.',
+              description: '可选响应体。',
             },
             {
               name: 'headers',
               type: 'Record<string, string>',
               isOptional: true,
-              description: 'Response headers.',
+              description: '响应标头。',
             },
           ],
         },

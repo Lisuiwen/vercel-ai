@@ -6,32 +6,32 @@ import type { SharedV4ProviderOptions } from '../../shared/v4/shared-v4-provider
 
 export interface SkillsV4File {
   /**
-   * The path of the file relative to the skill root.
+   * 文件相对于技能根的路径。
    */
   path: string;
 
   /**
-   * The file data.
+   * 文件数据。
    *
-   * - `{ type: 'data', data }`: raw bytes (`Uint8Array`) or a base64-encoded string.
-   * - `{ type: 'text', text }`: inline text (UTF-8).
+   * - `{ type: 'data', data }`：原始字节 (`Uint8Array`) 或 Base64 编码的字符串。
+   * - `{ type: 'text', text }`：内联文本 (UTF-8)。
    */
   data: SharedV4FileDataData | SharedV4FileDataText;
 }
 
 export interface SkillsV4UploadSkillCallOptions {
   /**
-   * The files that make up the skill.
+   * 构成技能的文件。
    */
   files: SkillsV4File[];
 
   /**
-   * Optional human-readable title for the skill.
+   * 该技能的可选人类可读标题。
    */
   displayTitle?: string;
 
   /**
-   * Additional provider-specific options.
+   * 其他特定于提供商的选项。
    */
   providerOptions?: SharedV4ProviderOptions;
 }

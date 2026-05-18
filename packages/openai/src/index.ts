@@ -2,12 +2,12 @@ export { createOpenAI, openai } from './openai-provider';
 export type { OpenAIProvider, OpenAIProviderSettings } from './openai-provider';
 export type {
   OpenAILanguageModelResponsesOptions,
-  /** @deprecated Use `OpenAILanguageModelResponsesOptions` instead. */
+  /* * @deprecated 使用 `OpenAILanguageModelResponsesOptions` 代替。 */
   OpenAILanguageModelResponsesOptions as OpenAIResponsesProviderOptions,
 } from './responses/openai-responses-language-model-options';
 export type {
   OpenAILanguageModelChatOptions,
-  /** @deprecated Use `OpenAILanguageModelChatOptions` instead. */
+  /* * @deprecated 使用 `OpenAILanguageModelChatOptions` 代替。 */
   OpenAILanguageModelChatOptions as OpenAIChatLanguageModelOptions,
 } from './chat/openai-chat-language-model-options';
 export type {

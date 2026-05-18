@@ -174,7 +174,7 @@ export function executeToolsFromStream<
             await Promise.all(
               toolCallsToExecute.map(async toolCall => {
                 try {
-                  // 注意：我们不在这里等待工具执行（通过在 recordSpan 上省略“await”），
+                  // 注意：我们不在这里等待工具执行（通过在 recordSpan 上省略`await`），
                   // 因为我们想尽快处理下一个块。
                   // 这对于工具执行时间较长的情况很重要。
                   const result = await executeToolCall({

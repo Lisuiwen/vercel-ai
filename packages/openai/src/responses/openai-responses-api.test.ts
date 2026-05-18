@@ -6,8 +6,8 @@ import type {
 } from './openai-responses-api';
 
 /**
- * expectTypeOf is utilized to ensure that the required sections of openaiResponsesChunkSchema
- * and openaiResponsesResponseSchema are of the same type.
+ * 使用expectTypeOf来确保openaiResponsesChunkSchema的所需部分
+ * 和 openaiResponsesResponseSchema 属于同一类型。
  */
 
 describe('openaiResponses schema alignment', () => {

@@ -1515,7 +1515,7 @@ describe('smoothStream', () => {
         { type: 'reasoning-start', id: '1' },
         { text: 'I am', type: 'reasoning-delta', id: '1' },
         { text: ' thinking...', type: 'reasoning-delta', id: '1' },
-        // 签名为带有providerMetadata的空增量
+        // 签名为标记providerMetadata的空增量
         {
           text: '',
           type: 'reasoning-delta',

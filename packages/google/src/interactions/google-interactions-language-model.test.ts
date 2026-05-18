@@ -300,8 +300,8 @@ describe('GoogleInteractionsLanguageModel.doGenerate', () => {
         string,
         unknown
       >;
-      // mime_type lives inside the polymorphic response_format entry; no
-      // top-level response_mime_type field on the wire.
+      // mime_type 存在于多态response_format 条目中；不
+      // 线路上的顶级 response_mime_type 字段。
       expect(body.response_mime_type).toBeUndefined();
       expect(body.response_format).toEqual([
         { type: 'text', mime_type: 'application/json' },
@@ -679,7 +679,7 @@ describe('GoogleInteractionsLanguageModel.doGenerate', () => {
         input: unknown;
       };
       expect(body.previous_interaction_id).toBe(TURN_1_ID);
-      // Compaction: only the two surviving user messages remain on the wire.
+      // 压缩：只有两条幸存的用户消息保留在线路上。
       expect(body.input).toMatchInlineSnapshot(`
         [
           {
@@ -703,7 +703,7 @@ describe('GoogleInteractionsLanguageModel.doGenerate', () => {
         ]
       `);
 
-      // Turn 2 references "Barcelona" — the second city from the prior turn.
+      // 第 2 回合引用“巴塞罗那”——上一回合的第二个城市。
       const text = result.content
         .filter(c => c.type === 'text')
         .map(c => (c as { text: string }).text)
@@ -741,8 +741,8 @@ describe('GoogleInteractionsLanguageModel.doGenerate', () => {
       const body = (await server.calls[0].requestBodyJson) as {
         input: Array<{ type: string; signature?: string }>;
       };
-      // `thought` is a top-level step type, not a content block under a
-      // turn — find it directly on `input`.
+      // “thought”是一个顶级步骤类型，而不是一个内容块
+      // 转 — 直接在“输入”上找到它。
       const thought = body.input.find(step => step.type === 'thought');
       expect(thought?.signature).toBe('sig-roundtrip');
     });
@@ -790,7 +790,7 @@ describe('GoogleInteractionsLanguageModel.doGenerate', () => {
       `);
 
       expect(result.warnings).toEqual([]);
-      // The API omits `id` when `store: false`, so no interactionId is surfaced.
+      // 当“store: false”时，API 会省略“id”，因此不会显示任何交互 ID。
       expect(result.providerMetadata?.google?.interactionId).toBeUndefined();
 
       const text = result.content
@@ -846,7 +846,7 @@ describe('GoogleInteractionsLanguageModel.doGenerate', () => {
       >;
       expect(body.store).toBe(false);
       expect(body.previous_interaction_id).toBeUndefined();
-      // Full history forwarded verbatim — no compaction.
+      // 完整的历史记录逐字转发——没有压缩。
       expect(body.input).toMatchInlineSnapshot(`
         [
           {
@@ -2193,7 +2193,7 @@ describe('GoogleInteractionsLanguageModel.doStream', () => {
       };
       expect(body.previous_interaction_id).toBe(TURN_1_ID);
       expect(body.stream).toBe(true);
-      // Compaction: only the two surviving user messages remain on the wire.
+      // 压缩：只有两条幸存的用户消息保留在线路上。
       expect(body.input).toMatchInlineSnapshot(`
         [
           {
@@ -2257,9 +2257,9 @@ describe('GoogleInteractionsLanguageModel.doStream', () => {
 
       const finish = parts.find(p => p.type === 'finish');
       expect(finish).toBeDefined();
-      // The streaming API returns `id: ""` for `store: false`; the transformer
-      // normalizes the empty string to `undefined` so providerMetadata stays
-      // clean.
+      // 流 API 对于 `store: false` 返回 `id: ""`；变压器
+      // 将空字符串标准化为“未定义”，以便保留providerMetadata
+      // 干净的。
       expect(
         (
           finish as {
@@ -2321,7 +2321,7 @@ describe('GoogleInteractionsLanguageModel.doStream', () => {
       >;
       expect(body.store).toBe(false);
       expect(body.previous_interaction_id).toBeUndefined();
-      // Full history forwarded verbatim — no compaction.
+      // 完整的历史记录逐字转发——没有压缩。
       expect(body.input).toMatchInlineSnapshot(`
         [
           {
@@ -2543,9 +2543,9 @@ describe('GoogleInteractionsLanguageModel.doStream', () => {
         .filter(p => (p as { sourceType?: string }).sourceType === 'url')
         .map(p => (p as { url?: string }).url);
 
-      // De-duplication invariant: each unique URL appears at most once,
-      // regardless of how many times it surfaced across tool-result and
-      // text_annotation events.
+      // 去重不变式：每个唯一的 URL 最多出现一次，
+      // 无论它在工具结果中出现多少次，
+      // 文本注释事件。
       const counts = new Map<string | undefined, number>();
       for (const url of sourceUrls) {
         counts.set(url, (counts.get(url) ?? 0) + 1);

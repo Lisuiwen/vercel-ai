@@ -37,21 +37,21 @@ export type GenerateVideoPrompt =
 /**
  * 使用视频模型生成视频。
  *
- * @param model - The video model to use.
- * @param prompt - The prompt that should be used to generate the video.
- * @param n - Number of videos to generate. Default: 1.
- * @param aspectRatio - Aspect ratio of the videos to generate. Must have the format `{width}:{height}`.
- * @param resolution - Resolution of the videos to generate. Must have the format `{width}x{height}`.
- * @param duration - Duration of the video in seconds.
- * @param fps - Frames per second for the video.
- * @param seed - Seed for the video generation.
- * @param providerOptions - Additional provider-specific options that are passed through to the provider
+ * @param model - 要使用的视频模型。
+ * @param prompt - 应用于生成视频的提示。
+ * @param n - 要生成的视频数量。默认值：1。
+ * @param aspectRatio - 要生成的视频的宽高比。必须采用`{width}:{height}`格式。
+ * @param resolution - 要生成的视频的分辨率。格式必须为`{宽度}x{高度}`。
+ * @param duration - 视频的持续时间（以秒为单位）。
+ * @param fps - 视频的每秒帧数。
+ * @param seed - 视频生成的种子。
+ * @param providerOptions - 传递给提供商的其他特定于提供商的选项
  * 作为身体参数。
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
  *
- * @returns A result object that contains the generated videos.
+ * @returns 包含生成的视频的结果对象。
  */
 const defaultDownload = createDownload();
 
@@ -87,17 +87,17 @@ export async function experimental_generateVideo({
   n?: number;
 
   /**
-   * 每个 API 调用的最大视频数。如果未提供，将使用模型的默认值。
+   * 每个API调用的最大视频数。如果未提供，将使用模型的默认值。
    */
   maxVideosPerCall?: number;
 
   /**
-   * 要生成的视频的宽高比。必须采用“{width}:{height}”格式。
+   * 要生成的视频的宽高比。必须采用`{width}:{height}`格式。
    */
   aspectRatio?: `${number}:${number}`;
 
   /**
-   * 要生成的视频的分辨率。格式必须为“{宽度}x{高度}”。
+   * 要生成的视频的分辨率。格式必须为`{宽度}x{}高度`。
    */
   resolution?: `${number}x${number}`;
 
@@ -136,13 +136,13 @@ export async function experimental_generateVideo({
 
   /**
    * 要包含在请求中的附加标头。
-   * 仅适用于基于 HTTP 的提供商。
+   * 仅适用于基于 HTTP 的业务。
    */
   headers?: Record<string, string>;
 
   /**
-   * 用于从 URL 获取视频的自定义下载功能。
-   * 使用“ai”中的“createDownload()”创建具有自定义大小限制的下载函数。
+   * 用于从URL获取视频的自定义下载功能。
+   * 使用`ai`中的`createDownload()`具有创建自定义大小限制的下载函数。
    *
    * @default createDownload() (2 GiB limit)
    */

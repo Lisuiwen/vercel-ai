@@ -11,12 +11,12 @@ import { z } from 'zod/v4';
 
 type Bash20241022Input = {
   /**
-   * The bash command to run. Required unless the tool is being restarted.
+   * 要运行的 bash 命令。除非重新启动该工具，否则是必需的。
    */
   command: string;
 
   /**
-   * Specifying true will restart this tool. Otherwise, leave this unspecified.
+   * 指定 true 将重新启动该工具。否则，请保留此未指定。
    */
   restart?: boolean;
 };

@@ -425,7 +425,7 @@ describe('convertToOpenAIResponsesInput', () => {
     });
 
     it('should convert messages with PDF file parts', async () => {
-      const base64Data = 'AQIDBAU='; // Base64 encoding of pdfData
+      const base64Data = 'AQIDBAU='; // pdfData 的 Base64 编码
 
       const result = await convertToOpenAIResponsesInput({
         prompt: [
@@ -1486,7 +1486,7 @@ describe('convertToOpenAIResponsesInput', () => {
                 content: [
                   {
                     type: 'reasoning',
-                    text: '', // Empty text should NOT generate warning when it's the first reasoning part
+                    text: '', // 当空文本是第一个推理部分时，不应生成警告
                     providerOptions: {
                       openai: {
                         itemId: 'reasoning_001',
@@ -1523,7 +1523,7 @@ describe('convertToOpenAIResponsesInput', () => {
                 content: [
                   {
                     type: 'reasoning',
-                    text: '', // Empty text should NOT generate warning when it's the first reasoning part
+                    text: '', // 当空文本是第一个推理部分时，不应生成警告
                     providerOptions: {
                       openai: {
                         itemId: 'reasoning_001',
@@ -1569,7 +1569,7 @@ describe('convertToOpenAIResponsesInput', () => {
                   },
                   {
                     type: 'reasoning',
-                    text: '', // Empty text should generate warning when appending to existing reasoning sequence
+                    text: '', // 附加到现有推理序列时，空文本应生成警告
                     providerOptions: {
                       openai: {
                         itemId: 'reasoning_001',
@@ -1633,7 +1633,7 @@ describe('convertToOpenAIResponsesInput', () => {
                     providerOptions: {
                       openai: {
                         itemId: 'reasoning_001',
-                        // encrypted content is stored in the last summary part
+                        // 加密内容存储在最后的摘要部分
                         reasoningEncryptedContent: 'encrypted_content_001',
                       },
                     },
@@ -2026,7 +2026,7 @@ describe('convertToOpenAIResponsesInput', () => {
               {
                 role: 'assistant',
                 content: [
-                  // First reasoning block: reasoning → reasoning
+                  // 第一个推理块：推理→推理
                   {
                     type: 'reasoning',
                     text: 'Initial analysis step 1',
@@ -2047,7 +2047,7 @@ describe('convertToOpenAIResponsesInput', () => {
                       },
                     },
                   },
-                  // First tool interaction: tool-call
+                  // 第一个工具交互：工具调用
                   {
                     type: 'tool-call',
                     toolCallId: 'call_001',
@@ -2056,7 +2056,7 @@ describe('convertToOpenAIResponsesInput', () => {
                   },
                 ],
               },
-              // Tool result comes as separate message
+              // 工具结果作为单独的消息出现
               {
                 role: 'tool',
                 content: [
@@ -2074,7 +2074,7 @@ describe('convertToOpenAIResponsesInput', () => {
               {
                 role: 'assistant',
                 content: [
-                  // Second reasoning block: reasoning → reasoning → reasoning
+                  // 第二推理块：推理→推理→推理
                   {
                     type: 'reasoning',
                     text: 'Processing results step 1',
@@ -2105,7 +2105,7 @@ describe('convertToOpenAIResponsesInput', () => {
                       },
                     },
                   },
-                  // Second tool interaction: tool-call
+                  // 第二个工具交互：工具调用
                   {
                     type: 'tool-call',
                     toolCallId: 'call_002',
@@ -2114,7 +2114,7 @@ describe('convertToOpenAIResponsesInput', () => {
                   },
                 ],
               },
-              // Second tool result
+              // 第二个工具结果
               {
                 role: 'tool',
                 content: [
@@ -2132,7 +2132,7 @@ describe('convertToOpenAIResponsesInput', () => {
               {
                 role: 'assistant',
                 content: [
-                  // Final text output
+                  // 最终文本输出
                   {
                     type: 'text',
                     text: 'Based on my analysis and calculations, here is the final answer.',
@@ -2146,7 +2146,7 @@ describe('convertToOpenAIResponsesInput', () => {
           });
 
           expect(result.input).toEqual([
-            // First reasoning block (2 parts merged)
+            // 第一个推理块（2部分合并）
             {
               type: 'reasoning',
               id: 'reasoning_001',
@@ -2162,20 +2162,20 @@ describe('convertToOpenAIResponsesInput', () => {
                 },
               ],
             },
-            // First tool call
+            // 第一次工具调用
             {
               type: 'function_call',
               call_id: 'call_001',
               name: 'search',
               arguments: JSON.stringify({ query: 'initial search' }),
             },
-            // First tool result
+            // 第一个工具结果
             {
               type: 'function_call_output',
               call_id: 'call_001',
               output: JSON.stringify({ results: ['result1', 'result2'] }),
             },
-            // Second reasoning block (3 parts merged)
+            // 第二个推理块（3部分合并）
             {
               type: 'reasoning',
               id: 'reasoning_002',
@@ -2195,20 +2195,20 @@ describe('convertToOpenAIResponsesInput', () => {
                 },
               ],
             },
-            // Second tool call
+            // 第二次工具调用
             {
               type: 'function_call',
               call_id: 'call_002',
               name: 'calculator',
               arguments: JSON.stringify({ expression: '2 + 2' }),
             },
-            // Second tool result
+            // 第二个工具结果
             {
               type: 'function_call_output',
               call_id: 'call_002',
               output: JSON.stringify({ result: 4 }),
             },
-            // Final text output
+            // 最终文本输出
             {
               role: 'assistant',
               content: [
@@ -2306,8 +2306,8 @@ describe('convertToOpenAIResponsesInput', () => {
                     text: 'Thinking through the problem',
                     providerOptions: {
                       openai: {
-                        // itemId intentionally omitted — user stripped it to avoid
-                        // "Item with id ... not found" errors from the API
+                        // itemId 故意省略——用户将其删除以避免
+                        // 来自 API 的“带有 id 的项目...未找到”错误
                         reasoningEncryptedContent: 'encrypted_reasoning_blob',
                       },
                     },
@@ -2348,7 +2348,7 @@ describe('convertToOpenAIResponsesInput', () => {
                     text: 'Some reasoning text',
                     providerOptions: {
                       openai: {
-                        // neither itemId nor reasoningEncryptedContent present
+                        // itemId 和 ReasoningEncryptedContent 均不存在
                       },
                     },
                   },
@@ -4228,7 +4228,7 @@ describe('convertToOpenAIResponsesInput', () => {
         store: true,
       });
 
-      // Only the mcp_approval_response should be present, not a function_call_output
+      // 仅应存在 mcp_approval_response，而不是 function_call_output
       expect(result.input).toMatchInlineSnapshot(`
         [
           {
@@ -4388,7 +4388,7 @@ describe('convertToOpenAIResponsesInput', () => {
         hasConversation: true,
       });
 
-      // Tool call with itemId should be skipped, but tool output should remain
+      // 应跳过带有 itemId 的工具调用，但应保留工具输出
       expect(result.input).toMatchInlineSnapshot(`
         [
           {
@@ -4423,7 +4423,7 @@ describe('convertToOpenAIResponsesInput', () => {
               {
                 type: 'text',
                 text: 'Hi there!',
-                // No itemId - this is a new message
+                // 没有 itemId - 这是一条新消息
               },
             ],
           },
@@ -4434,7 +4434,7 @@ describe('convertToOpenAIResponsesInput', () => {
         hasConversation: true,
       });
 
-      // Assistant message without itemId should be included
+      // 应包含不带 itemId 的助手消息
       expect(result.input).toMatchInlineSnapshot(`
         [
           {
@@ -4485,7 +4485,7 @@ describe('convertToOpenAIResponsesInput', () => {
         hasConversation: false,
       });
 
-      // With hasConversation false, should use item_reference
+      // hasConversation false 时，应使用 item_reference
       expect(result.input).toMatchInlineSnapshot(`
         [
           {
@@ -4532,7 +4532,7 @@ describe('convertToOpenAIResponsesInput', () => {
         hasConversation: true,
       });
 
-      // Reasoning with itemId should be skipped
+      // 应该跳过与 itemId 的推理
       expect(result.input).toMatchInlineSnapshot(`
         [
           {

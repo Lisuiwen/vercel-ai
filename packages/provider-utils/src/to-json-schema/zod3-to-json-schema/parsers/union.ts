@@ -43,7 +43,7 @@ export function parseUnionDef(
   const options: readonly ZodTypeAny[] =
     def.options instanceof Map ? Array.from(def.options.values()) : def.options;
 
-  // This blocks tries to look ahead a bit to produce nicer looking schemas with type array instead of anyOf.
+  // 该块尝试向前看一点，以使用数组类型而不是 anyOf 生成更好看的模式。
   if (
     options.every(
       x =>
@@ -51,10 +51,10 @@ export function parseUnionDef(
         (!x._def.checks || !x._def.checks.length),
     )
   ) {
-    // all types in union are primitive and lack checks, so might as well squash into {type: [...]}
+    // union 中的所有类型都是原始类型并且缺乏检查，因此不妨压缩为 {type: [...]}
 
     const types = options.reduce((types: JsonSchema7Primitive[], x) => {
-      const type = primitiveMappings[x._def.typeName as ZodPrimitive]; //Can be safely casted due to row 43
+      const type = primitiveMappings[x._def.typeName as ZodPrimitive]; // 由于第 43 行，可以安全施放
       return type && !types.includes(type) ? [...types, type] : types;
     }, []);
 
@@ -64,7 +64,7 @@ export function parseUnionDef(
   } else if (
     options.every(x => x._def.typeName === 'ZodLiteral' && !x.description)
   ) {
-    // all options literals
+    // 所有选项文字
 
     const types = options.reduce(
       (acc: JsonSchema7Primitive[], x: { _def: ZodLiteralDef }) => {
@@ -89,7 +89,7 @@ export function parseUnionDef(
     );
 
     if (types.length === options.length) {
-      // all the literals are primitive, as far as null can be considered primitive
+      // 所有文字都是原始的，就 null 而言可以被认为是原始的
 
       const uniqueTypes = types.filter((x, i, a) => a.indexOf(x) === i);
       return {

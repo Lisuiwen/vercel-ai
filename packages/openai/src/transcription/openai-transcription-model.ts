@@ -131,14 +131,14 @@ export class OpenAITranscriptionModel implements TranscriptionModelV4 {
   }: OpenAITranscriptionCallOptions) {
     const warnings: SharedV4Warning[] = [];
 
-    // Parse provider options
+    // 解析提供者选项
     const openAIOptions = await parseProviderOptions({
       provider: 'openai',
       providerOptions,
       schema: openAITranscriptionModelOptions,
     });
 
-    // Create form data with base fields
+    // 使用基本字段创建表单数据
     const formData = new FormData();
     const blob =
       audio instanceof Uint8Array
@@ -153,14 +153,14 @@ export class OpenAITranscriptionModel implements TranscriptionModelV4 {
       `audio.${fileExtension}`,
     );
 
-    // Add provider-specific options
+    // 添加特定于提供商的选项
     if (openAIOptions) {
       const transcriptionModelOptions = {
         include: openAIOptions.include,
         language: openAIOptions.language,
         prompt: openAIOptions.prompt,
         // https://platform.openai.com/docs/api-reference/audio/createTranscription#audio_createtranscription-response_format
-        // prefer verbose_json to get segments for models that support it
+        // 更喜欢 verbose_json 来获取支持它的模型的段
         response_format: [
           'gpt-4o-transcribe',
           'gpt-4o-mini-transcribe',

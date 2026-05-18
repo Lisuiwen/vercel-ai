@@ -315,7 +315,7 @@ describe('experimental_generateVideo', () => {
     });
 
     it('should detect mediaType via signature when provider and download return application/octet-stream', async () => {
-      // 模拟获取以返回八位字节流内容类型（模拟 CDN 行为）
+      // 模拟获取返回八位字节流内容类型（模拟CDN行为）
       (global.fetch as ReturnType<typeof vi.fn>).mockImplementationOnce(
         async () => {
           return new Response(convertBase64ToUint8Array(mp4Base64), {
@@ -342,7 +342,7 @@ describe('experimental_generateVideo', () => {
         prompt,
       });
 
-      // 应该从文件签名中检测 MP4，而不是使用八位字节流
+      // 应该从文件签名中检测MP4，而不是使用八位字节流
       expect(result.video.mediaType).toBe('video/mp4');
     });
   });
@@ -922,7 +922,7 @@ describe('experimental_generateVideo', () => {
 
     it('should detect image mediaType from raw base64 string via signature detection', async () => {
       let capturedArgs!: Parameters<Experimental_VideoModelV4['doGenerate']>[0];
-      // 原始 base64 PNG（不是数据 URL）- 必须通过签名检测
+      // 原始base64 PNG（不是数据URL）-必须通过签名检测
       const pngBase64 =
         'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==';
 

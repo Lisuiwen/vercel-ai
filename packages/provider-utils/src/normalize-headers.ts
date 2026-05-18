@@ -1,6 +1,6 @@
 /**
- * Normalizes different header inputs into a plain record with lower-case keys.
- * Entries with `undefined` or `null` values are removed.
+ * 使用小写键将不同的标头输入规范化为普通记录。
+ * 具有“未定义”或“空”值的条目将被删除。
  *
  * @param headers - Input headers (`Headers`, tuples array, plain record) to normalize.
  * @returns A record containing the normalized header entries.

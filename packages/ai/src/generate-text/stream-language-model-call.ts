@@ -121,7 +121,7 @@ export type LanguageModelStreamPart<TOOLS extends ToolSet = ToolSet> =
       type: 'model-call-response-metadata';
 
       /**
-       * 生成的响应的 ID（如果提供商发送了响应）。
+       * 生成的响应的ID（如果发送了响应）。
        */
       id?: string;
 
@@ -131,7 +131,7 @@ export type LanguageModelStreamPart<TOOLS extends ToolSet = ToolSet> =
       timestamp?: Date;
 
       /**
-       * 用于生成响应的响应模型的 ID（如果提供者发送了响应模型）。
+       * 用于生成响应的响应模型的ID（如果提供者发送了响应模型）。
        */
       modelId?: string;
     };
@@ -142,48 +142,48 @@ export type LanguageModelStreamPart<TOOLS extends ToolSet = ToolSet> =
  * 返回的流发出模型调用部分以及请求和响应
  * 元数据（如果可用）。
  *
- * @param model - The language model to use.
- * @param tools - Tools that are accessible to and can be called by the model. The model needs to support calling tools.
- * @param output - Output configuration that controls the response format requested from the model.
- * @param toolChoice - The tool choice strategy for the model call.
+ * @param model - 要使用的语言模型。
+ * @param tools - 模型可以访问并调用的工具。模型需要支持调用工具。
+ * @param output - 控制模型请求的响应格式的输出配置。
+ * @param toolChoice - 模型调用的工具选择策略。
  *
- * @param system - A system message that will be part of the prompt.
- * @param prompt - A simple text prompt. You can either use `prompt` or `messages` but not both.
- * @param messages - A list of messages. You can either use `prompt` or `messages` but not both.
- * @param allowSystemInMessages - Whether system messages are allowed in the `prompt` or `messages` fields. Default: false.
+ * @param system - 将作为提示的一部分的系统消息。
+ * @param prompt - 一个简单的文字提示。您可以使用`提示`或`消息`，但不能同时使用两者。
+ * @param messages - 消息列表。您可以使用`提示`或`消息`，但不能同时使用两者。
+ * @param allowSystemInMessages - `提示`或`消息`字段中是否允许系统消息。默认值：假。
  *
- * @param maxOutputTokens - Maximum number of tokens to generate.
- * @param temperature - Temperature setting.
+ * @param maxOutputTokens - 生成的最大令牌数。
+ * @param temperature - 温度设定。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * 建议设置“温度”或“topP”，但不能同时设置两者。
- * @param topP - Nucleus sampling.
+ * 建议设置`温度`或`topP`，但不能同时设置两者。
+ * @param topP - 细胞核取样。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * 建议设置“温度”或“topP”，但不能同时设置两者。
- * @param topK - Only sample from the top K options for each subsequent token.
+ * 建议设置`温度`或`topP`，但不能同时设置两者。
+ * @param topK - 对于每个后续标记，仅从前 K 个选项中进行采样。
  * 用于删除“长尾”低概率响应。
  * 仅推荐用于高级用例。通常您只需要使用温度。
- * @param presencePenalty - Presence penalty setting.
+ * @param presencePenalty - 存在惩罚设置。
  * 它会影响模型重复提示中已有信息的可能性。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * @param frequencyPenalty - Frequency penalty setting.
+ * @param frequencyPenalty - 频率惩罚设置。
  * 它影响模型重复使用相同单词或短语的可能性。
  * 该值被传递给提供者。范围取决于提供商和型号。
- * @param stopSequences - Stop sequences.
+ * @param stopSequences - 停止序列。
  * 如果设置，模型将在生成停止序列之一时停止生成文本。
- * @param seed - The seed (integer) to use for random sampling.
+ * @param seed - 用于随机采样的种子（整数）。
  * 如果模型设置并支持，调用将生成确定性结果。
- * @param reasoning - Reasoning configuration for the model call.
+ * @param reasoning - 模型调用的推理配置。
  *
- * @param download - A function that downloads URLs as part of prompt conversion.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param headers - Additional HTTP headers to be sent with the request.
- * @param includeRawChunks - Whether to include raw provider stream chunks in the model stream.
- * @param providerOptions - Additional provider-specific options.
- * @param repairToolCall - A function that can repair invalid tool calls before they are emitted.
- * @param refineToolInput - Optional mapping of tool names to functions that refine parsed tool inputs before they are emitted, used for telemetry, or executed.
- * @param onStart - A callback that receives the fully converted prompt before the model call starts.
+ * @param download - 作为提示转换的一部分下载 URL 的函数。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。
+ * @param includeRawChunks - 是否在模型流中包含原始提供程序流块。
+ * @param providerOptions - 其他特定于提供商的选项。
+ * @param repairToolCall - 可以在发出无效工具调用之前修复它们的函数。
+ * @param refineToolInput - 工具名称到函数的可选映射，这些函数在发出、用于遥测或执行之前优化已解析的工具输入。
+ * @param onStart - 在模型调用开始之前接收完全转换的提示的回调。
  *
- * @returns A stream of model call parts together with request and response metadata when available.
+ * @returns 模型调用部分流以及可用的请求和响应元数据。
  */
 export async function streamLanguageModelCall<
   TOOLS extends ToolSet,
@@ -247,11 +247,11 @@ export async function streamLanguageModelCall<
   onLanguageModelCallStart?: Arrayable<OnLanguageModelCallStartCallback>;
   onLanguageModelCallEnd?: Arrayable<OnLanguageModelCallEndCallback<TOOLS>>;
 
-  // 目前需要 onStart，因为遥测回调需要
-  // LanguageModelV4Prompt，我们最多只需要一次下载 URL。
+  // 目前需要onStart，因为遥测需要回调
+  // LanguageModelV4提示，我们最多只需要一次下载URL。
   // 因此convertToLanguageModelPrompt只能被调用一次
-  // 每一步和生成的 LanguageModelV4Prompt 需要是
-  // 传递给 onStart 回调。
+  // 每一步和生成的 LanguageModelV4Prompt 都需要是
+  // 提交给onStart回调。
   //
   // TODO 通过更改遥测回调以接受来探索解耦
   // 提示或标准化提示。
@@ -263,7 +263,7 @@ export async function streamLanguageModelCall<
   stream: AsyncIterableStream<LanguageModelStreamPart<TOOLS>>;
   request?: {
     /**
-     * 请求发送到提供商 API 的 HTTP 正文。
+     * 请求发送到创建 API 的 HTTP 正文。
      */
     body?: unknown;
   };
@@ -365,7 +365,7 @@ export async function streamLanguageModelCall<
   };
 }
 
-// Java 爱你。
+// Java爱你。
 function createLanguageModelV4StreamPartToLanguageModelStreamPartTransform<
   TOOLS extends ToolSet,
 >({
@@ -724,7 +724,7 @@ function createLanguageModelV4StreamPartToLanguageModelStreamPartTransform<
 }
 
 /**
- * 对于包含生成的输出令牌的流式增量返回 true。
+ * 对于包含生成的输出代币的流式增量返回true。
  * 用于测量文本、推理和流工具的首次标记时间
  * 输入。
  */

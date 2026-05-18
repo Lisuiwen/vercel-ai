@@ -7,7 +7,7 @@ import {
  */
 export interface GeneratedAudioFile extends GeneratedFile {
   /**
-   * 文件的音频格式（例如“mp3”、“wav”等）
+   * 文件的音频格式（如`mp3`、`wav`等）
    */
   readonly format: string;
 }

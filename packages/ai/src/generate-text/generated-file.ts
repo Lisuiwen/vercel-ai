@@ -8,12 +8,12 @@ import {
  */
 export interface GeneratedFile {
   /**
-   * 文件为 base64 编码字符串。
+   * 文件为base64编码字符串。
    */
   readonly base64: string;
 
   /**
-   * 文件为 Uint8Array。
+   * 文件为Uint8Array。
    */
   readonly uint8Array: Uint8Array;
 

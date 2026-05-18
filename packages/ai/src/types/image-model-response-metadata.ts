@@ -5,7 +5,7 @@ export type ImageModelResponseMetadata = {
   timestamp: Date;
 
   /**
-   * 用于生成响应的响应模型的 ID。
+   * 用于生成响应的响应模型的ID。
    */
   modelId: string;
 

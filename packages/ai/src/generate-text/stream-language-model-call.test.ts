@@ -637,7 +637,7 @@ describe('streamLanguageModelCall', () => {
         streamParts: [
           {
             type: 'file',
-            data: { type: 'data', data: 'SGVsbG8gV29ybGQ=' }, // “Hello World”base64 编码
+            data: { type: 'data', data: 'SGVsbG8gV29ybGQ=' }, // `Hello World`base64编码
             mediaType: 'text/plain',
           },
           {
@@ -705,7 +705,7 @@ describe('streamLanguageModelCall', () => {
               data: new Uint8Array([
                 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100,
               ]),
-            }, // “Hello World”作为 Uint8Array
+            }, // `Hello World`作为 Uint8Array
             mediaType: 'text/plain',
             providerMetadata: {
               testProvider: { signature: 'test-signature' },

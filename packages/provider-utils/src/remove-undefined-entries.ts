@@ -1,5 +1,5 @@
 /**
- * Removes entries from a record where the value is null or undefined.
+ * 从记录中删除值为 null 或未定义的条目。
  * @param record - The input object whose entries may be null or undefined.
  * @returns A new object containing only entries with non-null and non-undefined values.
  */

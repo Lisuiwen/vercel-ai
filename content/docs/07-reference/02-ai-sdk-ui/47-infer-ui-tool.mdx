@@ -1,39 +1,39 @@
 ---
 title: InferUITool
-description: API Reference for InferUITool.
+description: InferUITool 的 API 参考。
 ---
 
 # InferUITool
 
-Infers the input and output types of a tool.
+推断工具的输入和输出类型。
 
-This type helper is useful when working with individual tools to ensure type safety for your tool inputs and outputs in `UIMessage`s.
+使用单个工具时，此类型辅助工具可确保 `UIMessage` 中工具输入和输出的类型安全。
 
-## Import
+## 导入
 
 ```tsx
 import { InferUITool } from 'ai';
 ```
 
-## API Signature
+## API 签名
 
-### Type Parameters
+### 类型参数
 
 <PropertiesTable
   content={[
     {
       name: 'TOOL',
       type: 'Tool',
-      description: 'The tool to infer types from.',
+      description: '要从中推断类型的工具。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A type that contains the inferred input and output types of the tool.
+包含该工具推断出的输入和输出类型的类型。
 
-The resulting type has the shape:
+生成的类型形状如下：
 
 ```typescript
 {
@@ -42,9 +42,9 @@ The resulting type has the shape:
 }
 ```
 
-## Examples
+## 示例
 
-### Basic Usage
+### 基本用法
 
 ```tsx
 import { InferUITool } from 'ai';
@@ -69,7 +69,7 @@ type WeatherUITool = InferUITool<typeof weatherTool>;
 // }
 ```
 
-## Related
+## 相关
 
-- [`InferUITools`](/docs/reference/ai-sdk-ui/infer-ui-tools) - Infer types for a tool set
-- [`ToolUIPart`](/docs/reference/ai-sdk-core/ui-message#tooluipart) - Tool part type for UI messages
+- [`InferUITools`](/docs/reference/ai-sdk-ui/infer-ui-tools) - 推断工具集的类型
+- [`ToolUIPart`](/docs/reference/ai-sdk-core/ui-message#tooluipart) - UI message 的工具部分类型

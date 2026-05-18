@@ -1,5 +1,5 @@
 /**
- * Converts an AsyncIterator to a ReadableStream.
+ * 将 AsyncIterator 转换为 ReadableStream。
  *
  * @template T - The type of elements produced by the AsyncIterator.
  * @param { <T>} iterator - The AsyncIterator to convert.
@@ -12,7 +12,7 @@ export function convertAsyncIteratorToReadableStream<T>(
 
   return new ReadableStream<T>({
     /**
-     * Called when the consumer wants to pull more data from the stream.
+     * 当消费者想要从流中提取更多数据时调用。
      *
      * @param {ReadableStreamDefaultController<T>} controller - The controller to enqueue data into the stream.
      * @returns {Promise<void>}
@@ -31,7 +31,7 @@ export function convertAsyncIteratorToReadableStream<T>(
       }
     },
     /**
-     * Called when the consumer cancels the stream.
+     * 当消费者取消流时调用。
      */
     async cancel(reason?: unknown) {
       cancelled = true;
@@ -39,7 +39,7 @@ export function convertAsyncIteratorToReadableStream<T>(
         try {
           await iterator.return(reason);
         } catch {
-          // intentionally ignore errors during cancellation
+          // 故意忽略取消期间的错误
         }
       }
     },

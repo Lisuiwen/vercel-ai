@@ -9,16 +9,16 @@ import {
 } from './detect-media-type';
 
 /**
- * Resolves a file part's media type to a full `type/subtype` form required by
- * providers whose API demands the full IANA media type.
+ * 将文件部分的媒体类型解析为所需的完整“类型/子类型”形式
+ * 其 API 需要完整 IANA 媒体类型的提供商。
  *
- * - If `part.mediaType` is already a full media type (e.g. `image/png`), it is
- *   returned as-is.
- * - Otherwise, when inline bytes are available (`part.data.type === 'data'`),
- *   the subtype is sniffed from the bytes using the signature table that
- *   corresponds to the top-level segment.
- * - When neither applies (e.g. top-level-only with a URL source, or bytes that
- *   cannot be detected), an `UnsupportedFunctionalityError` is thrown.
+ * - 如果“part.mediaType”已经是完整的媒体类型（例如“image/png”），则它是
+ *   按原样返回。
+ * - 否则，当内联字节可用时（`part.data.type === 'data'`），
+ *   使用签名表从字节中嗅探子类型
+ *   对应于顶级段。
+ * - 当两者都不适用时（例如仅具有 URL 源的顶级，或字节
+ *   无法检测到），则会抛出“UnsupportedFunctionalityError”。
  */
 export function resolveFullMediaType({
   part,

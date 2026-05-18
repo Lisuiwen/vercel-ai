@@ -66,7 +66,7 @@ export class GoogleEmbeddingModel implements EmbeddingModelV4 {
   }: Parameters<EmbeddingModelV4['doEmbed']>[0]): Promise<
     Awaited<ReturnType<EmbeddingModelV4['doEmbed']>>
   > {
-    // Parse provider options
+    // 解析提供者选项
     const googleOptions = await parseProviderOptions({
       provider: 'google',
       providerOptions,
@@ -98,7 +98,7 @@ export class GoogleEmbeddingModel implements EmbeddingModelV4 {
       );
     }
 
-    // For single embeddings, use the single endpoint
+    // 对于单个嵌入，请使用单个端点
     if (values.length === 1) {
       const valueParts = multimodalContent?.[0];
       const textPart = values[0] ? [{ text: values[0] }] : [];
@@ -138,7 +138,7 @@ export class GoogleEmbeddingModel implements EmbeddingModelV4 {
       };
     }
 
-    // For multiple values, use the batch endpoint
+    // 对于多个值，请使用批处理端点
     const {
       responseHeaders,
       value: response,
@@ -181,8 +181,8 @@ export class GoogleEmbeddingModel implements EmbeddingModelV4 {
   }
 }
 
-// minimal version of the schema, focussed on what is needed for the implementation
-// this approach limits breakages when the API changes and increases efficiency
+// 架构的最小版本，重点关注实现所需的内容
+// 这种方法可以限制 API 更改时的损坏并提高效率
 const googleGenerativeAITextEmbeddingResponseSchema = lazySchema(() =>
   zodSchema(
     z.object({
@@ -191,7 +191,7 @@ const googleGenerativeAITextEmbeddingResponseSchema = lazySchema(() =>
   ),
 );
 
-// Schema for single embedding response
+// 单嵌入响应的架构
 const googleGenerativeAISingleEmbeddingResponseSchema = lazySchema(() =>
   zodSchema(
     z.object({

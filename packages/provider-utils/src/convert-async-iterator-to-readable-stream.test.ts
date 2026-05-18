@@ -25,7 +25,7 @@ describe('convertAsyncIteratorToReadableStream', () => {
     await reader.read();
     await reader.cancel('stop');
 
-    // give microtasks a tick for finally to run
+    // 给微任务打勾以便最终运行
     await Promise.resolve();
 
     expect(finallyCalled).toBe(true);

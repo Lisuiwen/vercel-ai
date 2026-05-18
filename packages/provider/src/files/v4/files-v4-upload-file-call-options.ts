@@ -5,31 +5,31 @@ import type {
 import type { SharedV4ProviderOptions } from '../../shared/v4/shared-v4-provider-options';
 
 /**
- * Options for uploading a file via the files interface.
+ * 通过文件界面上传文件的选项。
  */
 export type FilesV4UploadFileCallOptions = {
   /**
-   * The file data.
+   * 文件数据。
    *
-   * - `{ type: 'data', data }`: raw bytes (`Uint8Array`) or a base64-encoded string.
-   * - `{ type: 'text', text }`: inline text (UTF-8).
+   * - `{ type: 'data', data }`：原始字节 (`Uint8Array`) 或 Base64 编码的字符串。
+   * - `{ type: 'text', text }`：内联文本 (UTF-8)。
    */
   data: SharedV4FileDataData | SharedV4FileDataText;
 
   /**
-   * The IANA media type of the file (e.g. `'application/pdf'`).
+   * 文件的 IANA 媒体类型（例如“application/pdf”）。
    */
   mediaType: string;
 
   /**
-   * The filename of the file.
+   * 文件的文件名。
    */
   filename?: string;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV4ProviderOptions;
 };

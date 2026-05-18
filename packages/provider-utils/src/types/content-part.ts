@@ -5,255 +5,255 @@ import type { ProviderOptions } from './provider-options';
 import type { ProviderReference } from './provider-reference';
 
 /**
- * Text content part of a prompt. It contains a string of text.
+ * 提示的文本内容部分。它包含一串文本。
  */
 export interface TextPart {
   type: 'text';
 
   /**
-   * The text content.
+   * 文字内容。
    */
   text: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 }
 
 /**
- * Image content part of a prompt. It contains an image.
+ * 提示的图像内容部分。它包含一个图像。
  *
- * @deprecated Use `FilePart` with `mediaType: 'image'` instead:
- * `{ type: 'file', mediaType: 'image', data: { type: 'data', data } }`.
+ * @deprecated 将 `FilePart` 与 `mediaType: 'image'` 一起使用：
+ * `{ 类型：'文件'，媒体类型：'图像'，数据：{ 类型：'数据'，数据 } }`。
  */
 export interface ImagePart {
   type: 'image';
 
   /**
-   * Image data. Can either be:
+   * 图像数据。可以是：
    *
-   * - data: a base64-encoded string, a Uint8Array, an ArrayBuffer, or a Buffer
-   * - URL: a URL that points to the image
-   * - ProviderReference: a provider reference from `uploadFile`
+   * - data：base64 编码的字符串、Uint8Array、ArrayBuffer 或 Buffer
+   * - URL：指向图像的URL
+   * - ProviderReference：来自 `uploadFile` 的提供者引用
    */
   image: DataContent | URL | ProviderReference;
 
   /**
-   * Optional IANA media type of the image.
+   * 图像的可选 IANA 媒体类型。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
   mediaType?: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 }
 
 /**
- * File content part of a prompt. It contains a file.
+ * 文件内容是提示的一部分。它包含一个文件。
  */
 export interface FilePart {
   type: 'file';
 
   /**
-   * File data. Either a tagged shape or a bare shorthand:
+   * 文件数据。标记的形状或简单的简写：
    *
-   * - `{ type: 'data', data }` or bare `DataContent`: raw bytes
-   *   (base64 string, Uint8Array, ArrayBuffer, Buffer)
-   * - `{ type: 'url', url }` or bare `URL`: a URL that points to the file
-   * - `{ type: 'reference', reference }` or bare `ProviderReference`:
-   *   a provider reference from `uploadFile`
-   * - `{ type: 'text', text }`: inline text content (tagged only)
+   * - `{ type: 'data', data }` 或裸 `DataContent`：原始字节
+   *   （base64 字符串、Uint8Array、ArrayBuffer、缓冲区）
+   * - `{ type: 'url', url }` 或裸 `URL`：指向文件的 URL
+   * - `{ type: 'reference', reference }` 或裸 `ProviderReference`:
+   *   来自 `uploadFile` 的提供者引用
+   * - `{ type: 'text', text }`：内联文本内容（仅标记）
    */
   data: FileData | DataContent | URL | ProviderReference;
 
   /**
-   * Optional filename of the file.
+   * 文件的可选文件名。
    */
   filename?: string;
 
   /**
-   * Either a full IANA media type (`type/subtype`, e.g. `image/png`) or just
-   * the top-level IANA segment (e.g. `image`, `audio`, `video`, `text`).
+   * 完整的 IANA 媒体类型（“类型/子类型”，例如“image/png”）或只是
+   * 顶级 IANA 部分（例如“图像”、“音频”、“视频”、“文本”）。
    *
-   * `*`-subtype wildcards (e.g. `image/*`) are normalized as equivalent to the
-   * top-level segment alone (e.g. `image`). Providers can use the helpers in
+   * `*`-子类型通配符（例如`image/*`）被规范化为等同于
+   * 单独的顶级段（例如“image”）。提供者可以使用以下帮助程序
    * `@ai-sdk/provider-utils` (`isFullMediaType`, `getTopLevelMediaType`,
-   * `detectMediaType`) to resolve the field according to their API
-   * requirements.
+   * `detectMediaType`) 根据其 API 解析该字段
+   * 要求。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
   mediaType: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 }
 
 /**
- * Reasoning content part of a prompt. It contains a reasoning.
+ * 推理内容是提示的一部分。其中包含一个推理。
  */
 export interface ReasoningPart {
   type: 'reasoning';
 
   /**
-   * The reasoning text.
+   * 推理文本。
    */
   text: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 }
 
 /**
- * Custom content part of a prompt. It contains no standardized payload beyond
- * provider-specific options.
+ * 提示的自定义内容部分。它不包含超出标准的有效负载
+ * 特定于提供商的选项。
  */
 export interface CustomPart {
   type: 'custom';
 
   /**
-   * The kind of custom content, in the format `{provider}.{provider-type}`.
+   * 自定义内容的类型，格式为“{provider}.{provider-type}”。
    */
   kind: `${string}.${string}`;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 }
 
 /**
- * Reasoning file content part of a prompt. It contains a file generated as part of reasoning.
+ * 推理文件内容是提示的一部分。它包含作为推理的一部分生成的文件。
  */
 export interface ReasoningFilePart {
   type: 'reasoning-file';
 
   /**
-   * Reasoning file data.
+   * 推理文件数据。
    *
-   * Reasoning files originate from a model's reasoning output and are always
-   * raw bytes or a fetchable URL. Unlike `FilePart.data`, the `reference` and
-   * `text` shapes are not supported here: provider references describe files
-   * uploaded by the user (not produced as model output), and reasoning text is
-   * carried by `ReasoningPart` rather than as a file.
+   * 推理文件源自模型的推理输出，并且始终
+   * 原始字节或可获取的 URL。与“FilePart.data”不同，“reference”和
+   * 这里不支持“文本”形状：提供程序引用描述文件
+   * 由用户上传（不作为模型输出生成），推理文本是
+   * 由 `ReasoningPart` 携带，而不是作为文件。
    *
-   * Either a tagged shape or a bare shorthand:
+   * 标记的形状或简单的简写：
    *
-   * - `{ type: 'data', data }` or bare `DataContent`: raw bytes
-   *   (base64 string, Uint8Array, ArrayBuffer, Buffer)
-   * - `{ type: 'url', url }` or bare `URL`: a URL that points to the file
+   * - `{ type: 'data', data }` 或裸 `DataContent`：原始字节
+   *   （base64 字符串、Uint8Array、ArrayBuffer、缓冲区）
+   * - `{ type: 'url', url }` 或裸 `URL`：指向文件的 URL
    */
   data: FileDataData | FileDataUrl | DataContent | URL;
 
   /**
-   * IANA media type of the file.
+   * 文件的 IANA 媒体类型。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
   mediaType: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 }
 
 /**
- * Tool call content part of a prompt. It contains a tool call (usually generated by the AI model).
+ * 工具调用提示内容的一部分。它包含一个工具调用（通常由 AI 模型生成）。
  */
 export interface ToolCallPart {
   type: 'tool-call';
 
   /**
-   * ID of the tool call. This ID is used to match the tool call with the tool result.
+   * 工具调用的 ID。该 ID 用于将工具调用与工具结果进行匹配。
    */
   toolCallId: string;
 
   /**
-   * Name of the tool that is being called.
+   * 正在调用的工具的名称。
    */
   toolName: string;
 
   /**
-   * Arguments of the tool call. This is a JSON-serializable object that matches the tool's input schema.
+   * 工具调用的参数。这是一个与工具的输入架构匹配的 JSON 可序列化对象。
    */
   input: unknown;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 
   /**
-   * Whether the tool call was executed by the provider.
+   * 工具调用是否由提供者执行。
    */
   providerExecuted?: boolean;
 }
 
 /**
- * Tool result content part of a prompt. It contains the result of the tool call with the matching ID.
+ * 工具结果内容是提示的一部分。它包含具有匹配 ID 的工具调用结果。
  */
 export interface ToolResultPart {
   type: 'tool-result';
 
   /**
-   * ID of the tool call that this result is associated with.
+   * 与该结果关联的工具调用的 ID。
    */
   toolCallId: string;
 
   /**
-   * Name of the tool that generated this result.
+   * 生成此结果的工具的名称。
    */
   toolName: string;
 
   /**
-   * Result of the tool call. This is a JSON-serializable object.
+   * 工具调用的结果。这是一个 JSON 可序列化对象。
    */
   output: ToolResultOutput;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 }
 
 /**
- * Output of a tool result.
+ * 工具结果的输出。
  */
 export type ToolResultOutput =
   | {
       /**
-       * Text tool output that should be directly sent to the API.
+       * 应直接发送到 API 的文本工具输出。
        */
       type: 'text';
       value: string;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: ProviderOptions;
     }
@@ -262,23 +262,23 @@ export type ToolResultOutput =
       value: JSONValue;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: ProviderOptions;
     }
   | {
       /**
-       * Type when the user has denied the execution of the tool call.
+       * 当用户拒绝执行工具调用时键入。
        */
       type: 'execution-denied';
 
       /**
-       * Optional reason for the execution denial.
+       * 拒绝执行的可选原因。
        */
       reason?: string;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: ProviderOptions;
     }
@@ -287,7 +287,7 @@ export type ToolResultOutput =
       value: string;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: ProviderOptions;
     }
@@ -296,7 +296,7 @@ export type ToolResultOutput =
       value: JSONValue;
 
       /**
-       * Provider-specific options.
+       * 特定于提供商的选项。
        */
       providerOptions?: ProviderOptions;
     }
@@ -307,7 +307,7 @@ export type ToolResultOutput =
             type: 'text';
 
             /**
-             * Text content.
+             * 文字内容。
              */
             text: string;
 
@@ -320,34 +320,34 @@ export type ToolResultOutput =
             type: 'file';
 
             /**
-             * File data as a tagged discriminated union:
+             * 将数据文件作为标记的可区分联合：
              *
-             * - `{ type: 'data', data }`: raw bytes
-             *   (base64 string, Uint8Array, ArrayBuffer, Buffer)
-             * - `{ type: 'url', url }`: a URL that points to the file
-             * - `{ type: 'reference', reference }`: a provider reference
-             *   from `uploadFile`
-             * - `{ type: 'text', text }`: inline text content (e.g. an inline
-             *   text document)
+             * - `{ type: 'data', data }`：原始字节
+             *   （base64 字符串、Uint8Array、ArrayBuffer、缓冲区）
+             * - `{ type: 'url', url }`：指向文件的 URL
+             * - `{ type: 'reference', reference }`：提供者引用
+             *   来自“上传文件”
+             * - `{ type: 'text', text }`：内联文本内容（例如内联
+             *   文本文件）
              */
             data: FileData;
 
             /**
-             * Either a full IANA media type (`type/subtype`, e.g. `image/png`) or just
-             * the top-level IANA segment (e.g. `image`, `audio`, `video`, `text`).
+             * 完整的 IANA 媒体类型（“类型/子类型”，例如“image/png”）或只是
+             * 顶级 IANA 部分（例如“图像”、“音频”、“视频”、“文本”）。
              *
-             * `*`-subtype wildcards (e.g. `image/*`) are normalized as equivalent to the
-             * top-level segment alone (e.g. `image`). Providers can use the helpers in
+             * `*`-子类型通配符（例如`image/*`）被规范化为等同于
+             * 单独的顶级段（例如“image”）。提供者可以使用以下帮助程序
              * `@ai-sdk/provider-utils` (`isFullMediaType`, `getTopLevelMediaType`,
-             * `detectMediaType`) to resolve the field according to their API
-             * requirements.
+             * `detectMediaType`) 根据其 API 解析该字段
+             * 要求。
              *
              * @see https://www.iana.org/assignments/media-types/media-types.xhtml
              */
             mediaType: string;
 
             /**
-             * Optional filename of the file.
+             * 文件的可选文件名。
              */
             filename?: string;
 
@@ -358,24 +358,24 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * @deprecated Use 'file' with mediaType + tagged data instead:
-             * `{ type: 'file', mediaType, data: { type: 'data', data } }`.
+             * @deprecated 使用带有 mediaType + 标记数据的“文件”：
+             * `{ 类型：'文件'，媒体类型，数据：{ 类型：'数据'，数据 } }`。
              */
             type: 'file-data';
 
             /**
-             * Base-64 encoded media data.
+             * Base-64 编码的媒体数据。
              */
             data: string;
 
             /**
-             * IANA media type.
+             * IANA 媒体类型。
              * @see https://www.iana.org/assignments/media-types/media-types.xhtml
              */
             mediaType: string;
 
             /**
-             * Optional filename of the file.
+             * 文件的可选文件名。
              */
             filename?: string;
 
@@ -386,18 +386,18 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * @deprecated Use 'file' with mediaType and tagged data instead:
-             * `{ type: 'file', mediaType, data: { type: 'url', url: new URL(url) } }`.
+             * @deprecated 将 'file' 与 mediaType 和标记数据一起使用：
+             * `{ type: 'file', mediaType, data: { type: 'url', url: new URL(url) } }`。
              */
             type: 'file-url';
 
             /**
-             * URL of the file.
+             * 文件的 URL。
              */
             url: string;
 
             /**
-             * IANA media type.
+             * IANA 媒体类型。
              * @see https://www.iana.org/assignments/media-types/media-types.xhtml
              */
             mediaType?: string;
@@ -409,18 +409,18 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * @deprecated Use 'file' with tagged data instead:
-             * `{ type: 'file', mediaType, data: { type: 'reference', reference } }`.
+             * @deprecated 使用带有标记数据的“文件”：
+             * `{ 类型：'文件'，媒体类型，数据：{ 类型：'引用'，引用 } }`。
              */
             type: 'file-id';
 
             /**
-             * ID of the file.
+             * 文件的 ID。
              *
-             * If you use multiple providers, you need to
-             * specify the provider specific ids using
-             * the Record option. The key is the provider
-             * name, e.g. 'openai' or 'anthropic'.
+             * 如果您使用多个提供商，则需要
+             * 使用指定提供商特定的 id
+             * 记录选项。关键是提供商
+             * 名称，例如“openai”或“anthropic”。
              */
             fileId: string | Record<string, string>;
 
@@ -431,14 +431,14 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * @deprecated Use 'file' with tagged data instead:
-             * `{ type: 'file', mediaType, data: { type: 'reference', reference } }`.
+             * @deprecated 使用带有标记数据的“文件”：
+             * `{ 类型：'文件'，媒体类型，数据：{ 类型：'引用'，引用 } }`。
              */
             type: 'file-reference';
 
             /**
-             * Provider-specific references for the file.
-             * The key is the provider name, e.g. 'openai' or 'anthropic'.
+             * 文件的特定于提供者的参考。
+             * 关键是提供商名称，例如“openai”或“anthropic”。
              */
             providerReference: ProviderReference;
 
@@ -449,19 +449,19 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * @deprecated Use 'file' with mediaType (e.g. 'image' or a specific
-             * `image/*` subtype) and tagged data instead:
-             * `{ type: 'file', mediaType: 'image', data: { type: 'data', data } }`.
+             * @deprecated 将“文件”与媒体类型一起使用（例如“图像”或特定的
+             * `image/*` 子类型）和标记数据：
+             * `{ 类型：'文件'，媒体类型：'图像'，数据：{ 类型：'数据'，数据 } }`。
              */
             type: 'image-data';
 
             /**
-             * Base-64 encoded image data.
+             * Base-64 编码的图像数据。
              */
             data: string;
 
             /**
-             * IANA media type.
+             * IANA 媒体类型。
              * @see https://www.iana.org/assignments/media-types/media-types.xhtml
              */
             mediaType: string;
@@ -473,14 +473,14 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * @deprecated Use 'file' with `mediaType: 'image'` (or a specific
-             * `image/*` subtype) and tagged data instead:
-             * `{ type: 'file', mediaType: 'image', data: { type: 'url', url: new URL(url) } }`.
+             * @deprecated 将“file”与“mediaType: 'image'”（或特定的
+             * `image/*` 子类型）和标记数据：
+             * `{ type: 'file', mediaType: 'image', data: { type: 'url', url: new URL(url) } }`。
              */
             type: 'image-url';
 
             /**
-             * URL of the image.
+             * 图像的 URL。
              */
             url: string;
 
@@ -491,19 +491,19 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * @deprecated Use 'file' with `mediaType: 'image'` (or a specific
-             * `image/*` subtype) and tagged data instead:
-             * `{ type: 'file', mediaType: 'image', data: { type: 'reference', reference } }`.
+             * @deprecated 将“file”与“mediaType: 'image'”（或特定的
+             * `image/*` 子类型）和标记数据：
+             * `{ 类型：'文件'，媒体类型：'图像'，数据：{ 类型：'参考'，参考 } }`。
              */
             type: 'image-file-id';
 
             /**
-             * Image that is referenced using a provider file id.
+             * 使用提供程序文件 ID 引用的图像。
              *
-             * If you use multiple providers, you need to
-             * specify the provider specific ids using
-             * the Record option. The key is the provider
-             * name, e.g. 'openai' or 'anthropic'.
+             * 如果您使用多个提供商，则需要
+             * 使用指定提供商特定的 id
+             * 记录选项。关键是提供商
+             * 名称，例如“openai”或“anthropic”。
              */
             fileId: string | Record<string, string>;
 
@@ -514,15 +514,15 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * @deprecated Use 'file' with `mediaType: 'image'` (or a specific
-             * `image/*` subtype) and tagged data instead:
-             * `{ type: 'file', mediaType: 'image', data: { type: 'reference', reference } }`.
+             * @deprecated 将“file”与“mediaType: 'image'”（或特定的
+             * `image/*` 子类型）和标记数据：
+             * `{ 类型：'文件'，媒体类型：'图像'，数据：{ 类型：'参考'，参考 } }`。
              */
             type: 'image-file-reference';
 
             /**
-             * Provider-specific references for the image file.
-             * The key is the provider name, e.g. 'openai' or 'anthropic'.
+             * 图像文件的提供商特定参考。
+             * 关键是提供商名称，例如“openai”或“anthropic”。
              */
             providerReference: ProviderReference;
 
@@ -533,8 +533,8 @@ export type ToolResultOutput =
           }
         | {
             /**
-             * Custom content part. This can be used to implement
-             * provider-specific content parts.
+             * 自定义内容部分。这可以用来实现
+             * 提供商特定的内容部分。
              */
             type: 'custom';
 

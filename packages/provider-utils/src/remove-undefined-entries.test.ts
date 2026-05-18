@@ -29,7 +29,7 @@ it('should handle object with all undefined values', () => {
 });
 
 it('should remove null values', () => {
-  // Both null and undefined will be removed.
+  // null 和 undefined 都将被删除。
   const input = {
     a: null,
     b: undefined,
@@ -41,7 +41,7 @@ it('should remove null values', () => {
 });
 
 it('should preserve falsy values except null and undefined', () => {
-  // Only false, 0, and '' are preserved.
+  // 仅保留 false、0 和 ''。
   const input = {
     a: false,
     b: 0,

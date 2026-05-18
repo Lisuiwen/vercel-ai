@@ -1,8 +1,8 @@
 import { lazySchema, zodSchema } from '@ai-sdk/provider-utils';
 import { z } from 'zod/v4';
 
-// minimal version of the schema, focussed on what is needed for the implementation
-// this approach limits breakages when the API changes and increases efficiency
+// 架构的最小版本，重点关注实现所需的内容
+// 这种方法可以限制 API 更改时的损坏并提高效率
 export const openaiTextEmbeddingResponseSchema = lazySchema(() =>
   zodSchema(
     z.object({

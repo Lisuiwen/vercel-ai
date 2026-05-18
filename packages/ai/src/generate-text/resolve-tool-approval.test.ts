@@ -286,7 +286,7 @@ describe('resolveToolApproval', () => {
         },
         toolCall: createToolCall(),
         messages: [...messages],
-        // 验证前的运行时值省略 `region`； zod 默认值应用于“validateToolContext”。
+        // 验证前的运行时值简洁`region`；zod默认值评价`validateToolContext`。
         toolsContext: { weather: { apiKey: 'k' } } as any,
         runtimeContext: {},
       });

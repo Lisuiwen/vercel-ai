@@ -10,7 +10,7 @@ export type ToolApprovalRequestOutput<TOOLS extends ToolSet> = {
   type: 'tool-approval-request';
 
   /**
-   * 工具批准请求的 ID。
+   * 工具批准请求的ID。
    */
   approvalId: string;
 

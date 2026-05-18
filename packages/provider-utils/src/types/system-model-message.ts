@@ -1,20 +1,20 @@
 import type { ProviderOptions } from './provider-options';
 
 /**
- * A system message. It can contain system information.
+ * 一条系统消息。它可以包含系统信息。
  *
- * Note: using the "system" part of the prompt is strongly preferred
- * to increase the resilience against prompt injection attacks,
- * and because not all providers support several system messages.
+ * 注意：强烈推荐使用提示的“系统”部分
+ * 提高抵御即时注入攻击的能力，
+ * 并且因为并非所有提供商都支持多种系统消息。
  */
 export type SystemModelMessage = {
   role: 'system';
   content: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 };

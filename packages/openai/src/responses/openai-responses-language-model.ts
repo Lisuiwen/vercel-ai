@@ -79,11 +79,11 @@ import type {
 } from './openai-responses-provider-metadata';
 
 /**
- * Extracts a mapping from MCP approval request IDs to their corresponding tool call IDs
- * from the prompt. When an MCP tool requires approval, we generate a tool call ID to track
- * the pending approval in our system. When the user responds to the approval (and we
- * continue the conversation), we need to map the approval request ID back to our tool call ID
- * so that tool results reference the correct tool call.
+ * 提取从 MCP 批准请求 ID 到其相应工具调用 ID 的映射
+ * 从提示中。当 MCP 工具需要批准时，我们会生成一个工具调用 ID 来跟踪
+ * 我们的系统中正在等待批准。当用户响应批准时（并且我们
+ * 继续对话），我们需要将批准请求 ID 映射回我们的工具调用 ID
+ * 以便工具结果引用正确的工具调用。
  */
 function extractApprovalRequestIdToToolCallIdMapping(
   prompt: LanguageModelV4Prompt,
@@ -282,7 +282,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
       );
     }
 
-    // when logprobs are requested, automatically include them:
+    // 当请求 logprobs 时，自动包含它们：
     const topLogprobs =
       typeof openaiOptions?.logprobs === 'number'
         ? openaiOptions?.logprobs
@@ -294,7 +294,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
       addInclude('message.output_text.logprobs');
     }
 
-    // when a web search tool is present, automatically include the sources:
+    // 当存在网络搜索工具时，自动包含来源：
     const webSearchToolName = (
       tools?.find(
         tool =>
@@ -308,14 +308,14 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
       addInclude('web_search_call.action.sources');
     }
 
-    // when a code interpreter tool is present, automatically include the outputs:
+    // 当存在代码解释器工具时，自动包含输出：
     if (hasOpenAITool('openai.code_interpreter')) {
       addInclude('code_interpreter_call.outputs');
     }
 
     const store = openaiOptions?.store;
 
-    // store defaults to true in the OpenAI responses API, so check for false exactly:
+    // 在 OpenAI 响应 API 中 store 默认为 true，因此请准确检查 false：
     if (store === false && isReasoningModel) {
       addInclude('reasoning.encrypted_content');
     }
@@ -347,7 +347,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
         },
       }),
 
-      // provider options:
+      // 提供商选项：
       conversation: openaiOptions?.conversation,
       max_tool_calls: openaiOptions?.maxToolCalls,
       metadata: openaiOptions?.metadata,
@@ -364,7 +364,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
       top_logprobs: topLogprobs,
       truncation: openaiOptions?.truncation,
 
-      // context management (server-side compaction):
+      // 上下文管理（服务器端压缩）：
       ...(openaiOptions?.contextManagement && {
         context_management: openaiOptions.contextManagement.map(cm => ({
           type: cm.type,
@@ -372,7 +372,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
         })),
       }),
 
-      // model-specific settings:
+      // 特定于模型的设置：
       ...(isReasoningModel &&
         (resolvedReasoningEffort != null ||
           openaiOptions?.reasoningSummary != null) && {
@@ -387,11 +387,11 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
         }),
     };
 
-    // remove unsupported settings for reasoning models
-    // see https://platform.openai.com/docs/guides/reasoning#limitations
+    // 删除推理模型不支持的设置
+    // 请参阅 https://platform.openai.com/docs/guides/reasoning#limitations
     if (isReasoningModel) {
-      // when reasoning effort is none, gpt-5.1 models allow temperature, topP, logprobs
-      //  https://platform.openai.com/docs/guides/latest-model#gpt-5-1-parameter-compatibility
+      // 当没有推理工作时，gpt-5.1 模型允许温度、topP、logprobs
+      // https://platform.openai.com/docs/guides/latest-model#gpt-5-1-parameter-compatibility
       if (
         !(
           resolvedReasoningEffort === 'none' &&
@@ -434,7 +434,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
       }
     }
 
-    // Validate flex processing support
+    // 验证柔性处理支持
     if (
       openaiOptions?.serviceTier === 'flex' &&
       !modelCapabilities.supportsFlexProcessing
@@ -445,11 +445,11 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
         details:
           'flex processing is only available for o3, o4-mini, and gpt-5 models',
       });
-      // Remove from args if not supported
+      // 如果不支持，请从 args 中删除
       delete (baseArgs as any).service_tier;
     }
 
-    // Validate priority processing support
+    // 验证优先级处理支持
     if (
       openaiOptions?.serviceTier === 'priority' &&
       !modelCapabilities.supportsPriorityProcessing
@@ -460,7 +460,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
         details:
           'priority processing is only available for supported models (gpt-4, gpt-5, gpt-5-mini, o3, o4-mini) and requires Enterprise access. gpt-5-nano is not supported',
       });
-      // Remove from args if not supported
+      // 如果不支持，请从 args 中删除
       delete (baseArgs as any).service_tier;
     }
 
@@ -539,15 +539,15 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
     const content: Array<LanguageModelV4Content> = [];
     const logprobs: Array<OpenAIResponsesLogprobs> = [];
 
-    // flag that checks if there have been client-side tool calls (not executed by openai)
+    // 检查是否有客户端工具调用的标志（不是由 openai 执行的）
     let hasFunctionCall = false;
     const hostedToolSearchCallIds: string[] = [];
 
-    // map response content to content array (defined when there is no error)
+    // 将响应内容映射到内容数组（没有错误时定义）
     for (const part of response.output!) {
       switch (part.type) {
         case 'reasoning': {
-          // when there are no summary parts, we need to add an empty reasoning part:
+          // 当没有总结部分时，我们需要添加一个空的推理部分：
           if (part.summary.length === 0) {
             part.summary.push({ type: 'summary_text', text: '' });
           }
@@ -897,7 +897,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
         }
 
         case 'mcp_list_tools': {
-          // skip
+          // 跳过
           break;
         }
 
@@ -1041,7 +1041,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
       } satisfies ResponsesProviderMetadata,
     };
 
-    const usage = response.usage!; // defined when there is no error
+    const usage = response.usage!; // 没有错误时定义
 
     return {
       content,
@@ -1132,7 +1132,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
       | undefined
     > = {};
 
-    // set annotations in 'text-end' part providerMetadata.
+    // 在“text-end”部分providerMetadata中设置注释。
     const ongoingAnnotations: Array<
       Extract<
         OpenAIResponsesChunk,
@@ -1140,17 +1140,17 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
       >['annotation']
     > = [];
 
-    // track the phase of the current message being streamed
+    // 跟踪当前正在传输的消息的阶段
     let activeMessagePhase: 'commentary' | 'final_answer' | undefined;
 
-    // flag that checks if there have been client-side tool calls (not executed by openai)
+    // 检查是否有客户端工具调用的标志（不是由 openai 执行的）
     let hasFunctionCall = false;
 
     const activeReasoning: Record<
       string,
       {
         encryptedContent?: string | null;
-        // summary index as string to reasoning part state:
+        // 摘要索引作为推理部分状态的字符串：
         summaryParts: Record<string, 'active' | 'can-conclude' | 'concluded'>;
       }
     > = {};
@@ -1173,7 +1173,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
               controller.enqueue({ type: 'raw', rawValue: chunk.rawValue });
             }
 
-            // handle failed chunk parsing / validation:
+            // 处理失败的块解析/验证：
             if (!chunk.success) {
               finishReason = { unified: 'error', raw: undefined };
               controller.enqueue({ type: 'error', error: chunk.error });
@@ -1312,15 +1312,15 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                   });
                 }
               } else if (value.item.type === 'tool_search_output') {
-                // handled on output_item.done so we can pair it with the call
+                // 在 output_item.done 上处理，以便我们可以将其与调用配对
               } else if (
                 value.item.type === 'mcp_call' ||
                 value.item.type === 'mcp_list_tools' ||
                 value.item.type === 'mcp_approval_request'
               ) {
-                // Emit MCP tool-call/approval parts on output_item.done instead, so we can:
-                // - alias mcp_call IDs when an approval_request_id is present
-                // - emit a proper tool-approval-request part for MCP approvals
+                // 相反，在 output_item.done 上发出 MCP 工具调用/批准部分，因此我们可以：
+                // - 当存在approval_request_id时别名mcp_call ID
+                // - 发出适当的工具批准请求部分以获得 MCP 批准
               } else if (value.item.type === 'apply_patch_call') {
                 const { call_id: callId, operation } = value.item;
 
@@ -1328,7 +1328,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                   toolName: toolNameMapping.toCustomToolName('apply_patch'),
                   toolCallId: callId,
                   applyPatch: {
-                    // delete_file doesn't have diff
+                    // delete_file 没有差异
                     hasDiff: operation.type === 'delete_file',
                     endEmitted: operation.type === 'delete_file',
                   },
@@ -1369,7 +1369,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                   toolCallId: value.item.call_id,
                 };
               } else if (value.item.type === 'shell_call_output') {
-                // shell_call_output is handled in output_item.done
+                // shell_call_output 在output_item.done 中处理
               } else if (value.item.type === 'message') {
                 ongoingAnnotations.splice(0, ongoingAnnotations.length);
                 activeMessagePhase = value.item.phase ?? undefined;
@@ -1620,8 +1620,8 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                 const approvalRequestId =
                   value.item.approval_request_id ?? undefined;
 
-                // when MCP tools require approval, we track them with our own
-                // tool call IDs and then map OpenAI's approval_request_id back to our ID so results match.
+                // 当 MCP 工具需要批准时，我们会使用自己的工具进行跟踪
+                // 工具调用 ID，然后将 OpenAI 的approval_request_id 映射回我们的 ID，以便结果匹配。
                 const aliasedToolCallId =
                   approvalRequestId != null
                     ? (approvalRequestIdToDummyToolCallIdFromStream.get(
@@ -1667,10 +1667,10 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                   },
                 });
               } else if (value.item.type === 'mcp_list_tools') {
-                // Skip listTools - we don't expose this to the UI or send it back
+                // 跳过 listTools - 我们不会将其公开给 UI 或将其发回
                 ongoingToolCalls[value.output_index] = undefined;
 
-                // skip
+                // 跳过
               } else if (value.item.type === 'apply_patch_call') {
                 const toolCall = ongoingToolCalls[value.output_index];
                 if (
@@ -1700,7 +1700,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                   toolCall.applyPatch.endEmitted = true;
                 }
 
-                // Emit the final tool-call with complete diff when status is 'completed'
+                // 当状态为“完成”时发出具有完整差异的最终工具调用
                 if (toolCall && value.item.status === 'completed') {
                   controller.enqueue({
                     type: 'tool-call',
@@ -1817,8 +1817,8 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
               } else if (value.item.type === 'reasoning') {
                 const activeReasoningPart = activeReasoning[value.item.id];
 
-                // get all active or can-conclude summary parts' ids
-                // to conclude ongoing reasoning parts:
+                // 获取所有活动或可以总结的摘要部分的 ID
+                // 总结正在进行的推理部分：
                 const summaryPartIndices = Object.entries(
                   activeReasoningPart.summaryParts,
                 )
@@ -1950,7 +1950,7 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                   id: toolCall.toolCallId,
                 });
 
-                // immediately send the tool call after the input end:
+                // 输入结束后立即发送工具调用：
                 controller.enqueue({
                   type: 'tool-call',
                   toolCallId: toolCall.toolCallId,
@@ -1985,14 +1985,14 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                 logprobs.push(value.logprobs);
               }
             } else if (value.type === 'response.reasoning_summary_part.added') {
-              // the first reasoning start is pushed in isResponseOutputItemAddedReasoningChunk
+              // 第一个推理开始被推入 isResponseOutputItemAddedReasoningChunk
               if (value.summary_index > 0) {
                 const activeReasoningPart = activeReasoning[value.item_id]!;
 
                 activeReasoningPart.summaryParts[value.summary_index] =
                   'active';
 
-                // since there is a new active summary part, we can conclude all can-conclude summary parts
+                // 由于有一个新的活动摘要部分，我们可以总结所有可以得出结论的摘要部分
                 for (const summaryIndex of Object.keys(
                   activeReasoningPart.summaryParts,
                 )) {
@@ -2039,8 +2039,8 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                 },
               });
             } else if (value.type === 'response.reasoning_summary_part.done') {
-              // when OpenAI stores the message data, we can immediately conclude the reasoning part
-              // since we do not need to send the encrypted content.
+              // 当OpenAI存储消息数据时，我们可以立即得出推理部分
+              // 因为我们不需要发送加密的内容。
               if (store) {
                 controller.enqueue({
                   type: 'reasoning-end',
@@ -2052,13 +2052,13 @@ export class OpenAIResponsesLanguageModel implements LanguageModelV4 {
                   },
                 });
 
-                // mark the summary part as concluded
+                // 将摘要部分标记为结论
                 activeReasoning[value.item_id]!.summaryParts[
                   value.summary_index
                 ] = 'concluded';
               } else {
-                // mark the summary part as can-conclude only
-                // because we need to have a final summary part with the encrypted content
+                // 将摘要部分标记为只能得出结论
+                // 因为我们需要有一个包含加密内容的最终摘要部分
                 activeReasoning[value.item_id]!.summaryParts[
                   value.summary_index
                 ] = 'can-conclude';
@@ -2302,7 +2302,7 @@ function mapWebSearchOutput(
     case 'search':
       return {
         action: { type: 'search', query: action.query ?? undefined },
-        // include sources when provided by the Responses API (behind include flag)
+        // 当响应 API 提供时包含源（包含标志后面）
         ...(action.sources != null && { sources: action.sources }),
       };
     case 'open_page':
@@ -2318,8 +2318,8 @@ function mapWebSearchOutput(
   }
 }
 
-// The delta is embedded in a JSON string.
-// To escape it, we use JSON.stringify and slice to remove the outer quotes.
+// 增量嵌入在 JSON 字符串中。
+// 为了转义它，我们使用 JSON.stringify 和 slice 来删除外部引号。
 function escapeJSONDelta(delta: string) {
   return JSON.stringify(delta).slice(1, -1);
 }

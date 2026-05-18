@@ -8,16 +8,16 @@ import { vertexRagStore } from './tool/vertex-rag-store';
 
 export const googleTools = {
   /**
-   * Creates a Google search tool that gives Google direct access to real-time web content.
-   * Must have name "google_search".
+   * 创建一个 Google 搜索工具，使 Google 可以直接访问实时网络内容。
+   * 名称必须为“google_search”。
    */
   googleSearch,
 
   /**
-   * Creates an Enterprise Web Search tool for grounding responses using a compliance-focused web index.
-   * Designed for highly-regulated industries (finance, healthcare, public sector).
-   * Does not log customer data and supports VPC service controls.
-   * Must have name "enterprise_web_search".
+   * 创建企业 Web 搜索工具，使用注重合规性的 Web 索引来基础响应。
+   * 专为严格监管的行业（金融、医疗保健、公共部门）而设计。
+   * 不记录客户数据，支持VPC服务控制。
+   * 名称必须为“enterprise_web_search”。
    *
    * @note Only available on Vertex AI. Requires Gemini 2.0 or newer.
    *
@@ -26,8 +26,8 @@ export const googleTools = {
   enterpriseWebSearch,
 
   /**
-   * Creates a Google Maps grounding tool that gives the model access to Google Maps data.
-   * Must have name "google_maps".
+   * 创建一个 Google 地图基础工具，使模型能够访问 Google 地图数据。
+   * 名称必须为“google_maps”。
    *
    * @see https://ai.google.dev/gemini-api/docs/maps-grounding
    * @see https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/grounding-with-google-maps
@@ -35,14 +35,14 @@ export const googleTools = {
   googleMaps,
 
   /**
-   * Creates a URL context tool that gives Google direct access to real-time web content.
-   * Must have name "url_context".
+   * 创建一个 URL 上下文工具，使 Google 可以直接访问实时网络内容。
+   * 名称必须为“url_context”。
    */
   urlContext,
 
   /**
-   * Enables Retrieval Augmented Generation (RAG) via the Gemini File Search tool.
-   * Must have name "file_search".
+   * 通过 Gemini 文件搜索工具启用检索增强生成 (RAG)。
+   * 名称必须为“file_search”。
    *
    * @param fileSearchStoreNames - Fully-qualified File Search store resource names.
    * @param metadataFilter - Optional filter expression to restrict the files that can be retrieved.
@@ -52,11 +52,11 @@ export const googleTools = {
    */
   fileSearch,
   /**
-   * A tool that enables the model to generate and run Python code.
-   * Must have name "code_execution".
+   * 使模型能够生成并运行 Python 代码的工具。
+   * 名称必须为“code_execution”。
    *
    * @note Ensure the selected model supports Code Execution.
-   * Multi-tool usage with the code execution tool is typically compatible with Gemini >=2 models.
+   * 代码执行工具的多工具使用通常与 Gemini >=2 模型兼容。
    *
    * @see https://ai.google.dev/gemini-api/docs/code-execution (Google AI)
    * @see https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/code-execution-api (Vertex AI)
@@ -64,8 +64,8 @@ export const googleTools = {
   codeExecution,
 
   /**
-   * Creates a Vertex RAG Store tool that enables the model to perform RAG searches against a Vertex RAG Store.
-   * Must have name "vertex_rag_store".
+   * 创建 Vertex RAG 存储工具，使模型能够针对 Vertex RAG 存储执行 RAG 搜索。
+   * 名称必须为“vertex_rag_store”。
    */
   vertexRagStore,
 };

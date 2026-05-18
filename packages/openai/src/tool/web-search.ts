@@ -62,55 +62,55 @@ export const webSearchOutputSchema = lazySchema(() =>
 
 export const webSearchToolFactory = createProviderExecutedToolFactory<
   {
-    // Web search doesn't take input parameters - it's controlled by the prompt
+    // 网络搜索不接受输入参数 - 它由提示控制
   },
   {
     /**
-     * An object describing the specific action taken in this web search call.
-     * Includes details on how the model used the web (search, open_page, find_in_page).
+     * 描述此网络搜索调用中所采取的特定操作的对象。
+     * 包括有关模型如何使用网络（搜索、open_page、find_in_page）的详细信息。
      */
     action?:
       | {
           /**
-           * Action type "search" - Performs a web search query.
+           * 操作类型“搜索”- 执行网络搜索查询。
            */
           type: 'search';
 
           /**
-           * The search query.
+           * 搜索查询。
            */
           query?: string;
         }
       | {
           /**
-           * Action type "openPage" - Opens a specific URL from search results.
+           * 操作类型“openPage”- 从搜索结果中打开特定 URL。
            */
           type: 'openPage';
 
           /**
-           * The URL opened by the model.
+           * 模型打开的 URL。
            */
           url?: string | null;
         }
       | {
           /**
-           * Action type "findInPage": Searches for a pattern within a loaded page.
+           * 操作类型“findInPage”：在加载的页面中搜索模式。
            */
           type: 'findInPage';
 
           /**
-           * The URL of the page searched for the pattern.
+           * 搜索模式的页面的 URL。
            */
           url?: string | null;
 
           /**
-           * The pattern or text to search for within the page.
+           * 要在页面内搜索的模式或文本。
            */
           pattern?: string | null;
         };
 
     /**
-     * Optional sources cited by the model for the web search call.
+     * 网络搜索调用模型引用的可选来源。
      */
     sources?: Array<
       { type: 'url'; url: string } | { type: 'api'; name: string }
@@ -118,54 +118,54 @@ export const webSearchToolFactory = createProviderExecutedToolFactory<
   },
   {
     /**
-     * Whether to use external web access for fetching live content.
-     * - true: Fetch live web content (default)
-     * - false: Use cached/indexed results
+     * 是否使用外部 Web 访问来获取实时内容。
+     * - true：获取实时网页内容（默认）
+     * - false：使用缓存/索引结果
      */
     externalWebAccess?: boolean;
 
     /**
-     * Filters for the search.
+     * 用于搜索的过滤器。
      */
     filters?: {
       /**
-       * Allowed domains for the search.
-       * If not provided, all domains are allowed.
-       * Subdomains of the provided domains are allowed as well.
+       * 允许搜索的域。
+       * 如果未提供，则允许所有域。
+       * 所提供域的子域也是允许的。
        */
       allowedDomains?: string[];
     };
 
     /**
-     * Search context size to use for the web search.
-     * - high: Most comprehensive context, highest cost, slower response
-     * - medium: Balanced context, cost, and latency (default)
-     * - low: Least context, lowest cost, fastest response
+     * 用于网络搜索的搜索上下文大小。
+     * - 高：背景最全面，成本最高，响应速度较慢
+     * - 中：平衡上下文、成本和延迟（默认）
+     * - 低：最少的背景、最低的成本、最快的响应
      */
     searchContextSize?: 'low' | 'medium' | 'high';
 
     /**
-     * User location information to provide geographically relevant search results.
+     * 用户位置信息提供与地理相关的搜索结果。
      */
     userLocation?: {
       /**
-       * Type of location (always 'approximate')
+       * 位置类型（始终为“大约”）
        */
       type: 'approximate';
       /**
-       * Two-letter ISO country code (e.g., 'US', 'GB')
+       * 两个字母的 ISO 国家/地区代码（例如“US”、“GB”）
        */
       country?: string;
       /**
-       * City name (free text, e.g., 'Minneapolis')
+       * 城市名称（自由文本，例如“明尼阿波利斯”）
        */
       city?: string;
       /**
-       * Region name (free text, e.g., 'Minnesota')
+       * 地区名称（自由文本，例如“明尼苏达”）
        */
       region?: string;
       /**
-       * IANA timezone (e.g., 'America/Chicago')
+       * IANA 时区（例如“美国/芝加哥”）
        */
       timezone?: string;
     };
@@ -177,5 +177,5 @@ export const webSearchToolFactory = createProviderExecutedToolFactory<
 });
 
 export const webSearch = (
-  args: Parameters<typeof webSearchToolFactory>[0] = {}, // default
+  args: Parameters<typeof webSearchToolFactory>[0] = {}, // 默认
 ) => webSearchToolFactory(args);

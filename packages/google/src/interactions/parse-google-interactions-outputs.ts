@@ -15,10 +15,10 @@ export type ParseGoogleInteractionsOutputsResult = {
 };
 
 /*
- * Builds a `providerMetadata.google` payload for an output part so the
- * Interactions converter on the next turn can read both the per-step
- * `signature` (round-trip) and the parent `interactionId` (history compaction
- * under `previousInteractionId`).
+ * 为输出部分构建“providerMetadata.google”有效负载，以便
+ * 下一回合的交互转换器可以读取每一步
+ * `signature` （往返）和父级 `interactionId` （历史压缩
+ * 在“previousInteractionId”下）。
  */
 function googleProviderMetadata({
   signature,
@@ -64,17 +64,17 @@ function builtinToolNameFromResultType(type: string): string {
 }
 
 /**
- * Walks the `steps[]` array of an Interactions response and emits AI SDK
- * `LanguageModelV4Content[]`. Surfaces:
+ * 遍历交互响应的“steps[]”数组并发出 AI SDK
+ * `LanguageModelV4Content[]`。表面：
  *
- * - `model_output` steps: iterates `step.content[]` for `text` (with
- *   annotations → source parts) and `image` content blocks.
- * - `thought` steps: emits a single `reasoning` part from `summary[*]`.
- * - `function_call` steps: emits a `tool-call` part directly.
- * - Built-in tool `*_call` / `*_result` steps (Google Search, Code Execution,
- *   URL Context, File Search, Google Maps, MCP Server): emits
- *   `tool-call`/`tool-result` parts with `providerExecuted: true`.
- * - `user_input` steps are skipped (they echo the client's input).
+ * - `model_output` 步骤：为 `text` 迭代 `step.content[]`（使用
+ *   注释 → 源部分）和“图像”内容块。
+ * - `thought` 步骤：从 `summary[*]` 发出单个 `reasoning` 部分。
+ * - `function_call` 步骤：直接发出 `tool-call` 部分。
+ * - 内置工具“*_call”/“*_result”步骤（Google 搜索、代码执行、
+ *   URL 上下文、文件搜索、Google 地图、MCP 服务器）：发出
+ *   `tool-call`/`tool-result` 与 `providerExecuted: true` 部分。
+ * - 跳过“user_input”步骤（它们回显客户端的输入）。
  */
 export function parseGoogleInteractionsOutputs({
   steps,
@@ -84,10 +84,10 @@ export function parseGoogleInteractionsOutputs({
   steps: Array<GoogleInteractionsStep> | null | undefined;
   generateId: () => string;
   /**
-   * Top-level `Interaction.id` on the response. Stamped onto each output
-   * part's `providerMetadata.google.interactionId` so the converter can drop
-   * matching assistant turns when `previousInteractionId` is used on the
-   * next turn (compaction).
+   * 响应中的顶级“Interaction.id”。印在每个输出上
+   * 部分的“providerMetadata.google.interactionId”，以便转换器可以删除
+   * 当使用“previousInteractionId”时，匹配助手就会转动
+   * 下一轮（压实）。
    */
   interactionId?: string;
 }): ParseGoogleInteractionsOutputsResult {

@@ -39,7 +39,7 @@ export function handleFetchError({
     return error;
   }
 
-  // unwrap original error when fetch failed (for easier debugging):
+  // 获取失败时解开原始错误（以便于调试）：
   if (
     error instanceof TypeError &&
     FETCH_FAILED_ERROR_MESSAGES.includes(error.message.toLowerCase())
@@ -47,13 +47,13 @@ export function handleFetchError({
     const cause = (error as any).cause;
 
     if (cause != null) {
-      // Failed to connect to server:
+      // 无法连接到服务器：
       return new APICallError({
         message: `Cannot connect to API: ${cause.message}`,
         cause,
         url,
         requestBodyValues,
-        isRetryable: true, // retry when network error
+        isRetryable: true, // 网络错误时重试
       });
     }
   }

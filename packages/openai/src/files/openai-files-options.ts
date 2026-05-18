@@ -9,9 +9,9 @@ export const openaiFilesOptionsSchema = lazySchema(() =>
   zodSchema(
     z.object({
       /*
-       * Required by the OpenAI API, but optional here because
-       * the SDK defaults to "assistants" — by far the most common
-       * purpose when uploading files in this context.
+       * OpenAI API 必需，但此处可选，因为
+       * SDK 默认为“助手”——迄今为止最常见的
+       * 在此上下文中上传文件时的目的。
        */
       purpose: z.string().optional(),
       expiresAfter: z.number().optional(),

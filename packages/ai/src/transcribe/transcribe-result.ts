@@ -32,7 +32,7 @@ export interface TranscriptionResult {
   }>;
 
   /**
-   * 检测到的音频内容的语言，作为 ISO-639-1 代码（例如，“en”表示英语）。
+   * 检测到的音频内容的语言，作为 ISO-639-1 代码（例如，`en`表示英语）。
    * 如果无法检测到语言，则可能是未定义的。
    */
   readonly language: string | undefined;

@@ -9,7 +9,7 @@ import { addAdditionalPropertiesToJsonSchema } from './add-additional-properties
 import { zod3ToJsonSchema } from './to-json-schema/zod3-to-json-schema';
 
 /**
- * Used to mark schemas so we can support both Zod and custom schemas.
+ * 用于标记模式，以便我们可以支持 Zod 和自定义模式。
  */
 const schemaSymbol = Symbol.for('vercel.ai.schema');
 
@@ -19,33 +19,33 @@ export type ValidationResult<OBJECT> =
 
 export type Schema<OBJECT = unknown> = {
   /**
-   * Used to mark schemas so we can support both Zod and custom schemas.
+   * 用于标记模式，以便我们可以支持 Zod 和自定义模式。
    */
   [schemaSymbol]: true;
 
   /**
-   * Schema type for inference.
+   * 用于推理的模式类型。
    */
   _type: OBJECT;
 
   /**
-   * Optional. Validates that the structure of a value matches this schema,
-   * and returns a typed version of the value if it does.
+   * 选修的。验证值的结构是否与此模式匹配，
+   * 如果存在，则返回该值的类型化版本。
    */
   readonly validate?: (
     value: unknown,
   ) => ValidationResult<OBJECT> | PromiseLike<ValidationResult<OBJECT>>;
 
   /**
-   * The JSON Schema for the schema. It is passed to the providers.
+   * 架构的 JSON 架构。它被传递给提供商。
    */
   readonly jsonSchema: JSONSchema7 | PromiseLike<JSONSchema7>;
 };
 
 /**
- * Creates a schema with deferred creation.
- * This is important to reduce the startup time of the library
- * and to avoid initializing unused validators.
+ * 创建具有延迟创建的架构。
+ * 这对于减少库的启动时间很重要
+ * 并避免初始化未使用的验证器。
  *
  * @param createValidator A function that creates a schema.
  * @returns A function that returns a schema.
@@ -53,7 +53,7 @@ export type Schema<OBJECT = unknown> = {
 export function lazySchema<SCHEMA>(
   createSchema: () => Schema<SCHEMA>,
 ): LazySchema<SCHEMA> {
-  // cache the validator to avoid initializing it multiple times
+  // 缓存验证器以避免多次初始化
   let schema: Schema<SCHEMA> | undefined;
   return () => {
     if (schema == null) {
@@ -90,7 +90,7 @@ export type InferSchema<SCHEMA> =
           : never;
 
 /**
- * Create a schema using a JSON Schema.
+ * 使用 JSON 架构创建架构。
  *
  * @param jsonSchema The JSON Schema for the schema.
  * @param options.validate Optional. A validation function for the schema.
@@ -110,10 +110,10 @@ export function jsonSchema<OBJECT = unknown>(
 ): Schema<OBJECT> {
   return {
     [schemaSymbol]: true,
-    _type: undefined as OBJECT, // should never be used directly
+    _type: undefined as OBJECT, // 永远不应该直接使用
     get jsonSchema() {
       if (typeof jsonSchema === 'function') {
-        jsonSchema = jsonSchema(); // cache the function results
+        jsonSchema = jsonSchema(); // 缓存函数结果
       }
       return jsonSchema;
     },
@@ -181,19 +181,19 @@ export function zod3Schema<OBJECT>(
   zodSchema: z3.Schema<OBJECT, z3.ZodTypeDef, any>,
   options?: {
     /**
-     * Enables support for references in the schema.
-     * This is required for recursive schemas, e.g. with `z.lazy`.
-     * However, not all language models and providers support such references.
-     * Defaults to `false`.
+     * 启用对架构中引用的支持。
+     * 这是递归模式所必需的，例如与“z.lazy”。
+     * 但是，并非所有语言模型和提供程序都支持此类引用。
+     * 默认为“假”。
      */
     useReferences?: boolean;
   },
 ): Schema<OBJECT> {
-  // default to no references (to support openapi conversion for google)
+  // 默认为无引用（以支持 google 的 openapi 转换）
   const useReferences = options?.useReferences ?? false;
 
   return jsonSchema(
-    // defer json schema creation to avoid unnecessary computation when only validation is needed
+    // 推迟 json 模式创建以避免仅需要验证时不必要的计算
     () =>
       zod3ToJsonSchema(zodSchema, {
         $refStrategy: useReferences ? 'root' : 'none',
@@ -213,19 +213,19 @@ export function zod4Schema<OBJECT>(
   zodSchema: z4.core.$ZodType<OBJECT, any>,
   options?: {
     /**
-     * Enables support for references in the schema.
-     * This is required for recursive schemas, e.g. with `z.lazy`.
-     * However, not all language models and providers support such references.
-     * Defaults to `false`.
+     * 启用对架构中引用的支持。
+     * 这是递归模式所必需的，例如与“z.lazy”。
+     * 但是，并非所有语言模型和提供程序都支持此类引用。
+     * 默认为“假”。
      */
     useReferences?: boolean;
   },
 ): Schema<OBJECT> {
-  // default to no references (to support openapi conversion for google)
+  // 默认为无引用（以支持 google 的 openapi 转换）
   const useReferences = options?.useReferences ?? false;
 
   return jsonSchema(
-    // defer json schema creation to avoid unnecessary computation when only validation is needed
+    // 推迟 json 模式创建以避免仅需要验证时不必要的计算
     () =>
       addAdditionalPropertiesToJsonSchema(
         z4.toJSONSchema(zodSchema, {
@@ -258,10 +258,10 @@ export function zodSchema<OBJECT>(
     | z3.Schema<OBJECT, z3.ZodTypeDef, any>,
   options?: {
     /**
-     * Enables support for references in the schema.
-     * This is required for recursive schemas, e.g. with `z.lazy`.
-     * However, not all language models and providers support such references.
-     * Defaults to `false`.
+     * 启用对架构中引用的支持。
+     * 这是递归模式所必需的，例如与“z.lazy”。
+     * 但是，并非所有语言模型和提供程序都支持此类引用。
+     * 默认为“假”。
      */
     useReferences?: boolean;
   },

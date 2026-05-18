@@ -49,12 +49,12 @@ export type InferUIDataParts<T extends UIDataPartSchemas> = {
 
 export type ChatRequestOptions = {
   /**
-   * 应传递到 API 端点的附加标头。
+   * 应提交到 API 端点的附加标头。
    */
   headers?: Record<string, string> | Headers;
 
   /**
-   * 应发送到 API 端点的其他正文 JSON 属性。
+   * 应发送 API 端点的其他正文 JSON 属性。
    */
   body?: object; // TODO JSONStringify
 
@@ -62,7 +62,7 @@ export type ChatRequestOptions = {
 };
 
 /**
- * Function that can be called to add a tool approval response to the chat.
+ * 可以调用该函数将工具批准响应添加到聊天中。
  */
 export type ChatAddToolApproveResponseFunction = ({
   id,
@@ -162,13 +162,13 @@ export type ChatOnDataCallback<UI_MESSAGE extends UIMessage> = (
 /**
  * 当助理响应完成流式传输时调用的函数。
  *
- * @param message The assistant message that was streamed.
- * @param messages The full chat history, including the assistant message.
+ * @param message 流式传输的助理消息。
+ * @param messages 完整的聊天历史记录，包括助理消息。
  *
- * @param isAbort Indicates whether the request has been aborted.
- * @param isDisconnect Indicates whether the request has been ended by a network error.
- * @param isError Indicates whether the request has been ended by an error.
- * @param finishReason The reason why the generation finished.
+ * @param isAbort 指示请求是否已中止。
+ * @param isDisconnect 指示请求是否因网络错误而结束。
+ * @param isError 指示请求是否因错误而结束。
+ * @param finishReason 生成完成的原因。
  */
 export type ChatOnFinishCallback<UI_MESSAGE extends UIMessage> = (options: {
   message: UI_MESSAGE;
@@ -192,8 +192,8 @@ export interface ChatInit<UI_MESSAGE extends UIMessage> {
   messages?: UI_MESSAGE[];
 
   /**
-   * 一种提供将用于消息和聊天 ID 的函数的方法。
-   * 如果未提供，则使用默认的 AI SDK `generateId`。
+   * 一种提供用于消息和聊天 ID 的函数的方法。
+   * 如果未提供，则使用默认的AI SDK `generateId`。
    */
   generateId?: IdGenerator;
 
@@ -221,7 +221,7 @@ export interface ChatInit<UI_MESSAGE extends UIMessage> {
   /**
    * 接收到数据部分时调用的可选回调函数。
    *
-   * @param data The data part that was received.
+   * @param data 接收到的数据部分。
    */
   onData?: ChatOnDataCallback<UI_MESSAGE>;
 
@@ -287,10 +287,10 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage> {
   /**
    * 挂钩状态：
    *
-   * - “已提交”：消息已发送到 API，我们正在等待响应流的开始。
-   * - `streaming`：响应主动从 API 流入，接收数据块。
+   * - `已提交`：消息已发送到API，我们正在等待响应流的开始。
+   * - `streaming`：响应主动从API流入，接收数据块。
    * - `ready`：已收到并处理完整的响应；可以提交新的用户消息。
-   * - `error`：API 请求期间发生错误，导致无法成功完成。
+   * - `error`：API请求期间发生错误，导致无法完成成功。
    */
   get status(): ChatStatus {
     return this.state.status;
@@ -326,10 +326,10 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage> {
   }
 
   /**
-   * 将用户消息附加或替换到聊天列表。这会触发 API 调用来获取
+   * 将消息用户添加或替换到聊天列表。这会触发 API 调用来获取
    * 助理的回应。
    *
-   * 如果提供了 messageId，则消息将被替换。
+   * 如果提供了messageId，则消息将被替换。
    */
   sendMessage = async (
     message?:
@@ -396,7 +396,7 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage> {
         );
       }
 
-      // 删除具有给定 id 的消息之后的所有消息
+      // 删除给定id的消息之后的所有消息
       this.state.messages = this.state.messages.slice(0, messageIndex + 1);
 
       // 使用新内容更新消息
@@ -423,8 +423,8 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage> {
   };
 
   /**
-   * 使用提供的消息 ID 重新生成助理消息。
-   * 如果未提供消息 ID，则将重新生成最后一条助理消息。
+   * 使用提供的消息ID重新生成助手消息。
+   * 如果未提供消息ID，则将重新生成最后一条助手消息。
    */
   regenerate = async ({
     messageId,
@@ -509,7 +509,7 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage> {
           this.activeResponse.state.message.parts.map(updatePart);
       }
 
-      // 如果 sendAutomaticallyWhen 函数返回 true，则自动发送消息
+      // 如果sendAutomaticallyWhen函数返回true，则自动发送消息
       if (
         this.status !== 'streaming' &&
         this.status !== 'submitted' &&
@@ -558,7 +558,7 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage> {
           this.activeResponse.state.message.parts.map(updatePart);
       }
 
-      // 如果 sendAutomaticallyWhen 函数返回 true，则自动发送消息
+      // 如果sendAutomaticallyWhen函数返回true，则自动发送消息
       if (
         this.status !== 'streaming' &&
         this.status !== 'submitted' &&
@@ -771,7 +771,7 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage> {
       this.activeResponse = undefined;
     }
 
-    // 如果 sendAutomaticallyWhen 函数返回 true，则自动发送消息
+    // 如果sendAutomaticallyWhen函数返回true，则自动发送消息
     if (!isError && (await this.shouldSendAutomatically())) {
       await this.makeRequest({
         trigger: 'submit-message',

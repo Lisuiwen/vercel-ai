@@ -70,8 +70,8 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
   readonly modelId: string;
 
   /**
-   * Optional agent name. When provided, the request body sends `agent:` instead
-   * of `model:` and rejects `tools` / `generation_config` (warned, not thrown).
+   * 可选代理名称。提供后，请求正文将发送“agent:”
+   * `model:` 并拒绝 `tools` / ` Generation_config` （警告，而不是抛出）。
    */
   readonly agent: string | undefined;
 
@@ -165,19 +165,19 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     }
 
     /*
-     * `response_format` is a polymorphic array of entries. Three sources
-     * contribute, in order:
+     * `response_format` 是一个多态条目数组。三个来源
+     * 贡献，按顺序：
      *
-     *   1. AI SDK call-level `responseFormat: { type: 'json', schema }` →
-     *      `{ type: 'text', mime_type: 'application/json', schema }`.
-     *   2. `providerOptions.google.responseFormat` (primary path) — entries
-     *      are appended verbatim with camelCase → snake_case translation.
-     *   3. `providerOptions.google.imageConfig` (deprecated fallback) — only
-     *      contributes if no `{type:'image'}` entry was already provided via
-     *      sources 1 or 2; emits a deprecation warning when used.
+     *   1. AI SDK调用级 `responseFormat: { type: 'json', schema }` →
+     *      `{ type: 'text', mime_type: 'application/json', schema }`。
+     *   2. `providerOptions.google.responseFormat`（主路径）- 条目
+     *      逐字附加camelCase→snake_case翻译。
+     *   3. `providerOptions.google.imageConfig`（已弃用的后备）- 仅
+     *      如果没有通过以下方式提供“{type:'image'}”条目，则贡献
+     *      来源 1 或 2；使用时发出弃用警告。
      *
-     * Agent calls cannot send `generation_config` and (per the API) cannot
-     * combine with structured output — emit a warning and drop the field.
+     * 代理调用无法发送 ` Generation_config` 并且（根据 API）不能
+     * 与结构化输出相结合——发出警告并删除该字段。
      */
     const responseFormatEntries: Array<GoogleInteractionsResponseFormatEntry> =
       [];
@@ -256,15 +256,15 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     }
 
     /*
-     * The Interactions API splits per-call config into `generation_config`
-     * (model branch) and `agent_config` (agent branch); the two are mutually
-     * exclusive. The AI SDK call-level generation params and the thinking /
-     * imageConfig provider options flow into `generation_config`.
+     * Interactions API 将每次调用配置拆分为“ Generation_config ”
+     * （模型分支）和 `agent_config` （代理分支）；两者是相辅相成的
+     * 独家。 AI SDK调用级生成参数及思考/
+     * imageConfig 提供程序选项流入“ Generation_config ”。
      *
-     * When an agent is set, none of these fields are accepted by the API.
-     * Emit a single `LanguageModelV4CallWarning` listing the dropped field
-     * names and continue (do not throw); the agent-only `agent_config`
-     * field supersedes them.
+     * 设置代理后，API 不接受这些字段。
+     * 发出一个列出已删除字段的“LanguageModelV4CallWarning”
+     * 命名并继续（不要抛出）；仅限代理的“agent_config”
+     * 场取代了它们。
      */
     let generationConfig: GoogleInteractionsGenerationConfig | undefined;
     if (isAgent) {
@@ -305,10 +305,10 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
       });
 
       /*
-       * Deprecated fallback path: `imageConfig` contributes an image entry
-       * only when none was supplied via `responseFormat`. A warning is
-       * always emitted when `imageConfig` is set so callers migrate to the
-       * `responseFormat` shape.
+       * 已弃用的后备路径：“imageConfig”提供图像条目
+       * 仅当没有通过“responseFormat”提供时。警告是
+       * 当设置 `imageConfig` 时总是发出，以便调用者迁移到
+       * `responseFormat` 形状。
        */
       if (opts?.imageConfig != null) {
         const alreadyHasImageEntry = responseFormatEntries.some(
@@ -351,17 +351,17 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     }
 
     /*
-     * Agent calls require `background: true` on the wire — otherwise the API
-     * rejects them with `background=true is required for agent interactions.`
-     * The server returns a non-terminal status (`in_progress`/`requires_action`)
-     * and the final outputs are streamed via `GET /interactions/{id}?stream=true`
-     * (or polled via `GET /interactions/{id}`). This is handled internally in
-     * `doGenerate` / `doStream` so the user-facing surface stays identical to
-     * model-id calls.
+     * 代理调用需要线路上的“background: true”——否则 API
+     * 拒绝它们，并表示“代理交互需要背景 = true”。
+     * 服务器返回非终端状态（`in_progress`/`requires_action`）
+     * 最终输出通过“GET /interactions/{id}?stream=true”进行流式传输
+     * （或通过“GET /interactions/{id}”进行轮询）。这是在内部处理的
+     * `doGenerate` / `doStream` 因此面向用户的表面与
+     * 模型 ID 调用。
      *
-     * Model-id calls retain their original synchronous behavior — no
-     * `background` field is sent. (No documented model accepts `background:
-     * true` today; revisit when one does.)
+     * Model-id 调用保留其原始同步行为 - 否
+     * 发送“背景”字段。 （没有记录的模型接受“背景：
+     * 今天是真的；当有人再次访问时。）
      */
     const args: GoogleInteractionsRequestBody = pruneUndefined({
       ...(isAgent ? { agent: this.agent } : { model: this.modelId }),
@@ -428,10 +428,10 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     } = postResult;
 
     /*
-     * Agent calls run with `background: true`; the POST returns immediately
-     * with a non-terminal status (`in_progress` / `requires_action`). Poll
-     * `GET /interactions/{id}` until terminal so the user-facing surface
-     * matches a synchronous call.
+     * 代理调用以 `background: true` 运行； POST 立即返回
+     * 具有非终端状态（“in_progress”/“requires_action”）。民意调查
+     * `GET /interactions/{id}` 直到终端，以便面向用户的表面
+     * 匹配同步调用。
      */
     if (isAgent && !isTerminalStatus(response.status)) {
       const polled = await pollGoogleInteractionUntilTerminal({
@@ -448,10 +448,10 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     }
 
     /*
-     * `response.id` is omitted when `store: false` (fully stateless mode), and
-     * the stream surface returns `id: ""` (empty string) for the same case.
-     * Normalize both to `undefined` so downstream stamping does not pollute
-     * provider metadata with an empty/missing identifier.
+     * 当“store: false”（完全无状态模式）时，“response.id”被省略，并且
+     * 对于相同的情况，流表面返回 `id: ""` （空字符串）。
+     * 将两者标准化为“未定义”，以便下游冲压不会污染
+     * 标识符为空/缺失的提供者元数据。
      */
     const interactionId =
       typeof response.id === 'string' && response.id.length > 0
@@ -473,15 +473,15 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     };
 
     /*
-     * Service tier divergence vs. `:generateContent`:
+     * 服务层差异与`:generateContent`：
      *
-     * `google-language-model.ts` reads the applied service tier from the
-     * `x-gemini-service-tier` HTTP response header (see commit 1adfb76d2d).
-     * The Interactions API does NOT surface that header; it returns the
-     * applied tier in the response body as `service_tier` on the top-level
-     * Interaction object (and on `interaction.complete.interaction` for
-     * streaming). The `responseHeaders` parameter is also checked as a
-     * defensive fallback in case the API later adds the header.
+     * `google-language-model.ts` 从以下位置读取应用的服务层
+     * `x-gemini-service-tier` HTTP 响应标头（请参阅提交 1adfb76d2d）。
+     * Interactions API 不会显示该标头；它返回
+     * 在响应正文中应用层作为顶层的“service_tier”
+     * 交互对象（以及“interaction.complete.interaction”
+     * 流式传输）。 `responseHeaders` 参数也被检查为
+     * 防御性回退，以防 API 稍后添加标头。
      */
     const serviceTier =
       response.service_tier ??
@@ -489,8 +489,8 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
       undefined;
 
     /*
-     * `response.id` is omitted when `store: false` (fully stateless mode), so
-     * `interactionId` is only surfaced when the API actually returned one.
+     * 当`store: false`（完全无状态模式）时`response.id`被省略，所以
+     * “interactionId”仅在 API 实际返回时才会出现。
      */
     const providerMetadata: SharedV4ProviderMetadata = {
       google: {
@@ -539,11 +539,11 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     );
 
     /*
-     * Agent calls require `background: true`, which is incompatible with
-     * `stream: true` on POST. Drive these via POST background -> GET stream
-     * (with terminal-status short-circuit). The user-facing stream surface
-     * stays identical -- text-start / text-delta / text-end / finish parts
-     * are emitted in the same order as a true SSE response.
+     * 代理调用需要 `background: true`，这与
+     * POST 上的“stream: true”。通过 POST 后台 -> GET 流驱动这些
+     * （带端子状态短路）。面向用户的流表面
+     * 保持相同——文本开始/文本增量/文本结束/完成部分
+     * 以与真实 SSE 响应相同的顺序发出。
      */
     if (isAgent) {
       return this.doStreamBackground({
@@ -571,11 +571,11 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     });
 
     /*
-     * Google's API surfaces the applied service tier in the
-     * `x-gemini-service-tier` HTTP response header, not in the response body.
-     * Mirror the canonical pattern from `google-language-model.ts` (commit
-     * 1adfb76d2d) and pipe it through the stream transformer so the `finish`
-     * part's `providerMetadata.google.serviceTier` is sourced from the header.
+     * Google 的 API 在以下位置展示了应用的服务层：
+     * `x-gemini-service-tier` HTTP 响应标头，不在响应正文中。
+     * 镜像来自“google-language-model.ts”的规范模式（提交
+     * 1adfb76d2d) 并将其通过流转换器进行管道传输，以便“完成”
+     * 部分的“providerMetadata.google.serviceTier”来自标头。
      */
     const headerServiceTier = responseHeaders?.['x-gemini-service-tier'];
 
@@ -594,22 +594,22 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
   }
 
   /*
-   * Drive the streaming surface for agent calls. Agents require
-   * `background: true`, which is incompatible with `stream: true` on POST.
+   * 驱动座席呼叫的流表面。代理商要求
+   * `background: true`，与 POST 上的 `stream: true` 不兼容。
    *
-   * Approach:
-   *   1. POST `/interactions` with `background: true`. The response includes
-   *      the interaction id and an initial (usually non-terminal) status.
-   *   2. If the POST status is already terminal (rare), synthesize a stream
-   *      from the polled outputs and we're done.
-   *   3. Otherwise open `GET /interactions/{id}?stream=true` and pipe the
-   *      SSE events through `buildGoogleInteractionsStreamTransform` so the
-   *      consumer receives text deltas / thinking summaries / tool events as
-   *      they happen instead of all at once at the end.
+   * 方法：
+   *   1. 使用“background: true”发布“/interactions”。响应包括
+   *      交互 ID 和初始（通常是非终端）状态。
+   *   2.如果POST状态已经是terminal（罕见），则合成一个流
+   *      从轮询的输出中我们就完成了。
+   *   3. 否则打开 `GET /interactions/{id}?stream=true` 并通过管道传输
+   *      通过 `buildGoogleInteractionsStreamTransform` 进行 SSE 事件，因此
+   *      消费者接收文本增量/思考总结/工具事件作为
+   *      它们会在最后发生，而不是一次性全部发生。
    *
-   * The SSE connection can drop while the agent idles between events
-   * (`UND_ERR_BODY_TIMEOUT`); `streamGoogleInteractionEvents` handles the
-   * reconnect-with-`last_event_id` loop transparently.
+   * 当代理在事件之间空闲时，SSE 连接可能会断开
+   * (`UND_ERR_BODY_TIMEOUT`); `streamGoogleInteractionEvents` 处理
+   * 透明地重新连接“last_event_id”循环。
    */
   private async doStreamBackground({
     args,
@@ -650,10 +650,10 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     const headerServiceTier = postHeaders?.['x-gemini-service-tier'];
 
     /*
-     * If the POST already returned a terminal status (e.g. cached, immediate
-     * failure, or `incomplete`), there is nothing to stream from the GET --
-     * synthesize directly from the response so the caller still gets a
-     * complete stream.
+     * 如果 POST 已返回终端状态（例如已缓存、立即
+     * 失败，或“不完整”），没有任何内容可以从 GET 中传输——
+     * 直接从响应中合成，因此调用者仍然可以获得
+     * 完整的流。
      */
     if (isTerminalStatus(postResponse.status)) {
       const synthesized = synthesizeGoogleInteractionsAgentStream({
@@ -671,11 +671,11 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
     }
 
     /*
-     * `pollingTimeoutMs` is unused on the live-SSE path -- there's no poll
-     * loop to time out -- but we surface it as the per-attempt timeout for
-     * the AbortSignal-driven cancel that the caller already controls. Future
-     * iterations may use it as a backstop if the SSE+resume loop spins
-     * indefinitely.
+     * 实时 SSE 路径上未使用“pollingTimeoutMs”——没有轮询
+     * 循环超时——但我们将其表面为每次尝试超时
+     * AbortSignal 驱动的取消调用者已经控制的。未来
+     * 如果 SSE+resume 循环旋转，迭代可能会使用它作为后盾
+     * 无限期地。
      */
     void pollingTimeoutMs;
 
@@ -703,9 +703,9 @@ export class GoogleInteractionsLanguageModel implements LanguageModelV4 {
 }
 
 /*
- * Pins the Interactions API revision the SDK targets. Sent on every request
- * the model issues so model-id calls, agent calls, polling, SSE reconnects,
- * and cancellation all hit the same schema.
+ * 固定 SDK 目标的交互 API 修订版。根据每个请求发送
+ * 模型发出模型 ID 调用、代理调用、轮询、SSE 重新连接，
+ * 和取消都符合相同的模式。
  */
 const INTERACTIONS_API_REVISION_HEADER: Record<string, string> = {
   'Api-Revision': '2026-05-20',

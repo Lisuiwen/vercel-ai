@@ -20,20 +20,20 @@ import {
 /**
  * 使用语音模型生成语音音频。
  *
- * @param model - The speech model to use.
- * @param text - The text to convert to speech.
- * @param voice - The voice to use for speech generation.
- * @param outputFormat - The output format to use for speech generation e.g. "mp3", "wav", etc.
- * @param instructions - Instructions for the speech generation e.g. "Speak in a slow and steady tone".
- * @param speed - The speed of the speech generation.
- * @param language - The language for speech generation (ISO 639-1 code e.g. "en", "es", "fr") or "auto" for automatic detection.
- * @param providerOptions - Additional provider-specific options that are passed through to the provider
+ * @param model - 要使用的语音模型。
+ * @param text - 要转换为语音的文本。
+ * @param voice - 用于语音生成的语音。
+ * @param outputFormat - 用于语音生成的输出格式，例如`mp3`、`wav`等
+ * @param instructions - 语音生成的说明，例如`用缓慢而稳定的语气说话`。
+ * @param speed - 语音生成的速度。
+ * @param language - 用于语音生成的语言（ISO 639-1 代码，例如`en`、`es`、`fr`）或用于自动检测的`auto`。
+ * @param providerOptions - 传递给提供商的其他特定于提供商的选项
  * 作为身体参数。
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
  *
- * @returns A result object that contains the generated audio data.
+ * @returns 包含生成的音频数据的结果对象。
  */
 export async function generateSpeech({
   model,
@@ -64,7 +64,7 @@ export async function generateSpeech({
   voice?: string;
 
   /**
-   * 所需的音频输出格式，例如“mp3”、“wav”等
+   * 所需的音频输出格式，例如`mp3`、`wav`等
    */
   outputFormat?: 'mp3' | 'wav' | (string & {});
 
@@ -79,8 +79,8 @@ export async function generateSpeech({
   speed?: number;
 
   /**
-   * 用于语音生成的语言。这应该是 ISO 639-1 语言代码（例如“en”、“es”、“fr”）
-   * 或“auto”用于自动语言检测。提供商的支持各不相同。
+   * 用于语音生成的语言。这应该是 ISO 639-1 语言代码（例如`en`、`es`、`fr`）
+   * 或`auto`用于自动语言检测。大力支持各差异。
    */
   language?: string;
 
@@ -92,7 +92,7 @@ export async function generateSpeech({
    * 记录由特定于提供者的元数据密钥作为密钥。
    * ````ts
    * {
-   * “openai”：{}
+   * `开放`：{}
    * }
    * ```
    */
@@ -112,7 +112,7 @@ export async function generateSpeech({
 
   /**
    * 要包含在请求中的附加标头。
-   * 仅适用于基于 HTTP 的提供商。
+   * 仅适用于基于 HTTP 的业务。
    */
   headers?: Record<string, string>;
 }): Promise<SpeechResult> {

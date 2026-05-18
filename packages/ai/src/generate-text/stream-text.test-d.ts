@@ -376,7 +376,7 @@ describe('streamText types', () => {
         telemetry: {
           includeToolsContext: {
             weather: {
-              // @ts-expect-error includeToolsContext only supports tool context properties
+              // @ts-expect-error includeToolsContext 仅支持工具上下文属性
               unknown: true,
             },
           },
@@ -644,7 +644,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: toolWithOptionalContextObject,
-          // @ts-expect-error 缺少所需的weather.weatherApiKey
+          // @ts-expect-error 需要所需的weather.weatherApiKey
           toolsContext: { weather: {} },
         });
       });
@@ -665,7 +665,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: twoToolsWithContext,
-          // @ts-expect-error 缺少所需的天气和数据库工具上下文
+          // @ts-expect-error 需要所需的天气和数据库工具上下文
           toolsContext: {},
         });
       });
@@ -675,7 +675,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: twoToolsWithContext,
-          // @ts-expect-error 缺少所需的天气和数据库工具上下文
+          // @ts-expect-error 需要所需的天气和数据库工具上下文
           toolsContext: { wrong: 'value' },
         });
       });
@@ -708,7 +708,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: mixedTools,
-          // @ts-expect-error 缺少所需的天气工具上下文
+          // @ts-expect-error 需要所需的天气工具上下文
           toolsContext: {},
         });
       });
@@ -718,7 +718,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: mixedTools,
-          // @ts-expect-error 缺少所需的天气工具上下文
+          // @ts-expect-error 需要所需的天气工具上下文
           toolsContext: { wrong: 'value' },
         });
       });
@@ -758,7 +758,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: mixedTools,
-          // @ts-expect-error 缺少所需的天气工具上下文
+          // @ts-expect-error 需要所需的天气工具上下文
           toolsContext: {},
           prepareStep: ({ runtimeContext, toolsContext }) => {
             expectTypeOf(runtimeContext).toEqualTypeOf<Context>();
@@ -778,7 +778,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: mixedTools,
-          // @ts-expect-error 缺少所需的weather.weatherApiKey
+          // @ts-expect-error 需要所需的weather.weatherApiKey
           toolsContext: { weather: { wrong: 'value' } },
           prepareStep: ({ runtimeContext, toolsContext }) => {
             expectTypeOf(runtimeContext).toEqualTypeOf<Context>();

@@ -1,4 +1,4 @@
 /**
- * Data content. Can be a Uint8Array, base64 encoded data as a string or a URL.
+ * 数据内容。可以是 Uint8Array、base64 编码的数据作为字符串或 URL。
  */
 export type LanguageModelV2DataContent = Uint8Array | string | URL;

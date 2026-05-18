@@ -6,8 +6,8 @@ import {
 import { z } from 'zod/v4';
 
 /**
- * Output schema for tool search results - returns tool references
- * that are automatically expanded into full tool definitions by the API.
+ * 工具搜索结果的输出架构 - 返回工具引用
+ * 由 API 自动扩展为完整的工具定义。
  */
 export const toolSearchRegex_20251119OutputSchema = lazySchema(() =>
   zodSchema(
@@ -21,25 +21,25 @@ export const toolSearchRegex_20251119OutputSchema = lazySchema(() =>
 );
 
 /**
- * Input schema for regex-based tool search.
- * Claude constructs regex patterns using Python's re.search() syntax.
+ * 基于正则表达式的工具搜索的输入架构。
+ * Claude 使用 Python 的 re.search() 语法构建正则表达式模式。
  */
 const toolSearchRegex_20251119InputSchema = lazySchema(() =>
   zodSchema(
     z.object({
       /**
-       * A regex pattern to search for tools.
-       * Uses Python re.search() syntax. Maximum 200 characters.
+       * 用于搜索工具的正则表达式模式。
+       * 使用 Python re.search() 语法。最多 200 个字符。
        *
-       * Examples:
-       * - "weather" - matches tool names/descriptions containing "weather"
-       * - "get_.*_data" - matches tools like get_user_data, get_weather_data
-       * - "database.*query|query.*database" - OR patterns for flexibility
-       * - "(?i)slack" - case-insensitive search
+       * 示例：
+       * - “天气” - 匹配包含“天气”的工具名称/描述
+       * - “get_.*_data” - 匹配 get_user_data、get_weather_data 等工具
+       * - “database.*query|query.*database” - OR 模式以实现灵活性
+       * - “(?i)slack” - 不区分大小写的搜索
        */
       pattern: z.string(),
       /**
-       * Maximum number of tools to return. Optional.
+       * 返回的工具的最大数量。选修的。
        */
       limit: z.number().optional(),
     }),
@@ -49,25 +49,25 @@ const toolSearchRegex_20251119InputSchema = lazySchema(() =>
 const factory = createProviderExecutedToolFactory<
   {
     /**
-     * A regex pattern to search for tools.
-     * Uses Python re.search() syntax. Maximum 200 characters.
+     * 用于搜索工具的正则表达式模式。
+     * 使用 Python re.search() 语法。最多 200 个字符。
      *
-     * Examples:
-     * - "weather" - matches tool names/descriptions containing "weather"
-     * - "get_.*_data" - matches tools like get_user_data, get_weather_data
-     * - "database.*query|query.*database" - OR patterns for flexibility
-     * - "(?i)slack" - case-insensitive search
+     * 示例：
+     * - “天气” - 匹配包含“天气”的工具名称/描述
+     * - “get_.*_data” - 匹配 get_user_data、get_weather_data 等工具
+     * - “database.*query|query.*database” - OR 模式以实现灵活性
+     * - “(?i)slack” - 不区分大小写的搜索
      */
     pattern: string;
     /**
-     * Maximum number of tools to return. Optional.
+     * 返回的工具的最大数量。选修的。
      */
     limit?: number;
   },
   Array<{
     type: 'tool_reference';
     /**
-     * The name of the discovered tool.
+     * 发现的工具的名称。
      */
     toolName: string;
   }>,
@@ -80,25 +80,25 @@ const factory = createProviderExecutedToolFactory<
 });
 
 /**
- * Creates a tool search tool that uses regex patterns to find tools.
+ * 创建一个使用正则表达式模式来查找工具的工具搜索工具。
  *
- * The tool search tool enables Claude to work with hundreds or thousands of tools
- * by dynamically discovering and loading them on-demand. Instead of loading all
- * tool definitions into the context window upfront, Claude searches your tool
- * catalog and loads only the tools it needs.
+ * 工具搜索工具使 Claude 能够使用数百或数千种工具
+ * 通过动态发现并按需加载它们。而不是加载全部
+ * 工具定义预先放入上下文窗口中，Claude 搜索您的工具
+ * 目录并仅加载所需的工具。
  *
- * When Claude uses this tool, it constructs regex patterns using Python's
- * re.search() syntax (NOT natural language queries).
+ * 当 Claude 使用此工具时，它使用 Python 构建正则表达式模式
+ * re.search() 语法（不是自然语言查询）。
  *
- * **Important**: This tool should never have `deferLoading: true` in providerOptions.
+ * **重要**：此工具不应在providerOptions 中包含“deferLoading: true”。
  *
  * @example
- * ```ts
- * import { anthropicTools } from '@ai-sdk/anthropic';
+ * ````ts
+ * 从'@ai-sdk/anthropic'导入{anthropicTools}；
  *
- * const tools = {
- *   toolSearch: anthropicTools.toolSearchRegex_20251119(),
- *   // Other tools with deferLoading...
+ * 常量工具= {
+ *   工具搜索：anthropicTools.toolSearchRegex_20251119(),
+ *   // 其他带有 deferLoading 的工具...
  * };
  * ```
  *

@@ -6096,7 +6096,7 @@ describe('generateText', () => {
       // 提前超过步骤超时时间 — 触发 stepAbortController.abort(...)
       await vi.advanceTimersByTimeAsync(100);
 
-      // 允许 doGenerate 完成以便测试清理
+      // 允许doGenerate完成以便测试清理
       delayedPromise.resolve(undefined);
 
       await generatePromise.catch(() => {});
@@ -6524,7 +6524,7 @@ describe('generateText', () => {
           super({
             supportedUrls() {
               supportedUrlsCalled = true;
-              // 引用“this”来验证上下文
+              // 引用`this`来验证上下文
               return this.modelId === 'mock-model-id'
                 ? ({ 'image/*': [/^https:\/\/.*$/] } as Record<
                     string,
@@ -7134,7 +7134,7 @@ describe('generateText', () => {
       }>;
       let rollDieExecutions: Array<{ player: string }>;
 
-      // 基于夹具的工具调用 ID（来自 anthropic-programmatic-tool-calling.1.json）
+      // 基于夹具的工具调用ID（来自anthropic-programmatic-tool-calling.1.json）
       const CODE_EXEC_ID = 'srvtoolu_01CberhXc9TgYXrCZU8bQoks';
       const CONTAINER_ID = 'container_011CWHQB57xVregfCMPrKgew';
 
@@ -7209,7 +7209,7 @@ describe('generateText', () => {
                   };
 
                 case 1:
-                  // 第 2 步：2 次 rollDie 调用（第 2 轮）
+                  // 第2步：2次rollDie调用（第2轮）
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -7253,7 +7253,7 @@ describe('generateText', () => {
                   };
 
                 case 2:
-                  // 第 3 步：2 次 rollDie 调用（第 3 轮）
+                  // 第3步：2次rollDie调用（第3轮）
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -7297,7 +7297,7 @@ describe('generateText', () => {
                   };
 
                 case 3:
-                  // 第 4 步：2 次 rollDie 调用（第 4 轮 - 最后一轮）
+                  // 第4步：2次rollDie调用（第4轮-最后脉冲）
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -7437,7 +7437,7 @@ describe('generateText', () => {
               messages: [...messages],
             });
 
-            // 转发上一步的容器 ID（模拟forwardAnthropicContainerIdFromLastStep）
+            // 转发上一步的容器ID（模拟forwardAnthropicContainerIdFromLastStep）
             if (stepNumber > 0 && steps.length > 0) {
               const lastStep = steps[steps.length - 1];
               const containerId = (

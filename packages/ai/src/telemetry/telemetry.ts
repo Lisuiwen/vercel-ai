@@ -75,7 +75,7 @@ export interface TelemetryDispatcher {
 
 /**
  * 实现此接口以创建自定义遥测集成。
- * 方法可以同步或返回 PromiseLike。
+ * 方法可以同步或返回PromiseLike。
  */
 export interface Telemetry {
   /**
@@ -83,12 +83,12 @@ export interface Telemetry {
    * (generateText/streamText)、对象生成(generateObject/streamObject)、
    * 嵌入（embed/embedMany）和重新排序操作。
    *
-   * 使用“operationId”字段来区分操作类型。
+   * 使用`operationId`字段来区分操作类型。
    */
   onStart?: Callback<InferTelemetryEvent<OperationStartEvent>>;
 
   /**
-   * 当单个步骤（单个 LLM 调用）开始时调用。
+   * 当步骤单个（单个LLM调用）开始时调用。
    * 生成可能由多个步骤组成（例如，当工具调用触发器时
    * 后续LLM电话）。使用它来创建每步跨度或记录
    * 步进级输入。
@@ -100,7 +100,7 @@ export interface Telemetry {
 
   /**
    * 在提供者模型调用开始之前立即调用。
-   * 与“onStepStart”不同，此回调的范围仅限于模型工作，并且
+   * 与`onStepStart`不同，此回调的范围仅限于模型工作，并且
    * 排除任何后续的客户端工具执行。
    */
   onLanguageModelCallStart?: Callback<
@@ -116,7 +116,7 @@ export interface Telemetry {
   >;
 
   /**
-   * 当工具执行开始时，在工具的“execute”函数之前调用
+   * 当工具执行开始时，在工具的`execute`函数调用之前
    * 被调用。使用它来创建工具级跨度或记录工具调用。
    */
   onToolExecutionStart?: Callback<InferTelemetryEvent<ToolExecutionStartEvent>>;
@@ -126,21 +126,21 @@ export interface Telemetry {
    * 该事件在“成功”字段上使用可区分联合 - 检查
    * `event.success` 来确定 `output` 或 `error` 是否可用。
    *
-   * 该事件包括用于性能跟踪的执行时间（“toolExecutionMs”）。
+   * 该事件包括用于性能跟踪的执行时间（`toolExecutionMs`）。
    */
   onToolExecutionEnd?: Callback<InferTelemetryEvent<ToolExecutionEndEvent>>;
 
   /**
-   * 当单个步骤（单个 LLM 调用）完成时调用。
-   * 该事件是一个包含模型响应、工具调用的“StepResult”
+   * 当步骤完成（单个LLM调用）时调用。
+   * 该事件是一个包含模型响应、工具调用的`StepResult`
    * 和结果、使用统计、完成原因和可选的请求/响应
    * 尸体。
    */
   onStepFinish?: Callback<InferTelemetryEvent<GenerateTextStepEndEvent>>;
 
   /**
-   * 当对象生成步骤（单个 LLM 调用）开始时调用。
-   * 对于generateObject/streamObject 总是只有一个步骤。
+   * 当对象生成步骤（单个LLM调用）开始时调用。
+   * 对于generateObject/streamObject总是只有一个步骤。
    *
    * @已弃用
    */
@@ -149,8 +149,8 @@ export interface Telemetry {
   >;
 
   /**
-   * 当对象生成步骤（单个 LLM 调用）完成时调用，
-   * 使用 JSON 解析和模式验证之前的原始结果。
+   * 当对象生成步骤（单个LLM调用）完成时调用，
+   * 在原始结果之前使用 JSON 解析和模式验证。
    *
    * @已弃用
    */
@@ -159,8 +159,8 @@ export interface Telemetry {
   >;
 
   /**
-   * 当单独的嵌入模型调用 (doEmbed) 开始时调用。
-   * 对于“embed”，只有一个调用。对于“embedMany”，可能有多个
+   * 当单独的嵌入模型调用 (doEmbed) 时开始调用。
+   * 对于`embed`，只有一个调用。对于`embedMany`，可能有多个
    * 当值被分块时调用。
    */
   onEmbedStart?: Callback<InferTelemetryEvent<EmbeddingModelCallStartEvent>>;
@@ -172,8 +172,8 @@ export interface Telemetry {
   onEmbedEnd?: Callback<InferTelemetryEvent<EmbeddingModelCallEndEvent>>;
 
   /**
-   * 当单独的重新排序模型调用 (doRerank) 开始时调用。
-   * 每次“rerank”调用都会有一次调用。
+   * 当单独的重新排序模型调用 (doRerank) 时开始调用。
+   * 因为`rerank`调用都会有一次调用。
    */
   onRerankStart?: Callback<InferTelemetryEvent<RerankingModelCallStartEvent>>;
 
@@ -188,13 +188,13 @@ export interface Telemetry {
    * (generateText/streamText)、对象生成(generateObject/streamObject)、
    * 嵌入（embed/embedMany）和重新排序操作。
    *
-   * 使用事件形状或“operationId”来区分操作类型。
+   * 使用事件形状或`actionId`来区分操作类型。
    */
   onEnd?: Callback<InferTelemetryEvent<OperationEndEvent>>;
 
   /**
    * 当生成生命周期中发生不可恢复的错误时调用。
-   * 错误值是无类型的——它可能是一个“Error”实例，一个“AISDKError”，
+   * 错误值是无类型的——它可能是一个`Error`实例，一个`AISDKError`，
    * 或任何抛出的值。
    *
    * 使用它来记录遥测范围的错误详细信息并设置错误状态。
@@ -203,12 +203,12 @@ export interface Telemetry {
 
   /**
    * （可选）在特定于遥测集成的上下文中运行工具执行函数。这使得
-   * 嵌套痕迹——例如当工具的“execute”函数调用“generateText”时，
+   * 痕迹——例如当工具的`execute`函数调用`generateText`时，
    * 内部调用的跨度成为工具跨度的子代。
    *
-   * @param options.callId - The call ID of the tool call.
-   * @param options.toolCallId - The tool call ID.
-   * @param options.execute - The function to execute.
+   * @param options.callId - 工具调用的调用 ID。
+   * @param options.toolCallId - 工具调用 ID。
+   * @param options.execute - 要执行的函数。
    */
   executeTool?: <T>(options: {
     callId: string;

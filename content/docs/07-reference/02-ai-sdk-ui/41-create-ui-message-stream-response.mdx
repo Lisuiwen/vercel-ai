@@ -1,20 +1,20 @@
 ---
 title: createUIMessageStreamResponse
-description: API Reference for createUIMessageStreamResponse.
+description: createUIMessageStreamResponse 的 API 参考。
 ---
 
 # `createUIMessageStreamResponse`
 
-The `createUIMessageStreamResponse` function creates a Response object that streams UI messages to the client.
+`createUIMessageStreamResponse` 函数创建一个将 UI message 流式传输到客户端的 Response 对象。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { createUIMessageStreamResponse } from "ai"`}
   prompt={false}
 />
 
-## Example
+## 示例
 
 ```tsx
 import {
@@ -73,47 +73,47 @@ const response = createUIMessageStreamResponse({
 });
 ```
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'stream',
       type: 'ReadableStream<UIMessageChunk>',
-      description: 'The UI message stream to send to the client.',
+      description: '要发送给客户端的 UI message stream。',
     },
     {
       name: 'status',
       type: 'number',
       isOptional: true,
-      description: 'The status code for the response. Defaults to 200.',
+      description: '响应的状态码。默认值：200。',
     },
     {
       name: 'statusText',
       type: 'string',
       isOptional: true,
-      description: 'The status text for the response.',
+      description: '响应的状态文本。',
     },
     {
       name: 'headers',
       type: 'Headers | Record<string, string>',
       isOptional: true,
-      description: 'Additional headers for the response.',
+      description: '响应的额外标头。',
     },
     {
       name: 'consumeSseStream',
       type: '(options: { stream: ReadableStream<string> }) => PromiseLike<void> | void',
       isOptional: true,
       description:
-        'Optional callback to consume the Server-Sent Events stream.',
+        '用于消费 Server-Sent Events 流的可选回调。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
 `Response`
 
-A Response object that streams UI message chunks with the specified status, headers, and content.
+一个使用指定状态、标头和内容流式传输 UI message chunk 的 Response 对象。

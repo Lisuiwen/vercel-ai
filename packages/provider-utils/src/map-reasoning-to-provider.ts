@@ -18,13 +18,13 @@ export function isCustomReasoning(
 }
 
 /**
- * Maps a top-level reasoning level to a provider-specific effort string using
- * the given effort map. Pushes a compatibility warning if the reasoning level
- * maps to a different string, or an unsupported warning if the level is not
- * present in the map.
+ * 使用以下命令将顶级推理级别映射到特定于提供者的工作字符串
+ * 给定的努力图。如果推理级别达到，则推送兼容性警告
+ * 映射到不同的字符串，或者如果级别不支持则显示不受支持的警告
+ * 存在于地图中。
  *
  * @returns The mapped effort string, or `undefined` if the level is not
- *   supported.
+ *   支持。
  */
 export function mapReasoningToProviderEffort<T extends string>({
   reasoning,
@@ -66,14 +66,14 @@ const DEFAULT_REASONING_BUDGET_PERCENTAGES: Record<ReasoningLevel, number> = {
 };
 
 /**
- * Maps a top-level reasoning level to an absolute token budget by multiplying
- * the model's max output tokens by a percentage from the budget percentages
- * map. The result is clamped between `minReasoningBudget` (default 1024) and
- * `maxReasoningBudget`. Pushes an unsupported warning if the level is not
- * present in the budget percentages map.
+ * 通过乘法将顶级推理级别映射到绝对代币预算
+ * 模型的最大输出令牌占预算百分比的百分比
+ * 地图。结果夹在 `minReasoningBudget` （默认 1024）和
+ * `最大推理预算`。如果级别不支持，则推送不受支持的警告
+ * 出现在预算百分比图中。
  *
  * @returns The computed token budget, or `undefined` if the level is not
- *   supported.
+ *   支持。
  */
 export function mapReasoningToProviderBudget({
   reasoning,

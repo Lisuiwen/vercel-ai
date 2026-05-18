@@ -7,12 +7,12 @@ type InlineFileData = Extract<
 >;
 
 /**
- * Converts inline file data (a tagged `data` or `text` shape) into raw bytes.
+ * 将内联文件数据（标记的“数据”或“文本”形状）转换为原始字节。
  *
- * - `{ type: 'text', text }` → UTF-8 encoded bytes
- * - `{ type: 'data', data: Uint8Array | Buffer }` → returned as-is
- * - `{ type: 'data', data: ArrayBuffer }` → wrapped in a `Uint8Array`
- * - `{ type: 'data', data: string }` → decoded as base64
+ * - `{ type: 'text', text }` → UTF-8 编码字节
+ * - `{ 类型：'数据'，数据：Uint8Array |缓冲区 }` → 按原样返回
+ * - `{ type: 'data', data: ArrayBuffer }` → 包装在 `Uint8Array` 中
+ * - `{ type: 'data', data: string }` → 解码为 base64
  */
 export function convertInlineFileDataToUint8Array(
   data: InlineFileData,

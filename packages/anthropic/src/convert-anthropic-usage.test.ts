@@ -95,7 +95,7 @@ describe('convertAnthropicUsage', () => {
 
       const result = convertAnthropicUsage({ usage });
 
-      // Total should be sum of iterations, not top-level values
+      // 总计应该是迭代的总和，而不是顶级值
       expect(result.inputTokens.total).toBe(203000); // 180000 + 23000
       expect(result.inputTokens.noCache).toBe(203000);
       expect(result.outputTokens.total).toBe(4500); // 3500 + 1000
@@ -151,8 +151,8 @@ describe('convertAnthropicUsage', () => {
 
       const result = convertAnthropicUsage({ usage });
 
-      // Total = 200000 + 50000 + 180000 + 30000 = 460000 input
-      // Total = 4000 + 2000 + 3500 + 1500 = 11000 output
+      // 总计 = 200000 + 50000 + 180000 + 30000 = 460000 输入
+      // 总计 = 4000 + 2000 + 3500 + 1500 = 11000 输出
       expect(result.inputTokens.total).toBe(460000);
       expect(result.outputTokens.total).toBe(11000);
     });
@@ -179,8 +179,8 @@ describe('convertAnthropicUsage', () => {
 
       const result = convertAnthropicUsage({ usage });
 
-      // Total input = sum of iterations + cache tokens
-      // noCache = sum of iterations only
+      // 总输入 = 迭代总和 + 缓存令牌
+      // noCache = 仅迭代总和
       expect(result.inputTokens.noCache).toBe(203000); // 180000 + 23000
       expect(result.inputTokens.cacheWrite).toBe(1000);
       expect(result.inputTokens.cacheRead).toBe(500);
@@ -309,8 +309,8 @@ describe('convertAnthropicUsage', () => {
       expect(result.inputTokens.total).toBe(expectedTotalInput);
       expect(result.outputTokens.total).toBe(expectedTotalOutput);
 
-      // The top-level values (45000, 1234) are NOT the billed amounts
-      // when iterations is present
+      // 顶级值（45000、1234）不是账单金额
+      // 当存在迭代时
       expect(result.inputTokens.total).not.toBe(usage.input_tokens);
       expect(result.outputTokens.total).not.toBe(usage.output_tokens);
     });
@@ -319,12 +319,12 @@ describe('convertAnthropicUsage', () => {
       const usage: AnthropicUsage = {
         input_tokens: 15000,
         output_tokens: 800,
-        // No iterations - previous compaction block was re-applied
+        // 没有迭代 - 先前的压缩块被重新应用
       };
 
       const result = convertAnthropicUsage({ usage });
 
-      // Top-level values are accurate when no new compaction triggered
+      // 当没有触发新的压缩时，顶级值是准确的
       expect(result.inputTokens.total).toBe(15000);
       expect(result.outputTokens.total).toBe(800);
     });

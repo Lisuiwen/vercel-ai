@@ -69,11 +69,11 @@ type OpenBlockState =
       toolCallId: string;
       toolName: string;
       /**
-       * Accumulator for partial JSON arguments. Arguments stream as a
-       * sequence of `arguments_delta` substrings on `step.delta`; each one is
-       * appended verbatim and surfaced as a `tool-input-delta`. On
-       * `step.stop` the accumulated string is parsed to recover the full
-       * arguments object for the final `tool-call` event.
+       * 部分 JSON 参数的累加器。参数流作为
+       * `step.delta` 上的 `arguments_delta` 子字符串序列；每一个都是
+       * 逐字附加并作为“工具输入增量”出现。开
+       * `step.stop` 累积的字符串被解析以恢复完整的
+       * 最终“工具调用”事件的参数对象。
        */
       argumentsAccum: string;
       signature?: string;
@@ -98,21 +98,21 @@ type OpenBlockState =
       resultEmitted: boolean;
     }
   /**
-   * A `model_output` step whose inner content-block kind has not yet been
-   * disambiguated. `step.start` may arrive bare (`{type: 'model_output'}`,
-   * no content payload); the first `step.delta` reveals whether the block
-   * is text or image. The block opens in this transitional state and swaps
-   * to `text` / `image` on the first matching delta.
+   * 一个“model_output”步骤，其内部内容块类型尚未确定
+   * 已消除歧义。 `step.start` 可能是裸露的 (`{type: 'model_output'}`,
+   * 无内容负载）；第一个“step.delta”揭示了该块是否
+   * 是文本或图像。区块在此过渡状态下打开并交换
+   * 到第一个匹配的增量上的“文本”/“图像”。
    */
   | { kind: 'pending_model_output'; id: string }
   | { kind: 'unknown'; id: string };
 
 /**
- * Builds a `TransformStream<ParseResult<GoogleInteractionsEvent>, LanguageModelV4StreamPart>`
- * over the Interactions API SSE event stream.
+ * 构建一个 `TransformStream<ParseResult<GoogleInteractionsEvent>, LanguageModelV4StreamPart>`
+ * 通过交互 API SSE 事件流。
  *
- * Surfaces text + thought (reasoning), function_call, image, built-in tool
- * call/result steps, and `text_annotation` -> `source` parts.
+ * 表面文字+思维（推理）、函数调用、图像、内置工具
+ * 调用/结果步骤，以及 `text_annotation` -> `source` 部分。
  */
 export function buildGoogleInteractionsStreamTransform({
   warnings,
@@ -124,11 +124,11 @@ export function buildGoogleInteractionsStreamTransform({
   generateId: () => string;
   includeRawChunks?: boolean;
   /**
-   * Defensive fallback for service tier read from the `x-gemini-service-tier`
-   * HTTP response header. The Interactions API surfaces the applied tier in
-   * the `interaction.completed` event body (see `service_tier` below); this
-   * parameter exists so we still surface a tier if the API later starts
-   * sending the header.
+   * 从“x-gemini-service-tier”读取的服务层的防御后备
+   * HTTP 响应标头。 Interactions API 展示了应用层
+   * `interaction.completed` 事件主体（参见下面的 `service_tier`）；这个
+   * 参数存在，因此如果 API 稍后启动，我们仍然会显示一个层
+   * 发送标头。
    */
   serviceTier?: string;
 }): TransformStream<
@@ -142,17 +142,17 @@ export function buildGoogleInteractionsStreamTransform({
   let hasFunctionCall = false;
 
   /*
-   * Per-index open step slots. The Interactions API frames concurrent steps
-   * (e.g. text alongside thought) by `index`; we track each open slot
-   * independently so a text delta at index N never collides with a thought
-   * delta at index M.
+   * 每个索引打开步骤槽。 Interactions API 框架并发步骤
+   * （例如，文本与思想）通过“index”；我们跟踪每个空位
+   * 独立，因此索引 N 处的文本增量永远不会与想法发生冲突
+   * 索引 M 处的增量。
    */
   const openBlocks = new Map<number, OpenBlockState>();
 
   /*
-   * De-duplicate sources across the whole stream. Citations often re-appear
-   * across multiple `text_annotation` deltas as the model's text grows;
-   * surface each unique URL once.
+   * 消除整个流中的重复源。引用经常重新出现
+   * 随着模型文本的增长跨越多个“text_annotation”增量；
+   * 每个唯一的 URL 都会显示一次。
    */
   const emittedSourceKeys = new Set<string>();
 
@@ -192,10 +192,10 @@ export function buildGoogleInteractionsStreamTransform({
           >;
           const interaction = event.interaction;
           /*
-           * The Interactions API returns `id: ""` (empty string) on streaming
-           * events when running with `store: false` — there is no server-side
-           * record. Treat empty string the same as missing so providerMetadata
-           * stays clean.
+           * Interactions API 在流式传输中返回 `id: ""`（空字符串）
+           * 使用“store: false”运行时的事件 - 没有服务器端
+           * 记录。将空字符串视为丢失，因此providerMetadata
+           * 保持干净。
            */
           interactionId =
             interaction?.id != null && interaction.id.length > 0
@@ -253,14 +253,14 @@ export function buildGoogleInteractionsStreamTransform({
 
           if (stepType === 'model_output') {
             /*
-             * `step.start` for a `model_output` step often carries only the
-             * type discriminator — content/image payloads then arrive on
-             * subsequent `step.delta` events. Open in a transitional
-             * `pending_model_output` state; the first delta promotes it to
-             * either `text` (and emits `text-start`) or `image`.
+             * “model_output”步骤的“step.start”通常只包含
+             * 类型鉴别器 - 内容/图像有效负载然后到达
+             * 随后的“step.delta”事件。过渡期开放
+             * `pending_model_output` 状态；第一个三角洲将其提升为
+             * “text”（并发出“text-start”）或“image”。
              *
-             * `step.content[0]` may also arrive populated as a hint; when
-             * present, promote eagerly.
+             * `step.content[0]` 也可能会作为提示填充；当
+             * 呈现，踊跃推广。
              */
             const initial = step?.content?.[0] as
               | {
@@ -315,10 +315,10 @@ export function buildGoogleInteractionsStreamTransform({
             });
             controller.enqueue({ type: 'reasoning-start', id: blockId });
             /*
-             * A `thought` step's initial `summary[]` may already contain text
-             * items on `step.start` — emit those as reasoning deltas so the
-             * consumer's reasoning buffer is up to date before any delta
-             * arrives.
+             * “想法”步骤的初始“summary[]”可能已包含文本
+             * `step.start` 上的项目 — 将它们作为推理增量发出，以便
+             * 消费者的推理缓冲区在任何增量之前都是最新的
+             * 到达。
              */
             if (Array.isArray(step?.summary)) {
               for (const item of step.summary) {
@@ -411,11 +411,11 @@ export function buildGoogleInteractionsStreamTransform({
           const dtype = (event.delta as { type?: string } | undefined)?.type;
 
           /*
-           * Promote a pending model_output block to `text` on the first
-           * text-shaped delta. Image deltas are emitted inline below — a
-           * model_output step can interleave text and image deltas, so the
-           * text "open block" stays in place across image emissions instead
-           * of being swapped for an image state.
+           * 第一个将待处理的 model_output 块提升为“text”
+           * 文本形状的三角洲。图像增量在下面内联发出 - a
+           * model_output 步骤可以交错文本和图像增量，因此
+           * 文本“开放块”在图像发射中保持在原位
+           * 被交换为图像状态。
            */
           if (open.kind === 'pending_model_output') {
             if (
@@ -435,10 +435,10 @@ export function buildGoogleInteractionsStreamTransform({
           }
 
           /*
-           * Image deltas inside `model_output` carry the full payload in a
-           * single chunk (no per-byte streaming). Emit the `file` part as
-           * soon as the delta arrives so it surfaces regardless of whether
-           * a text block is currently open at the same index.
+           * “model_output”内的图像增量携带完整的有效负载
+           * 单块（无每字节流）。将“文件”部分发出为
+           * 三角洲一到达，无论是否出现，它都会浮出水面
+           * 当前在同一索引处打开了一个文本块。
            */
           if (
             dtype === 'image' &&
@@ -468,9 +468,9 @@ export function buildGoogleInteractionsStreamTransform({
                 ...(providerMetadata ? { providerMetadata } : {}),
               });
             }
-            // The file part was emitted inline; clear any data on an
-            // eagerly-promoted image OpenBlockState so the `step.stop`
-            // handler does not emit a duplicate.
+            // 文件部分是内联发出的；清除上的所有数据
+            // 急切升级的图像 OpenBlockState 因此“step.stop”
+            // 处理程序不会发出重复项。
             if (open.kind === 'image') {
               open.data = undefined;
               open.uri = undefined;
@@ -486,10 +486,10 @@ export function buildGoogleInteractionsStreamTransform({
                 content?: { type?: string; text?: string };
                 id?: string;
                 /*
-                 * `arguments` carries different shapes per delta kind:
-                 * - `type: 'arguments_delta'` → `string` (partial JSON)
-                 * - `type: '<builtin>_tool_call'` → `Record<string, unknown>`
-                 * The branch handler reads it with the matching type.
+                 * 每个 delta 类型的“arguments”具有不同的形状：
+                 * - `type: 'arguments_delta'` → `string` (部分 JSON)
+                 * - `类型：'<内置>_tool_call'` → `记录<字符串，未知>`
+                 * 分支处理程序使用匹配的类型读取它。
                  */
                 arguments?: Record<string, unknown> | string;
                 annotations?: Array<GoogleInteractionsAnnotation>;
@@ -553,12 +553,12 @@ export function buildGoogleInteractionsStreamTransform({
             delta?.type === 'arguments_delta'
           ) {
             /*
-             * Partial JSON arguments arrive as `arguments_delta` events.
-             * The partial JSON string lives in `delta.arguments` (a string,
-             * not the parsed object — the `arguments_delta` name applies to
-             * the discriminator only). Append to the accumulator and surface
-             * each chunk as a `tool-input-delta`; the full arguments object
-             * is emitted at `step.stop`.
+             * 部分 JSON 参数作为“arguments_delta”事件到达。
+             * 部分 JSON 字符串位于“delta.arguments”（一个字符串，
+             * 不是解析的对象 - `arguments_delta` 名称适用于
+             * 仅判别器）。附加到累加器和表面
+             * 每个块作为“工具输入增量”；完整的参数对象
+             * 在“step.stop”处发出。
              */
             const slice =
               typeof delta.arguments === 'string' ? delta.arguments : '';
@@ -762,10 +762,10 @@ export function buildGoogleInteractionsStreamTransform({
             usage = interaction.usage;
           }
           /*
-           * The Interactions API surfaces the applied service tier on
-           * `interaction.completed.interaction.service_tier` (NOT on the
-           * `x-gemini-service-tier` HTTP header that `:generateContent`
-           * uses). Body wins over header fallback.
+           * Interactions API 展示了应用的服务层
+           * `interaction.completed.interaction.service_tier`（不在
+           * `x-gemini-service-tier` HTTP 标头，`:generateContent`
+           * 用途）。身体胜过头部后备。
            */
           if (interaction?.service_tier != null) {
             serviceTier = interaction.service_tier;

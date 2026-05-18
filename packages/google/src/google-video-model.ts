@@ -42,7 +42,7 @@ export class GoogleVideoModel implements Experimental_VideoModelV4 {
   }
 
   get maxVideosPerCall(): number {
-    // Google supports multiple videos via sampleCount
+    // 谷歌通过sampleCount支持多个视频
     return 4;
   }
 
@@ -70,7 +70,7 @@ export class GoogleVideoModel implements Experimental_VideoModelV4 {
       instance.prompt = options.prompt;
     }
 
-    // Handle image-to-video: convert image to base64
+    // 处理图像到视频：将图像转换为base64
     if (options.image != null) {
       if (options.image.type === 'url') {
         warnings.push({
@@ -192,8 +192,8 @@ export class GoogleVideoModel implements Experimental_VideoModelV4 {
       });
     }
 
-    const pollIntervalMs = googleOptions?.pollIntervalMs ?? 10000; // 10 seconds (per Google docs)
-    const pollTimeoutMs = googleOptions?.pollTimeoutMs ?? 600000; // 10 minutes
+    const pollIntervalMs = googleOptions?.pollIntervalMs ?? 10000; // 10 秒（根据 Google 文档）
+    const pollTimeoutMs = googleOptions?.pollTimeoutMs ?? 600000; // 10分钟
 
     const startTime = Date.now();
     let finalOperation = operation;
@@ -256,14 +256,14 @@ export class GoogleVideoModel implements Experimental_VideoModelV4 {
     const videos: Array<{ type: 'url'; url: string; mediaType: string }> = [];
     const videoMetadata: Array<{ uri: string }> = [];
 
-    // Get API key from headers to append to download URLs
+    // 从标头获取 API 密钥以附加到下载 URL
     const resolvedHeaders = await resolve(this.config.headers);
     const apiKey = resolvedHeaders?.['x-goog-api-key'];
 
     for (const generatedSample of response.generateVideoResponse
       .generatedSamples) {
       if (generatedSample.video?.uri) {
-        // Append API key to URL for authentication during download
+        // 将 API 密钥附加到 URL 以在下载期间进行身份验证
         const urlWithAuth = apiKey
           ? `${generatedSample.video.uri}${generatedSample.video.uri.includes('?') ? '&' : '?'}key=${apiKey}`
           : generatedSample.video.uri;

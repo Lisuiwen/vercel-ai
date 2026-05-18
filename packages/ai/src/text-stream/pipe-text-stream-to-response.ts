@@ -5,14 +5,14 @@ import { writeToServerResponse } from '../util/write-to-server-response';
 /**
  * 将文本流写入 Node.js ServerResponse 对象。
  * 每个文本块都被编码为 UTF-8 并作为单独的块写入。
- * 将“Content-Type”标头设置为“text/plain”；字符集=utf-8`。
+ * 将`Content-Type`标头设置为`text/plain`；字符集=utf-8`。
  *
- * @param options - The options for piping the stream.
- * @param options.response - The Node.js ServerResponse to write to.
- * @param options.status - Optional HTTP status code.
- * @param options.statusText - Optional HTTP status text.
- * @param options.headers - Optional response headers.
- * @param options.textStream - The text stream to pipe.
+ * @param options - 用于管道流的选项。
+ * @param options.response - 要写入的 Node.js ServerResponse。
+ * @param options.status - 可选的 HTTP 状态代码。
+ * @param options.statusText - 可选的 HTTP 状态文本。
+ * @param options.headers - 可选的响应标头。
+ * @param options.textStream - 要通过管道传输的文本流。
  */
 export function pipeTextStreamToResponse({
   response,

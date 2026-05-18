@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getRuntimeEnvironmentUserAgent } from './get-runtime-environment-user-agent';
 
-// Stabilize provider utils version used inside UA string construction
+// 稳定 UA 字符串构造中使用的提供程序 utils 版本
 vi.mock('./version', () => ({
   VERSION: '0.0.0-test',
 }));

@@ -6,10 +6,10 @@ import {
 import { InvalidDataContentError } from './invalid-data-content-error';
 
 /**
- * 将数据内容转换为 Base64 编码的字符串。
+ * 将数据内容转换为Base64编码的字符串。
  *
- * @param content - Data content to convert.
- * @returns Base64-encoded string.
+ * @param content - 要转换的数据内容。
+ * @returns Base64 编码的字符串。
  */
 export function convertDataContentToBase64String(content: DataContent): string {
   if (typeof content === 'string') {
@@ -24,10 +24,10 @@ export function convertDataContentToBase64String(content: DataContent): string {
 }
 
 /**
- * 将数据内容转换为 Uint8Array。
+ * 将数据内容转换为Uint8Array。
  *
- * @param content - Data content to convert.
- * @returns Uint8Array.
+ * @param content - 要转换的数据内容。
+ * @returns Uint8Array。
  */
 export function convertDataContentToUint8Array(
   content: DataContent,

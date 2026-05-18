@@ -63,7 +63,7 @@ type GoogleConfig = {
   generateId: () => string;
 
   /**
-   * The supported URLs for the model.
+   * 模型支持的 URL。
    */
   supportedUrls?: () => LanguageModelV4['supportedUrls'];
 };
@@ -125,10 +125,10 @@ export class GoogleLanguageModel implements LanguageModelV4 {
   ) {
     const warnings: SharedV4Warning[] = [];
 
-    // Names to look up in providerOptions and to write into providerMetadata.
-    // For the Vertex provider we read both the new `googleVertex` key and the
-    // legacy `vertex` key (new takes precedence) and write under both for
-    // backward compatibility. For other Google providers we use just `google`.
+    // 要在providerOptions 中查找并写入providerMetadata 的名称。
+    // 对于 Vertex 提供程序，我们读取新的“googleVertex”密钥和
+    // 旧的“vertex”键（新的优先）并在两者下写入
+    // 向后兼容性。对于其他 Google 提供商，我们仅使用“google”。
     const providerOptionsNames: readonly string[] =
       this.config.provider.includes('vertex')
         ? (['googleVertex', 'vertex'] as const)
@@ -144,8 +144,8 @@ export class GoogleLanguageModel implements LanguageModelV4 {
       if (googleOptions != null) break;
     }
 
-    // Cross-namespace fallback: a Vertex provider may receive options under
-    // the `google` key (e.g. via the AI Gateway).
+    // 跨命名空间回退：Vertex 提供程序可能会收到以下选项
+    // “google”键（例如通过 AI 网关）。
     if (googleOptions == null && !providerOptionsNames.includes('google')) {
       googleOptions = await parseProviderOptions({
         provider: 'google',
@@ -154,7 +154,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
       });
     }
 
-    // Add warning if Vertex rag tools are used with a non-Vertex Google provider
+    // 如果 Vertex rag 工具与非 Vertex Google 提供商一起使用，请添加警告
     const isVertexProvider = this.config.provider.startsWith('google.vertex.');
 
     if (
@@ -183,7 +183,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
       });
     }
 
-    // Vertex API requires another service tier format.
+    // Vertex API 需要另一种服务层格式。
     let sanitizedServiceTier: string | undefined = googleOptions?.serviceTier;
     if (googleOptions?.serviceTier && isVertexProvider) {
       sanitizedServiceTier = VertexServiceTierMap[googleOptions.serviceTier];
@@ -245,7 +245,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
     return {
       args: {
         generationConfig: {
-          // standardized settings:
+          // 标准化设置：
           maxOutputTokens,
           temperature,
           topK,
@@ -255,15 +255,15 @@ export class GoogleLanguageModel implements LanguageModelV4 {
           stopSequences,
           seed,
 
-          // response format:
+          // 响应格式：
           responseMimeType:
             responseFormat?.type === 'json' ? 'application/json' : undefined,
           responseSchema:
             responseFormat?.type === 'json' &&
             responseFormat.schema != null &&
-            // Google GenAI does not support all OpenAPI Schema features,
-            // so this is needed as an escape hatch:
-            // TODO convert into provider option
+            // Google GenAI 不支持所有 OpenAPI Schema 功能，
+            // 所以这需要作为逃生舱口：
+            // TODO 转换为提供商选项
             (googleOptions?.structuredOutputs ?? true)
               ? convertJSONSchemaToOpenAPISchema(responseFormat.schema)
               : undefined,
@@ -271,7 +271,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
             audioTimestamp: googleOptions.audioTimestamp,
           }),
 
-          // provider options:
+          // 提供商选项：
           responseModalities: googleOptions?.responseModalities,
           thinkingConfig,
           ...(googleOptions?.mediaResolution && {
@@ -329,17 +329,17 @@ export class GoogleLanguageModel implements LanguageModelV4 {
     const candidate = response.candidates[0];
     const content: Array<LanguageModelV4Content> = [];
 
-    // map ordered parts to content:
+    // 将订购的部分映射到内容：
     const parts = candidate.content?.parts ?? [];
 
     const usageMetadata = response.usageMetadata;
 
-    // Associates a code execution result with its preceding call.
+    // 将代码执行结果与其之前的调用相关联。
     let lastCodeExecutionToolCallId: string | undefined;
-    // Associates a server-side tool response with its preceding call (tool combination).
+    // 将服务器端工具响应与其之前的调用（工具组合）相关联。
     let lastServerToolCallId: string | undefined;
 
-    // Build content array from all parts
+    // 从所有部分构建内容数组
     for (const part of parts) {
       if ('executableCode' in part && part.executableCode?.code) {
         const toolCallId = this.config.generateId();
@@ -355,7 +355,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
       } else if ('codeExecutionResult' in part && part.codeExecutionResult) {
         content.push({
           type: 'tool-result',
-          // Assumes a result directly follows its corresponding call part.
+          // 假设结果直接跟随其相应的调用部分。
           toolCallId: lastCodeExecutionToolCallId!,
           toolName: 'code_execution',
           result: {
@@ -363,7 +363,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
             output: part.codeExecutionResult.output ?? '',
           },
         });
-        // Clear the ID after use to avoid accidental reuse.
+        // 使用后清除 ID，以避免意外重复使用。
         lastCodeExecutionToolCallId = undefined;
       } else if ('text' in part && part.text != null) {
         const thoughtSignatureMetadata = part.thoughtSignature
@@ -469,7 +469,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
       finishReason: {
         unified: mapGoogleFinishReason({
           finishReason: candidate.finishReason,
-          // Only count client-executed tool calls for finish reason determination.
+          // 仅计算客户端执行的工具调用来确定完成原因。
           hasToolCalls: content.some(
             part => part.type === 'tool-call' && !part.providerExecuted,
           ),
@@ -489,7 +489,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
       } satisfies GoogleProviderMetadata),
       request: { body: args },
       response: {
-        // TODO timestamp, model id, id
+        // TODO 时间戳、模型 id、id
         headers: responseHeaders,
         body: rawResponse,
       },
@@ -538,16 +538,16 @@ export class GoogleLanguageModel implements LanguageModelV4 {
     const generateId = this.config.generateId;
     let hasToolCalls = false;
 
-    // Track active blocks to group consecutive parts of same type
+    // 跟踪活动块以对相同类型的连续部分进行分组
     let currentTextBlockId: string | null = null;
     let currentReasoningBlockId: string | null = null;
     let blockCounter = 0;
 
-    // Track emitted sources to prevent duplicates
+    // 跟踪发射源以防止重复
     const emittedSourceUrls = new Set<string>();
-    // Associates a code execution result with its preceding call.
+    // 将代码执行结果与其之前的调用相关联。
     let lastCodeExecutionToolCallId: string | undefined;
-    // Associates a server-side tool response with its preceding call (tool combination).
+    // 将服务器端工具响应与其之前的调用（工具组合）相关联。
     let lastServerToolCallId: string | undefined;
 
     const activeStreamingToolCalls: Array<{
@@ -591,7 +591,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
 
             const candidate = value.candidates?.[0];
 
-            // sometimes the API returns an empty candidates array
+            // 有时 API 返回空的候选者数组
             if (candidate == null) {
               return;
             }
@@ -621,9 +621,9 @@ export class GoogleLanguageModel implements LanguageModelV4 {
               }
             }
 
-            // Process tool call's parts before determining finishReason to ensure hasToolCalls is properly set
+            // 在确定 finishReason 之前处理工具调用的各个部分，以确保正确设置 hasToolCalls
             if (content != null) {
-              // Process all parts in a single loop to preserve original order
+              // 在一个循环中处理所有部件以保留原始顺序
               const parts = content.parts ?? [];
               for (const part of parts) {
                 if ('executableCode' in part && part.executableCode?.code) {
@@ -641,7 +641,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
                   'codeExecutionResult' in part &&
                   part.codeExecutionResult
                 ) {
-                  // Assumes a result directly follows its corresponding call part.
+                  // 假设结果直接跟随其相应的调用部分。
                   const toolCallId = lastCodeExecutionToolCallId;
 
                   if (toolCallId) {
@@ -654,7 +654,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
                         output: part.codeExecutionResult.output ?? '',
                       },
                     });
-                    // Clear the ID after use.
+                    // 使用后清除ID。
                     lastCodeExecutionToolCallId = undefined;
                   }
                 } else if ('text' in part && part.text != null) {
@@ -677,7 +677,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
                       });
                     }
                   } else if (part.thought === true) {
-                    // End any active text block before starting reasoning
+                    // 在开始推理之前结束任何活动文本块
                     if (currentTextBlockId !== null) {
                       controller.enqueue({
                         type: 'text-end',
@@ -686,7 +686,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
                       currentTextBlockId = null;
                     }
 
-                    // Start new reasoning block if not already active
+                    // 如果尚未激活，则启动新的推理块
                     if (currentReasoningBlockId === null) {
                       currentReasoningBlockId = String(blockCounter++);
                       controller.enqueue({
@@ -728,8 +728,8 @@ export class GoogleLanguageModel implements LanguageModelV4 {
                     });
                   }
                 } else if ('inlineData' in part) {
-                  // End any active text or reasoning block before starting file output.
-                  // Relevant for multimodal output models.
+                  // 在开始文件输出之前结束任何活动文本或推理块。
+                  // 与多模式输出模型相关。
                   if (currentTextBlockId !== null) {
                     controller.enqueue({
                       type: 'text-end',
@@ -802,7 +802,7 @@ export class GoogleLanguageModel implements LanguageModelV4 {
                 }
               }
 
-              // Handle streaming and complete function calls
+              // 处理流式传输和完整的函数调用
               for (const part of parts) {
                 if (!('functionCall' in part)) continue;
 
@@ -825,8 +825,8 @@ export class GoogleLanguageModel implements LanguageModelV4 {
                   part.functionCall.name != null &&
                   part.functionCall.args != null &&
                   part.functionCall.partialArgs == null;
-                // Single-chunk no-args call: `{ name: 'X' }` with no `args`,
-                // `partialArgs`, or `willContinue`. Carries `thoughtSignature`.
+                // 单块无参数调用：不带“args”的“{ name: 'X' }”，
+                // `partialArgs` 或 `willContinue`。带有“thoughtSignature”。
                 const isNoArgsCompleteCall =
                   part.functionCall.name != null &&
                   part.functionCall.args == null &&
@@ -1087,7 +1087,7 @@ function resolveGemini3ThinkingConfig({
   warnings: SharedV4Warning[];
 }): Pick<GoogleThinkingConfig, 'thinkingLevel'> | undefined {
   if (reasoning === 'none') {
-    // It's not possible to fully disable thinking with Gemini 3.
+    // 双子座 3 不可能完全禁止思考。
     return { thinkingLevel: 'minimal' };
   }
 
@@ -1154,7 +1154,7 @@ function extractSources({
 
   for (const chunk of groundingMetadata.groundingChunks) {
     if (chunk.web != null) {
-      // Handle web chunks as URL sources
+      // 将 Web 块作为 URL 源处理
       sources.push({
         type: 'source',
         sourceType: 'url',
@@ -1163,23 +1163,23 @@ function extractSources({
         title: chunk.web.title ?? undefined,
       });
     } else if (chunk.image != null) {
-      // Handle image chunks as image sources
+      // 将图像块作为图像源处理
       sources.push({
         type: 'source',
         sourceType: 'url',
         id: generateId(),
-        // Google requires attribution to the source URI, not the actual image URI.
-        // TODO: add another type in v7 to allow both the image and source URL to be included separately
+        // Google 要求归属于源 URI，而不是实际的图像 URI。
+        // TODO：在 v7 中添加另一种类型，以允许分别包含图像和源 URL
         url: chunk.image.sourceUri,
         title: chunk.image.title ?? undefined,
       });
     } else if (chunk.retrievedContext != null) {
-      // Handle retrievedContext chunks from RAG operations
+      // 处理从 RAG 操作中检索到的上下文块
       const uri = chunk.retrievedContext.uri;
       const fileSearchStore = chunk.retrievedContext.fileSearchStore;
 
       if (uri && (uri.startsWith('http://') || uri.startsWith('https://'))) {
-        // Old format: Google Search with HTTP/HTTPS URL
+        // 旧格式：使用 HTTP/HTTPS 网址的 Google 搜索
         sources.push({
           type: 'source',
           sourceType: 'url',
@@ -1188,7 +1188,7 @@ function extractSources({
           title: chunk.retrievedContext.title ?? undefined,
         });
       } else if (uri) {
-        // Old format: Document with file path (gs://, etc.)
+        // 旧格式：带有文件路径的文档（gs:// 等）
         const title = chunk.retrievedContext.title ?? 'Unknown Document';
         let mediaType = 'application/octet-stream';
         let filename: string | undefined = undefined;
@@ -1222,7 +1222,7 @@ function extractSources({
           filename,
         });
       } else if (fileSearchStore) {
-        // New format: File Search with fileSearchStore (no uri)
+        // 新格式：使用 fileSearchStore 进行文件搜索（无 uri）
         const title = chunk.retrievedContext.title ?? 'Unknown Document';
         sources.push({
           type: 'source',
@@ -1330,7 +1330,7 @@ const getContentSchema = () =>
     parts: z
       .array(
         z.union([
-          // note: order matters since text can be fully empty
+          // 注意：顺序很重要，因为文本可以完全为空
           z.object({
             functionCall: z.object({
               id: z.string().nullish(),
@@ -1478,8 +1478,8 @@ export type UsageMetadataSchema = NonNullable<
   InferSchema<typeof responseSchema>['usageMetadata']
 >;
 
-// limited version of the schema, focussed on what is needed for the implementation
-// this approach limits breakages when the API changes and increases efficiency
+// 模式的有限版本，重点关注实现所需的内容
+// 这种方法可以限制 API 更改时的损坏并提高效率
 const chunkSchema = lazySchema(() =>
   zodSchema(
     z.object({

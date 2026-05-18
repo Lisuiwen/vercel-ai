@@ -3,62 +3,62 @@ import type { SharedV2Headers } from '../../shared';
 import type { SharedV4Warning } from '../../shared/v4/shared-v4-warning';
 
 /**
- * The result of a speech model doGenerate call.
+ * 语音模型 doGenerate 调用的结果。
  */
 export type SpeechModelV4Result = {
   /**
-   * Generated audio as an ArrayBuffer.
-   * The audio should be returned without any unnecessary conversion.
-   * If the API returns base64 encoded strings, the audio should be returned
-   * as base64 encoded strings. If the API returns binary data, the audio
-   * should be returned as binary data.
+   * 生成音频作为 ArrayBuffer。
+   * 返回音频时应不进行任何不必要的转换。
+   * 如果API返回base64编码的字符串，则应返回音频
+   * 作为 base64 编码的字符串。如果 API 返回二进制数据，则音频
+   * 应作为二进制数据返回。
    */
   audio: string | Uint8Array;
 
   /**
-   * Warnings for the call, e.g. unsupported settings.
+   * 通话警告，例如不支持的设置。
    */
   warnings: Array<SharedV4Warning>;
 
   /**
-   * Optional request information for telemetry and debugging purposes.
+   * 用于遥测和调试目的的可选请求信息。
    */
   request?: {
     /**
-     * Response body (available only for providers that use HTTP requests).
+     * 响应正文（仅适用于使用 HTTP 请求的提供商）。
      */
     body?: unknown;
   };
 
   /**
-   * Response information for telemetry and debugging purposes.
+   * 用于遥测和调试目的的响应信息。
    */
   response: {
     /**
-     * Timestamp for the start of the generated response.
+     * 生成的响应的开始时间戳。
      */
     timestamp: Date;
 
     /**
-     * The ID of the response model that was used to generate the response.
+     * 用于生成响应的响应模型的 ID。
      */
     modelId: string;
 
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers?: SharedV2Headers;
 
     /**
-     * Response body.
+     * 响应体。
      */
     body?: unknown;
   };
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * from the provider to the AI SDK and enable provider-specific
-   * results that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从提供商到 AI SDK 并启用提供商特定的
+   * 可以完全封装在提供者中的结果。
    */
   providerMetadata?: Record<string, JSONObject>;
 };

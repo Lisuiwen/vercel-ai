@@ -1,20 +1,20 @@
 ---
 title: createAgentUIStreamResponse
-description: API Reference for the createAgentUIStreamResponse utility.
+description: createAgentUIStreamResponse 工具函数的 API 参考。
 ---
 
 # `createAgentUIStreamResponse`
 
-The `createAgentUIStreamResponse` function executes an [Agent](/docs/reference/ai-sdk-core/agent), runs its streaming output as a UI message stream, and returns an HTTP [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) object whose body is the live, streaming UI message output. This is designed for API routes that deliver real-time agent results, such as chat endpoints or streaming tool-use operations.
+`createAgentUIStreamResponse` 函数执行一个 [Agent](/docs/reference/ai-sdk-core/agent)，将其流式输出作为 UI message stream 运行，并返回一个 HTTP [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) 对象，其 body 是实时流式 UI message 输出。它专为交付实时 agent 结果的 API 路由设计，例如聊天端点或流式工具使用操作。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { createAgentUIStreamResponse } from "ai"`}
   prompt={false}
 />
 
-## Usage
+## 用法
 
 ```ts
 import { ToolLoopAgent, createAgentUIStreamResponse } from 'ai';
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
 }
 ```
 
-## Parameters
+## 参数
 
 <PropertiesTable
   content={[
@@ -51,97 +51,97 @@ export async function POST(request: Request) {
       type: 'Agent',
       isRequired: true,
       description:
-        'The agent instance to stream responses from. Must implement `.stream({ prompt, ... })` and define the `tools` property.',
+        '要从中流式传输响应的 agent 实例。必须实现 `.stream({ prompt, ... })` 并定义 `tools` 属性。',
     },
     {
       name: 'uiMessages',
       type: 'unknown[]',
       isRequired: true,
       description:
-        'Array of input UI messages provided to the agent (e.g., user and assistant messages).',
+        '提供给 agent 的输入 UI message 数组（例如用户和 assistant 消息）。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal',
       isRequired: false,
       description:
-        'Optional abort signal to cancel streaming, e.g., on client disconnect. This should be an [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) instance.',
+        '用于取消流式传输的可选中止信号，例如客户端断开连接时。它应是 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) 实例。',
     },
     {
       name: 'timeout',
       type: 'number | { totalMs?: number }',
       isRequired: false,
       description:
-        'Timeout in milliseconds. Can be specified as a number or as an object with a totalMs property. The call will be aborted if it takes longer than the specified timeout. Can be used alongside abortSignal.',
+        '超时时间，单位为毫秒。可指定为数字，也可指定为包含 totalMs 属性的对象。如果调用耗时超过指定超时时间，将被中止。可与 abortSignal 一起使用。',
     },
     {
       name: 'experimental_sandbox',
       type: 'Experimental_Sandbox',
       isRequired: false,
       description:
-        'Optional experimental sandbox environment that is passed through to tool execution. Tools can access it from their execution context.',
+        '传递给工具执行的可选实验性沙箱环境。工具可以从其执行上下文访问它。',
     },
     {
       name: 'options',
       type: 'CALL_OPTIONS',
       isRequired: false,
       description:
-        'Optional agent call options, for agents with generic parameter `CALL_OPTIONS`.',
+        '可选的 agent 调用选项，适用于带有泛型参数 `CALL_OPTIONS` 的 agent。',
     },
     {
       name: 'experimental_transform',
       type: 'StreamTextTransform | StreamTextTransform[]',
       isRequired: false,
       description:
-        'Optional stream transforms to post-process text output—the same as in lower-level streaming APIs.',
+        '用于后处理文本输出的可选流转换，与底层流式 API 中的转换相同。',
     },
     {
       name: 'onStepFinish',
       type: 'GenerateTextOnStepFinishCallback',
       isRequired: false,
       description:
-        'Callback invoked after each agent step (LLM/tool call) completes. Useful for tracking token usage or logging intermediate steps.',
+        '每个 agent step（LLM/工具调用）完成后调用的回调。可用于跟踪 token 用量或记录中间步骤。',
     },
     {
       name: '...UIMessageStreamOptions',
       type: 'UIMessageStreamOptions',
       isRequired: false,
       description:
-        'Other UI message output options—such as `sendSources` and more.',
+        '其他 UI message 输出选项，例如 `sendSources` 等。',
     },
     {
       name: 'headers',
       type: 'HeadersInit',
       isRequired: false,
-      description: 'Optional HTTP headers to include in the Response object.',
+      description: '要包含在 Response 对象中的可选 HTTP 标头。',
     },
     {
       name: 'status',
       type: 'number',
       isRequired: false,
-      description: 'Optional HTTP status code.',
+      description: '可选 HTTP 状态码。',
     },
     {
       name: 'statusText',
       type: 'string',
       isRequired: false,
-      description: 'Optional HTTP status text.',
+      description: '可选 HTTP 状态文本。',
     },
     {
       name: 'consumeSseStream',
       type: '(options: { stream: ReadableStream<string> }) => PromiseLike<void> | void',
       isRequired: false,
       description:
-        'Optional function to consume the SSE stream. When provided, this function will be called with the SSE stream to handle consumption.',
+        '用于消费 SSE 流的可选函数。提供后，将使用 SSE 流调用此函数以处理消费。',
     },
   ]}
 />
 
-## Returns
+## 返回值
 
-A `Promise<Response>` whose `body` is a streaming UI message output from the agent. Use this as the return value of API/server handlers in serverless, Next.js, Express, Hono, or edge runtime contexts.
+一个 `Promise<Response>`，其 `body` 是来自 agent 的流式 UI message 输出。在 serverless、Next.js、Express、Hono 或 edge runtime 上下文中，可将它作为 API/server handler 的返回值。
 
-## Example: Next.js API Route Handler
+## 示例: Next.js API Route Handler
 
 ```ts
 import { createAgentUIStreamResponse } from 'ai';
@@ -160,22 +160,22 @@ export async function POST(request: Request) {
 }
 ```
 
-## How It Works
+## 工作原理
 
-- 1. **UI Message Validation:** Validates the incoming `uiMessages` array according to the agent's specified tools and requirements.
-- 2. **Model Message Conversion:** Converts validated UI messages into the internal model message format for the agent.
-- 3. **Streaming Agent Output:** Invokes the agent’s `.stream({ prompt, ... })` to get a stream of chunks (steps/UI messages), passing through options such as `experimental_sandbox`.
-- 4. **HTTP Response Creation:** Wraps the output stream as a readable HTTP `Response` object that streams UI message chunks to the client.
+- 1. **UI Message 验证：** 根据 agent 指定的工具和要求验证传入的 `uiMessages` 数组。
+- 2. **模型消息转换：** 将验证后的 UI message 转换为 agent 使用的内部模型消息格式。
+- 3. **流式传输 Agent 输出：** 调用 agent 的 `.stream({ prompt, ... })` 获取 chunk 流（step/UI message），并透传 `experimental_sandbox` 等选项。
+- 4. **创建 HTTP Response：** 将输出流包装为可读 HTTP `Response` 对象，用于向客户端流式传输 UI message chunk。
 
-## Notes
+## 备注
 
-- Your agent **must** implement `.stream({ prompt, ... })` and define a `tools` property (even if it's just `{}`) to work with this function.
-- **Server Only:** This API should only be called in backend/server-side contexts (API routes, edge/serverless/server route handlers, etc.). Not for browser use.
-- Pass `experimental_sandbox` when your agent tools need an experimental sandbox environment during execution.
-- Additional options (`headers`, `status`, UI stream options, transforms, etc.) are available for advanced scenarios.
-- This leverages [ReadableStream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) so your platform/client must support HTTP streaming consumption.
+- 你的 agent **必须**实现 `.stream({ prompt, ... })` 并定义 `tools` 属性（即使只是 `{}`），才能与此函数配合使用。
+- **仅服务端：** 此 API 只能在后端/服务端上下文中调用（API 路由、edge/serverless/server route handler 等）。不适用于浏览器。
+- 当你的 agent 工具在执行期间需要实验性沙箱环境时，请传入 `experimental_sandbox`。
+- 高级场景可使用额外选项（`headers`、`status`、UI stream 选项、转换等）。
+- 它使用 [ReadableStream](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)，因此你的平台/客户端必须支持 HTTP 流式消费。
 
-## See Also
+## 另请参阅
 
 - [`Agent`](/docs/reference/ai-sdk-core/agent)
 - [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent)

@@ -1,13 +1,13 @@
 import type { JSONObject, LanguageModelV4Usage } from '@ai-sdk/provider';
 
 /**
- * Represents a single iteration in the usage breakdown.
+ * 表示使用细分中的单次迭代。
  *
- * - `compaction` / `message`: executor iterations, billed at executor rates.
- * - `advisor_message`: advisor sub-inference, billed at the advisor model's
- *   rates. The `model` field carries the advisor model ID. Advisor tokens
- *   are NOT rolled into the top-level totals because they bill at a
- *   different rate; inspect this array for advisor cost tracking.
+ * - `compaction` / `message`：执行器迭代，按执行器费率计费。
+ * - `advisor_message`：顾问子推理，按顾问模型计费
+ *   费率。 “model”字段携带顾问模型 ID。顾问代币
+ *   不会被计入顶级总计，因为它们的计费价格为
+ *   不同的费率；检查此数组以进行顾问成本跟踪。
  */
 export type AnthropicUsageIteration =
   | {
@@ -32,12 +32,12 @@ export type AnthropicUsage = {
   cache_creation_input_tokens?: number | null;
   cache_read_input_tokens?: number | null;
   /**
-   * When compaction is triggered or the advisor tool is invoked, this
-   * array contains usage for each sampling iteration. Top-level
-   * input_tokens and output_tokens exclude compaction iteration usage,
-   * and the advisor sub-inference is also not rolled into the top-level
-   * totals because it bills at a different rate. Use this array for
-   * per-iteration cost tracking.
+   * 当触发压缩或调用顾问工具时，这
+   * 数组包含每次采样迭代的使用情况。顶级
+   * input_tokens 和 output_tokens 排除压缩迭代使用，
+   * 并且 Advisor 的子推理也没有被滚入顶层
+   * 总计，因为它以不同的费率计费。使用这个数组
+   * 每次迭代成本跟踪。
    */
   iterations?: AnthropicUsageIteration[] | null;
 };
@@ -52,11 +52,11 @@ export function convertAnthropicUsage({
   const cacheCreationTokens = usage.cache_creation_input_tokens ?? 0;
   const cacheReadTokens = usage.cache_read_input_tokens ?? 0;
 
-  // When iterations is present (compaction or advisor), sum across executor
-  // iterations to get the true executor totals. The top-level input_tokens
-  // and output_tokens exclude compaction usage. Advisor (`advisor_message`)
-  // iterations are filtered out: they bill at the advisor model's rates,
-  // not the executor's, so they don't belong in the top-level totals.
+  // 当存在迭代时（压缩或顾问），跨执行器求和
+  // 迭代以获得真正的执行器总数。顶级 input_tokens
+  // 和output_tokens排除压缩使用。顾问（`advisor_message`）
+  // 迭代被过滤掉：它们按照顾问模型的费率计费，
+  // 不是执行者的，因此它们不属于顶级总数。
   let inputTokens: number;
   let outputTokens: number;
 

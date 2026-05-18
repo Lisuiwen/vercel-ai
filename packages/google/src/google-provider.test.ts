@@ -6,7 +6,7 @@ import { GoogleEmbeddingModel } from './google-embedding-model';
 import { GoogleImageModel } from './google-image-model';
 import { GoogleVideoModel } from './google-video-model';
 
-// Mock the imported modules using a partial mock to preserve original exports
+// 使用部分模拟来模拟导入的模块以保留原始导出
 vi.mock('@ai-sdk/provider-utils', async importOriginal => {
   const mod = await importOriginal<typeof ProviderUtilsModule>();
   return {

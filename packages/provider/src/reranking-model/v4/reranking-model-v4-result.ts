@@ -5,63 +5,63 @@ import type {
 } from '../../shared/v4/';
 
 /**
- * The result of a reranking model doRerank call.
+ * 重新排序模型 doRerank 调用的结果。
  */
 export type RerankingModelV4Result = {
   /**
-   * Ordered list of reranked documents (via index before reranking).
-   * The documents are sorted by the descending order of relevance scores.
+   * 重新排序文档的有序列表（通过重新排序之前的索引）。
+   * 文档按相关性分数的降序排序。
    */
   ranking: Array<{
     /**
-     * The index of the document in the original list of documents before reranking.
+     * 重新排序之前原始文档列表中文档的索引。
      */
     index: number;
 
     /**
-     * The relevance score of the document after reranking.
+     * 重新排序后文档的相关性得分。
      */
     relevanceScore: number;
   }>;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerMetadata?: SharedV4ProviderMetadata;
 
   /**
-   * Warnings for the call, e.g. unsupported settings.
+   * 通话警告，例如不支持的设置。
    */
   warnings?: Array<SharedV4Warning>;
 
   /**
-   * Optional response information for debugging purposes.
+   * 用于调试目的的可选响应信息。
    */
   response?: {
     /**
-     * ID for the generated response, if the provider sends one.
+     * 生成的响应的 ID（如果提供商发送了响应）。
      */
     id?: string;
 
     /**
-     * Timestamp for the start of the generated response, if the provider sends one.
+     * 生成的响应的开始时间戳（如果提供者发送响应）。
      */
     timestamp?: Date;
 
     /**
-     * The ID of the response model that was used to generate the response, if the provider sends one.
+     * 用于生成响应的响应模型的 ID（如果提供者发送了响应模型）。
      */
     modelId?: string;
 
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers?: SharedV4Headers;
 
     /**
-     * Response body.
+     * 响应体。
      */
     body?: unknown;
   };

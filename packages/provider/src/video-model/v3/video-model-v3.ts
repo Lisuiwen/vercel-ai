@@ -7,12 +7,12 @@ type GetMaxVideosPerCallFunction = (options: {
 }) => PromiseLike<number | undefined> | number | undefined;
 
 /**
- * Generated video data. Can be a URL, base64-encoded string, or binary data.
+ * 生成的视频数据。可以是 URL、base64 编码的字符串或二进制数据。
  */
 export type VideoModelV3VideoData =
   | {
       /**
-       * Video available as a URL (most common for video providers).
+       * 视频以 URL 形式提供（对于视频提供商来说最常见）。
        */
       type: 'url';
       url: string;
@@ -28,7 +28,7 @@ export type VideoModelV3VideoData =
     }
   | {
       /**
-       * Video as binary data.
+       * 作为二进制数据的视频。
        */
       type: 'binary';
       data: Uint8Array;
@@ -36,20 +36,20 @@ export type VideoModelV3VideoData =
     };
 
 /**
- * Video generation model specification version 3.
+ * 视频生成模型规范版本 3。
  */
 export type VideoModelV3 = {
   /**
-   * The video model must specify which video model interface
-   * version it implements. This will allow us to evolve the video
-   * model interface and retain backwards compatibility. The different
-   * implementation versions can be handled as a discriminated union
-   * on our side.
+   * 视频模型必须指定哪个视频模型接口
+   * 它实现的版本。这将使我们能够改进视频
+   * 模型接口并保留向后兼容性。不同的
+   * 实现版本可以作为有区别的联合来处理
+   * 在我们这边。
    */
   readonly specificationVersion: 'v3';
 
   /**
-   * Name of the provider for logging purposes.
+   * 用于记录目的的提供商名称。
    */
   readonly provider: string;
 
@@ -59,49 +59,49 @@ export type VideoModelV3 = {
   readonly modelId: string;
 
   /**
-   * Limit of how many videos can be generated in a single API call.
-   * Can be set to a number for a fixed limit, to undefined to use
-   * the global limit, or a function that returns a number or undefined,
-   * optionally as a promise.
+   * 一次 API 调用可以生成多少视频的限制。
+   * 可以设置为一个数字进行固定限制，以undefined来使用
+   * 全局限制，或返回数字或未定义的函数，
+   * 可选地作为承诺。
    *
-   * Most video models only support generating 1 video at a time due to
-   * computational cost. Default is typically 1.
+   * 大多数视频模型一次仅支持生成 1 个视频，因为
+   * 计算成本。默认值通常为 1。
    */
   readonly maxVideosPerCall: number | undefined | GetMaxVideosPerCallFunction;
 
   /**
-   * Generates an array of videos.
+   * 生成视频数组。
    */
   doGenerate(options: VideoModelV3CallOptions): PromiseLike<{
     /**
-     * Generated videos as URLs, base64 strings, or binary data.
+     * 以 URL、base64 字符串或二进制数据形式生成视频。
      *
-     * Most providers return URLs to video files (MP4, WebM) due to large file sizes.
-     * Use the discriminated union to indicate the type of video data being returned.
+     * 由于文件较大，大多数提供商都会返回视频文件（MP4、WebM）的 URL。
+     * 使用可判别联合来指示返回的视频数据的类型。
      */
     videos: Array<VideoModelV3VideoData>;
 
     /**
-     * Warnings for the call, e.g. unsupported features.
+     * 通话警告，例如不支持的功能。
      */
     warnings: Array<SharedV3Warning>;
 
     /**
-     * Additional provider-specific metadata. They are passed through
-     * from the provider to the AI SDK and enable provider-specific
-     * results that can be fully encapsulated in the provider.
+     * 其他特定于提供商的元数据。他们通过
+     * 从提供商到 AI SDK 并启用提供商特定的
+     * 可以完全封装在提供者中的结果。
      *
-     * The outer record is keyed by the provider name, and the inner
-     * record is provider-specific metadata.
+     * 外部记录以提供者名称为键，内部记录以提供者名称为键
+     * 记录是特定于提供者的元数据。
      *
-     * ```ts
+     * ````ts
      * {
-     *   "fal": {
-     *     "videos": [{
-     *       "duration": 5.0,
-     *       "fps": 24,
-     *       "width": 1280,
-     *       "height": 720
+     *   “错误”：{
+     *     “视频”：[{
+     *       “持续时间”：5.0，
+     *       “每秒帧数”：24，
+     *       “宽度”：1280，
+     *       “高度”：720
      *     }]
      *   }
      * }
@@ -110,21 +110,21 @@ export type VideoModelV3 = {
     providerMetadata?: SharedV3ProviderMetadata;
 
     /**
-     * Response information for telemetry and debugging purposes.
+     * 用于遥测和调试目的的响应信息。
      */
     response: {
       /**
-       * Timestamp for the start of the generated response.
+       * 生成的响应的开始时间戳。
        */
       timestamp: Date;
 
       /**
-       * The ID of the response model that was used to generate the response.
+       * 用于生成响应的响应模型的 ID。
        */
       modelId: string;
 
       /**
-       * Response headers.
+       * 响应标头。
        */
       headers: Record<string, string> | undefined;
     };

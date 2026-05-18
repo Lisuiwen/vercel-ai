@@ -3,33 +3,33 @@ import type { SharedV4ProviderReference } from '../../shared/v4/shared-v4-provid
 import type { SharedV4Warning } from '../../shared/v4/shared-v4-warning';
 
 /**
- * Result of uploading a file via the files interface.
+ * 通过文件接口上传文件的结果。
  */
 export type FilesV4UploadFileResult = {
   /**
-   * A provider reference mapping provider names to provider-specific file identifiers.
+   * 将提供程序名称映射到提供程序特定的文件标识符的提供程序引用。
    */
   providerReference: SharedV4ProviderReference;
 
   /**
-   * The IANA media type of the uploaded file, if available from the provider.
+   * 上传文件的 IANA 媒体类型（如果提供商提供）。
    */
   mediaType?: string;
 
   /**
-   * The filename of the uploaded file, if available from the provider.
+   * 上传文件的文件名（如果提供商提供）。
    */
   filename?: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerMetadata?: SharedV4ProviderMetadata;
 
   /**
-   * Warnings from the provider.
+   * 来自提供商的警告。
    */
   warnings: Array<SharedV4Warning>;
 };

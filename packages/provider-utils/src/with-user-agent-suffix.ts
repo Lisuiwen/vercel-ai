@@ -1,10 +1,10 @@
 import { normalizeHeaders } from './normalize-headers';
 
 /**
- * Appends suffix parts to the `user-agent` header.
- * If a `user-agent` header already exists, the suffix parts are appended to it.
- * If no `user-agent` header exists, a new one is created with the suffix parts.
- * Automatically removes undefined entries from the headers.
+ * 将后缀部分附加到“user-agent”标头。
+ * 如果“user-agent”标头已存在，则后缀部分将附加到其上。
+ * 如果不存在“user-agent”标头，则会使用后缀部分创建一个新标头。
+ * 自动从标头中删除未定义的条目。
  *
  * @param headers - The original headers.
  * @param userAgentSuffixParts - The parts to append to the `user-agent` header.

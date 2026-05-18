@@ -15,10 +15,10 @@ export function convertToOpenAICompletionPrompt({
   prompt: string;
   stopSequences?: string[];
 } {
-  // transform to a chat message format:
+  // 转换为聊天消息格式：
   let text = '';
 
-  // if first message is a system message, add it to the text:
+  // 如果第一条消息是系统消息，请将其添加到文本中：
   if (prompt[0].role === 'system') {
     text += `${prompt[0].content}\n\n`;
     prompt = prompt.slice(1);
@@ -82,7 +82,7 @@ export function convertToOpenAICompletionPrompt({
     }
   }
 
-  // Assistant message prefix:
+  // 助理消息前缀：
   text += `${assistant}:\n`;
 
   return {

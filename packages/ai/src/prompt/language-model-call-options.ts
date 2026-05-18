@@ -14,7 +14,7 @@ export type LanguageModelCallOptions = {
   /**
    * 温度设定。范围取决于提供商和型号。
    *
-   * 建议设置“温度”或“topP”，但不能同时设置两者。
+   * 建议设置`温度`或`topP`，但不能同时设置两者。
    */
   temperature?: number;
 
@@ -24,7 +24,7 @@ export type LanguageModelCallOptions = {
    * 例如0.1 意味着只有概率质量最高的 10% 的标记
    * 被考虑。
    *
-   * 建议设置“温度”或“topP”，但不能同时设置两者。
+   * 建议设置`温度`或`topP`，但不能同时设置两者。
    */
   topP?: number;
 
@@ -71,8 +71,8 @@ export type LanguageModelCallOptions = {
    * 模型的推理努力水平。控制推理的多少
    * 模型在生成响应之前执行。
    *
-   * 使用“provider-default”来使用提供者的默认推理级别。
-   * 使用“none”禁用推理（如果提供者支持）。
+   * 使用`provider-default`来使用提供者的默认推理级别。
+   * 使用`无`消除推理（如果提供者支持）。
    */
   reasoning?: LanguageModelV4CallOptions['reasoning'];
 };

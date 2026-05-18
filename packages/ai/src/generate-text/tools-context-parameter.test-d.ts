@@ -232,7 +232,7 @@ describe('ToolsContextParameter', () => {
 
       const missingRequiredField: ToolsContextParameter<Tools> = {
         toolsContext: {
-          // @ts-expect-error - 必须提供必需的嵌套工具上下文字段
+          // @ts-expect-error - 必须提供可用的注释工具上下文字段
           weather: {},
         },
       };
@@ -250,7 +250,7 @@ describe('ToolsContextParameter', () => {
       const invalidOptionalField: ToolsContextParameter<Tools> = {
         toolsContext: {
           weather: {
-            // @ts-expect-error - 可选的嵌套工具上下文字段必须与其声明的类型匹配
+            // @ts-expect-error - 任选的撤销工具上下文字段必须与声明的类型匹配
             userId: 123,
           },
         },
@@ -268,7 +268,7 @@ describe('ToolsContextParameter', () => {
 
       const missingOptionalObjectField: ToolsContextParameter<Tools> = {
         toolsContext: {
-          // @ts-expect-error - 提供的可选上下文对象必须满足其对象类型
+          // @ts-expect-error - 提供的任选上下文对象必须满足其对象类型
           weather: {},
         },
       };

@@ -10,7 +10,7 @@ export type VideoModelResponseMetadata = {
   timestamp: Date;
 
   /**
-   * 用于生成响应的响应模型的 ID。
+   * 用于生成响应的响应模型的ID。
    */
   modelId: string;
 
@@ -21,7 +21,7 @@ export type VideoModelResponseMetadata = {
 
   /**
    * 此调用的提供商特定元数据。
-   * 当进行多次调用时 (n > maxVideosPerCall)，每个响应
+   * 当进行多次调用时 (n > maxVideosPerCall)，每次响应
    * 包含自己的提供者元数据，允许无损的每次调用访问。
    */
   providerMetadata?: SharedV4ProviderMetadata;

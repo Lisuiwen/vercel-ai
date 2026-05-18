@@ -2,21 +2,21 @@ import type { FilePart, ImagePart, TextPart } from './content-part';
 import type { ProviderOptions } from './provider-options';
 
 /**
- * A user message. It can contain text or a combination of text and images.
+ * 一条用户消息。它可以包含文本或文本和图像的组合。
  */
 export type UserModelMessage = {
   role: 'user';
   content: UserContent;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 };
 
 /**
- * Content of a user message. It can be a string or an array of text and image parts.
+ * Content of a user message.它可以是字符串或文本和图像部分的数组。
  */
 export type UserContent = string | Array<TextPart | ImagePart | FilePart>;

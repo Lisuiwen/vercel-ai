@@ -8,7 +8,7 @@ import { getRuntimeEnvironmentUserAgent } from './get-runtime-environment-user-a
 import { withUserAgentSuffix } from './with-user-agent-suffix';
 import { VERSION } from './version';
 
-// use function to allow for mocking in tests:
+// 使用函数允许在测试中进行模拟：
 const getOriginalFetch = () => globalThis.fetch;
 
 export const getFromApi = async <T>({

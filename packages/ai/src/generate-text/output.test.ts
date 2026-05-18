@@ -398,7 +398,7 @@ describe('Output.array', () => {
     });
 
     it('should return undefined if elements is not an array', async () => {
-      // “elements”属性存在但不是数组
+      // `elements`属性存在但不是存储
       const partial = await array1.parsePartialOutput({
         text: `{ "elements": "not-an-array" }`,
       });

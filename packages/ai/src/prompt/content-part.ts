@@ -27,7 +27,7 @@ const fileInlineDataSchema: z.ZodType<DataContent> = z.union([
 const providerReferenceSchema = z.record(z.string(), z.string());
 
 /**
- * @internal
+ * @内部的
  */
 export const textPartSchema: z.ZodType<TextPart> = z.object({
   type: z.literal('text'),
@@ -36,7 +36,7 @@ export const textPartSchema: z.ZodType<TextPart> = z.object({
 });
 
 /**
- * @internal
+ * @内部的
  * @deprecated 将 `filePartSchema` 与 `mediaType: 'image'` 一起使用：
  * `{ 类型：'文件'，媒体类型：'图像'，数据：{ 类型：'数据'，数据 } }`。
  */
@@ -67,7 +67,7 @@ const taggedReasoningFileDataSchema = z.discriminatedUnion('type', [
 ]);
 
 /**
- * @internal
+ * @内部的
  */
 export const filePartSchema: z.ZodType<FilePart> = z.object({
   type: z.literal('file'),
@@ -83,7 +83,7 @@ export const filePartSchema: z.ZodType<FilePart> = z.object({
 });
 
 /**
- * @internal
+ * @内部的
  */
 export const reasoningPartSchema: z.ZodType<ReasoningPart> = z.object({
   type: z.literal('reasoning'),
@@ -92,7 +92,7 @@ export const reasoningPartSchema: z.ZodType<ReasoningPart> = z.object({
 });
 
 /**
- * @internal
+ * @内部的
  */
 export const customPartSchema: z.ZodType<CustomPart> = z.object({
   type: z.literal('custom'),
@@ -101,7 +101,7 @@ export const customPartSchema: z.ZodType<CustomPart> = z.object({
 });
 
 /**
- * @internal
+ * @内部的
  */
 export const reasoningFilePartSchema: z.ZodType<ReasoningFilePart> = z.object({
   type: z.literal('reasoning-file'),
@@ -115,7 +115,7 @@ export const reasoningFilePartSchema: z.ZodType<ReasoningFilePart> = z.object({
 });
 
 /**
- * 工具调用提示内容的一部分。它包含一个工具调用（通常由 AI 模型生成）。
+ * 工具调用提示内容的一部分。它包含一个工具调用（通常由AI模型生成）。
  */
 export interface ToolCallPart {
   type: 'tool-call';
@@ -137,14 +137,14 @@ export interface ToolCallPart {
 
   /**
    * 其他特定于提供商的元数据。他们通过
-   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 从AI SDK发送给成功并实现特定的成功
    * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 }
 
 /**
- * @internal
+ * @内部的
  */
 export const toolCallPartSchema: z.ZodType<ToolCallPart> = z.object({
   type: z.literal('tool-call'),
@@ -156,7 +156,7 @@ export const toolCallPartSchema: z.ZodType<ToolCallPart> = z.object({
 }) as z.ZodType<ToolCallPart>; // 必要的 bc 输入在 Zod 类型上是可选的
 
 /**
- * @internal
+ * @内部的
  */
 export const outputSchema: z.ZodType<ToolResultOutput> = z.discriminatedUnion(
   'type',
@@ -265,7 +265,7 @@ export const outputSchema: z.ZodType<ToolResultOutput> = z.discriminatedUnion(
 );
 
 /**
- * @internal
+ * @内部的
  */
 export const toolResultPartSchema: z.ZodType<ToolResultPart> = z.object({
   type: z.literal('tool-result'),
@@ -276,7 +276,7 @@ export const toolResultPartSchema: z.ZodType<ToolResultPart> = z.object({
 }) as z.ZodType<ToolResultPart>; // 必要的 bc 结果在 Zod 类型上是可选的
 
 /**
- * @internal
+ * @内部的
  */
 export const toolApprovalRequestSchema: z.ZodType<ToolApprovalRequest> =
   z.object({
@@ -286,7 +286,7 @@ export const toolApprovalRequestSchema: z.ZodType<ToolApprovalRequest> =
   });
 
 /**
- * @internal
+ * @内部的
  */
 export const toolApprovalResponseSchema: z.ZodType<ToolApprovalResponse> =
   z.object({

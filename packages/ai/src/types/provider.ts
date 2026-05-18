@@ -8,48 +8,48 @@ import type { RerankingModel } from './reranking-model';
  */
 export type Provider = {
   /**
-   * 返回具有给定 id 的语言模型。
-   * 然后将模型 ID 传递给提供者函数以获取模型。
+   * 返回具有给定id的语言模型。
+   * 然后将模型ID传递给提供者函数以获取模型。
    *
-   * @param {string} modelId - The id of the model to return.
+   * @param {string} modelId - 要返回的模型的 ID。
    *
-   * @returns {LanguageModel} The language model associated with the id
+   * @returns {LanguageModel} 与 id 关联的语言模型
    *
-   * @throws {NoSuchModelError} If no such model exists.
+   * @throws {NoSuchModelError} 如果不存在这样的模型。
    */
   languageModel(modelId: string): LanguageModel;
 
   /**
    * 返回具有给定 id 的文本嵌入模型。
-   * 然后将模型 ID 传递给提供者函数以获取模型。
+   * 然后将模型ID传递给提供者函数以获取模型。
    *
-   * @param {string} modelId - The id of the model to return.
+   * @param {string} modelId - 要返回的模型的 ID。
    *
-   * @returns {EmbeddingModel} The embedding model associated with the id
+   * @returns {EmbeddingModel} 与 id 关联的嵌入模型
    *
-   * @throws {NoSuchModelError} If no such model exists.
+   * @throws {NoSuchModelError} 如果不存在这样的模型。
    */
   embeddingModel(modelId: string): EmbeddingModel;
 
   /**
-   * 返回具有给定 id 的图像模型。
-   * 然后将模型 ID 传递给提供者函数以获取模型。
+   * 返回具有给定id的图像模型。
+   * 然后将模型ID传递给提供者函数以获取模型。
    *
-   * @param {string} modelId - The id of the model to return.
+   * @param {string} modelId - 要返回的模型的 ID。
    *
-   * @returns {ImageModel} The image model associated with the id
+   * @returns {ImageModel} 与id关联的图像模型
    */
   imageModel(modelId: string): ImageModel;
 
   /**
-   * 返回具有给定 id 的重排序模型。
-   * 然后将模型 ID 传递给提供者函数以获取模型。
+   * 返回具有给定id的重排序模型。
+   * 然后将模型ID传递给提供者函数以获取模型。
    *
-   * @param {string} modelId - The id of the model to return.
+   * @param {string} modelId - 要返回的模型的 ID。
    *
-   * @returns {RerankingModel} The reranking model associated with the id
+   * @returns {RerankingModel} 与 id 关联的重新排名模型
    *
-   * @throws {NoSuchModelError} If no such model exists.
+   * @throws {NoSuchModelError} 如果不存在这样的模型。
    */
   rerankingModel(modelId: string): RerankingModel;
 };

@@ -14,36 +14,36 @@ export type PrepareGoogleInteractionsToolsResult = {
 };
 
 /**
- * Maps AI SDK tool definitions and `toolChoice` onto the Gemini Interactions
- * `tools[]` and `tool_choice` request fields.
+ * 将 AI SDK 工具定义和“toolChoice”映射到 Gemini Interactions
+ * `tools[]` 和 `tool_choice` 请求字段。
  *
- * AI SDK function tools (`{ type: 'function', name, description, inputSchema }`)
- * map to Interactions `{ type: 'function', name, description, parameters }`,
- * with `parameters` passed through as plain JSON Schema (per
- * `googleapis/js-genai` `samples/interactions_tool_call_with_functions.ts` and
- * `src/interactions/resources/interactions.ts` `Function.parameters: unknown`).
+ * AI SDK函数工具(`{ type: 'function', name, description, inputSchema }`)
+ * 映射到交互`{ type：'function'，名称，描述，参数}`，
+ * “参数”作为普通 JSON 模式传递（每个
+ * `googleapis/js-genai` `samples/interactions_tool_call_with_functions.ts` 和
+ * `src/interactions/resources/interactions.ts` `Function.parameters：未知`）。
  *
- * Provider-defined tools (`{ type: 'provider', id: 'google.<name>', args }`)
- * map to the discriminated `Tool` union. The full set of
- * provider-defined tool ids supported here:
+ * 提供商定义的工具（`{ type: 'provider', id: 'google.<name>', args }`）
+ * 映射到可区分的“工具”联合。全套
+ * 此处支持提供者定义的工具 ID：
  *
- * - `google.google_search`     -> `{ type: 'google_search', search_types? }`
- * - `google.code_execution`    -> `{ type: 'code_execution' }`
- * - `google.url_context`       -> `{ type: 'url_context' }`
- * - `google.file_search`       -> `{ type: 'file_search', file_search_store_names?, top_k?, metadata_filter? }`
- * - `google.google_maps`       -> `{ type: 'google_maps', latitude?, longitude?, enable_widget? }`
- * - `google.computer_use`      -> `{ type: 'computer_use', environment?, excludedPredefinedFunctions? }`
- * - `google.mcp_server`        -> `{ type: 'mcp_server', name?, url?, headers?, allowed_tools? }`
- * - `google.retrieval`         -> `{ type: 'retrieval', retrieval_types?, vertex_ai_search_config? }`
+ * - `google.google_search` -> `{ type: 'google_search', search_types? }`
+ * - `google.code_execution` -> `{ 类型：'code_execution' }`
+ * - `google.url_context` -> `{ 类型：'url_context' }`
+ * - `google.file_search` -> `{ type: 'file_search', file_search_store_names?, top_k?,metadata_filter? }`
+ * - `google.google_maps` -> `{ 类型：'google_maps'，纬度？，经度？，enable_widget？ }`
+ * - `google.computer_use` -> `{ type: 'computer_use', 环境?, exceptedPredefinedFunctions? }`
+ * - `google.mcp_server` -> `{ type: 'mcp_server', name?, url?, headers?, allowed_tools? }`
+ * - `google.retrieval` -> `{ type: 'retrieval',retrieval_types?, vertex_ai_search_config? }`
  *
- * `toolChoice` shapes:
- * - `'auto'`     -> `'auto'`
- * - `'required'` -> `'any'`
- * - `'none'`     -> `'none'`
+ * `toolChoice` 形状：
+ * - `'自动'` -> `'自动'`
+ * - `'必需'` -> `'任何'`
+ * - `'无'` -> `'无'`
  * - `{ type: 'tool', toolName }` -> `{ allowed_tools: { mode: 'validated', tools: [name] } }`
- *   (Interactions `AllowedTools.tools` is an `Array<string>` of function
- *   names, not tool descriptors -- see `src/interactions/resources/interactions.ts`
- *   line ~151).
+ *   （交互“AllowedTools.tools”是函数的“Array<string>”
+ *   名称，而不是工具描述符 - 请参阅“src/interactions/resources/interactions.ts”
+ *   行〜151）。
  */
 export function prepareGoogleInteractionsTools({
   tools,
@@ -206,11 +206,11 @@ export function prepareGoogleInteractionsTools({
   }
 
   /*
-   * `tool_choice` on the Interactions API governs function calling only -- the
-   * API rejects requests with `tool_choice` set when no `function` tools are
-   * present (`{"error":{"message":"Function calling config is set without
-   * function_declarations."}}`). Drop `tool_choice` when the resolved tool
-   * list is empty or contains no function tools.
+   * 交互 API 上的“tool_choice”仅控制函数调用——
+   * 当没有“function”工具时，API 拒绝设置“tool_choice”的请求
+   * 存在（`{“error”：{“message”：“调用配置的函数设置没有
+   * 函数声明。"}}`)。当解析工具时删除`tool_choice`
+   * 列表为空或不包含任何功能工具。
    */
   const hasFunctionTool = interactionsTools.some(t => t.type === 'function');
 

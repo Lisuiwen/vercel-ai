@@ -4,12 +4,12 @@ import type {
 } from '@ai-sdk/provider';
 
 /**
- * Interface for mapping between custom tool names and provider tool names.
+ * 用于自定义工具名称和提供程序工具名称之间映射的接口。
  */
 export interface ToolNameMapping {
   /**
-   * Maps a custom tool name (used by the client) to the provider's tool name.
-   * If the custom tool name does not have a mapping, returns the input name.
+   * 将自定义工具名称（由客户端使用）映射到提供者的工具名称。
+   * 如果自定义工具名称没有映射，则返回输入名称。
    *
    * @param customToolName - The custom name of the tool defined by the client.
    * @returns The corresponding provider tool name, or the input name if not mapped.
@@ -17,8 +17,8 @@ export interface ToolNameMapping {
   toProviderToolName: (customToolName: string) => string;
 
   /**
-   * Maps a provider tool name to the custom tool name used by the client.
-   * If the provider tool name does not have a mapping, returns the input name.
+   * 将提供程序工具名称映射到客户端使用的自定义工具名称。
+   * 如果提供程序工具名称没有映射，则返回输入名称。
    *
    * @param providerToolName - The name of the tool as understood by the provider.
    * @returns The corresponding custom tool name, or the input name if not mapped.
@@ -35,14 +35,14 @@ export function createToolNameMapping({
   providerToolNames,
 }: {
   /**
-   * Tools that were passed to the language model.
+   * 传递到语言模型的工具。
    */
   tools:
     | Array<LanguageModelV4FunctionTool | LanguageModelV4ProviderTool>
     | undefined;
 
   /**
-   * Maps the provider tool ids to the provider tool names.
+   * 将提供程序工具 ID 映射到提供程序工具名称。
    */
   providerToolNames: Record<`${string}.${string}`, string>;
 }): ToolNameMapping {

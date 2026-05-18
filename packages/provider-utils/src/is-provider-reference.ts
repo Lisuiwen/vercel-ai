@@ -2,9 +2,9 @@ import type { SharedV4ProviderReference } from '@ai-sdk/provider';
 import { isBuffer } from './is-buffer';
 
 /**
- * Checks whether a value is a provider reference (a mapping of provider names
- * to provider-specific identifiers) as opposed to raw bytes, a URL, or a
- * tagged `{ type: ... }` object.
+ * 检查某个值是否是提供者引用（提供者名称的映射
+ * 特定于提供者的标识符）而不是原始字节、URL 或
+ * 标记为“{ type: ... }”的对象。
  */
 export function isProviderReference(
   data: unknown,

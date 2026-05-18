@@ -65,16 +65,16 @@ export interface AnthropicThinkingContent {
   type: 'thinking';
   thinking: string;
   signature: string;
-  // Note: thinking blocks cannot be directly cached with cache_control.
-  // They are cached implicitly when appearing in previous assistant turns.
+  // 注意：思维块不能直接用cache_control进行缓存。
+  // 当它们出现在之前的助手回合中时，它们会被隐式缓存。
   cache_control?: never;
 }
 
 export interface AnthropicRedactedThinkingContent {
   type: 'redacted_thinking';
   data: string;
-  // Note: redacted thinking blocks cannot be directly cached with cache_control.
-  // They are cached implicitly when appearing in previous assistant turns.
+  // 注意：编辑后的思维块不能直接用cache_control进行缓存。
+  // 当它们出现在之前的助手回合中时，它们会被隐式缓存。
   cache_control?: never;
 }
 
@@ -114,8 +114,8 @@ export interface AnthropicDocumentContent {
 }
 
 /**
- * The caller information for programmatic tool calling.
- * Present when a tool is called from within code execution.
+ * 编程工具调用的调用者信息。
+ * 当从代码执行中调用工具时出现。
  */
 export type AnthropicToolCallCaller =
   | {
@@ -136,8 +136,8 @@ export interface AnthropicToolCallContent {
   name: string;
   input: unknown;
   /**
-   * Present when this tool call was triggered by a server-executed tool
-   * (e.g., code execution calling a user-defined tool programmatically).
+   * 当此工具调用由服务器执行的工具触发时出现
+   * （例如，以编程方式调用用户定义工具的代码执行）。
    */
   caller?: AnthropicToolCallCaller;
   cache_control: AnthropicCacheControl | undefined;
@@ -149,22 +149,22 @@ export interface AnthropicServerToolUseContent {
   name:
     | 'web_fetch'
     | 'web_search'
-    // code execution 20250522:
+    // 代码执行20250522：
     | 'code_execution'
-    // code execution 20250825:
+    // 代码执行20250825：
     | 'bash_code_execution'
     | 'text_editor_code_execution'
-    // tool search:
+    // 工具搜索：
     | 'tool_search_tool_regex'
     | 'tool_search_tool_bm25'
-    // advisor:
+    // 顾问：
     | 'advisor';
   input: unknown;
   cache_control: AnthropicCacheControl | undefined;
 }
 
-// Nested content types for tool results (without cache_control)
-// Sub-content blocks cannot be cached directly according to Anthropic docs
+// 工具结果的嵌套内容类型（无cache_control）
+// 根据 Anthropic 文档，子内容块无法直接缓存
 type AnthropicNestedTextContent = Omit<
   AnthropicTextContent,
   'cache_control'
@@ -237,7 +237,7 @@ export interface AnthropicToolSearchToolResultContent {
   cache_control: AnthropicCacheControl | undefined;
 }
 
-// code execution results for code_execution_20250522 tool:
+// code_execution_20250522工具的代码执行结果：
 export interface AnthropicCodeExecutionToolResultContent {
   type: 'code_execution_tool_result';
   tool_use_id: string;
@@ -263,7 +263,7 @@ export interface AnthropicCodeExecutionToolResultContent {
   cache_control: AnthropicCacheControl | undefined;
 }
 
-// text editor code execution results for code_execution_20250825 tool:
+// code_execution_20250825工具的文本编辑器代码执行结果：
 export interface AnthropicTextEditorCodeExecutionToolResultContent {
   type: 'text_editor_code_execution_tool_result';
   tool_use_id: string;
@@ -295,7 +295,7 @@ export interface AnthropicTextEditorCodeExecutionToolResultContent {
   cache_control: AnthropicCacheControl | undefined;
 }
 
-// bash code execution results for code_execution_20250825 tool:
+// code_execution_20250825工具的bash代码执行结果：
 export interface AnthropicBashCodeExecutionToolResultContent {
   type: 'bash_code_execution_tool_result';
   tool_use_id: string;
@@ -332,9 +332,9 @@ export interface AnthropicAdvisorToolResultContent {
     | {
         type: 'advisor_tool_result_error';
         /**
-         * Available options: `max_uses_exceeded`, `too_many_requests`,
-         * `overloaded`, `prompt_too_long`, `execution_time_exceeded`,
-         * `unavailable`.
+         * 可用选项：`max_uses_exceeded`、`too_many_requests`、
+         * `超载`、`prompt_too_long`、`execution_time_exceeded`、
+         * `不可用`。
          */
         error_code: string;
       };
@@ -390,14 +390,14 @@ export type AnthropicTool =
       eager_input_streaming?: boolean;
       strict?: boolean;
       /**
-       * When true, this tool is deferred and will only be loaded when
-       * discovered via the tool search tool.
+       * 如果为 true，则该工具将被延迟，并且仅在以下情况下才会加载
+       * 通过工具搜索工具发现。
        */
       defer_loading?: boolean;
       /**
-       * Programmatic tool calling: specifies which server-executed tools
-       * are allowed to call this tool. When set, only the specified callers
-       * can invoke this tool programmatically.
+       * 编程工具调用：指定哪些服务器执行的工具
+       * 允许调用此工具。设置后，仅指定的呼叫者
+       * 可以通过编程方式调用该工具。
        *
        * @example ['code_execution_20250825']
        */
@@ -592,8 +592,8 @@ export type AnthropicResponseContextManagement = {
   applied_edits: AnthropicResponseContextManagementEdit[];
 };
 
-// limited version of the schema, focussed on what is needed for the implementation
-// this approach limits breakages when the API changes and increases efficiency
+// 模式的有限版本，重点关注实现所需的内容
+// 这种方法可以限制 API 更改时的损坏并提高效率
 export const anthropicResponseSchema = lazySchema(() =>
   zodSchema(
     z.object({
@@ -653,7 +653,7 @@ export const anthropicResponseSchema = lazySchema(() =>
             id: z.string(),
             name: z.string(),
             input: z.unknown(),
-            // Programmatic tool calling: caller info when triggered from code execution
+            // 编程工具调用：代码执行触发时的调用者信息
             caller: z
               .union([
                 z.object({
@@ -756,7 +756,7 @@ export const anthropicResponseSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // code execution results for code_execution_20250522 tool:
+          // code_execution_20250522工具的代码执行结果：
           z.object({
             type: z.literal('code_execution_tool_result'),
             tool_use_id: z.string(),
@@ -797,7 +797,7 @@ export const anthropicResponseSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // bash code execution results for code_execution_20250825 tool:
+          // code_execution_20250825工具的bash代码执行结果：
           z.object({
             type: z.literal('bash_code_execution_tool_result'),
             tool_use_id: z.string(),
@@ -820,7 +820,7 @@ export const anthropicResponseSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // text editor code execution results for code_execution_20250825 tool:
+          // code_execution_20250825工具的文本编辑器代码执行结果：
           z.object({
             type: z.literal('text_editor_code_execution_tool_result'),
             tool_use_id: z.string(),
@@ -853,7 +853,7 @@ export const anthropicResponseSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // tool search tool results for tool_search_tool_regex_20251119 and tool_search_tool_bm25_20251119:
+          // tool_search_tool_regex_20251119 和 tool_search_tool_bm25_20251119 的工具搜索工具结果：
           z.object({
             type: z.literal('tool_search_tool_result'),
             tool_use_id: z.string(),
@@ -873,7 +873,7 @@ export const anthropicResponseSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // advisor results for advisor_20260301:
+          // Advisor_20260301 的顾问结果：
           z.object({
             type: z.literal('advisor_tool_result'),
             tool_use_id: z.string(),
@@ -963,8 +963,8 @@ export const anthropicResponseSchema = lazySchema(() =>
   ),
 );
 
-// limited version of the schema, focused on what is needed for the implementation
-// this approach limits breakages when the API changes and increases efficiency
+// 架构的有限版本，重点关注实现所需的内容
+// 这种方法可以限制 API 更改时的损坏并提高效率
 export const anthropicChunkSchema = lazySchema(() =>
   zodSchema(
     z.discriminatedUnion('type', [
@@ -979,7 +979,7 @@ export const anthropicChunkSchema = lazySchema(() =>
             cache_creation_input_tokens: z.number().nullish(),
             cache_read_input_tokens: z.number().nullish(),
           }),
-          // Programmatic tool calling: content may be pre-populated for deferred tool calls
+          // 编程工具调用：可以为延迟的工具调用预先填充内容
           content: z
             .array(
               z.discriminatedUnion('type', [
@@ -1032,9 +1032,9 @@ export const anthropicChunkSchema = lazySchema(() =>
             type: z.literal('tool_use'),
             id: z.string(),
             name: z.string(),
-            // Programmatic tool calling: input may be present directly for deferred tool calls
+            // 编程工具调用：可以直接为延迟工具调用提供输入
             input: z.record(z.string(), z.unknown()).optional(),
-            // Programmatic tool calling: caller info when triggered from code execution
+            // 编程工具调用：代码执行触发时的调用者信息
             caller: z
               .union([
                 z.object({
@@ -1145,7 +1145,7 @@ export const anthropicChunkSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // code execution results for code_execution_20250522 tool:
+          // code_execution_20250522工具的代码执行结果：
           z.object({
             type: z.literal('code_execution_tool_result'),
             tool_use_id: z.string(),
@@ -1186,7 +1186,7 @@ export const anthropicChunkSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // bash code execution results for code_execution_20250825 tool:
+          // code_execution_20250825工具的bash代码执行结果：
           z.object({
             type: z.literal('bash_code_execution_tool_result'),
             tool_use_id: z.string(),
@@ -1209,7 +1209,7 @@ export const anthropicChunkSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // text editor code execution results for code_execution_20250825 tool:
+          // code_execution_20250825工具的文本编辑器代码执行结果：
           z.object({
             type: z.literal('text_editor_code_execution_tool_result'),
             tool_use_id: z.string(),
@@ -1242,7 +1242,7 @@ export const anthropicChunkSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // tool search tool results for tool_search_tool_regex_20251119 and tool_search_tool_bm25_20251119:
+          // tool_search_tool_regex_20251119 和 tool_search_tool_bm25_20251119 的工具搜索工具结果：
           z.object({
             type: z.literal('tool_search_tool_result'),
             tool_use_id: z.string(),
@@ -1262,7 +1262,7 @@ export const anthropicChunkSchema = lazySchema(() =>
               }),
             ]),
           }),
-          // advisor results for advisor_20260301:
+          // Advisor_20260301 的顾问结果：
           z.object({
             type: z.literal('advisor_tool_result'),
             tool_use_id: z.string(),

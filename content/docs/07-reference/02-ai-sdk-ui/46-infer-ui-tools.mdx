@@ -1,39 +1,39 @@
 ---
 title: InferUITools
-description: API Reference for InferUITools.
+description: InferUITools 的 API 参考。
 ---
 
 # InferUITools
 
-Infers the input and output types of a `ToolSet`.
+推断 `ToolSet` 的输入和输出类型。
 
-This type helper is useful when working with tools in TypeScript to ensure type safety for your tool inputs and outputs in `UIMessage`s.
+在 TypeScript 中使用工具时，此类型辅助工具可确保 `UIMessage` 中工具输入和输出的类型安全。
 
-## Import
+## 导入
 
 ```tsx
 import { InferUITools } from 'ai';
 ```
 
-## API Signature
+## API 签名
 
-### Type Parameters
+### 类型参数
 
 <PropertiesTable
   content={[
     {
       name: 'TOOLS',
       type: 'ToolSet',
-      description: 'The tool set to infer types from.',
+      description: '要从中推断类型的工具集。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A type that maps each tool in the tool set to its inferred input and output types.
+一种类型，将工具集中的每个工具映射到其推断出的输入和输出类型。
 
-The resulting type has the shape:
+生成的类型形状如下：
 
 ```typescript
 {
@@ -44,9 +44,9 @@ The resulting type has the shape:
 }
 ```
 
-## Examples
+## 示例
 
-### Basic Usage
+### 基本用法
 
 ```tsx
 import { InferUITools } from 'ai';
@@ -93,7 +93,7 @@ type MyUITools = InferUITools<typeof tools>;
 // }
 ```
 
-## Related
+## 相关
 
-- [`InferUITool`](/docs/reference/ai-sdk-ui/infer-ui-tool) - Infer types for a single tool
-- [`useChat`](/docs/reference/ai-sdk-ui/use-chat) - Chat hook that supports typed tools
+- [`InferUITool`](/docs/reference/ai-sdk-ui/infer-ui-tool) - 推断单个工具的类型
+- [`useChat`](/docs/reference/ai-sdk-ui/use-chat) - 支持类型化工具的 Chat hook

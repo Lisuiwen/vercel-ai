@@ -230,7 +230,7 @@ describe('user messages', () => {
               {
                 type: 'file',
                 data: { type: 'data' as const, data: 'AAECAw==' },
-                mediaType: 'audio/mp3', // not official but sometimes used
+                mediaType: 'audio/mp3', // 不是官方的，但有时会使用
               },
             ],
           },
@@ -251,7 +251,7 @@ describe('user messages', () => {
     });
 
     it('should convert messages with PDF file parts', async () => {
-      const base64Data = 'AQIDBAU='; // Base64 encoding of pdfData
+      const base64Data = 'AQIDBAU='; // pdfData 的 Base64 编码
 
       const result = convertToOpenAIChatMessages({
         prompt: [

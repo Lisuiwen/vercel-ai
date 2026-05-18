@@ -4007,7 +4007,7 @@ describe('OpenAIResponsesLanguageModel', () => {
           }
         `);
 
-        // Should have tool-call and tool-approval-request in content
+        // 内容中应包含工具调用和工具批准请求
         expect(result.content).toMatchSnapshot();
         expect(result.finishReason).toMatchInlineSnapshot(`
           {
@@ -4054,7 +4054,7 @@ describe('OpenAIResponsesLanguageModel', () => {
           tools: [MCP_TOOL],
         });
 
-        // Should have text response after denial
+        // 拒绝后应该有文字回复
         expect(result.content).toMatchSnapshot();
         expect(result.finishReason).toMatchInlineSnapshot(`
           {
@@ -4106,7 +4106,7 @@ describe('OpenAIResponsesLanguageModel', () => {
           tools: [MCP_TOOL],
         });
 
-        // Should have new tool-call and tool-approval-request
+        // 应该有新的工具调用和工具批准请求
         expect(result.content).toMatchSnapshot();
         expect(result.finishReason).toMatchInlineSnapshot(`
           {
@@ -4153,7 +4153,7 @@ describe('OpenAIResponsesLanguageModel', () => {
           tools: [MCP_TOOL],
         });
 
-        // Should have tool-call with result and text response
+        // 应该有带有结果和文本响应的工具调用
         expect(result.content).toMatchSnapshot();
         expect(result.finishReason).toMatchInlineSnapshot(`
           {
@@ -8189,7 +8189,7 @@ describe('OpenAIResponsesLanguageModel', () => {
           type: 'stream-chunks',
           chunks: [
             `data:{"type":"response.created","response":{"id":"resp_67c9a81b6a048190a9ee441c5755a4e8","object":"response","created_at":1741269019,"status":"in_progress","error":null,"incomplete_details":null,"input":[],"instructions":null,"max_output_tokens":null,"model":"o3-mini-2025-01-31","output":[],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":"medium","summary":"auto"},"store":true,"temperature":null,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[],"top_p":null,"truncation":"disabled","usage":null,"user":null,"metadata":{}}}\n\n`,
-            // First reasoning block (with multiple summary parts)
+            // 第一个推理块（具有多个摘要部分）
             `data:{"type":"response.output_item.added","output_index":0,"item":{"id":"rs_first_6808709f6fcc8191ad2e2fdd784017b3","type":"reasoning"}}\n\n`,
             `data:{"type":"response.reasoning_summary_part.added","item_id":"rs_first_6808709f6fcc8191ad2e2fdd784017b3","summary_index":0}\n\n`,
             `data:{"type":"response.reasoning_summary_text.delta","item_id":"rs_first_6808709f6fcc8191ad2e2fdd784017b3","summary_index":0,"delta":"**Initial analysis**\\n\\nFirst reasoning block:"}\n\n`,
@@ -8200,19 +8200,19 @@ describe('OpenAIResponsesLanguageModel', () => {
             `data:{"type":"response.reasoning_summary_text.delta","item_id":"rs_first_6808709f6fcc8191ad2e2fdd784017b3","summary_index":1,"delta":" the various approaches available."}\n\n`,
             `data:{"type":"response.reasoning_summary_part.done","item_id":"rs_first_6808709f6fcc8191ad2e2fdd784017b3","summary_index":1}\n\n`,
             `data:{"type":"response.output_item.done","output_index":0,"item":{"id":"rs_first_6808709f6fcc8191ad2e2fdd784017b3","type":"reasoning"}}\n\n`,
-            // First message
+            // 第一条消息
             `data:{"type":"response.output_item.added","output_index":1,"item":{"id":"msg_67c97c02656c81908e080dfdf4a03cd1","type":"message"}}\n\n`,
             `data:{"type":"response.output_text.delta","item_id":"msg_67c97c02656c81908e080dfdf4a03cd1","delta":"Let me think about"}\n\n`,
             `data:{"type":"response.output_text.delta","item_id":"msg_67c97c02656c81908e080dfdf4a03cd1","delta":" this step by step."}\n\n`,
             `data:{"type":"response.output_item.done","output_index":1,"item":{"id":"msg_67c97c02656c81908e080dfdf4a03cd1","type":"message"}}\n\n`,
-            // Second reasoning block
+            // 第二个推理块
             `data:{"type":"response.output_item.added","output_index":2,"item":{"id":"rs_second_7908809g7gcc9291be3e3fee895028c4","type":"reasoning"}}\n\n`,
             `data:{"type":"response.reasoning_summary_part.added","item_id":"rs_second_7908809g7gcc9291be3e3fee895028c4","summary_index":0}\n\n`,
             `data:{"type":"response.reasoning_summary_text.delta","item_id":"rs_second_7908809g7gcc9291be3e3fee895028c4","summary_index":0,"delta":"Second reasoning block:"}\n\n`,
             `data:{"type":"response.reasoning_summary_text.delta","item_id":"rs_second_7908809g7gcc9291be3e3fee895028c4","summary_index":0,"delta":" considering alternative approaches."}\n\n`,
             `data:{"type":"response.reasoning_summary_part.done","item_id":"rs_second_7908809g7gcc9291be3e3fee895028c4","summary_index":0}\n\n`,
             `data:{"type":"response.output_item.done","output_index":2,"item":{"id":"rs_second_7908809g7gcc9291be3e3fee895028c4","type":"reasoning"}}\n\n`,
-            // Final message
+            // 最后的消息
             `data:{"type":"response.output_item.added","output_index":3,"item":{"id":"msg_final_78d08d03767d92908f25523f5ge51e77","type":"message"}}\n\n`,
             `data:{"type":"response.output_text.delta","item_id":"msg_final_78d08d03767d92908f25523f5ge51e77","delta":"Based on my analysis,"}\n\n`,
             `data:{"type":"response.output_text.delta","item_id":"msg_final_78d08d03767d92908f25523f5ge51e77","delta":" here is the solution."}\n\n`,

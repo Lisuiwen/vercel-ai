@@ -1456,7 +1456,7 @@ describe('prepareTools', () => {
       cacheControlValidator,
     });
 
-    // First 4 should have cache_control
+    // 前4个应该有cache_control
     expect(result.tools?.[0]).toHaveProperty('cache_control', {
       type: 'ephemeral',
     });
@@ -1470,7 +1470,7 @@ describe('prepareTools', () => {
       type: 'ephemeral',
     });
 
-    // 5th should be rejected (cache_control should be undefined)
+    // 第 5 个应该被拒绝（cache_control 应该是未定义的）
     expect(result.tools?.[4]).toHaveProperty('cache_control', undefined);
 
     expect(cacheControlValidator.getWarnings()).toMatchInlineSnapshot(`

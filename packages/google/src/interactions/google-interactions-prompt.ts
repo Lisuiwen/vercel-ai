@@ -1,8 +1,8 @@
 /**
- * Internal TypeScript types for the Gemini Interactions API wire format.
+ * Gemini Interactions API 有线格式的内部 TypeScript 类型。
  *
- * Mirrors the public types in `googleapis/js-genai`:
- * `src/interactions/resources/interactions.ts`.
+ * 镜像`googleapis/js-genai`中的公共类型：
+ * `src/interactions/resources/interactions.ts`。
  */
 
 export type GoogleInteractionsTextContent = {
@@ -60,11 +60,11 @@ export type GoogleInteractionsFunctionResultContent = {
 };
 
 /**
- * Annotation types attached to a `text` content block:
- * - `url_citation` (web) — `url` + optional `title`
- * - `file_citation` — `url` for the citation target; optional `document_uri`
- *   / `file_name` for doc references
- * - `place_citation` — Maps grounding, carries `url`
+ * 附加到“文本”内容块的注释类型：
+ * - `url_引用` (web) — `url` + 可选的 `title`
+ * - `file_itation` — `url` 为引用目标；可选的`document_uri`
+ *   / `file_name` 用于文档引用
+ * - `place_itation` — 地图接地，带有 `url`
  */
 export type GoogleInteractionsURLCitation = {
   type: 'url_citation';
@@ -106,13 +106,13 @@ export type GoogleInteractionsAnnotation =
   | GoogleInteractionsPlaceCitation;
 
 /*
- * --- Step payload shapes ---
+ * --- 阶梯有效载荷形状 ---
  *
- * `function_call`, `thought`, and the built-in `*_call`/`*_result` are
- * top-level **step** types — their fields live directly on the step object
- * (no `content` indirection). The types below model those payloads; the step
- * wrapper (`type` discriminator + payload) is `GoogleInteractionsStep`
- * further down.
+ * `function_call`、`thought` 和内置的 `*_call`/`*_result` 是
+ * 顶级 **step** 类型 - 它们的字段直接位于步骤对象上
+ * （没有“内容”间接）。以下类型对这些有效负载进行建模；步骤
+ * 包装器（“类型”鉴别器+有效负载）是“GoogleInteractionsStep”
+ * 再往下。
  */
 
 export type GoogleInteractionsFunctionCallStepPayload = {
@@ -234,8 +234,8 @@ export type GoogleInteractionsMCPServerToolResultStepPayload = {
 };
 
 /*
- * Discriminated step union — the elements of `response.steps[]` and the
- * `step` field on `step.start` SSE events.
+ * 可区分的步骤联合 - `response.steps[]` 的元素和
+ * “step.start” SSE 事件中的“step”字段。
  */
 export type GoogleInteractionsModelOutputStep = {
   type: 'model_output';
@@ -299,9 +299,9 @@ export type GoogleInteractionsStep =
   | { type: string; [k: string]: unknown };
 
 /*
- * Inner content-block types (what lives inside `model_output.content[]` and
- * `user_input.content[]`). Function calls, thoughts, and built-in tool
- * call/result blocks are steps, not content blocks.
+ * 内部内容块类型（位于“model_output.content[]”内部的内容和
+ * `user_input.content[]`）。函数调用、思考和内置工具
+ * 调用/结果块是步骤，而不是内容块。
  */
 export type GoogleInteractionsContentBlock =
   | GoogleInteractionsTextContent
@@ -313,14 +313,14 @@ export type GoogleInteractionsContentBlock =
   | { type: string; [k: string]: unknown };
 
 /**
- * Alias kept for the file-part converter surface; identical to
- * `GoogleInteractionsContentBlock`.
+ * 为文件部分转换器表面保留的别名；等同于
+ * `GoogleInteractionsContentBlock`。
  */
 export type GoogleInteractionsContent = GoogleInteractionsContentBlock;
 
 /*
- * `input` is an array of steps. A single-turn user prompt is sent as
- * `[{ type: 'user_input', content: [...] }]`.
+ * “输入”是一系列步骤。单轮用户提示发送为
+ * `[{ 类型：'用户输入'，内容：[...] }]`。
  */
 export type GoogleInteractionsInput = Array<GoogleInteractionsStep>;
 
@@ -425,15 +425,15 @@ export type GoogleInteractionsAspectRatio =
 export type GoogleInteractionsImageSize = '1K' | '2K' | '4K' | '512';
 
 /*
- * `response_format` is a polymorphic entry. Multiple modalities are requested
- * by sending an array of entries. Entries the SDK constructs:
+ * `response_format` 是一个多态条目。要求采取多种方式
+ * 通过发送条目数组。 SDK 构造的条目：
  *
  *   { type: 'text', mime_type: 'application/json', schema: <JSONSchema> }
- *     -- structured output (JSON mode). `mime_type` is required; `schema` is
- *     optional but recommended.
+ *     -- 结构化输出（JSON 模式）。 `mime_type` 是必需的； `模式`是
+ *     可选但推荐。
  *
- *   { type: 'image', mime_type, aspect_ratio?, image_size? }
- *     -- image generation. `mime_type` defaults to `image/png`.
+ *   { 类型：'图像'，mime_type，aspect_ratio？，image_size？ }
+ *     ——图像生成。 `mime_type` 默认为 `image/png`。
  */
 export type GoogleInteractionsResponseFormatTextEntry = {
   type: 'text';
@@ -493,13 +493,13 @@ export type GoogleInteractionsRequestBody = {
   store?: boolean;
   stream?: boolean;
   /**
-   * Run the interaction in the background. The POST returns immediately with a
-   * non-terminal status (`in_progress` / `requires_action`); the client must
-   * poll `GET /interactions/{id}` until terminal.
+   * 在后台运行交互。 POST 立即返回
+   * 非最终状态（“in_progress”/“requires_action”）；客户必须
+   * 轮询“GET /interactions/{id}”直到终端。
    *
-   * Required for agent calls -- the API returns
-   * `background=true is required for agent interactions.` otherwise. Not used
-   * for model-id calls.
+   * 代理调用所需 - API 返回
+   * 否则，`background=true 是代理交互所必需的。`未使用
+   * 用于模型 ID 调用。
    */
   background?: boolean;
 };
@@ -513,8 +513,8 @@ export type GoogleInteractionsStatus =
   | 'incomplete';
 
 /*
- * Aliases used by the source extractor; structurally equivalent to their
- * step-payload counterparts.
+ * 源提取器使用的别名；结构上等同于它们
+ * 步进有效负载对应物。
  */
 export type GoogleInteractionsBuiltinToolResultContent =
   GoogleInteractionsBuiltinToolResultStep;

@@ -31,6 +31,6 @@ export function asProviderV3(provider: ProviderV2 | ProviderV3): ProviderV3 {
     speechModel: v2Provider.speechModel
       ? (modelId: string) => asSpeechModelV3(v2Provider.speechModel!(modelId))
       : undefined,
-    rerankingModel: undefined, // v2 提供商没有重新排名模型
+    rerankingModel: undefined, // v2 巅峰没有重新排名模型
   };
 }

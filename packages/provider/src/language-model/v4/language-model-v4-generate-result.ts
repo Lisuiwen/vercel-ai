@@ -6,58 +6,58 @@ import type { LanguageModelV4ResponseMetadata } from './language-model-v4-respon
 import type { LanguageModelV4Usage } from './language-model-v4-usage';
 
 /**
- * The result of a language model doGenerate call.
+ * 语言模型 doGenerate 调用的结果。
  */
 export type LanguageModelV4GenerateResult = {
   /**
-   * Ordered content that the model has generated.
+   * 模型生成的有序内容。
    */
   content: Array<LanguageModelV4Content>;
 
   /**
-   * The finish reason.
+   * 结束原因。
    */
   finishReason: LanguageModelV4FinishReason;
 
   /**
-   * The usage information.
+   * 使用信息。
    */
   usage: LanguageModelV4Usage;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * from the provider to the AI SDK and enable provider-specific
-   * results that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从提供商到 AI SDK 并启用提供商特定的
+   * 可以完全封装在提供者中的结果。
    */
   providerMetadata?: SharedV4ProviderMetadata;
 
   /**
-   * Optional request information for telemetry and debugging purposes.
+   * 用于遥测和调试目的的可选请求信息。
    */
   request?: {
     /**
-     * Request HTTP body that was sent to the provider API.
+     * 请求发送到提供商 API 的 HTTP 正文。
      */
     body?: unknown;
   };
 
   /**
-   * Optional response information for telemetry and debugging purposes.
+   * 用于遥测和调试目的的可选响应信息。
    */
   response?: LanguageModelV4ResponseMetadata & {
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers?: SharedV4Headers;
 
     /**
-     * Response HTTP body.
+     * 响应 HTTP 正文。
      */
     body?: unknown;
   };
 
   /**
-   * Warnings for the call, e.g. unsupported settings.
+   * 通话警告，例如不支持的设置。
    */
   warnings: Array<SharedV4Warning>;
 };

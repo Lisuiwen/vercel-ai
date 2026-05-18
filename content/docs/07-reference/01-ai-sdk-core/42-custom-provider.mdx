@@ -1,20 +1,20 @@
 ---
 title: customProvider
-description: Custom provider that uses models from a different provider (API Reference)
+description: 使用其他 provider 模型的自定义 provider（API 参考）
 ---
 
 # `customProvider()`
 
-With a custom provider, you can map ids to any model.
-This allows you to set up custom model configurations, alias names, and more.
-The custom provider also supports a fallback provider, which is useful for
-wrapping existing providers and adding additional functionality. Custom
-providers can expose language, embedding, image, transcription, speech,
-reranking, video, files, and skills capabilities.
+使用自定义 provider，你可以将 id 映射到任意模型。
+这允许你设置自定义模型配置、别名等。
+自定义 provider 还支持 fallback provider，这对于
+包装现有 provider 并添加额外功能很有用。自定义
+provider 可以暴露语言、嵌入、图像、转录、语音、
+重排序、视频、文件和 skill 能力。
 
-### Example: custom model settings
+### 示例：自定义模型设置
 
-You can create a custom provider using `customProvider`.
+你可以使用 `customProvider` 创建自定义 provider。
 
 ```ts
 import { openai } from '@ai-sdk/openai';
@@ -54,13 +54,13 @@ export const myOpenAI = customProvider({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { customProvider } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -69,14 +69,14 @@ export const myOpenAI = customProvider({
       type: 'Record<string, LanguageModel>',
       isOptional: true,
       description:
-        'A record of language models, where keys are model IDs and values are LanguageModel instances.',
+        '语言模型记录，其中键是模型 ID，值是 LanguageModel 实例。',
     },
     {
       name: 'embeddingModels',
       type: 'Record<string, EmbeddingModel<string>>',
       isOptional: true,
       description:
-        'A record of text embedding models, where keys are model IDs and values are EmbeddingModel<string> instances.',
+        '文本嵌入模型记录，其中键是模型 ID，值是 EmbeddingModel<string> 实例。',
     },
     {
       name: 'imageModels',
@@ -137,7 +137,7 @@ export const myOpenAI = customProvider({
   ]}
 />
 
-### Returns
+### 返回值
 
 The `customProvider` function returns a `Provider` instance. It has the following methods:
 

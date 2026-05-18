@@ -1,13 +1,13 @@
 import type { SharedV4ProviderMetadata } from '../../shared/v4/shared-v4-provider-metadata';
 
 /**
- * Text that the model has generated.
+ * 模型生成的文本。
  */
 export type LanguageModelV4Text = {
   type: 'text';
 
   /**
-   * The text content.
+   * 文字内容。
    */
   text: string;
 

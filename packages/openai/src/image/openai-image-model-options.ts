@@ -42,36 +42,36 @@ export function hasDefaultResponseFormat(modelId: string): boolean {
 
 const baseImageModelOptionsObject = z.object({
   /**
-   * Quality of the generated image(s).
+   * 生成图像的质量。
    *
-   * Valid values: `standard`, `hd`, `low`, `medium`, `high`, `auto`.
+   * 有效值：“标准”、“高清”、“低”、“中”、“高”、“自动”。
    */
   quality: z
     .enum(['standard', 'hd', 'low', 'medium', 'high', 'auto'])
     .optional(),
 
   /**
-   * Background behavior for the generated image(s).
+   * 生成的图像的后台行为。
    *
-   * If `transparent`, the output format must support transparency
-   * (i.e. `png` or `webp`).
+   * 如果是“透明”，则输出格式必须支持透明度
+   * （即“png”或“webp”）。
    */
   background: z.enum(['transparent', 'opaque', 'auto']).optional(),
 
   /**
-   * Format in which the generated image(s) are returned.
+   * 返回生成的图像的格式。
    */
   outputFormat: z.enum(['png', 'jpeg', 'webp']).optional(),
 
   /**
-   * Compression level (0-100) for the generated image(s). Applies to the
-   * `jpeg` and `webp` output formats.
+   * 生成图像的压缩级别 (0-100)。适用于
+   * `jpeg` 和 `webp` 输出格式。
    */
   outputCompression: z.number().int().min(0).max(100).optional(),
 
   /**
-   * A unique identifier representing your end-user, which can help OpenAI
-   * to monitor and detect abuse.
+   * 代表您的最终用户的唯一标识符，可以帮助 OpenAI
+   * 监控和发现滥用行为。
    */
   user: z.string().optional(),
 });
@@ -88,15 +88,15 @@ export const openaiImageModelGenerationOptions = lazySchema(() =>
   zodSchema(
     baseImageModelOptionsObject.extend({
       /**
-       * Style of the generated image. `vivid` produces hyper-real and
-       * dramatic images; `natural` produces more subdued, less hyper-real
-       * looking images.
+       * 生成图像的样式。 “生动”产生超真实和
+       * 戏剧性的图像； “自然”产生更柔和、更少超真实的效果
+       * 寻找图像。
        */
       style: z.enum(['vivid', 'natural']).optional(),
 
       /**
-       * Content moderation level for the generated image(s). `low` applies
-       * less restrictive filtering.
+       * 生成的图像的内容审核级别。 “低”适用
+       * 限制性过滤较少。
        */
       moderation: z.enum(['auto', 'low']).optional(),
     }),
@@ -111,7 +111,7 @@ export const openaiImageModelEditOptions = lazySchema(() =>
   zodSchema(
     baseImageModelOptionsObject.extend({
       /**
-       * Fidelity of the output image(s) to the input image(s).
+       * 输出图像与输入图像的保真度。
        */
       inputFidelity: z.enum(['high', 'low']).optional(),
     }),

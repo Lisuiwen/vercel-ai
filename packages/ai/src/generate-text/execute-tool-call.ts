@@ -32,11 +32,11 @@ import { validateToolContext } from './validate-tool-context';
  *
  * 该函数处理完整的工具执行流程：
  * 1.执行前调用`onToolExecutionStart`回调
- * 2. 在适当的上下文中执行工具的“execute”函数
+ * 2.在适当的上下文中执行工具的`execute`函数
  * 3.通过`onPreliminaryToolResult`处理流输出
- * 4. 调用`onToolExecutionEnd`回调并返回成功或错误结果
+ * 4.调用`onToolExecutionEnd`回调并返回成功或错误结果
  *
- * @returns The tool output with performance metrics, or undefined if the tool has no execute function.
+ * @returns 带有性能指标的工具输出，如果工具没有执行功能，则未定义。
  */
 export async function executeToolCall<TOOLS extends ToolSet>({
   toolCall,

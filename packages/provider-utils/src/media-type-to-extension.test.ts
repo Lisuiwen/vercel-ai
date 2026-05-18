@@ -3,7 +3,7 @@ import { mediaTypeToExtension } from './media-type-to-extension';
 
 describe('mediaTypeToExtension()', () => {
   it.each([
-    // most common
+    // 最常见的
     ['audio/mpeg', 'mp3'],
     ['audio/mp3', 'mp3'],
     ['audio/wav', 'wav'],
@@ -15,10 +15,10 @@ describe('mediaTypeToExtension()', () => {
     ['audio/x-m4a', 'm4a'],
     ['audio/flac', 'flac'],
     ['audio/aac', 'aac'],
-    // upper case
+    // 大写
     ['AUDIO/MPEG', 'mp3'],
     ['AUDIO/MP3', 'mp3'],
-    // invalid
+    // 无效的
     ['nope', ''],
   ])('should map %s to %s', (mediaType, expectedExtension) => {
     expect(mediaTypeToExtension(mediaType)).toBe(expectedExtension);

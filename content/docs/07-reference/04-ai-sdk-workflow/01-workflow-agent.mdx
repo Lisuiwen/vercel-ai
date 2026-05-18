@@ -1,15 +1,15 @@
 ---
 title: WorkflowAgent
-description: API Reference for the WorkflowAgent class.
+description: WorkflowAgent 类的 API 参考。
 ---
 
 # `WorkflowAgent`
 
-Creates a durable, resumable AI agent for use inside a workflow. `WorkflowAgent` handles the agent loop, tool schema serialization across workflow step boundaries, and built-in tool approval flows.
+创建可持久化、可恢复的 AI agent，用于 workflow 内部。`WorkflowAgent` 负责 agent 循环、跨 workflow step 边界的工具 schema 序列化，以及内置工具批准流程。
 
-Unlike [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent) from the `ai` package, `WorkflowAgent` is designed to survive process restarts, pause for human approval, and integrate with the Workflow DevKit's step mechanism.
+与 `ai` 包中的 [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent) 不同，`WorkflowAgent` 设计为可在进程重启后继续运行、暂停等待人工批准，并与 Workflow DevKit 的 step 机制集成。
 
-`WorkflowAgent` supports `runtimeContext` for shared agent state and `toolsContext` for per-tool context. Because these values can cross workflow and step boundaries, keep them serializable durable data. Unlike `ToolLoopAgent`, do not place functions, class instances, symbols, database clients, or SDK clients in context; pass identifiers or configuration and recreate non-serializable resources inside step functions.
+`WorkflowAgent` 支持用于共享 agent 状态的 `runtimeContext`，以及用于各工具上下文的 `toolsContext`。由于这些值可能跨越 workflow 和 step 边界，请将它们保持为可序列化的持久数据。与 `ToolLoopAgent` 不同，不要在 context 中放入函数、类实例、symbol、数据库客户端或 SDK 客户端；请传递标识符或配置，并在 step 函数内重新创建不可序列化的资源。
 
 ```ts
 import { WorkflowAgent } from '@ai-sdk/workflow';
@@ -45,18 +45,18 @@ const result = await agent.stream({
 console.log(result.messages);
 ```
 
-To see `WorkflowAgent` in action, check out [these examples](#examples).
+若要查看 `WorkflowAgent` 的实际用法，请查看[这些示例](#examples)。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { WorkflowAgent } from "@ai-sdk/workflow"`}
   prompt={false}
 />
 
-## Constructor
+## 构造函数
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -64,35 +64,35 @@ To see `WorkflowAgent` in action, check out [these examples](#examples).
       name: 'id',
       type: 'string',
       isOptional: true,
-      description: 'The id of the agent.',
+      description: 'agent 的 id。',
     },
     {
       name: 'model',
       type: 'LanguageModel',
       isRequired: true,
       description:
-        "The language model to use. A string compatible with the Vercel AI Gateway (e.g., 'anthropic/claude-sonnet-4-6') or a provider instance (e.g., `openai('gpt-4o')`).",
+        "要使用的语言模型。可以是与 Vercel AI Gateway 兼容的字符串（例如 'anthropic/claude-sonnet-4-6'），也可以是 provider 实例（例如 `openai('gpt-4o')`）。",
     },
     {
       name: 'instructions',
       type: 'Instructions',
       isOptional: true,
       description:
-        'Instructions for the agent, used as the system prompt. Supports provider-specific options (e.g., caching) when using the SystemModelMessage form.',
+        'agent 的指令，用作系统提示。使用 SystemModelMessage 形式时，支持 provider 专属选项（例如缓存）。',
     },
     {
       name: 'tools',
       type: 'Record<string, Tool>',
       isOptional: true,
       description:
-        'A set of tools the agent can call. Keys are tool names. Tools are serialized to JSON Schema across workflow step boundaries and validated with Ajv at runtime.',
+        'agent 可以调用的工具集合。键为工具名称。工具会跨 workflow step 边界序列化为 JSON Schema，并在运行时用 Ajv 验证。',
     },
     {
       name: 'toolChoice',
       type: 'ToolChoice',
       isOptional: true,
       description:
-        "Tool call selection strategy. Options: 'auto' | 'none' | 'required' | { type: 'tool', toolName: string }. Default: 'auto'.",
+        "工具调用选择策略。选项：'auto' | 'none' | 'required' | { type: 'tool', toolName: string }。默认值：'auto'。",
     },
     {
       name: 'stopWhen',
@@ -106,28 +106,28 @@ To see `WorkflowAgent` in action, check out [these examples](#examples).
       type: 'ActiveTools<TTools>',
       isOptional: true,
       description:
-        'Default set of active tools. Limits which tools the model can call without changing tool call and result types. Per-stream values override this default.',
+        '默认 active tools 集合。限制模型可调用的工具，而不改变工具调用和结果类型。每个流的值会覆盖此默认值。',
     },
     {
       name: 'output',
       type: 'OutputSpecification',
       isOptional: true,
       description:
-        'Default structured output specification. Per-stream values override this default.',
+        '默认结构化输出规范。每个流的值会覆盖此默认值。',
     },
     {
       name: 'experimental_repairToolCall',
       type: 'ToolCallRepairFunction',
       isOptional: true,
       description:
-        'Default function to repair tool calls that fail to parse. Per-stream values override this default.',
+        '用于修复解析失败的工具调用的默认函数。每个流的值会覆盖此默认值。',
     },
     {
       name: 'experimental_download',
       type: 'DownloadFunction',
       isOptional: true,
       description:
-        'Default custom download function for URLs. Per-stream values override this default.',
+        '用于 URL 的默认自定义下载函数。每个流的值会覆盖此默认值。',
     },
     {
       name: 'prepareStep',
@@ -162,7 +162,7 @@ To see `WorkflowAgent` in action, check out [these examples](#examples).
       type: 'TelemetryOptions',
       isOptional: true,
       description:
-        'Telemetry configuration with options for enabling/disabling telemetry, setting a function ID, and recording inputs/outputs.',
+        '遥测配置，包含启用/禁用遥测、设置函数 ID 以及记录输入/输出的选项。',
     },
     {
       name: 'experimental_onStart',
@@ -416,7 +416,7 @@ To see `WorkflowAgent` in action, check out [these examples](#examples).
       name: 'id',
       type: 'string | undefined',
       description:
-        'The id of the agent. Used for telemetry identification. Read-only.',
+        'agent 的 id。 Used for telemetry identification. Read-only.',
     },
     {
       name: 'tools',
@@ -426,7 +426,7 @@ To see `WorkflowAgent` in action, check out [these examples](#examples).
   ]}
 />
 
-## Methods
+## 方法
 
 ### `stream()`
 
@@ -615,7 +615,7 @@ const result = await agent.stream({
 ]}
 />
 
-#### Returns
+#### 返回值
 
 Returns a `Promise<WorkflowAgentStreamResult>` with the following properties:
 
@@ -713,7 +713,7 @@ import { WorkflowAgent, InferWorkflowAgentTools } from '@ai-sdk/workflow';
 type MyTools = InferWorkflowAgentTools<typeof myAgent>;
 ```
 
-## Examples
+## 示例
 
 ### Basic Agent with Tools
 

@@ -162,7 +162,7 @@ export type OpenAIResponsesLocalShellCallOutput = {
 };
 
 /**
- * Official OpenAI API Specifications: https://platform.openai.com/docs/api-reference/responses/object#responses-object-output-shell_tool_call
+ * 官方 OpenAI API 规范：https://platform.openai.com/docs/api-reference/responses/object#responses-object-output-shell_tool_call
  */
 export type OpenAIResponsesShellCall = {
   type: 'shell_call';
@@ -248,36 +248,36 @@ export type OpenAIResponsesCompactionItem = {
 };
 
 /**
- * A filter used to compare a specified attribute key to a given value using a defined comparison operation.
+ * 用于使用定义的比较操作将指定属性键与给定值进行比较的过滤器。
  */
 export type OpenAIResponsesFileSearchToolComparisonFilter = {
   /**
-   * The key to compare against the value.
+   * 关键是要与值进行比较。
    */
   key: string;
 
   /**
-   * Specifies the comparison operator: eq, ne, gt, gte, lt, lte, in, nin.
+   * 指定比较运算符：eq、ne、gt、gte、lt、lte、in、nin。
    */
   type: 'eq' | 'ne' | 'gt' | 'gte' | 'lt' | 'lte' | 'in' | 'nin';
 
   /**
-   * The value to compare against the attribute key; supports string, number, boolean, or array of string types.
+   * 与属性键进行比较的值；支持字符串、数字、布尔值或字符串类型数组。
    */
   value: string | number | boolean | string[];
 };
 
 /**
- * Combine multiple filters using and or or.
+ * 使用 and 或 or 组合多个过滤器。
  */
 export type OpenAIResponsesFileSearchToolCompoundFilter = {
   /**
-   * Type of operation: and or or.
+   * 运算类型：与或或。
    */
   type: 'and' | 'or';
 
   /**
-   * Array of filters to combine. Items can be ComparisonFilter or CompoundFilter.
+   * 要组合的过滤器数组。项目可以是ComparisonFilter 或CompoundFilter。
    */
   filters: Array<
     | OpenAIResponsesFileSearchToolComparisonFilter
@@ -361,7 +361,7 @@ export type OpenAIResponsesTool =
     }
 
   /**
-   * Official OpenAI API Specifications: https://platform.openai.com/docs/api-reference/responses/create#responses_create-tools-mcp_tool
+   * 官方 OpenAI API 规范：https://platform.openai.com/docs/api-reference/responses/create#responses_create-tools-mcp_tool
    */
   | {
       type: 'mcp';
@@ -1042,7 +1042,7 @@ export const openaiResponsesChunkSchema = lazySchema(() =>
         .transform(value => ({
           type: 'unknown_chunk' as const,
           message: value.type,
-        })), // fallback for unknown chunks
+        })), // 未知块的后备
     ]),
   ),
 );

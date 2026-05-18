@@ -64,11 +64,11 @@ function convertInlineDataToFilePartData(content: DataContent): ConvertResult {
 }
 
 /**
- * 转换任何遗留或标记的顶级“FilePart.data”/
- * 将“ReasoningFilePart.data”值放入标记的 v4 提供程序提示形状中。
+ * 转换任何继承或标记`FilePart.data`/的结构
+ * 将`ReasoningFilePart.data`值放入标记的 v4 提供程序提示形状中。
  *
- * 返回标记的“data”以及解析的媒体类型（提取的
- * 来自“data:” URL（如果适用）。
+ * 返回标记的`数据`以及解析的媒体类型（提取的）
+ * 来自`data:` URL（如果适用）。
  */
 export function convertToLanguageModelV4FilePart(
   content: FilePart['data'],

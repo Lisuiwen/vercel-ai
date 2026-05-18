@@ -1,7 +1,7 @@
 import { LoadSettingError } from '@ai-sdk/provider';
 
 /**
- * Loads a `string` setting from the environment or a parameter.
+ * 从环境或参数加载“字符串”设置。
  *
  * @param settingValue - The setting value.
  * @param environmentVariableName - The environment variable name.

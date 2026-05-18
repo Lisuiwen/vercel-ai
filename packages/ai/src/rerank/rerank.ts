@@ -22,18 +22,18 @@ const originalGenerateCallId = createIdGenerator({
 /**
  * 使用重新排序模型对文档进行重新排序。值的类型由重新排序模型定义。
  *
- * @param model - The reranking model to use.
- * @param documents - The documents that should be reranked.
- * @param query - The query to rerank the documents against.
- * @param topN - Number of top documents to return.
+ * @param model - 要使用的重新排序模型。
+ * @param documents - 应重新排序的文档。
+ * @param query - 用于对文档重新排序的查询。
+ * @param topN - 要返回的顶级文档数。
  *
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
- * @param providerOptions - Additional provider-specific options.
- * @param telemetry - Optional telemetry configuration.
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
+ * @param providerOptions - 其他特定于提供商的选项。
+ * @param telemetry - 可选遥测配置。
  *
- * @returns A result object that contains the reranked documents, the reranked indices, and additional information.
+ * @returns 包含重新排序的文档、重新排序的索引和其他信息的结果对象。
  */
 export async function rerank<VALUE extends JSONObject | string>({
   model: modelArg,
@@ -84,7 +84,7 @@ export async function rerank<VALUE extends JSONObject | string>({
 
   /**
    * 要包含在请求中的附加标头。
-   * 仅适用于基于 HTTP 的提供商。
+   * 仅适用于基于 HTTP 的业务。
    */
   headers?: Record<string, string>;
 
@@ -96,13 +96,13 @@ export async function rerank<VALUE extends JSONObject | string>({
   /**
    * 可选遥测配置。
    *
-   * @deprecated 请改用“遥测”。该别名将在未来的主要版本中删除。
+   * @deprecated 请改用`遥测`。该别名将在未来的主要版本中删除。
    */
   experimental_telemetry?: TelemetryOptions;
 
   /**
    * 其他特定于提供商的选项。他们通过
-   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 从AI SDK发送给成功并实现特定的成功
    * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;

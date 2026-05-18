@@ -12,7 +12,7 @@ import type { LanguageModelV4ToolResult } from './language-model-v4-tool-result'
 import type { LanguageModelV4Usage } from './language-model-v4-usage';
 
 export type LanguageModelV4StreamPart =
-  // Text blocks:
+  // 文本块：
   | {
       type: 'text-start';
       providerMetadata?: SharedV4ProviderMetadata;
@@ -30,7 +30,7 @@ export type LanguageModelV4StreamPart =
       id: string;
     }
 
-  // Reasoning blocks:
+  // 推理块：
   | {
       type: 'reasoning-start';
       providerMetadata?: SharedV4ProviderMetadata;
@@ -48,7 +48,7 @@ export type LanguageModelV4StreamPart =
       providerMetadata?: SharedV4ProviderMetadata;
     }
 
-  // Tool calls and results:
+  // 工具调用和结果：
   | {
       type: 'tool-input-start';
       id: string;
@@ -74,22 +74,22 @@ export type LanguageModelV4StreamPart =
   | LanguageModelV4ToolResult
   | LanguageModelV4CustomContent
 
-  // Files and sources:
+  // 文件和来源：
   | LanguageModelV4File
   | LanguageModelV4ReasoningFile
   | LanguageModelV4Source
 
-  // stream start event with warnings for the call, e.g. unsupported settings:
+  // 带有调用警告的流启动事件，例如不支持的设置：
   | {
       type: 'stream-start';
       warnings: Array<SharedV4Warning>;
     }
 
-  // metadata for the response.
-  // separate stream part so it can be sent once it is available.
+  // 响应的元数据。
+  // 单独的流部分，以便一旦可用就可以发送。
   | ({ type: 'response-metadata' } & LanguageModelV4ResponseMetadata)
 
-  // metadata that is available after the stream is finished:
+  // 流结束后可用的元数据：
   | {
       type: 'finish';
       usage: LanguageModelV4Usage;
@@ -97,13 +97,13 @@ export type LanguageModelV4StreamPart =
       providerMetadata?: SharedV4ProviderMetadata;
     }
 
-  // raw chunks if enabled
+  // 原始块（如果启用）
   | {
       type: 'raw';
       rawValue: unknown;
     }
 
-  // error parts are streamed, allowing for multiple errors
+  // 错误部分是流式传输的，允许出现多个错误
   | {
       type: 'error';
       error: unknown;

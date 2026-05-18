@@ -160,42 +160,42 @@ type ShellArgs = {
 export const shell = createProviderDefinedToolFactoryWithOutputSchema<
   {
     /**
-     * Shell tool action containing commands to execute.
+     * 包含要执行的命令的 Shell 工具操作。
      */
     action: {
       /**
-       * A list of shell commands to execute.
+       * 要执行的 shell 命令的列表。
        */
       commands: string[];
 
       /**
-       * Optional timeout in milliseconds for the commands.
+       * 命令的可选超时（以毫秒为单位）。
        */
       timeoutMs?: number;
 
       /**
-       * Optional maximum number of characters to return from each command.
+       * 每个命令返回的可选最大字符数。
        */
       maxOutputLength?: number;
     };
   },
   {
     /**
-     * An array of shell call output contents.
+     * shell 调用输出内容的数组。
      */
     output: Array<{
       /**
-       * Standard output from the command.
+       * 命令的标准输出。
        */
       stdout: string;
 
       /**
-       * Standard error from the command.
+       * 命令的标准错误。
        */
       stderr: string;
 
       /**
-       * The outcome of the shell execution - either timeout or exit with code.
+       * shell 执行的结果 - 超时或以代码退出。
        */
       outcome: { type: 'timeout' } | { type: 'exit'; exitCode: number };
     }>;

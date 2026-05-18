@@ -14,13 +14,13 @@ export type CompletionRequestOptions = {
 
 export type UseCompletionOptions = {
   /**
-   * 接受“{提示：字符串}”对象并返回的API端点
-   * AI 完成响应的令牌流。默认为“/api/completion”。
+   * 接受`{提示：字符串}`对象并返回的API端点
+   * AI完成请求的令牌流。为默认`/api/completion`。
    */
   api?: string;
   /**
    * 完成的唯一标识符。如果没有提供，将随机提供一个
-   * 生成的。提供后，具有相同“id”的“useCompletion”钩子将
+   * 生成的。提供后，具有相同`id`的`useCompletion`钩子将
    * 跨组件共享状态。
    */
   id?: string;
@@ -59,12 +59,12 @@ export type UseCompletionOptions = {
 
   /**
    * 与 API 请求一起发送的额外主体对象。
-   * @example
-   * 将“sessionId”与提示一起发送到 API。
+   * @例子
+   * 将`sessionId`与提示一起发送到API。
    * ````js
    * 使用完成（{
    *   正文：{
-   *     会话 ID: '123',
+   * 会话 ID: '123',
    *   }
    * })
    * ```

@@ -6,7 +6,7 @@ import {
 import { validateDownloadUrl } from './validate-download-url';
 
 /**
- * Download a file from a URL and return it as a Blob.
+ * 从 URL 下载文件并将其作为 Blob 返回。
  *
  * @param url - The URL to download from.
  * @param options - Optional settings for the download.
@@ -26,7 +26,7 @@ export async function downloadBlob(
       signal: options?.abortSignal,
     });
 
-    // Validate final URL after redirects to prevent SSRF via open redirect
+    // 重定向后验证最终 URL，以通过开放重定向防止 SSRF
     if (response.redirected) {
       validateDownloadUrl(response.url);
     }

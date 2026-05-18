@@ -1,14 +1,14 @@
 import type { SharedV2ProviderMetadata } from '../../shared';
 
 /**
- * Reasoning that the model has generated.
+ * 推理模型已经生成。
  */
 export type LanguageModelV2Reasoning = {
   type: 'reasoning';
   text: string;
 
   /**
-   * Optional provider-specific metadata for the reasoning part.
+   * 推理部分的可选提供者特定元数据。
    */
   providerMetadata?: SharedV2ProviderMetadata;
 };

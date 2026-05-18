@@ -36,18 +36,18 @@ export async function prepareTools({
   cacheControlValidator?: CacheControlValidator;
 
   /**
-   * Whether the model supports native structured output response format.
+   * 模型是否支持本机结构化输出响应格式。
    */
   supportsStructuredOutput: boolean;
 
   /**
-   * Whether the model supports strict mode on tool definitions.
+   * 模型是否支持工具定义的严格模式。
    */
   supportsStrictTools: boolean;
 
   /**
-   * Default for `eager_input_streaming` on function tools that do not set
-   * it explicitly. Driven by the model-level `toolStreaming` option.
+   * 未设置的功能工具上“eager_input_streaming”的默认值
+   * 明确地。由模型级“toolStreaming”选项驱动。
    */
   defaultEagerInputStreaming?: boolean;
 }): Promise<{
@@ -56,7 +56,7 @@ export async function prepareTools({
   toolWarnings: SharedV4Warning[];
   betas: Set<string>;
 }> {
-  // when the tools array is empty, change it to undefined to prevent errors:
+  // 当tools数组为空时，将其更改为undefined以防止错误：
   tools = tools?.length ? tools : undefined;
 
   const toolWarnings: SharedV4Warning[] = [];
@@ -77,12 +77,12 @@ export async function prepareTools({
           canCache: true,
         });
 
-        // Read Anthropic-specific provider options
+        // 阅读 Anthropic 特定的提供者选项
         const anthropicOptions = tool.providerOptions?.anthropic as
           | AnthropicToolOptions
           | undefined;
-        // eager_input_streaming is only supported on custom (function) tools.
-        // Fall back to the model-level default when the tool doesn't set it.
+        // eager_input_streaming 仅在自定义（函数）工具上受支持。
+        // 当工具未设置模型级别默认值时，回退到模型级别默认值。
         const eagerInputStreaming =
           anthropicOptions?.eagerInputStreaming ?? defaultEagerInputStreaming;
         const deferLoading = anthropicOptions?.deferLoading;
@@ -130,9 +130,9 @@ export async function prepareTools({
       }
 
       case 'provider': {
-        // Note: Provider-defined tools don't currently support providerOptions in the SDK,
-        // so cache_control cannot be set on them. The Anthropic API supports caching all tools,
-        // but the SDK would need to be updated to expose providerOptions on provider-defined tools.
+        // 注意：提供商定义的工具当前不支持 SDK 中的providerOptions，
+        // 所以不能在它们上设置cache_control。 Anthropic API 支持缓存所有工具，
+        // 但需要更新 SDK 才能在提供者定义的工具上公开提供者选项。
         switch (tool.id) {
           case 'anthropic.code_execution_20250522': {
             betas.add('code-execution-2025-05-22');
@@ -419,7 +419,7 @@ export async function prepareTools({
         betas,
       };
     case 'none':
-      // Anthropic does not support 'none' tool choice, so we remove the tools:
+      // Anthropic 不支持“无”工具选择，因此我们删除了这些工具：
       return { tools: undefined, toolChoice: undefined, toolWarnings, betas };
     case 'tool':
       return {

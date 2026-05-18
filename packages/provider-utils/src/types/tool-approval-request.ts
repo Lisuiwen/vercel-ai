@@ -1,21 +1,21 @@
 /**
- * Tool approval request prompt part.
+ * 工具审批请求提示部分。
  */
 export type ToolApprovalRequest = {
   type: 'tool-approval-request';
 
   /**
-   * ID of the tool approval.
+   * 工具批准的ID。
    */
   approvalId: string;
 
   /**
-   * ID of the tool call that the approval request is for.
+   * 批准请求所针对的工具调用的 ID。
    */
   toolCallId: string;
 
   /**
-   * Flag indicating whether the tool was automatically approved or denied.
+   * 指示该工具是自动批准还是拒绝的标志。
    *
    * @default false
    */

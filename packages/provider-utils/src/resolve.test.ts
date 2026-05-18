@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { resolve, type Resolvable } from './resolve';
 describe('resolve', () => {
-  // Test raw values
+  // 测试原始值
   it('should resolve raw values', async () => {
     const value: Resolvable<number> = 42;
     expect(await resolve(value)).toBe(42);
@@ -12,7 +12,7 @@ describe('resolve', () => {
     expect(await resolve(value)).toEqual({ foo: 'bar' });
   });
 
-  // Test promises
+  // 测试承诺
   it('should resolve promises', async () => {
     const value: Resolvable<string> = Promise.resolve('hello');
     expect(await resolve(value)).toBe('hello');
@@ -23,7 +23,7 @@ describe('resolve', () => {
     await expect(resolve(value)).rejects.toThrow('test error');
   });
 
-  // Test synchronous functions
+  // 测试同步功能
   it('should resolve synchronous functions', async () => {
     const value: Resolvable<number> = () => 42;
     expect(await resolve(value)).toBe(42);
@@ -34,7 +34,7 @@ describe('resolve', () => {
     expect(await resolve(value)).toEqual({ foo: 'bar' });
   });
 
-  // Test async functions
+  // 测试异步函数
   it('should resolve async functions', async () => {
     const value: Resolvable<string> = async () => 'hello';
     expect(await resolve(value)).toBe('hello');
@@ -63,7 +63,7 @@ describe('resolve', () => {
     expect(await resolve(value)).toBe(undefined);
   });
 
-  // Test with complex objects
+  // 使用复杂对象进行测试
   it('should resolve nested objects', async () => {
     const value: Resolvable<{ nested: { value: number } }> = {
       nested: { value: 42 },
@@ -71,7 +71,7 @@ describe('resolve', () => {
     expect(await resolve(value)).toEqual({ nested: { value: 42 } });
   });
 
-  // Test resolving objects as frequently used in headers as a common example
+  // 作为常见示例，测试解析标头中经常使用的对象
   describe('resolve headers', () => {
     it('should resolve header objects', async () => {
       const headers = { 'Content-Type': 'application/json' };
@@ -97,14 +97,14 @@ describe('resolve', () => {
       let counter = 0;
       const headers = async () => ({ 'X-Request-Number': String(++counter) });
 
-      // Resolve the same headers function multiple times
+      // 多次解析相同的标头函数
       expect(await resolve(headers)).toEqual({ 'X-Request-Number': '1' });
       expect(await resolve(headers)).toEqual({ 'X-Request-Number': '2' });
       expect(await resolve(headers)).toEqual({ 'X-Request-Number': '3' });
     });
   });
 
-  // Test type inference
+  // 测试类型推断
   it('should maintain type information', async () => {
     interface User {
       id: number;
@@ -117,7 +117,7 @@ describe('resolve', () => {
     });
 
     const result = await resolve(userPromise);
-    // TypeScript should recognize result as User type
+    // TypeScript 应该将结果识别为用户类型
     expect(result.id).toBe(1);
     expect(result.name).toBe('Test User');
   });

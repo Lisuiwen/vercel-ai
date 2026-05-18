@@ -1,7 +1,7 @@
 /**
- * Delayed promise. It is only constructed once the value is accessed.
- * This is useful to avoid unhandled promise rejections when the promise is created
- * but not accessed.
+ * 迟到的承诺。仅在访问该值后才构造它。
+ * 这对于避免创建 Promise 时未处理的 Promise 拒绝很有用
+ * 但未访问。
  */
 export class DelayedPromise<T> {
   private status:

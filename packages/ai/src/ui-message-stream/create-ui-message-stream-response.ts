@@ -6,15 +6,15 @@ import type { UIMessageStreamResponseInit } from './ui-message-stream-response-i
 
 /**
  * 从 UI 消息流创建 Response 对象。
- * 该流将转换为服务器发送事件 (SSE) 格式。
+ * 该流将转换为服务器发送事件（SSE）格式。
  *
- * @param options.status - The HTTP status code for the response.
- * @param options.statusText - The HTTP status text for the response.
- * @param options.headers - Additional HTTP headers to include in the response.
- * @param options.stream - The UI message chunk stream to send.
- * @param options.consumeSseStream - Optional callback to consume a copy of the SSE stream independently.
+ * @param options.status - 响应的 HTTP 状态代码。
+ * @param options.statusText - 响应的 HTTP 状态文本。
+ * @param options.headers - 要包含在响应中的其他 HTTP 标头。
+ * @param options.stream - 要发送的 UI 消息块流。
+ * @param options.consumeSseStream - 用于独立使用 SSE 流副本的可选回调。
  *
- * @returns A `Response` object with the UI message stream as the body.
+ * @returns 以 UI 消息流作为主体的`Response`对象。
  */
 export function createUIMessageStreamResponse({
   status,
@@ -28,12 +28,12 @@ export function createUIMessageStreamResponse({
   let sseStream = stream.pipeThrough(new JsonToSseTransformStream());
 
   // 当提供consumeSseStream时，我们需要对流进行tee处理
-  // 并将第二部分发送到consumSseStream函数
+  // 将第二部分发送到consumSseStream函数
   // 以便客户可以独立消费
   if (consumeSseStream) {
     const [stream1, stream2] = sseStream.tee();
     sseStream = stream1;
-    consumeSseStream({ stream: stream2 }); // no await (do not block the response)
+    consumeSseStream({ stream: stream2 }); // 不等待（不阻止响应）
   }
 
   return new Response(sseStream.pipeThrough(new TextEncoderStream()), {

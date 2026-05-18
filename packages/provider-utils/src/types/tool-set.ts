@@ -1,7 +1,7 @@
 import type { Tool } from './tool';
 
 /**
- * A mapping of tool names to tool definitions.
+ * 工具名称到工具定义的映射。
  */
 export type ToolSet = Record<
   string,

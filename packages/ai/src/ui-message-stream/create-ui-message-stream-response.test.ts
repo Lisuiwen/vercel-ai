@@ -188,7 +188,7 @@ describe('createUIMessageStreamResponse', () => {
       ]
     `);
 
-    // 验证 ConsumerSseStream 已被调用但可能仍在运行
+    // 验证 ConsumerSseStream 已被调用但可能持续运行
     expect(consumeSseStream).toHaveBeenCalledTimes(1);
 
     // 现在解析consumeSseStream
@@ -251,7 +251,7 @@ describe('createUIMessageStreamResponse', () => {
       consumeSseStream,
     });
 
-    // 即使 ConsumerSseStream 失败，响应也应该仍然有效
+    // 即使ConsumerSseStream失败，响应也应该仍然有效
     const responseData = await convertReadableStreamToArray(
       response.body!.pipeThrough(new TextDecoderStream()),
     );

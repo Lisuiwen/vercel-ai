@@ -6,8 +6,8 @@ import {
 import { z } from 'zod/v4';
 
 /**
- * Output schema for tool search results - returns tool references
- * that are automatically expanded into full tool definitions by the API.
+ * 工具搜索结果的输出架构 - 返回工具引用
+ * 由 API 自动扩展为完整的工具定义。
  */
 export const toolSearchBm25_20251119OutputSchema = lazySchema(() =>
   zodSchema(
@@ -21,19 +21,19 @@ export const toolSearchBm25_20251119OutputSchema = lazySchema(() =>
 );
 
 /**
- * Input schema for BM25-based tool search.
- * Claude uses natural language queries to search for tools.
+ * 基于 BM25 的工具搜索的输入模式。
+ * Claude 使用自然语言查询来搜索工具。
  */
 const toolSearchBm25_20251119InputSchema = lazySchema(() =>
   zodSchema(
     z.object({
       /**
-       * A natural language query to search for tools.
-       * Claude will use BM25 text search to find relevant tools.
+       * 用于搜索工具的自然语言查询。
+       * Claude 将使用 BM25 文本搜索来查找相关工具。
        */
       query: z.string(),
       /**
-       * Maximum number of tools to return. Optional.
+       * 返回的工具的最大数量。选修的。
        */
       limit: z.number().optional(),
     }),
@@ -43,19 +43,19 @@ const toolSearchBm25_20251119InputSchema = lazySchema(() =>
 const factory = createProviderExecutedToolFactory<
   {
     /**
-     * A natural language query to search for tools.
-     * Claude will use BM25 text search to find relevant tools.
+     * 用于搜索工具的自然语言查询。
+     * Claude 将使用 BM25 文本搜索来查找相关工具。
      */
     query: string;
     /**
-     * Maximum number of tools to return. Optional.
+     * 返回的工具的最大数量。选修的。
      */
     limit?: number;
   },
   Array<{
     type: 'tool_reference';
     /**
-     * The name of the discovered tool.
+     * 发现的工具的名称。
      */
     toolName: string;
   }>,
@@ -68,25 +68,25 @@ const factory = createProviderExecutedToolFactory<
 });
 
 /**
- * Creates a tool search tool that uses BM25 (natural language) to find tools.
+ * 创建一个使用 BM25（自然语言）来查找工具的工具搜索工具。
  *
- * The tool search tool enables Claude to work with hundreds or thousands of tools
- * by dynamically discovering and loading them on-demand. Instead of loading all
- * tool definitions into the context window upfront, Claude searches your tool
- * catalog and loads only the tools it needs.
+ * 工具搜索工具使 Claude 能够使用数百或数千种工具
+ * 通过动态发现并按需加载它们。而不是加载全部
+ * 工具定义预先放入上下文窗口中，Claude 搜索您的工具
+ * 目录并仅加载所需的工具。
  *
- * When Claude uses this tool, it uses natural language queries (NOT regex patterns)
- * to search for tools using BM25 text search.
+ * 当 Claude 使用此工具时，它使用自然语言查询（不是正则表达式模式）
+ * 使用 BM25 文本搜索来搜索工具。
  *
- * **Important**: This tool should never have `deferLoading: true` in providerOptions.
+ * **重要**：此工具不应在providerOptions 中包含“deferLoading: true”。
  *
  * @example
- * ```ts
- * import { anthropicTools } from '@ai-sdk/anthropic';
+ * ````ts
+ * 从'@ai-sdk/anthropic'导入{anthropicTools}；
  *
- * const tools = {
- *   toolSearch: anthropicTools.toolSearchBm25_20251119(),
- *   // Other tools with deferLoading...
+ * 常量工具= {
+ *   工具搜索：anthropicTools.toolSearchBm25_20251119(),
+ *   // 其他带有 deferLoading 的工具...
  * };
  * ```
  *

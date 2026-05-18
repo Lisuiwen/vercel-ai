@@ -8,14 +8,14 @@ import type { TranscriptionModelV4 } from '../../transcription-model/v4/transcri
 import type { SkillsV4 } from '../../skills/v4/skills-v4';
 
 /**
- * Provider for language, text embedding, and image generation models.
+ * 语言、文本嵌入和图像生成模型的提供者。
  */
 export interface ProviderV4 {
   readonly specificationVersion: 'v4';
 
   /**
-   * Returns the language model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的语言模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -26,8 +26,8 @@ export interface ProviderV4 {
   languageModel(modelId: string): LanguageModelV4;
 
   /**
-   * Returns the text embedding model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的文本嵌入模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -38,8 +38,8 @@ export interface ProviderV4 {
   embeddingModel(modelId: string): EmbeddingModelV4;
 
   /**
-   * Returns the image model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的图像模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -48,8 +48,8 @@ export interface ProviderV4 {
   imageModel(modelId: string): ImageModelV4;
 
   /**
-   * Returns the transcription model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的转录模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -58,8 +58,8 @@ export interface ProviderV4 {
   transcriptionModel?(modelId: string): TranscriptionModelV4;
 
   /**
-   * Returns the speech model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的语音模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -68,8 +68,8 @@ export interface ProviderV4 {
   speechModel?(modelId: string): SpeechModelV4;
 
   /**
-   * Returns the reranking model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的重排序模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -80,16 +80,16 @@ export interface ProviderV4 {
   rerankingModel?(modelId: string): RerankingModelV4;
 
   /**
-   * Returns the files interface for uploading files to the provider.
-   * The returned interface can be passed to the `uploadFile` function.
+   * 返回用于将文件上传到提供者的文件接口。
+   * 返回的接口可以传递给`uploadFile`函数。
    *
    * @returns {FilesV4} The files interface for this provider.
    */
   files?(): FilesV4;
 
   /**
-   * Returns the skills interface for uploading skills to the provider.
-   * The returned interface can be passed to the `uploadSkill` function.
+   * 返回用于将技能上传到提供者的技能接口。
+   * 返回的接口可以传递给`uploadSkill`函数。
    */
   skills?(): SkillsV4;
 }

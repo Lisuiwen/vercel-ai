@@ -1,6 +1,6 @@
-// btoa and atob need to be invoked as a function call, not as a method call.
-// Otherwise CloudFlare will throw a
-// "TypeError: Illegal invocation: function called with incorrect this reference"
+// btoa 和 atob 需要作为函数调用来调用，而不是作为方法调用。
+// 否则 CloudFlare 将抛出
+// “类型错误：非法调用：使用不正确的此引用调用的函数”
 const { btoa, atob } = globalThis;
 
 export function convertBase64ToUint8Array(base64String: string) {
@@ -12,8 +12,8 @@ export function convertBase64ToUint8Array(base64String: string) {
 export function convertUint8ArrayToBase64(array: Uint8Array): string {
   let latin1string = '';
 
-  // Note: regular for loop to support older JavaScript versions that
-  // do not support for..of on Uint8Array
+  // 注意：常规 for 循环支持较旧的 JavaScript 版本
+  // 不支持 Uint8Array 上的 ..of
   for (let i = 0; i < array.length; i++) {
     latin1string += String.fromCodePoint(array[i]);
   }

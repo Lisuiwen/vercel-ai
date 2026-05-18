@@ -19,29 +19,29 @@ export const openAITranscriptionModelOptions = lazySchema(() =>
   zodSchema(
     z.object({
       /**
-       * Additional information to include in the transcription response.
+       * 要包含在转录响应中的其他信息。
        */
 
       include: z.array(z.string()).optional(),
 
       /**
-       * The language of the input audio in ISO-639-1 format.
+       * ISO-639-1 格式的输入音频的语言。
        */
       language: z.string().optional(),
 
       /**
-       * An optional text to guide the model's style or continue a previous audio segment.
+       * 用于指导模型风格或继续之前的音频片段的可选文本。
        */
       prompt: z.string().optional(),
 
       /**
-       * The sampling temperature, between 0 and 1.
+       * 采样温度，介于 0 和 1 之间。
        * @default 0
        */
       temperature: z.number().min(0).max(1).default(0).optional(),
 
       /**
-       * The timestamp granularities to populate for this transcription.
+       * 为此转录填充的时间戳粒度。
        * @default ['segment']
        */
       timestampGranularities: z

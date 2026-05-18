@@ -1,27 +1,27 @@
 import type { SharedV4ProviderMetadata } from '../../shared';
 
 /**
- * A video or image file that can be used for video editing or image-to-video generation.
- * Supports both image inputs (for image-to-video) and video inputs (for editing).
+ * 可用于视频编辑或图像到视频生成的视频或图像文件。
+ * 支持图像输入（用于图像到视频）和视频输入（用于编辑）。
  */
 export type VideoModelV4File =
   | {
       type: 'file';
 
       /**
-       * The IANA media type of the file.
-       * Video types: 'video/mp4', 'video/webm', 'video/quicktime'
-       * Image types: 'image/png', 'image/jpeg', 'image/webp'
+       * 文件的 IANA 媒体类型。
+       * 视频类型：“视频/mp4”、“视频/webm”、“视频/quicktime”
+       * 图像类型：'image/png'、'image/jpeg'、'image/webp'
        */
       mediaType: string;
 
       /**
-       * File data as base64 encoded string or binary data.
+       * 文件数据为 base64 编码字符串或二进制数据。
        */
       data: string | Uint8Array;
 
       /**
-       * Optional provider-specific metadata for the file part.
+       * 文件部分的可选提供者特定元数据。
        */
       providerOptions?: SharedV4ProviderMetadata;
     }
@@ -29,12 +29,12 @@ export type VideoModelV4File =
       type: 'url';
 
       /**
-       * The URL of the video or image file.
+       * 视频或图像文件的 URL。
        */
       url: string;
 
       /**
-       * Optional provider-specific metadata for the file part.
+       * 文件部分的可选提供者特定元数据。
        */
       providerOptions?: SharedV4ProviderMetadata;
     };

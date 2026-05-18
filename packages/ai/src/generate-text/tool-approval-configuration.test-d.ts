@@ -170,14 +170,14 @@ describe('ToolApprovalConfiguration', () => {
   describe('negative cases', () => {
     it('rejects approval configuration for unknown tool keys', () => {
       const _config: ToolApprovalConfiguration<Tools, Context> = {
-        // @ts-expect-error 工具批准仅接受提供的工具集中的密钥
+        // @ts-expect-error 工具批准仅接受提供集中工具的密钥
         search: 'approved',
       };
     });
 
     it('rejects per-tool callbacks with the wrong input type for a tool', () => {
       const _config: ToolApprovalConfiguration<Tools, Context> = {
-        // @ts-expect-error 天气批准回调必须接收天气工具输入
+        // @ts-expect-error 批准天气回调必须接收天气工具输入
         weather: (input: { expression: string }) =>
           input.expression.length > 0 ? 'approved' : 'denied',
       };

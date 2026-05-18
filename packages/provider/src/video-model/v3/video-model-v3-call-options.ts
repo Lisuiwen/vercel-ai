@@ -3,79 +3,79 @@ import type { VideoModelV3File } from './video-model-v3-file';
 
 export type VideoModelV3CallOptions = {
   /**
-   * Text prompt for the video generation.
+   * 视频生成的文本提示。
    */
   prompt: string | undefined;
 
   /**
-   * Number of videos to generate. Default: 1.
-   * Most video models only support n=1 due to computational cost.
+   * 要生成的视频数量。默认值：1。
+   * 由于计算成本，大多数视频模型仅支持 n=1。
    */
   n: number;
 
   /**
-   * Aspect ratio of the videos to generate.
-   * Must have the format `{width}:{height}`.
-   * `undefined` will use the provider's default aspect ratio.
-   * Common values: '16:9', '9:16', '1:1', '21:9', '4:3'
+   * 要生成的视频的宽高比。
+   * 必须采用“{width}:{height}”格式。
+   * `undefined` 将使用提供者的默认宽高比。
+   * 常用值：“16:9”、“9:16”、“1:1”、“21:9”、“4:3”
    */
   aspectRatio: `${number}:${number}` | undefined;
 
   /**
-   * Resolution of the video to generate.
-   * Format: `{width}x{height}` (e.g., '1280x720', '1920x1080')
-   * `undefined` will use the provider's default resolution.
+   * 要生成的视频的分辨率。
+   * 格式：“{宽度}x{高度}”（例如“1280x720”、“1920x1080”）
+   * `undefined` 将使用提供者的默认分辨率。
    */
   resolution: `${number}x${number}` | undefined;
 
   /**
-   * Duration of the video in seconds.
-   * `undefined` will use the provider's default duration.
-   * Typically 3-10 seconds for most models.
+   * 视频的持续时间（以秒为单位）。
+   * `undefined` 将使用提供者的默认持续时间。
+   * 大多数模型通常为 3-10 秒。
    */
   duration: number | undefined;
 
   /**
-   * Frames per second (FPS) for the video.
-   * `undefined` will use the provider's default FPS.
-   * Common values: 24, 30, 60
+   * 视频的每秒帧数 (FPS)。
+   * `undefined` 将使用提供商的默认 FPS。
+   * 常用值：24、30、60
    */
   fps: number | undefined;
 
   /**
-   * Seed for deterministic video generation.
-   * `undefined` will use a random seed.
+   * 确定性视频生成的种子。
+   * `undefined` 将使用随机种子。
    */
   seed: number | undefined;
 
   /**
-   * Input image for image-to-video generation.
-   * The image serves as the starting frame that the model will animate.
+   * 用于生成图像到视频的输入图像。
+   * 该图像用作模型动画的起始帧。
    */
   image: VideoModelV3File | undefined;
 
   /**
-   * Additional provider-specific options that are passed through to the provider
-   * as body parameters.
+   * 传递给提供商的其他特定于提供商的选项
+   * 作为身体参数。
    *
-   * Example:
+   * 示例：
    * {
-   *   "fal": {
-   *     "loop": true,
-   *     "motionStrength": 0.8
+   *   “错误”：{
+   *     “循环”：正确，
+   *     “运动强度”：0.8
    *   }
    * }
    */
   providerOptions: SharedV3ProviderOptions;
 
   /**
-   * Abort signal for cancelling the operation.
+   * 用于取消操作的中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional HTTP headers to be sent with the request.
-   * Only applicable for HTTP-based providers.
+   * 与请求一起发送的附加 HTTP 标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string | undefined>;
 };

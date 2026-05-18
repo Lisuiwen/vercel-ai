@@ -1,15 +1,15 @@
 /**
- * Checks if the given URL is supported natively by the model.
+ * 检查模型是否原生支持给定的 URL。
  *
  * @param mediaType - The media type of the URL. Case-sensitive. May be a full
- *                    `type/subtype`, a wildcard `type/*`, or just the
- *                    top-level segment (e.g. `image`).
+ *                    `type/subtype`、通配符 `type/*`，或者只是
+ *                    顶级段（例如“图像”）。
  * @param url - The URL to check.
  * @param supportedUrls - A record where keys are case-sensitive media types (or '*')
- *                        and values are arrays of RegExp patterns for URLs.
+ *                        值是 URL 的 RegExp 模式数组。
  *
  * @returns `true` if the URL matches a pattern under the specific media type
- *          or the wildcard '*', `false` otherwise.
+ *          或通配符“*”，否则为“false”。
  */
 export function isUrlSupported({
   mediaType,
@@ -20,7 +20,7 @@ export function isUrlSupported({
   url: string;
   supportedUrls: Record<string, RegExp[]>;
 }): boolean {
-  // standardize media type and url to lower case
+  // 将媒体类型和 url 标准化为小写
   url = url.toLowerCase();
   mediaType = mediaType.toLowerCase();
 
@@ -28,28 +28,28 @@ export function isUrlSupported({
 
   return (
     Object.entries(supportedUrls)
-      // standardize supported url map into lowercase prefixes:
+      // 将支持的 url 映射标准化为小写前缀：
       .map(([key, value]) => {
         const mediaType = key.toLowerCase();
         return mediaType === '*' || mediaType === '*/*'
           ? { mediaTypePrefix: '', regexes: value }
           : { mediaTypePrefix: mediaType.replace(/\*/, ''), regexes: value };
       })
-      // gather all regexp pattern from matched media type prefixes:
+      // 从匹配的媒体类型前缀中收集所有正则表达式模式：
       .filter(({ mediaTypePrefix }) => {
         if (mediaTypePrefix === '') {
           return true;
         }
-        // For a top-level-only media type (e.g. `image`), we cannot determine
-        // whether a specific subtype (e.g. `image/png`) would apply, so we
-        // only match the corresponding `type/*` prefix exactly.
+        // 对于仅顶级媒体类型（例如“image”），我们无法确定
+        // 特定子类型（例如“image/png”）是否适用，所以我们
+        // 仅与相应的“type/*”前缀完全匹配。
         if (isTopLevelOnly) {
           return `${mediaType}/` === mediaTypePrefix;
         }
         return mediaType.startsWith(mediaTypePrefix);
       })
       .flatMap(({ regexes }) => regexes)
-      // check if any pattern matches the url:
+      // 检查是否有任何模式与 url 匹配：
       .some(pattern => pattern.test(url))
   );
 }

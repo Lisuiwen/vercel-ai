@@ -17,7 +17,7 @@ export function asTranscriptionModelV3(
   });
 
   // TODO 这可能会破坏，我们需要正确地将 v2 映射到 v3
-  // 并支持所有相关的 v3 属性：
+  // 并支持所有相关的v3属性：
   return new Proxy(model, {
     get(target, prop: keyof TranscriptionModelV2) {
       if (prop === 'specificationVersion') return 'v3';

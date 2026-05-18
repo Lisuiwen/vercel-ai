@@ -1,24 +1,24 @@
 import { DownloadError } from './download-error';
 
 /**
- * Default maximum download size: 2 GiB.
+ * 默认最大下载大小：2 GiB。
  *
- * `fetch().arrayBuffer()` has ~2x peak memory overhead (undici buffers the
- * body internally, then creates the JS ArrayBuffer), so very large downloads
- * risk exceeding the default V8 heap limit on 64-bit systems and terminating
- * the process with an out-of-memory error.
+ * `fetch().arrayBuffer()` 的峰值内存开销约为 2 倍（undici 缓冲
+ * body 内部，然后创建 JS ArrayBuffer），因此下载量非常大
+ * 超过 64 位系统上默认 V8 堆限制并终止的风险
+ * 出现内存不足错误的进程。
  *
- * Setting this limit converts an unrecoverable OOM crash into a catchable
- * `DownloadError`.
+ * 设置此限制会将不可恢复的 OOM 崩溃转换为可捕获的
+ * `下载错误`。
  */
 export const DEFAULT_MAX_DOWNLOAD_SIZE = 2 * 1024 * 1024 * 1024;
 
 /**
- * Reads a fetch Response body with a size limit to prevent memory exhaustion.
+ * 读取具有大小限制的获取响应主体，以防止内存耗尽。
  *
- * Checks the Content-Length header for early rejection, then reads the body
- * incrementally via ReadableStream and aborts with a DownloadError when the
- * limit is exceeded.
+ * 检查 Content-Length 标头以了解早期拒绝情况，然后读取正文
+ * 通过 ReadableStream 递增，并在下载错误时中止
+ * 超出限制。
  *
  * @param response - The fetch Response to read.
  * @param url - The URL being downloaded (used in error messages).
@@ -35,7 +35,7 @@ export async function readResponseWithSizeLimit({
   url: string;
   maxBytes?: number;
 }): Promise<Uint8Array> {
-  // Early rejection based on Content-Length header
+  // 基于 Content-Length 标头的早期拒绝
   const contentLength = response.headers.get('content-length');
   if (contentLength != null) {
     const length = parseInt(contentLength, 10);
@@ -49,7 +49,7 @@ export async function readResponseWithSizeLimit({
 
   const body = response.body;
 
-  // Handle missing body (empty responses)
+  // 处理缺失的主体（空响应）
   if (body == null) {
     return new Uint8Array(0);
   }
@@ -85,7 +85,7 @@ export async function readResponseWithSizeLimit({
     }
   }
 
-  // Concatenate chunks into a single Uint8Array
+  // 将块连接成单个 Uint8Array
   const result = new Uint8Array(totalBytes);
   let offset = 0;
   for (const chunk of chunks) {

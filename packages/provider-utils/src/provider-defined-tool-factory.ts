@@ -3,8 +3,8 @@ import type { FlexibleSchema } from './schema';
 import type { Context } from './types/context';
 import type { ToolExecuteFunction } from './types/tool-execute-function';
 /**
- * A provider-defined tool is a tool for which the provider defines the input
- * and output schemas, but does not execute the tool.
+ * 提供者定义的工具是提供者定义输入的工具
+ * 和输出模式，但不执行该工具。
  */
 export type ProviderDefinedToolFactory<
   INPUT,

@@ -63,76 +63,76 @@ export const fileSearch = createProviderExecutedToolFactory<
   {},
   {
     /**
-     * The search query to execute.
+     * 要执行的搜索查询。
      */
     queries: string[];
 
     /**
-     * The results of the file search tool call.
+     * 文件搜索工具调用的结果。
      */
     results:
       | null
       | {
           /**
-           * Set of 16 key-value pairs that can be attached to an object.
-           * This can be useful for storing additional information about the object
-           * in a structured format, and querying for objects via API or the dashboard.
-           * Keys are strings with a maximum length of 64 characters.
-           * Values are strings with a maximum length of 512 characters, booleans, or numbers.
+           * 一组可附加到对象的 16 个键值对。
+           * 这对于存储有关对象的附加信息非常有用
+           * 以结构化格式，并通过 API 或仪表板查询对象。
+           * 键是最大长度为 64 个字符的字符串。
+           * 值是最大长度为 512 个字符的字符串、布尔值或数字。
            */
           attributes: Record<string, unknown>;
 
           /**
-           * The unique ID of the file.
+           * 文件的唯一 ID。
            */
           fileId: string;
 
           /**
-           * The name of the file.
+           * 文件的名称。
            */
           filename: string;
 
           /**
-           * The relevance score of the file - a value between 0 and 1.
+           * 文件的相关性分数 - 0 到 1 之间的值。
            */
           score: number;
 
           /**
-           * The text that was retrieved from the file.
+           * 从文件中检索的文本。
            */
           text: string;
         }[];
   },
   {
     /**
-     * List of vector store IDs to search through.
+     * 要搜索的矢量存储 ID 列表。
      */
     vectorStoreIds: string[];
 
     /**
-     * Maximum number of search results to return. Defaults to 10.
+     * 返回的搜索结果的最大数量。默认为 10。
      */
     maxNumResults?: number;
 
     /**
-     * Ranking options for the search.
+     * 搜索的排名选项。
      */
     ranking?: {
       /**
-       * The ranker to use for the file search.
+       * 用于文件搜索的排序器。
        */
       ranker?: string;
 
       /**
-       * The score threshold for the file search, a number between 0 and 1.
-       * Numbers closer to 1 will attempt to return only the most relevant results,
-       * but may return fewer results.
+       * 文件搜索的分数阈值，0 到 1 之间的数字。
+       * 接近 1 的数字将尝试仅返回最相关的结果，
+       * 但可能返回较少的结果。
        */
       scoreThreshold?: number;
     };
 
     /**
-     * A filter to apply.
+     * 要应用的过滤器。
      */
     filters?:
       | OpenAIResponsesFileSearchToolComparisonFilter

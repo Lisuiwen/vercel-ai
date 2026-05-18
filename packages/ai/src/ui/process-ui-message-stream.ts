@@ -199,7 +199,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
               if (options.toolMetadata !== undefined) {
                 anyPart.toolMetadata = options.toolMetadata;
               }
-              // 一旦设置了providerExecuted，它就会保留用于流式传输
+              // 一旦设置了provider执行，它就会保留用于流式传输
               anyPart.providerExecuted =
                 anyOptions.providerExecuted ?? part.providerExecuted;
 
@@ -307,7 +307,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
               if (options.toolMetadata !== undefined) {
                 anyPart.toolMetadata = options.toolMetadata;
               }
-              // 一旦设置了providerExecuted，它就会保留用于流式传输
+              // 一旦设置了provider执行，它就会保留用于流式传输
               anyPart.providerExecuted =
                 anyOptions.providerExecuted ?? part.providerExecuted;
 
@@ -648,7 +648,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
 
               write();
 
-              // 调用 onToolCall 回调（如果存在）。这是阻塞。
+              // 调用onToolCall回调（如果存在）。这是阻塞。
               // 将来我们应该使其成为非阻塞的，这
               // 需要额外的状态管理来进行错误处理等。
               // 跳过对提供者执行的工具调用 onToolCall，因为它们已经执行
@@ -662,7 +662,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
 
             case 'tool-input-error': {
               // 当该 toolCallId 的部件已存在时（例如来自
-              // tool-input-start)，尊重其类型，以便我们就地更新
+              // 工具-输入-开始)，尊重其类型，方便我们就地更新
               // 而不是创建类型不匹配的重复项。
               const existingPart = state.message.parts
                 .filter(isToolUIPart)
@@ -866,7 +866,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
 
             default: {
               if (isDataUIMessageChunk(chunk)) {
-                // 如果提供了 dataPartSchemas，则验证数据块
+                // 如果提供了dataPartSchemas，则验证数据块
                 if (dataPartSchemas?.[chunk.type] != null) {
                   const partIdx = state.message.parts.findIndex(
                     p =>

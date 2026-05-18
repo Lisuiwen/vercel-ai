@@ -2,30 +2,30 @@ import type { SharedV3Headers } from '../../shared';
 import type { LanguageModelV3StreamPart } from './language-model-v3-stream-part';
 
 /**
- * The result of a language model doStream call.
+ * 语言模型 doStream 调用的结果。
  */
 export type LanguageModelV3StreamResult = {
   /**
-   * The stream.
+   * 溪流。
    */
   stream: ReadableStream<LanguageModelV3StreamPart>;
 
   /**
-   * Optional request information for telemetry and debugging purposes.
+   * 用于遥测和调试目的的可选请求信息。
    */
   request?: {
     /**
-     * Request HTTP body that was sent to the provider API.
+     * 请求发送到提供商 API 的 HTTP 正文。
      */
     body?: unknown;
   };
 
   /**
-   * Optional response data.
+   * 可选的响应数据。
    */
   response?: {
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers?: SharedV3Headers;
   };

@@ -1,7 +1,7 @@
 import type { JSONSchema7, JSONSchema7Definition } from '@ai-sdk/provider';
 
 /**
- * Recursively adds additionalProperties: false to the JSON schema. This is necessary because some providers (e.g. OpenAI) do not support additionalProperties: true.
+ * 递归地将additionalProperties: false 添加到JSON 架构中。这是必要的，因为某些提供商（例如 OpenAI）不支持additionalProperties: true。
  */
 export function addAdditionalPropertiesToJsonSchema(
   jsonSchema: JSONSchema7,

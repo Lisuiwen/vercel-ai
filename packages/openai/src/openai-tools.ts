@@ -12,18 +12,18 @@ import { mcp } from './tool/mcp';
 
 export const openaiTools = {
   /**
-   * The apply_patch tool lets GPT-5.1 create, update, and delete files in your
-   * codebase using structured diffs. Instead of just suggesting edits, the model
-   * emits patch operations that your application applies and then reports back on,
-   * enabling iterative, multi-step code editing workflows.
+   * apply_patch 工具可让 GPT-5.1 创建、更新和删除您的文件
+   * 使用结构化差异的代码库。该模型不仅仅是建议编辑
+   * 发出应用程序应用的补丁操作，然后返回报告，
+   * 支持迭代、多步骤的代码编辑工作流程。
    *
    */
   applyPatch,
 
   /**
-   * Custom tools let callers constrain model output to a grammar (regex or
-   * Lark syntax). The model returns a `custom_tool_call` output item whose
-   * `input` field is a string matching the specified grammar.
+   * 自定义工具允许调用者将模型输出限制为语法（正则表达式或
+   * Lark 语法）。该模型返回一个“custom_tool_call”输出项，其
+   * `input` 字段是与指定语法匹配的字符串。
    *
    * @param description - An optional description of the tool.
    * @param format - The output format constraint (grammar type, syntax, and definition).
@@ -31,18 +31,18 @@ export const openaiTools = {
   customTool,
 
   /**
-   * The Code Interpreter tool allows models to write and run Python code in a
-   * sandboxed environment to solve complex problems in domains like data analysis,
-   * coding, and math.
+   * 代码解释器工具允许模型在以下环境中编写和运行 Python 代码：
+   * 沙盒环境，用于解决数据分析等领域的复杂问题，
+   * 编码和数学。
    *
    * @param container - The container to use for the code interpreter.
    */
   codeInterpreter,
 
   /**
-   * File search is a tool available in the Responses API. It enables models to
-   * retrieve information in a knowledge base of previously uploaded files through
-   * semantic and keyword search.
+   * 文件搜索是 Responses API 中提供的一个工具。它使模型能够
+   * 通过以下方式检索先前上传文件的知识库中的信息
+   * 语义和关键字搜索。
    *
    * @param vectorStoreIds - The vector store IDs to use for the file search.
    * @param maxNumResults - The maximum number of results to return.
@@ -52,9 +52,9 @@ export const openaiTools = {
   fileSearch,
 
   /**
-   * The image generation tool allows you to generate images using a text prompt,
-   * and optionally image inputs. It leverages the GPT Image model,
-   * and automatically optimizes text inputs for improved performance.
+   * 图像生成工具允许您使用文本提示生成图像，
+   * 以及可选的图像输入。它利用 GPT 图像模型，
+   * 并自动优化文本输入以提高性能。
    *
    * @param background - Background type for the generated image. One of 'auto', 'opaque', or 'transparent'.
    * @param inputFidelity - Input fidelity for the generated image. One of 'low' or 'high'.
@@ -70,29 +70,29 @@ export const openaiTools = {
   imageGeneration,
 
   /**
-   * Local shell is a tool that allows agents to run shell commands locally
-   * on a machine you or the user provides.
+   * 本地shell是一个允许代理在本地运行shell命令的工具
+   * 在您或用户提供的机器上。
    *
-   * Supported models: `gpt-5-codex`
+   * 支持的模型：`gpt-5-codex`
    */
   localShell,
 
   /**
-   * The shell tool allows the model to interact with your local computer through
-   * a controlled command-line interface. The model proposes shell commands; your
-   * integration executes them and returns the outputs.
+   * shell 工具允许模型通过以下方式与本地计算机交互
+   * 受控的命令行界面。该模型提出了 shell 命令；你的
+   * 集成执行它们并返回输出。
    *
-   * Available through the Responses API for use with GPT-5.1.
+   * 可通过响应 API 与 GPT-5.1 一起使用。
    *
-   * WARNING: Running arbitrary shell commands can be dangerous. Always sandbox
-   * execution or add strict allow-/deny-lists before forwarding a command to
-   * the system shell.
+   * 警告：运行任意 shell 命令可能很危险。始终沙箱
+   * 在将命令转发到之前执行或添加严格的允许/拒绝列表
+   * 系统外壳。
    */
   shell,
 
   /**
-   * Web search allows models to access up-to-date information from the internet
-   * and provide answers with sourced citations.
+   * 网络搜索允许模型从互联网获取最新信息
+   * 并提供带有来源引文的答案。
    *
    * @param searchContextSize - The search context size to use for the web search.
    * @param userLocation - The user location to use for the web search.
@@ -100,8 +100,8 @@ export const openaiTools = {
   webSearchPreview,
 
   /**
-   * Web search allows models to access up-to-date information from the internet
-   * and provide answers with sourced citations.
+   * 网络搜索允许模型从互联网获取最新信息
+   * 并提供带有来源引文的答案。
    *
    * @param filters - The filters to use for the web search.
    * @param searchContextSize - The search context size to use for the web search.
@@ -110,28 +110,28 @@ export const openaiTools = {
   webSearch,
 
   /**
-   * MCP (Model Context Protocol) allows models to call tools exposed by
-   * remote MCP servers or service connectors.
+   * MCP（模型上下文协议）允许模型调用由
+   * 远程 MCP 服务器或服务连接器。
    *
    * @param serverLabel - Label to identify the MCP server.
    * @param allowedTools - Allowed tool names or filter object.
    * @param authorization - OAuth access token for the MCP server/connector.
    * @param connectorId - Identifier for a service connector.
    * @param headers - Optional headers to include in MCP requests.
-   * // param requireApproval - Approval policy ('always'|'never'|filter object). (Removed - always 'never')
+   * // 参数 requireApproval - 批准策略（'always'|'never'|过滤器对象）。 （已删除 - 始终为“从不”）
    * @param serverDescription - Optional description of the server.
    * @param serverUrl - URL for the MCP server.
    */
   mcp,
 
   /**
-   * Tool search allows the model to dynamically search for and load deferred
-   * tools into the model's context as needed. This helps reduce overall token
-   * usage, cost, and latency by only loading tools when the model needs them.
+   * 搜索工具允许模型动态搜索并加载延迟
+   * 根据需要将工具放入模型的上下文中。这有助于减少总体令牌
+   * 仅在模型需要时加载工具，从而降低使用量、成本和延迟。
    *
-   * To use tool search, mark functions or namespaces with `defer_loading: true`
-   * in the tools array. The model will use tool search to load these tools
-   * when it determines they are needed.
+   * 要使用工具搜索，请使用“defer_loading: true”标记函数或命名空间
+   * 在工具数组中。该模型将使用工具搜索来加载这些工具
+   * 当它确定需要它们时。
    */
   toolSearch,
 };

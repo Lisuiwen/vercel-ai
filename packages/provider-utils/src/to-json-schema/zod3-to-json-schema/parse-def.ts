@@ -9,7 +9,7 @@ import { parseAnyDef } from './parsers/any';
 export function parseDef(
   def: ZodTypeDef,
   refs: Refs,
-  forceResolution = false, // Forces a new schema to be instantiated even though its def has been seen. Used for improving refs in definitions. See https://github.com/StefanTerdell/zod-to-json-schema/pull/61.
+  forceResolution = false, // 强制实例化新模式，即使其 def 已被看到。用于改进定义中的参考。请参阅 https://github.com/StefanTerdell/zod-to-json-schema/pull/61。
 ): JsonSchema7Type | undefined {
   const seenItem = refs.seen.get(def);
 

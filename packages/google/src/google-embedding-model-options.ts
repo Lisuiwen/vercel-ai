@@ -30,22 +30,22 @@ export const googleEmbeddingModelOptions = lazySchema(() =>
   zodSchema(
     z.object({
       /**
-       * Optional. Optional reduced dimension for the output embedding.
-       * If set, excessive values in the output embedding are truncated from the end.
+       * 选修的。输出嵌入的可选降维。
+       * 如果设置，输出嵌入中过多的值将从末尾被截断。
        */
       outputDimensionality: z.number().optional(),
 
       /**
-       * Optional. Specifies the task type for generating embeddings.
-       * Supported task types:
-       * - SEMANTIC_SIMILARITY: Optimized for text similarity.
-       * - CLASSIFICATION: Optimized for text classification.
-       * - CLUSTERING: Optimized for clustering texts based on similarity.
-       * - RETRIEVAL_DOCUMENT: Optimized for document retrieval.
-       * - RETRIEVAL_QUERY: Optimized for query-based retrieval.
-       * - QUESTION_ANSWERING: Optimized for answering questions.
-       * - FACT_VERIFICATION: Optimized for verifying factual information.
-       * - CODE_RETRIEVAL_QUERY: Optimized for retrieving code blocks based on natural language queries.
+       * 选修的。指定生成嵌入的任务类型。
+       * 支持的任务类型：
+       * - SEMANTIC_SIMILARITY：针对文本相似性进行优化。
+       * - 分类：针对文本分类进行了优化。
+       * - 聚类：针对基于相似性的文本聚类进行了优化。
+       * - RETRIEVAL_DOCUMENT：针对文档检索进行了优化。
+       * - RETRIEVAL_QUERY：针对基于查询的检索进行了优化。
+       * - QUESTION_ANSWERING：针对回答问题进行了优化。
+       * - FACT_VERIFICATION：针对验证事实信息进行了优化。
+       * - CODE_RETRIEVAL_QUERY：针对基于自然语言查询检索代码块进行了优化。
        */
       taskType: z
         .enum([
@@ -61,13 +61,13 @@ export const googleEmbeddingModelOptions = lazySchema(() =>
         .optional(),
 
       /**
-       * Optional. Per-value multimodal content parts for embedding non-text
-       * content (images, video, PDF, audio). Each entry corresponds to the
-       * embedding value at the same index and its parts are merged with the
-       * text value in the request. Use `null` for entries that are text-only.
+       * 选修的。用于嵌入非文本的按值多模式内容部分
+       * 内容（图像、视频、PDF、音频）。每个条目对应于
+       * 同一索引处的嵌入值及其部分与
+       * 请求中的文本值。对于纯文本条目使用“null”。
        *
-       * The array length must match the number of values being embedded. In
-       * the case of a single embedding, the array length must be 1.
+       * 数组长度必须与嵌入的值的数量匹配。在
+       * 单嵌入的情况下，数组长度必须为1。
        */
       content: z
         .array(z.array(googleEmbeddingContentPartSchema).min(1).nullable())

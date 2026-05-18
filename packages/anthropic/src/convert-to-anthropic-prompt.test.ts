@@ -4,7 +4,7 @@ import { createToolNameMapping } from '@ai-sdk/provider-utils';
 import { convertToAnthropicPrompt } from './convert-to-anthropic-prompt';
 import { CacheControlValidator } from './get-cache-control';
 
-// Create a default identity tool name mapping for tests (no tools = no mapping)
+// 创建用于测试的默认身份工具名称映射（无工具=无映射）
 const defaultToolNameMapping = createToolNameMapping({
   tools: [],
   providerToolNames: {},
@@ -998,7 +998,7 @@ describe('tool messages', () => {
                     type: 'file',
                     data: {
                       type: 'data',
-                      data: 'JVBERi0xLjQKJeLjz9MKNCAwIG9iago=', // Sample PDF base64
+                      data: 'JVBERi0xLjQKJeLjz9MKNCAwIG9iago=', // 示例 PDF base64
                     },
                     mediaType: 'application/pdf',
                   },
@@ -2162,8 +2162,8 @@ describe('assistant messages', () => {
         toolNameMapping: defaultToolNameMapping,
       });
 
-      // The encrypted blob must round-trip verbatim under the snake_case
-      // wire field name `encrypted_content` so the server can decrypt it.
+      // 加密的 blob 必须在 Snake_case 下逐字往返
+      // 发送字段名称“encrypted_content”，以便服务器可以解密它。
       expect(result.prompt.messages[0].content[1]).toMatchInlineSnapshot(`
         {
           "cache_control": undefined,
@@ -2369,7 +2369,7 @@ describe('assistant messages', () => {
         toolNameMapping: defaultToolNameMapping,
       });
 
-      // Only the server_tool_use block is emitted; the result is skipped.
+      // 仅发出 server_tool_use 块；结果被跳过。
       expect(result.prompt.messages[0].content).toHaveLength(1);
       expect(warnings).toMatchInlineSnapshot(`
         [
@@ -3529,7 +3529,7 @@ describe('cache control', () => {
       toolNameMapping: defaultToolNameMapping,
     });
 
-    // First 4 should have cache_control
+    // 前4个应该有cache_control
     expect(result.prompt.system?.[0].cache_control).toEqual({
       type: 'ephemeral',
     });
@@ -3543,10 +3543,10 @@ describe('cache control', () => {
       type: 'ephemeral',
     });
 
-    // 5th should be rejected
+    // 5号应该被拒绝
     expect(result.prompt.messages[2].content[0].cache_control).toBeUndefined();
 
-    // Should have warning about exceeding limit
+    // 应该有超过限制的警告
     expect(cacheControlValidator.getWarnings()).toMatchInlineSnapshot(`
       [
         {

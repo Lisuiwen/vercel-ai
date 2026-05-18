@@ -6,83 +6,83 @@ import type {
 import type { RerankingModelV3CallOptions } from './reranking-model-v3-call-options';
 
 /**
- * Specification for a reranking model that implements the reranking model interface version 3.
+ * 实现重新排序模型接口版本 3 的重新排序模型规范。
  */
 export type RerankingModelV3 = {
   /**
-   * The reranking model must specify which reranking model interface version it implements.
+   * 重排序模型必须指定它实现的重排序模型接口版本。
    */
   readonly specificationVersion: 'v3';
 
   /**
-   * Provider ID.
+   * 提供商 ID。
    */
   readonly provider: string;
 
   /**
-   * Provider-specific model ID.
+   * 提供商特定的模型 ID。
    */
   readonly modelId: string;
 
   /**
-   * Reranking a list of documents using the query.
+   * 使用查询对文档列表重新排序。
    */
-  // Naming: "do" prefix to prevent accidental direct usage of the method by the user.
+  // 命名：“do”前缀，防止用户意外直接使用该方法。
   doRerank(options: RerankingModelV3CallOptions): PromiseLike<{
     /**
-     * Ordered list of reranked documents (via index before reranking).
-     * The documents are sorted by the descending order of relevance scores.
+     * 重新排序文档的有序列表（通过重新排序之前的索引）。
+     * 文档按相关性分数的降序排序。
      */
     ranking: Array<{
       /**
-       * The index of the document in the original list of documents before reranking.
+       * 重新排序之前原始文档列表中文档的索引。
        */
       index: number;
 
       /**
-       * The relevance score of the document after reranking.
+       * 重新排序后文档的相关性得分。
        */
       relevanceScore: number;
     }>;
 
     /**
-     * Additional provider-specific metadata. They are passed through
-     * to the provider from the AI SDK and enable provider-specific
-     * functionality that can be fully encapsulated in the provider.
+     * 其他特定于提供商的元数据。他们通过
+     * 从 AI SDK 发送给提供商并启用特定于提供商的
+     * 可以完全封装在提供者中的功能。
      */
     providerMetadata?: SharedV3ProviderMetadata;
 
     /**
-     * Warnings for the call, e.g. unsupported settings.
+     * 通话警告，例如不支持的设置。
      */
     warnings?: Array<SharedV3Warning>;
 
     /**
-     * Optional response information for debugging purposes.
+     * 用于调试目的的可选响应信息。
      */
     response?: {
       /**
-       * ID for the generated response, if the provider sends one.
+       * 生成的响应的 ID（如果提供商发送了响应）。
        */
       id?: string;
 
       /**
-       * Timestamp for the start of the generated response, if the provider sends one.
+       * 生成的响应的开始时间戳（如果提供者发送响应）。
        */
       timestamp?: Date;
 
       /**
-       * The ID of the response model that was used to generate the response, if the provider sends one.
+       * 用于生成响应的响应模型的 ID（如果提供者发送了响应模型）。
        */
       modelId?: string;
 
       /**
-       * Response headers.
+       * 响应标头。
        */
       headers?: SharedV3Headers;
 
       /**
-       * Response body.
+       * 响应体。
        */
       body?: unknown;
     };

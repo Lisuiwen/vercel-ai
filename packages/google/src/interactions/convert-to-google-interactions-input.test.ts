@@ -1307,9 +1307,9 @@ describe('convertToGoogleInteractionsInput', () => {
         content?: Array<unknown>;
       }>;
       expect(steps).toHaveLength(3);
-      // After compaction, the surviving 3 steps are: user_input (q1),
-      // model_output (the assistant turn from a different interaction —
-      // kept), and user_input (follow-up).
+      // 压缩后，剩下的3步是：user_input(q1)，
+      // model_output（助手从不同的交互中转向 -
+      // 保留）和 user_input（后续）。
       expect(steps[1].type).toBe('model_output');
     });
 
@@ -1442,9 +1442,9 @@ describe('convertToGoogleInteractionsInput', () => {
         prompt,
         previousInteractionId: PREV_ID,
       });
-      // After compaction, only "first user input" + "follow-up" remain. The
-      // single-turn fast-path doesn't kick in because two user turns survive,
-      // so we still get the Array<Turn> shape — but no model turn.
+      // 压缩后，只剩下“第一个用户输入”+“后续”。这
+      // 单回合快速路径不会启动，因为两个用户回合仍然存在，
+      // 所以我们仍然得到 Array<Turn> 形状 - 但没有模型转弯。
       expect(result.input).toMatchInlineSnapshot(`
         [
           {
@@ -1501,8 +1501,8 @@ describe('convertToGoogleInteractionsInput', () => {
         type: string;
         signature?: string;
       }>;
-      // Assistant content fans out into discrete steps: a `thought` step
-      // (carrying the signature) followed by a `model_output` step.
+      // 助理内容分散成离散的步骤：“思考”步骤
+      // （携带签名）后跟“model_output”步骤。
       const thoughtStep = steps.find(step => step.type === 'thought');
       expect(thoughtStep).toMatchObject({
         type: 'thought',

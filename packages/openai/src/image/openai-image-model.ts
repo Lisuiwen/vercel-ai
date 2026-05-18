@@ -262,9 +262,9 @@ export class OpenAIImageModel implements ImageModelV4 {
 }
 
 /**
- * Distributes input token details evenly across images, with the remainder
- * assigned to the last image so that summing across all entries gives the
- * exact total.
+ * 将输入标记详细信息均匀地分布在图像上，其余部分
+ * 分配给最后一个图像，以便对所有条目求和得出
+ * 确切的总数。
  */
 function distributeTokenDetails(
   details:

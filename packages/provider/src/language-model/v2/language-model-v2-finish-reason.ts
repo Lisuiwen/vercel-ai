@@ -1,20 +1,20 @@
 /**
- * Reason why a language model finished generating a response.
+ * 语言模型完成生成响应的原因。
  *
- * Can be one of the following:
- * - `stop`: model generated stop sequence
- * - `length`: model generated maximum number of tokens
- * - `content-filter`: content filter violation stopped the model
- * - `tool-calls`: model triggered tool calls
- * - `error`: model stopped because of an error
- * - `other`: model stopped for other reasons
- * - `unknown`: the model has not transmitted a finish reason
+ * 可以是以下之一：
+ * - `stop`：模型生成的停止序列
+ * - `length`：模型生成的最大令牌数
+ * - `content-filter`：内容过滤器违规停止了模型
+ * - `tool-calls`：模型触发的工具调用
+ * - `error`：模型因错误而停止
+ * - `other`：模型因其他原因停止
+ * -“未知”：模型尚未传输完成原因
  */
 export type LanguageModelV2FinishReason =
-  | 'stop' // model generated stop sequence
-  | 'length' // model generated maximum number of tokens
-  | 'content-filter' // content filter violation stopped the model
-  | 'tool-calls' // model triggered tool calls
-  | 'error' // model stopped because of an error
-  | 'other' // model stopped for other reasons
-  | 'unknown'; // the model has not transmitted a finish reason
+  | 'stop' // 模型生成的停止序列
+  | 'length' // 模型生成的最大令牌数
+  | 'content-filter' // 内容过滤器违规停止了模型
+  | 'tool-calls' // 模型触发工具调用
+  | 'error' // 模型因错误而停止
+  | 'other' // 模型因其他原因停止
+  | 'unknown'; // 该模型尚未传输完成原因

@@ -39,7 +39,7 @@ describe('union', () => {
       z.union([
         z.literal(undefined),
         z.literal(Symbol('abc')),
-        // @ts-expect-error Ok
+        // @ts-expect-error 好的
         z.literal(function () {}),
       ])._def,
       getRefs(),

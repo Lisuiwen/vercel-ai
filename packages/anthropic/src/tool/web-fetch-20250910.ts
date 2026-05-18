@@ -55,7 +55,7 @@ const webFetch_20250910InputSchema = lazySchema(() =>
 const factory = createProviderExecutedToolFactory<
   {
     /**
-     * The URL to fetch.
+     * 要获取的 URL。
      */
     url: string;
   },
@@ -63,23 +63,23 @@ const factory = createProviderExecutedToolFactory<
     type: 'web_fetch_result';
 
     /**
-     * Fetched content URL
+     * 获取的内容 URL
      */
     url: string;
 
     /**
-     * Fetched content.
+     * 已获取内容。
      */
     content: {
       type: 'document';
 
       /**
-       * Title of the document
+       * 文件标题
        */
       title: string | null;
 
       /**
-       * Citation configuration for the document
+       * 文档的引文配置
        */
       citations?: { enabled: boolean };
 
@@ -97,37 +97,37 @@ const factory = createProviderExecutedToolFactory<
     };
 
     /**
-     * ISO 8601 timestamp when the content was retrieved
+     * 检索内容时的 ISO 8601 时间戳
      */
     retrievedAt: string | null;
   },
   {
     /**
-     * The maxUses parameter limits the number of web fetches performed
+     * maxUses 参数限制执行的 Web 获取次数
      */
     maxUses?: number;
 
     /**
-     * Only fetch from these domains
+     * 仅从这些域获取
      */
     allowedDomains?: string[];
 
     /**
-     * Never fetch from these domains
+     * 切勿从这些域获取
      */
     blockedDomains?: string[];
 
     /**
-     * Unlike web search where citations are always enabled, citations are optional for
-     * web fetch. Set "citations": {"enabled": true} to enable Claude to cite specific passages
-     * from fetched documents.
+     * 与始终启用引文的网络搜索不同，引文是可选的
+     * 网络获取。设置 "itations": {"enabled": true} 以使 Claude 能够引用特定段落
+     * 从获取的文档中。
      */
     citations?: {
       enabled: boolean;
     };
 
     /**
-     * The maxContentTokens parameter limits the amount of content that will be included in the context.
+     * maxContentTokens 参数限制将包含在上下文中的内容量。
      */
     maxContentTokens?: number;
   }
@@ -139,7 +139,7 @@ const factory = createProviderExecutedToolFactory<
 });
 
 export const webFetch_20250910 = (
-  args: Parameters<typeof factory>[0] = {}, // default
+  args: Parameters<typeof factory>[0] = {}, // 默认
 ) => {
   return factory(args);
 };

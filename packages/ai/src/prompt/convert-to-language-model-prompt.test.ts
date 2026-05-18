@@ -295,7 +295,7 @@ describe('convertToLanguageModelPrompt', () => {
             ],
           },
           supportedUrls: {
-            // 不支持 PDF，但支持 image/*
+            // 不支持PDF，但支持image/*
             'image/*': [/^https:\/\/.*$/],
           },
           download: createDefaultDownloadFunction(async ({ url }) => {
@@ -360,7 +360,7 @@ describe('convertToLanguageModelPrompt', () => {
       });
 
       it('should handle file parts with Uint8Array data', async () => {
-        const uint8Data = new Uint8Array([72, 101, 108, 108, 111]); // ASCII 格式的“你好”
+        const uint8Data = new Uint8Array([72, 101, 108, 108, 111]); // ASCII 格式的`你好`
         const result = await convertToLanguageModelPrompt({
           prompt: {
             instructions: undefined,
@@ -1089,7 +1089,7 @@ describe('convertToLanguageModelPrompt', () => {
       const mockDownload = vi.fn().mockResolvedValue([
         {
           url: new URL('https://example.com/test-file.txt'),
-          data: new Uint8Array([72, 101, 108, 108, 111]), // ASCII 格式的“你好”
+          data: new Uint8Array([72, 101, 108, 108, 111]), // ASCII 格式的`你好`
           mediaType: 'text/plain',
         },
       ]);
@@ -1110,7 +1110,7 @@ describe('convertToLanguageModelPrompt', () => {
             },
           ],
         },
-        supportedUrls: {}, // 不支持 URL，因此应触发下载
+        supportedUrls: {}, // 不支持URL，因此需触发下载
         download: mockDownload,
       });
 
@@ -2065,7 +2065,7 @@ describe('convertToLanguageModelMessage', () => {
             content: [
               {
                 type: 'file',
-                data: 'dGVzdA==', // Base64 中的“测试”
+                data: 'dGVzdA==', // Base64中的`测试`
                 mediaType: 'application/pdf',
               },
             ],
@@ -2747,10 +2747,10 @@ describe('convertToLanguageModelMessage', () => {
       });
 
       it('should fall back when file-url extension collides with Object.prototype (e.g. `.constructor`)', () => {
-        // 回归：之前的实现使用了 `ext in URL_EXTENSION_TO_MEDIA_TYPE`，
-        // 它遍历原型链并返回“Object”
+        // 回归：之前的实现使用了`ext in URL_EXTENSION_TO_MEDIA_TYPE`，
+        // 它继承了原型链并返回`Object`
         // 攻击者控制的扩展的构造函数（函数），例如
-        // `.constructor`，破坏了 helper 的 `: string` 契约。
+        // `.constructor`，破坏了 helper 的 `:string` 契约。
         convertToLanguageModelMessage({
           message: {
             role: 'tool',

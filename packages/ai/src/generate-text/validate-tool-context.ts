@@ -6,8 +6,8 @@ import { validateTypes, type FlexibleSchema } from '@ai-sdk/provider-utils';
  * 否则，上下文将在之前通过模式进行验证和规范化
  * 被传递到工具执行和批准挂钩中。
  *
- * @throws {TypeValidationError} When the provided tool context does not match
- * 该工具声明了“contextSchema”。
+ * @throws {TypeValidationError} 当提供的工具上下文不匹配时
+ * 该工具声明了`contextSchema`。
  */
 export async function validateToolContext<CONTEXT>({
   toolName,

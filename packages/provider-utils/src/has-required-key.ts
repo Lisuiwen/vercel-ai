@@ -1,5 +1,5 @@
 /**
- * Checks if an object has required keys.
+ * 检查对象是否具有所需的键。
  * @param OBJECT - The object to check.
  * @returns True if the object has required keys, false otherwise.
  */

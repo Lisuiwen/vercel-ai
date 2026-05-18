@@ -23,11 +23,11 @@ export function isTerminalStatus(
 }
 
 /*
- * Default polling cadence for background interactions. Starts at 1 s, doubles
- * each tick up to a 10 s ceiling, and gives up after 30 minutes -- agent runs
- * such as deep research can take tens of minutes server-side, so we err on
- * the long side rather than truncate a real run. Override per-call via
- * `providerOptions.google.pollingTimeoutMs`.
+ * 后台交互的默认轮询节奏。从 1 秒开始，双倍
+ * 每个滴答声达到 10 秒的上限，并在 30 分钟后放弃——代理运行
+ * 例如深度研究可能需要服务器端数十分钟的时间，所以我们犯了错误
+ * 长边而不是截断实际运行。通过覆盖每次调用
+ * `providerOptions.google.pollingTimeoutMs`。
  */
 const DEFAULT_INITIAL_DELAY_MS = 1000;
 const DEFAULT_MAX_DELAY_MS = 10000;
@@ -40,10 +40,10 @@ export type PollGoogleInteractionResult = {
 };
 
 /**
- * Polls `GET {baseURL}/interactions/{id}` until the response status is
- * terminal (`completed` / `failed` / `cancelled` / `incomplete`). Throws if
- * the polling loop exceeds `timeoutMs`, the response has no `id` to poll on,
- * or the abort signal fires.
+ * 轮询“GET {baseURL}/interactions/{id}”，直到响应状态为
+ * 终端（“已完成”/“失败”/“已取消”/“不完整”）。抛出如果
+ * 轮询循环超过“timeoutMs”，响应没有“id”可供轮询，
+ * 或中止信号触发。
  */
 export async function pollGoogleInteractionUntilTerminal({
   baseURL,
@@ -76,10 +76,10 @@ export async function pollGoogleInteractionUntilTerminal({
   const url = `${baseURL}/interactions/${encodeURIComponent(interactionId)}`;
 
   /*
-   * When the caller aborts, fire a best-effort `POST /interactions/{id}/cancel`
-   * so the run stops billing on Google's side. Wrap every exit path that's
-   * triggered by an abort -- the explicit `abortSignal.aborted` check, the
-   * AbortError thrown by `delay()`, and any AbortError thrown by `getFromApi`.
+   * 当调用者中止时，尽最大努力触发 `POST /interactions/{id}/cancel`
+   * 因此 Google 方面将停止计费。包裹每条出口路径
+   * 由中止触发——显式的“abortSignal.aborted”检查，
+   * `delay()` 抛出的 AbortError 以及 `getFromApi` 抛出的任何 AbortError。
    */
   const cancelOnServer = () =>
     cancelGoogleInteraction({ baseURL, interactionId, headers, fetch });

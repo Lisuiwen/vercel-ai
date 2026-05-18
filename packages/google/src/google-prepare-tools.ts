@@ -41,7 +41,7 @@ export function prepareTools({
       };
   toolWarnings: SharedV4Warning[];
 } {
-  // when the tools array is empty, change it to undefined to prevent errors:
+  // 当tools数组为空时，将其更改为undefined以防止错误：
   tools = tools?.length ? tools : undefined;
 
   const toolWarnings: SharedV4Warning[] = [];
@@ -66,7 +66,7 @@ export function prepareTools({
     return { tools: undefined, toolConfig: undefined, toolWarnings };
   }
 
-  // Check for mixed tool types and add warnings
+  // 检查混合工具类型并添加警告
   const hasFunctionTools = tools.some(tool => tool.type === 'function');
   const hasProviderTools = tools.some(tool => tool.type === 'provider');
 

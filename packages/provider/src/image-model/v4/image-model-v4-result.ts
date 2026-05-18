@@ -10,36 +10,36 @@ export type ImageModelV4ProviderMetadata = Record<
 >;
 
 /**
- * The result of an image model doGenerate call.
+ * 图像模型 doGenerate 调用的结果。
  */
 export type ImageModelV4Result = {
   /**
-   * Generated images as base64 encoded strings or binary data.
-   * The images should be returned without any unnecessary conversion.
-   * If the API returns base64 encoded strings, the images should be returned
-   * as base64 encoded strings. If the API returns binary data, the images should
-   * be returned as binary data.
+   * 生成的图像为 base64 编码字符串或二进制数据。
+   * 返回的图像应不进行任何不必要的转换。
+   * 如果API返回base64编码的字符串，则应返回图像
+   * 作为 base64 编码的字符串。如果 API 返回二进制数据，则图像应该
+   * 以二进制数据形式返回。
    */
   images: Array<string> | Array<Uint8Array>;
 
   /**
-   * Warnings for the call, e.g. unsupported features.
+   * 通话警告，例如不支持的功能。
    */
   warnings: Array<SharedV4Warning>;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * from the provider to the AI SDK and enable provider-specific
-   * results that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从提供商到 AI SDK 并启用提供商特定的
+   * 可以完全封装在提供者中的结果。
    *
-   * The outer record is keyed by the provider name, and the inner
-   * record is provider-specific metadata. It always includes an
-   * `images` key with image-specific metadata
+   * 外部记录以提供者名称为键，内部记录以提供者名称为键
+   * 记录是特定于提供者的元数据。它总是包括一个
+   * 带有图像特定元数据的“images”键
    *
-   * ```ts
+   * ````ts
    * {
-   * "openai": {
-   * "images": ["revisedPrompt": "Revised prompt here."]
+   * “开放”：{
+   * "images": ["revisedPrompt": "此处修改了提示。"]
    * }
    * }
    * ```
@@ -47,27 +47,27 @@ export type ImageModelV4Result = {
   providerMetadata?: ImageModelV4ProviderMetadata;
 
   /**
-   * Response information for telemetry and debugging purposes.
+   * 用于遥测和调试目的的响应信息。
    */
   response: {
     /**
-     * Timestamp for the start of the generated response.
+     * 生成的响应的开始时间戳。
      */
     timestamp: Date;
 
     /**
-     * The ID of the response model that was used to generate the response.
+     * 用于生成响应的响应模型的 ID。
      */
     modelId: string;
 
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers: Record<string, string> | undefined;
   };
 
   /**
-   * Optional token usage for the image generation call (if the provider reports it).
+   * 用于图像生成调用的可选令牌使用（如果提供商报告）。
    */
   usage?: ImageModelV4Usage;
 };

@@ -1,4 +1,4 @@
 /**
- * Data content. Can either be a base64-encoded string, a Uint8Array, an ArrayBuffer, or a Buffer.
+ * 数据内容。可以是 base64 编码的字符串、Uint8Array、ArrayBuffer 或 Buffer。
  */
 export type DataContent = string | Uint8Array | ArrayBuffer | Buffer;

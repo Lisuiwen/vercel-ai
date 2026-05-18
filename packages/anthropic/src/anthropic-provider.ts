@@ -23,12 +23,12 @@ import { VERSION } from './version';
 
 export interface AnthropicProvider extends ProviderV4 {
   /**
-   * Creates a model for text generation.
+   * 创建文本生成模型。
    */
   (modelId: AnthropicModelId): LanguageModelV4;
 
   /**
-   * Creates a model for text generation.
+   * 创建文本生成模型。
    */
   languageModel(modelId: AnthropicModelId): LanguageModelV4;
 
@@ -37,66 +37,66 @@ export interface AnthropicProvider extends ProviderV4 {
   messages(modelId: AnthropicModelId): LanguageModelV4;
 
   /**
-   * @deprecated Use `embeddingModel` instead.
+   * @deprecated 请改用“embeddingModel”。
    */
   textEmbeddingModel(modelId: string): never;
 
   files(): FilesV4;
 
   /**
-   * Returns a SkillsV4 interface for uploading skills to Anthropic.
+   * 返回 SkillsV4 接口，用于将技能上传到 Anthropic。
    */
   skills(): SkillsV4;
 
   /**
-   * Anthropic-specific computer use tool.
+   * 人类专用的计算机使用工具。
    */
   tools: typeof anthropicTools;
 }
 
 export interface AnthropicProviderSettings {
   /**
-   * Use a different URL prefix for API calls, e.g. to use proxy servers.
-   * The default prefix is `https://api.anthropic.com/v1`.
+   * 对 API 调用使用不同的 URL 前缀，例如使用代理服务器。
+   * 默认前缀是“https://api.anthropic.com/v1”。
    */
   baseURL?: string;
 
   /**
-   * API key that is being send using the `x-api-key` header.
-   * It defaults to the `ANTHROPIC_API_KEY` environment variable.
-   * Only one of `apiKey` or `authToken` is required.
+   * 使用“x-api-key”标头发送的 API 密钥。
+   * 它默认为“ANTHROPIC_API_KEY”环境变量。
+   * 仅需要“apiKey”或“authToken”之一。
    */
   apiKey?: string;
 
   /**
-   * Auth token that is being sent using the `Authorization: Bearer` header.
-   * It defaults to the `ANTHROPIC_AUTH_TOKEN` environment variable.
-   * Only one of `apiKey` or `authToken` is required.
+   * 使用“Authorization: Bearer”标头发送的身份验证令牌。
+   * 它默认为“ANTHROPIC_AUTH_TOKEN”环境变量。
+   * 仅需要“apiKey”或“authToken”之一。
    */
   authToken?: string;
 
   /**
-   * Custom headers to include in the requests.
+   * 要包含在请求中的自定义标头。
    */
   headers?: Record<string, string>;
 
   /**
-   * Custom fetch implementation. You can use it as a middleware to intercept requests,
-   * or to provide a custom fetch implementation for e.g. testing.
+   * 自定义获取实现。您可以将其用作拦截请求的中间件，
+   * 或者提供自定义的获取实现，例如测试。
    */
   fetch?: FetchFunction;
 
   generateId?: () => string;
 
   /**
-   * Custom provider name
-   * Defaults to 'anthropic.messages'.
+   * 自定义提供商名称
+   * 默认为“anthropic.messages”。
    */
   name?: string;
 }
 
 /**
- * Create an Anthropic provider instance.
+ * 创建一个 Anthropic 提供者实例。
  */
 export function createAnthropic(
   options: AnthropicProviderSettings = {},
@@ -111,7 +111,7 @@ export function createAnthropic(
 
   const providerName = options.name ?? 'anthropic.messages';
 
-  // Only error if both are explicitly provided in options
+  // 仅当选项中明确提供两者时才会出错
   if (options.apiKey && options.authToken) {
     throw new InvalidArgumentError({
       argument: 'apiKey/authToken',
@@ -201,6 +201,6 @@ export function createAnthropic(
 }
 
 /**
- * Default Anthropic provider instance.
+ * 默认 Anthropic 提供程序实例。
  */
 export const anthropic = createAnthropic();

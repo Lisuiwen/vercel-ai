@@ -5,7 +5,7 @@ import type {
 } from '@ai-sdk/provider';
 
 /**
- * 视频模型可以是字符串（模型 ID）或视频模型对象。
+ * 视频模型可以是字符串（模型ID）或视频模型对象。
  */
 export type VideoModel =
   | string

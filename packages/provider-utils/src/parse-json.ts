@@ -8,7 +8,7 @@ import { safeValidateTypes, validateTypes } from './validate-types';
 import type { FlexibleSchema } from './schema';
 
 /**
- * Parses a JSON string into an unknown object.
+ * 将 JSON 字符串解析为未知对象。
  *
  * @param text - The JSON string to parse.
  * @returns {JSONValue} - The parsed JSON object.
@@ -18,7 +18,7 @@ export async function parseJSON(options: {
   schema?: undefined;
 }): Promise<JSONValue>;
 /**
- * Parses a JSON string into a strongly-typed object using the provided schema.
+ * 使用提供的架构将 JSON 字符串解析为强类型对象。
  *
  * @template T - The type of the object to parse the JSON into.
  * @param {string} text - The JSON string to parse.
@@ -65,7 +65,7 @@ export type ParseResult<T> =
     };
 
 /**
- * Safely parses a JSON string and returns the result as an object of type `unknown`.
+ * 安全地解析 JSON 字符串并将结果作为“unknown”类型的对象返回。
  *
  * @param text - The JSON string to parse.
  * @returns {Promise<object>} Either an object with `success: true` and the parsed data, or an object with `success: false` and the error that occurred.
@@ -75,7 +75,7 @@ export async function safeParseJSON(options: {
   schema?: undefined;
 }): Promise<ParseResult<JSONValue>>;
 /**
- * Safely parses a JSON string into a strongly-typed object, using a provided schema to validate the object.
+ * 使用提供的架构来验证对象，将 JSON 字符串安全地解析为强类型对象。
  *
  * @template T - The type of the object to parse the JSON into.
  * @param {string} text - The JSON string to parse.

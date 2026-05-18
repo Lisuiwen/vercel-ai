@@ -3,21 +3,21 @@ import type { ProviderOptions } from './provider-options';
 import type { ToolApprovalResponse } from './tool-approval-response';
 
 /**
- * A tool message. It contains the result of one or more tool calls.
+ * 工具消息。它包含一个或多个工具调用的结果。
  */
 export type ToolModelMessage = {
   role: 'tool';
   content: ToolContent;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 };
 
 /**
- * Content of a tool message. It is an array of tool result parts.
+ * 工具消息的内容。它是工具结果部分的数组。
  */
 export type ToolContent = Array<ToolResultPart | ToolApprovalResponse>;

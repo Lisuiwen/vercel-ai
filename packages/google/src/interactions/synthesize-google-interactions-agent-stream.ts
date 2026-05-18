@@ -10,15 +10,15 @@ import { mapGoogleInteractionsFinishReason } from './map-google-interactions-fin
 import { parseGoogleInteractionsOutputs } from './parse-google-interactions-outputs';
 
 /**
- * Synthesizes a `LanguageModelV4StreamPart` stream from a fully-resolved
- * Interaction response (i.e. the `response` returned after polling a
- * `background: true` agent call to a terminal status).
+ * 从完全解析的数据中合成“LanguageModelV4StreamPart”流
+ * 交互响应（即轮询后返回的“响应”
+ * `background: true` 代理调用终端状态）。
  *
- * Agent calls cannot use SSE (`stream: true` is incompatible with
- * `background: true`), so we deterministically replay the polled outputs as a
- * stream sequence in the same order/shape `buildGoogleInteractionsStreamTransform`
- * would produce. Each text/reasoning block is emitted as a single delta — the
- * server has already produced the whole block by the time we synthesize.
+ * 代理调用不能使用 SSE（“stream: true”与
+ * `background: true`)，因此我们确定性地将轮询的输出重播为
+ * 具有相同顺序/形状的流序列“buildGoogleInteractionsStreamTransform”
+ * 会产生。每个文本/推理块都作为单个增量发出 -
+ * 当我们合成时，服务器已经生成了整个块。
  */
 export function synthesizeGoogleInteractionsAgentStream({
   response,

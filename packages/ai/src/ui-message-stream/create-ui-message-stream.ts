@@ -11,17 +11,17 @@ import type { UIMessageStreamOnStepFinishCallback } from './ui-message-stream-on
 import type { UIMessageStreamWriter } from './ui-message-stream-writer';
 
 /**
- * 创建可用于向客户端发送消息的 UI 消息流。
+ * 创建可用于向客户端发送消息的UI消息流。
  *
- * @param options.execute - A function that is called with a writer to write UI message chunks to the stream.
- * @param options.onError - A function that extracts an error message from an error. Defaults to `getErrorMessage`.
- * @param options.originalMessages - The original messages. If provided, persistence mode is assumed
- *   并为响应消息提供消息ID。
- * @param options.onStepFinish - A callback that is called when each step finishes. Useful for persisting intermediate messages.
- * @param options.onFinish - A callback that is called when the stream finishes.
- * @param options.generateId - A function that generates a unique ID. Defaults to the built-in ID generator.
+ * @param options.execute - 一个由编写器调用的函数，用于将 UI 消息块写入流。
+ * @param options.onError - 从错误中提取错误消息的函数。默认为`getErrorMessage`。
+ * @param options.originalMessages - 原始消息。如果提供，则假定为持久模式
+ * 并为响应消息提供消息ID。
+ * @param options.onStepFinish - 每个步骤完成时调用的回调。对于持久化中间消息很有用。
+ * @param options.onFinish - 流结束时调用的回调。
+ * @param options.generateId - 生成唯一 ID 的函数。默认为内置 ID 生成器。
  *
- * @returns A `ReadableStream` of UI message chunks.
+ * @returns UI 消息块的`ReadableStream`。
  */
 export function createUIMessageStream<UI_MESSAGE extends UIMessage>({
   execute,
@@ -115,9 +115,9 @@ export function createUIMessageStream<UI_MESSAGE extends UIMessage>({
     } as InferUIMessageChunk<UI_MESSAGE>);
   }
 
-  // Wait until all ongoing streams are done. This approach enables merging
-  // streams even after execute has returned, as long as there is still an
-  // open merged stream.这对于例如forward new streams and
+  // 等待所有正在进行的流完成。这种方法可以实现合并
+  // 即使在执行返回后，只要仍然有一个流
+  // 打开合并流。这用于例如转发新流和
   // 来自回调。
   const waitForStreams: Promise<void> = new Promise(async resolve => {
     while (ongoingStreamPromises.length > 0) {

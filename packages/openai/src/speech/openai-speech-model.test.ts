@@ -22,7 +22,7 @@ describe('doGenerate', () => {
     headers?: Record<string, string>;
     format?: 'mp3' | 'opus' | 'aac' | 'flac' | 'wav' | 'pcm';
   } = {}) {
-    const audioBuffer = new Uint8Array(100); // Mock audio data
+    const audioBuffer = new Uint8Array(100); // 模拟音频数据
     server.urls['https://api.openai.com/v1/audio/speech'].response = {
       type: 'binary',
       headers: {
@@ -100,7 +100,7 @@ describe('doGenerate', () => {
   });
 
   it('should return audio data with correct content type', async () => {
-    const audio = new Uint8Array(100); // Mock audio data
+    const audio = new Uint8Array(100); // 模拟音频数据
     prepareAudioResponse({
       format: 'opus',
       headers: {

@@ -7,23 +7,23 @@ const symbol = Symbol.for(marker);
 
 export interface TypeValidationContext {
   /**
-   * Field path in dot notation (e.g., "message.metadata", "message.parts[3].data")
+   * 点表示法中的字段路径（例如，“message.metadata”、“message.parts[3].data”）
    */
   field?: string;
 
   /**
-   * Entity name (e.g., tool name, data type name)
+   * 实体名称（例如工具名称、数据类型名称）
    */
   entityName?: string;
 
   /**
-   * Entity identifier (e.g., message ID, tool call ID)
+   * 实体标识符（例如消息 ID、工具调用 ID）
    */
   entityId?: string;
 }
 
 export class TypeValidationError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly value: unknown;
   readonly context?: TypeValidationContext;
@@ -74,9 +74,9 @@ export class TypeValidationError extends AISDKError {
   }
 
   /**
-   * Wraps an error into a TypeValidationError.
-   * If the cause is already a TypeValidationError with the same value and context, it returns the cause.
-   * Otherwise, it creates a new TypeValidationError.
+   * 将错误包装到 TypeValidationError 中。
+   * 如果原因已经是具有相同值和上下文的 TypeValidationError，则返回原因。
+   * 否则，它会创建一个新的 TypeValidationError。
    *
    * @param {Object} params - The parameters for wrapping the error.
    * @param {unknown} params.value - The value that failed validation.

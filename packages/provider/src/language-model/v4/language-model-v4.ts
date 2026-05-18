@@ -3,33 +3,33 @@ import type { LanguageModelV4GenerateResult } from './language-model-v4-generate
 import type { LanguageModelV4StreamResult } from './language-model-v4-stream-result';
 
 /**
- * Specification for a language model that implements the language model interface version 4.
+ * 实现语言模型接口版本 4 的语言模型规范。
  */
 export type LanguageModelV4 = {
   /**
-   * The language model must specify which language model interface version it implements.
+   * 语言模型必须指定它实现的语言模型接口版本。
    */
   readonly specificationVersion: 'v4';
 
   /**
-   * Provider ID.
+   * 提供商 ID。
    */
   readonly provider: string;
 
   /**
-   * Provider-specific model ID.
+   * 提供商特定的模型 ID。
    */
   readonly modelId: string;
 
   /**
-   * Supported URL patterns by media type for the provider.
+   * 提供商按媒体类型支持的 URL 模式。
    *
-   * The keys are media type patterns or full media types (e.g. `*\/*` for everything, `audio/*`, `video/*`, or `application/pdf`).
-   * and the values are arrays of regular expressions that match the URL paths.
+   * 键是媒体类型模式或完整媒体类型（例如，“*\/*”表示所有内容、“audio/*”、“video/*”或“application/pdf”）。
+   * 值是与 URL 路径匹配的正则表达式数组。
    *
-   * The matching should be against lower-case URLs.
+   * 匹配应该针对小写 URL。
    *
-   * Matched URLs are supported natively by the model and are not downloaded.
+   * 模型本身支持匹配的 URL，不会下载。
    *
    * @returns A map of supported URL patterns by media type (as a promise or a plain object).
    */
@@ -38,20 +38,20 @@ export type LanguageModelV4 = {
     | Record<string, RegExp[]>;
 
   /**
-   * Generates a language model output (non-streaming).
+   * 生成语言模型输出（非流式）。
    *
-   * Naming: "do" prefix to prevent accidental direct usage of the method
-   * by the user.
+   * 命名：“do”前缀，防止意外直接使用该方法
+   * 由用户。
    */
   doGenerate(
     options: LanguageModelV4CallOptions,
   ): PromiseLike<LanguageModelV4GenerateResult>;
 
   /**
-   * Generates a language model output (streaming).
+   * 生成语言模型输出（流式传输）。
    *
-   * Naming: "do" prefix to prevent accidental direct usage of the method
-   * by the user.
+   * 命名：“do”前缀，防止意外直接使用该方法
+   * 由用户。
    *
    * @return A stream of higher-level language model output parts.
    */

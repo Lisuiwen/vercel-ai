@@ -138,13 +138,13 @@ type AnthropicLanguageModelConfig = {
   generateId?: () => string;
 
   /**
-   * When false, the model will use JSON tool fallback for structured outputs.
+   * 当为 false 时，模型将使用 JSON 工具后备来生成结构化输出。
    */
   supportsNativeStructuredOutput?: boolean;
 
   /**
-   * When false, `strict` on tool definitions will be ignored and a warning emitted.
-   * Defaults to true.
+   * 当为 false 时，工具定义上的“strict”将被忽略并发出警告。
+   * 默认为 true。
    */
   supportsStrictTools?: boolean;
 };
@@ -186,8 +186,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
   }
 
   /**
-   * Extracts the dynamic provider name from the config.provider string.
-   * e.g., 'my-custom-anthropic.messages' -> 'my-custom-anthropic'
+   * 从 config.provider 字符串中提取动态提供程序名称。
+   * 例如，“my-custom-anthropic.messages”->“my-custom-anthropic”
    */
   private get providerOptionsName(): string {
     const provider = this.config.provider;
@@ -264,7 +264,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
 
     const providerOptionsName = this.providerOptionsName;
 
-    // Parse provider options from both canonical 'anthropic' key and custom key
+    // 从规范的“人择”密钥和自定义密钥解析提供程序选项
     const canonicalOptions = await parseProviderOptions({
       provider: 'anthropic',
       providerOptions,
@@ -280,10 +280,10 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           })
         : null;
 
-    // Track if custom key was explicitly used
+    // 跟踪自定义密钥是否被明确使用
     const usedCustomProviderKey = customProviderOptions != null;
 
-    // Merge options
+    // 合并选项
     const anthropicOptions = Object.assign(
       {},
       canonicalOptions ?? {},
@@ -356,7 +356,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
 
     const contextManagement = anthropicOptions?.contextManagement;
 
-    // Create a shared cache control validator to track breakpoints across tools and messages
+    // 创建共享缓存控制验证器来跟踪工具和消息之间的断点
     const cacheControlValidator = new CacheControlValidator();
 
     const toolNameMapping = createToolNameMapping({
@@ -393,8 +393,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
     });
 
     /*
-     * Map top-level `reasoning` to Anthropic thinking/effort when provider
-     * options don't already specify them. Provider options always take precedence.
+     * 当提供者时将顶层“推理”映射到人为思维/努力
+     * options 尚未指定它们。提供商选项始终优先。
      */
     if (isCustomReasoning(reasoning) && anthropicOptions?.effort == null) {
       const reasoningConfig = resolveAnthropicReasoningConfig({
@@ -432,17 +432,17 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
     const maxTokens = maxOutputTokens ?? maxOutputTokensForModel;
 
     const baseArgs = {
-      // model id:
+      // 模型编号：
       model: this.modelId,
 
-      // standardized settings:
+      // 标准化设置：
       max_tokens: maxTokens,
       temperature,
       top_k: topK,
       top_p: topP,
       stop_sequences: stopSequences,
 
-      // provider specific settings:
+      // 提供商特定设置：
       ...(isThinking && {
         thinking: {
           type: thinkingType,
@@ -491,7 +491,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
         metadata: { user_id: anthropicOptions.metadata.userId },
       }),
 
-      // mcp servers:
+      // mcp 服务器：
       ...(anthropicOptions?.mcpServers &&
         anthropicOptions.mcpServers.length > 0 && {
           mcp_servers: anthropicOptions.mcpServers.map(server => ({
@@ -508,12 +508,12 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           })),
         }),
 
-      // container: For programmatic tool calling (just an ID string) or agent skills (object with id and skills)
+      // 容器：用于编程工具调用（只是一个 ID 字符串）或代理技能（具有 id 和技能的对象）
       ...(anthropicOptions?.container && {
         container:
           anthropicOptions.container.skills &&
           anthropicOptions.container.skills.length > 0
-            ? // Object format when skills are provided (agent skills feature)
+            ? // 提供技能时的对象格式（代理技能功能）
               ({
                 id: anthropicOptions.container.id,
                 skills: anthropicOptions.container.skills.map(skill => ({
@@ -528,11 +528,11 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                   version: skill.version,
                 })),
               } satisfies AnthropicContainer)
-            : // String format for container ID only (programmatic tool calling)
+            : // 仅用于容器 ID 的字符串格式（编程工具调用）
               anthropicOptions.container.id,
       }),
 
-      // prompt:
+      // 迅速的：
       system: messagesPrompt.system,
       messages: messagesPrompt.messages,
 
@@ -637,12 +637,12 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
         });
       }
 
-      // adjust max tokens to account for thinking:
+      // 调整最大令牌以考虑思考：
       baseArgs.max_tokens = maxTokens + (thinkingBudget ?? 0);
     } else {
-      // Only check temperature/topP mutual exclusivity for known Anthropic models
+      // 仅检查已知人类模型的温度/topP 互斥性
       // when thinking is not enabled. Non-Anthropic models using the Anthropic-compatible
-      // API (e.g. Minimax) may require both parameters to be set.
+      // API（例如 Minimax）可能需要设置这两个参数。
       if (isAnthropicModel && topP != null && temperature != null) {
         warnings.push({
           type: 'unsupported',
@@ -653,9 +653,9 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
       }
     }
 
-    // limit to max output tokens for known models to enable model switching without breaking it:
+    // 限制已知模型的最大输出令牌，以在不破坏模型的情况下实现模型切换：
     if (isKnownModel && baseArgs.max_tokens > maxOutputTokensForModel) {
-      // only warn if max output tokens is provided as input:
+      // 仅在提供最大输出标记作为输入时发出警告：
       if (maxOutputTokens != null) {
         warnings.push({
           type: 'unsupported',
@@ -678,7 +678,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
     if (contextManagement) {
       betas.add('context-management-2025-06-27');
 
-      // Add compaction beta if compact edit is present
+      // 如果存在压缩编辑，则添加压缩测试版
       if (contextManagement.edits.some(e => e.type === 'compact_20260112')) {
         betas.add('compact-2026-01-12');
       }
@@ -746,7 +746,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           },
     );
 
-    // Extract cache control warnings once at the end
+    // 最后提取一次缓存控制警告
     const cacheWarnings = cacheControlValidator.getWarnings();
 
     return {
@@ -754,7 +754,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
         ...baseArgs,
         tools: anthropicTools,
         tool_choice: anthropicToolChoice,
-        stream: stream === true ? true : undefined, // do not send when not streaming
+        stream: stream === true ? true : undefined, // 不流式传输时不发送
       },
       warnings: [...warnings, ...toolWarnings, ...cacheWarnings],
       betas: new Set([
@@ -851,7 +851,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
       .flatMap(message => message.content)
       .filter(isCitationPart)
       .map(part => {
-        // TypeScript knows this is a file part due to our filter
+        // 由于我们的过滤器，TypeScript 知道这是文件部分
         const filePart = part as Extract<typeof part, { type: 'file' }>;
         return {
           title: filePart.filename ?? 'Untitled Document',
@@ -878,7 +878,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
       userSuppliedBetas: await this.getBetasFromHeaders(options.headers),
     });
 
-    // Extract citation documents for response processing
+    // 提取引用文档以进行响应处理
     const citationDocuments = [
       ...this.extractCitationDocuments(options.prompt),
     ];
@@ -905,17 +905,17 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
 
     const content: Array<LanguageModelV4Content> = [];
     const mcpToolCalls: Record<string, LanguageModelV4ToolCall> = {};
-    const serverToolCalls: Record<string, string> = {}; // tool_use_id -> provider tool name
+    const serverToolCalls: Record<string, string> = {}; // tool_use_id -> 提供者工具名称
     let isJsonResponseFromTool = false;
 
-    // map response content to content array
+    // 将响应内容映射到内容数组
     for (const part of response.content) {
       switch (part.type) {
         case 'text': {
           if (!usesJsonResponseTool) {
             content.push({ type: 'text', text: part.text });
 
-            // Process citations if present
+            // 处理引用（如果存在）
             if (part.citations) {
               for (const citation of part.citations) {
                 const source = createCitationSource(
@@ -975,7 +975,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           if (isJsonResponseTool) {
             isJsonResponseFromTool = true;
 
-            // when a json response tool is used, the tool call becomes the text:
+            // 当使用json响应工具时，工具调用变成文本：
             content.push({
               type: 'text',
               text: JSON.stringify(part.input),
@@ -1007,7 +1007,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           break;
         }
         case 'server_tool_use': {
-          // code execution 20250825 needs mapping:
+          // 代码执行20250825需要映射：
           if (
             part.name === 'text_editor_code_execution' ||
             part.name === 'bash_code_execution'
@@ -1024,7 +1024,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
             part.name === 'code_execution' ||
             part.name === 'web_fetch'
           ) {
-            // For code_execution, inject 'programmatic-tool-call' type when input has { code } format
+            // 对于 code_execution，当输入具有 { code } 格式时注入“programmatic-tool-call”类型
             const inputToSerialize =
               part.name === 'code_execution' &&
               part.input != null &&
@@ -1040,8 +1040,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
               toolName: toolNameMapping.toCustomToolName(part.name),
               input: JSON.stringify(inputToSerialize),
               providerExecuted: true,
-              // We want this 'code_execution' tool call to be allowed even if the tool is not explicitly provided.
-              // Since the validation generally bypasses dynamic tools, we mark this specific tool as dynamic.
+              // 即使未明确提供该工具，我们也希望允许调用“code_execution”工具。
+              // 由于验证通常会绕过动态工具，因此我们将此特定工具标记为动态。
               ...(markCodeExecutionDynamic && part.name === 'code_execution'
                 ? { dynamic: true }
                 : {}),
@@ -1184,7 +1184,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           break;
         }
 
-        // code execution 20250522:
+        // 代码执行20250522：
         case 'code_execution_tool_result': {
           if (part.content.type === 'code_execution_result') {
             content.push({
@@ -1227,7 +1227,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           break;
         }
 
-        // code execution 20250825:
+        // 代码执行20250825：
         case 'bash_code_execution_tool_result':
         case 'text_editor_code_execution_tool_result': {
           content.push({
@@ -1239,7 +1239,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           break;
         }
 
-        // tool search tool results:
+        // 工具搜索工具结果：
         case 'tool_search_tool_result': {
           let providerToolName = serverToolCalls[part.tool_use_id];
 
@@ -1285,7 +1285,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
           break;
         }
 
-        // advisor results for advisor_20260301:
+        // Advisor_20260301 的顾问结果：
         case 'advisor_tool_result': {
           const advisorToolName = toolNameMapping.toCustomToolName('advisor');
           if (part.content.type === 'advisor_result') {
@@ -1436,7 +1436,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
       userSuppliedBetas: await this.getBetasFromHeaders(options.headers),
     });
 
-    // Extract citation documents for response processing
+    // 提取引用文档以进行响应处理
     const citationDocuments = [
       ...this.extractCitationDocuments(options.prompt),
     ];
@@ -1490,7 +1490,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
       | { type: 'text' | 'reasoning' }
     > = {};
     const mcpToolCalls: Record<string, LanguageModelV4ToolCall> = {};
-    const serverToolCalls: Record<string, string> = {}; // tool_use_id -> provider tool name
+    const serverToolCalls: Record<string, string> = {}; // tool_use_id -> 提供者工具名称
 
     let contextManagement:
       | AnthropicMessageMetadata['contextManagement']
@@ -1543,7 +1543,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
 
           switch (value.type) {
             case 'ping': {
-              return; // ignored
+              return; // 被忽略
             }
 
             case 'content_block_start': {
@@ -1553,8 +1553,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
 
               switch (contentBlockType) {
                 case 'text': {
-                  // when a json response tool is used, the tool call is returned as text,
-                  // so we ignore the text content:
+                  // 当使用 json 响应工具时，工具调用以文本形式返回，
+                  // 所以我们忽略文本内容：
                   if (usesJsonResponseTool) {
                     return;
                   }
@@ -1618,7 +1618,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                       id: String(value.index),
                     });
                   } else {
-                    // Extract caller info for type-safe access
+                    // 提取调用者信息以进行类型安全访问
                     const caller = part.caller;
                     const callerInfo = caller
                       ? {
@@ -1628,9 +1628,9 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                         }
                       : undefined;
 
-                    // Programmatic tool calling: for deferred tool calls from code_execution,
-                    // input may be present directly in content_block_start.
-                    // Only use if non-empty (empty {} means input comes via deltas)
+                    // 编程工具调用：对于来自 code_execution 的延迟工具调用，
+                    // 输入可以直接存在于 content_block_start 中。
+                    // 仅在非空时使用（空 {} 表示输入来自增量）
                     const hasNonEmptyInput =
                       part.input && Object.keys(part.input).length > 0;
                     const initialInput = hasNonEmptyInput
@@ -1660,15 +1660,15 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                     [
                       'web_fetch',
                       'web_search',
-                      // code execution 20250825:
+                      // 代码执行20250825：
                       'code_execution',
-                      // code execution 20250825 text editor:
+                      // 代码执行20250825文本编辑器：
                       'text_editor_code_execution',
-                      // code execution 20250825 bash:
+                      // 代码执行20250825 bash：
                       'bash_code_execution',
                     ].includes(part.name)
                   ) {
-                    // map tool names for the code execution 20250825 tool:
+                    // 代码执行 20250825 工具的映射工具名称：
                     const providerToolName =
                       part.name === 'text_editor_code_execution' ||
                       part.name === 'bash_code_execution'
@@ -1678,9 +1678,9 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                     const customToolName =
                       toolNameMapping.toCustomToolName(providerToolName);
 
-                    // Tools like 'web_fetch_20260209' provide input data here.
-                    // Other tools like 'code_execution_20260120' provide input data via deltas.
-                    // So we only use this if it's non-empty to avoid conflicts.
+                    // “web_fetch_20260209”等工具在此处提供输入数据。
+                    // 其他工具（例如“code_execution_20260120”）通过增量提供输入数据。
+                    // 因此，我们仅在非空时使用它以避免冲突。
                     const finalInput =
                       part.input != null &&
                       typeof part.input === 'object' &&
@@ -1850,7 +1850,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                   return;
                 }
 
-                // code execution 20250522:
+                // 代码执行20250522：
                 case 'code_execution_tool_result': {
                   if (part.content.type === 'code_execution_result') {
                     controller.enqueue({
@@ -1901,7 +1901,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                   return;
                 }
 
-                // code execution 20250825:
+                // 代码执行20250825：
                 case 'bash_code_execution_tool_result':
                 case 'text_editor_code_execution_tool_result': {
                   controller.enqueue({
@@ -1914,7 +1914,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                   return;
                 }
 
-                // tool search tool results:
+                // 工具搜索工具结果：
                 case 'tool_search_tool_result': {
                   let providerToolName = serverToolCalls[part.tool_use_id];
 
@@ -1962,8 +1962,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                   return;
                 }
 
-                // advisor results for advisor_20260301:
-                // arrives fully formed in a single content_block_start (no deltas).
+                // Advisor_20260301 的顾问结果：
+                // 在单个 content_block_start 中完全形成（无增量）。
                 case 'advisor_tool_result': {
                   const advisorToolName =
                     toolNameMapping.toCustomToolName('advisor');
@@ -2045,7 +2045,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
             }
 
             case 'content_block_stop': {
-              // when finishing a tool call block, send the full tool call:
+              // 完成工具调用块时，发送完整的工具调用：
               if (contentBlocks[value.index] != null) {
                 const contentBlock = contentBlocks[value.index];
 
@@ -2067,8 +2067,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                   }
 
                   case 'tool-call':
-                    // when a json response tool is used, the tool call is returned as text,
-                    // so we ignore the tool call content:
+                    // 当使用 json 响应工具时，工具调用以文本形式返回，
+                    // 所以我们忽略工具调用内容：
                     const isJsonResponseTool =
                       usesJsonResponseTool && contentBlock.toolName === 'json';
 
@@ -2078,8 +2078,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                         id: contentBlock.toolCallId,
                       });
 
-                      // For code_execution, inject 'programmatic-tool-call' type
-                      // when input has { code } format (programmatic tool calling)
+                      // 对于 code_execution，注入“programmatic-tool-call”类型
+                      // 当输入具有 { code } 格式时（编程工具调用）
                       let finalInput =
                         contentBlock.input === '' ? '{}' : contentBlock.input;
                       if (contentBlock.providerToolName === 'code_execution') {
@@ -2097,7 +2097,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                             });
                           }
                         } catch {
-                          // ignore parse errors, use original input
+                          // 忽略解析错误，使用原始输入
                         }
                       }
 
@@ -2126,7 +2126,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                 delete contentBlocks[value.index];
               }
 
-              blockType = undefined; // reset block type
+              blockType = undefined; // 重置块类型
 
               return;
             }
@@ -2136,10 +2136,10 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
 
               switch (deltaType) {
                 case 'text_delta': {
-                  // when a json response tool is used, the tool call is returned as text,
-                  // so we ignore the text content:
+                  // 当使用 json 响应工具时，工具调用以文本形式返回，
+                  // 所以我们忽略文本内容：
                   if (usesJsonResponseTool) {
-                    return; // excluding the text-start will also exclude the text-end
+                    return; // 排除文本开始也将排除文本结束
                   }
 
                   controller.enqueue({
@@ -2162,7 +2162,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                 }
 
                 case 'signature_delta': {
-                  // signature are only supported on thinking blocks:
+                  // 仅思维块支持签名：
                   if (blockType === 'thinking') {
                     controller.enqueue({
                       type: 'reasoning-delta',
@@ -2195,15 +2195,15 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                   const contentBlock = contentBlocks[value.index];
                   let delta = value.delta.partial_json;
 
-                  // skip empty deltas to enable replacing the first character
-                  // in the code execution 20250825 tool.
+                  // 跳过空增量以替换第一个字符
+                  // 在代码执行20250825工具中。
                   if (delta.length === 0) {
                     return;
                   }
 
                   if (isJsonResponseFromTool) {
                     if (contentBlock?.type !== 'text') {
-                      return; // exclude reasoning
+                      return; // 排除推理
                     }
 
                     controller.enqueue({
@@ -2216,8 +2216,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                       return;
                     }
 
-                    // for the code execution 20250825, we need to add
-                    // the type to the delta and change the tool name.
+                    // 对于代码执行20250825，我们需要添加
+                    // 将类型更改为 delta 并更改工具名称。
                     if (
                       contentBlock.firstDelta &&
                       (contentBlock.providerToolName ===
@@ -2300,8 +2300,8 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
                 modelId: value.message.model ?? undefined,
               });
 
-              // Programmatic tool calling: process pre-populated content blocks
-              // (for deferred tool calls, content may be in message_start)
+              // 编程工具调用：处理预先填充的内容块
+              // （对于延迟工具调用，内容可能位于message_start中）
               if (value.message.content != null) {
                 for (
                   let contentIndex = 0;
@@ -2497,23 +2497,23 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
       }),
     );
 
-    // The first chunk needs to be pulled immediately to check if it is an error
+    // 需要立即拉取第一个chunk来检查是否有错误
     const [streamForFirstChunk, streamForConsumer] = transformedStream.tee();
 
     const firstChunkReader = streamForFirstChunk.getReader();
     try {
-      await firstChunkReader.read(); // streamStart comes first, ignored
+      await firstChunkReader.read(); // StreamStart 首先出现，被忽略
 
       let result = await firstChunkReader.read();
 
-      // when raw chunks are enabled, the first chunk is a raw chunk, so we need to read the next chunk
+      // 当启用原始块时，第一个块是原始块，因此我们需要读取下一个块
       if (result.value?.type === 'raw') {
         result = await firstChunkReader.read();
       }
 
-      // The Anthropic API returns 200 responses when there are overloaded errors.
-      // We handle the case where the first chunk is an error here and transform
-      // it into an APICallError.
+      // 当出现过载错误时，Anthropic API 返回 200 个响应。
+      // 我们在这里处理第一个块有错误的情况并进行转换
+      // 将其转换为 APICallError。
       if (result.value?.type === 'error') {
         const error = result.value.error as { message: string; type: string };
 
@@ -2541,7 +2541,7 @@ export class AnthropicLanguageModel implements LanguageModelV4 {
 }
 
 /**
- * Returns the capabilities of a Claude model that are used for defaults and feature selection.
+ * 返回用于默认值和特征选择的 Claude 模型的功能。
  *
  * @see https://docs.claude.com/en/docs/about-claude/models/overview#model-comparison-table
  * @see https://platform.claude.com/docs/en/build-with-claude/structured-outputs

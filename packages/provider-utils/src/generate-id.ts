@@ -1,9 +1,9 @@
 import { InvalidArgumentError } from '@ai-sdk/provider';
 
 /**
- * Creates an ID generator.
- * The total length of the ID is the sum of the prefix, separator, and random part length.
- * Not cryptographically secure.
+ * 创建一个 ID 生成器。
+ * ID的总长度是前缀、分隔符和随机部分长度的总和。
+ * 不加密安全。
  *
  * @param alphabet - The alphabet to use for the ID. Default: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.
  * @param prefix - The prefix of the ID to generate. Optional.
@@ -34,7 +34,7 @@ export const createIdGenerator = ({
     return generator;
   }
 
-  // check that the prefix is not part of the alphabet (otherwise prefix checking can fail randomly)
+  // 检查前缀是否不是字母表的一部分（否则前缀检查可能会随机失败）
   if (alphabet.includes(separator)) {
     throw new InvalidArgumentError({
       argument: 'separator',
@@ -46,12 +46,12 @@ export const createIdGenerator = ({
 };
 
 /**
- * A function that generates an ID.
+ * 生成 ID 的函数。
  */
 export type IdGenerator = () => string;
 
 /**
- * Generates a 16-character random string to use for IDs.
- * Not cryptographically secure.
+ * 生成用于 ID 的 16 个字符的随机字符串。
+ * 不加密安全。
  */
 export const generateId = createIdGenerator();

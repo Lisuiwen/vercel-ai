@@ -127,12 +127,12 @@ export interface ProviderRegistryProvider<
  * 到注册表中的所有语言模型，使您能够转换参数、包装生成
  * 操作，以及通过注册表访问的每种语言模型的包装流操作。
  *
- * @param providers - A record of provider instances to be registered in the registry.
- * @param options - Configuration options for the provider registry.
- * @param options.separator - The separator used between provider ID and model ID in the combined identifier. Defaults to ':'.
- * @param options.languageModelMiddleware - Optional middleware to be applied to all language models from the registry. When multiple middlewares are provided, the first middleware will transform the input first, and the last middleware will be wrapped directly around the model.
- * @param options.imageModelMiddleware - Optional middleware to be applied to all image models from the registry. When multiple middlewares are provided, the first middleware will transform the input first, and the last middleware will be wrapped directly around the model.
- * @returns A new ProviderRegistryProvider instance that provides access to all registered providers with optional middleware applied to language and image models.
+ * @param providers - 要在注册表中注册的提供程序实例的记录。
+ * @param options - 提供者注册表的配置选项。
+ * @param options.separator - 组合标识符中提供商 ID 和型号 ID 之间使用的分隔符。默认为`：`。
+ * @param options.languageModelMiddleware - 可选的中间件适用于注册表中的所有语言模型。当提供多个中间件时，第一个中间件将首先转换输入，最后一个中间件将直接包裹模型。
+ * @param options.imageModelMiddleware - 可选的中间件可应用于注册表中的所有图像模型。当提供多个中间件时，第一个中间件将首先转换输入，最后一个中间件将直接包裹模型。
+ * @returns 一个新的 ProviderRegistryProvider 实例，通过应用于语言和图像模型的可选中间件提供对所有注册提供程序的访问。
  */
 export function createProviderRegistry<
   PROVIDERS extends Record<string, ProviderV4 | ProviderV3>,
@@ -168,7 +168,7 @@ export function createProviderRegistry<
 }
 
 /**
- * @deprecated 请改用“createProviderRegistry”。
+ * @deprecated 请改用`createProviderRegistry`。
  */
 export const experimental_createProviderRegistry = createProviderRegistry;
 

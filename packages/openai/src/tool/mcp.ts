@@ -73,23 +73,23 @@ export const mcpOutputSchema = lazySchema(() =>
 );
 
 type McpArgs = {
-  /** A label for this MCP server, used to identify it in tool calls. */
+  /* * 此 MCP 服务器的标签，用于在工具调用中识别它。 */
   serverLabel: string;
-  /** List of allowed tool names or a filter object. */
+  /* * 允许的工具名称或过滤器对象的列表。 */
   allowedTools?:
     | string[]
     | {
         readOnly?: boolean;
         toolNames?: string[];
       };
-  /** OAuth access token usable with the remote MCP server or connector. */
+  /* * OAuth 访问令牌可与远程 MCP 服务器或连接器一起使用。 */
   authorization?: string;
-  /** Identifier for a service connector. */
+  /* * 服务连接器的标识符。 */
   connectorId?: string;
-  /** Optional HTTP headers to send to the MCP server. */
+  /* * 发送到 MCP 服务器的可选 HTTP 标头。 */
   headers?: Record<string, string>;
   /**
-   * Which tools require approval before execution.
+   * 哪些工具在执行前需要批准。
    */
   requireApproval?:
     | 'always'
@@ -99,9 +99,9 @@ type McpArgs = {
           toolNames?: string[];
         };
       };
-  /** Optional description of the MCP server. */
+  /* * MCP 服务器的可选描述。 */
   serverDescription?: string;
-  /** URL for the MCP server. One of serverUrl or connectorId must be provided. */
+  /* * MCP 服务器的 URL。必须提供 serverUrl 或 ConnectorId 之一。 */
   serverUrl?: string;
 };
 

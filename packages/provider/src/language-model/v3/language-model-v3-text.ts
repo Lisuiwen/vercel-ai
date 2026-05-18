@@ -1,13 +1,13 @@
 import type { SharedV3ProviderMetadata } from '../../shared/v3/shared-v3-provider-metadata';
 
 /**
- * Text that the model has generated.
+ * 模型生成的文本。
  */
 export type LanguageModelV3Text = {
   type: 'text';
 
   /**
-   * The text content.
+   * 文字内容。
    */
   text: string;
 

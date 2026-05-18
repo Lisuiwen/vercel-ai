@@ -41,7 +41,7 @@ export type StepResultPerformance = {
    * 完整语言模型每秒输出令牌的有效数量
    * 回应。
    *
-   * 计算公式为“outputTokens / requestSeconds”。
+   * 计算公式为`outputTokens / requestSeconds`。
    */
   readonly effectiveOutputTokensPerSecond: number;
 
@@ -51,7 +51,7 @@ export type StepResultPerformance = {
    *
    * 仅适用于流步骤。
    *
-   * 计算公式为“outputTokens / outputStreamSeconds”。
+   * 计算公式为`outputTokens / outputStreamSeconds`。
    */
   readonly outputTokensPerSecond: number | undefined;
 
@@ -61,7 +61,7 @@ export type StepResultPerformance = {
    *
    * 仅适用于流步骤。
    *
-   * 计算公式为“inputTokens / ttftSeconds”。
+   * 计算公式为`inputTokens / ttftSeconds`。
    */
   readonly inputTokensPerSecond: number | undefined;
 
@@ -69,7 +69,7 @@ export type StepResultPerformance = {
    * 每秒输入和输出令牌的有效数量
    * 语言模型响应。
    *
-   * 计算公式为“(inputTokens + outputTokens) / requestSeconds”。
+   * 计算公式为`(inputTokens + outputTokens) / requestSeconds`。
    */
   readonly effectiveTotalTokensPerSecond: number;
 
@@ -85,7 +85,7 @@ export type StepResultPerformance = {
 
   /**
    * 执行每个客户端工具调用所花费的时间（以毫秒为单位），由
-   * 工具调用 ID。
+   * 工具调用ID。
    */
   readonly toolExecutionMs: Readonly<Record<string, number>>;
 
@@ -122,7 +122,7 @@ export type StepResult<
     /* * 模型的提供者。 */
     readonly provider: string;
 
-    /* * 模型的 ID。 */
+    /* * 模型的ID。 */
     readonly modelId: string;
   };
 
@@ -236,7 +236,7 @@ export type StepResult<
 
   /**
    * 其他特定于提供商的元数据。他们通过
-   * 从提供商到 AI SDK 并启用提供商特定的
+   * 从成功到AI SDK并实现成功特定的
    * 可以完全封装在提供者中的结果。
    */
   readonly providerMetadata: ProviderMetadata | undefined;

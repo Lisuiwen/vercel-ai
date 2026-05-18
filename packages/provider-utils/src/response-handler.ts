@@ -28,7 +28,7 @@ export const createJsonErrorResponseHandler =
     const responseBody = await response.text();
     const responseHeaders = extractResponseHeaders(response);
 
-    // Some providers return an empty response body for some errors:
+    // 某些提供程序会针对某些错误返回空响应正文：
     if (responseBody.trim() === '') {
       return {
         responseHeaders,
@@ -44,7 +44,7 @@ export const createJsonErrorResponseHandler =
       };
     }
 
-    // resilient parsing in case the response is not JSON or does not match the schema:
+    // 弹性解析，以防响应不是 JSON 或与架构不匹配：
     try {
       const parsedError = await parseJSON({
         text: responseBody,

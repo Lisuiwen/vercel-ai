@@ -31,13 +31,13 @@ export const customToolFactory = createProviderDefinedToolFactory<
   string,
   {
     /**
-     * An optional description of what the tool does.
+     * 该工具功能的可选描述。
      */
     description?: string;
 
     /**
-     * The output format specification for the tool.
-     * Omit for unconstrained text output.
+     * 该工具的输出格式规范。
+     * 省略不受约束的文本输出。
      */
     format?:
       | {

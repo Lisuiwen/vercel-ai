@@ -28,7 +28,7 @@ export interface ReasoningOutput {
 
   /**
    * 其他特定于提供商的元数据。他们通过
-   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 从AI SDK发送给成功并实现特定的成功
    * 可以完全封装在提供者中的功能。
    */
   providerMetadata?: ProviderMetadata;
@@ -48,7 +48,7 @@ export interface ReasoningFileOutput {
 
   /**
    * 其他特定于提供商的元数据。他们通过
-   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 从AI SDK发送给成功并实现特定的成功
    * 可以完全封装在提供者中的功能。
    */
   providerMetadata?: ProviderMetadata;

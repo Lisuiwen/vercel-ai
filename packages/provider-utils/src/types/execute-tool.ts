@@ -7,18 +7,18 @@ import type { Tool } from './tool';
 import type { ToolExecutionOptions } from './tool-execute-function';
 
 /**
- * Executes a tool function and normalizes its results into a stream of outputs.
+ * 执行工具函数并将其结果规范化为输出流。
  *
- * - If the tool's `execute` function returns an `AsyncIterable`, each yielded value is emitted as
- *   `{ type: "preliminary", output }`. After iteration completes, the last yielded value is emitted
- *   again as `{ type: "final", output }`.
- * - If the tool returns a direct value or Promise, a single `{ type: "final", output }` is yielded.
+ * - 如果工具的“execute”函数返回“AsyncIterable”，则每个生成的值都会发出为
+ *   `{ 类型：“初步”，输出 }`。迭代完成后，发出最后生成的值
+ *   再次为`{ type: "final", output }`。
+ * - 如果工具返回直接值或 Promise，则会生成单个 `{ type: "final", output }`。
  *
  * @param params.tool The tool whose `execute` function should be invoked.
  * @param params.input The input value to pass to the tool.
  * @param params.options Additional options for tool execution.
  * @yields A preliminary output for each streamed value, followed by a final output, or a single final
- * output for non-streaming tools.
+ * 非流工具的输出。
  */
 export async function* executeTool<TOOL extends Tool>({
   tool,

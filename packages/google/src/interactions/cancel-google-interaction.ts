@@ -8,13 +8,13 @@ import {
 const getOriginalFetch = () => globalThis.fetch;
 
 /**
- * Best-effort `POST /interactions/{id}/cancel` to stop a background interaction
- * on Google's side after the caller has aborted locally. Errors and non-2xx
- * responses are swallowed so a cancel failure cannot mask the original abort.
+ * 尽力“POST /interactions/{id}/cancel”来停止后台交互
+ * 在调用者本地中止后，在 Google 这边。错误和非 2xx
+ * 响应被吞没，因此取消失败无法掩盖原始中止。
  *
- * Skips the request entirely if `interactionId` is missing/empty -- e.g. when
- * the interaction was created with `store: false` and the API did not return an
- * id.
+ * 如果“interactionId”丢失/为空，则完全跳过请求 - 例如当
+ * 交互是使用“store: false”创建的，并且 API 没有返回
+ * ID。
  */
 export async function cancelGoogleInteraction({
   baseURL,
@@ -44,17 +44,17 @@ export async function cancelGoogleInteraction({
     });
 
     /*
-     * Drain the body so undici/Node can return the connection to the pool.
-     * Errors (e.g. non-2xx, network failure) are intentionally ignored: this
-     * is a best-effort cleanup and must not throw past the caller, which is
-     * already handling an aborted/failed run.
+     * 清空主体，以便 undici/Node 可以将连接返回到池中。
+     * 故意忽略错误（例如非 2xx、网络故障）：this
+     * 是尽力而为的清理，并且不能扔过调用者，这是
+     * 已经处理中止/失败的运行。
      */
     try {
       await response.text();
     } catch {
-      // ignore
+      // 忽略
     }
   } catch {
-    // ignore -- cancel is best-effort
+    // 忽略——取消是尽力而为
   }
 }

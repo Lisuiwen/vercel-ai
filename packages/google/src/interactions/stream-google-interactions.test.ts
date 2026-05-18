@@ -186,12 +186,12 @@ describe('streamGoogleInteractionEvents', () => {
     );
 
     const reader = stream.getReader();
-    await reader.read(); // first event arrives
+    await reader.read(); // 第一个事件到达
     ac.abort();
 
     await expect(reader.read()).rejects.toThrow();
 
-    // Cancel POST should fire as part of the abort cleanup.
+    // 取消 POST 应作为中止清理的一部分触发。
     await new Promise(resolve => setTimeout(resolve, 20));
     const cancelCalls = server.calls.filter(c => c.requestUrl === CANCEL_URL);
     expect(cancelCalls.length).toBe(1);

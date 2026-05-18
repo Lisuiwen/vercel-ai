@@ -3,21 +3,21 @@ import { isJSONSerializable } from './is-json-serializable';
 import type { Resolvable } from './resolve';
 
 /**
- * Serializes a model instance for workflow step boundaries.
- * Returns the `modelId` plus the JSON-serializable config properties.
+ * 序列化工作流步骤边界的模型实例。
+ * 返回“modelId”以及 JSON 可序列化的配置属性。
  *
- * Non-serializable values are omitted. As a special case, a
- * function-valued `headers` property is resolved during serialization
- * and included if the returned value is JSON-serializable.
+ * 省略不可序列化的值。作为一个特例，一个
+ * 函数值“headers”属性在序列化期间解析
+ * 如果返回值是 JSON 可序列化的，则包含在内。
  *
- * Used as the body of `static [WORKFLOW_SERIALIZE]` in provider models.
+ * 用作提供程序模型中“静态 [WORKFLOW_SERIALIZE]”的主体。
  *
  * @example
- * ```ts
- * static [WORKFLOW_SERIALIZE](model: MyLanguageModel) {
- *   return serializeModelOptions({
+ * ````ts
+ * 静态 [WORKFLOW_SERIALIZE]（模型：MyLanguageModel）{
+ *   返回序列化模型选项（{
  *     modelId: model.modelId,
- *     config: model.config,
+ *     配置：模型.config，
  *   });
  * }
  * ```
@@ -53,8 +53,8 @@ function resolveSync<T>(value: Resolvable<T>): T {
     next = (value as () => unknown)();
   }
 
-  // the serialization for workflows currently only supports synchronous values
-  // TODO introduce SerializationError
+  // 工作流的序列化当前仅支持同步值
+  // TODO介绍SerializationError
   if (next instanceof Promise) {
     throw new Error('Promise returned from resolveSync');
   }

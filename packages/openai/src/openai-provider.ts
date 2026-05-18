@@ -38,121 +38,121 @@ export interface OpenAIProvider extends ProviderV4 {
   (modelId: OpenAIResponsesModelId): LanguageModelV4;
 
   /**
-   * Creates an OpenAI model for text generation.
+   * 创建用于文本生成的 OpenAI 模型。
    */
   languageModel(modelId: OpenAIResponsesModelId): LanguageModelV4;
 
   /**
-   * Creates an OpenAI chat model for text generation.
+   * 创建用于文本生成的 OpenAI 聊天模型。
    */
   chat(modelId: OpenAIChatModelId): LanguageModelV4;
 
   /**
-   * Creates an OpenAI responses API model for text generation.
+   * 创建用于文本生成的 OpenAI 响应 API 模型。
    */
   responses(modelId: OpenAIResponsesModelId): LanguageModelV4;
 
   /**
-   * Creates an OpenAI completion model for text generation.
+   * 创建用于文本生成的 OpenAI 补全模型。
    */
   completion(modelId: OpenAICompletionModelId): LanguageModelV4;
 
   /**
-   * Creates a model for text embeddings.
+   * 创建文本嵌入模型。
    */
   embedding(modelId: OpenAIEmbeddingModelId): EmbeddingModelV4;
 
   /**
-   * Creates a model for text embeddings.
+   * 创建文本嵌入模型。
    */
   embeddingModel(modelId: OpenAIEmbeddingModelId): EmbeddingModelV4;
 
   /**
-   * @deprecated Use `embedding` instead.
+   * @deprecated 请改用“嵌入”。
    */
   textEmbedding(modelId: OpenAIEmbeddingModelId): EmbeddingModelV4;
 
   /**
-   * @deprecated Use `embeddingModel` instead.
+   * @deprecated 请改用“embeddingModel”。
    */
   textEmbeddingModel(modelId: OpenAIEmbeddingModelId): EmbeddingModelV4;
 
   /**
-   * Creates a model for image generation.
+   * 创建图像生成模型。
    */
   image(modelId: OpenAIImageModelId): ImageModelV4;
 
   /**
-   * Creates a model for image generation.
+   * 创建图像生成模型。
    */
   imageModel(modelId: OpenAIImageModelId): ImageModelV4;
 
   /**
-   * Creates a model for transcription.
+   * 创建转录模型。
    */
   transcription(modelId: OpenAITranscriptionModelId): TranscriptionModelV4;
 
   /**
-   * Creates a model for speech generation.
+   * 创建语音生成模型。
    */
   speech(modelId: OpenAISpeechModelId): SpeechModelV4;
 
   /**
-   * Returns a FilesV4 interface for uploading files to OpenAI.
+   * 返回一个 FilesV4 接口，用于将文件上传到 OpenAI。
    */
   files(): FilesV4;
 
   /**
-   * Returns a SkillsV4 interface for uploading skills to OpenAI.
+   * 返回 SkillsV4 接口，用于将技能上传到 OpenAI。
    */
   skills(): SkillsV4;
 
   /**
-   * OpenAI-specific tools.
+   * OpenAI 专用工具。
    */
   tools: typeof openaiTools;
 }
 
 export interface OpenAIProviderSettings {
   /**
-   * Base URL for the OpenAI API calls.
+   * OpenAI API 调用的基本 URL。
    */
   baseURL?: string;
 
   /**
-   * API key for authenticating requests.
+   * 用于验证请求的 API 密钥。
    */
   apiKey?: string;
 
   /**
-   * OpenAI Organization.
+   * OpenAI 组织。
    */
   organization?: string;
 
   /**
-   * OpenAI project.
+   * OpenAI 项目。
    */
   project?: string;
 
   /**
-   * Custom headers to include in the requests.
+   * 要包含在请求中的自定义标头。
    */
   headers?: Record<string, string>;
 
   /**
-   * Provider name. Overrides the `openai` default name for 3rd party providers.
+   * 提供者名称。覆盖第三方提供商的“openai”默认名称。
    */
   name?: string;
 
   /**
-   * Custom fetch implementation. You can use it as a middleware to intercept requests,
-   * or to provide a custom fetch implementation for e.g. testing.
+   * 自定义获取实现。您可以将其用作拦截请求的中间件，
+   * 或者提供自定义的获取实现，例如测试。
    */
   fetch?: FetchFunction;
 }
 
 /**
- * Create an OpenAI provider instance.
+ * 创建 OpenAI 提供程序实例。
  */
 export function createOpenAI(
   options: OpenAIProviderSettings = {},
@@ -262,7 +262,7 @@ export function createOpenAI(
       url: ({ path }) => `${baseURL}${path}`,
       headers: getHeaders,
       fetch: options.fetch,
-      // Soft-deprecated. TODO: remove in v8
+      // 已软弃用。 TODO：在 v8 中删除
       fileIdPrefixes: ['file-'],
     });
   };
@@ -298,6 +298,6 @@ export function createOpenAI(
 }
 
 /**
- * Default OpenAI provider instance.
+ * 默认 OpenAI 提供程序实例。
  */
 export const openai = createOpenAI();

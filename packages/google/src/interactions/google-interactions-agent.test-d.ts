@@ -11,9 +11,9 @@ describe('GoogleInteractionsAgentName', () => {
 
   it('rejects arbitrary strings (compile-time error guard)', () => {
     /*
-     * If the type is ever loosened to include `(string & {})` again, this line
-     * will silently start to compile. The negated `toExtend` keeps the strict
-     * union honest.
+     * 如果类型再次放宽以包含 `(string & {})`，则此行
+     * 将默默地开始编译。否定的“toExtend”保持严格
+     * 工会诚实。
      */
     expectTypeOf<'definitely-not-an-agent'>().not.toExtend<GoogleInteractionsAgentName>();
     expectTypeOf<string>().not.toExtend<GoogleInteractionsAgentName>();
@@ -28,7 +28,7 @@ describe('google.interactions agent factory typing', () => {
   });
 
   it('rejects an unknown agent name', () => {
-    // @ts-expect-error - 'unknown-agent' is not a valid GoogleInteractionsAgentName
+    // @ts-expect-error -“未知代理”不是有效的 GoogleInteractionsAgentName
     google.interactions({ agent: 'unknown-agent' });
   });
 });

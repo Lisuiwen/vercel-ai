@@ -118,7 +118,7 @@ export async function convertToAnthropicPrompt({
       }
 
       case 'user': {
-        // combines all user and tool messages in this block into a single message:
+        // 将此块中的所有用户和工具消息合并为一条消息：
         const anthropicContent: AnthropicUserMessage['content'] = [];
 
         for (const message of block.messages) {
@@ -128,9 +128,9 @@ export async function convertToAnthropicPrompt({
               for (let j = 0; j < content.length; j++) {
                 const part = content[j];
 
-                // cache control: first add cache control from part.
-                // for the last part of a message,
-                // check also if the message has cache control.
+                // 缓存控制：首先从part添加缓存控制。
+                // 对于消息的最后一部分，
+                // 还检查消息是否具有缓存控制。
                 const isLastPart = j === content.length - 1;
 
                 const cacheControl =
@@ -331,9 +331,9 @@ export async function convertToAnthropicPrompt({
                         )?.providerOptions
                       : undefined;
 
-                // cache control: first add cache control from part.
-                // then from tool result output, and for the last part of a
-                // message, check also if the message has cache control.
+                // 缓存控制：首先从part添加缓存控制。
+                // 然后从工具结果输出，以及最后一部分
+                // 消息，还检查消息是否具有缓存控制。
                 const isLastPart = i === content.length - 1;
 
                 const cacheControl =
@@ -505,7 +505,7 @@ export async function convertToAnthropicPrompt({
       }
 
       case 'assistant': {
-        // combines multiple assistant messages in this block into a single message:
+        // 将此块中的多个辅助消息合并为一条消息：
         const anthropicContent: AnthropicAssistantMessage['content'] = [];
 
         const mcpToolUseIds = new Set<string>();
@@ -519,9 +519,9 @@ export async function convertToAnthropicPrompt({
             const part = content[k];
             const isLastContentPart = k === content.length - 1;
 
-            // cache control: first add cache control from part.
-            // for the last part of a message,
-            // check also if the message has cache control.
+            // 缓存控制：首先从part添加缓存控制。
+            // 对于消息的最后一部分，
+            // 还检查消息是否具有缓存控制。
             const cacheControl =
               validator.getCacheControl(part.providerOptions, {
                 type: 'assistant message part',
@@ -536,7 +536,7 @@ export async function convertToAnthropicPrompt({
 
             switch (part.type) {
               case 'text': {
-                // Check if this is a compaction block (via providerMetadata)
+                // 检查这是否是一个压缩块（通过providerMetadata）
                 const textMetadata = part.providerOptions?.anthropic as
                   | { type?: string }
                   | undefined;
@@ -551,9 +551,9 @@ export async function convertToAnthropicPrompt({
                   anthropicContent.push({
                     type: 'text',
                     text:
-                      // trim the last text part if it's the last message in the block
-                      // because Anthropic does not allow trailing whitespace
-                      // in pre-filled assistant responses
+                      // 如果最后一个文本部分是块中的最后一条消息，则修剪它
+                      // 因为 Anthropic 不允许尾随空格
+                      // 在预先填写的助理回复中
                       isLastBlock && isLastMessage && isLastContentPart
                         ? part.text.trim()
                         : part.text,
@@ -574,9 +574,9 @@ export async function convertToAnthropicPrompt({
 
                   if (reasoningMetadata != null) {
                     if (reasoningMetadata.signature != null) {
-                      // Note: thinking blocks cannot have cache_control directly
-                      // They are cached implicitly when in previous assistant turns
-                      // Validate to provide helpful error message
+                      // 注意：思维块不能直接有cache_control
+                      // 它们在之前的助手回合中被隐式缓存
+                      // 验证以提供有用的错误消息
                       validator.getCacheControl(part.providerOptions, {
                         type: 'thinking block',
                         canCache: false,
@@ -587,9 +587,9 @@ export async function convertToAnthropicPrompt({
                         signature: reasoningMetadata.signature,
                       });
                     } else if (reasoningMetadata.redactedData != null) {
-                      // Note: redacted thinking blocks cannot have cache_control directly
-                      // They are cached implicitly when in previous assistant turns
-                      // Validate to provide helpful error message
+                      // 注意：经过编辑的思维块不能直接有cache_control
+                      // 它们在之前的助手回合中被隐式缓存
+                      // 验证以提供有用的错误消息
                       validator.getCacheControl(part.providerOptions, {
                         type: 'redacted thinking block',
                         canCache: false,
@@ -652,7 +652,7 @@ export async function convertToAnthropicPrompt({
                       cache_control: cacheControl,
                     });
                   } else if (
-                    // code execution 20250825:
+                    // 代码执行20250825：
                     providerToolName === 'code_execution' &&
                     part.input != null &&
                     typeof part.input === 'object' &&
@@ -664,13 +664,13 @@ export async function convertToAnthropicPrompt({
                     anthropicContent.push({
                       type: 'server_tool_use',
                       id: part.toolCallId,
-                      name: part.input.type, // map back to subtool name
+                      name: part.input.type, // 映射回子工具名称
                       input: part.input,
                       cache_control: cacheControl,
                     });
                   } else if (
-                    // code execution 20250825 programmatic tool calling:
-                    // Strip the fake 'programmatic-tool-call' type before sending to Anthropic
+                    // 代码执行20250825编程工具调用：
+                    // 在发送到 Anthropic 之前删除虚假的“编程工具调用”类型
                     providerToolName === 'code_execution' &&
                     part.input != null &&
                     typeof part.input === 'object' &&
@@ -690,7 +690,7 @@ export async function convertToAnthropicPrompt({
                     });
                   } else {
                     if (
-                      providerToolName === 'code_execution' || // code execution 20250522
+                      providerToolName === 'code_execution' || // 代码执行20250522
                       providerToolName === 'web_fetch' ||
                       providerToolName === 'web_search'
                     ) {
@@ -713,7 +713,7 @@ export async function convertToAnthropicPrompt({
                         cache_control: cacheControl,
                       });
                     } else if (providerToolName === 'advisor') {
-                      // The advisor server_tool_use.input is always {}.
+                      // Advisor server_tool_use.input 始终为 {}。
                       anthropicContent.push({
                         type: 'server_tool_use',
                         id: part.toolCallId,
@@ -732,7 +732,7 @@ export async function convertToAnthropicPrompt({
                   break;
                 }
 
-                // Extract caller info from provider options for programmatic tool calling
+                // 从提供程序选项中提取调用者信息以进行编程工具调用
                 const callerOptions = part.providerOptions?.anthropic as
                   | { caller?: { type: string; toolId?: string } }
                   | undefined;
@@ -792,7 +792,7 @@ export async function convertToAnthropicPrompt({
                 } else if (providerToolName === 'code_execution') {
                   const output = part.output;
 
-                  // Handle error types for code_execution tools (e.g., from programmatic tool calling)
+                  // 处理 code_execution 工具的错误类型（例如，来自编程工具调用）
                   if (
                     output.type === 'error-text' ||
                     output.type === 'error-json'
@@ -855,11 +855,11 @@ export async function convertToAnthropicPrompt({
                     break;
                   }
 
-                  // to distinguish between code execution 20250522, 20250825,
-                  // and encrypted results (from web_fetch_20260209/web_search_20260209 injection),
-                  // we check the type property in output.value
+                  // 区分代码执行20250522、20250825、
+                  // 和加密结果（来自 web_fetch_20260209/web_search_20260209 注入），
+                  // 我们检查output.value中的type属性
                   if (output.value.type === 'code_execution_result') {
-                    // code execution 20250522
+                    // 代码执行20250522
                     const codeExecutionOutput = await validateTypes({
                       value: output.value,
                       schema: codeExecution_20250522OutputSchema,
@@ -880,7 +880,7 @@ export async function convertToAnthropicPrompt({
                   } else if (
                     output.value.type === 'encrypted_code_execution_result'
                   ) {
-                    // code execution 20260120 encrypted result
+                    // 代码执行20260120加密结果
                     const codeExecutionOutput = await validateTypes({
                       value: output.value,
                       schema: codeExecution_20260120OutputSchema,
@@ -905,7 +905,7 @@ export async function convertToAnthropicPrompt({
                       });
                     }
                   } else {
-                    // code execution 20250825
+                    // 代码执行20250825
                     const codeExecutionOutput = await validateTypes({
                       value: output.value,
                       schema: codeExecution_20250825OutputSchema,
@@ -963,7 +963,7 @@ export async function convertToAnthropicPrompt({
                         errorValue = output.value as typeof errorValue;
                       }
                     } catch {
-                      // If parsing fails, treat the value as-is
+                      // 如果解析失败，则按原样处理该值
                       const extractedErrorCode = (
                         output.value as Record<string, unknown>
                       )?.errorCode;
@@ -997,9 +997,9 @@ export async function convertToAnthropicPrompt({
                     break;
                   }
 
-                  // ideally we'd switch schema based on the tool version (e.g.
-                  // web_fetch_20260209 vs web_fetch_20250910), but since both
-                  // versions share an identical output schema, we use one here.
+                  // 理想情况下，我们会根据工具版本切换架构（例如
+                  // web_fetch_20260209 与 web_fetch_20250910），但由于两者
+                  // 版本共享相同的输出模式，我们在这里使用一个。
                   const webFetchOutput = await validateTypes({
                     value: output.value,
                     schema: webFetch_20250910OutputSchema,
@@ -1044,9 +1044,9 @@ export async function convertToAnthropicPrompt({
                     break;
                   }
 
-                  // ideally we'd switch schema based on the tool version (e.g.
-                  // web_search_20260209 vs web_search_20250305), but since both
-                  // versions share an identical output schema, we use one here.
+                  // 理想情况下，我们会根据工具版本切换架构（例如
+                  // web_search_20260209 与 web_search_20250305），但由于两者
+                  // 版本共享相同的输出模式，我们在这里使用一个。
                   const webSearchOutput = await validateTypes({
                     value: output.value,
                     schema: webSearch_20250305OutputSchema,
@@ -1088,7 +1088,7 @@ export async function convertToAnthropicPrompt({
                     schema: toolSearchOutputSchema,
                   });
 
-                  // Convert tool references back to API format
+                  // 将工具引用转换回 API 格式
                   const toolReferences = toolSearchOutput.map(ref => ({
                     type: 'tool_reference' as const,
                     tool_name: ref.toolName,

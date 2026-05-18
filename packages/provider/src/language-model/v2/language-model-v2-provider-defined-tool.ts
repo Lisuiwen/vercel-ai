@@ -1,24 +1,24 @@
 /**
- * The configuration of a tool that is defined by the provider.
+ * 由提供商定义的工具的配置。
  */
 export type LanguageModelV2ProviderDefinedTool = {
   /**
-   * The type of the tool (always 'provider-defined').
+   * 工具的类型（始终是“提供商定义的”）。
    */
   type: 'provider-defined';
 
   /**
-   * The ID of the tool. Should follow the format `<provider-name>.<unique-tool-name>`.
+   * 工具的 ID。应遵循格式“<provider-name>.<unique-tool-name>”。
    */
   id: `${string}.${string}`;
 
   /**
-   * The name of the tool that the user must use in the tool set.
+   * 用户必须在工具集中使用的工具的名称。
    */
   name: string;
 
   /**
-   * The arguments for configuring the tool. Must match the expected arguments defined by the provider for this tool.
+   * 用于配置工具的参数。必须匹配提供者为此工具定义的预期参数。
    */
   args: Record<string, unknown>;
 };

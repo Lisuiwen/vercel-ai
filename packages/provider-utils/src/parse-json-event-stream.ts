@@ -6,7 +6,7 @@ import { safeParseJSON, type ParseResult } from './parse-json';
 import type { FlexibleSchema } from './schema';
 
 /**
- * Parses a JSON event stream into a stream of parsed JSON objects.
+ * 将 JSON 事件流解析为解析的 JSON 对象流。
  */
 export function parseJsonEventStream<T>({
   stream,
@@ -21,7 +21,7 @@ export function parseJsonEventStream<T>({
     .pipeThrough(
       new TransformStream<EventSourceMessage, ParseResult<T>>({
         async transform({ data }, controller) {
-          // ignore the 'DONE' event that e.g. OpenAI sends:
+          // 忽略“完成”事件，例如OpenAI 发送：
           if (data === '[DONE]') {
             return;
           }

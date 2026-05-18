@@ -6,7 +6,7 @@ import type {
 } from '@ai-sdk/provider';
 
 /**
- * AI SDK 使用的嵌入模型。
+ * AI SDK使用的嵌入模型。
  */
 export type EmbeddingModel =
   | string

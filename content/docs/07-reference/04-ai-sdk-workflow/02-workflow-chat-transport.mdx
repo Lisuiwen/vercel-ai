@@ -1,13 +1,13 @@
 ---
 title: WorkflowChatTransport
-description: API Reference for the WorkflowChatTransport class.
+description: WorkflowChatTransport 类的 API 参考。
 ---
 
 # `WorkflowChatTransport`
 
-A [`ChatTransport`](/docs/ai-sdk-ui/transport) implementation for [`useChat`](/docs/reference/ai-sdk-ui/use-chat) that enables automatic stream reconnection for workflow-based chat apps. It posts messages to a chat endpoint, extracts the `x-workflow-run-id` response header, and reconnects to a `/{runId}/stream` endpoint on interruption (network failures, page refreshes, function timeouts).
+一个用于 [`useChat`](/docs/reference/ai-sdk-ui/use-chat) 的 [`ChatTransport`](/docs/ai-sdk-ui/transport) 实现，为基于 workflow 的聊天应用启用自动流重连。它会将消息 POST 到聊天端点，提取 `x-workflow-run-id` 响应标头，并在中断（网络故障、页面刷新、函数超时）时重新连接到 `/{runId}/stream` 端点。
 
-Unlike [`DefaultChatTransport`](/docs/ai-sdk-ui/transport) which assumes the full response arrives in a single HTTP request, `WorkflowChatTransport` is designed for the [Workflow SDK](https://vercel.com/docs/workflow) where the initial response stream may be interrupted by function timeouts. The transport automatically detects missing `finish` events and reconnects to resume from where the stream left off.
+与假定完整响应会在单个 HTTP 请求中到达的 [`DefaultChatTransport`](/docs/ai-sdk-ui/transport) 不同，`WorkflowChatTransport` 专为 [Workflow SDK](https://vercel.com/docs/workflow) 设计，在该场景中初始响应流可能会被函数超时中断。该 transport 会自动检测缺失的 `finish` 事件，并重新连接以从流中断的位置恢复。
 
 ```tsx
 'use client';
@@ -28,16 +28,16 @@ export default function Chat() {
 }
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { WorkflowChatTransport } from "@ai-sdk/workflow"`}
   prompt={false}
 />
 
-## Constructor
+## 构造函数
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -53,14 +53,14 @@ export default function Chat() {
       type: 'typeof fetch',
       isOptional: true,
       description:
-        'Custom fetch implementation to use for HTTP requests. Default: global fetch.',
+        '用于 HTTP 请求的自定义 fetch 实现。默认值：全局 fetch。',
     },
     {
       name: 'maxConsecutiveErrors',
       type: 'number',
       isOptional: true,
       description:
-        'Maximum number of consecutive errors allowed during reconnection attempts before giving up. Default: 3.',
+        '放弃前重连尝试期间允许的最大连续错误数。默认值：3。',
     },
     {
       name: 'initialStartIndex',
@@ -100,7 +100,7 @@ export default function Chat() {
   ]}
 />
 
-## Methods
+## 方法
 
 ### `sendMessages()`
 
@@ -122,35 +122,35 @@ const stream = await transport.sendMessages({
     {
       name: 'chatId',
       type: 'string',
-      description: 'Unique identifier for the chat session.',
+      description: '聊天会话的唯一标识符。',
     },
     {
       name: 'trigger',
       type: "'submit-message' | 'regenerate-message'",
-      description: 'The type of message submission.',
+      description: '消息提交类型。',
     },
     {
       name: 'messageId',
       type: 'string | undefined',
       description:
-        'ID of the message to regenerate, or undefined for new messages.',
+        '要重新生成的消息 ID；新消息则为 undefined。',
     },
     {
       name: 'messages',
       type: 'UIMessage[]',
       description:
-        'Array of UI messages representing the conversation history.',
+        '表示对话历史的 UI message 数组。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal | undefined',
       description:
-        'Signal to abort the request. Propagated to both the initial POST and any reconnection GET requests.',
+        '用于中止请求的信号。会传播到初始 POST 和任何重连 GET 请求。',
     },
   ]}
 />
 
-#### Returns
+#### 返回值
 
 Returns a `Promise<ReadableStream<UIMessageChunk>>` that includes chunks from both the initial POST response and any automatic reconnection.
 
@@ -171,12 +171,12 @@ const stream = await transport.reconnectToStream({
       name: 'chatId',
       type: 'string',
       description:
-        'The chat ID to reconnect to. Used to construct the reconnection URL.',
+        '要重连的 chat ID。用于构造重连 URL。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal | undefined',
-      description: 'Signal to abort the reconnection request.',
+      description: '用于中止重连请求的信号。',
     },
     {
       name: 'startIndex',
@@ -188,48 +188,48 @@ const stream = await transport.reconnectToStream({
   ]}
 />
 
-#### Returns
+#### 返回值
 
 Returns a `Promise<ReadableStream<UIMessageChunk> | null>`.
 
-## How Reconnection Works
+## 重连工作原理
 
-The transport follows this flow:
+transport 遵循以下流程：
 
 1. **POST** to `{api}` with messages. The response must include an `x-workflow-run-id` header.
 2. **Stream** the SSE response, counting chunks as they arrive.
-3. **Detect interruption**: If the stream closes without a `finish` event (e.g., function timeout, network error), the transport knows the response is incomplete.
+3. **检测中断**：如果流在没有 `finish` 事件的情况下关闭（例如函数超时、网络错误），transport 会知道响应不完整。
 4. **Reconnect** via GET to `{api}/{runId}/stream?startIndex={chunkIndex}` to resume from the last received chunk.
 5. **Retry**: If the reconnection stream also interrupts, retry up to `maxConsecutiveErrors` times.
 6. **Complete**: Once a `finish` event is received, call `onChatEnd` and close the stream.
 
-### Negative Start Index
+### 负数起始索引
 
 When `initialStartIndex` is negative (e.g., `-50`), the transport sends it as-is in the first reconnection request. The server should resolve this to an absolute position and return the `x-workflow-stream-tail-index` response header so the transport can compute the correct position for subsequent retries.
 
 If the header is missing or invalid, the transport falls back to replaying from the beginning (`startIndex=0`).
 
-## Server Requirements
+## 服务端要求
 
 For `WorkflowChatTransport` to work, your server must provide two endpoints:
 
 ### POST `{api}` (e.g., `/api/chat`)
 
-- Accept messages as JSON body
-- Return an SSE stream of `UIMessageChunk` events
-- Include an `x-workflow-run-id` response header
+- 接受 JSON body 形式的消息
+- 返回 `UIMessageChunk` 事件的 SSE 流
+- 包含 `x-workflow-run-id` 响应标头
 
 ### GET `{api}/{runId}/stream` (e.g., `/api/chat/{runId}/stream`)
 
-- Accept a `startIndex` query parameter
-- Return the SSE stream starting from the given chunk index
+- 接受 `startIndex` 查询参数
+- 返回从给定 chunk 索引开始的 SSE 流
 - For negative `startIndex`, resolve to the tail and include `x-workflow-stream-tail-index` response header
 
-See the [WorkflowAgent guide](/docs/agents/workflow-agent) for complete endpoint examples.
+完整端点示例请参阅 [WorkflowAgent 指南](/docs/agents/workflow-agent)。
 
-## Examples
+## 示例
 
-### Basic Usage with useChat
+### 基本用法 with useChat
 
 ```tsx
 'use client';
@@ -262,7 +262,7 @@ export default function Chat() {
 }
 ```
 
-### With Callbacks and Page Refresh Recovery
+### 使用回调和页面刷新恢复
 
 ```tsx
 'use client';
@@ -295,7 +295,7 @@ export default function Chat() {
 }
 ```
 
-### Server-Side Endpoints (Next.js)
+### 服务端端点（Next.js）
 
 ```ts filename="app/api/chat/route.ts"
 import { createModelCallToUIChunkTransform } from '@ai-sdk/workflow';

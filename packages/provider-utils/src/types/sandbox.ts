@@ -1,45 +1,45 @@
 /**
- * Sandbox environment that can execute commands.
+ * 可以执行命令的沙箱环境。
  */
 export type Experimental_Sandbox = {
   /**
-   * Description of the sandbox environment that can be added to the agent's instructions
-   * so that the agent knows about relevant details such as the root directory, exposed
-   * ports, the public hostname, etc.
+   * 可以添加到代理指令中的沙盒环境描述
+   * 以便代理了解相关详细信息，例如暴露的根目录
+   * 端口、公共主机名等。
    */
   readonly description: string;
 
   /**
-   * Run a command in the sandbox.
+   * 在沙箱中运行命令。
    */
   readonly runCommand: (options: {
     /**
-     * Command to execute in the sandbox.
+     * 在沙箱中执行的命令。
      */
     command: string;
 
     /**
-     * Working directory to execute the command in.
+     * 执行命令的工作目录。
      */
     workingDirectory?: string;
 
     /**
-     * Signal that can be used to abort the command.
+     * 可用于中止命令的信号。
      */
     abortSignal?: AbortSignal;
   }) => PromiseLike<{
     /**
-     * Exit code returned by the command.
+     * 命令返回的退出代码。
      */
     exitCode: number;
 
     /**
-     * Standard output produced by the command.
+     * 命令生成的标准输出。
      */
     stdout: string;
 
     /**
-     * Standard error produced by the command.
+     * 命令产生的标准错误。
      */
     stderr: string;
   }>;

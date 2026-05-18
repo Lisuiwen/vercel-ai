@@ -3,9 +3,9 @@ import {
   type SharedV4ProviderReference,
 } from '@ai-sdk/provider';
 /**
- * Resolves a provider reference to the provider-specific identifier for the
- * given provider. Throws `NoSuchProviderReferenceError` if the provider is not
- * found in the reference mapping.
+ * 解析提供者对特定于提供者的标识符的引用
+ * 给定的提供者。如果提供者不是，则抛出“NoSuchProviderReferenceError”
+ * 在参考映射中找到。
  */
 export function resolveProviderReference({
   reference,

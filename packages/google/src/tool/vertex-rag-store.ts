@@ -9,7 +9,7 @@ import { z } from 'zod/v4';
 // https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/rag-output-explained
 
 /**
- * A tool that enables the model to perform RAG searches against a Vertex RAG Store.
+ * 一种工具，使模型能够针对 Vertex RAG 存储执行 RAG 搜索。
  *
  * @note Only works with Vertex Gemini models.
  */
@@ -18,12 +18,12 @@ export const vertexRagStore = createProviderExecutedToolFactory<
   {},
   {
     /**
-     * RagCorpus resource names, eg: projects/{project}/locations/{location}/ragCorpora/{rag_corpus}
+     * RagCorpus 资源名称，例如：projects/{project}/locations/{location}/ragCorpora/{rag_corpus}
      */
     ragCorpus: string;
 
     /**
-     * The number of top contexts to retrieve.
+     * 要检索的顶级上下文的数量。
      */
     topK?: number;
   }

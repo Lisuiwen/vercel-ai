@@ -1,10 +1,10 @@
 /**
- * Strips file extension segments from a filename.
+ * 从文件名中去除文件扩展名段。
  *
- * Examples:
- * - "report.pdf" -> "report"
- * - "archive.tar.gz" -> "archive"
- * - "filename" -> "filename"
+ * 示例：
+ * - “报告.pdf” -> “报告”
+ * - “archive.tar.gz” -> “存档”
+ * -“文件名”->“文件名”
  */
 export function stripFileExtension(filename: string): string {
   const firstDotIndex = filename.indexOf('.');

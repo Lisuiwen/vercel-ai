@@ -1,5 +1,5 @@
 /**
- * An embedding is a vector, i.e. an array of numbers.
- * It is e.g. used to represent a text as a vector of word embeddings.
+ * 嵌入是一个向量，即数字数组。
+ * 它是例如用于将文本表示为词嵌入向量。
  */
 export type EmbeddingModelV2Embedding = Array<number>;

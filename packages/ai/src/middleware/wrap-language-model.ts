@@ -11,16 +11,16 @@ import { asLanguageModelV4 } from '../model/as-language-model-v4';
 import type { LanguageModelMiddleware } from '../types';
 
 /**
- * 使用中间件功能包装 LanguageModelV4 实例。
+ * 使用中间件功能封装 LanguageModelV4 实例。
  * 该功能允许您应用中间件来转换参数，
  * 包装生成操作，以及包装语言模型的流操作。
  *
- * @param options - Configuration options for wrapping the language model.
- * @param options.model - The original LanguageModelV4 instance to be wrapped.
- * @param options.middleware - The middleware to be applied to the language model. When multiple middlewares are provided, the first middleware will transform the input first, and the last middleware will be wrapped directly around the model.
- * @param options.modelId - Optional custom model ID to override the original model's ID.
- * @param options.providerId - Optional custom provider ID to override the original model's provider ID.
- * @returns A new LanguageModelV4 instance with middleware applied.
+ * @param options - 用于包装语言模型的配置选项。
+ * @param options.model - 要包装的原始 LanguageModelV4 实例。
+ * @param options.middleware - 应用于语言模型的中间件。当提供多个中间件时，第一个中间件将首先转换输入，最后一个中间件将直接包裹模型。
+ * @param options.modelId - 可选的自定义模型 ID 可覆盖原始模型的 ID。
+ * @param options.providerId - 可选的自定义提供程序 ID，用于覆盖原始模型的提供程序 ID。
+ * @returns 应用了中间件的新 LanguageModelV4 实例。
  */
 export const wrapLanguageModel = ({
   model: inputModel,

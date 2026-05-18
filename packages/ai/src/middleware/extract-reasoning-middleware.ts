@@ -6,12 +6,12 @@ import type { LanguageModelMiddleware } from '../types/language-model-middleware
 import { getPotentialStartIndex } from '../util/get-potential-start-index';
 
 /**
- * 从生成的文本中提取 XML 标记的推理部分并将其公开
+ * 从生成的数据中提取 XML 标记的推理部分并将其公开
  * 作为结果的“推理”属性。
  *
- * @param tagName - The name of the XML tag to extract reasoning from.
- * @param separator - The separator to use between reasoning and text sections.
- * @param startWithReasoning - Whether to start with reasoning tokens.
+ * @param tagName - 要从中提取推理的 XML 标记的名称。
+ * @param separator - 在推理部分和文本部分之间使用的分隔符。
+ * @param startWithReasoning - 是否从推理标记开始。
  */
 export function extractReasoningMiddleware({
   tagName,
@@ -103,7 +103,7 @@ export function extractReasoningMiddleware({
             LanguageModelV4StreamPart
           >({
             transform: (chunk, controller) => {
-              // 不要在“reasoning-start”之前发送“text-start”
+              // 不要在`reasoning-start`之前发送`text-start`
               // https://github.com/vercel/ai/issues/7774
               if (chunk.type === 'text-start') {
                 delayedTextStart = chunk;

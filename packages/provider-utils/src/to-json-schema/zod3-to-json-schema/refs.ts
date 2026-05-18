@@ -30,7 +30,7 @@ export const getRefs = (options?: string | Partial<Options>): Refs => {
         {
           def: def._def,
           path: [..._options.basePath, _options.definitionPath, name],
-          // Resolution of references will be forced even though seen, so it's ok that the schema is undefined here for now.
+          // 即使看到引用，也会强制解析引用，因此暂时未定义架构是可以的。
           jsonSchema: undefined,
         },
       ]),

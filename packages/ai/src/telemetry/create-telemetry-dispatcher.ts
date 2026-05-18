@@ -13,7 +13,7 @@ import type { TelemetryOptions } from './telemetry-options';
 
 /**
  * `TelemetryDispatcher` 键的子集，其值为 Callback 回调。
- * 这不包括非回调属性，例如“executeTool”。
+ * 这不包括非回调属性，例如`executeTool`。
  */
 type TelemetryCallbackKey = keyof {
   [K in keyof TelemetryDispatcher as TelemetryDispatcher[K] extends
@@ -53,9 +53,9 @@ function augmentEvent<EVENT>(
  * 为该调用注册了集成。当没有每次调用集成时
  * 前提是使用全局注册的集成。
  *
- * @param args.telemetry - Optional per-call telemetry settings and integrations.
+ * @param args.telemetry - 可选的每次呼叫遥测设置和集成。
  *
- * @returns A telemetry dispatcher that fans out lifecycle events to the
+ * @returns 遥测调度程序，将生命周期事件扇出到
  * 解决了一组集成。
  */
 export function createTelemetryDispatcher({
@@ -134,7 +134,7 @@ export function createTelemetryDispatcher({
     onError: mergeTelemetryCallback('onError'),
 
     /**
-     * 围绕原始工具执行组成所有“executeTool”包装器。
+     * 围绕原始工具执行组成所有`executeTool`包装器。
      * 每个包装器接收一个“执行”函数，该函数调用下一个包装器
      * 链，因此集成可以在之前建立嵌套遥测上下文
      * 委托给底层工具。

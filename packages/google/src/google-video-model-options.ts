@@ -2,21 +2,21 @@ import { lazySchema, zodSchema } from '@ai-sdk/provider-utils';
 import { z } from 'zod/v4';
 
 export type GoogleVideoModelOptions = {
-  // Polling configuration
+  // 轮询配置
   pollIntervalMs?: number | null;
   pollTimeoutMs?: number | null;
 
-  // Video generation options
+  // 视频生成选项
   personGeneration?: 'dont_allow' | 'allow_adult' | 'allow_all' | null;
   negativePrompt?: string | null;
 
-  // Reference images (for style/asset reference)
+  // 参考图像（用于样式/资产参考）
   referenceImages?: Array<{
     bytesBase64Encoded?: string;
     gcsUri?: string;
   }> | null;
 
-  [key: string]: unknown; // For passthrough
+  [key: string]: unknown; // 对于直通
 };
 
 export const googleVideoModelOptionsSchema = lazySchema(() =>

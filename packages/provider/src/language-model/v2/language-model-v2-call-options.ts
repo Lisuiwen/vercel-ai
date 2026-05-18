@@ -7,61 +7,61 @@ import type { LanguageModelV2ToolChoice } from './language-model-v2-tool-choice'
 
 export type LanguageModelV2CallOptions = {
   /**
-   * A language mode prompt is a standardized prompt type.
+   * 语言模式提示是标准化的提示类型。
    *
-   * Note: This is **not** the user-facing prompt. The AI SDK methods will map the
-   * user-facing prompt types such as chat or instruction prompts to this format.
-   * That approach allows us to evolve the user  facing prompts without breaking
-   * the language model interface.
+   * 注意：这**不是**面向用户的提示。 AI SDK 方法将映射
+   * 面向用户的提示类型（例如聊天或指令提示）采用此格式。
+   * 这种方法使我们能够在不破坏用户体验的情况下改进用户面临的提示
+   * 语言模型接口。
    */
   prompt: LanguageModelV2Prompt;
 
   /**
-   * Maximum number of tokens to generate.
+   * 生成的最大令牌数。
    */
   maxOutputTokens?: number;
 
   /**
-   * Temperature setting. The range depends on the provider and model.
+   * 温度设定。范围取决于提供商和模型。
    */
   temperature?: number;
 
   /**
-   * Stop sequences.
-   * If set, the model will stop generating text when one of the stop sequences is generated.
-   * Providers may have limits on the number of stop sequences.
+   * 停止序列。
+   * 如果设置，模型将在生成停止序列之一时停止生成文本。
+   * 提供商可能对停止序列的数量有限制。
    */
   stopSequences?: string[];
 
   /**
-   * Nucleus sampling.
+   * 细胞核取样。
    */
   topP?: number;
 
   /**
-   * Only sample from the top K options for each subsequent token.
+   * 对于每个后续标记，仅从前 K 个选项中进行采样。
    *
-   * Used to remove "long tail" low probability responses.
-   * Recommended for advanced use cases only. You usually only need to use temperature.
+   * 用于删除“长尾”低概率响应。
+   * 仅推荐用于高级用例。通常您只需要使用温度。
    */
   topK?: number;
 
   /**
-   * Presence penalty setting. It affects the likelihood of the model to
-   * repeat information that is already in the prompt.
+   * 存在惩罚设置。它影响模型的可能性
+   * 重复提示中已有的信息。
    */
   presencePenalty?: number;
 
   /**
-   * Frequency penalty setting. It affects the likelihood of the model
-   * to repeatedly use the same words or phrases.
+   * 频率惩罚设置。它影响模型的可能性
+   * 重复使用相同的单词或短语。
    */
   frequencyPenalty?: number;
 
   /**
-   * Response format. The output can either be text or JSON. Default is text.
+   * 响应格式。输出可以是文本或 JSON。默认为文本。
    *
-   * If JSON is selected, a schema can optionally be provided to guide the LLM.
+   * 如果选择 JSON，则可以选择提供模式来指导 LLM。
    */
   responseFormat?:
     | { type: 'text' }
@@ -69,59 +69,59 @@ export type LanguageModelV2CallOptions = {
         type: 'json';
 
         /**
-         * JSON schema that the generated output should conform to.
+         * 生成的输出应符合的 JSON 架构。
          */
         schema?: JSONSchema7;
 
         /**
-         * Name of output that should be generated. Used by some providers for additional LLM guidance.
+         * 应生成的输出的名称。一些提供商将其用于额外的法学硕士指导。
          */
         name?: string;
 
         /**
-         * Description of the output that should be generated. Used by some providers for additional LLM guidance.
+         * 应生成的输出的描述。一些提供商将其用于额外的法学硕士指导。
          */
         description?: string;
       };
 
   /**
-   * The seed (integer) to use for random sampling. If set and supported
-   * by the model, calls will generate deterministic results.
+   * 用于随机采样的种子（整数）。如果设置并支持
+   * 根据模型，调用将生成确定性结果。
    */
   seed?: number;
 
   /**
-   * The tools that are available for the model.
+   * 可用于模型的工具。
    */
   tools?: Array<
     LanguageModelV2FunctionTool | LanguageModelV2ProviderDefinedTool
   >;
 
   /**
-   * Specifies how the tool should be selected. Defaults to 'auto'.
+   * 指定应如何选择工具。默认为“自动”。
    */
   toolChoice?: LanguageModelV2ToolChoice;
 
   /**
-   * Include raw chunks in the stream. Only applicable for streaming calls.
+   * 在流中包含原始块。仅适用于流式通话。
    */
   includeRawChunks?: boolean;
 
   /**
-   * Abort signal for cancelling the operation.
+   * 用于取消操作的中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional HTTP headers to be sent with the request.
-   * Only applicable for HTTP-based providers.
+   * 与请求一起发送的附加 HTTP 标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string | undefined>;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV2ProviderOptions;
 };

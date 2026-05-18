@@ -5,7 +5,7 @@ import {
 } from '@ai-sdk/provider-utils';
 import { z } from 'zod/v4';
 
-// Note: For the initial GA launch of Imagen 3, safety filters are not configurable.
+// 注意：对于 Imagen 3 的首次 GA 发布，安全过滤器不可配置。
 // https://ai.google.dev/gemini-api/docs/imagen#imagen-model
 export const googleImageModelOptionsSchema = lazySchema(() =>
   zodSchema(

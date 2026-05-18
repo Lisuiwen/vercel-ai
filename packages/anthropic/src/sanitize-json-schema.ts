@@ -31,11 +31,11 @@ const DESCRIPTION_CONSTRAINT_KEYS = [
 ] satisfies Array<keyof JSONSchema7>;
 
 /**
- * Removes JSON Schema keywords that Anthropic rejects in
- * `output_config.format.schema`.
+ * 删除 Anthropic 拒绝的 JSON Schema 关键字
+ * `output_config.format.schema`。
  *
- * The full original schema is still used by AI SDK result validation. This
- * only relaxes the schema sent to Anthropic's constrained decoder.
+ * AI SDK 结果验证仍使用完整的原始架构。这个
+ * 仅放松发送到 Anthropic 受限解码器的模式。
  */
 export function sanitizeJsonSchema(schema: JSONSchema7): JSONSchema7 {
   return sanitizeSchema(schema) as JSONSchema7;

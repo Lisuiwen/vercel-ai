@@ -1,7 +1,7 @@
 /**
- * Maps a media type to its corresponding file extension.
- * It was originally introduced to set a filename for audio file uploads
- * in https://github.com/vercel/ai/pull/8159.
+ * 将媒体类型映射到其相应的文件扩展名。
+ * 最初引入它是为了设置音频文件上传的文件名
+ * 在 https://github.com/vercel/ai/pull/8159 中。
  *
  * @param mediaType The media type to map.
  * @returns The corresponding file extension

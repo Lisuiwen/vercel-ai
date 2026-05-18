@@ -6,25 +6,25 @@ import type {
 import type { EmbeddingModelV2Embedding } from './embedding-model-v2-embedding';
 
 /**
- * Specification for an embedding model that implements the embedding model
- * interface version 2.
+ * 实现嵌入模型的嵌入模型规范
+ * 接口版本2.
  *
- * VALUE is the type of the values that the model can embed.
- * This will allow us to go beyond text embeddings in the future,
- * e.g. to support image embeddings
+ * VALUE 是模型可以嵌入的值的类型。
+ * 这将使我们在未来超越文本嵌入，
+ * 例如支持图像嵌入
  */
 export type EmbeddingModelV2<VALUE> = {
   /**
-   * The embedding model must specify which embedding model interface
-   * version it implements. This will allow us to evolve the embedding
-   * model interface and retain backwards compatibility. The different
-   * implementation versions can be handled as a discriminated union
-   * on our side.
+   * 嵌入模型必须指定哪个嵌入模型接口
+   * 它实现的版本。这将使我们能够发展嵌入
+   * 模型接口并保留向后兼容性。不同的
+   * 实现版本可以作为有区别的联合来处理
+   * 在我们这边。
    */
   readonly specificationVersion: 'v2';
 
   /**
-   * Name of the provider for logging purposes.
+   * 用于记录目的的提供商名称。
    */
   readonly provider: string;
 
@@ -34,9 +34,9 @@ export type EmbeddingModelV2<VALUE> = {
   readonly modelId: string;
 
   /**
-   * Limit of how many embeddings can be generated in a single API call.
+   * 单个 API 调用中可以生成的嵌入数量的限制。
    *
-   * Use Infinity for models that do not have a limit.
+   * 对于没有限制的模型使用 Infinity。
    */
   readonly maxEmbeddingsPerCall:
     | PromiseLike<number | undefined>
@@ -44,68 +44,68 @@ export type EmbeddingModelV2<VALUE> = {
     | undefined;
 
   /**
-   * True if the model can handle multiple embedding calls in parallel.
+   * 如果模型可以并行处理多个嵌入调用，则为 true。
    */
   readonly supportsParallelCalls: PromiseLike<boolean> | boolean;
 
   /**
-   * Generates a list of embeddings for the given input text.
+   * 生成给定输入文本的嵌入列表。
    *
-   * Naming: "do" prefix to prevent accidental direct usage of the method
-   * by the user.
+   * 命名：“do”前缀，防止意外直接使用该方法
+   * 由用户。
    */
   doEmbed(options: {
     /**
-     * List of values to embed.
+     * 要嵌入的值列表。
      */
     values: Array<VALUE>;
 
     /**
-     * Abort signal for cancelling the operation.
+     * 用于取消操作的中止信号。
      */
     abortSignal?: AbortSignal;
 
     /**
-     * Additional provider-specific options. They are passed through
-     * to the provider from the AI SDK and enable provider-specific
-     * functionality that can be fully encapsulated in the provider.
+     * 其他特定于提供商的选项。他们通过
+     * 从 AI SDK 发送给提供商并启用特定于提供商的
+     * 可以完全封装在提供者中的功能。
      */
     providerOptions?: SharedV2ProviderOptions;
 
     /**
-     * Additional HTTP headers to be sent with the request.
-     * Only applicable for HTTP-based providers.
+     * 与请求一起发送的附加 HTTP 标头。
+     * 仅适用于基于 HTTP 的提供商。
      */
     headers?: Record<string, string | undefined>;
   }): PromiseLike<{
     /**
-     * Generated embeddings. They are in the same order as the input values.
+     * 生成的嵌入。它们的顺序与输入值相同。
      */
     embeddings: Array<EmbeddingModelV2Embedding>;
 
     /**
-     * Token usage. We only have input tokens for embeddings.
+     * 代币使用。我们只有用于嵌入的输入标记。
      */
     usage?: { tokens: number };
 
     /**
-     * Additional provider-specific metadata. They are passed through
-     * from the provider to the AI SDK and enable provider-specific
-     * results that can be fully encapsulated in the provider.
+     * 其他特定于提供商的元数据。他们通过
+     * 从提供商到 AI SDK 并启用提供商特定的
+     * 可以完全封装在提供者中的结果。
      */
     providerMetadata?: SharedV2ProviderMetadata;
 
     /**
-     * Optional response information for debugging purposes.
+     * 用于调试目的的可选响应信息。
      */
     response?: {
       /**
-       * Response headers.
+       * 响应标头。
        */
       headers?: SharedV2Headers;
 
       /**
-       * The response body.
+       * 响应主体。
        */
       body?: unknown;
     };

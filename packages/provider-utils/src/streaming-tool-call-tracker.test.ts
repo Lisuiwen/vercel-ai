@@ -16,7 +16,7 @@ describe('StreamingToolCallTracker', () => {
       const { parts, controller } = createCollector();
       const tracker = new StreamingToolCallTracker(controller);
 
-      // First delta: new tool call with id and name
+      // 第一个增量：使用 ID 和名称调用新工具
       tracker.processDelta({
         index: 0,
         id: 'call_1',
@@ -31,7 +31,7 @@ describe('StreamingToolCallTracker', () => {
 
       parts.length = 0;
 
-      // Second delta: more arguments
+      // 第二个增量：更多参数
       tracker.processDelta({
         index: 0,
         function: { arguments: 'ty": "San' },
@@ -47,7 +47,7 @@ describe('StreamingToolCallTracker', () => {
 
       parts.length = 0;
 
-      // Third delta: completes the JSON
+      // 第三个增量：完成 JSON
       tracker.processDelta({
         index: 0,
         function: { arguments: ' Francisco"}' },
@@ -128,7 +128,7 @@ describe('StreamingToolCallTracker', () => {
       const { parts, controller } = createCollector();
       const tracker = new StreamingToolCallTracker(controller);
 
-      // Complete tool call in one chunk
+      // 一次性完成工具调用
       tracker.processDelta({
         index: 0,
         id: 'call_1',
@@ -138,7 +138,7 @@ describe('StreamingToolCallTracker', () => {
 
       parts.length = 0;
 
-      // Late delta for the same tool call
+      // 同一工具调用的延迟增量
       tracker.processDelta({
         index: 0,
         function: { arguments: 'extra' },
@@ -151,7 +151,7 @@ describe('StreamingToolCallTracker', () => {
       const { parts, controller } = createCollector();
       const tracker = new StreamingToolCallTracker(controller);
 
-      // Create tool call
+      // 创建工具调用
       tracker.processDelta({
         index: 0,
         id: 'call_1',
@@ -161,7 +161,7 @@ describe('StreamingToolCallTracker', () => {
 
       parts.length = 0;
 
-      // Delta with null arguments
+      // 带有空参数的 Delta
       tracker.processDelta({
         index: 0,
         function: { arguments: null },
@@ -227,7 +227,7 @@ describe('StreamingToolCallTracker', () => {
         typeValidation: 'none',
       });
 
-      // Should not throw even with a non-function type
+      // 即使是非函数类型也不应该抛出异常
       expect(() =>
         tracker.processDelta({
           index: 0,
@@ -244,7 +244,7 @@ describe('StreamingToolCallTracker', () => {
         typeValidation: 'if-present',
       });
 
-      // Should throw for non-function type
+      // 应该抛出非函数类型
       expect(() =>
         tracker.processDelta({
           index: 0,
@@ -254,7 +254,7 @@ describe('StreamingToolCallTracker', () => {
         }),
       ).toThrow("Expected 'function' type.");
 
-      // Should not throw when type is null
+      // 当类型为 null 时不应抛出
       expect(() =>
         tracker.processDelta({
           index: 0,
@@ -270,7 +270,7 @@ describe('StreamingToolCallTracker', () => {
         typeValidation: 'required',
       });
 
-      // Should throw when type is null/undefined
+      // 当类型为 null/未定义时应该抛出
       expect(() =>
         tracker.processDelta({
           index: 0,
@@ -279,7 +279,7 @@ describe('StreamingToolCallTracker', () => {
         }),
       ).toThrow("Expected 'function' type.");
 
-      // Should not throw for 'function' type
+      // 不应该抛出“函数”类型
       expect(() =>
         tracker.processDelta({
           index: 0,
@@ -296,7 +296,7 @@ describe('StreamingToolCallTracker', () => {
       const { parts, controller } = createCollector();
       const tracker = new StreamingToolCallTracker(controller);
 
-      // Start a tool call but don't complete it
+      // 开始工具调用但不完成它
       tracker.processDelta({
         index: 0,
         id: 'call_1',
@@ -306,7 +306,7 @@ describe('StreamingToolCallTracker', () => {
 
       parts.length = 0;
 
-      // Flush should finalize
+      // 冲洗应该完成
       tracker.flush();
 
       expect(parts).toEqual([
@@ -324,7 +324,7 @@ describe('StreamingToolCallTracker', () => {
       const { parts, controller } = createCollector();
       const tracker = new StreamingToolCallTracker(controller);
 
-      // Complete tool call in one chunk
+      // 一次性完成工具调用
       tracker.processDelta({
         index: 0,
         id: 'call_1',
@@ -336,7 +336,7 @@ describe('StreamingToolCallTracker', () => {
 
       tracker.flush();
 
-      // No events should be emitted since tool call was already finished
+      // 由于工具调用已经完成，因此不应发出任何事件
       expect(parts).toEqual([]);
     });
   });
@@ -440,7 +440,7 @@ describe('StreamingToolCallTracker', () => {
         generateId: mockGenerateId,
       });
 
-      // Start a tool call
+      // 启动工具调用
       tracker.processDelta({
         index: 0,
         id: 'call_1',
@@ -450,10 +450,10 @@ describe('StreamingToolCallTracker', () => {
 
       parts.length = 0;
 
-      // Flush to finalize
+      // 冲洗以完成
       tracker.flush();
 
-      // The toolCallId should use the original id since it's present
+      // toolCallId 应使用原始 id，因为它已存在
       const toolCallEvent = parts.find(p => p.type === 'tool-call');
       expect(toolCallEvent).toMatchObject({
         toolCallId: 'call_1',

@@ -19,7 +19,7 @@ export type {
 export type { GenerateTextResult } from './generate-text-result';
 export {
   DefaultGeneratedFile,
-  type GeneratedFile as Experimental_GeneratedImage, // 向后兼容的图像，TODO 在 v7 中删除
+  type GeneratedFile as Experimental_GeneratedImage, // 光滑兼容的图像，TODO 在 v7 中删除
   type GeneratedFile,
 } from './generated-file';
 export type {
@@ -46,7 +46,7 @@ export {
   isStepCount,
 
   /**
-   * @deprecated 请改用“isStepCount”。
+   * @deprecated 请改用`isStepCount`。
    */
   isStepCount as stepCountIs,
   type StopCondition,

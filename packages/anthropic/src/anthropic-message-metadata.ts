@@ -1,38 +1,38 @@
 import type { JSONObject } from '@ai-sdk/provider';
 
 /**
- * Represents a single iteration in the usage breakdown.
+ * 表示使用细分中的单次迭代。
  *
- * The API returns an iterations array showing usage for each sampling
- * iteration. Iterations can be:
- * - `compaction`: a context compaction step (billed at executor rates).
- * - `message`: an executor sampling iteration (billed at executor rates).
- * - `advisor_message`: an advisor sub-inference (billed at the advisor
- *   model's rates; `model` carries the advisor model ID). Advisor token
- *   usage is NOT rolled into the top-level usage totals because it bills
- *   at a different rate; inspect this array directly for advisor billing.
+ * API 返回一个迭代数组，显示每次采样的使用情况
+ * 迭代。迭代可以是：
+ * - `compaction`：上下文压缩步骤（按执行者费率计费）。
+ * - `message`：执行器采样迭代（按执行器费率计费）。
+ * - `advisor_message`：顾问子推理（在顾问处计费
+ *   模型的费率； `model` 携带顾问模型 ID）。顾问代币
+ *   使用量不会计入顶级使用量总计，因为它会计费
+ *   以不同的速率；直接检查此数组以进行顾问计费。
  */
 export type AnthropicUsageIteration =
   | {
       type: 'compaction' | 'message';
 
       /**
-       * Number of input tokens consumed in this iteration.
+       * 本次迭代中消耗的输入令牌数量。
        */
       inputTokens: number;
 
       /**
-       * Number of output tokens generated in this iteration.
+       * 本次迭代中生成的输出令牌的数量。
        */
       outputTokens: number;
 
       /**
-       * Number of cache-creation input tokens consumed in this iteration.
+       * 本次迭代中消耗的缓存创建输入令牌的数量。
        */
       cacheCreationInputTokens?: number;
 
       /**
-       * Number of cache-read input tokens consumed in this iteration.
+       * 本次迭代中消耗的缓存读取输入令牌的数量。
        */
       cacheReadInputTokens?: number;
     }
@@ -40,31 +40,31 @@ export type AnthropicUsageIteration =
       type: 'advisor_message';
 
       /**
-       * The advisor model that produced this iteration.
+       * 产生本次迭代的顾问模型。
        */
       model: string;
 
       /**
-       * Number of input tokens consumed in this iteration.
+       * 本次迭代中消耗的输入令牌数量。
        */
       inputTokens: number;
 
       /**
-       * Number of output tokens generated in this iteration.
+       * 本次迭代中生成的输出令牌的数量。
        */
       outputTokens: number;
 
       /**
-       * Number of cache-creation input tokens consumed by this advisor
-       * sub-inference. Nonzero when advisor-side caching is enabled and
-       * the advisor writes a fresh cache entry.
+       * 该顾问程序消耗的缓存创建输入令牌的数量
+       * 子推理。当顾问端缓存启用并且
+       * Advisor 写入一个新的缓存条目。
        */
       cacheCreationInputTokens?: number;
 
       /**
-       * Number of cache-read input tokens consumed by this advisor
-       * sub-inference. Nonzero on the second and later advisor calls
-       * when advisor-side caching is enabled.
+       * 该顾问程序消耗的缓存读取输入令牌的数量
+       * 子推理。第二次及之后的顾问调用时非零
+       * 当顾问端缓存启用时。
        */
       cacheReadInputTokens?: number;
     };
@@ -74,114 +74,114 @@ export interface AnthropicMessageMetadata {
   stopSequence: string | null;
 
   /**
-   * Usage breakdown by iteration when compaction is triggered.
+   * 触发压缩时按迭代细分的使用情况。
    *
-   * When compaction occurs, this array contains usage for each sampling iteration.
-   * The first iteration is typically the compaction step, followed by the main
-   * message iteration.
+   * 当压缩发生时，该数组包含每次采样迭代的使用情况。
+   * 第一次迭代通常是压缩步骤，然后是主要步骤
+   * 消息迭代。
    */
   iterations: AnthropicUsageIteration[] | null;
 
   /**
-   * Information about the container used in this request.
+   * 有关此请求中使用的容器的信息。
    *
-   * This will be non-null if a container tool (e.g., code execution) was used.
-   * Information about the container used in the request (for the code execution tool).
+   * 如果使用容器工具（例如代码执行），则该值将非空。
+   * 有关请求中使用的容器的信息（用于代码执行工具）。
    */
   container: {
     /**
-     * The time at which the container will expire (RFC3339 timestamp).
+     * 容器过期的时间（RFC3339 时间戳）。
      */
     expiresAt: string;
 
     /**
-     * Identifier for the container used in this request.
+     * 此请求中使用的容器的标识符。
      */
     id: string;
 
     /**
-     * Skills loaded in the container.
+     * 技能加载到容器中。
      */
     skills: Array<{
       /**
-       * Type of skill: either 'anthropic' (built-in) or 'custom' (user-defined).
+       * 技能类型：“人择”（内置）或“自定义”（用户定义）。
        */
       type: 'anthropic' | 'custom';
 
       /**
-       * Skill ID (1-64 characters).
+       * 技能 ID（1-64 个字符）。
        */
       skillId: string;
 
       /**
-       * Skill version or 'latest' for most recent version (1-64 characters).
+       * 技能版本或“最新”表示最新版本（1-64 个字符）。
        */
       version: string;
     }> | null;
   } | null;
 
   /**
-   * Context management response.
+   * 上下文管理响应。
    *
-   * Information about context management strategies applied during the request.
+   * 有关请求期间应用的上下文管理策略的信息。
    */
   contextManagement: {
     /**
-     * List of context management edits that were applied.
-     * Each item in the array is a specific type of context management edit.
+     * 已应用的上下文管理编辑的列表。
+     * 数组中的每个项目都是特定类型的上下文管理编辑。
      */
     appliedEdits: Array<
       /**
-       * Represents an edit where a certain number of tool uses and input tokens were cleared.
+       * 表示清除了一定数量的工具使用和输入标记的编辑。
        */
       | {
           /**
-           * The type of context management edit applied.
-           * Possible value: 'clear_tool_uses_20250919'
+           * 应用的上下文管理编辑的类型。
+           * 可能的值：“clear_tool_uses_20250919”
            */
           type: 'clear_tool_uses_20250919';
 
           /**
-           * Number of tool uses that were cleared by this edit.
-           * Minimum: 0
+           * 通过此编辑清除的工具使用次数。
+           * 最小值：0
            */
           clearedToolUses: number;
 
           /**
-           * Number of input tokens cleared by this edit.
-           * Minimum: 0
+           * 此编辑清除的输入标记数。
+           * 最小值：0
            */
           clearedInputTokens: number;
         }
       /**
-       * Represents an edit where a certain number of thinking turns and input tokens were cleared.
+       * 代表一次编辑，其中一定数量的思考轮次和输入标记被清除。
        */
       | {
           /**
-           * The type of context management edit applied.
-           * Possible value: 'clear_thinking_20251015'
+           * 应用的上下文管理编辑的类型。
+           * 可能的值：“clear_thinking_20251015”
            */
           type: 'clear_thinking_20251015';
 
           /**
-           * Number of thinking turns that were cleared by this edit.
-           * Minimum: 0
+           * 通过此编辑清除的思考轮数。
+           * 最小值：0
            */
           clearedThinkingTurns: number;
 
           /**
-           * Number of input tokens cleared by this edit.
-           * Minimum: 0
+           * 此编辑清除的输入标记数。
+           * 最小值：0
            */
           clearedInputTokens: number;
         }
       /**
-       * Represents a compaction edit where the conversation context was summarized.
+       * 表示对对话上下文进行总结的压缩编辑。
        */
       | {
           /**
-           * The type of context management edit applied.
-           * Possible value: 'compact_20260112'
+           * 应用的上下文管理编辑的类型。
+           * 可能的值：'compact_20260112'
            */
           type: 'compact_20260112';
         }

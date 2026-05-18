@@ -1,6 +1,6 @@
 /**
- * A value that can be provided either synchronously or as a promise-like.
+ * 可以同步提供或作为类似承诺提供的值。
  */
 export type MaybePromiseLike<T> =
-  | T // Raw value
-  | PromiseLike<T>; // Promise of value
+  | T // 原始值
+  | PromiseLike<T>; // 价值承诺

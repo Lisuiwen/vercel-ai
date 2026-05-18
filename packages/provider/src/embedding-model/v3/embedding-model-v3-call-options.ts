@@ -2,25 +2,25 @@ import type { SharedV3Headers, SharedV3ProviderOptions } from '../../shared';
 
 export type EmbeddingModelV3CallOptions = {
   /**
-   * List of text values to generate embeddings for.
+   * 要为其生成嵌入的文本值列表。
    */
   values: Array<string>;
 
   /**
-   * Abort signal for cancelling the operation.
+   * 用于取消操作的中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: SharedV3ProviderOptions;
 
   /**
-   * Additional HTTP headers to be sent with the request.
-   * Only applicable for HTTP-based providers.
+   * 与请求一起发送的附加 HTTP 标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: SharedV3Headers;
 };

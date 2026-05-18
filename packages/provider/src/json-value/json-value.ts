@@ -1,6 +1,6 @@
 /**
- * A JSON value can be a string, number, boolean, object, array, or null.
- * JSON values can be serialized and deserialized by the JSON.stringify and JSON.parse methods.
+ * JSON 值可以是字符串、数字、布尔值、对象、数组或 null。
+ * JSON 值可以通过 JSON.stringify 和 JSON.parse 方法进行序列化和反序列化。
  */
 export type JSONValue =
   | null

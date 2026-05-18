@@ -27,40 +27,40 @@ export const localShellOutputSchema = lazySchema(() =>
 export const localShell = createProviderDefinedToolFactoryWithOutputSchema<
   {
     /**
-     * Execute a shell command on the server.
+     * 在服务器上执行 shell 命令。
      */
     action: {
       type: 'exec';
 
       /**
-       * The command to run.
+       * 要运行的命令。
        */
       command: string[];
 
       /**
-       * Optional timeout in milliseconds for the command.
+       * 命令的可选超时（以毫秒为单位）。
        */
       timeoutMs?: number;
 
       /**
-       * Optional user to run the command as.
+       * 运行命令的可选用户。
        */
       user?: string;
 
       /**
-       * Optional working directory to run the command in.
+       * 用于运行命令的可选工作目录。
        */
       workingDirectory?: string;
 
       /**
-       * Environment variables to set for the command.
+       * 为命令设置的环境变量。
        */
       env?: Record<string, string>;
     };
   },
   {
     /**
-     * The output of local shell tool call.
+     * 本地 shell 工具调用的输出。
      */
     output: string;
   },

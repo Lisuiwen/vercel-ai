@@ -1,66 +1,66 @@
 /**
- * Warning from the model.
+ * 来自模型的警告。
  *
- * For example, that certain features are unsupported or compatibility
- * functionality is used (which might lead to suboptimal results).
+ * 例如，某些功能不受支持或兼容性
+ * 使用功能（这可能会导致次优结果）。
  */
 export type SharedV4Warning =
   | {
       /**
-       * A feature is not supported by the model.
+       * 该模型不支持某个功能。
        */
       type: 'unsupported';
 
       /**
-       * The feature that is not supported.
+       * 不支持的功能。
        */
       feature: string;
 
       /**
-       * Additional details about the warning.
+       * 有关警告的其他详细信息。
        */
       details?: string;
     }
   | {
       /**
-       * A compatibility feature is used that might lead to suboptimal results.
+       * 使用的兼容性功能可能会导致次优结果。
        */
       type: 'compatibility';
 
       /**
-       * The feature that is used in a compatibility mode.
+       * 在兼容模式下使用的功能。
        */
       feature: string;
 
       /**
-       * Additional details about the warning.
+       * 有关警告的其他详细信息。
        */
       details?: string;
     }
   | {
       /**
-       * A deprecated feature or option is being used.
+       * 正在使用已弃用的功能或选项。
        */
       type: 'deprecated';
 
       /**
-       * The deprecated setting or feature name.
+       * 已弃用的设置或功能名称。
        */
       setting: string;
 
       /**
-       * A human-readable message explaining what to use instead.
+       * 一条人类可读的消息，解释了应该使用什么。
        */
       message: string;
     }
   | {
       /**
-       * Other warning.
+       * 其他警告。
        */
       type: 'other';
 
       /**
-       * The message of the warning.
+       * 警告消息。
        */
       message: string;
     };

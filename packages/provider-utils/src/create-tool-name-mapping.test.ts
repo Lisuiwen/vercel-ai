@@ -152,11 +152,11 @@ describe('createToolNameMapping', () => {
 
     const mapping = createToolNameMapping({ tools, providerToolNames });
 
-    // Function tool should not be mapped
+    // 功能工具不应被映射
     expect(mapping.toProviderToolName('function-tool')).toBe('function-tool');
     expect(mapping.toCustomToolName('function-tool')).toBe('function-tool');
 
-    // Provider-defined tool should be mapped
+    // 应映射提供商定义的工具
     expect(mapping.toProviderToolName('provider-tool')).toBe('computer_use');
     expect(mapping.toCustomToolName('computer_use')).toBe('provider-tool');
   });

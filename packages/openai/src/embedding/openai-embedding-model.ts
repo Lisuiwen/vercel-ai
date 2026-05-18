@@ -67,7 +67,7 @@ export class OpenAIEmbeddingModel implements EmbeddingModelV4 {
       });
     }
 
-    // Parse provider options
+    // 解析提供者选项
     const openaiOptions =
       (await parseProviderOptions({
         provider: 'openai',

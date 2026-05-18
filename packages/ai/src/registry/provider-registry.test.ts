@@ -77,7 +77,7 @@ describe('languageModel', () => {
   it('should throw NoSuchProviderError if provider does not exist', () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.languageModel('provider:model:part2')).toThrowError(
       NoSuchProviderError,
     );
@@ -116,7 +116,7 @@ describe('languageModel', () => {
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.languageModel('model')).toThrowError(
       NoSuchModelError,
     );
@@ -226,7 +226,7 @@ describe('embeddingModel', () => {
   it('should throw NoSuchProviderError if provider does not exist', () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.embeddingModel('provider:model')).toThrowError(
       NoSuchProviderError,
     );
@@ -259,7 +259,7 @@ describe('embeddingModel', () => {
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.embeddingModel('model')).toThrowError(
       NoSuchModelError,
     );
@@ -325,7 +325,7 @@ describe('imageModel', () => {
   it('should throw NoSuchProviderError if provider does not exist', () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.imageModel('provider:model')).toThrowError(
       NoSuchProviderError,
     );
@@ -351,7 +351,7 @@ describe('imageModel', () => {
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.imageModel('model')).toThrowError(NoSuchModelError);
   });
 
@@ -402,7 +402,7 @@ describe('transcriptionModel', () => {
   it('should throw NoSuchProviderError if provider does not exist', () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.transcriptionModel('provider:model')).toThrowError(
       NoSuchProviderError,
     );
@@ -428,7 +428,7 @@ describe('transcriptionModel', () => {
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.transcriptionModel('model')).toThrowError(
       NoSuchModelError,
     );
@@ -459,7 +459,7 @@ describe('speechModel', () => {
   it('should throw NoSuchProviderError if provider does not exist', () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.speechModel('provider:model')).toThrowError(
       NoSuchProviderError,
     );
@@ -485,7 +485,7 @@ describe('speechModel', () => {
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.speechModel('model')).toThrowError(NoSuchModelError);
   });
 });
@@ -525,7 +525,7 @@ describe('rerankingModel', () => {
   it('should throw NoSuchProviderError if provider does not exist', () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.rerankingModel('provider:model')).toThrowError(
       NoSuchProviderError,
     );
@@ -558,7 +558,7 @@ describe('rerankingModel', () => {
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.rerankingModel('model')).toThrowError(
       NoSuchModelError,
     );
@@ -638,7 +638,7 @@ describe('videoModel', () => {
   it('should throw NoSuchProviderError if provider does not exist', () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.videoModel('provider:model')).toThrowError(
       NoSuchProviderError,
     );
@@ -662,7 +662,7 @@ describe('videoModel', () => {
   it("should throw NoSuchModelError if model id doesn't contain a colon", () => {
     const registry = createProviderRegistry({});
 
-    // @ts-expect-error - 不应接受任意字符串
+    // @ts-expect-error - 不接受任何字符串
     expect(() => registry.videoModel('model')).toThrowError(NoSuchModelError);
   });
 

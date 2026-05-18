@@ -82,7 +82,7 @@ export class OpenAICompletionLanguageModel implements LanguageModelV4 {
   }
 
   readonly supportedUrls: Record<string, RegExp[]> = {
-    // No URLs are supported for completion models.
+    // 完成模型不支持 URL。
   };
 
   private async getArgs({
@@ -102,7 +102,7 @@ export class OpenAICompletionLanguageModel implements LanguageModelV4 {
   }: LanguageModelV4CallOptions) {
     const warnings: SharedV4Warning[] = [];
 
-    // Parse provider options
+    // 解析提供者选项
     const openaiOptions = {
       ...(await parseProviderOptions({
         provider: 'openai',
@@ -143,10 +143,10 @@ export class OpenAICompletionLanguageModel implements LanguageModelV4 {
 
     return {
       args: {
-        // model id:
+        // 模型编号：
         model: this.modelId,
 
-        // model specific settings:
+        // 模型具体设置：
         echo: openaiOptions.echo,
         logit_bias: openaiOptions.logitBias,
         logprobs:
@@ -158,7 +158,7 @@ export class OpenAICompletionLanguageModel implements LanguageModelV4 {
         suffix: openaiOptions.suffix,
         user: openaiOptions.user,
 
-        // standardized settings:
+        // 标准化设置：
         max_tokens: maxOutputTokens,
         temperature,
         top_p: topP,
@@ -166,10 +166,10 @@ export class OpenAICompletionLanguageModel implements LanguageModelV4 {
         presence_penalty: presencePenalty,
         seed,
 
-        // prompt:
+        // 迅速的：
         prompt: completionPrompt,
 
-        // stop sequences:
+        // 停止序列：
         stop: stop.length > 0 ? stop : undefined,
       },
       warnings,
@@ -278,7 +278,7 @@ export class OpenAICompletionLanguageModel implements LanguageModelV4 {
               controller.enqueue({ type: 'raw', rawValue: chunk.rawValue });
             }
 
-            // handle failed chunk parsing / validation:
+            // 处理失败的块解析/验证：
             if (!chunk.success) {
               finishReason = { unified: 'error', raw: undefined };
               controller.enqueue({ type: 'error', error: chunk.error });
@@ -287,7 +287,7 @@ export class OpenAICompletionLanguageModel implements LanguageModelV4 {
 
             const value = chunk.value;
 
-            // handle error chunks:
+            // 处理错误块：
             if ('error' in value) {
               finishReason = { unified: 'error', raw: undefined };
               controller.enqueue({ type: 'error', error: value.error });
