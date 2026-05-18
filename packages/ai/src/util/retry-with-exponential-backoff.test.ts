@@ -39,7 +39,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
 
     const promise = retryWithExponentialBackoffRespectingRetryHeaders()(fn);
 
-    // Should use rate limit delay (3000ms)
+    // 应使用速率限制延迟（3000ms）
     await vi.advanceTimersByTimeAsync(retryAfterMs - 100);
     expect(fn).toHaveBeenCalledTimes(1);
 
@@ -73,11 +73,11 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
 
     const promise = retryWithExponentialBackoffRespectingRetryHeaders()(fn);
 
-    // Fast-forward to just before the retry delay
+    // 快进到重试延迟之前
     await vi.advanceTimersByTimeAsync(retryAfterSeconds * 1000 - 100);
     expect(fn).toHaveBeenCalledTimes(1);
 
-    // Fast-forward past the retry delay
+    // 快进超过重试延迟
     await vi.advanceTimersByTimeAsync(200);
     expect(fn).toHaveBeenCalledTimes(2);
 
@@ -87,8 +87,8 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
 
   it('should use exponential backoff when rate limit delay is too long', async () => {
     let attempt = 0;
-    const retryAfterMs = 70000; // 70 seconds - too long
-    const initialDelay = 2000; // Default exponential backoff
+    const retryAfterMs = 70000; // 70 秒——太长
+    const initialDelay = 2000; // 默认指数退避
 
     const fn = vi.fn().mockImplementation(async () => {
       attempt++;
@@ -111,7 +111,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
       initialDelayInMs: initialDelay,
     })(fn);
 
-    // Should use exponential backoff delay (2000ms) not the rate limit (70000ms)
+    // 应使用指数退避延迟（2000ms）而不是速率限制（70000ms）
     await vi.advanceTimersByTimeAsync(initialDelay - 100);
     expect(fn).toHaveBeenCalledTimes(1);
 
@@ -145,11 +145,11 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
       initialDelayInMs: initialDelay,
     })(fn);
 
-    // Fast-forward to just before the initial delay
+    // 快进到初始延迟之前
     await vi.advanceTimersByTimeAsync(initialDelay - 100);
     expect(fn).toHaveBeenCalledTimes(1);
 
-    // Fast-forward past the initial delay
+    // 快进超过初始延迟
     await vi.advanceTimersByTimeAsync(200);
     expect(fn).toHaveBeenCalledTimes(2);
 
@@ -183,7 +183,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
       initialDelayInMs: initialDelay,
     })(fn);
 
-    // Should fall back to exponential backoff delay
+    // 应该回退到指数退避延迟
     await vi.advanceTimersByTimeAsync(initialDelay - 100);
     expect(fn).toHaveBeenCalledTimes(1);
 
@@ -202,7 +202,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
       const fn = vi.fn().mockImplementation(async () => {
         attempt++;
         if (attempt === 1) {
-          // Simulate actual Anthropic 429 response with retry-after-ms
+          // 使用 retry-after-ms 模拟实际的 Anthropic 429 响应
           throw new APICallError({
             message: 'Rate limit exceeded',
             url: 'https://api.anthropic.com/v1/messages',
@@ -226,7 +226,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
 
       const promise = retryWithExponentialBackoffRespectingRetryHeaders()(fn);
 
-      // Should use the delay from retry-after-ms header
+      // 应该使用 retry-after-ms 标头的延迟
       await vi.advanceTimersByTimeAsync(delayMs - 100);
       expect(fn).toHaveBeenCalledTimes(1);
 
@@ -239,12 +239,12 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
 
     it('should handle OpenAI 429 response with retry-after header', async () => {
       let attempt = 0;
-      const delaySeconds = 30; // 30 seconds
+      const delaySeconds = 30; // 30秒
 
       const fn = vi.fn().mockImplementation(async () => {
         attempt++;
         if (attempt === 1) {
-          // Simulate actual OpenAI 429 response with retry-after
+          // 使用 retry-after 模拟实际的 OpenAI 429 响应
           throw new APICallError({
             message: 'Rate limit reached for requests',
             url: 'https://api.openai.com/v1/chat/completions',
@@ -270,7 +270,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
 
       const promise = retryWithExponentialBackoffRespectingRetryHeaders()(fn);
 
-      // Should use the delay from retry-after header (30 seconds)
+      // 应使用重试后标头的延迟（30 秒）
       await vi.advanceTimersByTimeAsync(delaySeconds * 1000 - 100);
       expect(fn).toHaveBeenCalledTimes(1);
 
@@ -292,7 +292,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
       const fn = vi.fn().mockImplementation(async () => {
         attempt++;
         if (attempt === 1) {
-          // First attempt: 5 second rate limit delay
+          // 第一次尝试：5 秒速率限制延迟
           throw new APICallError({
             message: 'Rate limited',
             url: 'https://api.anthropic.com/v1/messages',
@@ -305,7 +305,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
             },
           });
         } else if (attempt === 2) {
-          // Second attempt: 2 second rate limit delay, but exponential backoff is 4 seconds
+          // 第二次尝试：2 秒速率限制延迟，但指数退避时间为 4 秒
           throw new APICallError({
             message: 'Rate limited',
             url: 'https://api.anthropic.com/v1/messages',
@@ -325,11 +325,11 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
         maxRetries: 3,
       })(fn);
 
-      // First retry - uses rate limit delay (5000ms)
+      // 第一次重试 - 使用速率限制延迟（5000ms）
       await vi.advanceTimersByTimeAsync(5000);
       expect(fn).toHaveBeenCalledTimes(2);
 
-      // Second retry - uses exponential backoff (4000ms) which is > rate limit delay (2000ms)
+      // 第二次重试 - 使用指数退避 (4000ms)，大于速率限制延迟 (2000ms)
       await vi.advanceTimersByTimeAsync(4000);
       expect(fn).toHaveBeenCalledTimes(3);
 
@@ -351,8 +351,8 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
             isRetryable: true,
             data: undefined,
             responseHeaders: {
-              'retry-after-ms': '3000', // 3 seconds - should use this
-              'retry-after': '10', // 10 seconds - should ignore
+              'retry-after-ms': '3000', // 3秒-应该使用这个
+              'retry-after': '10', // 10 秒 - 应该忽略
             },
           });
         }
@@ -361,7 +361,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
 
       const promise = retryWithExponentialBackoffRespectingRetryHeaders()(fn);
 
-      // Should use 3 second delay from retry-after-ms
+      // 应使用 3 秒延迟重试毫秒后
       await vi.advanceTimersByTimeAsync(3000);
       expect(fn).toHaveBeenCalledTimes(2);
 
@@ -400,7 +400,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
       await vi.advanceTimersByTimeAsync(0);
       expect(fn).toHaveBeenCalledTimes(1);
 
-      // Should wait for 5 seconds
+      // 应等待 5 秒
       await vi.advanceTimersByTimeAsync(delayMs - 100);
       expect(fn).toHaveBeenCalledTimes(1);
 
@@ -426,7 +426,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
             isRetryable: true,
             data: undefined,
             responseHeaders: {
-              'retry-after-ms': '-1000', // Negative value
+              'retry-after-ms': '-1000', // 负值
             },
           });
         }
@@ -437,7 +437,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
         initialDelayInMs: initialDelay,
       })(fn);
 
-      // Should use exponential backoff delay (2000ms) not the negative rate limit
+      // 应使用指数退避延迟（2000ms）而不是负速率限制
       await vi.advanceTimersByTimeAsync(initialDelay - 100);
       expect(fn).toHaveBeenCalledTimes(1);
 

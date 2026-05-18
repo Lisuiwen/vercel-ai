@@ -1,32 +1,34 @@
-![hero illustration](https://github.com/vercel/ai/blob/HEAD/assets/hero.gif)
-
 # AI SDK
 
-The [AI SDK](https://ai-sdk.dev/docs) is a provider-agnostic TypeScript toolkit designed to help you build AI-powered applications and agents using popular UI frameworks like Next.js, React, Svelte, Vue, Angular, and runtimes like Node.js.
+[AI SDK](https://ai-sdk.dev/docs) 是与具体提供商无关的 TypeScript 工具包，帮助你在 Next.js、React、Svelte、Vue、Angular 等流行 UI 框架以及 Node.js 等运行时上构建 AI 应用与 Agent。
 
-To learn more about how to use the AI SDK, check out our [API Reference](https://ai-sdk.dev/docs/reference) and [Documentation](https://ai-sdk.dev/docs).
+要了解如何使用 AI SDK，请参阅 [API 参考](https://ai-sdk.dev/docs/reference) 与[文档](https://ai-sdk.dev/docs)。
 
-## Installation
+## 安装
 
-You will need Node.js 18+ and npm (or another package manager) installed on your local development machine.
+本地开发机需安装 Node.js 18+ 以及 npm（或其他包管理器）。
 
 ```shell
 npm install ai
 ```
 
-## Skill for Coding Agents
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+
+## 编码代理 Skill
+
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Unified Provider Architecture
 
-The AI SDK provides a [unified API](https://ai-sdk.dev/docs/foundations/providers-and-models) to interact with model providers like [OpenAI](https://ai-sdk.dev/providers/ai-sdk-providers/openai), [Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic), [Google](https://ai-sdk.dev/providers/ai-sdk-providers/google), and [more](https://ai-sdk.dev/providers/ai-sdk-providers).
 
-By default, the AI SDK uses the [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) to give you access to all major providers out of the box. Just pass a model string for any supported model:
+## 统一提供商架构
+
+AI SDK 提供[统一 API](https://ai-sdk.dev/docs/foundations/providers-and-models)，可与 [OpenAI](https://ai-sdk.dev/providers/ai-sdk-providers/openai)、[Anthropic](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic)、[Google](https://ai-sdk.dev/providers/ai-sdk-providers/google) 等模型提供商交互，[更多](https://ai-sdk.dev/providers/ai-sdk-providers)见文档。
+
+默认通过 [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) 即可使用所有主要提供商，只需传入受支持模型的字符串：
 
 ```ts
 const result = await generateText({
@@ -35,11 +37,15 @@ const result = await generateText({
 });
 ```
 
-You can also connect to providers directly using their SDK packages:
+
+
+也可通过各提供商 SDK 包直接连接：
 
 ```shell
 npm install @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google
 ```
+
+
 
 ```ts
 import { anthropic } from '@ai-sdk/anthropic';
@@ -50,9 +56,11 @@ const result = await generateText({
 });
 ```
 
-## Usage
 
-### Generating Text
+
+## 用法
+
+### 生成文本
 
 ```ts
 import { generateText } from 'ai';
@@ -63,7 +71,9 @@ const { text } = await generateText({
 });
 ```
 
-### Generating Structured Data
+
+
+### 生成结构化数据
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -86,7 +96,9 @@ const { output } = await generateText({
 });
 ```
 
-### Agents
+
+
+### Agent
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -107,15 +119,19 @@ const sandboxAgent = new ToolLoopAgent({
 });
 ```
 
-### UI Integration
 
-The [AI SDK UI](https://ai-sdk.dev/docs/ai-sdk-ui/overview) module provides a set of hooks that help you build chatbots and generative user interfaces. These hooks are framework agnostic, so they can be used in Next.js, React, Svelte, and Vue.
 
-You need to install the package for your framework, e.g.:
+### UI 集成
+
+[AI SDK UI](https://ai-sdk.dev/docs/ai-sdk-ui/overview) 提供一组 hook，用于构建聊天机器人与生成式 UI，且与框架无关，可用于 Next.js、React、Svelte、Vue。
+
+需为所用框架安装对应包，例如：
 
 ```shell
 npm install @ai-sdk/react
 ```
+
+
 
 #### Agent @/agent/image-generation-agent.ts
 
@@ -137,7 +153,9 @@ export type ImageGenerationAgentMessage = InferAgentUIMessage<
 >;
 ```
 
-#### Route (Next.js App Router) @/app/api/chat/route.ts
+
+
+#### 路由（Next.js App Router）@/app/api/chat/route.ts
 
 ```tsx
 import { imageGenerationAgent } from '@/agent/image-generation-agent';
@@ -153,7 +171,9 @@ export async function POST(req: Request) {
 }
 ```
 
-#### UI Component for Tool @/component/image-generation-view.tsx
+
+
+#### 工具 UI 组件 @/component/image-generation-view.tsx
 
 ```tsx
 import { openai } from '@ai-sdk/openai';
@@ -173,7 +193,9 @@ export default function ImageGenerationView({
 }
 ```
 
-#### Page @/app/page.tsx
+
+
+#### 页面 @/app/page.tsx
 
 ```tsx
 'use client';
@@ -221,18 +243,20 @@ export default function Page() {
 }
 ```
 
-## Templates
 
-We've built [templates](https://ai-sdk.dev/docs/introduction#templates) that include AI SDK integrations for different use cases, providers, and frameworks. You can use these templates to get started with your AI-powered application.
 
-## Community
+## 模板
 
-The AI SDK community can be found on [the Vercel Community](https://community.vercel.com/c/ai-sdk/62) where you can ask questions, voice ideas, and share your projects with other people.
+我们提供了包含 AI SDK 集成的[模板](https://ai-sdk.dev/docs/introduction#templates)，覆盖不同用例、提供商与框架，便于快速启动 AI 应用。
 
-## Contributing
+## 社区
 
-Contributions to the AI SDK are welcome and highly appreciated. However, before you jump right into it, we would like you to review our [Contribution Guidelines](https://github.com/vercel/ai/blob/main/CONTRIBUTING.md) to make sure you have smooth experience contributing to AI SDK.
+AI SDK 社区位于 [Vercel Community](https://community.vercel.com/c/ai-sdk/62)，可在此提问、分享想法与项目。
 
-## Authors
+## 贡献
 
-This library is created by [Vercel](https://vercel.com) and [Next.js](https://nextjs.org) team members, with contributions from the [Open Source Community](https://github.com/vercel/ai/graphs/contributors).
+欢迎并非常感谢对 AI SDK 的贡献。在开始之前，请先阅读我们的[贡献指南](https://github.com/vercel/ai/blob/main/CONTRIBUTING.md)，以便顺利参与贡献。
+
+## 作者
+
+本库由 [Vercel](https://vercel.com) 与 [Next.js](https://nextjs.org) 团队成员创建，并得到[开源社区](https://github.com/vercel/ai/graphs/contributors)的贡献。

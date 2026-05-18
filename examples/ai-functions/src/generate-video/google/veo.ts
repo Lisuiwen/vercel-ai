@@ -13,7 +13,7 @@ run(async () => {
       duration: 6,
       providerOptions: {
         google: {
-          pollTimeoutMs: 600000, // 10 minutes
+          pollTimeoutMs: 600000, // 10分钟
         } satisfies GoogleVideoModelOptions,
       },
     }),

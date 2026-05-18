@@ -17,21 +17,21 @@ import type { Agent } from './agent';
 import { createAgentUIStream } from './create-agent-ui-stream';
 
 /**
- * Pipes the agent UI message stream to a Node.js ServerResponse object.
+ * 将代理 UI 消息流通过管道传输到 Node.js ServerResponse 对象。
  *
- * @param response - The Node.js ServerResponse object to pipe to.
- * @param agent - The agent to run.
- * @param uiMessages - The input UI messages.
- * @param abortSignal - Abort signal. Optional.
- * @param timeout - Timeout in milliseconds. Optional.
- * @param experimental_sandbox - The sandbox environment that is passed through to tool execution. Optional.
- * @param options - The options for the agent. Optional.
- * @param experimental_transform - Stream transformations. Optional.
- * @param onStepFinish - Callback that is called when each step is finished. Optional.
- * @param headers - Additional headers for the response. Optional.
- * @param status - The status code for the response. Optional.
- * @param statusText - The status text for the response. Optional.
- * @param consumeSseStream - Whether to consume the SSE stream. Optional.
+ * @param response - 要通过管道传输到的 Node.js ServerResponse 对象。
+ * @param agent - 要运行的代理。
+ * @param uiMessages - 输入 UI 消息。
+ * @param abortSignal - 中止信号。选修的。
+ * @param timeout - 超时（以毫秒为单位）。选修的。
+ * @param experimental_sandbox - 传递到工具执行的沙箱环境。选修的。
+ * @param options - 代理的选项。选修的。
+ * @param experimental_transform - 流转换。选修的。
+ * @param onStepFinish - 每个步骤完成时调用的回调。选修的。
+ * @param headers - 响应的附加标头。选修的。
+ * @param status - 响应的状态代码。选修的。
+ * @param statusText - 响应的状态文本。选修的。
+ * @param consumeSseStream - 是否消费SSE流。选修的。
  */
 export async function pipeAgentUIStreamToResponse<
   CALL_OPTIONS = never,

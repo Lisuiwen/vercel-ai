@@ -52,7 +52,7 @@ export default function Chat() {
               const toolCallId = toolInvocation.toolCallId;
               const dynamicInfoStyles = 'font-mono bg-zinc-100 p-1 text-sm';
 
-              // render confirmation tool (client-side tool with user interaction)
+              // 渲染确认 tool（带用户交互的客户端 tool）
               if (
                 toolsRequiringConfirmation.includes(toolName) &&
                 toolInvocation.state === 'input-available'
@@ -73,8 +73,8 @@ export default function Chat() {
                             tool: toolName,
                             output: APPROVAL.YES,
                           });
-                          // trigger new message
-                          // can also use sendAutomaticallyWhen on useChat
+                          // 触发新消息
+                          // 也可在 useChat 上使用 sendAutomaticallyWhen
                           sendMessage();
                         }}
                       >
@@ -88,8 +88,8 @@ export default function Chat() {
                             tool: toolName,
                             output: APPROVAL.NO,
                           });
-                          // trigger new message
-                          // can also use sendAutomaticallyWhen on useChat
+                          // 触发新消息
+                          // 也可在 useChat 上使用 sendAutomaticallyWhen
                           sendMessage();
                         }}
                       >

@@ -1,11 +1,11 @@
 ---
 title: extractReasoningMiddleware
-description: Middleware that extracts XML-tagged reasoning sections from generated text
+description: 从生成文本中提取带 XML 标签的推理段落的中间件
 ---
 
 # `extractReasoningMiddleware()`
 
-`extractReasoningMiddleware` is a middleware function that extracts XML-tagged reasoning sections from generated text and exposes them separately from the main text content. This is particularly useful when you want to separate an AI model's reasoning process from its final output.
+`extractReasoningMiddleware` 从生成文本中提取带 XML 标签的推理段落，并将其与主文本内容分开。适用于需要将模型推理过程与最终输出分离的场景。
 
 ```ts
 import { extractReasoningMiddleware } from 'ai';
@@ -16,16 +16,16 @@ const middleware = extractReasoningMiddleware({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { extractReasoningMiddleware } from "ai"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -34,35 +34,35 @@ const middleware = extractReasoningMiddleware({
       type: 'string',
       isOptional: false,
       description:
-        'The name of the XML tag to extract reasoning from (without angle brackets)',
+        '用于提取推理的 XML 标签名（不含尖括号）',
     },
     {
       name: 'separator',
       type: 'string',
       isOptional: true,
       description:
-        'The separator to use between reasoning and text sections. Defaults to "\\n"',
+        '推理段与文本段之间的分隔符。默认为 "\\n"',
     },
     {
       name: 'startWithReasoning',
       type: 'boolean',
       isOptional: true,
       description:
-        'Starts with reasoning tokens. Set to true when the response always starts with reasoning and the initial tag is omitted. Defaults to false.',
+        '响应以推理 token 开头。当响应始终以推理开始且省略起始标签时设为 true。默认为 false。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-Returns a middleware object that:
+返回中间件对象，其行为如下：
 
-- Processes both streaming and non-streaming responses
-- Extracts content between specified XML tags as reasoning
-- Removes the XML tags and reasoning from the main text
-- Adds a `reasoning` property to the result containing the extracted content
-- Maintains proper separation between text sections using the specified separator
+- 同时处理流式与非流式响应
+- 将指定 XML 标签之间的内容作为推理提取
+- 从主文本中移除 XML 标签与推理内容
+- 在结果上添加包含所提取内容的 `reasoning` 属性
+- 使用指定分隔符在文本段之间保持正确分隔
 
-### Type Parameters
+### 类型参数
 
-The middleware works with the `LanguageModelV4StreamPart` type for streaming responses.
+该中间件对流式响应使用 `LanguageModelV4StreamPart` 类型。

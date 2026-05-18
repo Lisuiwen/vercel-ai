@@ -6,7 +6,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   const result = streamText({
-    model: azure('gpt-4.1-mini'), // use your own deployment
+    model: azure('gpt-4.1-mini'), // 使用您自己的部署
     tools: {
       weather: weatherTool,
       cityAttractions: {
@@ -31,13 +31,13 @@ run(async () => {
         switch (part.toolName) {
           case 'cityAttractions': {
             console.log('TOOL CALL cityAttractions');
-            console.log(`city: ${part.input.city}`); // string
+            console.log(`city: ${part.input.city}`); // 字符串
             break;
           }
 
           case 'weather': {
             console.log('TOOL CALL weather');
-            console.log(`location: ${part.input.location}`); // string
+            console.log(`location: ${part.input.location}`); // 字符串
             break;
           }
         }
@@ -51,18 +51,18 @@ run(async () => {
         }
 
         switch (part.toolName) {
-          // NOT AVAILABLE (NO EXECUTE METHOD)
+          // 不可用（无 execute 方法）
           // case 'cityAttractions': {
           //   console.log('TOOL RESULT cityAttractions');
-          //   console.log(`city: ${part.input.city}`); // string
+          //   console.log(`city: ${part.input.city}`); // 字符串
           //   console.log(`result: ${part.result}`);
           //   break;
           // }
 
           case 'weather': {
             console.log('TOOL RESULT weather');
-            console.log(`location: ${part.input.location}`); // string
-            console.log(`temperature: ${part.output.temperature}`); // number
+            console.log(`location: ${part.input.location}`); // 字符串
+            console.log(`temperature: ${part.output.temperature}`); // 数字
             break;
           }
         }

@@ -16,15 +16,15 @@ run(async () => {
   const providerMetadata1 = await result1.providerMetadata;
   console.log(providerMetadata1?.google);
 
-  // e.g.
+  // 例如
   // {
-  //   groundingMetadata: null,
-  //   safetyRatings: null,
-  //   usageMetadata: {
-  //     thoughtsTokenCount: 1336,
-  //     promptTokenCount: 2152,
-  //     candidatesTokenCount: 992,
-  //     totalTokenCount: 4480
+  //   接地元数据：空，
+  //   安全评级：空，
+  //   使用元数据：{
+  //     想法令牌计数：1336，
+  //     提示令牌计数：2152，
+  //     候选人令牌计数：992，
+  //     总令牌数：4480
   //   }
   // }
 
@@ -38,16 +38,16 @@ run(async () => {
   const providerMetadata2 = await result2.providerMetadata;
   console.log(providerMetadata2?.google);
 
-  // e.g.
+  // 例如
   // {
-  //   groundingMetadata: null,
-  //   safetyRatings: null,
-  //   usageMetadata: {
-  //     cachedContentTokenCount: 2027,
-  //     thoughtsTokenCount: 908,
-  //     promptTokenCount: 2152,
-  //     candidatesTokenCount: 667,
-  //     totalTokenCount: 3727
+  //   接地元数据：空，
+  //   安全评级：空，
+  //   使用元数据：{
+  //     缓存内容令牌计数：2027，
+  //     想法令牌计数：908，
+  //     提示令牌计数：2152，
+  //     候选人令牌计数：667，
+  //     总令牌数：3727
   //   }
   // }
 });

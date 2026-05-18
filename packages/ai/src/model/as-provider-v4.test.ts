@@ -127,7 +127,7 @@ describe('asProviderV4', () => {
 
     it('should preserve optional model factories as undefined when not set', () => {
       const v3Provider = new MockProviderV3({});
-      // Override optional methods to be undefined
+      // 覆盖未定义的可选方法
       v3Provider.transcriptionModel = undefined;
       v3Provider.speechModel = undefined;
       v3Provider.rerankingModel = undefined;

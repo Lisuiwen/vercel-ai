@@ -1,6 +1,6 @@
 import type { RerankingModelV3, RerankingModelV4 } from '@ai-sdk/provider';
 
 /**
- * Reranking model that is used by the AI SDK.
+ * AI SDK 使用的重新排名模型。
  */
 export type RerankingModel = string | RerankingModelV4 | RerankingModelV3;

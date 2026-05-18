@@ -7,12 +7,12 @@ import type {
 } from '@ai-sdk/provider';
 
 /**
- * Image model that is used by the AI SDK.
+ * AI SDK使用的图像模型。
  */
 export type ImageModel = string | ImageModelV4 | ImageModelV3 | ImageModelV2;
 
 /**
- * Metadata from the model provider for this call.
+ * 来自模型提供者的此调用的元数据。
  */
 export type ImageModelProviderMetadata =
   | ImageModelV4ProviderMetadata

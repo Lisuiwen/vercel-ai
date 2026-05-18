@@ -1,36 +1,36 @@
-# AI SDK - OpenAI Compatible Provider
+# AI SDK - OpenAI Compatible 提供商
 
-This package provides a foundation for implementing providers that expose an OpenAI-compatible API.
+本包为实现暴露 OpenAI 兼容 API 的提供商提供基础能力。
 
-The primary [OpenAI provider](../openai/README.md) is more feature-rich, including OpenAI-specific experimental and legacy features. This package offers a lighter-weight alternative focused on core OpenAI-compatible functionality.
+主 [OpenAI 提供商](../openai/README.md) 功能更丰富，包含 OpenAI 专有实验性与遗留特性。本包是更轻量的替代方案，聚焦核心 OpenAI 兼容能力。
 
 > **Deploying to Vercel?** With Vercel's AI Gateway you can access hundreds of models from any provider — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
 
-## Setup
+## 安装
 
-The provider is available in the `@ai-sdk/openai-compatible` module. You can install it with
+可在 `@ai-sdk/openai-compatible` 模块中使用，安装方式：
 
 ```bash
 npm i @ai-sdk/openai-compatible
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the provider creation method `createOpenAICompatible` from `@ai-sdk/openai-compatible`:
+可从 `@ai-sdk/openai-compatible` 导入 `createOpenAICompatible`：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 ```
 
-## Example
+## 示例
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -46,9 +46,9 @@ const { text } = await generateText({
 });
 ```
 
-### Customizing headers
+### 自定义请求头
 
-You can further customize headers if desired. For example, here is an alternate implementation to pass along api key authentication:
+可按需自定义请求头。例如通过 Bearer 传递 API Key：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -66,7 +66,7 @@ const { text } = await generateText({
 });
 ```
 
-### Including model ids for auto-completion
+### 包含模型 ID 以支持自动补全
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -107,4 +107,4 @@ const { text } = await generateText({
 });
 ```
 
-For more examples, see the [OpenAI Compatible Providers](https://ai-sdk.dev/providers/openai-compatible-providers) documentation.
+更多示例见 [OpenAI 兼容提供商](https://ai-sdk.dev/providers/openai-compatible-providers) 文档。

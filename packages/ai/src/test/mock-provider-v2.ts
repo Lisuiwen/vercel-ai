@@ -37,7 +37,7 @@ export class MockProviderV2 implements ProviderV2 {
       if (!embeddingModels?.[modelId]) {
         throw new NoSuchModelError({
           modelId,
-          modelType: 'textEmbeddingModel' as any, // backwards compatibility
+          modelType: 'textEmbeddingModel' as any, // 向后兼容性
         });
       }
       return embeddingModels[modelId];

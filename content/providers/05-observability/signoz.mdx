@@ -1,38 +1,38 @@
 ---
 title: SigNoz
-description: Monitor, observe and debug your AI SDK application with SigNoz
+description: 使用 SigNoz 监控、观测并调试 AI SDK 应用
 ---
 
-# SigNoz Observability
+# SigNoz 可观测性
 
-[SigNoz](https://signoz.io/) is a single tool for all your monitoring and observability needs. Here are a few reasons why you should choose SigNoz:
+[SigNoz](https://signoz.io/) 是一套覆盖多种监控需求的统一工具。选择 SigNoz 的几个理由：
 
-- Single tool for observability(logs, metrics, and traces)
-- Built on top of [OpenTelemetry](https://opentelemetry.io/), the open-source standard which frees you from any type of vendor lock-in
-- Correlated logs, metrics and traces for much richer context while debugging
-- Uses ClickHouse (used by likes of Uber & Cloudflare) as datastore - an extremely fast and highly optimized storage for observability data
-- DIY Query builder, PromQL, and ClickHouse queries to fulfill all your use-cases around querying observability data
+- 单一工具完成可观测性（logs、metrics 与 traces）
+- 建立在 [OpenTelemetry](https://opentelemetry.io/) 之上，开源标准可避免厂商锁定
+- 关联 logs、metrics 与 traces，排障上下文更丰富
+- 使用 ClickHouse（Uber、Cloudflare 等也在用）作为存储，专为可观测数据高速优化
+- 支持 DIY Query builder、PromQL 与 ClickHouse 查询，满足各类分析需求
 
-# Setup
+# 设置
 
-- Create a [SigNoz Cloud Account](https://signoz.io/teams/)
-- Generate a SigNoz Ingestion Key
+- 创建 [SigNoz Cloud Account](https://signoz.io/teams/)
+- 生成 SigNoz Ingestion Key
 
-## Instrument your Next.js application
+## 为 Next.js 应用添加 instrumentation
 
-Check out detailed instructions on how to set up OpenTelemetry instrumentation in your Next.js applications and view your application traces in SigNoz over [here](https://signoz.io/docs/instrumentation/opentelemetry-nextjs/).
+如何在 Next.js 应用中设置 OpenTelemetry instrumentation，并在 SigNoz 查看应用 traces，详见 [此处](https://signoz.io/docs/instrumentation/opentelemetry-nextjs/)。
 
-## Send traces directly to SigNoz Cloud
+## 直接向 SigNoz Cloud 发送 traces
 
-**Step 1.** Install OpenTelemetry packages
+**步骤 1。** 安装 OpenTelemetry 相关包
 
 ```bash
 npm install @vercel/otel @opentelemetry/api @ai-sdk/otel
 ```
 
-**Step 2.** Update **`next.config.mjs`** to include instrumentationHook
+**步骤 2。** 更新 **`next.config.mjs`**，启用 instrumentationHook
 
-> This step is only needed when using NextJs 14 and below
+> 仅在 NextJs 14 及以下版本需要此步骤
 
 ```jsx
 /** @type {import('next').NextConfig} */
@@ -45,7 +45,7 @@ const nextConfig = {
 export default nextConfig;
 ```
 
-**Step 3.** Create **`instrumentation.ts`** file(in root project directory)
+**步骤 3。** 在项目根目录创建 **`instrumentation.ts`**
 
 ```jsx
 import { registerTelemetry } from 'ai';
@@ -68,23 +68,23 @@ export function register() {
 }
 ```
 
-- **`<service_name>`** is the name of your service
-- Set the **`<region>`** to match your SigNoz Cloud [**region**](https://signoz.io/docs/ingestion/signoz-cloud/overview/#endpoint)
-- Replace **`<your-ingestion-key>`** with your SigNoz [**ingestion key**](https://signoz.io/docs/ingestion/signoz-cloud/keys/)
+- **`<service_name>`** 为你的服务名称
+- 将 **`<region>`** 设为与 SigNoz Cloud [**区域**](https://signoz.io/docs/ingestion/signoz-cloud/overview/#endpoint) 一致
+- 将 **`<your-ingestion-key>`** 替换为你的 SigNoz [**ingestion key**](https://signoz.io/docs/ingestion/signoz-cloud/keys/)
 
-> The instrumentation file should be in the root of your project and not inside the app or pages directory. If you're using the src folder, then place the file inside src alongside pages and app.
+> instrumentation 文件应位于项目根目录，不要放在 app 或 pages 目录内。若使用 src 文件夹，请将文件放在与 pages、app 同级的 src 下。
 
-Your Next.js app should be properly instrumented now.
+你的 Next.js 应用现已正确完成 instrumentation。
 
-## Enable Telemetry for Vercel AI SDK
+## 为 Vercel AI SDK 启用 Telemetry
 
-The Vercel AI SDK uses [OpenTelemetry](https://signoz.io/blog/what-is-opentelemetry/) to collect telemetry data. OpenTelemetry is an open-source observability framework designed to provide standardized instrumentation for collecting telemetry data.
+Vercel AI SDK 使用 [OpenTelemetry](https://signoz.io/blog/what-is-opentelemetry/) 采集遥测数据。OpenTelemetry 是开源可观测框架，提供标准化的 instrumentation 以采集遥测。
 
-## Enabling Telemetry
+## 启用 Telemetry
 
-Check out more detailed information about Vercel AI SDK's telemetry options visit [here](https://ai-sdk.dev/docs/ai-sdk-core/telemetry#telemetry).
+关于 Vercel AI SDK 的遥测选项，更多说明见 [此处](https://ai-sdk.dev/docs/ai-sdk-core/telemetry#telemetry)。
 
-With `@ai-sdk/otel` installed and `registerTelemetry` added to your `instrumentation.ts` (see Step 3 above), telemetry is captured automatically on every AI SDK call:
+安装 `@ai-sdk/otel` 并在 `instrumentation.ts` 中加入 `registerTelemetry`（见上文步骤 3）后，每次 AI SDK 调用会自动采集遥测：
 
 ```jsx
 const result = await generateText({
@@ -93,17 +93,17 @@ const result = await generateText({
 });
 ```
 
-You can also control whether you want to record the input values and the output values for the function. By default, both are enabled. You can disable them by setting the `recordInputs` and `recordOutputs` options to `false`.
+你也可以控制是否记录函数的输入值与输出值。默认二者均启用。可将 `recordInputs` 与 `recordOutputs` 设为 `false` 以关闭：
 
 ```jsx
 telemetry: { recordInputs: false, recordOutputs: false }
 ```
 
-Disabling the recording of inputs and outputs can be useful for privacy, data transfer, and performance reasons. You might, for example, want to disable recording inputs if they contain sensitive information.
+关闭输入输出记录可能对隐私、数据传输与性能有益。例如，输入包含敏感信息时，你可能希望关闭输入记录。
 
 ## Telemetry Metadata
 
-You can provide a `functionId` to identify the function that the telemetry data is for, and `context` to include additional information in the telemetry data.
+可提供 `functionId` 标明遥测所属函数，并通过 `context` 在遥测中加入额外信息。
 
 ```jsx
 const result = await generateText({
@@ -121,7 +121,7 @@ const result = await generateText({
 
 ## Custom Tracer
 
-If you want your traces to use a `TracerProvider` other than the one provided by the `@opentelemetry/api` singleton, pass a custom `Tracer` to the `LegacyOpenTelemetry` constructor:
+若希望 traces 使用非 `@opentelemetry/api` 单例提供的 `TracerProvider`，可向 `LegacyOpenTelemetry` 构造函数传入自定义 `Tracer`：
 
 ```jsx
 import { registerTelemetry, generateText } from 'ai';
@@ -140,6 +140,6 @@ const result = await generateText({
 });
 ```
 
-Your Vercel AI SDK commands should now automatically emit traces, spans, and events. You can find more details on the types of spans and events generated [here](https://ai-sdk.dev/docs/ai-sdk-core/telemetry#collected-data).
+你的 Vercel AI SDK 调用现在会自动发出 traces、spans 与 events。生成的 span 与 event 类型见 [此处](https://ai-sdk.dev/docs/ai-sdk-core/telemetry#collected-data)。
 
-Finally, you should be able to view this data in Signoz Cloud under the traces tab.
+最后，你应能在 SigNoz Cloud 的 traces 标签页中查看这些数据。

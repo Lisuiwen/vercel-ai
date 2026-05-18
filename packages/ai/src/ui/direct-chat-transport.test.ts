@@ -78,7 +78,7 @@ describe('DirectChatTransport', () => {
         chunks.push(value);
       }
 
-      // Check for text streaming chunks
+      // 检查文本流块
       const textChunks = chunks.filter(
         (chunk: any) =>
           chunk.type === 'text-start' ||
@@ -88,7 +88,7 @@ describe('DirectChatTransport', () => {
 
       expect(textChunks.length).toBeGreaterThan(0);
 
-      // Check we got text deltas with content
+      // 检查我们是否获得了包含内容的文本增量
       const textDeltas = chunks.filter(
         (chunk: any) => chunk.type === 'text-delta',
       );
@@ -154,7 +154,7 @@ describe('DirectChatTransport', () => {
         abortSignal: abortController.signal,
       });
 
-      // Consume the stream
+      // 消费流
       const reader = stream.getReader();
       while (true) {
         const { done } = await reader.read();
@@ -227,7 +227,7 @@ describe('DirectChatTransport', () => {
         abortSignal: undefined,
       });
 
-      // Consume the stream
+      // 消费流
       const reader = stream.getReader();
       while (true) {
         const { done } = await reader.read();
@@ -277,7 +277,7 @@ describe('DirectChatTransport', () => {
 
       const agent = new ToolLoopAgent({ model: mockModelWithReasoning });
 
-      // Test with sendReasoning: true
+      // 使用 sendReasoning 进行测试：true
       const transportWithReasoning = new DirectChatTransport({
         agent,
         sendReasoning: true,
@@ -305,7 +305,7 @@ describe('DirectChatTransport', () => {
         chunks.push(value);
       }
 
-      // With sendReasoning: true, we should see reasoning chunks
+      // 使用 sendReasoning: true，我们应该看到推理块
       const reasoningChunks = chunks.filter(
         (chunk: any) =>
           chunk.type === 'reasoning-start' ||
@@ -378,7 +378,7 @@ describe('DirectChatTransport', () => {
         abortSignal: undefined,
       });
 
-      // Consume the stream
+      // 消费流
       const reader = stream.getReader();
       while (true) {
         const { done } = await reader.read();
@@ -412,7 +412,7 @@ describe('DirectChatTransport', () => {
           trigger: 'submit-message',
           messages: [
             {
-              // Missing id - invalid message
+              // 缺少 ID - 消息无效
               role: 'user',
               parts: [{ type: 'text', text: 'Hello!' }],
             },

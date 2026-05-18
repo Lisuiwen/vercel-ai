@@ -6,7 +6,7 @@ import {
 import { InvalidDataContentError } from './invalid-data-content-error';
 
 /**
- * Converts data content to a base64-encoded string.
+ * 将数据内容转换为 Base64 编码的字符串。
  *
  * @param content - Data content to convert.
  * @returns Base64-encoded string.
@@ -24,7 +24,7 @@ export function convertDataContentToBase64String(content: DataContent): string {
 }
 
 /**
- * Converts data content to a Uint8Array.
+ * 将数据内容转换为 Uint8Array。
  *
  * @param content - Data content to convert.
  * @returns Uint8Array.

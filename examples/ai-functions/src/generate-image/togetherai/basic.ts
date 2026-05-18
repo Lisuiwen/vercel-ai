@@ -13,7 +13,7 @@ run(async () => {
     size: '1024x1024',
     providerOptions: {
       togetherai: {
-        // Together AI specific options
+        // Together AI 特定选项
         steps: 40,
       } satisfies TogetherAIImageModelOptions,
     },

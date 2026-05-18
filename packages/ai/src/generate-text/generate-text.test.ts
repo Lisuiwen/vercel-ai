@@ -1051,7 +1051,7 @@ describe('generateText', () => {
           tool1: {
             inputSchema: z.object({ value: z.string() }),
           },
-          // 2nd tool to show typing:
+          // 显示打字的第二个工具：
           tool2: {
             inputSchema: z.object({ somethingElse: z.string() }),
           },
@@ -1060,7 +1060,7 @@ describe('generateText', () => {
         prompt: 'test-input',
       });
 
-      // test type inference
+      // 测试类型推断
       if (
         result.toolCalls[0].toolName === 'tool1' &&
         !result.toolCalls[0].dynamic
@@ -1193,7 +1193,7 @@ describe('generateText', () => {
         prompt: 'test-input',
       });
 
-      // test type inference
+      // 测试类型推断
       if (
         result.toolResults[0].toolName === 'tool1' &&
         !result.toolResults[0].dynamic
@@ -1980,10 +1980,10 @@ describe('generateText', () => {
 
       expect(stepStartEvents.length).toBe(3);
 
-      // Step 0: no previous steps
+      // 第 0 步：没有之前的步骤
       expect(stepStartEvents[0].steps.length).toBe(0);
 
-      // Step 1: has step 0's result
+      // 第 1 步：具有第 0 步的结果
       expect(stepStartEvents[1].steps.length).toBe(1);
       expect(stepStartEvents[1].steps[0].finishReason).toBe('tool-calls');
       expect(stepStartEvents[1].steps[0].toolCalls.length).toBe(1);
@@ -1993,7 +1993,7 @@ describe('generateText', () => {
         'step0-result',
       );
 
-      // Step 2: has step 0 and step 1's results
+      // 步骤2：有步骤0和步骤1的结果
       expect(stepStartEvents[2].steps.length).toBe(2);
       expect(stepStartEvents[2].steps[0].finishReason).toBe('tool-calls');
       expect(stepStartEvents[2].steps[1].finishReason).toBe('tool-calls');
@@ -2051,7 +2051,7 @@ describe('generateText', () => {
 
       expect(stepStartEvents.length).toBe(2);
 
-      // Step 1 should see step 0's text
+      // 第 1 步应该看到第 0 步的文本
       expect(stepStartEvents[1].steps[0].text).toBe('Thinking...');
     });
 
@@ -5767,7 +5767,7 @@ describe('generateText', () => {
         abortSignal: abortController.signal,
       });
 
-      // Abort the operation
+      // 中止操作
       abortController.abort();
 
       await generateTextPromise;
@@ -5824,7 +5824,7 @@ describe('generateText', () => {
         abortSignal: abortController.signal,
       });
 
-      // The merged signal should be different from the original
+      // 合并后的信号应该与原始信号不同
       expect(receivedAbortSignal).toBeDefined();
       expect(receivedAbortSignal).not.toBe(abortController.signal);
     });
@@ -5926,7 +5926,7 @@ describe('generateText', () => {
         abortSignal: abortController.signal,
       });
 
-      // The merged signal should be different from the original
+      // 合并后的信号应该与原始信号不同
       expect(receivedAbortSignal).toBeDefined();
       expect(receivedAbortSignal).not.toBe(abortController.signal);
     });
@@ -6013,7 +6013,7 @@ describe('generateText', () => {
       });
 
       expect(receivedAbortSignals.length).toBe(2);
-      // The same abort signal is reused for all steps (timeout is reset per step)
+      // 所有步骤重复使用相同的中止信号（每个步骤都会重置超时）
       expect(receivedAbortSignals[0]).toBeDefined();
       expect(receivedAbortSignals[1]).toBeDefined();
       expect(receivedAbortSignals[0]).toBe(receivedAbortSignals[1]);
@@ -6093,10 +6093,10 @@ describe('generateText', () => {
         maxRetries: 0,
       });
 
-      // Advance time past the step timeout — fires stepAbortController.abort(...)
+      // 提前超过步骤超时时间 — 触发 stepAbortController.abort(...)
       await vi.advanceTimersByTimeAsync(100);
 
-      // Allow doGenerate to complete so the test cleans up
+      // 允许 doGenerate 完成以便测试清理
       delayedPromise.resolve(undefined);
 
       await generatePromise.catch(() => {});
@@ -6291,7 +6291,7 @@ describe('generateText', () => {
               additionalProperties: false,
             }),
           },
-          // 2nd tool to show typing:
+          // 显示打字的第二个工具：
           tool2: {
             inputSchema: jsonSchema<{ somethingElse: string }>({
               type: 'object',
@@ -6309,7 +6309,7 @@ describe('generateText', () => {
         },
       });
 
-      // test type inference
+      // 测试类型推断
       if (
         result.toolCalls[0].toolName === 'tool1' &&
         !result.toolCalls[0].dynamic
@@ -6524,7 +6524,7 @@ describe('generateText', () => {
           super({
             supportedUrls() {
               supportedUrlsCalled = true;
-              // Reference 'this' to verify context
+              // 引用“this”来验证上下文
               return this.modelId === 'mock-model-id'
                 ? ({ 'image/*': [/^https:\/\/.*$/] } as Record<
                     string,
@@ -6919,12 +6919,12 @@ describe('generateText', () => {
         },
       });
 
-      // output should be undefined when finish reason is tool-calls
+      // 当完成原因是工具调用时，输出应该是未定义的
       expect(() => {
         result.output;
       }).toThrow('No output generated');
 
-      // But tool calls should work normally
+      // 但工具调用应该可以正常工作
       expect(result.toolCalls).toHaveLength(1);
       expect(result.toolResults).toHaveLength(1);
     });
@@ -7066,10 +7066,10 @@ describe('generateText', () => {
         prompt: 'test-input',
       });
 
-      // tool should not be executed by client
+      // 工具不应由客户端执行
       expect(toolExecuted).toBe(false);
 
-      // tool call should still be included in content
+      // 工具调用仍应包含在内容中
       expect(result.content).toMatchInlineSnapshot(`
         [
           {
@@ -7099,7 +7099,7 @@ describe('generateText', () => {
         ]
       `);
 
-      // tool results should include the result from the provider
+      // 工具结果应包括提供商的结果
       expect(result.toolResults).toMatchInlineSnapshot(`
         [
           {
@@ -7134,7 +7134,7 @@ describe('generateText', () => {
       }>;
       let rollDieExecutions: Array<{ player: string }>;
 
-      // Fixture-based tool call IDs (from anthropic-programmatic-tool-calling.1.json)
+      // 基于夹具的工具调用 ID（来自 anthropic-programmatic-tool-calling.1.json）
       const CODE_EXEC_ID = 'srvtoolu_01CberhXc9TgYXrCZU8bQoks';
       const CONTAINER_ID = 'container_011CWHQB57xVregfCMPrKgew';
 
@@ -7154,7 +7154,7 @@ describe('generateText', () => {
 
               switch (responseCount++) {
                 case 0:
-                  // Step 1: text + server_tool_use (code_execution) + 2 rollDie calls
+                  // 第 1 步：文本 + server_tool_use (code_execution) + 2 个 rollDie 调用
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -7209,7 +7209,7 @@ describe('generateText', () => {
                   };
 
                 case 1:
-                  // Step 2: 2 rollDie calls (round 2)
+                  // 第 2 步：2 次 rollDie 调用（第 2 轮）
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -7253,7 +7253,7 @@ describe('generateText', () => {
                   };
 
                 case 2:
-                  // Step 3: 2 rollDie calls (round 3)
+                  // 第 3 步：2 次 rollDie 调用（第 3 轮）
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -7297,7 +7297,7 @@ describe('generateText', () => {
                   };
 
                 case 3:
-                  // Step 4: 2 rollDie calls (round 4 - final round)
+                  // 第 4 步：2 次 rollDie 调用（第 4 轮 - 最后一轮）
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -7341,7 +7341,7 @@ describe('generateText', () => {
                   };
 
                 case 4:
-                  // Step 5: code_execution_tool_result + final text
+                  // 第5步：code_execution_tool_result + 最终文本
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -7437,7 +7437,7 @@ describe('generateText', () => {
               messages: [...messages],
             });
 
-            // Forward container ID from previous step (simulating forwardAnthropicContainerIdFromLastStep)
+            // 转发上一步的容器 ID（模拟forwardAnthropicContainerIdFromLastStep）
             if (stepNumber > 0 && steps.length > 0) {
               const lastStep = steps[steps.length - 1];
               const containerId = (
@@ -8240,19 +8240,19 @@ describe('generateText', () => {
         });
 
         it('should pass accumulated messages to prepareStep', () => {
-          // Step 0: just the initial user message
+          // 第0步：只是初始用户消息
           expect(prepareStepCalls[0].messages.length).toBe(1);
 
-          // Step 1: user message + assistant message + tool message
+          // 步骤一：用户消息+助手消息+工具消息
           expect(prepareStepCalls[1].messages.length).toBe(3);
 
-          // Step 2: user message + assistant + tool + assistant + tool
+          // 第二步：用户留言+助手+工具+助手+工具
           expect(prepareStepCalls[2].messages.length).toBe(5);
 
-          // Step 3: continued accumulation
+          // 第三步：持续积累
           expect(prepareStepCalls[3].messages.length).toBe(7);
 
-          // Step 4: continued accumulation
+          // 第四步：持续积累
           expect(prepareStepCalls[4].messages.length).toBe(9);
         });
       });
@@ -8365,10 +8365,10 @@ describe('generateText', () => {
         prompt: 'test-input',
       });
 
-      // tool should be executed by client
+      // 工具应由客户端执行
       expect(toolExecuted).toBe(true);
 
-      // tool call should be included in content
+      // 工具调用应包含在内容中
       expect(result.content).toMatchInlineSnapshot(`
         [
           {
@@ -8434,7 +8434,7 @@ describe('generateText', () => {
         prompt: 'test-input',
       });
 
-      // tool should be executed by client
+      // 工具应由客户端执行
       expect(recordedContext).toMatchInlineSnapshot(`
         {
           "context": "test",
@@ -8920,7 +8920,7 @@ describe('generateText', () => {
                   toolCallType: 'function',
                   toolCallId: 'call-1',
                   toolName: 'cityAttractions',
-                  // wrong tool call arguments (city vs cities):
+                  // 错误的工具调用参数（城市与城市）：
                   input: `{ "cities": "San Francisco" }`,
                 },
               ],
@@ -9352,7 +9352,7 @@ describe('generateText', () => {
           doGenerate: {
             ...dummyResponseValues,
             content: [{ type: 'text', text: 'Hello, world!' }],
-            warnings: [], // no warnings
+            warnings: [], // 没有警告
           },
         }),
         prompt: 'Hello',
@@ -11042,7 +11042,7 @@ describe('generateText', () => {
                 callCount++;
 
                 if (callCount === 1) {
-                  // Model returns tool call with result after approval
+                  // 批准后模型返回工具调用结果
                   return {
                     ...dummyResponseValues,
                     content: [
@@ -11426,7 +11426,7 @@ describe('generateText', () => {
           },
         ],
         prepareStep: async () => {
-          return { model: modelWithoutImageUrlSupport }; // model switch
+          return { model: modelWithoutImageUrlSupport }; // 型号切换
         },
         experimental_download: customDownload,
       });

@@ -2,14 +2,14 @@ import type { Context, ToolSet } from '@ai-sdk/provider-utils';
 import type { StepResult } from './step-result';
 
 /**
- * A predicate that decides whether a tool-calling loop should stop after the
- * current step.
+ * 决定工具调用循环是否应在
+ * 当前步骤。
  *
- * A tool calling loop continues until one of the following conditions is met:
- * - The model returns a finish reason other than `tool-calls`
- * - A tool without an execute function is called
- * - A tool call needs approval
- * - One of the provided stop conditions returns `true`
+ * 工具调用循环将继续进行，直到满足以下条件之一：
+ * - 模型返回除“工具调用”之外的完成原因
+ * - 调用没有执行函数的工具
+ * - 工具调用需要批准
+ * - 提供的停止条件之一返回“true”
  */
 export type StopCondition<
   TOOLS extends ToolSet,
@@ -19,8 +19,8 @@ export type StopCondition<
 }) => PromiseLike<boolean> | boolean;
 
 /**
- * Creates a stop condition that returns `true` when the number of completed
- * steps equals `stepCount`.
+ * 创建一个停止条件，当完成的数量达到时返回“true”
+ * 步骤等于“stepCount”。
  *
  * @param stepCount - The number of steps to allow before stopping.
  */
@@ -29,23 +29,23 @@ export function isStepCount(stepCount: number): StopCondition<any, any> {
 }
 
 /**
- * Creates a stop condition that never returns `true`.
+ * 创建一个永远不会返回“true”的停止条件。
  *
- * This lets the tool-calling loop continue until it reaches one of its
- * natural termination conditions.
+ * 这使得工具调用循环继续，直到到达其之一
+ * 自然终止条件。
  */
 export function isLoopFinished(): StopCondition<any, any> {
   return () => false;
 }
 
 /**
- * Creates a stop condition that returns `true` when the most recent step
- * contains a tool call with any of the specified names.
+ * 创建一个停止条件，在最近的步骤时返回“true”
+ * 包含具有任何指定名称的工具调用。
  *
  * @param toolName - The names of the tools that should stop the loop.
  */
 export function hasToolCall<TOOLS extends ToolSet>(
-  ...toolName: Array<keyof TOOLS | (string & {})> // autocomplete support for tool names
+  ...toolName: Array<keyof TOOLS | (string & {})> // 对工具名称的自动完成支持
 ): StopCondition<TOOLS, any> {
   return ({ steps }) =>
     steps[steps.length - 1]?.toolCalls?.some(toolCall =>
@@ -54,9 +54,9 @@ export function hasToolCall<TOOLS extends ToolSet>(
 }
 
 /**
- * Evaluates the provided stop conditions for the current list of steps.
+ * 评估当前步骤列表提供的停止条件。
  *
- * Returns `true` as soon as any stop condition is met.
+ * 一旦满足任何停止条件就返回“true”。
  *
  * @param stopConditions - The stop conditions to evaluate.
  * @param steps - The completed steps accumulated so far.

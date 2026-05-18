@@ -239,7 +239,7 @@ describe('streamObject', () => {
           },
         });
 
-        // consume stream
+        // 消费流
         await convertAsyncIterableToArray(resultObject.partialObjectStream);
 
         expect(result).toStrictEqual([{ error: new Error('test error') }]);
@@ -355,7 +355,7 @@ describe('streamObject', () => {
           prompt: 'prompt',
         });
 
-        // consume stream (runs in parallel)
+        // 使用流（并行运行）
         convertAsyncIterableToArray(result.partialObjectStream);
 
         expect(await result.usage).toMatchInlineSnapshot(`
@@ -404,7 +404,7 @@ describe('streamObject', () => {
           prompt: 'prompt',
         });
 
-        // consume stream (runs in parallel)
+        // 使用流（并行运行）
         convertAsyncIterableToArray(result.partialObjectStream);
 
         expect(await result.providerMetadata).toStrictEqual({
@@ -443,7 +443,7 @@ describe('streamObject', () => {
           prompt: 'prompt',
         });
 
-        // consume stream (runs in parallel)
+        // 使用流（并行运行）
         convertAsyncIterableToArray(result.partialObjectStream);
 
         expect(await result.response).toStrictEqual({
@@ -487,7 +487,7 @@ describe('streamObject', () => {
           prompt: 'prompt',
         });
 
-        // consume stream (runs in parallel)
+        // 使用流（并行运行）
         await convertAsyncIterableToArray(result.partialObjectStream);
 
         expect(await result.request).toStrictEqual({
@@ -522,7 +522,7 @@ describe('streamObject', () => {
           prompt: 'prompt',
         });
 
-        // consume stream (runs in parallel)
+        // 使用流（并行运行）
         convertAsyncIterableToArray(result.partialObjectStream);
 
         assert.deepStrictEqual(await result.object, {
@@ -555,7 +555,7 @@ describe('streamObject', () => {
           prompt: 'prompt',
         });
 
-        // consume stream (runs in parallel)
+        // 使用流（并行运行）
         convertAsyncIterableToArray(result.partialObjectStream);
 
         expect(result.object).rejects.toThrow(NoObjectGeneratedError);
@@ -586,10 +586,10 @@ describe('streamObject', () => {
           prompt: 'prompt',
         });
 
-        // consume stream (runs in parallel)
+        // 使用流（并行运行）
         convertAsyncIterableToArray(result.partialObjectStream);
 
-        // unhandled promise rejection should not be thrown (Vitest does this automatically)
+        // 不应发送未处理的承诺拒绝（Vitest自动执行此操作）
       });
     });
 
@@ -619,7 +619,7 @@ describe('streamObject', () => {
           prompt: 'prompt',
         });
 
-        // consume stream (runs in parallel)
+        // 使用流（并行运行）
         convertAsyncIterableToArray(result.partialObjectStream);
 
         expect(await result.finishReason).toStrictEqual('stop');
@@ -670,7 +670,7 @@ describe('streamObject', () => {
           },
         });
 
-        // consume stream
+        // 消费流
         await convertAsyncIterableToArray(partialObjectStream);
 
         expect(result!).toMatchSnapshot();
@@ -717,10 +717,10 @@ describe('streamObject', () => {
           },
         });
 
-        // consume stream
+        // 消费流
         await convertAsyncIterableToArray(partialObjectStream);
 
-        // consume expected error rejection
+        // 消耗预期错误拒绝
         await object.catch(() => {});
 
         expect(result!).toMatchSnapshot();
@@ -1009,26 +1009,26 @@ describe('streamObject', () => {
             stream: convertArrayToReadableStream([
               { type: 'text-start', id: '1' },
               { type: 'text-delta', id: '1', delta: '{"elements":[' },
-              // first element:
+              // 第一个元素：
               { type: 'text-delta', id: '1', delta: '{' },
               { type: 'text-delta', id: '1', delta: '"content":' },
               { type: 'text-delta', id: '1', delta: `"element 1"` },
               { type: 'text-delta', id: '1', delta: '},' },
-              // second element:
+              // 第二个元素：
               { type: 'text-delta', id: '1', delta: '{ ' },
               { type: 'text-delta', id: '1', delta: '"content": ' },
               { type: 'text-delta', id: '1', delta: `"element 2"` },
               { type: 'text-delta', id: '1', delta: '},' },
-              // third element:
+              // 第三个元素：
               { type: 'text-delta', id: '1', delta: '{' },
               { type: 'text-delta', id: '1', delta: '"content":' },
               { type: 'text-delta', id: '1', delta: `"element 3"` },
               { type: 'text-delta', id: '1', delta: '}' },
-              // end of array
+              // 数组末尾
               { type: 'text-delta', id: '1', delta: ']' },
               { type: 'text-delta', id: '1', delta: '}' },
               { type: 'text-end', id: '1' },
-              // finish
+              // 结束
               {
                 type: 'finish',
                 finishReason: { unified: 'stop', raw: 'stop' },
@@ -1074,7 +1074,7 @@ describe('streamObject', () => {
       });
 
       it('should have the correct object result', async () => {
-        // consume stream
+        // 消费流
         await convertAsyncIterableToArray(result.partialObjectStream);
 
         expect(await result.object).toStrictEqual([
@@ -1164,7 +1164,7 @@ describe('streamObject', () => {
       });
 
       it('should have the correct object result', async () => {
-        // consume stream
+        // 消费流
         await convertAsyncIterableToArray(result.partialObjectStream);
 
         expect(await result.object).toStrictEqual([
@@ -1413,7 +1413,7 @@ describe('streamObject', () => {
           super({
             supportedUrls: () => {
               supportedUrlsCalled = true;
-              // Reference 'this' to verify context
+              // 引用`this`来验证上下文
               return this.modelId === 'mock-model-id'
                 ? ({ 'image/*': [/^https:\/\/.*$/] } as Record<
                     string,
@@ -1496,7 +1496,7 @@ describe('streamObject', () => {
         },
       });
 
-      // consume stream
+      // 消费流
       await convertAsyncIterableToArray(result.partialObjectStream);
 
       expect(await result.object).toStrictEqual({
@@ -1541,7 +1541,7 @@ describe('streamObject', () => {
         },
       });
 
-      // consume stream
+      // 消费流
       await convertAsyncIterableToArray(result.partialObjectStream);
 
       expect(await result.object).toStrictEqual({
@@ -1586,7 +1586,7 @@ describe('streamObject', () => {
         },
       });
 
-      // consume stream
+      // 消费流
       await convertAsyncIterableToArray(result.partialObjectStream);
 
       expect(result.object).rejects.toThrow(
@@ -1628,7 +1628,7 @@ describe('streamObject', () => {
             '```json\n{ "content": "test message" }\n```',
           );
 
-          // Remove markdown code block wrapper
+          // 删除Markdown代码块包装
           const cleaned = text
             .replace(/^```json\s*/, '')
             .replace(/\s*```$/, '');
@@ -1636,7 +1636,7 @@ describe('streamObject', () => {
         },
       });
 
-      // consume stream
+      // 消费流
       await convertAsyncIterableToArray(result.partialObjectStream);
 
       expect(await result.object).toStrictEqual({
@@ -1693,7 +1693,7 @@ describe('streamObject', () => {
   describe('warnings', () => {
     it('should resolve warnings promise with undefined when no warnings are present', async () => {
       const mockModel = createTestModel({
-        warnings: [], // No warnings
+        warnings: [], // 无警告
       });
 
       const result = streamObject({
@@ -1702,10 +1702,10 @@ describe('streamObject', () => {
         prompt: 'prompt',
       });
 
-      // Consume the stream to completion
+      // 消耗流直至完成
       await convertAsyncIterableToArray(result.partialObjectStream);
 
-      // Wait for the warnings promise to resolve
+      // 等待警告承诺解决
       const warnings = await result.warnings;
 
       expect(warnings).toEqual([]);
@@ -1734,10 +1734,10 @@ describe('streamObject', () => {
         prompt: 'prompt',
       });
 
-      // Consume the stream to completion
+      // 消耗流直至完成
       await convertAsyncIterableToArray(result.partialObjectStream);
 
-      // Wait for the warnings promise to resolve
+      // 等待警告承诺解决
       const warnings = await result.warnings;
 
       expect(warnings).toEqual(expectedWarnings);
@@ -1766,7 +1766,7 @@ describe('streamObject', () => {
         prompt: 'prompt',
       });
 
-      // Consume the stream to completion
+      // 消耗流直至完成
       await convertAsyncIterableToArray(result.partialObjectStream);
 
       expect(logWarningsSpy).toHaveBeenCalledOnce();
@@ -1779,7 +1779,7 @@ describe('streamObject', () => {
 
     it('should call logWarnings with empty array when no warnings are present', async () => {
       const mockModel = createTestModel({
-        warnings: [], // no warnings
+        warnings: [], // 没有警告
       });
 
       const result = streamObject({
@@ -1788,7 +1788,7 @@ describe('streamObject', () => {
         prompt: 'prompt',
       });
 
-      // Consume the stream to completion
+      // 消耗流直至完成
       await convertAsyncIterableToArray(result.partialObjectStream);
 
       expect(logWarningsSpy).toHaveBeenCalledOnce();

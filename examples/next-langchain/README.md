@@ -1,20 +1,20 @@
-# AI SDK, Next.js, LangChain, OpenAI Examples
+# AI SDK、Next.js、LangChain、OpenAI 示例
 
-This example demonstrates how to use the [AI SDK](https://ai-sdk.dev/docs) with [Next.js](https://nextjs.org/), [LangChain](https://js.langchain.com), [LangGraph](https://langchain-ai.github.io/langgraph/), and [OpenAI](https://openai.com) to create AI-powered streaming applications.
+本示例演示如何将 [AI SDK](https://ai-sdk.dev/docs) 与 [Next.js](https://nextjs.org/)、[LangChain](https://js.langchain.com)、[LangGraph](https://langchain-ai.github.io/langgraph/) 和 [OpenAI](https://openai.com) 结合，构建 AI 驱动的流式应用。
 
-## Examples Included
+## 包含的示例
 
-### 1. Basic Chat (`/`)
+### 1. 基础聊天（`/`）
 
-Basic chat example using LangChain's `ChatOpenAI` with message streaming and the `@ai-sdk/langchain` adapter.
+使用 LangChain `ChatOpenAI`、消息流式与 `@ai-sdk/langchain` 适配器的基础聊天示例。
 
-### 2. Text Completion (`/completion`)
+### 2. 文本补全（`/completion`）
 
-Simple text completion using the `useCompletion` hook with LangChain streaming:
+使用 `useCompletion` hook 与 LangChain 流式的简单文本补全：
 
-- **`useCompletion`**: Uses AI SDK's completion hook for single-turn text generation
-- **Streaming**: Real-time token streaming from LangChain's `ChatOpenAI`
-- **`toUIMessageStream`**: Converts LangChain stream to AI SDK format
+- **`useCompletion`**：使用 AI SDK 补全 hook 进行单轮文本生成
+- **流式**：来自 LangChain `ChatOpenAI` 的实时 token 流
+- **`toUIMessageStream`**：将 LangChain 流转为 AI SDK 格式
 
 ```typescript
 import { ChatOpenAI } from '@langchain/openai';
@@ -28,33 +28,33 @@ return createUIMessageStreamResponse({
 });
 ```
 
-### 3. LangGraph (`/langgraph`)
+### 3. LangGraph（`/langgraph`）
 
-Demonstrates the `@ai-sdk/langchain` adapter with LangGraph:
+演示 `@ai-sdk/langchain` 适配器与 LangGraph：
 
-- **`toBaseMessages`**: Converts AI SDK `UIMessage` to LangChain `BaseMessage` format
-- **`toUIMessageStream`**: Converts LangGraph streams to AI SDK `UIMessageChunk` format
+- **`toBaseMessages`**：将 AI SDK `UIMessage` 转为 LangChain `BaseMessage`
+- **`toUIMessageStream`**：将 LangGraph 流转为 AI SDK `UIMessageChunk`
 
-This example shows how to integrate a LangGraph agent with the AI SDK's `useChat` hook.
+演示如何将 LangGraph Agent 与 AI SDK `useChat` hook 集成。
 
-### 4. Multimodal Vision Input (`/multimodal`)
+### 4. 多模态视觉输入（`/multimodal`）
 
-Demonstrates sending images to the model for analysis using the `@ai-sdk/langchain` adapter:
+演示通过 `@ai-sdk/langchain` 适配器向模型发送图像进行分析：
 
-- **Image upload**: Attach images directly in the chat interface
-- **Vision analysis**: Uses GPT-4o's vision capabilities to analyze images
-- **Multimodal conversion**: The adapter converts images to OpenAI's `image_url` format for vision models
+- **图像上传**：在聊天界面直接附加图像
+- **视觉分析**：使用 GPT-4o 视觉能力分析图像
+- **多模态转换**：适配器将图像转为 OpenAI `image_url` 格式供视觉模型使用
 
-This example showcases the multimodal input support in `convertUserContent()` which handles images and files.
+展示 `convertUserContent()` 对图像与文件的多模态输入支持。
 
-### 5. Image Generation Output (`/image-generation`)
+### 5. 图像生成输出（`/image-generation`）
 
-Demonstrates generating images as multimodal output using OpenAI's image generation tool:
+演示使用 OpenAI 图像生成工具以多模态输出方式生成图像：
 
-- **Responses API**: Uses `ChatOpenAI` with `useResponsesApi: true` to access built-in tools
-- **Image generation tool**: Uses `tools.imageGeneration()` from `@langchain/openai`
-- **Streaming output**: Generated images are streamed back as part of the response
-- **AI SDK integration**: Images are rendered using the standard message parts system
+- **Responses API**：`ChatOpenAI` 设置 `useResponsesApi: true` 以使用内置工具
+- **图像生成工具**：使用 `@langchain/openai` 的 `tools.imageGeneration()`
+- **流式输出**：生成的图像作为响应的一部分流式返回
+- **AI SDK 集成**：通过标准 message parts 系统渲染图像
 
 ```typescript
 import { ChatOpenAI, tools } from '@langchain/openai';
@@ -73,23 +73,23 @@ const modelWithImageGeneration = model.bindTools([
 ]);
 ```
 
-### 6. ReAct Agent (`/createAgent`)
+### 6. ReAct Agent（`/createAgent`）
 
-Showcases LangChain's `createAgent` with the AI SDK adapter:
+展示 LangChain `createAgent` 与 AI SDK 适配器：
 
-- Create agents with LangChain's `createAgent()`
-- Define tools with `@langchain/core/tools`
-- Stream responses using `toUIMessageStream`
-- **Image generation**: Uses OpenAI's [Image Generation Tool](https://docs.langchain.com/oss/javascript/integrations/tools/openai#image-generation-tool) to create images
+- 使用 LangChain `createAgent()` 创建 Agent
+- 使用 `@langchain/core/tools` 定义工具
+- 使用 `toUIMessageStream` 流式返回响应
+- **图像生成**：使用 OpenAI [Image Generation Tool](https://docs.langchain.com/oss/javascript/integrations/tools/openai#image-generation-tool) 生成图像
 
-### 7. Human-in-the-Loop (`/hitl`)
+### 7. Human-in-the-Loop（`/hitl`）
 
-Demonstrates LangChain's `humanInTheLoopMiddleware` for requiring user approval before executing sensitive tool actions:
+演示 LangChain `humanInTheLoopMiddleware`：执行敏感工具前需用户批准：
 
-- **`humanInTheLoopMiddleware`**: Middleware that intercepts tool calls and requests user approval
-- **Selective approval**: Configure which tools require approval vs auto-approve
-- **Approval workflow**: Uses `addToolApprovalResponse` with AI SDK's `dynamic-tool` parts
-- **Thread persistence**: Uses `MemorySaver` to maintain conversation state across approvals
+- **`humanInTheLoopMiddleware`**：拦截工具调用并请求用户批准的中间件
+- **选择性批准**：配置哪些工具需批准、哪些自动通过
+- **批准工作流**：结合 AI SDK `dynamic-tool` parts 使用 `addToolApprovalResponse`
+- **线程持久化**：使用 `MemorySaver` 在批准流程间保持对话状态
 
 ```typescript
 import { createAgent, humanInTheLoopMiddleware } from 'langchain';
@@ -111,33 +111,33 @@ const agent = createAgent({
 });
 ```
 
-### 8. Custom Data Parts (`/custom-data`)
+### 8. 自定义 Data Parts（`/custom-data`）
 
-Demonstrates custom streaming events from LangGraph tools:
+演示来自 LangGraph 工具的自定义流式事件：
 
-- Emit typed progress/status updates using `config.writer()`
-- Custom data with `type` field becomes `data-{type}` events (e.g., `data-progress`)
-- Include `id` field to persist data in `message.parts` for rendering
-- Transient data (no `id`) is delivered via `onData` callback only
+- 使用 `config.writer()` 发出类型化进度/状态更新
+- 带 `type` 的自定义数据变为 `data-{type}` 事件（如 `data-progress`）
+- 包含 `id` 以在 `message.parts` 中持久化供渲染
+- 无 `id` 的瞬态数据仅通过 `onData` 回调传递
 
-### 9. LangGraph Transport (`/langsmith`)
+### 9. LangGraph Transport（`/langsmith`）
 
-Connect directly to a LangGraph app from the browser using `LangSmithDeploymentTransport`:
+在浏览器中使用 `LangSmithDeploymentTransport` 直接连接 LangGraph 应用：
 
-- Uses `LangSmithDeploymentTransport` to create a transport for client-side communication
-- No backend route needed - talks directly to the LangGraph server
-- Works with both local development server and LangSmith deployments
-- Includes a local LangGraph server for development (see below)
+- 使用 `LangSmithDeploymentTransport` 创建客户端通信 transport
+- 无需后端路由，直接与 LangGraph 服务器通信
+- 支持本地开发服务器与 LangSmith 部署
+- 包含用于开发的本地 LangGraph 服务器（见下文）
 
-## Deploy your own
+## 自行部署
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=ai-sdk-example):
+使用 [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=ai-sdk-example) 部署本示例：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fai%2Ftree%2Fmain%2Fexamples%2Fnext-langchain&env=OPENAI_API_KEY&envDescription=OpenAI%20API%20Key&envLink=https%3A%2F%2Fplatform.openai.com%2Faccount%2Fapi-keys&project-name=ai-chat-langchain&repository-name=next-ai-chat-langchain)
 
-## How to use
+## 使用方法
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+使用 [npm](https://docs.npmjs.com/cli/init)、[Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) 或 [pnpm](https://pnpm.io) 执行 [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) 初始化示例：
 
 ```bash
 npx create-next-app --example https://github.com/vercel/ai/tree/main/examples/next-langchain next-langchain-app
@@ -151,17 +151,17 @@ yarn create next-app --example https://github.com/vercel/ai/tree/main/examples/n
 pnpm create next-app --example https://github.com/vercel/ai/tree/main/examples/next-langchain next-langchain-app
 ```
 
-To run the example locally you need to:
+本地运行需完成：
 
-1. Sign up at [OpenAI's Developer Platform](https://platform.openai.com/signup).
-2. Go to [OpenAI's dashboard](https://platform.openai.com/account/api-keys) and create an API KEY.
-3. Set the required OpenAI environment variable as the token value as shown [the example env file](./.env.local.example) but in a new file called `.env.local`.
-4. `pnpm install` to install the required dependencies.
-5. `pnpm dev` to launch the development server.
+1. 在 [OpenAI 开发者平台](https://platform.openai.com/signup) 注册。
+2. 在 [OpenAI 控制台](https://platform.openai.com/account/api-keys) 创建 API Key。
+3. 参照[示例 env 文件](./.env.local.example)，在 `.env.local` 中设置 OpenAI 环境变量。
+4. 执行 `pnpm install` 安装依赖。
+5. 执行 `pnpm dev` 启动开发服务器。
 
-## Key Code Patterns
+## 关键代码模式
 
-### Converting UIMessages to LangChain Messages
+### 将 UIMessage 转为 LangChain 消息
 
 ```typescript
 import { toBaseMessages } from '@ai-sdk/langchain';
@@ -170,7 +170,7 @@ import { toBaseMessages } from '@ai-sdk/langchain';
 const langchainMessages = await toBaseMessages(uiMessages);
 ```
 
-### Streaming from LangGraph
+### 从 LangGraph 流式传输
 
 ```typescript
 import { toBaseMessages, toUIMessageStream } from '@ai-sdk/langchain';
@@ -190,7 +190,7 @@ return createUIMessageStreamResponse({
 });
 ```
 
-### Creating a LangChain Agent
+### 创建 LangChain Agent
 
 ```typescript
 import { createAgent } from 'langchain';
@@ -228,7 +228,7 @@ return createUIMessageStreamResponse({
 });
 ```
 
-### Streaming Custom Data from Tools
+### 从工具流式传输自定义数据
 
 ```typescript
 import { tool, type ToolRuntime } from 'langchain';
@@ -263,7 +263,7 @@ const stream = await graph.stream(
 );
 ```
 
-### Connecting to LangGraph (Client-Side)
+### 连接 LangGraph（客户端）
 
 ```typescript
 'use client';
@@ -293,19 +293,19 @@ function Chat() {
 }
 ```
 
-## Choosing Between stream() and streamEvents()
+## 在 stream() 与 streamEvents() 之间选择
 
-The `@ai-sdk/langchain` adapter supports both `graph.stream()` and `streamEvents()`. Here's when to use each:
+`@ai-sdk/langchain` 适配器同时支持 `graph.stream()` 与 `streamEvents()`，可按场景选择：
 
-### When to use `graph.stream()` with `streamMode`
+### 何时使用带 `streamMode` 的 `graph.stream()`
 
-| Use Case                    | Why                                                                         |
-| --------------------------- | --------------------------------------------------------------------------- |
-| **LangGraph workflows**     | Optimized for state-based graphs with `values`, `messages`, `updates` modes |
-| **Tool execution tracking** | Clean tool call lifecycle with `messages` mode                              |
-| **Custom data streaming**   | Use `custom` mode with `config.writer()` for typed events                   |
-| **State snapshots**         | Get full state after each step with `values` mode                           |
-| **Production apps**         | Simpler integration with AI SDK's `toUIMessageStream`                       |
+| 用例 | 原因 |
+| --- | --- |
+| **LangGraph 工作流** | 针对带 `values`、`messages`、`updates` 模式的状态图优化 |
+| **工具执行跟踪** | `messages` 模式下工具调用生命周期清晰 |
+| **自定义数据流** | 用 `custom` 模式与 `config.writer()` 发送类型化事件 |
+| **状态快照** | `values` 模式可在每步后获取完整状态 |
+| **生产应用** | 与 AI SDK `toUIMessageStream` 集成更简单 |
 
 ```typescript
 const stream = await graph.stream(
@@ -314,15 +314,15 @@ const stream = await graph.stream(
 );
 ```
 
-### When to use `streamEvents()`
+### 何时使用 `streamEvents()`
 
 | Use Case                    | Why                                                                     |
 | --------------------------- | ----------------------------------------------------------------------- |
-| **Debugging/observability** | Get detailed events for every component in the chain                    |
-| **Filtering by event type** | Filter for specific events like `on_chat_model_stream`, `on_tool_start` |
-| **Run metadata access**     | Access run IDs, names, tags for each component                          |
-| **LCEL migration**          | When migrating apps that rely on callback-based streaming               |
-| **Simple model streaming**  | Direct model streaming without LangGraph complexity                     |
+| **调试/可观测性** | 获取链中各组件的详细事件 |
+| **按事件类型过滤** | 过滤 `on_chat_model_stream`、`on_tool_start` 等 |
+| **运行元数据** | 访问各组件的 run ID、名称、标签 |
+| **LCEL 迁移** | 迁移依赖基于回调流式的应用 |
+| **简单模型流式** | 无需 LangGraph 的直接模型流式 |
 
 ```typescript
 const streamEvents = model.streamEvents(messages, {
@@ -330,27 +330,27 @@ const streamEvents = model.streamEvents(messages, {
 });
 ```
 
-### Event Types in streamEvents()
+### streamEvents() 中的事件类型
 
-| Event                  | Description                       |
-| ---------------------- | --------------------------------- |
-| `on_chat_model_start`  | Model invocation started          |
-| `on_chat_model_stream` | Token chunk received              |
-| `on_chat_model_end`    | Model completed with full message |
-| `on_tool_start`        | Tool execution started            |
-| `on_tool_end`          | Tool execution completed          |
-| `on_chain_start/end`   | Chain/graph lifecycle events      |
+| 事件 | 说明 |
+| --- | --- |
+| `on_chat_model_start` | 模型调用开始 |
+| `on_chat_model_stream` | 收到 token 块 |
+| `on_chat_model_end` | 模型完成并返回完整消息 |
+| `on_tool_start` | 工具执行开始 |
+| `on_tool_end` | 工具执行完成 |
+| `on_chain_start/end` | 链/图生命周期事件 |
 
-For most LangGraph applications, `graph.stream()` with appropriate `streamMode` options is recommended. Use `streamEvents()` when you need the additional granularity for debugging or when working with pure LangChain (non-LangGraph) applications.
+多数 LangGraph 应用推荐使用带合适 `streamMode` 的 `graph.stream()`；需要更细粒度调试或使用纯 LangChain（非 LangGraph）时再用 `streamEvents()`。
 
-## Learn More
+## 延伸阅读
 
-To learn more about LangChain, LangGraph, OpenAI, Next.js, and the AI SDK take a look at the following resources:
+进一步了解 LangChain、LangGraph、OpenAI、Next.js 与 AI SDK，可参考：
 
-- [AI SDK docs](https://ai-sdk.dev/docs) - learn more about the AI SDK
-- [Vercel AI Playground](https://ai-sdk.dev/playground) - compare and tune 20+ AI models side-by-side
-- [LangChain Documentation](https://js.langchain.com/docs) - learn about LangChain
-- [LangGraph Documentation](https://langchain-ai.github.io/langgraph/) - learn about LangGraph
-- [LangSmith Documentation](https://docs.smith.langchain.com/) - learn about LangSmith deployments
-- [OpenAI Documentation](https://platform.openai.com/docs) - learn about OpenAI features and API
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
+- [AI SDK 文档](https://ai-sdk.dev/docs) - 了解 AI SDK
+- [Vercel AI Playground](https://ai-sdk.dev/playground) - 并排对比与调优 20+ 模型
+- [LangChain 文档](https://js.langchain.com/docs) - 了解 LangChain
+- [LangGraph 文档](https://langchain-ai.github.io/langgraph/) - 了解 LangGraph
+- [LangSmith 文档](https://docs.smith.langchain.com/) - 了解 LangSmith 部署
+- [OpenAI 文档](https://platform.openai.com/docs) - 了解 OpenAI 功能与 API
+- [Next.js 文档](https://nextjs.org/docs) - 了解 Next.js 功能与 API

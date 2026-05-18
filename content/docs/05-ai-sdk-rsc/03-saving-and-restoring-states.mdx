@@ -1,23 +1,22 @@
 ---
-title: Saving and Restoring States
-description: Saving and restoring AI and UI states with onGetUIState and onSetAIState
+title: 保存和恢复状态
+description: 使用 onGetUIState 和 onSetAIState 保存和恢复 AI 与 UI 状态
 ---
 
-# Saving and Restoring States
+# 保存和恢复状态
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。有关从 RSC 迁移到 UI 的指南，请参阅[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-AI SDK RSC provides convenient methods for saving and restoring AI and UI state. This is useful for saving the state of your application after every model generation, and restoring it when the user revisits the generations.
+AI SDK RSC 提供保存和恢复 AI 与 UI 状态的便捷方法。这对于在每次模型生成后保存应用状态，并在用户重新访问生成内容时恢复状态很有用。
 
-## AI State
+## AI 状态
 
-### Saving AI state
+### 保存 AI 状态
 
-The AI state can be saved using the [`onSetAIState`](/docs/reference/ai-sdk-rsc/create-ai#on-set-ai-state) callback, which gets called whenever the AI state is updated. In the following example, you save the chat history to a database whenever the generation is marked as done.
+可以使用 [`onSetAIState`](/docs/reference/ai-sdk-rsc/create-ai#on-set-ai-state) 回调保存 AI 状态，该回调在 AI 状态更新时调用。在以下示例中，每当生成标记为完成时，你将聊天历史保存到数据库。
 
 ```tsx filename='app/ai.ts'
 export const AI = createAI<ServerMessage[], ClientMessage[]>({
@@ -34,9 +33,9 @@ export const AI = createAI<ServerMessage[], ClientMessage[]>({
 });
 ```
 
-### Restoring AI state
+### 恢复 AI 状态
 
-The AI state can be restored using the [`initialAIState`](/docs/reference/ai-sdk-rsc/create-ai#initial-ai-state) prop passed to the context provider created by the [`createAI`](/docs/reference/ai-sdk-rsc/create-ai) function. In the following example, you restore the chat history from a database when the component is mounted.
+可以使用 [`createAI`](/docs/reference/ai-sdk-rsc/create-ai) 函数创建的上下文提供者所接收的 [`initialAIState`](/docs/reference/ai-sdk-rsc/create-ai#initial-ai-state) prop 恢复 AI 状态。在以下示例中，组件挂载时从数据库恢复聊天历史。
 
 ```tsx file='app/layout.tsx'
 import { ReactNode } from 'react';
@@ -57,15 +56,15 @@ export default async function RootLayout({
 }
 ```
 
-## UI State
+## UI 状态
 
-### Saving UI state
+### 保存 UI 状态
 
-The UI state cannot be saved directly, since the contents aren't yet serializable. Instead, you can use the AI state as proxy to store details about the UI state and use it to restore the UI state when needed.
+UI 状态无法直接保存，因为其内容尚不可序列化。你可以使用 AI 状态作为代理来存储 UI 状态的详细信息，并在需要时用它恢复 UI 状态。
 
-### Restoring UI state
+### 恢复 UI 状态
 
-The UI state can be restored using the AI state as a proxy. In the following example, you restore the chat history from the AI state when the component is mounted. You use the [`onGetUIState`](/docs/reference/ai-sdk-rsc/create-ai#on-get-ui-state) callback to listen for SSR events and restore the UI state.
+可以使用 AI 状态作为代理恢复 UI 状态。在以下示例中，组件挂载时从 AI 状态恢复聊天历史。你使用 [`onGetUIState`](/docs/reference/ai-sdk-rsc/create-ai#on-get-ui-state) 回调监听 SSR 事件并恢复 UI 状态。
 
 ```tsx filename='app/ai.ts'
 export const AI = createAI<ServerMessage[], ClientMessage[]>({
@@ -98,8 +97,8 @@ export const AI = createAI<ServerMessage[], ClientMessage[]>({
 });
 ```
 
-To learn more, check out this [example](/examples/next-app/state-management/save-and-restore-states) that persists and restores states in your Next.js application.
+要了解更多，请查看此[示例](/examples/next-app/state-management/save-and-restore-states)，了解如何在 Next.js 应用中持久化和恢复状态。
 
 ---
 
-Next, you will learn how you can use `@ai-sdk/rsc` functions like `useActions` and `useUIState` to create interactive, multistep interfaces.
+接下来，你将学习如何使用 `@ai-sdk/rsc` 的 `useActions` 和 `useUIState` 等函数创建交互式多步界面。

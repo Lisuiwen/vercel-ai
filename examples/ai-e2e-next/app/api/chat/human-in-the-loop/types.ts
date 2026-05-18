@@ -3,9 +3,9 @@ import type { tools } from './tools';
 
 export type MyTools = InferUITools<typeof tools>;
 
-// Define custom message type with data part schemas
+// 使用 data part schema 定义自定义消息类型
 export type HumanInTheLoopUIMessage = UIMessage<
-  never, // metadata type
+  never, // metadata 类型
   UIDataTypes,
   MyTools
 >;

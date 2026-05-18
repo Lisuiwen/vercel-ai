@@ -1,1 +1,1 @@
-A minimal example to show code modularization with agents, tools, and components.
+用于演示 Agent、工具与组件模块化组织的极简示例。

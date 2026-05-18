@@ -1,38 +1,38 @@
 ---
-title: TypeScript performance issues with Zod and AI SDK 5
-description: Troubleshooting TypeScript server crashes and slow performance when using Zod with AI SDK 5
+title: AI SDK 5 配合 Zod 时的 TypeScript 性能问题
+description: 排查使用 Zod 与 AI SDK 5 时 TypeScript 语言服务崩溃或类型检查极慢的问题
 ---
 
-# TypeScript performance issues with Zod and AI SDK 5
+# AI SDK 5 配合 Zod 时的 TypeScript 性能问题
 
-## Issue
+## 问题
 
-When using the AI SDK 5 with Zod, you may experience:
+使用 AI SDK 5 与 Zod 时，可能出现：
 
-- TypeScript server crashes or hangs
-- Extremely slow type checking in files that import AI SDK functions
-- Error messages like "Type instantiation is excessively deep and possibly infinite"
-- IDE becoming unresponsive when working with AI SDK code
+- TypeScript 语言服务崩溃或卡住
+- 导入 AI SDK 的文件类型检查极慢
+- 报错类似「Type instantiation is excessively deep and possibly infinite」
+- 编辑 AI SDK 相关代码时 IDE 无响应
 
-## Background
+## 背景
 
-The AI SDK 5 has specific compatibility requirements with Zod versions. When importing Zod using the standard import path (`import { z } from 'zod'`), TypeScript's type inference can become excessively complex, leading to performance degradation or crashes.
+AI SDK 5 对 Zod 版本有特定兼容性要求。使用常规导入路径（`import { z } from 'zod'`）时，TypeScript 的类型推断可能变得过于复杂，导致性能下降或崩溃。
 
-## Solution
+## 解决方案
 
-### Upgrade Zod to 4.1.8 or Later
+### 将 Zod 升级到 4.1.8 或更高
 
-The primary solution is to upgrade to Zod version 4.1.8 or later, which includes a fix for this module resolution issue:
+主要做法是将 Zod 升级到 4.1.8 及以上，其中包含对该模块解析问题的修复：
 
 ```bash
 pnpm add zod@^4.1.8
 ```
 
-This version resolves the underlying problem where different module resolution settings were causing TypeScript to load the same Zod declarations twice, leading to expensive structural comparisons.
+该版本修复了在不同模块解析设置下 TypeScript 重复加载同一份 Zod 声明、从而引发昂贵结构比较的问题。
 
-### Alternative: Update TypeScript Configuration
+### 备选：调整 TypeScript 配置
 
-If upgrading Zod isn't possible, you can update your `tsconfig.json` to use `moduleResolution: "nodenext"`:
+若暂时无法升级 Zod，可将 `tsconfig.json` 中的 `moduleResolution` 设为 `"nodenext"`：
 
 ```json
 {
@@ -43,4 +43,4 @@ If upgrading Zod isn't possible, you can update your `tsconfig.json` to use `mod
 }
 ```
 
-This resolves the TypeScript performance issues while allowing you to continue using the standard Zod import.
+这样在保留标准 Zod 导入的情况下也能缓解 TypeScript 性能问题。

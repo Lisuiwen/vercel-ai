@@ -1,51 +1,51 @@
 ---
-title: Prompt Engineering
-description: Learn how to engineer prompts for LLMs with the AI SDK
+title: 提示工程
+description: 学习如何使用 AI SDK 为 LLM 设计提示
 ---
 
-# Prompt Engineering
+# 提示工程
 
-## What is a Large Language Model (LLM)?
+## 什么是大语言模型（LLM）？
 
-A Large Language Model is essentially a prediction engine that takes a sequence of words as input and aims to predict the most likely sequence to follow. It does this by assigning probabilities to potential next sequences and then selecting one. The model continues to generate sequences until it meets a specified stopping criterion.
+大语言模型本质上是一种预测引擎：接收一串词作为输入，并预测最可能接续的序列。它通过为候选下一序列分配概率并选择其一来实现。模型会持续生成序列，直到满足指定的停止条件。
 
-These models learn by training on massive text corpuses, which means they will be better suited to some use cases than others. For example, a model trained on GitHub data would understand the probabilities of sequences in source code particularly well. However, it's crucial to understand that the generated sequences, while often seeming plausible, can sometimes be random and not grounded in reality. As these models become more accurate, many surprising abilities and applications emerge.
+这些模型通过在海量文本语料上训练而学习，因此对某些用例比另一些更合适。例如，在 GitHub 数据上训练的模型会特别擅长理解源代码中的序列概率。然而，重要的是要理解：生成的序列虽然常常看似合理，但有时可能是随机的，且未必基于现实。随着模型越来越准确，许多令人惊讶的能力和应用会涌现。
 
-## What is a prompt?
+## 什么是提示（prompt）？
 
-Prompts are the starting points for LLMs. They are the inputs that trigger the model to generate text. The scope of prompt engineering involves not just crafting these prompts but also understanding related concepts such as hidden prompts, tokens, token limits, and the potential for prompt hacking, which includes phenomena like jailbreaks and leaks.
+提示是 LLM 的起点，是触发模型生成文本的输入。提示工程的范围不仅包括精心设计这些提示，还包括理解相关概念，例如隐藏提示、token、token 限制，以及提示攻击的可能性（包括 jailbreak 和信息泄露等现象）。
 
-## Why is prompt engineering needed?
+## 为什么需要提示工程？
 
-Prompt engineering currently plays a pivotal role in shaping the responses of LLMs. It allows us to tweak the model to respond more effectively to a broader range of queries. This includes the use of techniques like semantic search, command grammars, and the ReActive model architecture. The performance, context window, and cost of LLMs varies between models and model providers which adds further constraints to the mix. For example, the GPT-4 model is more expensive than GPT-3.5-turbo and significantly slower, but it can also be more effective at certain tasks. And so, like many things in software engineering, there is a trade-offs between cost and performance.
+提示工程目前在塑造 LLM 响应方面发挥着关键作用。它使我们能够调整模型，以更有效应对更广泛的查询。这包括使用语义搜索、命令语法和 ReActive 模型架构等技术。不同模型和提供商在性能、上下文窗口和成本上各不相同，这进一步增加了约束。例如，GPT-4 比 GPT-3.5-turbo 更贵且明显更慢，但在某些任务上可能更有效。因此，与软件工程中的许多事情一样，成本与性能之间存在权衡。
 
-To assist with comparing and tweaking LLMs, we've built an AI playground that allows you to compare the performance of different models side-by-side online. When you're ready, you can even generate code with the AI SDK to quickly use your prompt and your selected model into your own applications.
+为帮助比较和调整 LLM，我们构建了 AI Playground，可在线并排比较不同模型的表现。准备好后，你甚至可以使用 AI SDK 生成代码，快速将提示和所选模型集成到自己的应用中。
 
-## Example: Build a Slogan Generator
+## 示例：构建标语生成器
 
-### Start with an instruction
+### 从指令开始
 
-Imagine you want to build a slogan generator for marketing campaigns. Creating catchy slogans isn't always straightforward!
+假设你想为营销活动构建一个标语生成器。创作朗朗上口的标语并不总是那么简单！
 
-First, you'll need a prompt that makes it clear what you want. Let's start with an instruction. Submit this prompt to generate your first completion.
+首先，你需要一个能清楚表达需求的提示。让我们从一条指令开始。提交此提示以生成你的第一个补全。
 
 <InlinePrompt initialInput="Create a slogan for a coffee shop." />
 
-Not bad! Now, try making your instruction more specific.
+不错！现在，尝试让指令更具体。
 
 <InlinePrompt initialInput="Create a slogan for an organic coffee shop." />
 
-Introducing a single descriptive term to our prompt influences the completion. Essentially, crafting your prompt is the means by which you "instruct" or "program" the model.
+在提示中加入一个描述性词语就会影响补全结果。本质上，精心设计提示就是你「指导」或「编程」模型的方式。
 
-### Include examples
+### 包含示例
 
-Clear instructions are key for quality outcomes, but that might not always be enough. Let's try to enhance your instruction further.
+清晰的指令是获得高质量结果的关键，但有时还不够。让我们进一步改进指令。
 
 <InlinePrompt initialInput="Create three slogans for a coffee shop with live music." />
 
-These slogans are fine, but could be even better. It appears the model overlooked the 'live' part in our prompt. Let's change it slightly to generate more appropriate suggestions.
+这些标语还可以，但还能更好。模型似乎忽略了提示中的「live」部分。让我们稍作修改以生成更合适的建议。
 
-Often, it's beneficial to both demonstrate and tell the model your requirements. Incorporating examples in your prompt can aid in conveying patterns or subtleties. Test this prompt that carries a few examples.
+通常，向模型既演示又说明你的需求会很有帮助。在提示中加入示例有助于传达模式或细微差别。试试下面这条带几个示例的提示。
 
 <InlinePrompt
   initialInput={`Create three slogans for a business with unique features.
@@ -58,15 +58,15 @@ Business: Coffee shop with live music
 Slogans:`}
 />
 
-Great! Incorporating examples of expected output for a certain input prompted the model to generate the kind of names we aimed for.
+很好！为特定输入提供期望输出的示例后，模型生成了我们期望类型的名称。
 
-### Tweak your settings
+### 调整设置
 
-Apart from designing prompts, you can influence completions by tweaking model settings. A crucial setting is the **temperature**.
+除了设计提示，你还可以通过调整模型设置来影响补全。一个重要设置是 **temperature**。
 
-You might have seen that the same prompt, when repeated, yielded the same or nearly the same completions. This happens when your temperature is at 0.
+你可能注意到，重复同一提示时，补全结果相同或几乎相同。这发生在 temperature 为 0 时。
 
-Attempt to re-submit the identical prompt a few times with temperature set to 1.
+尝试将 temperature 设为 1，并多次提交相同提示。
 
 <InlinePrompt
   initialInput={`Create three slogans for a business with unique features.
@@ -81,16 +81,16 @@ showTemp={true}
 initialTemperature={1}
 />
 
-Notice the difference? With a temperature above 0, the same prompt delivers varied completions each time.
+注意到区别了吗？temperature 大于 0 时，同一提示每次都会得到不同的补全。
 
-Keep in mind that the model forecasts the text most likely to follow the preceding text. Temperature, a value from 0 to 1, essentially governs the model's confidence level in making these predictions. A lower temperature implies lesser risks, leading to more precise and deterministic completions. A higher temperature yields a broader range of completions.
+请记住，模型预测的是最可能接在前文之后的文本。temperature 是 0 到 1 之间的值，本质上控制模型做这些预测时的置信度。较低的 temperature 意味着更少的随机性，补全更精确、更确定。较高的 temperature 会产生更多样化的补全。
 
-For your slogan generator, you might want a large pool of name suggestions. A moderate temperature of 0.6 should serve well.
+对于标语生成器，你可能希望有大量名称建议。适中的 temperature（如 0.6）通常效果不错。
 
-## Recommended Resources
+## 推荐资源
 
-Prompt Engineering is evolving rapidly, with new methods and research papers surfacing every week. Here are some resources that we've found useful for learning about and experimenting with prompt engineering:
+提示工程发展迅速，每周都有新方法和研究论文出现。以下是我们认为对学习与实践提示工程有用的资源：
 
-- [The Vercel AI Playground](/playground)
+- [Vercel AI Playground](/playground)
 - [Brex Prompt Engineering](https://github.com/brexhq/prompt-engineering)
 - [Prompt Engineering Guide by Dair AI](https://www.promptingguide.ai/)

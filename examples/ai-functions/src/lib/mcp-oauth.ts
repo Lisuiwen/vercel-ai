@@ -8,7 +8,7 @@ import {
 import { createServer } from 'node:http';
 
 /**
- * Minimal OAuth client provider for MCP Server
+ * MCP 服务器的最小 OAuth 客户端提供程序
  */
 class MinimalOAuthProvider implements OAuthClientProvider {
   private _tokens?: OAuthTokens;
@@ -67,7 +67,7 @@ class MinimalOAuthProvider implements OAuthClientProvider {
 }
 
 /**
- * Wait for OAuth callback code
+ * 等待OAuth回调代码
  */
 function waitForAuthorizationCode(port: number): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -122,7 +122,7 @@ function waitForAuthorizationCode(port: number): Promise<string> {
 }
 
 /**
- * Get OAuth access token for MCP server
+ * 获取 MCP 服务器的 OAuth 访问令牌
  */
 export async function getMCPToken(
   serverUrl: string,
@@ -130,7 +130,7 @@ export async function getMCPToken(
 ): Promise<string> {
   const authProvider = new MinimalOAuthProvider(port);
 
-  // Start authorization flow
+  // 启动授权流程
   const result = await auth(authProvider, { serverUrl: new URL(serverUrl) });
 
   if (result === 'AUTHORIZED') {
@@ -141,10 +141,10 @@ export async function getMCPToken(
     }
   }
 
-  // Wait for user to authorize in browser
+  // 等待用户在浏览器中授权
   const authorizationCode = await waitForAuthorizationCode(port);
 
-  // Complete authorization with the code
+  // 使用code完成授权
   await auth(authProvider, {
     serverUrl: new URL(serverUrl),
     authorizationCode,

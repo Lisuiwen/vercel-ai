@@ -20,7 +20,7 @@ export function injectJsonInstruction({
 }): string {
   return [
     prompt != null && prompt.length > 0 ? prompt : undefined,
-    prompt != null && prompt.length > 0 ? '' : undefined, // add a newline if prompt is not null
+    prompt != null && prompt.length > 0 ? '' : undefined, // 如果提示不为空，则添加换行符
     schemaPrefix,
     schema != null ? JSON.stringify(schema) : undefined,
     schemaSuffix,

@@ -1,17 +1,17 @@
 ---
-title: Backpressure
-description: How to handle backpressure and cancellation when working with the AI SDK
+title: 背压
+description: 使用 AI SDK 时如何处理背压和取消
 ---
 
-# Stream Back-pressure and Cancellation
+# 流背压与取消
 
-This page focuses on understanding back-pressure and cancellation when working with streams. You do not need to know this information to use the AI SDK, but for those interested, it offers a deeper dive on why and how the SDK optimally streams responses.
+本页重点介绍使用流时的背压和取消。你无需了解这些信息即可使用 AI SDK，但若感兴趣，可深入了解 SDK 为何以及如何最优地流式传输响应。
 
-In the following sections, we'll explore back-pressure and cancellation in the context of a simple example program. We'll discuss the issues that can arise from an eager approach and demonstrate how a lazy approach can resolve them.
+在以下章节中，我们将在简单示例程序的上下文中探讨背压和取消，讨论急切（eager）方法可能引发的问题，并演示惰性（lazy）方法如何解决它们。
 
-## Back-pressure and Cancellation with Streams
+## 流中的背压与取消
 
-Let's begin by setting up a simple example program:
+首先设置一个简单的示例程序：
 
 ```jsx
 // A generator that will yield positive integers
@@ -58,15 +58,15 @@ async function run() {
 run();
 ```
 
-In this example, we create an async-generator that yields positive integers, a `ReadableStream` that wraps our integer generator, and a reader which will read values out of our stream. Notice, too, that our integer generator logs out `"yielding ${i}"`, and our reader logs out `"read ${value}"`. Both take an arbitrary amount of time to process data, represented with a 100ms sleep in our generator, and a 1sec sleep in our reader.
+在此示例中，我们创建了一个产出正整数的 async generator、包装该 generator 的 `ReadableStream`，以及从流中读取值的 reader。请注意，整数 generator 会输出 `"yielding ${i}"`，reader 会输出 `"read ${value}"`。两者处理数据都需要任意时间，generator 中用 100ms sleep 表示，reader 中用 1 秒 sleep 表示。
 
-## Back-pressure
+## 背压
 
-If you were to run this program, you'd notice something funny. We'll see roughly 10 "yield" logs for every "read" log. This might seem obvious, the generator can push values 10x faster than the reader can pull them out. But it represents a problem, our `stream` has to maintain an ever expanding queue of items that have been pushed in but not pulled out.
+若运行此程序，你会注意到有趣的现象：大约每有一条 "read" 日志就有 10 条 "yield" 日志。这可能看似显而易见 — generator 推送值的速度比 reader 拉取快 10 倍。但这代表一个问题：我们的 `stream` 必须维护一个不断扩大的队列，其中包含已推入但尚未拉出的项。
 
-The problem stems from the way we wrap our generator into a stream. Notice the use of `for await (…)` inside our `start` handler. This is an **eager** for-loop, and it is constantly running to get the next value from our generator to be enqueued in our stream. This means our stream does not respect back-pressure, the signal from the consumer to the producer that more values aren't needed _yet_. We've essentially spawned a thread that will perpetually push more data into the stream, one that runs as fast as possible to push new data immediately. Worse, there's no way to signal to this thread to stop running when we don't need additional data.
+问题源于我们将 generator 包装成流的方式。注意 `start` 处理程序中 `for await (…)` 的使用。这是一个**急切**的 for 循环，它不断运行以从 generator 获取下一个值并入队到流中。这意味着流不尊重背压 — 即消费者向生产者发出的「暂时不需要更多值」的信号。我们实质上启动了一个会持续向流推送数据的线程，并尽可能快地立即推送新数据。更糟的是，当我们不需要额外数据时，无法向该线程发出停止信号。
 
-To fix this, `ReadableStream` allows a `pull` handler. `pull` is called every time the consumer attempts to read more data from our stream (if there's no data already queued internally). But it's not enough to just move the `for await(…)` into `pull`, we also need to convert from an eager enqueuing to a **lazy** one. By making these 2 changes, we'll be able to react to the consumer. If they need more data, we can easily produce it, and if they don't, then we don't need to spend any time doing unnecessary work.
+要修复此问题，`ReadableStream` 提供 `pull` 处理程序。每当消费者尝试从流读取更多数据时（若内部尚未排队数据），就会调用 `pull`。但仅将 `for await(…)` 移入 `pull` 还不够，还需要从急切入队转为**惰性**入队。通过这两处修改，我们就能响应消费者：若需要更多数据，可轻松生产；若不需要，则不必做不必要的工作。
 
 ```jsx
 function createStream(iterator) {
@@ -84,13 +84,13 @@ function createStream(iterator) {
 }
 ```
 
-Our `createStream` is a little more verbose now, but the new code is important. First, we need to manually call our `iterator.next()` method. This returns a `Promise` for an object with the type signature `{ done: boolean, value: T }`. If `done` is `true`, then we know that our iterator won't yield any more values and we must `close` the stream (this allows the consumer to know that the stream is also finished producing values). Else, we need to `enqueue` our newly produced value.
+我们的 `createStream` 现在稍冗长，但新代码很重要。首先，需要手动调用 `iterator.next()`。它返回类型为 `{ done: boolean, value: T }` 的对象的 `Promise`。若 `done` 为 `true`，则 iterator 不会再产出值，必须 `close` 流（让消费者知道流也已完成产出）。否则，需要 `enqueue` 新产生的值。
 
-When we run this program, we see that our "yield" and "read" logs are now paired. We're no longer yielding 10x integers for every read! And, our stream now only needs to maintain 1 item in its internal buffer. We've essentially given control to the consumer, so that it's responsible for producing new values as it needs it. Neato!
+运行此程序时，会看到 "yield" 和 "read" 日志成对出现。我们不再为每次 read 产出 10 倍整数！并且，流现在只需在内部缓冲区维护 1 个项。我们实质上把控制权交给了消费者，由它按需负责生产新值。很棒！
 
-## Cancellation
+## 取消
 
-Let's go back to our initial eager example, with 1 small edit. Now instead of reading 10,000 integers, we're only going to read 3:
+回到最初的急切示例，做一个小修改。现在只读取 3 个整数，而不是 10,000 个：
 
 ```jsx
 // A generator that will yield positive integers
@@ -137,9 +137,9 @@ async function run() {
 run();
 ```
 
-We're back to yielding 10x the number of values read. But notice now, after we've read 3 values, we're continuing to yield new values. We know that our reader will never read another value, but our stream doesn't! The eager `for await (…)` will continue forever, loudly enqueuing new values into our stream's buffer and increasing our memory usage until it consumes all available program memory.
+我们又回到读出的值数量约 10 倍的 yield。但注意，读取 3 个值后，仍在继续 yield 新值。我们知道 reader 不会再读取，但流不知道！急切的 `for await (…)` 会永远继续，不断将新值入队到流缓冲区，增加内存使用，直到耗尽所有可用程序内存。
 
-The fix to this is exactly the same: use `pull` and manual iteration. By producing values _**lazily**_, we tie the lifetime of our integer generator to the lifetime of the reader. Once the reads stop, the yields will stop too:
+修复方法完全相同：使用 `pull` 和手动迭代。通过**惰性**生产值，我们将整数 generator 的生命周期与 reader 绑定。一旦停止读取，yield 也会停止：
 
 ```jsx
 // Wraps a generator into a ReadableStream
@@ -158,16 +158,16 @@ function createStream(iterator) {
 }
 ```
 
-Since the solution is the same as implementing back-pressure, it shows that they're just 2 facets of the same problem: Pushing values into a stream should be done **lazily**, and doing it eagerly results in expected problems.
+由于解决方案与实现背压相同，说明它们只是同一问题的两个侧面：向流推送值应**惰性**进行，急切推送会导致预期的问题。
 
-## Tying Stream Laziness to AI Responses
+## 将流惰性与 AI 响应关联
 
-Now let's imagine you're integrating AIBot service into your product. Users will be able to prompt "count from 1 to infinity", the browser will fetch your AI API endpoint, and your servers connect to AIBot to get a response. But "infinity" is, well, infinite. The response will never end!
+假设你正在将 AIBot 服务集成到产品中。用户可以提示「从 1 数到无穷」，浏览器会请求你的 AI API 端点，服务器连接 AIBot 获取响应。但「无穷」就是无穷的，响应永远不会结束！
 
-After a few seconds, the user gets bored and navigates away. Or maybe you're doing local development and a hot-module reload refreshes your page. The browser will have ended its connection to the API endpoint, but will your server end its connection with AIBot?
+几秒后用户感到无聊并离开页面。或者你在本地开发，热模块重载刷新了页面。浏览器已结束与 API 端点的连接，但服务器会结束与 AIBot 的连接吗？
 
-If you used the eager `for await (...)` approach, then the connection is still running and your server is asking for more and more data from AIBot. Our server spawned a "thread" and there's no signal when we can end the eager pulls. Eventually, the server is going to run out of memory (remember, there's no active fetch connection to read the buffering responses and free them).
+若使用急切的 `for await (...)` 方法，连接仍在运行，服务器不断向 AIBot 请求更多数据。服务器启动了「线程」，且无法在需要时结束急切拉取。最终服务器将耗尽内存（记住，没有活跃的 fetch 连接来读取缓冲响应并释放它们）。
 
 {/* When we started writing the streaming code for the AI SDK, we confirm aborting a fetch will end a streamed response from Next.js */}
 
-With the lazy approach, this is taken care of for you. Because the stream will only request new data from AIBot when the consumer requests it, navigating away from the page naturally frees all resources. The fetch connection aborts and the server can clean up the response. The `ReadableStream` tied to that response can now be garbage collected. When that happens, the connection it holds to AIBot can then be freed.
+使用惰性方法，这些会为你处理好。因为流仅在消费者请求时才向 AIBot 请求新数据，离开页面会自然释放所有资源。fetch 连接中止，服务器可清理响应。与该响应绑定的 `ReadableStream` 可被垃圾回收。此时，它持有的与 AIBot 的连接也可被释放。

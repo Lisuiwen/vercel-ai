@@ -8,7 +8,7 @@ const weatherTool = tool({
   inputSchema: z.object({
     location: z.string().describe('The location to get the weather for'),
   }),
-  // location below is inferred to be a string:
+  // 下面的位置被推断为一个字符串：
   execute: async ({ location }) => ({
     location,
     temperature: weatherData[location],
@@ -138,7 +138,7 @@ run(async () => {
     },
   });
 
-  // typed tool calls:
+  // 键入工具调用：
   for (const toolCall of result.toolCalls) {
     if (toolCall.dynamic) {
       continue;
@@ -146,13 +146,13 @@ run(async () => {
 
     switch (toolCall.toolName) {
       case 'weather': {
-        toolCall.input.location; // string
+        toolCall.input.location; // 字符串
         break;
       }
     }
   }
 
-  // typed tool results for tools with execute method:
+  // 具有执行方法的工具的类型化工具结果：
   for (const toolResult of result.toolResults) {
     if (toolResult.dynamic) {
       continue;
@@ -160,9 +160,9 @@ run(async () => {
 
     switch (toolResult.toolName) {
       case 'weather': {
-        toolResult.input.location; // string
-        toolResult.output.location; // string
-        toolResult.output.temperature; // number
+        toolResult.input.location; // 字符串
+        toolResult.output.location; // 字符串
+        toolResult.output.temperature; // 数字
         break;
       }
     }

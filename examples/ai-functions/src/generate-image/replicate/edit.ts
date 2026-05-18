@@ -5,8 +5,8 @@ import { presentImages } from '../../lib/present-image';
 import { run } from '../../lib/run';
 
 run(async () => {
-  // Flux-2 models support up to 8 reference images for style transfer,
-  // character consistency, and composition guidance
+  // Flux-2 模型支持最多 8 个参考图像进行风格迁移，
+  // 字符一致性和构图指导
   const referenceImage = readFileSync('data/comic-cat.png');
 
   console.log('REFERENCE IMAGE:');

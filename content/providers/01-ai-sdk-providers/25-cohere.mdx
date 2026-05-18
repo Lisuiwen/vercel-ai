@@ -1,15 +1,15 @@
 ---
 title: Cohere
-description: Learn how to use the Cohere provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 Cohere 提供商。
 ---
 
-# Cohere Provider
+# Cohere 提供商
 
-The [Cohere](https://cohere.com/) provider contains language and embedding model support for the Cohere chat API.
+[Cohere](https://cohere.com/) 提供商为 Cohere Chat API 提供语言模型与嵌入模型支持。
 
-## Setup
+## 安装
 
-The Cohere provider is available in the `@ai-sdk/cohere` module. You can install it with
+Cohere 提供商位于 `@ai-sdk/cohere` 模块中，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -27,16 +27,15 @@ The Cohere provider is available in the `@ai-sdk/cohere` module. You can install
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `cohere` from `@ai-sdk/cohere`:
+可从 `@ai-sdk/cohere` 导入默认的 `cohere` 提供商实例：
 
 ```ts
 import { cohere } from '@ai-sdk/cohere';
 ```
 
-If you need a customized setup, you can import `createCohere` from `@ai-sdk/cohere`
-and create a provider instance with your settings:
+如需自定义配置，可导入 `createCohere` 并以你的设置创建提供商实例：
 
 ```ts
 import { createCohere } from '@ai-sdk/cohere';
@@ -46,47 +45,47 @@ const cohere = createCohere({
 });
 ```
 
-You can use the following optional settings to customize the Cohere provider instance:
+可使用以下可选设置自定义 Cohere 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `https://api.cohere.com/v2`.
+  为 API 调用使用不同的 URL 前缀（例如经由代理）。
+  默认前缀为 `https://api.cohere.com/v2`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
-  It defaults to the `COHERE_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API Key。
+  默认为环境变量 `COHERE_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义请求头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch`。
+  可作为中间件拦截请求，
+  或在测试中提供自定义 `fetch` 实现。
 
 - **generateId** _() => string_
 
-  Optional function to generate unique IDs for each request.
-  Defaults to the SDK's built-in ID generator.
+  为每个请求生成唯一 ID 的可选函数。
+  默认为 SDK 内置 ID 生成器。
 
-## Language Models
+## 语言模型
 
-You can create models that call the [Cohere chat API](https://docs.cohere.com/v2/docs/chat-api) using a provider instance.
-The first argument is the model id, e.g. `command-r-plus`.
-Some Cohere chat models support tool calls.
+可使用提供商实例创建调用 [Cohere Chat API](https://docs.cohere.com/v2/docs/chat-api) 的模型。
+首个参数为模型 ID，例如 `command-r-plus`。
+部分 Cohere Chat 模型支持工具调用。
 
 ```ts
 const model = cohere('command-r-plus');
 ```
 
-### Example
+### 示例
 
-You can use Cohere language models to generate text with the `generateText` function:
+可使用 Cohere 语言模型与 `generateText` 生成文本：
 
 ```ts
 import { cohere } from '@ai-sdk/cohere';
@@ -98,13 +97,13 @@ const { text } = await generateText({
 });
 ```
 
-Cohere language models can also be used in the `streamText` function
-and support structured data generation with [`Output`](/docs/reference/ai-sdk-core/output)
-(see [AI SDK Core](/docs/ai-sdk-core)).
+Cohere 语言模型也可用于 `streamText`，
+并支持通过 [`Output`](/docs/reference/ai-sdk-core/output) 生成结构化数据
+（参见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-### Model Capabilities
+### 模型能力
 
-| Model                         | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
+| 模型                         | 图像输入            | 对象生成            | 工具调用            | 工具流式            |
 | ----------------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `command-a-03-2025`           | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `command-a-reasoning-08-2025` | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
@@ -121,15 +120,13 @@ and support structured data generation with [`Output`](/docs/reference/ai-sdk-co
 | `command-light-nightly`       | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
 
 <Note>
-  The table above lists popular models. Please see the [Cohere
-  docs](https://docs.cohere.com/v2/docs/models#command) for a full list of
-  available models. You can also pass any available provider model ID as a
-  string if needed.
+  上表列出常用模型。完整列表见 [Cohere 文档](https://docs.cohere.com/v2/docs/models#command)。
+  如需也可直接传入任意可用的提供商模型 ID 字符串。
 </Note>
 
-#### Image Inputs
+#### 图像输入
 
-Vision-capable Cohere models such as `command-a-vision-07-2025` accept image inputs as part of the message content. You can pass images as raw bytes, base64-encoded strings, or URLs:
+具备视觉能力的模型（如 `command-a-vision-07-2025`）可将图像作为消息内容的一部分。图像可传入原始字节、base64 字符串或 URL：
 
 ```ts
 import { cohere } from '@ai-sdk/cohere';
@@ -154,7 +151,7 @@ const { text } = await generateText({
 });
 ```
 
-You can use the `cohere` provider option on a file part to set the [image input detail](https://docs.cohere.com/docs/image-inputs) to `high`, `low`, or `auto`:
+可在文件片段上使用 `cohere` 提供商选项，将 [图像输入细节](https://docs.cohere.com/docs/image-inputs) 设为 `high`、`low` 或 `auto`：
 
 ```ts highlight="2,16-18"
 import { cohere } from '@ai-sdk/cohere';
@@ -183,9 +180,9 @@ const { text } = await generateText({
 });
 ```
 
-#### Reasoning
+#### 推理
 
-Cohere has introduced reasoning with the `command-a-reasoning-08-2025` model. You can learn more at https://docs.cohere.com/docs/reasoning.
+Cohere 通过 `command-a-reasoning-08-2025` 模型引入推理能力。更多信息见 https://docs.cohere.com/docs/reasoning。
 
 ```ts
 import { cohere, type CohereLanguageModelChatOptions } from '@ai-sdk/cohere';
@@ -214,16 +211,15 @@ async function main() {
 main().catch(console.error);
 ```
 
-## Embedding Models
+## 嵌入模型
 
-You can create models that call the [Cohere embed API](https://docs.cohere.com/v2/reference/embed)
-using the `.embedding()` factory method.
+可使用 `.embedding()` 工厂方法创建调用 [Cohere Embed API](https://docs.cohere.com/v2/reference/embed) 的模型。
 
 ```ts
 const model = cohere.embedding('embed-english-v3.0');
 ```
 
-You can use Cohere embedding models to generate embeddings with the `embed` function:
+可使用 Cohere 嵌入模型与 `embed` 生成向量：
 
 ```ts
 import { cohere, type CohereEmbeddingModelOptions } from '@ai-sdk/cohere';
@@ -240,7 +236,7 @@ const { embedding } = await embed({
 });
 ```
 
-Cohere embedding models support additional provider options that can be passed via `providerOptions.cohere`:
+Cohere 嵌入模型还支持通过 `providerOptions.cohere` 传入的附加选项：
 
 ```ts
 import { cohere, type CohereEmbeddingModelOptions } from '@ai-sdk/cohere';
@@ -258,27 +254,27 @@ const { embedding } = await embed({
 });
 ```
 
-The following provider options are available:
+可用的提供商选项：
 
 - **inputType** _'search_document' | 'search_query' | 'classification' | 'clustering'_
 
-  Specifies the type of input passed to the model. Default is `search_query`.
-  - `search_document`: Used for embeddings stored in a vector database for search use-cases.
-  - `search_query`: Used for embeddings of search queries run against a vector DB to find relevant documents.
-  - `classification`: Used for embeddings passed through a text classifier.
-  - `clustering`: Used for embeddings run through a clustering algorithm.
+  输入类型。默认为 `search_query`。
+  - `search_document`：存入向量数据库、用于检索的文档嵌入。
+  - `search_query`：在向量库中检索时所使用的查询嵌入。
+  - `classification`：送入文本分类器的嵌入。
+  - `clustering`：送入聚类算法的嵌入。
 
 - **truncate** _'NONE' | 'START' | 'END'_
 
-  Specifies how the API will handle inputs longer than the maximum token length.
-  Default is `END`.
-  - `NONE`: If selected, when the input exceeds the maximum input token length will return an error.
-  - `START`: Will discard the start of the input until the remaining input is exactly the maximum input token length for the model.
-  - `END`: Will discard the end of the input until the remaining input is exactly the maximum input token length for the model.
+  当输入超出最大 token 长度时的截断策略。
+  默认为 `END`。
+  - `NONE`：超出最大输入长度则报错。
+  - `START`：从开头丢弃内容，直至剩余长度等于模型上限。
+  - `END`：从末尾丢弃内容，直至剩余长度等于模型上限。
 
-### Model Capabilities
+### 模型能力
 
-| Model                           | Embedding Dimensions |
+| 模型                           | 嵌入维度 |
 | ------------------------------- | -------------------- |
 | `embed-english-v3.0`            | 1024                 |
 | `embed-multilingual-v3.0`       | 1024                 |
@@ -288,16 +284,15 @@ The following provider options are available:
 | `embed-english-light-v2.0`      | 1024                 |
 | `embed-multilingual-v2.0`       | 768                  |
 
-## Reranking Models
+## 重排序模型
 
-You can create models that call the [Cohere rerank API](https://docs.cohere.com/v2/reference/rerank)
-using the `.reranking()` factory method.
+可使用 `.reranking()` 工厂方法创建调用 [Cohere Rerank API](https://docs.cohere.com/v2/reference/rerank) 的模型。
 
 ```ts
 const model = cohere.reranking('rerank-v3.5');
 ```
 
-You can use Cohere reranking models to rerank documents with the `rerank` function:
+可使用 Cohere 重排序模型与 `rerank` 对文档重排序：
 
 ```ts
 import { cohere } from '@ai-sdk/cohere';
@@ -323,7 +318,7 @@ console.log(ranking);
 // ]
 ```
 
-Cohere reranking models support additional provider options that can be passed via `providerOptions.cohere`:
+Cohere 重排序模型还支持通过 `providerOptions.cohere` 传入的附加选项：
 
 ```ts
 import { cohere, type CohereRerankingModelOptions } from '@ai-sdk/cohere';
@@ -342,19 +337,19 @@ const { ranking } = await rerank({
 });
 ```
 
-The following provider options are available:
+可用的提供商选项：
 
 - **maxTokensPerDoc** _number_
 
-  Maximum number of tokens per document. Default is `4096`.
+  每个文档的最大 token 数。默认为 `4096`。
 
 - **priority** _number_
 
-  Priority of the request. Default is `0`.
+  请求优先级。默认为 `0`。
 
-### Model Capabilities
+### 模型能力
 
-| Model                      |
+| 模型                       |
 | -------------------------- |
 | `rerank-v3.5`              |
 | `rerank-english-v3.0`      |

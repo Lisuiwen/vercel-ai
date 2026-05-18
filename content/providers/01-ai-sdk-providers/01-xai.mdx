@@ -1,16 +1,15 @@
 ---
 title: xAI Grok
-description: Learn how to use xAI Grok and Imagine.
+description: 了解如何使用 xAI Grok 与 Imagine。
 ---
 
-# xAI Grok Provider
+# xAI Grok 提供方
 
-The [xAI Grok](https://x.ai) provider contains language model support for the [xAI API](https://x.ai/api).
+[xAI Grok](https://x.ai) 提供方为 [xAI API](https://x.ai/api) 提供语言模型支持。
 
-## Setup
+## 安装
 
-The xAI Grok provider is available via the `@ai-sdk/xai` module. You can
-install it with
+xAI Grok 提供方通过 `@ai-sdk/xai` 模块提供。可使用下列命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -28,16 +27,15 @@ install it with
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供方实例
 
-You can import the default provider instance `xai` from `@ai-sdk/xai`:
+可从 `@ai-sdk/xai` 导入默认提供方实例 `xai`：
 
 ```ts
 import { xai } from '@ai-sdk/xai';
 ```
 
-If you need a customized setup, you can import `createXai` from `@ai-sdk/xai`
-and create a provider instance with your settings:
+若需要自定义配置，可从 `@ai-sdk/xai` 导入 `createXai`，并用你的设置创建提供方实例：
 
 ```ts
 import { createXai } from '@ai-sdk/xai';
@@ -47,43 +45,40 @@ const xai = createXai({
 });
 ```
 
-You can use the following optional settings to customize the xAI provider instance:
+可通过下列可选设置自定义 xAI 提供方实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `https://api.x.ai/v1`.
+  为 API 请求使用不同的 URL 前缀，例如经由代理服务器。
+  默认前缀为 `https://api.x.ai/v1`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header. It defaults to
-  the `XAI_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API 密钥。默认读取环境变量 `XAI_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要附加的自定义标头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch`。
+  可用作中间件拦截请求，或为测试等场景提供自定义 fetch。
 
-## Language Models
+## 语言模型
 
-You can create [xAI models](https://console.x.ai) using a provider instance. The
-first argument is the model id, e.g. `grok-4.20-non-reasoning`.
+可使用提供方实例创建 [xAI 模型](https://console.x.ai)。第一个参数为模型 ID，例如 `grok-4.20-non-reasoning`。
 
 ```ts
 const model = xai('grok-4.20-non-reasoning');
 ```
 
-By default, `xai(modelId)` uses the Responses API. To use the [Chat Completions API](https://docs.x.ai/docs/api-reference#chat-completions) (legacy), use `xai.chat(modelId)`.
+默认情况下，`xai(modelId)` 使用 Responses API。要使用 [Chat Completions API](https://docs.x.ai/docs/api-reference#chat-completions)（旧版），请使用 `xai.chat(modelId)`。
 
-### Example
+### 示例
 
-You can use xAI language models to generate text with the `generateText` function:
+可使用 xAI 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -95,16 +90,11 @@ const { text } = await generateText({
 });
 ```
 
-xAI language models can also be used in the `streamText` function
-and support structured data generation with [`Output`](/docs/reference/ai-sdk-core/output)
-(see [AI SDK Core](/docs/ai-sdk-core)).
+xAI 语言模型也可用于 `streamText`，并支持与 [`Output`](/docs/reference/ai-sdk-core/output) 的结构化数据生成（见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-### Reasoning Effort
+<h3 id="reasoning-effort">推理强度</h3>
 
-For reasoning-capable models you can control how much effort the model spends
-thinking before responding via `providerOptions.xai.reasoningEffort`. This
-works for both the Responses API (default) and the Chat Completions API
-(`xai.chat()`).
+对于具备推理能力的模型，可通过 `providerOptions.xai.reasoningEffort` 控制模型在作答前的思考深度。该选项对 Responses API（默认）与 Chat Completions API（`xai.chat()`）均适用。
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -119,46 +109,38 @@ const { text } = await generateText({
 });
 ```
 
-Supported values:
+可选取值：
 
-- `'none'` — Disables reasoning entirely; no thinking tokens are used. Best
-  for simple use cases that need a near-instant response. Supported by
-  `grok-4.3` and newer reasoning models.
-- `'low'` (default) — Uses some reasoning tokens, but still fast. Good for
-  general agentic use and tool calling.
-- `'medium'` — More thinking for less-latency-sensitive applications such as
-  complex data analysis and long-context reasoning.
-- `'high'` — More reasoning tokens for deeper thinking. Suited for very
-  challenging problems, complex math, multi-step logic, and competition-level
-  tasks.
+- `'none'` — 完全关闭推理；不使用思考型 token。适合需要近似即时响应的简单场景。`grok-4.3` 及更新的推理模型支持。
+- `'low'`（默认）— 使用部分推理 token，仍较快。适合通用智能体与工具调用。
+- `'medium'` — 更强推理，适合对延迟不那么敏感的应用，如复杂数据分析与长上下文推理。
+- `'high'` — 更多推理 token，更深思考。适合高难度问题、复杂数学、多步逻辑与竞赛级任务。
 
 <Note>
-  Not every Grok model accepts every value. See xAI's [reasoning
-  docs](https://docs.x.ai/docs/guides/reasoning) for the values supported by
-  your selected model. `'none'` requires `grok-4.3` or newer.
+  并非每个 Grok 模型都接受所有取值。请参阅 xAI 的 [推理文档](https://docs.x.ai/docs/guides/reasoning) 了解所选模型支持的取值。`'none'` 需要 `grok-4.3` 或更新版本。
 </Note>
 
-## Responses API (Agentic Tools)
+## Responses API（智能体工具）
 
-The xAI Responses API is the default when using `xai(modelId)`. You can also use `xai.responses(modelId)` explicitly. This enables the model to autonomously orchestrate tool calls and research on xAI's servers.
+使用 `xai(modelId)` 时默认走 xAI Responses API。也可显式使用 `xai.responses(modelId)`，从而在 xAI 服务器侧自主编排工具调用与研究流程。
 
 ```ts
 const model = xai.responses('grok-4.20-non-reasoning');
 ```
 
-The Responses API provides server-side tools that the model can autonomously execute during its reasoning process:
+Responses API 提供可由模型在推理过程中自主执行的服务器端工具：
 
-- **web_search**: Real-time web search and page browsing
-- **x_search**: Search X (Twitter) posts, users, and threads
-- **code_execution**: Execute Python code for calculations and data analysis
-- **view_image**: View and analyze images
-- **view_x_video**: View and analyze videos from X posts
-- **mcp_server**: Connect to remote MCP servers and use their tools
-- **file_search**: Search through documents in vector stores (collections)
+- **web_search**：实时网页搜索与浏览
+- **x_search**：搜索 X（Twitter）帖子、用户与话题串
+- **code_execution**：执行 Python 代码用于计算与数据分析
+- **view_image**：查看并分析图像
+- **view_x_video**：查看并分析 X 帖子中的视频
+- **mcp_server**：连接远程 MCP 服务器并使用其工具
+- **file_search**：在向量存储（集合）中检索文档
 
-### Vision
+### 视觉（Vision）
 
-The Responses API supports image input with vision models:
+Responses API 在使用视觉模型时支持图像输入：
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -182,9 +164,9 @@ const { text } = await generateText({
 });
 ```
 
-### Web Search Tool
+### 网页搜索工具
 
-The web search tool enables autonomous web research with optional domain filtering and image understanding:
+网页搜索工具支持可选域名过滤与图像理解的自主网页研究：
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -205,23 +187,23 @@ console.log(text);
 console.log('Citations:', sources);
 ```
 
-#### Web Search Parameters
+#### 网页搜索参数
 
 - **allowedDomains** _string[]_
 
-  Only search within specified domains (max 5). Cannot be used with `excludedDomains`.
+  仅在指定域名内搜索（最多 5 个）。不可与 `excludedDomains` 同时使用。
 
 - **excludedDomains** _string[]_
 
-  Exclude specified domains from search (max 5). Cannot be used with `allowedDomains`.
+  从搜索中排除指定域名（最多 5 个）。不可与 `allowedDomains` 同时使用。
 
 - **enableImageUnderstanding** _boolean_
 
-  Enable the model to view and analyze images found during search. Increases token usage.
+  允许模型查看并分析搜索过程中发现的图像。会增加 token 用量。
 
-### X Search Tool
+### X 搜索工具
 
-The X search tool enables searching X (Twitter) for posts, with filtering by handles and date ranges:
+X 搜索工具可在 X（Twitter）上搜索帖子，并支持按账号与时间范围过滤：
 
 ```ts
 const { text, sources } = await generateText({
@@ -239,35 +221,35 @@ const { text, sources } = await generateText({
 });
 ```
 
-#### X Search Parameters
+#### X 搜索参数
 
 - **allowedXHandles** _string[]_
 
-  Only search posts from specified X handles (max 10). Cannot be used with `excludedXHandles`.
+  仅从指定 X 账号发帖中搜索（最多 10 个）。不可与 `excludedXHandles` 同时使用。
 
 - **excludedXHandles** _string[]_
 
-  Exclude posts from specified X handles (max 10). Cannot be used with `allowedXHandles`.
+  排除指定 X 账号的发帖（最多 10 个）。不可与 `allowedXHandles` 同时使用。
 
 - **fromDate** _string_
 
-  Start date for posts in ISO8601 format (`YYYY-MM-DD`).
+  发帖起始日期，ISO8601 格式（`YYYY-MM-DD`）。
 
 - **toDate** _string_
 
-  End date for posts in ISO8601 format (`YYYY-MM-DD`).
+  发帖结束日期，ISO8601 格式（`YYYY-MM-DD`）。
 
 - **enableImageUnderstanding** _boolean_
 
-  Enable the model to view and analyze images in X posts.
+  允许模型查看并分析 X 帖子中的图像。
 
 - **enableVideoUnderstanding** _boolean_
 
-  Enable the model to view and analyze videos in X posts.
+  允许模型查看并分析 X 帖子中的视频。
 
-### Code Execution Tool
+### 代码执行工具
 
-The code execution tool enables the model to write and execute Python code for calculations and data analysis:
+代码执行工具允许模型编写并执行 Python 代码，用于计算与数据分析：
 
 ```ts
 const { text } = await generateText({
@@ -280,9 +262,9 @@ const { text } = await generateText({
 });
 ```
 
-### View Image Tool
+### 查看图像工具
 
-The view image tool enables the model to view and analyze images:
+查看图像工具允许模型查看并分析图像：
 
 ```ts
 const { text } = await generateText({
@@ -294,9 +276,9 @@ const { text } = await generateText({
 });
 ```
 
-### View X Video Tool
+### 查看 X 视频工具
 
-The view X video tool enables the model to view and analyze videos from X (Twitter) posts:
+查看 X 视频工具允许模型查看并分析来自 X（Twitter）帖子的视频：
 
 ```ts
 const { text } = await generateText({
@@ -308,9 +290,9 @@ const { text } = await generateText({
 });
 ```
 
-### MCP Server Tool
+### MCP 服务器工具
 
-The MCP server tool enables the model to connect to remote [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) servers and use their tools:
+MCP 服务器工具允许模型连接远程 [模型上下文协议（MCP）](https://modelcontextprotocol.io/) 服务器并使用其工具：
 
 ```ts
 const { text } = await generateText({
@@ -327,35 +309,35 @@ const { text } = await generateText({
 });
 ```
 
-#### MCP Server Parameters
+#### MCP 服务器参数
 
-- **serverUrl** _string_ (required)
+- **serverUrl** _string_（必填）
 
-  The URL of the remote MCP server.
+  远程 MCP 服务器的 URL。
 
 - **serverLabel** _string_
 
-  A label to identify the MCP server.
+  用于标识 MCP 服务器的标签。
 
 - **serverDescription** _string_
 
-  A description of what the MCP server provides.
+  MCP 服务器提供能力的说明。
 
 - **allowedTools** _string[]_
 
-  List of tool names that the model is allowed to use from the MCP server. If not specified, all tools are allowed.
+  允许模型从该 MCP 服务器使用的工具名称列表。未指定则允许全部工具。
 
 - **headers** _Record&lt;string, string&gt;_
 
-  Custom headers to include when connecting to the MCP server.
+  连接 MCP 服务器时要附加的自定义标头。
 
 - **authorization** _string_
 
-  Authorization header value for authenticating with the MCP server (e.g., `'Bearer token123'`).
+  连接 MCP 服务器时的 Authorization 标头值（例如 `'Bearer token123'`）。
 
-### File Search Tool
+### 文件搜索工具
 
-The file search tool enables searching through documents stored in xAI vector stores (collections):
+文件搜索工具可在 xAI 向量存储（集合）中对文档进行检索：
 
 ```ts
 import { xai, type XaiLanguageModelResponsesOptions } from '@ai-sdk/xai';
@@ -378,31 +360,29 @@ const result = streamText({
 });
 ```
 
-#### File Search Parameters
+#### 文件搜索参数
 
-- **vectorStoreIds** _string[]_ (required)
+- **vectorStoreIds** _string[]_（必填）
 
-  The IDs of the vector stores (collections) to search.
+  要检索的向量存储（集合）ID。
 
 - **maxNumResults** _number_
 
-  The maximum number of results to return from the search.
+  搜索返回的最大结果条数。
 
-#### Provider Options for File Search
+#### 文件搜索的提供方选项
 
 - **include** _Array&lt;'file_search_call.results'&gt;_
 
-  Include file search results in the response. When set to `['file_search_call.results']`, the response will contain the actual search results with file content and scores.
+  在响应中包含文件搜索结果。设为 `['file_search_call.results']` 时，响应将包含含文件内容与分数的实际搜索结果。
 
 <Note>
-  File search requires grok-4 family models (including grok-4.20) and the
-  Responses API. Vector stores can be created using the [xAI
-  API](https://docs.x.ai/docs/guides/using-collections/api).
+  文件搜索需要 grok-4 系列模型（含 grok-4.20）与 Responses API。向量存储可通过 [xAI API](https://docs.x.ai/docs/guides/using-collections/api) 创建。
 </Note>
 
-### Multiple Tools
+### 多工具组合
 
-You can combine multiple server-side tools for comprehensive research:
+可组合多个服务器端工具以进行综合研究：
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -434,9 +414,9 @@ for await (const part of fullStream) {
 }
 ```
 
-### Provider Options
+### 提供方选项
 
-The Responses API supports the following provider options:
+Responses API 支持下列提供方选项：
 
 ```ts
 import { xai, type XaiLanguageModelResponsesOptions } from '@ai-sdk/xai';
@@ -453,40 +433,39 @@ const result = await generateText({
 });
 ```
 
-The following provider options are available:
+可用提供方选项如下：
 
 - **reasoningEffort** _'none' | 'low' | 'medium' | 'high'_
 
-  Control the reasoning effort for the model. See [Reasoning Effort](#reasoning-effort) for details on each value. `'none'` disables reasoning entirely (requires `grok-4.3` or newer).
+  控制模型的推理强度。各取值说明见 [推理强度](#reasoning-effort)。`'none'` 完全关闭推理（需要 `grok-4.3` 或更新）。
 
 - **logprobs** _boolean_
 
-  Return log probabilities for output tokens.
+  是否返回输出 token 的对数概率。
 
 - **topLogprobs** _number_
 
-  Number of most likely tokens to return per token position (0-8). When set, `logprobs` is automatically enabled.
+  每个 token 位置返回概率最高的若干候选 token 数量（0–8）。设置此项时会自动启用 `logprobs`。
 
 - **include** _Array&lt;'file_search_call.results'&gt;_
 
-  Specify additional output data to include in the model response. Use `['file_search_call.results']` to include file search results with scores and content.
+  指定要在模型响应中包含的额外输出数据。使用 `['file_search_call.results']` 可包含含分数与内容的文件搜索结果。
 
 - **store** _boolean_
 
-  Whether to store the input message(s) and model response for later retrieval. Defaults to `true`.
+  是否存储输入消息与模型响应以供后续检索。默认为 `true`。
 
 - **previousResponseId** _string_
 
-  The ID of the previous response from the model. You can use it to continue a conversation.
+  模型上一份响应的 ID，可用于延续对话。
 
 <Note>
-  The Responses API only supports server-side tools. You cannot mix server-side
-  tools with client-side function tools in the same request.
+  Responses API 仅支持服务器端工具。同一请求中无法混用服务器端工具与客户端函数工具。
 </Note>
 
-## Model Capabilities
+## 模型能力
 
-| Model                         | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      | Reasoning           |
+| 模型                         | 图像输入            | 对象生成            | 工具使用            | 工具流式            | 推理                |
 | ----------------------------- | ------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `grok-4.20-reasoning`         | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `grok-4.20-non-reasoning`     | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
@@ -500,14 +479,12 @@ The following provider options are available:
 | `grok-3-mini`                 | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  The table above lists popular models. Please see the [xAI
-  docs](https://docs.x.ai/docs#models) for a full list of available models. You
-  can also pass any available provider model ID as a string if needed.
+  上表列出常用模型。完整列表请参阅 [xAI 文档](https://docs.x.ai/docs#models)。如有需要，也可直接传入任意可用的提供方模型 ID 字符串。
 </Note>
 
-## Image Models
+## 图像模型
 
-You can create xAI image models using the `.image()` factory method. For more on image generation with the AI SDK see [generateImage()](/docs/reference/ai-sdk-core/generate-image).
+可使用 `.image()` 工厂方法创建 xAI 图像模型。关于使用 AI SDK 生成图像，参见 [generateImage()](/docs/reference/ai-sdk-core/generate-image)。
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -520,23 +497,20 @@ const { image } = await generateImage({
 ```
 
 <Note>
-  The xAI image model does not support the `size` parameter. Use `aspectRatio`
-  instead. Supported aspect ratios: `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `3:2`,
-  `2:3`, `2:1`, `1:2`, `19.5:9`, `9:19.5`, `20:9`, `9:20`, and `auto`.
+  xAI 图像模型不支持 `size` 参数，请改用 `aspectRatio`。支持的宽高比：`1:1`、`16:9`、`9:16`、`4:3`、`3:4`、`3:2`、`2:3`、`2:1`、`1:2`、`19.5:9`、`9:19.5`、`20:9`、`9:20` 与 `auto`。
 </Note>
 
-### Image Editing
+### 图像编辑
 
-xAI supports image editing through the `grok-imagine-image` model. Pass input images via `prompt.images` to transform or edit existing images.
+xAI 通过 `grok-imagine-image` 模型支持图像编辑。通过 `prompt.images` 传入输入图像，即可变换或编辑现有图像。
 
 <Note>
-  xAI image editing does not support masks. Editing is prompt-driven - describe
-  what you want to change in the text prompt.
+  xAI 图像编辑不支持遮罩。编辑由提示词驱动——请在文本提示中描述希望如何修改。
 </Note>
 
-#### Basic Image Editing
+#### 基础图像编辑
 
-Transform an existing image using text prompts:
+使用文本提示变换现有图像：
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -554,9 +528,9 @@ const { images } = await generateImage({
 });
 ```
 
-#### Multi-Image Editing
+#### 多图编辑
 
-Combine or reference multiple input images in the prompt:
+在提示中合并或引用多张输入图像：
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -575,9 +549,9 @@ const { images } = await generateImage({
 });
 ```
 
-#### Style Transfer
+#### 风格迁移
 
-Apply artistic styles to an image:
+对图像应用艺术风格：
 
 ```ts
 const imageBuffer = readFileSync('./input-image.png');
@@ -593,13 +567,12 @@ const { images } = await generateImage({
 ```
 
 <Note>
-  Input images can be provided as `Buffer`, `ArrayBuffer`, `Uint8Array`, or
-  base64-encoded strings.
+  输入图像可为 `Buffer`、`ArrayBuffer`、`Uint8Array` 或 base64 编码字符串。
 </Note>
 
-### Image Provider Options
+### 图像提供方选项
 
-You can customize the image generation behavior with provider-specific settings via `providerOptions.xai`:
+可通过 `providerOptions.xai` 使用提供方专属设置自定义图像生成行为：
 
 ```ts
 import { xai, type XaiImageModelOptions } from '@ai-sdk/xai';
@@ -620,31 +593,29 @@ const { images } = await generateImage({
 
 - **resolution** _'1k' | '2k'_
 
-  Output resolution. `1k` produces ~1024×1024 images, `2k` produces ~2048×2048
-  images (actual dimensions vary based on aspect ratio). Available for
-  `grok-imagine-image-pro`.
+  输出分辨率。`1k` 约生成 1024×1024 图像，`2k` 约生成 2048×2048（实际尺寸随宽高比变化）。适用于 `grok-imagine-image-pro`。
 
 - **quality** _'low' | 'medium' | 'high'_
 
-  Image quality level. Higher quality may increase generation time.
+  图像质量等级。更高质量可能增加生成耗时。
 
-### Image Model Capabilities
+### 图像模型能力
 
-| Model                    | Resolution | Aspect Ratios                                                                                               | Image Editing       |
+| 模型                    | 分辨率 | 宽高比                                                                                                      | 图像编辑            |
 | ------------------------ | ---------- | ----------------------------------------------------------------------------------------------------------- | ------------------- |
 | `grok-imagine-image-pro` | `1k`, `2k` | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `3:2`, `2:3`, `2:1`, `1:2`, `19.5:9`, `9:19.5`, `20:9`, `9:20`, `auto` | <Check size={18} /> |
 | `grok-imagine-image`     | `1k`       | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `3:2`, `2:3`, `2:1`, `1:2`, `19.5:9`, `9:19.5`, `20:9`, `9:20`, `auto` | <Check size={18} /> |
 
-## Video Models
+## 视频模型
 
-You can create xAI video models using the `.video()` factory method.
-For more on video generation with the AI SDK see [generateVideo()](/docs/reference/ai-sdk-core/generate-video).
+可使用 `.video()` 工厂方法创建 xAI 视频模型。
+关于使用 AI SDK 生成视频，参见 [generateVideo()](/docs/reference/ai-sdk-core/generate-video)。
 
-This provider supports standard video generation from text prompts or image input, plus explicit video editing, video extension, and reference-to-video (R2V) operations.
+本提供方支持由文本提示或图像输入进行标准视频生成，以及显式的视频编辑、视频延展与参考图转视频（R2V）操作。
 
-### Text-to-Video
+### 文生视频
 
-Generate videos from text prompts:
+由文本提示生成视频：
 
 ```ts
 import { xai, type XaiVideoModelOptions } from '@ai-sdk/xai';
@@ -663,9 +634,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### Generation with Image Input
+### 带图像输入的生成
 
-Generate videos using an image as the starting frame with an optional text prompt. This uses the standard generation path rather than a separate provider mode:
+以图像作为起始帧生成视频，并可附带文本提示。走的是标准生成路径，而非单独的提供方模式：
 
 ```ts
 import { xai, type XaiVideoModelOptions } from '@ai-sdk/xai';
@@ -686,9 +657,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### Video Editing
+### 视频编辑
 
-Edit an existing video using a text prompt by providing a source video URL via provider options:
+通过提供方选项传入源视频 URL，并用文本提示编辑现有视频：
 
 ```ts
 import { xai, type XaiVideoModelOptions } from '@ai-sdk/xai';
@@ -708,16 +679,13 @@ const { video } = await generateVideo({
 ```
 
 <Note>
-  Video editing accepts input videos up to 8.7 seconds long. The `duration`,
-  `aspectRatio`, and `resolution` parameters are not supported for editing - the
-  output matches the input video's properties (capped at 720p).
+  视频编辑接受的输入视频最长约 8.7 秒。编辑不支持自定义 `duration`、`aspectRatio` 与 `resolution`——输出与输入视频属性一致（分辨率上限 720p）。
 </Note>
 
-### Chaining and Concurrent Edits
+### 链式与并发编辑
 
-The xAI-hosted video URL is available in `providerMetadata.xai.videoUrl`.
-You can use it to chain sequential edits or branch into concurrent edits
-using `Promise.all`:
+xAI 托管的视频 URL 位于 `providerMetadata.xai.videoUrl`。
+可用它串联多次编辑，或通过 `Promise.all` 分支进行并发编辑：
 
 ```ts
 import { xai, type XaiVideoModelOptions } from '@ai-sdk/xai';
@@ -768,9 +736,9 @@ const [withSunglasses, withScarf] = await Promise.all([
 ]);
 ```
 
-### Video Extension
+### 视频延展
 
-Extend an existing video from its last frame. The `duration` controls the length of the extension only, not the total output. The output inherits `aspectRatio` and `resolution` from the source video.
+从现有视频的末帧继续延展。`duration` 仅控制延展片段长度，而非总输出时长。输出的 `aspectRatio` 与 `resolution` 继承自源视频。
 
 ```ts
 import { xai, type XaiVideoModelOptions } from '@ai-sdk/xai';
@@ -807,14 +775,12 @@ const extended = await generateVideo({
 ```
 
 <Note>
-  Video extension does not support custom `aspectRatio` or `resolution` — the
-  output inherits those from the source video. `duration` is supported and
-  controls how long the extension is (not the total video length).
+  视频延展不支持自定义 `aspectRatio` 或 `resolution`——二者继承自源视频。支持 `duration`，且仅表示延展长度（不是整段视频总长）。
 </Note>
 
-### Reference-to-Video (R2V)
+### 参考图转视频（R2V）
 
-Provide reference images to guide the video's style and content. Unlike image-to-video, reference images are not used as the first frame — the model incorporates their visual elements into the generated video. Each reference image can be a public HTTPS URL or a base64 data URI.
+提供参考图像以引导视频的风格与内容。与图生视频不同，参考图不作为首帧——模型将其视觉元素融入生成视频。每张参考图可为公开 HTTPS URL 或 base64 data URI。
 
 ```ts
 import { xai, type XaiVideoModelOptions } from '@ai-sdk/xai';
@@ -841,88 +807,75 @@ const { video } = await generateVideo({
 });
 ```
 
-Use `<IMAGE_1>`, `<IMAGE_2>`, etc. in your prompt to reference specific images. Up to 7 reference images are supported per request.
+在提示中使用 `<IMAGE_1>`、`<IMAGE_2>` 等引用对应图像。单次请求最多支持 7 张参考图。
 
 <Note>
-  Reference-to-video supports `duration`, `aspectRatio`, and `resolution`. Use
-  `mode` to select the operation — each mode is mutually exclusive.
+  参考图转视频支持 `duration`、`aspectRatio` 与 `resolution`。通过 `mode` 选择操作——各模式互斥。
 </Note>
 
-### Video Provider Options
+### 视频提供方选项
 
-The following provider options are available via `providerOptions.xai`.
-You can validate the provider options using the `XaiVideoModelOptions` type.
+下列选项通过 `providerOptions.xai` 传入。
+可使用 `XaiVideoModelOptions` 类型校验提供方选项。
 
 - **pollIntervalMs** _number_
 
-  Polling interval in milliseconds for checking task status. Defaults to 5000.
+  轮询任务状态的间隔（毫秒）。默认 5000。
 
 - **pollTimeoutMs** _number_
 
-  Maximum wait time in milliseconds for video generation. Defaults to 600000 (10 minutes).
+  视频生成的最长等待时间（毫秒）。默认 600000（10 分钟）。
 
 - **resolution** _'480p' | '720p'_
 
-  Video resolution. When using the SDK's standard `resolution` parameter,
-  `1280x720` maps to `720p` and `854x480` maps to `480p`.
-  Use this provider option to pass the native format directly.
+  视频分辨率。使用 SDK 标准 `resolution` 参数时，`1280x720` 映射为 `720p`，`854x480` 映射为 `480p`。
+  也可通过本提供方选项直接传入原生格式。
 
 - **mode** _'edit-video' | 'extend-video' | 'reference-to-video'_
 
-  Selects the explicit video operation. Each mode is mutually exclusive:
-  - `'edit-video'` — edit an existing video (requires `videoUrl`)
-  - `'extend-video'` — extend a video from its last frame (requires `videoUrl`)
-  - `'reference-to-video'` — generate from reference images (requires `referenceImageUrls`)
+  选择显式视频操作。各模式互斥：
+  - `'edit-video'` — 编辑现有视频（需要 `videoUrl`）
+  - `'extend-video'` — 从末帧延展视频（需要 `videoUrl`）
+  - `'reference-to-video'` — 基于参考图生成（需要 `referenceImageUrls`）
 
-  When omitted, standard generation is used. Legacy inputs are still auto-detected from fields for backward compatibility.
+  省略时使用标准生成。为兼容旧用法，仍会根据字段自动识别旧版输入。
 
 - **videoUrl** _string_
 
-  URL of a source video. Used with `mode: 'edit-video'` for video editing
-  and `mode: 'extend-video'` for video extension.
+  源视频 URL。与 `mode: 'edit-video'` 配合用于编辑，与 `mode: 'extend-video'` 配合用于延展。
 
 - **referenceImageUrls** _string[]_
 
-  Array of reference image URLs (1–7 images) or base64 data URIs for
-  reference-to-video (R2V) generation. The model incorporates visual
-  elements from these images without using them as the first frame. Use
-  `<IMAGE_1>`, `<IMAGE_2>`, etc. in the prompt to reference specific
-  images. Used with `mode: 'reference-to-video'`.
+  参考图转视频（R2V）用的参考图 URL 数组（1–7 张）或 base64 data URI。模型融合这些图像的视觉元素，但不将其作为首帧。在提示中用 `<IMAGE_1>`、`<IMAGE_2>` 等引用具体图像。与 `mode: 'reference-to-video'` 配合使用。
 
 <Note>
-  Video generation is an asynchronous process that can take several minutes.
-  Consider setting `pollTimeoutMs` to at least 10 minutes (600000ms) for
-  reliable operation. Generated video URLs are ephemeral and should be
-  downloaded promptly.
+  视频生成是异步过程，可能耗时数分钟。
+  建议将 `pollTimeoutMs` 至少设为 10 分钟（600000ms）以保证稳定。
+  生成的视频 URL 为临时地址，请及时下载保存。
 </Note>
 
-### Aspect Ratio and Resolution
+### 宽高比与分辨率
 
-For **text-to-video**, you can specify both `aspectRatio` and `resolution`.
-The default aspect ratio is `16:9` and the default resolution is `480p`.
+**文生视频**可同时指定 `aspectRatio` 与 `resolution`。
+默认宽高比为 `16:9`，默认分辨率为 `480p`。
 
-For **image-to-video**, the output defaults to the input image's aspect ratio.
-If you specify `aspectRatio`, it will override this and stretch the image to the
-desired ratio.
+**图生视频**的输出默认与输入图像宽高比一致。
+若另行指定 `aspectRatio`，将覆盖默认并将图像拉伸至目标比例。
 
-For **video editing**, the output matches the input video's aspect ratio and
-resolution. Custom `duration`, `aspectRatio`, and `resolution` are not
-supported — the output resolution is capped at 720p (e.g., a 1080p input
-will be downsized to 720p).
+**视频编辑**的输出与输入视频的宽高比和分辨率一致。
+不支持自定义 `duration`、`aspectRatio` 与 `resolution`——输出分辨率上限为 720p（例如 1080p 输入会下采样至 720p）。
 
-For **video extension**, the output inherits `aspectRatio` and `resolution`
-from the source video. `duration` is supported and controls only the
-extension length.
+**视频延展**的输出继承源视频的 `aspectRatio` 与 `resolution`。
+支持 `duration`，且仅控制延展片段长度。
 
-For **reference-to-video (R2V)**, you can specify `duration`, `aspectRatio`,
-and `resolution` just like text-to-video.
+**参考图转视频（R2V）**可像文生视频一样指定 `duration`、`aspectRatio` 与 `resolution`。
 
-### Video Model Capabilities
+### 视频模型能力
 
-| Model                | Duration | Aspect Ratios                                     | Resolution     | Image-to-Video      | Editing             | Extension           | R2V                 |
+| 模型                | 时长 | 宽高比                                           | 分辨率         | 图生视频            | 编辑                | 延展                | R2V                 |
 | -------------------- | -------- | ------------------------------------------------- | -------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `grok-imagine-video` | 1–15s    | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `3:2`, `2:3` | `480p`, `720p` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  You can also pass any available provider model ID as a string if needed.
+  如有需要，也可直接传入任意可用的提供方模型 ID 字符串。
 </Note>

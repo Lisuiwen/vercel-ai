@@ -11,7 +11,7 @@ run(async () => {
     prompt: 'What cities are in the United States?',
   });
 
-  // will return everything at once after a while
+  // 一段时间后会立即返回所有内容
   for await (const chunk of result.textStream) {
     console.log(chunk);
   }

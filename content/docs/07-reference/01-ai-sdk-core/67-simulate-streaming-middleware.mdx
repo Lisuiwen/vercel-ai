@@ -1,11 +1,11 @@
 ---
 title: simulateStreamingMiddleware
-description: Middleware that simulates streaming for non-streaming language models
+description: 为非流式语言模型的响应模拟流式行为的中间件
 ---
 
 # `simulateStreamingMiddleware()`
 
-`simulateStreamingMiddleware` is a middleware function that simulates streaming behavior with responses from non-streaming language models. This is useful when you want to maintain a consistent streaming interface even when using models that only provide complete responses.
+`simulateStreamingMiddleware` 为非流式语言模型的完整响应模拟流式行为。在仅提供完整响应的模型上仍需统一流式接口时很有用。
 
 ```ts
 import { simulateStreamingMiddleware } from 'ai';
@@ -13,40 +13,40 @@ import { simulateStreamingMiddleware } from 'ai';
 const middleware = simulateStreamingMiddleware();
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { simulateStreamingMiddleware } from "ai"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
-This middleware doesn't accept any parameters.
+该中间件不接受任何参数。
 
-### Returns
+### 返回值
 
-Returns a middleware object that:
+返回中间件对象，其行为如下：
 
-- Takes a complete response from a language model
-- Converts it into a simulated stream of chunks
-- Properly handles various response components including:
-  - Text content
-  - Reasoning (as string or array of objects)
-  - Tool calls
-  - Metadata and usage information
-  - Warnings
+- 接收语言模型的完整响应
+- 将其转换为模拟的分块流
+- 正确处理多种响应组成部分，包括：
+  - 文本内容
+  - 推理（字符串或对象数组）
+  - 工具调用
+  - 元数据与用量信息
+  - 警告
 
-### Usage Example
+### 使用示例
 
 ```ts
 import { streamText } from 'ai';
 import { wrapLanguageModel } from 'ai';
 import { simulateStreamingMiddleware } from 'ai';
 
-// Example with a non-streaming model
+// 与非流式模型一起使用的示例
 const result = streamText({
   model: wrapLanguageModel({
     model: nonStreamingModel,
@@ -55,17 +55,17 @@ const result = streamText({
   prompt: 'Your prompt here',
 });
 
-// Now you can use the streaming interface
+// 现在可使用流式接口
 for await (const chunk of result.fullStream) {
-  // Process streaming chunks
+  // 处理流式分块
 }
 ```
 
-## How It Works
+## 工作原理
 
-The middleware:
+该中间件会：
 
-1. Awaits the complete response from the language model
-2. Creates a `ReadableStream` that emits chunks in the correct sequence
-3. Simulates streaming by breaking down the response into appropriate chunk types
-4. Preserves all metadata, reasoning, tool calls, and other response properties
+1. 等待语言模型的完整响应
+2. 创建按正确顺序发出分块的 `ReadableStream`
+3. 将响应拆分为适当的分块类型以模拟流式输出
+4. 保留所有元数据、推理、工具调用及其他响应属性

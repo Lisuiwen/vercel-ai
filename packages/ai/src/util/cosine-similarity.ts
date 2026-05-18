@@ -1,8 +1,8 @@
 import { InvalidArgumentError } from '../error/invalid-argument-error';
 
 /**
- * Calculates the cosine similarity between two vectors. This is a useful metric for
- * comparing the similarity of two vectors such as embeddings.
+ * 计算两个向量之间的余弦相似度。这是一个有用的指标
+ * 比较两个向量的相似度，例如嵌入。
  *
  * @param vector1 - The first vector.
  * @param vector2 - The second vector.
@@ -23,7 +23,7 @@ export function cosineSimilarity(vector1: number[], vector2: number[]): number {
   const n = vector1.length;
 
   if (n === 0) {
-    return 0; // Return 0 for empty vectors if no error is thrown
+    return 0; // 如果没有抛出错误，则为空向量返回 0
   }
 
   let magnitudeSquared1 = 0;

@@ -5,7 +5,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   const result = await generateSpeech({
-    model: azure.speech('tts-1'), // use your own deployment
+    model: azure.speech('tts-1'), // 使用您自己的部署
     text: 'Hello from the AI SDK!',
   });
 

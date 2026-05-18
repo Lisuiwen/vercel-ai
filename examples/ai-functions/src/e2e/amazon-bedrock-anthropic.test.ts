@@ -46,10 +46,10 @@ const createModelVariants = (
   createLanguageModel(modelId, tests),
 ];
 
-// Model variants to test against
+// 要测试的模型变体
 const CHAT_MODELS = ['us.anthropic.claude-sonnet-4-5-20250929-v1:0'];
 
-// Sonnet 4.5 supports computer use tools
+// Sonnet 4.5 支持电脑使用工具
 const COMPUTER_USE_MODELS = ['us.anthropic.claude-sonnet-4-5-20250929-v1:0'];
 
 const createModelsForRuntime = () => ({
@@ -165,7 +165,7 @@ const toolTests = (model: LanguageModelV4) => {
 
       console.log(result.text);
       expect(result.text).toBeTruthy();
-      // Model should respond about the screen - check for common terms
+      // 模型应该对屏幕做出反应 - 检查常用术语
       expect(result.text.toLowerCase()).toMatch(
         /settings|theme|dark|mode|interface|screen|editor|code|vs\s?code/i,
       );

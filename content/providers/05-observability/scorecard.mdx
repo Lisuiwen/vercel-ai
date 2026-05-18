@@ -1,28 +1,28 @@
 ---
 title: Scorecard
-description: Monitoring and evaluating LLM applications with Scorecard
+description: 使用 Scorecard 监控与评估 LLM 应用
 ---
 
 # Scorecard
 
-[Scorecard](https://www.scorecard.io/) is an observability platform for monitoring and evaluating LLM applications.
-After integrating with the AI SDK, you can use Scorecard to trace, monitor, and analyze your LLM providers, prompts, and application flows.
+[Scorecard](https://www.scorecard.io/) 是用于监控与评估 LLM 应用的可观测平台。
+接入 AI SDK 后，可使用 Scorecard 追踪、监控与分析 LLM 提供商、prompts 与应用流程。
 
-## Setup
+## 设置
 
-Scorecard supports [AI SDK telemetry data](/docs/ai-sdk-core/telemetry).
-You'll need to sign up at https://app.scorecard.io and get your API Key from your [settings page](https://app.scorecard.io/settings).
+Scorecard 支持 [AI SDK telemetry data](/docs/ai-sdk-core/telemetry)。
+请在 https://app.scorecard.io 注册，并在 [设置页](https://app.scorecard.io/settings) 获取 API Key。
 
 ### Next.js
 
-To use the AI SDK to send telemetry data to Scorecard, first set these environment variables in your project:
+要通过 AI SDK 向 Scorecard 发送 telemetry，先在项目中设置这些环境变量：
 
 ```bash
 OTEL_EXPORTER_OTLP_ENDPOINT=https://tracing.scorecard.io/otel/v1/traces
 OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <Your Scorecard API Key>"
 ```
 
-Next, install `@ai-sdk/otel` and create an `instrumentation.ts` file in your project root to initialize OpenTelemetry and register the AI SDK telemetry integration:
+接下来安装 `@ai-sdk/otel`，并在项目根目录创建 `instrumentation.ts`，初始化 OpenTelemetry 并注册 AI SDK 遥测集成：
 
 ```typescript filename="instrumentation.ts"
 import { registerTelemetry } from 'ai';
@@ -38,7 +38,7 @@ export function register() {
 }
 ```
 
-Once the integration is registered, telemetry is captured automatically for all AI SDK calls:
+注册集成后，所有 AI SDK 调用会自动采集遥测：
 
 ```typescript
 import { generateText } from 'ai';
@@ -50,18 +50,18 @@ const result = await generateText({
 });
 ```
 
-## What You'll See in Scorecard
+## 在 Scorecard 中看到的内容
 
-After integrating, you'll be able to view in your Scorecard dashboard:
+接入后，你可在 Scorecard 控制台查看：
 
-- **LLM call traces**: Detailed information about each AI SDK call
-- **Performance metrics**: Latency, token usage, and cost tracking
-- **Model information**: Which models and providers were used
-- **Custom context**: Any additional context you provide via the `context` option
-- **Error tracking**: Failed requests and debugging information
-- **Usage analytics**: Patterns and trends in your LLM usage
+- **LLM call traces**：每次 AI SDK 调用的详细信息
+- **Performance metrics**：延迟、token 用量与成本追踪
+- **Model information**：使用的模型与提供商
+- **Custom context**：通过 `context` 选项传入的额外上下文
+- **Error tracking**：失败请求与调试信息
+- **Usage analytics**：LLM 用量的模式与趋势
 
-## Resources
+## 资源
 
 - [Scorecard Tracing Quickstart](https://docs.scorecard.io/intro/tracing-quickstart)
 - [Scorecard Documentation](https://docs.scorecard.io/)

@@ -2,11 +2,11 @@ import { openai } from '@ai-sdk/openai';
 import { isStepCount, streamText, tool } from 'ai';
 import { z } from 'zod';
 
-// Allow streaming responses up to 60 seconds
+// 允许流式响应最长 60 秒
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
-  // Extract the `prompt` from the body of the request
+  // 从请求体中提取 `prompt`
   const { prompt } = await req.json();
 
   const result = streamText({
@@ -27,6 +27,6 @@ export async function POST(req: Request) {
     prompt,
   });
 
-  // Respond with the stream
+  // 以流响应
   return result.toUIMessageStreamResponse();
 }

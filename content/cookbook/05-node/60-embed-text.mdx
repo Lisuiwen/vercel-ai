@@ -1,14 +1,14 @@
 ---
-title: Embed Text
-description: Learn how to embed text using the AI SDK and Node
+title: 嵌入文本
+description: 学习如何使用 AI SDK 和 Node 嵌入文本
 tags: ['node', 'embedding']
 ---
 
-# Embed Text
+# 嵌入文本
 
-Text embeddings are numerical representations of text that capture semantic meaning, allowing machines to understand and process language in a mathematical way. These vector representations are crucial for many AI applications, as they enable tasks like semantic search, document similarity comparison, and content recommendation.
+文本嵌入是以数值形式表示文本、捕获语义含义的表示，使机器能以数学方式理解和处理语言。这些向量表示对许多 AI 应用至关重要，可支持语义搜索、文档相似度比较、内容推荐等任务。
 
-This example demonstrates how to convert text into embeddings using a text embedding model. The resulting embedding is a high-dimensional vector that represents the semantic meaning of the input text. For a more practical application of embeddings, check out our [RAG example](/cookbook/node/retrieval-augmented-generation) which shows how embeddings can be used for document retrieval.
+本示例演示如何使用文本嵌入模型将文本转换为嵌入。得到的嵌入是高维向量，表示输入文本的语义。更实用的嵌入应用请参阅 [RAG 示例](/cookbook/node/retrieval-augmented-generation)，其中展示如何将嵌入用于文档检索。
 
 ```ts
 import { embed } from 'ai';

@@ -1,7 +1,7 @@
 import type { ElicitationResponse } from './types';
 
-// Use globalThis to ensure the Map is shared across all Next.js API routes
-// This prevents issues with module reloading in development
+// 使用 globalThis 确保 Map 在所有 Next.js API 路由间共享
+// 防止开发环境中模块重载导致的问题
 declare global {
   var pendingElicitations:
     | Map<
@@ -16,7 +16,7 @@ declare global {
     | undefined;
 }
 
-// Store pending elicitation requests with their resolvers
+// 存储待处理征询请求及其 resolver
 const pendingElicitations =
   globalThis.pendingElicitations ??
   new Map<
@@ -29,13 +29,13 @@ const pendingElicitations =
     }
   >();
 
-// Persist to globalThis
+// 持久化到 globalThis
 globalThis.pendingElicitations = pendingElicitations;
 
-// Cleanup old/stale elicitations periodically
+// 定期清理过期/陈旧的征询
 function cleanupStaleElicitations() {
   const now = Date.now();
-  const staleThreshold = 10 * 60 * 1000; // 10 minutes
+  const staleThreshold = 10 * 60 * 1000; // 10 分钟
 
   const entries = Array.from(pendingElicitations.entries());
   for (const [id, data] of entries) {
@@ -47,7 +47,7 @@ function cleanupStaleElicitations() {
   }
 }
 
-// Run cleanup every minute
+// 每分钟运行清理
 setInterval(cleanupStaleElicitations, 60 * 1000);
 
 export function createPendingElicitation(
@@ -60,7 +60,7 @@ export function createPendingElicitation(
   );
   console.log('[store] Current pending count:', pendingElicitations.size);
 
-  // Check if this ID already exists (shouldn't happen, but handle it)
+  // 检查该 ID 是否已存在（不应发生，但需处理）
   if (pendingElicitations.has(id)) {
     console.warn('[store] WARNING: Elicitation ID already exists:', id);
     const existing = pendingElicitations.get(id);
@@ -71,7 +71,7 @@ export function createPendingElicitation(
   }
 
   return new Promise<ElicitationResponse>((resolve, reject) => {
-    // Set a timeout to prevent hanging indefinitely (60 seconds to match MCP timeout)
+    // 设置超时以防无限挂起（60 秒以匹配 MCP 超时）
     const timeoutId = setTimeout(() => {
       if (pendingElicitations.has(id)) {
         console.log('[store] Timeout for elicitation:', id);

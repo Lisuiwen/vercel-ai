@@ -2,8 +2,8 @@ import { xai, type XaiVideoModelOptions } from '@ai-sdk/xai';
 import { experimental_generateVideo as generateVideo } from 'ai';
 import { run } from '../../lib/run';
 
-// Demonstrates that aspectRatio and resolution are silently ignored
-// (with a warning) when using extension mode.
+// 演示了宽高比和分辨率被默默忽略
+// （有警告）使用扩展模式时。
 run(async () => {
   console.log('Step 1: generating a source video...');
   const source = await generateVideo({

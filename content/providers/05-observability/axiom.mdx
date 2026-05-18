@@ -1,27 +1,27 @@
 ---
 title: Axiom
-description: Measure, observe, and improve your AI SDK application with Axiom
+description: 使用 Axiom 衡量、观测并改进 AI SDK 应用
 ---
 
-# Axiom Observability
+# Axiom 可观测性
 
-**Axiom** is a data platform with specialized features for **AI engineering workflows**, helping you build sophisticated AI systems with confidence.
+**Axiom** 是具有 **AI 工程工作流** 专项能力的数据平台，帮助你充满信心地构建复杂 AI 系统。
 
-Axiom’s integration with the AI SDK uses a model wrapper to automatically capture detailed traces for every LLM call, giving you immediate visibility into your application's performance, cost, and behavior.
+Axiom 与 AI SDK 的集成采用模型包装器，自动捕获每次 LLM 调用的详细追踪，即时呈现应用的性能、成本与行为。
 
-## Setup
+## 设置
 
-### 1. Configure Axiom
+### 1. 配置 Axiom
 
-First, you'll need an Axiom organization, a dataset to send traces to, and an API token.
+首先你需要 Axiom 组织、用于接收 traces 的数据集以及 API token。
 
-- [Create an Axiom organization](https://app.axiom.co/register).
-- [Create a new dataset](https://app.axiom.co/datasets) (e.g., `my-ai-app`).
-- [Create an API token](https://app.axiom.co/settings/api-tokens) with ingest permissions for your dataset.
+- [创建 Axiom 组织](https://app.axiom.co/register)。
+- [创建新数据集](https://app.axiom.co/datasets)（例如 `my-ai-app`）。
+- [创建 API token](https://app.axiom.co/settings/api-tokens)，并赋予对应数据集的写入权限。
 
-### 2. Install the Axiom SDK
+### 2. 安装 Axiom SDK
 
-Install the Axiom package in your project:
+在项目中安装 Axiom 包：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -39,9 +39,9 @@ Install the Axiom package in your project:
   </Tab>
 </Tabs>
 
-### 3. Set Environment Variables
+### 3. 设置环境变量
 
-Configure your environment variables in a `.env` file. This uses the standard OpenTelemetry configuration to send traces directly to your Axiom dataset.
+在 `.env` 中配置环境变量。以下为标准 OpenTelemetry 配置，将 traces 直接发送到 Axiom 数据集。
 
 ```bash filename=".env"
 # Axiom Configuration
@@ -57,13 +57,13 @@ OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer YOUR_AXIOM_API_TOKEN,X-Axiom-Da
 OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
 ```
 
-Replace the placeholder values with your actual Axiom token and dataset name.
+将占位符替换为你的 Axiom token 与数据集名称。
 
-### 4. Set Up Instrumentation
+### 4. 配置埋点（Instrumentation）
 
-To send data to Axiom, configure a tracer. For example, use a dedicated instrumentation file and load it before the rest of your app. An example configuration for a Node.js environment:
+要向 Axiom 发送数据，需配置 tracer。例如使用独立 instrumentation 文件，并在应用其余部分加载之前引入。以下为 Node.js 环境示例：
 
-1. Install dependencies:
+1. 安装依赖：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -92,7 +92,7 @@ To send data to Axiom, configure a tracer. For example, use a dedicated instrume
   </Tab>
 </Tabs>
 
-2. Create instrumentation file:
+2. 创建 instrumentation 文件：
 
 ```typescript filename="src/instrumentation.ts"
 import { trace } from '@opentelemetry/api';
@@ -126,9 +126,9 @@ sdk.start();
 initAxiomAI({ tracer, redactionPolicy: RedactionPolicy.AxiomDefault });
 ```
 
-### 5. Wrap and Use the AI Model
+### 5. 包装并使用 AI 模型
 
-In your application code, import `wrapAISDKModel` from Axiom and use it to wrap your existing AI SDK model client.
+在应用代码中，从 Axiom 导入 `wrapAISDKModel`，用它来包装已有的 AI SDK 模型客户端。
 
 ```typescript
 import { createOpenAI } from '@ai-sdk/openai';
@@ -152,26 +152,26 @@ const { text } = await generateText({
 console.log(text);
 ```
 
-Any calls made using the `tracedGpt4o` model will now automatically send detailed traces to your Axiom dataset.
+使用 `tracedGpt4o` 模型发起的调用会自动将详细 traces 发送到你的 Axiom 数据集。
 
-## What You'll See in Axiom
+## 在 Axiom 中你将看到的内容
 
-Once integrated, your Axiom dataset will include:
+接入后，Axiom 数据集中将包含：
 
-- **AI Trace Waterfall:** A dedicated view to visualize single and multi-step LLM workflows.
-- **Gen AI Dashboard:** A pre-built dashboard to monitor cost, latency, token usage, and error rates.
-- **Detailed Spans:** Rich telemetry for every call, including the full prompt and completion, token counts, and model information.
+- **AI Trace Waterfall：** 用于可视化单步与多步 LLM 工作流的专用视图。
+- **Gen AI Dashboard：** 预制面板，监控成本、延迟、token 用量与错误率。
+- **Detailed Spans：** 每次调用的丰富遥测，含完整 prompt 与 completion、token 计数与模型信息。
 
-## Advanced Usage
+## 高级用法
 
-Axiom’s AI SDK offers more advanced instrumentation for deeper visibility:
+Axiom 的 AI SDK 集成还提供更深度的 instrumentation：
 
-- **Business Context:** Use the `withSpan` function to group LLM calls under a specific business capability (e.g., `customer_support_agent`).
-- **Tool Tracing:** Use the `wrapTool` helper to automatically trace the execution of tools your AI model calls.
+- **业务上下文：** 使用 `withSpan`，将若干 LLM 调用归组到某项业务能力下（例如 `customer_support_agent`）。
+- **工具追踪：** 使用 `wrapTool`，自动追踪模型调用的工具执行过程。
 
-To learn more about these features, see the [Axiom AI SDK Instrumentation guide](https://axiom.co/docs/ai-engineering/observe/axiom-ai-sdk-instrumentation).
+进一步了解请参阅 [Axiom AI SDK Instrumentation guide](https://axiom.co/docs/ai-engineering/observe/axiom-ai-sdk-instrumentation)。
 
-## Additional Resources
+## 其他资源
 
 - [Axiom AI Engineering Documentation](https://axiom.co/docs/ai-engineering/overview)
 - [Axiom AI SDK on GitHub](https://github.com/axiomhq/ai)

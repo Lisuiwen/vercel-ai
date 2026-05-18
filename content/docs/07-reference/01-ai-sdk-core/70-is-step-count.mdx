@@ -1,13 +1,13 @@
 ---
 title: isStepCount
-description: API Reference for isStepCount.
+description: isStepCount 的 API 参考。
 ---
 
 # `isStepCount()`
 
-Creates a stop condition that stops when the number of completed steps equals a specified count.
+创建在已完成步数等于指定计数时触发的停止条件。
 
-This function is used with `stopWhen` in `generateText` and `streamText` to control when a tool-calling loop should stop based on the number of steps executed.
+该函数与 `generateText`、`streamText` 中的 `stopWhen` 配合使用，按已执行步数控制工具调用循环何时停止。
 
 ```ts
 import { generateText, isStepCount } from 'ai';
@@ -18,18 +18,18 @@ const result = await generateText({
   tools: {
     // your tools
   },
-  // Stop after 5 steps
+  // 5 步后停止
   stopWhen: isStepCount(5),
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { isStepCount } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -37,20 +37,20 @@ const result = await generateText({
       name: 'stepCount',
       type: 'number',
       description:
-        'The number of completed steps that should trigger the stop condition.',
+        '触发停止条件所需的已完成步数。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A `StopCondition` function that returns `true` when the number of completed steps equals the specified number. The function can be used with the `stopWhen` parameter in `generateText` and `streamText`.
+`StopCondition` 函数：当已完成步数等于指定值时返回 `true`。可与 `generateText`、`streamText` 的 `stopWhen` 参数一起使用。
 
-## Examples
+## 示例
 
-### Basic Usage
+### 基本用法
 
-Stop after 3 steps:
+3 步后停止：
 
 ```ts
 import { generateText, isStepCount } from 'ai';
@@ -62,9 +62,9 @@ const result = await generateText({
 });
 ```
 
-### Combining with Other Conditions
+### 与其他条件组合
 
-You can combine multiple stop conditions in an array:
+可将多个停止条件放入数组：
 
 ```ts
 import { generateText, isStepCount, hasToolCall } from 'ai';
@@ -72,12 +72,12 @@ import { generateText, isStepCount, hasToolCall } from 'ai';
 const result = await generateText({
   model: yourModel,
   tools: yourTools,
-  // Stop after 10 steps OR when finalAnswer tool is called
+  // 10 步后停止，或调用 finalAnswer 工具时停止
   stopWhen: [isStepCount(10), hasToolCall('finalAnswer')],
 });
 ```
 
-## See also
+## 另请参阅
 
 - [`hasToolCall()`](/docs/reference/ai-sdk-core/has-tool-call)
 - [`generateText()`](/docs/reference/ai-sdk-core/generate-text)

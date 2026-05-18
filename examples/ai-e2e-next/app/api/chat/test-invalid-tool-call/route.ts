@@ -11,14 +11,14 @@ import {
 import { convertArrayToReadableStream, MockLanguageModelV3 } from 'ai/test';
 import { z } from 'zod';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 const getWeatherInformationTool = tool({
   description: 'show the weather in a given city to the user',
   inputSchema: z.object({ city: z.string() }),
   execute: async ({ city }: { city: string }) => {
-    // Add artificial delay of 5 seconds
+    // 人为增加 5 秒延迟
     await new Promise(resolve => setTimeout(resolve, 5000));
 
     const weatherOptions = ['sunny', 'cloudy', 'rainy', 'snowy', 'windy'];
@@ -27,7 +27,7 @@ const getWeatherInformationTool = tool({
 });
 
 const tools = {
-  // server-side tool with execute function:
+  // 带 execute 函数的服务端 tool：
   getWeatherInformation: getWeatherInformationTool,
 } as const;
 
@@ -45,10 +45,10 @@ export async function POST(req: Request) {
   const result = streamText({
     model: openai('gpt-4o'),
     messages: await convertToModelMessages(messages),
-    stopWhen: isStepCount(5), // multi-steps for server-side tools
+    stopWhen: isStepCount(5), // 服务端 tools 的多步执行
     tools,
     prepareStep: async ({ stepNumber }) => {
-      // inject invalid tool call in first step:
+      // 在第一步注入无效的 tool 调用：
       if (stepNumber === 0) {
         return {
           model: new MockLanguageModelV3({
@@ -75,7 +75,7 @@ export async function POST(req: Request) {
                   toolCallType: 'function',
                   toolCallId: 'call-1',
                   toolName: 'getWeatherInformation',
-                  // wrong tool call arguments (city vs cities):
+                  // 错误的 tool 调用参数（city 与 cities）：
                   input: `{ "cities": "San Francisco" }`,
                 },
                 {
@@ -104,7 +104,7 @@ export async function POST(req: Request) {
   });
 
   return result.toUIMessageStreamResponse({
-    //  originalMessages: messages, //add if you want to have correct ids
+    //  originalMessages: messages, //若需要正确的 id 请添加
     onFinish: options => {
       console.log('onFinish', options);
     },

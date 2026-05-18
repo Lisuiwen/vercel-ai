@@ -11,7 +11,7 @@ run(async () => {
       tools: {
         browser_search: groq.tools.browserSearch({}),
       },
-      // Use required tool choice to ensure browser search is used
+      // 使用所需的工具选择以确保使用浏览器搜索
       toolChoice: 'required',
     });
 
@@ -38,7 +38,7 @@ run(async () => {
     console.log('Usage:', await result.usage);
     console.log('Finish reason:', await result.finishReason);
 
-    // Warnings about unsupported model usage
+    // 有关不支持的模型使用的警告
     const warnings = await result.warnings;
     if (warnings && warnings.length > 0) {
       console.log('Warnings:', warnings);
@@ -53,11 +53,11 @@ run(async () => {
     }
   }
 
-  // Example showing what happens with unsupported model
+  // 显示不受支持的模型会发生什么情况的示例
   console.log('\n=== Example with unsupported model ===');
 
   const unsupportedResult = streamText({
-    model: groq('gemma2-9b-it'), // Unsupported model
+    model: groq('gemma2-9b-it'), // 不支持的型号
     prompt: 'Search for AI news',
     tools: {
       browser_search: groq.tools.browserSearch({}),

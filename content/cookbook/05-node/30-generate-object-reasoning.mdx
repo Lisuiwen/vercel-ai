@@ -1,15 +1,15 @@
 ---
-title: Generate Object with a Reasoning Model
-description: Learn how to generate structured data with a reasoning model using the AI SDK and Node
+title: 使用推理模型生成对象
+description: 学习如何使用 AI SDK 和 Node 通过推理模型生成结构化数据
 tags: ['node', 'structured data', 'reasoning']
 ---
 
-# Generate Object with a Reasoning Model
+# 使用推理模型生成对象
 
-Reasoning models, like [DeepSeek's](/providers/ai-sdk-providers/deepseek) R1, are gaining popularity due to their ability to understand and generate better responses to complex queries than non-reasoning models.
-You may want to use these models to generate structured data. However, most (like R1 and [OpenAI's](/providers/ai-sdk-providers/openai) o1) do not support tool-calling or structured outputs.
+[DeepSeek](/providers/ai-sdk-providers/deepseek) R1 等推理模型因能更好理解并回答复杂查询而日益流行，表现往往优于非推理模型。
+你可能希望用这些模型生成结构化数据，但多数模型（如 R1 和 [OpenAI](/providers/ai-sdk-providers/openai) o1）不支持工具调用或结构化输出。
 
-One solution is to pass the output from a reasoning model through a smaller model that can output structured data (like gpt-4o-mini). These lightweight models can efficiently extract the structured data while adding very little overhead in terms of speed and cost.
+一种做法是将推理模型的输出再交给能输出结构化数据的较小模型（如 gpt-4o-mini）。这些轻量模型可高效提取结构化数据，在速度与成本上开销很小。
 
 ```ts
 import { generateText, Output } from 'ai';

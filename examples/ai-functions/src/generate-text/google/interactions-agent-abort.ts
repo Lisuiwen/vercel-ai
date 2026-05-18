@@ -3,10 +3,10 @@ import { generateText } from 'ai';
 import { run } from '../../lib/run';
 
 /*
- * Aborts a long-running deep-research agent call after 15 seconds and
+ * 15 秒后中止长时间运行的深度研究代理调用，并且
  * verifies that the SDK fired `POST /interactions/{id}/cancel` so the run
- * actually stopped on Google's side instead of continuing to bill in the
- * background.
+ * 实际上停在了Google这边而不是继续在Google这边计费
+ * 背景。
  *
  * After the abort throws, we fetch `GET /interactions/{id}` directly and
  * assert that the server-reported status is `cancelled`.
@@ -20,9 +20,9 @@ run(async () => {
   const baseURL = 'https://generativelanguage.googleapis.com/v1beta';
 
   /*
-   * Wrap fetch to capture the POST response body so we can recover the
-   * interaction id even though the awaited generateText call will throw on
-   * abort instead of resolving with providerMetadata.
+   * 包装 fetch 以捕获 POST 响应正文，以便我们可以恢复
+   * 即使等待的generateText调用将抛出交互id
+   * 中止而不是使用providerMetadata 进行解析。
    */
   let interactionId: string | undefined;
   const capturingFetch: typeof fetch = async (input, init) => {
@@ -40,7 +40,7 @@ run(async () => {
           interactionId = body.id;
         }
       } catch {
-        // ignore -- best-effort capture
+        // 忽略——尽力捕获
       }
     }
     return response;

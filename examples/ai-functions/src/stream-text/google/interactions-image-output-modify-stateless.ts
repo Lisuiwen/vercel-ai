@@ -7,9 +7,9 @@ run(async () => {
   const model = google.interactions('gemini-3-pro-image-preview');
 
   // Stateless modify: pass `store: false` and re-send the full conversation
-  // history every turn (including the assistant image from turn 1). No
+  // 每回合的历史记录（包括第一回合的助手图像）。不
   // `previous_interaction_id` is used — the model must reconstruct the prior
-  // image context from the messages we re-send.
+  // 我们重新发送的消息中的图像上下文。
   const messages: Array<ModelMessage> = [
     {
       role: 'user',

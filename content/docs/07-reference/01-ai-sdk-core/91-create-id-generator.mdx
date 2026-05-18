@@ -1,11 +1,11 @@
 ---
 title: createIdGenerator
-description: Create a customizable unique identifier generator (API Reference)
+description: 创建可自定义的唯一标识符生成器（API 参考）
 ---
 
 # `createIdGenerator()`
 
-Creates a customizable ID generator function. You can configure the alphabet, prefix, separator, and default size of the generated IDs.
+创建可自定义的 ID 生成函数。可配置字母表、前缀、分隔符以及生成 ID 的默认长度。
 
 ```ts
 import { createIdGenerator } from 'ai';
@@ -15,16 +15,16 @@ const generateCustomId = createIdGenerator({
   separator: '_',
 });
 
-const id = generateCustomId(); // Example: "user_1a2b3c4d5e6f7g8h"
+const id = generateCustomId(); // 示例: "user_1a2b3c4d5e6f7g8h"
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { createIdGenerator } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -32,58 +32,58 @@ const id = generateCustomId(); // Example: "user_1a2b3c4d5e6f7g8h"
       name: 'options',
       type: 'object',
       description:
-        'Optional configuration object with the following properties:',
+        '可选配置对象，包含以下属性：',
     },
     {
       name: 'options.alphabet',
       type: 'string',
       description:
-        'The characters to use for generating the random part of the ID. Defaults to alphanumeric characters (0-9, A-Z, a-z).',
+        '用于生成 ID 随机部分的字符。默认为字母数字（0-9、A-Z、a-z）。',
     },
     {
       name: 'options.prefix',
       type: 'string',
       description:
-        'A string to prepend to all generated IDs. Defaults to none.',
+        '置于所有生成 ID 前的字符串。默认无。',
     },
     {
       name: 'options.separator',
       type: 'string',
       description:
-        'The character(s) to use between the prefix and the random part. Defaults to "-".',
+        '前缀与随机部分之间的分隔符。默认为 "-"。',
     },
     {
       name: 'options.size',
       type: 'number',
       description:
-        'The default length of the random part of the ID. Defaults to 16.',
+        'ID 随机部分的默认长度。默认为 16。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-Returns a function that generates IDs based on the configured options.
+返回根据所配置选项生成 ID 的函数。
 
-### Notes
+### 说明
 
-- The generator uses non-secure random generation and should not be used for security-critical purposes.
-- The separator character must not be part of the alphabet to ensure reliable prefix checking.
+- 生成器使用非安全随机，**不得**用于安全敏感场景。
+- 分隔符字符不得出现在字母表中，以确保前缀检测可靠。
 
-## Example
+## 示例
 
 ```ts
-// Create a custom ID generator for user IDs
+// 为用户 ID 创建自定义 ID 生成器
 const generateUserId = createIdGenerator({
   prefix: 'user',
   separator: '_',
   size: 8,
 });
 
-// Generate IDs
-const id1 = generateUserId(); // e.g., "user_1a2b3c4d"
+// 生成 ID
+const id1 = generateUserId(); // 例如 "user_1a2b3c4d"
 ```
 
-## See also
+## 另请参阅
 
 - [`generateId()`](/docs/reference/ai-sdk-core/generate-id)

@@ -1,42 +1,40 @@
 ---
 title: Azure AI
-description: Learn how to use the @quail-ai/azure-ai-provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 @quail-ai/azure-ai-provider。
 ---
 
-# Azure Custom Provider for AI SDK
+# AI SDK 的 Azure 自定义提供商
 
-The **[Quail-AI/azure-ai-provider](https://github.com/QuailAI/azure-ai-provider)** enables unofficial integration with Azure-hosted language models that use Azure's native APIs instead of the standard OpenAI API format.
+**[Quail-AI/azure-ai-provider](https://github.com/QuailAI/azure-ai-provider)** 提供与托管在 Azure 上的语言模型的非官方集成，使用 Azure 原生 API（而非标准 OpenAI 格式）。
 
-## Language Models
+## 语言模型
 
-This provider works with any model in the Azure AI Foundry that is compatible with the Azure-Rest AI-inference API.
+本提供商可与 Azure AI Foundry 中任意兼容 Azure-Rest AI-inference API 的模型配合。
 
-### Models Tested:
+### 已测试模型：
 
 - DeepSeek-R1
 - LLama 3.3-70B Instruct
 - Cohere-command-r-08-2024
 
-## Setup
+## 安装
 
-### Installation
-
-Install the provider via npm:
+### 安装包
 
 ```bash
 npm i @quail-ai/azure-ai-provider
 ```
 
-## Provider Instance
+## 提供商实例
 
-Create an Azure AI resource and set up your endpoint URL and API key. Add the following to your `.env` file:
+创建 Azure AI 资源并配置 endpoint URL 与 API key。在 `.env` 中加入：
 
 ```bash
 AZURE_API_ENDPOINT=https://<your-resource>.services.ai.azure.com/models
 AZURE_API_KEY=<your-api-key>
 ```
 
-Import `createAzure` from the package to create your provider instance:
+从包中导入 `createAzure` 创建提供商实例：
 
 ```ts
 import { createAzure } from '@quail-ai/azure-ai-provider';
@@ -47,9 +45,9 @@ const azure = createAzure({
 });
 ```
 
-## Basic Usage
+## 基本用法
 
-Generate text using the Azure custom provider:
+使用 Azure 自定义提供商生成文本：
 
 ```ts
 import { generateText } from 'ai';
@@ -60,8 +58,8 @@ const { text } = await generateText({
 });
 ```
 
-## Status
+## 状态
 
-> ✅ Chat Completions: Working with both streaming and non-streaming responses\
-> ⚠️ Tool Calling: Functionality highly dependent on model choice\
-> ⚠️ Embeddings: Implementation present but untested
+> ✅ Chat Completions：流式与非流式均可用\
+> ⚠️ Tool Calling：高度依赖所选模型\
+> ⚠️ Embeddings：已实现但未测试

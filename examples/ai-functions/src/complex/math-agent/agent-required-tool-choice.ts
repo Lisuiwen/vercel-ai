@@ -15,7 +15,7 @@ run(async () => {
         inputSchema: z.object({ expression: z.string() }),
         execute: async ({ expression }) => mathjs.evaluate(expression),
       }),
-      // answer tool: the LLM will provide a structured answer
+      // 答案工具：LLM将提供结构化答案
       answer: tool({
         description: 'A tool for providing the final answer.',
         inputSchema: z.object({
@@ -27,7 +27,7 @@ run(async () => {
           ),
           answer: z.string(),
         }),
-        // no execute function - invoking it will terminate the agent
+        // 没有执行函数 - 调用它将终止代理
       }),
     },
     toolChoice: 'required',

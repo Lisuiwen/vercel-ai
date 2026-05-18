@@ -22,9 +22,9 @@ run(async () => {
     providerOptions: {
       anthropic: {
         // Anthropic produces 'thinking' tags for this model and example
-        // configuration.  These will never include signature content and so
-        // will fail the provider-side signature check if included in subsequent
-        // request messages, so we disable sending reasoning content.
+        // 配置。  这些永远不会包含签名内容，所以
+        // 如果包含在后续中，将无法通过提供者端签名检查
+        // 请求消息，因此我们禁用发送推理内容。
         sendReasoning: false,
       } satisfies AnthropicLanguageModelOptions,
     },

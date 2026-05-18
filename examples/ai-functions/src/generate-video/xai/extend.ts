@@ -4,12 +4,12 @@ import { presentVideos } from '../../lib/present-video';
 import { run } from '../../lib/run';
 import { withSpinner } from '../../lib/spinner';
 
-// Video extension: continue an existing video from its last frame.
+// 视频扩展：从最后一帧继续现有视频。
 // The `duration` controls the length of the *extension* only, not the total.
 // `aspectRatio` and `resolution` are not supported in extension mode — the
-// output inherits those from the input video.
+// 输出继承输入视频的输出。
 run(async () => {
-  // Step 1: Generate a short source video.
+  // 第 1 步：生成短源视频。
   const source = await withSpinner('Step 1: Generating source video...', () =>
     generateVideo({
       model: xai.video('grok-imagine-video'),
@@ -32,7 +32,7 @@ run(async () => {
   console.log('Source video URL:', sourceUrl);
   await presentVideos(source.videos);
 
-  // Step 2: Extend the video with a new scene.
+  // 步骤 2：用新场景扩展视频。
   const extended = await withSpinner(
     'Step 2: Extending video with a new scene...',
     () =>

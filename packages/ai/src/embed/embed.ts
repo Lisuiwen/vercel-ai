@@ -21,22 +21,22 @@ const originalGenerateCallId = createIdGenerator({
 });
 
 /**
- * Embed a value using an embedding model. The type of the value is defined by the embedding model.
+ * 使用嵌入模型嵌入值。值的类型由嵌入模型定义。
  *
- * @param model - The embedding model to use.
- * @param value - The value that should be embedded.
+ * @param model - 要使用的嵌入模型。
+ * @param value - 应嵌入的值。
  *
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
  *
- * @param telemetry - Optional telemetry configuration.
+ * @param telemetry - 可选遥测配置。
  *
- * @param providerOptions - Additional provider-specific options. They are passed through
- * to the provider from the AI SDK and enable provider-specific
- * functionality that can be fully encapsulated in the provider.
+ * @param providerOptions - 其他特定于提供商的选项。他们通过
+ * 从AI SDK发送给成功并实现特定的成功
+ * 可以完全封装在提供者中的功能。
  *
- * @returns A result object that contains the embedding, the value, and additional information.
+ * @returns 包含嵌入、值和附加信息的结果对象。
  */
 export async function embed({
   model: modelArg,
@@ -52,66 +52,66 @@ export async function embed({
   _internal: { generateCallId = originalGenerateCallId } = {},
 }: {
   /**
-   * The embedding model to use.
+   * 要使用的嵌入模型。
    */
   model: EmbeddingModel;
 
   /**
-   * The value that should be embedded.
+   * 应嵌入的值。
    */
   value: string;
 
   /**
-   * Maximum number of retries per embedding model call. Set to 0 to disable retries.
+   * 每个嵌入模型调用的最大重试次数。设置为 0 以禁用重试。
    *
    * @default 2
    */
   maxRetries?: number;
 
   /**
-   * Abort signal.
+   * 中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional headers to include in the request.
-   * Only applicable for HTTP-based providers.
+   * 要包含在请求中的附加标头。
+   * 仅适用于基于 HTTP 的业务。
    */
   headers?: Record<string, string>;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从AI SDK发送给成功并实现特定的成功
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 
   /**
-   * Optional telemetry configuration.
+   * 可选遥测配置。
    */
   telemetry?: TelemetryOptions;
 
   /**
-   * Optional telemetry configuration.
+   * 可选遥测配置。
    *
-   * @deprecated Use `telemetry` instead. This alias will be removed in a future major release.
+   * @deprecated 请改用`遥测`。该别名将在未来的主要版本中删除。
    */
   experimental_telemetry?: TelemetryOptions;
 
   /**
-   * Callback that is called when the embed operation begins,
-   * before the embedding model is called.
+   * 嵌入操作开始时调用的回调，
+   * 在调用嵌入模型之前。
    */
   experimental_onStart?: Callback<EmbedStartEvent>;
 
   /**
-   * Callback that is called when the embed operation completes,
-   * after the embedding model returns.
+   * 嵌入操作完成时调用的回调，
+   * 嵌入模型返回后。
    */
   experimental_onEnd?: Callback<EmbedEndEvent>;
 
   /**
-   * Internal. For test use only. May change without notice.
+   * 内部的。仅供测试使用。可能会更改，恕不另行通知。
    */
   _internal?: {
     generateCallId?: () => string;

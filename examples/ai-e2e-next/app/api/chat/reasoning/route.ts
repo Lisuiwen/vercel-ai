@@ -4,7 +4,7 @@ import {
 } from '@ai-sdk/openai';
 import { convertToModelMessages, streamText } from 'ai';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     messages: await convertToModelMessages(messages),
     providerOptions: {
       openai: {
-        reasoningSummary: 'detailed', // 'auto' for condensed or 'detailed' for comprehensive
+        reasoningSummary: 'detailed', // 'auto' 为精简版，'detailed' 为完整版
       } satisfies OpenAILanguageModelResponsesOptions,
     },
     onFinish: ({ request }) => {

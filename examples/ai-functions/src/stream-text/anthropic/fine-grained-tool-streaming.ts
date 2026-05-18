@@ -5,8 +5,8 @@ import { z } from 'zod';
 
 const anthropic = createAnthropic();
 
-// fine grained tool streaming can be enabled with eager_input_streaming
-// it is currently supported on custom tools only
+// 可以使用 eager_input_streaming 启用细粒度工具流
+// 目前仅支持自定义工具
 // https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming
 
 const tools = {
@@ -44,14 +44,14 @@ async function main() {
     toolChoice: 'required',
   });
 
-  // ── stream events ─────────────────────────────────────────────────────────
+  // ── 串流事件──────────────────────────────────────────────────────────
   let sawToolInputStart = false;
   let toolInputDeltaCount = 0;
   let toolInputTotalBytes = 0;
   let sawToolInputEnd = false;
   let reasoningDeltaCount = 0;
 
-  // ts() prints a compact timestamp to stderr so we can see real-time ordering
+  // ts() 向 stderr 打印一个紧凑的时间戳，以便我们可以看到实时排序
   const T0 = Date.now();
   const ts = (label: string) =>
     process.stderr.write(
@@ -71,7 +71,7 @@ async function main() {
         if (reasoningDeltaCount === 1 || reasoningDeltaCount % 500 === 0) {
           ts(`[reasoning-delta #${reasoningDeltaCount}]`);
         }
-        // process.stdout.write(part.text); // suppress to reduce noise
+        // process.stdout.write(part.text); // 抑制以减少噪音
         break;
       case 'reasoning-end':
         ts(`[reasoning-end] total-reasoning-deltas=${reasoningDeltaCount}`);
@@ -139,9 +139,9 @@ async function main() {
     }
   }
 
-  // ── diagnosis ─────────────────────────────────────────────────────────────
-  // Eager input streaming streams fewer, larger chunks
-  // Threshold is heuristic — tune based on observed output.
+  // ── 诊断──────────────────────────────────────────────────────────────
+  // 急切的输入流传输更少、更大的块
+  // 阈值是启发式的——根据观察到的输出进行调整。
   const avgChunkBytes =
     toolInputDeltaCount > 0
       ? Math.round(toolInputTotalBytes / toolInputDeltaCount)

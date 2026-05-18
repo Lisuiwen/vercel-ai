@@ -5,11 +5,11 @@ import type {
 } from '@ai-sdk/provider-utils';
 
 /**
- * Mapping of tool names to functions that refine parsed tool inputs.
+ * 将工具名称映射到优化已解析工具输入的函数。
  *
- * Each refinement function receives the typed input for its tool and must return
- * an input with the same type shape. Refined inputs are used for tool execution,
- * output parts, lifecycle callbacks, and telemetry.
+ * 每个细化函数接收其工具的类型化输入，并且必须返回
+ * 具有相同类型形状的输入。精致的输入用于工具执行，
+ * 输出部分、生命周期回调和遥测。
  */
 export type ToolInputRefinement<TOOLS extends ToolSet> = {
   [NAME in keyof TOOLS]?: (

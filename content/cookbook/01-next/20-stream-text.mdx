@@ -1,20 +1,20 @@
 ---
-title: Stream Text
-description: Learn how to stream text using the AI SDK and Next.js
+title: 流式文本
+description: 学习如何使用 AI SDK 和 Next.js 流式输出文本
 tags: ['next', 'streaming']
 ---
 
-# Stream Text
+# 流式文本
 
-Text generation can sometimes take a long time to complete, especially when you're generating a couple of paragraphs. In such cases, it is useful to stream the text generation process to the client in real-time. This allows the client to display the generated text as it is being generated, rather than have users wait for it to complete before displaying the result.
+文本生成有时需要较长时间，尤其是生成较长段落时。此时将文本生成过程实时流式传输到客户端会很有用，这样客户端可在生成过程中展示文本，而不必让用户等到全部完成。
 
 <Browser>
   <TextGeneration stream />
 </Browser>
 
-## Client
+## 客户端
 
-Let's create a simple React component that imports the `useCompletion` hook from the `@ai-sdk/react` module. The `useCompletion` hook will call the `/api/completion` endpoint when a button is clicked. The endpoint will generate text based on the input prompt and stream it to the client.
+创建一个简单的 React 组件，从 `@ai-sdk/react` 模块导入 `useCompletion` hook。点击按钮时，`useCompletion` 会调用 `/api/completion` 端点；该端点根据输入提示生成文本并流式传输到客户端。
 
 ```tsx filename="app/page.tsx"
 'use client';
@@ -42,9 +42,9 @@ export default function Page() {
 }
 ```
 
-## Server
+## 服务端
 
-Let's create a route handler for `/api/completion` that will generate text based on the input prompt. The route will call the `streamText` function from the `ai` module, which will then generate text based on the input prompt and stream it to the client.
+为 `/api/completion` 创建路由处理器，根据输入提示生成文本。路由调用 `ai` 模块的 `streamText`，生成结果并流式返回客户端。
 
 ```typescript filename='app/api/completion/route.ts'
 import { streamText } from 'ai';

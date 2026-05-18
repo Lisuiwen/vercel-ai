@@ -52,7 +52,7 @@ run(async () => {
   ];
 
   try {
-    // OpenAI's API will not find versions of a newly uploaded skill immediately, so we need to wait a bit.
+    // OpenAI 的 API 不会立即找到新上传的技能版本，因此我们需要稍等一下。
     console.log('Waiting 15 seconds for skill to propagate...');
     await new Promise(resolve => setTimeout(resolve, 15000));
 

@@ -1,22 +1,22 @@
-# LangGraph Development Server
+# LangGraph 开发服务器
 
-This is a simple LangGraph agent for local development and testing with the `@ai-sdk/langchain` adapter.
+用于配合 `@ai-sdk/langchain` 适配器进行本地开发与测试的简单 LangGraph Agent。
 
-## Setup
+## 安装
 
-1. Install dependencies:
+1. 安装依赖：
 
    ```bash
    pnpm install
    ```
 
-1. Create a `.env` file with your OpenAI API key:
+1. 创建 `.env` 并设置 OpenAI API Key：
 
    ```bash
    OPENAI_API_KEY=your-openai-api-key
    ```
 
-1. Start the development server:
+1. 启动开发服务器：
 
    ```bash
    pnpm dev
@@ -24,28 +24,28 @@ This is a simple LangGraph agent for local development and testing with the `@ai
    npx @langchain/langgraph-cli dev
    ```
 
-The server will start at `http://localhost:2024`.
+服务器将在 `http://localhost:2024` 启动。
 
-> **Note:** When running the full example with `pnpm dev` from the parent directory, both Next.js and this LangGraph server start automatically.
+> **注意：** 在父目录执行 `pnpm dev` 运行完整示例时，Next.js 与本 LangGraph 服务器会自动启动。
 
-## Available Tools
+## 可用工具
 
-The agent includes two tools:
+Agent 包含两个工具：
 
-- **get_weather**: Returns mock weather data for a given city
-- **calculator**: Performs basic mathematical calculations
+- **get_weather**：返回指定城市的模拟天气数据
+- **calculator**：执行基础数学计算
 
-## Customizing the Agent
+## 自定义 Agent
 
-This example uses `createAgent` from LangChain for simplicity. However, the LangGraph CLI can serve **any** LangGraph application, including:
+本示例为简便使用 LangChain 的 `createAgent`。LangGraph CLI 可托管**任意** LangGraph 应用，包括：
 
-- **Simple agents** with `createAgent` (like this one)
-- **Complex multi-agent workflows** with custom `StateGraph`
-- **RAG pipelines** with retrieval nodes
-- **Human-in-the-loop workflows** with interrupt points
-- **Custom graphs** with persistence and memory
+- 使用 `createAgent` 的**简单 Agent**（如本示例）
+- 自定义 `StateGraph` 的**复杂多 Agent 工作流**
+- 带检索节点的 **RAG 流水线**
+- 带中断点的 **Human-in-the-loop 工作流**
+- 带持久化与记忆的**自定义图**
 
-For more advanced use cases, you can use the low-level LangGraph APIs:
+更高级场景可使用底层 LangGraph API：
 
 ```typescript
 import {
@@ -66,11 +66,11 @@ const workflow = new StateGraph(MessagesAnnotation)
 export const graph = workflow.compile();
 ```
 
-See the [LangGraph documentation](https://langchain-ai.github.io/langgraph/) for more examples.
+更多示例见 [LangGraph 文档](https://langchain-ai.github.io/langgraph/)。
 
-## Usage with AI SDK
+## 与 AI SDK 配合使用
 
-Connect to this server from the frontend using `LangSmithDeploymentTransport`:
+在前端使用 `LangSmithDeploymentTransport` 连接本服务器：
 
 ```typescript
 import { LangSmithDeploymentTransport } from '@ai-sdk/langchain';
@@ -86,9 +86,9 @@ function Chat() {
 }
 ```
 
-## Configuration
+## 配置
 
-The `langgraph.json` file configures the LangGraph CLI:
+`langgraph.json` 用于配置 LangGraph CLI：
 
 ```json
 {

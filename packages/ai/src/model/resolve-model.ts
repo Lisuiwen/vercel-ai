@@ -119,11 +119,11 @@ export function resolveVideoModel(
   model: VideoModel,
 ): Experimental_VideoModelV4 {
   if (typeof model === 'string') {
-    // Use raw global provider because videoModel is experimental
-    // and not part of the ProviderV4 interface
+    // 使用原始全局提供程序，因为 videoModel 是实验性的
+    // 并且不是 ProviderV4 接口的一部分
     const provider = globalThis.AI_SDK_DEFAULT_PROVIDER ?? gateway;
     // TODO AI SDK v7
-    // @ts-expect-error - videoModel support is experimental
+    // @ts-expect-error - videoModel 支持是实验性的
     const videoModel = provider.videoModel;
 
     if (!videoModel) {

@@ -14,9 +14,9 @@ export default function Chat() {
       transport: new DefaultChatTransport({ api: '/api/chat/tools' }),
       sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
 
-      // run client-side tools that are automatically executed:
+      // 运行自动执行的客户端 tools：
       async onToolCall({ toolCall }) {
-        // artificial 2 second delay
+        // 人为 2 秒延迟
         await new Promise(resolve => setTimeout(resolve, 2000));
 
         if (toolCall.toolName === 'getLocation') {
@@ -117,7 +117,7 @@ export default function Chat() {
 
               case 'tool-getWeatherInformation': {
                 switch (part.state) {
-                  // example of pre-rendering streaming tool calls:
+                  // 流式 tool 调用预渲染示例：
                   case 'input-streaming':
                     return (
                       <pre key={index}>

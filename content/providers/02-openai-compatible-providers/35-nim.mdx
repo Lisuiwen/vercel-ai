@@ -1,16 +1,16 @@
 ---
 title: NVIDIA NIM
-description: Use NVIDIA NIM OpenAI compatible API with the AI SDK.
+description: 将 NVIDIA NIM 上与 OpenAI 兼容的 API 与 AI SDK 一起使用。
 ---
 
 # NVIDIA NIM Provider
 
-[NVIDIA NIM](https://www.nvidia.com/en-us/ai/) provides optimized inference microservices for deploying foundation models. It offers an OpenAI-compatible API that you can use with the AI SDK.
+[NVIDIA NIM](https://www.nvidia.com/en-us/ai/) 提供优化的推理微服务，用于部署基础模型。它提供可与 AI SDK 一起使用的 OpenAI 兼容 API。
 
-## Setup
+## 安装
 
-The NVIDIA NIM provider is available via the `@ai-sdk/openai-compatible` module as it is compatible with the OpenAI API.
-You can install it with:
+NVIDIA NIM provider 通过 `@ai-sdk/openai-compatible` 模块提供，因为它与 OpenAI API 兼容。
+可按以下方式安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -28,9 +28,9 @@ You can install it with:
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-To use NVIDIA NIM, you can create a custom provider instance with the `createOpenAICompatible` function from `@ai-sdk/openai-compatible`:
+要使用 NVIDIA NIM，可使用 `@ai-sdk/openai-compatible` 中的 `createOpenAICompatible` 创建自定义 provider 实例：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -45,22 +45,22 @@ const nim = createOpenAICompatible({
 ```
 
 <Note>
-  You can obtain an API key and free credits by registering at [NVIDIA
-  Build](https://build.nvidia.com/explore/discover). New users receive 1,000
-  inference credits to get started.
+  可在 [NVIDIA
+  Build](https://build.nvidia.com/explore/discover) 注册以获取 API 密钥和免费额度。新用户可获得 1,000
+  推理额度用于上手。
 </Note>
 
-## Language Models
+## 语言模型
 
-You can interact with NIM models using a provider instance. For example, to use [DeepSeek-R1](https://build.nvidia.com/deepseek-ai/deepseek-r1), a powerful open-source language model:
+你可以使用 provider 实例与 NIM 模型交互。例如，使用 [DeepSeek-R1](https://build.nvidia.com/deepseek-ai/deepseek-r1) 这款强大的开源语言模型：
 
 ```ts
 const model = nim.chatModel('deepseek-ai/deepseek-r1');
 ```
 
-### Example - Generate Text
+### 示例 - 生成文本
 
-You can use NIM language models to generate text with the `generateText` function:
+可使用 NIM 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -84,9 +84,9 @@ console.log('Token usage:', usage);
 console.log('Finish reason:', finishReason);
 ```
 
-### Example - Stream Text
+### 示例 - 流式文本
 
-NIM language models can also generate text in a streaming fashion with the `streamText` function:
+NIM 语言模型也可配合 `streamText` 以流式方式生成文本：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -114,11 +114,11 @@ console.log('Token usage:', await result.usage);
 console.log('Finish reason:', await result.finishReason);
 ```
 
-NIM language models also support structured data generation with [`Output`](/docs/reference/ai-sdk-core/output).
+NIM 语言模型也支持通过 [`Output`](/docs/reference/ai-sdk-core/output) 进行结构化数据生成。
 
 <Note>
-  Model support for tool calls and structured output varies. For example, the
+  不同模型对 tool 调用和结构化输出的支持程度不同。例如，
   [`meta/llama-3.3-70b-instruct`](https://build.nvidia.com/meta/llama-3_3-70b-instruct)
-  model supports structured output capabilities. Check each model's
-  documentation on NVIDIA Build for specific supported features.
+  模型支持结构化输出能力。具体支持的功能请参阅 NVIDIA Build 上各模型的
+  文档。
 </Note>

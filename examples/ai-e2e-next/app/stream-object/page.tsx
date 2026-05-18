@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { generateNotifications } from './actions';
 import type { PartialNotification } from './schema';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
-// page component with a button to generate notifications
+// 带生成 notifications 按钮的页面组件
 export default function Page() {
   const [notificationStream, setNotificationStream] =
     useState<StreamableValue<PartialNotification> | null>(null);
@@ -33,7 +33,7 @@ export default function Page() {
   );
 }
 
-// separate component to display notifications that received the streamable value:
+// 单独组件，用于展示收到可流式值的 notifications：
 function NotificationsView({
   notificationStream,
 }: {

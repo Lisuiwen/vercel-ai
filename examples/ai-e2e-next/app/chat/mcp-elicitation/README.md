@@ -1,58 +1,58 @@
-# MCP Elicitation UI Example
+# MCP Elicitation UI 示例
 
-This example demonstrates how to use the MCP (Model Context Protocol) elicitation feature in a Next.js application with a chat interface.
+本示例演示如何在带聊天界面的 Next.js 应用中使用 MCP（Model Context Protocol）elicitation 功能。
 
-## How It Works
+## 工作原理
 
-1. **User sends a message** requesting an action (e.g., "register me as a new user")
-2. **AI model calls the appropriate MCP tool** (e.g., `register_user`)
-3. **MCP server requests user input** via an elicitation request with a JSON schema
-4. **Frontend displays a modal form** based on the schema
-5. **User fills in the form** and submits, declines, or cancels
-6. **Response is sent back** to the MCP server
-7. **Tool execution completes** and the AI model continues the conversation
+1. **用户发送消息**请求操作（如「帮我注册新用户」）
+2. **AI 模型调用相应 MCP 工具**（如 `register_user`）
+3. **MCP 服务器通过带 JSON schema 的 elicitation 请求用户输入**
+4. **前端根据 schema 显示模态表单**
+5. **用户填写表单**并提交、拒绝或取消
+6. **响应回传**至 MCP 服务器
+7. **工具执行完成**，AI 模型继续对话
 
-## Setup
+## 安装
 
-### 1. Start the MCP Server
+### 1. 启动 MCP 服务器
 
 ```bash
 pnpm tsx src/elicitation-ui/server.ts
 ```
 
-This will start the server on `http://localhost:8085`.
+服务器将在 `http://localhost:8085` 启动。
 
-### 2. Run the Next.js Application
+### 2. 运行 Next.js 应用
 
 ```bash
 cd examples/ai-e2e-next
 pnpm dev
 ```
 
-### 4. Open the Example
+### 4. 打开示例
 
-Navigate to `http://localhost:3000/mcp-elicitation`
+访问 `http://localhost:3000/mcp-elicitation`
 
-## Usage
+## 用法
 
-1. Type a message in the chat input, such as:
+1. 在聊天输入框输入消息，例如：
    - "register me as a new user"
    - "help me sign up for an account"
    - "I'd like to create a new account"
 
-2. The AI will call the `register_user` tool, which triggers an elicitation request.
+2. AI 将调用 `register_user` 工具，触发 elicitation 请求。
 
-3. A modal will appear asking you to fill in registration information:
-   - Username (required)
-   - Email (required)
-   - Password (required)
-   - Newsletter subscription (optional, defaults to false)
+3. 将弹出模态框要求填写注册信息：
+   - 用户名（必填）
+   - 邮箱（必填）
+   - 密码（必填）
+   - 订阅通讯（可选，默认 false）
 
-4. You can:
-   - **Submit**: Accept and send the filled form data
-   - **Decline**: Reject providing the information
-   - **Cancel**: Cancel the entire operation
+4. 你可以：
+   - **提交**：接受并发送填写的表单数据
+   - **拒绝**：不提供信息
+   - **取消**：取消整个操作
 
-5. The conversation continues based on your response.
+5. 对话将根据你的响应继续。
 
-This example involves working with human-in-the-loop tools and MCP Elicitation requests.
+本示例涉及 human-in-the-loop 工具与 MCP Elicitation 请求。

@@ -1,18 +1,18 @@
 ---
-title: Record Token Usage After Streaming Object
-description: Learn how to record token usage when streaming structured data using the AI SDK and Node
+title: 流式对象后记录 Token 用量
+description: 学习在使用 AI SDK 和 Node 流式输出结构化数据时记录 token 用量
 tags: ['node', 'streaming', 'structured data', 'observability']
 ---
 
-# Record Token Usage After Streaming Object
+# 流式对象后记录 Token 用量
 
-When you're streaming structured data with `streamText` and `Output`,
-you may want to record the token usage for billing purposes.
+使用 `streamText` 和 `Output` 流式输出结构化数据时，
+你可能需要记录 token 用量以便计费。
 
-## `onFinish` Callback
+## `onFinish` 回调
 
-You can use the `onFinish` callback to record token usage.
-It is called when the stream is finished.
+可使用 `onFinish` 回调记录 token 用量。
+流结束时将调用该回调。
 
 ```ts file='index.ts' highlight={"15-17"}
 import { streamText, Output } from 'ai';
@@ -38,7 +38,7 @@ const result = streamText({
 
 ## `usage` Promise
 
-The `streamText` result contains a `usage` promise that resolves to the total token usage.
+`streamText` 的返回结果包含 `usage` promise，解析后为总 token 用量。
 
 ```ts file='index.ts' highlight={"28,30"}
 import { streamText, Output, LanguageModelUsage } from 'ai';

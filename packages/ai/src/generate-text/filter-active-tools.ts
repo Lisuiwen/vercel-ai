@@ -11,8 +11,8 @@ export type ActiveToolSubset<
     : TOOLS;
 
 /**
- * Filters the tools to only include the active tools.
- * When activeTools is provided, we only include the tools that are in the list.
+ * 过滤工具以仅包含活动工具。
+ * 当提供 activeTools 时，我们仅包含列表中的工具。
  *
  * @param tools - The tools to filter.
  * @param activeTools - The active tools to include.

@@ -1,25 +1,25 @@
 ---
 title: Nia
-description: Learn how to use Nia with the AI SDK.
+description: 介绍如何在 AI SDK 中使用 Nia。
 ---
 
 # Nia
 
-[Nia](https://www.trynia.ai/) by Nozomio Labs is an API for technical, up-to-date context. It lets you index docs, repos, PDFs, and datasets, then search them with AI so your agent gets real answers instead of hallucinations. The [`@nozomioai/nia-ai-sdk`](https://www.npmjs.com/package/@nozomioai/nia-ai-sdk) package integrates Nia with the AI SDK through tools, middleware, and direct streaming helpers.
+由 Nozomio Labs 出品的 [Nia](https://www.trynia.ai/) 提供面向技术场景的实时上下文 API。可对文档、仓库、PDF 与数据集建立索引，再用 AI 检索，使智能体获得真实答案而非臆测。[`@nozomioai/nia-ai-sdk`](https://www.npmjs.com/package/@nozomioai/nia-ai-sdk) 通过工具、中间件与直连流式辅助函数将 Nia 接入 AI SDK。
 
-It is designed for workflows where you want to:
+适用于你希望：
 
-- Call Nia Tracer as a tool for public GitHub and documentation research
-- Call Nia Oracle as a tool for grounded research over indexed repositories, docs, PDFs, and datasets
-- Call Nia Document Agent as a tool for deep document analysis and structured extraction
-- Augment an existing AI SDK model with Nia-backed middleware
-- Stream Tracer, Oracle, or Document Agent events directly in your app
+- 将 Nia Tracer 作为工具，用于公开 GitHub 与文档调研
+- 将 Nia Oracle 作为工具，对已索引仓库、文档、PDF 与数据集做有据检索
+- 将 Nia Document Agent 作为工具，进行深度文档分析与结构化抽取
+- 用 Nia 支持的中间件增强现有 AI SDK 模型
+- 在应用中直接流式输出 Tracer、Oracle 或 Document Agent 事件
 
-Learn more in the [Nia documentation](https://docs.trynia.ai/).
+更多说明见 [Nia 文档](https://docs.trynia.ai/)。
 
-## Setup
+## 安装与配置
 
-The Nia adapter is available in the `@nozomioai/nia-ai-sdk` package. You can install it with:
+Nia 适配器位于 `@nozomioai/nia-ai-sdk` 包。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -36,23 +36,23 @@ The Nia adapter is available in the `@nozomioai/nia-ai-sdk` package. You can ins
   </Tab>
 </Tabs>
 
-If you want to use Nia middleware with a model provider, install that provider as well. For example:
+若要将 Nia 中间件与模型提供商配合使用，还需安装对应提供商，例如：
 
 ```bash
 pnpm add @ai-sdk/openai
 ```
 
-Set your Nia API key:
+设置 Nia API 密钥：
 
 ```bash
 export NIA_API_KEY=nia_your_api_key
 ```
 
-You can get your API key from the [Nia dashboard](https://www.trynia.ai/).
+可在 [Nia 控制台](https://www.trynia.ai/) 获取密钥。
 
-## Tool Usage
+## 工具用法
 
-Nia works well as a set of AI SDK tools that you pass to `generateText` or `streamText`.
+Nia 适合作为一组 AI SDK 工具传给 `generateText` 或 `streamText`。
 
 ### `generateText`
 
@@ -91,13 +91,13 @@ const result = await generateText({
 console.log(result.text);
 ```
 
-You can pass `false` to any service key to disable it entirely, e.g. `oracle: false` if you only need Tracer. Per-service transport options (such as a separate `apiKey`) override the top-level ones when provided.
+可将任意服务键设为 `false` 以完全禁用，例如仅需 Tracer 时设置 `oracle: false`。各服务的传输选项（如独立 `apiKey`）在提供时会覆盖顶层配置。
 
-The SDK also exports `createTracerTool()`, `createOracleTool()`, and `createDocumentAgentTool()` for when you only need a single tool.
+SDK 还导出 `createTracerTool()`、`createOracleTool()`、`createDocumentAgentTool()`，便于仅使用单一工具。
 
-## Middleware Usage
+## 中间件用法
 
-Use middleware when you want Nia to enrich the last user message before your base model runs.
+若希望在基础模型运行前由 Nia 增强最后一条用户消息，请使用中间件。
 
 ### `withOracleContext`
 
@@ -122,13 +122,13 @@ const result = await generateText({
 console.log(result.text);
 ```
 
-You can use `withTracerContext()` in the same way for public GitHub research and `withDocumentAgentContext()` when working with indexed PDFs or documents.
+公开 GitHub 调研可使用同样的方式调用 `withTracerContext()`；处理已索引 PDF 或文档时使用 `withDocumentAgentContext()`。
 
-For more control, the lower-level `createTracerMiddleware()`, `createOracleMiddleware()`, and `createDocumentAgentMiddleware()` exports return raw `LanguageModelMiddleware` objects you can compose yourself.
+如需更细粒度控制，低阶导出 `createTracerMiddleware()`、`createOracleMiddleware()`、`createDocumentAgentMiddleware()` 返回原始 `LanguageModelMiddleware`，可自行组合。
 
-## Direct Streaming Helpers
+## 直连流式辅助函数
 
-If you want raw Nia job events, use the direct streaming helpers:
+若需要原始 Nia 任务事件，可使用直连流式辅助函数：
 
 - `streamTracer()`
 - `streamOracle()`
@@ -154,9 +154,9 @@ for await (const event of session.events) {
 }
 ```
 
-## Additional Resources
+## 更多资源
 
-- [Nia package on npm](https://www.npmjs.com/package/@nozomioai/nia-ai-sdk)
-- [Nia adapter repository](https://github.com/nozomio-labs/nia-ai-sdk)
-- [Nia documentation](https://docs.trynia.ai/)
-- [Nia website](https://www.trynia.ai/)
+- [npm 上的 Nia 包](https://www.npmjs.com/package/@nozomioai/nia-ai-sdk)
+- [Nia 适配器仓库](https://github.com/nozomio-labs/nia-ai-sdk)
+- [Nia 文档](https://docs.trynia.ai/)
+- [Nia 网站](https://www.trynia.ai/)

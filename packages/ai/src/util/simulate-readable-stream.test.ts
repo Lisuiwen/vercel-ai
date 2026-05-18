@@ -28,7 +28,7 @@ describe('simulateReadableStream', () => {
       _internal: { delay: mockDelay },
     });
 
-    await convertReadableStreamToArray(stream); // consume stream
+    await convertReadableStreamToArray(stream); // 消费流
 
     expect(delayValues).toEqual([500, 100, 100]);
   });
@@ -65,7 +65,7 @@ describe('simulateReadableStream', () => {
       _internal: { delay: mockDelay },
     });
 
-    await convertReadableStreamToArray(stream); // consume stream
+    await convertReadableStreamToArray(stream); // 消费流
 
     expect(delayValues).toEqual([null, null, null]);
   });
@@ -78,7 +78,7 @@ describe('simulateReadableStream', () => {
       _internal: { delay: mockDelay },
     });
 
-    await convertReadableStreamToArray(stream); // consume stream
+    await convertReadableStreamToArray(stream); // 消费流
 
     expect(delayValues).toEqual([null, 100, 100]);
   });
@@ -91,7 +91,7 @@ describe('simulateReadableStream', () => {
       _internal: { delay: mockDelay },
     });
 
-    await convertReadableStreamToArray(stream); // consume stream
+    await convertReadableStreamToArray(stream); // 消费流
 
     expect(delayValues).toEqual([500, null, null]);
   });

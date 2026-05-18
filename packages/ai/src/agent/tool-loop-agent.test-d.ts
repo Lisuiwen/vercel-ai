@@ -55,7 +55,7 @@ describe('ToolLoopAgent', () => {
       });
 
       await agent.generate({
-        // @ts-expect-error - system prompt is not allowed
+        // @ts-expect-error - 允许系统提示
         system: '123',
         prompt: 'Hello, world!',
       });
@@ -148,7 +148,7 @@ describe('ToolLoopAgent', () => {
       });
 
       agent.stream({
-        // @ts-expect-error - system prompt is not allowed
+        // @ts-expect-error - 允许系统提示
         system: '123',
         prompt: 'Hello, world!',
       });
@@ -294,7 +294,7 @@ describe('ToolLoopAgent', () => {
         telemetry: {
           includeToolsContext: {
             weather: {
-              // @ts-expect-error includeToolsContext only supports tool context properties
+              // @ts-expect-error includeToolsContext 仅支持工具上下文属性
               unknown: true,
             },
           },
@@ -308,7 +308,7 @@ describe('ToolLoopAgent', () => {
         runtimeContext: { userId: 'user-123' },
         telemetry: {
           includeRuntimeContext: {
-            // @ts-expect-error includeRuntimeContext only supports runtimeContext properties
+            // @ts-expect-error includeRuntimeContext 仅支持 runtimeContext 属性
             unknown: true,
           },
         },
@@ -416,7 +416,7 @@ describe('ToolLoopAgent', () => {
       it('should reject toolsContext', async () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
-          // @ts-expect-error toolsContext is not accepted when no tools are provided
+          // 当没有提供工具时，不接受@ts-expect-error toolsContext
           toolsContext: {},
         });
       });
@@ -427,7 +427,7 @@ describe('ToolLoopAgent', () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: toolWithoutContext,
-          // @ts-expect-error toolsContext is not accepted when no tools require it
+          // 当没有工具需要时，不接受@ts-expect-error toolsContext
           toolsContext: {},
         });
       });
@@ -435,7 +435,7 @@ describe('ToolLoopAgent', () => {
 
     describe('two tools with contextSchema', () => {
       it('should reject no toolsContext', async () => {
-        // @ts-expect-error toolsContext is required when tools have contextSchema
+        // 当工具具有 contextSchema 时，需要 @ts-expect-error toolsContext
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: twoToolsWithContext,
@@ -446,7 +446,7 @@ describe('ToolLoopAgent', () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: twoToolsWithContext,
-          // @ts-expect-error missing required weather and db tool contexts
+          // @ts-expect-error 需要所需的天气和数据库工具上下文
           toolsContext: {},
         });
       });
@@ -455,7 +455,7 @@ describe('ToolLoopAgent', () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: twoToolsWithContext,
-          // @ts-expect-error missing required weather and db tool contexts
+          // @ts-expect-error 需要所需的天气和数据库工具上下文
           toolsContext: { wrong: 'value' },
         });
       });
@@ -474,7 +474,7 @@ describe('ToolLoopAgent', () => {
 
     describe('mixed tools', () => {
       it('should reject no toolsContext', async () => {
-        // @ts-expect-error toolsContext is required when at least one tool has contextSchema
+        // 当至少一个工具具有 contextSchema 时，需要 @ts-expect-error toolsContext
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: mixedTools,
@@ -485,7 +485,7 @@ describe('ToolLoopAgent', () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: mixedTools,
-          // @ts-expect-error missing required weather tool context
+          // @ts-expect-error 需要所需的天气工具上下文
           toolsContext: {},
         });
       });
@@ -494,7 +494,7 @@ describe('ToolLoopAgent', () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: mixedTools,
-          // @ts-expect-error missing required weather tool context
+          // @ts-expect-error 需要所需的天气工具上下文
           toolsContext: { wrong: 'value' },
         });
       });
@@ -543,7 +543,7 @@ describe('ToolLoopAgent', () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: mixedTools,
-          // @ts-expect-error missing required weather tool context
+          // @ts-expect-error 需要所需的天气工具上下文
           toolsContext: {},
           prepareStep: ({ runtimeContext, toolsContext }) => {
             expectTypeOf(runtimeContext).toEqualTypeOf<Context>();
@@ -562,7 +562,7 @@ describe('ToolLoopAgent', () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
           tools: mixedTools,
-          // @ts-expect-error missing required weather.weatherApiKey
+          // @ts-expect-error 需要所需的weather.weatherApiKey
           toolsContext: { weather: { wrong: 'value' } },
           prepareStep: ({ runtimeContext, toolsContext }) => {
             expectTypeOf(runtimeContext).toEqualTypeOf<Context>();
@@ -582,7 +582,7 @@ describe('ToolLoopAgent', () => {
       it('should reject toolsContext', async () => {
         new ToolLoopAgent({
           model: new MockLanguageModelV4(),
-          // @ts-expect-error toolsContext is not accepted when no tools are provided
+          // 当没有提供工具时，不接受@ts-expect-error toolsContext
           toolsContext: {},
           prepareStep: ({ runtimeContext, toolsContext }) => {
             expectTypeOf(runtimeContext).toEqualTypeOf<Context>();

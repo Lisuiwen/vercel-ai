@@ -48,7 +48,7 @@ export default function Page() {
             <div className="flex flex-col gap-2">
               {message.parts.map((part, index) => {
                 if (part.type === 'text') {
-                  // Check if this is a compaction summary
+                  // 检查是否为压缩摘要
                   const isCompaction =
                     (
                       part.providerMetadata?.anthropic as

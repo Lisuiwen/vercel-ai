@@ -1,15 +1,15 @@
 ---
 title: Baseten
-description: Learn how to use Baseten models with the AI SDK.
+description: 了解如何在 AI SDK 中使用 Baseten 模型。
 ---
 
-# Baseten Provider
+# Baseten 提供商
 
-[Baseten](https://baseten.co/) is an inference platform for serving frontier, enterprise-grade opensource AI models via their [API](https://docs.baseten.co/overview).
+[Baseten](https://baseten.co/) 是推理平台，可通过其 [API](https://docs.baseten.co/overview) 提供前沿、企业级开源 AI 模型服务。
 
-## Setup
+## 安装
 
-The Baseten provider is available via the `@ai-sdk/baseten` module. You can install it with
+Baseten 提供商通过 `@ai-sdk/baseten` 模块提供，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn']}>
   <Tab>
@@ -23,16 +23,15 @@ The Baseten provider is available via the `@ai-sdk/baseten` module. You can inst
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `baseten` from `@ai-sdk/baseten`:
+可从 `@ai-sdk/baseten` 导入默认的 `baseten` 提供商实例：
 
 ```ts
 import { baseten } from '@ai-sdk/baseten';
 ```
 
-If you need a customized setup, you can import `createBaseten` from `@ai-sdk/baseten`
-and create a provider instance with your settings:
+如需自定义配置，可导入 `createBaseten` 并创建实例：
 
 ```ts
 import { createBaseten } from '@ai-sdk/baseten';
@@ -42,44 +41,41 @@ const baseten = createBaseten({
 });
 ```
 
-You can use the following optional settings to customize the Baseten provider instance:
+可使用以下可选设置自定义 Baseten 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `https://inference.baseten.co/v1`.
+  为 API 请求使用不同的 URL 前缀，例如经由代理。
+  默认前缀为 `https://inference.baseten.co/v1`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header. It defaults to
-  the `BASETEN_API_KEY` environment variable. It is recommended you set the environment variable using `export` so you do not need to include the field every time.
-  You can grab your Baseten API Key [here](https://app.baseten.co/settings/api_keys)
+  通过 `Authorization` 请求头发送的 API Key。默认为环境变量 `BASETEN_API_KEY`。建议使用 `export` 设置环境变量以免每次手动传入。
+  Baseten API Key 获取见[此处](https://app.baseten.co/settings/api_keys)。
 
 - **modelURL** _string_
 
-  Custom model URL for specific models (chat or embeddings). If not provided,
-  the default Model APIs will be used.
+  面向特定模型（聊天或嵌入）的自定义模型 URL。若未提供，则使用默认 Model APIs。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
 
-## Model APIs
+## 托管模型接口（Model APIs）
 
-You can select [Baseten models](https://www.baseten.co/products/model-apis/) using a provider instance.
-The first argument is the model id, e.g. `'moonshotai/Kimi-K2-Instruct-0905'`: The complete supported models under Model APIs can be found [here](https://docs.baseten.co/development/model-apis/overview#supported-models).
+可使用提供商实例选择 [Baseten 模型](https://www.baseten.co/products/model-apis/)；首个参数为模型 ID，例如 `'moonshotai/Kimi-K2-Instruct-0905'`。Model APIs 下支持的完整模型列表见[此处](https://docs.baseten.co/development/model-apis/overview#supported-models)。
 
 ```ts
 const model = baseten('moonshotai/Kimi-K2-Instruct-0905');
 ```
 
-### Example
+### 示例
 
-You can use Baseten language models to generate text with the `generateText` function:
+可使用 Baseten 语言模型与 `generateText` 生成文本：
 
 ```ts
 import { baseten } from '@ai-sdk/baseten';
@@ -91,16 +87,16 @@ const { text } = await generateText({
 });
 ```
 
-Baseten language models can also be used in the `streamText` function
-(see [AI SDK Core](/docs/ai-sdk-core)).
+Baseten 语言模型也可用于 `streamText`
+（参见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-## Dedicated Models
+## 专用模型（Dedicated Models）
 
-Baseten supports dedicated model URLs for both chat and embedding models. You have to specify a `modelURL` when creating the provider:
+Baseten 支持为聊天与嵌入模型使用专用 URL。创建提供商时必须指定 `modelURL`：
 
-### OpenAI-Compatible Endpoints (`/sync/v1`)
+### OpenAI 兼容端点（`/sync/v1`）
 
-For models deployed with Baseten's OpenAI-compatible endpoints:
+针对使用 Baseten OpenAI 兼容端点部署的模型：
 
 ```ts
 import { createBaseten } from '@ai-sdk/baseten';
@@ -116,18 +112,16 @@ const { text } = await generateText({
 });
 ```
 
-### `/predict` Endpoints
+### `/predict` 端点
 
-`/predict` endpoints are currently NOT supported for chat models. You must use `/sync/v1` endpoints for chat functionality.
+`/predict` 端点**目前不支持**聊天模型。聊天功能必须使用 `/sync/v1` 端点。
 
-## Embedding Models
+## 嵌入模型
 
-You can create models that call the Baseten embeddings API using the `.embeddingModel()` factory method. The Baseten provider uses the high-performance `@basetenlabs/performance-client` for optimal embedding performance.
+可使用 `.embeddingModel()` 工厂方法创建调用 Baseten embeddings API 的模型。Baseten 提供商使用高性能的 `@basetenlabs/performance-client` 以优化嵌入性能。
 
 <Note>
-  **Important:** Embedding models require a dedicated deployment with a custom
-  `modelURL`. Unlike chat models, embeddings cannot use Baseten's default Model
-  APIs and must specify a dedicated model endpoint.
+  **重要：** 嵌入模型需要带自定义 `modelURL` 的专用部署。与聊天模型不同，嵌入不能仅使用 Baseten 默认 Model APIs，必须指定专用模型端点。
 </Note>
 
 ```ts
@@ -157,29 +151,29 @@ const { embeddings } = await embedMany({
 });
 ```
 
-### Endpoint Support for Embeddings
+### 嵌入端点支持
 
-**Supported:**
+**支持：**
 
-- `/sync` endpoints (Performance Client automatically adds `/v1/embeddings`)
-- `/sync/v1` endpoints (automatically strips `/v1` before passing to Performance Client)
+- `/sync` 端点（Performance Client 会自动追加 `/v1/embeddings`）
+- `/sync/v1` 端点（在传给 Performance Client 前会自动去除 `/v1`）
 
-**Not Supported:**
+**不支持：**
 
-- `/predict` endpoints (not compatible with Performance Client)
+- `/predict` 端点（与 Performance Client 不兼容）
 
-### Performance Features
+### 性能特性
 
-The embedding implementation includes:
+嵌入实现包含：
 
-- **High-performance client**: Uses `@basetenlabs/performance-client` for optimal performance
-- **Automatic batching**: Efficiently handles multiple texts in a single request
-- **Connection reuse**: Performance Client is created once and reused for all requests
-- **Built-in retries**: Automatic retry logic for failed requests
+- **高性能客户端**：使用 `@basetenlabs/performance-client` 以获得最佳性能
+- **自动批处理**：在单次请求中高效处理多条文本
+- **连接复用**：Performance Client 只创建一次并在所有请求间复用
+- **内置重试**：失败请求自动重试
 
-## Error Handling
+## 错误处理
 
-The Baseten provider includes built-in error handling for common API errors:
+Baseten 提供商内置常见 API 错误的处理：
 
 ```ts
 import { baseten } from '@ai-sdk/baseten';
@@ -195,7 +189,7 @@ try {
 }
 ```
 
-### Common Error Scenarios
+### 常见错误场景
 
 ```ts
 // Embeddings require a modelURL
@@ -243,6 +237,5 @@ try {
 ```
 
 <Note>
-  For more information about Baseten models and deployment options, see the
-  [Baseten documentation](https://docs.baseten.co/).
+  关于 Baseten 模型与部署选项的更多信息，参见 [Baseten 文档](https://docs.baseten.co/)。
 </Note>

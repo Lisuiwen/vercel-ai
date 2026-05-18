@@ -22,7 +22,7 @@ run(async () => {
         duration: 4,
         providerOptions: {
           vertex: {
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies GoogleVertexVideoProviderOptions,
         },
       }),

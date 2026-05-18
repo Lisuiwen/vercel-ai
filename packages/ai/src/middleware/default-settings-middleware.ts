@@ -3,7 +3,7 @@ import type { LanguageModelMiddleware } from '../types';
 import { mergeObjects } from '../util/merge-objects';
 
 /**
- * Applies default settings for a language model.
+ * 应用语言模型的默认设置。
  */
 export function defaultSettingsMiddleware({
   settings,

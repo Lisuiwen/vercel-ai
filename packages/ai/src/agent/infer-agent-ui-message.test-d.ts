@@ -19,7 +19,7 @@ describe('InferAgentUIMessage', () => {
   it('should not contain arbitrary static tools when no tools are provided', () => {
     const agent = new ToolLoopAgent({
       model: 'openai/gpt-4o',
-      // no tools
+      // 没有工具
     });
 
     type Message = InferAgentUIMessage<typeof agent>;
@@ -32,7 +32,7 @@ describe('InferAgentUIMessage', () => {
       | TextUIPart
       | CustomContentUIPart
       | ReasoningUIPart
-      // No static tools, so no ToolUIPart
+      // 没有静态工具，因此没有 ToolUIPart
       | DynamicToolUIPart
       | SourceUrlUIPart
       | SourceDocumentUIPart
@@ -46,7 +46,7 @@ describe('InferAgentUIMessage', () => {
   it('should include metadata when provided', () => {
     const agent = new ToolLoopAgent({
       model: 'openai/gpt-4o',
-      // no tools
+      // 没有工具
     });
 
     type Message = InferAgentUIMessage<typeof agent, { foo: string }>;

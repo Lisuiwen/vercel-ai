@@ -11,9 +11,9 @@ export interface Route<NAME extends string> {
 }
 
 /**
- * Routes values based on their distance to the values from a set of clusters.
- * When the distance is below a certain threshold, the value is classified as belonging to the route,
- * and the route name is returned. Otherwise, the value is classified as null.
+ * 根据值与一组集群中的值的距离来路由值。
+ * 当距离低于某个阈值时，该值被归类为属于该路线，
+ * 并返回路线名称。否则，该值被分类为空。
  */
 export class SemanticRouter<ROUTES extends Array<Route<string>>> {
   readonly routes: ROUTES;
@@ -87,7 +87,7 @@ export class SemanticRouter<ROUTES extends Array<Route<string>>> {
       }
     }
 
-    // sort (highest similarity first)
+    // 排序（相似度最高的优先）
     allMatches.sort((a, b) => b.similarity - a.similarity);
 
     return allMatches.length > 0

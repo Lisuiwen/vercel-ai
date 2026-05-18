@@ -1,23 +1,23 @@
 ---
 title: AI_DownloadError
-description: Learn how to fix AI_DownloadError
+description: 了解如何修复 AI_DownloadError
 ---
 
 # AI_DownloadError
 
-This error occurs when a download fails.
+此错误在下载失败时发生。
 
-## Properties
+## 属性
 
-- `url`: The URL that failed to download
-- `statusCode`: The HTTP status code returned by the server (optional)
-- `statusText`: The HTTP status text returned by the server (optional)
-- `cause`: The underlying error that caused the download to fail (optional)
-- `message`: The error message containing details about the download failure (optional, auto-generated)
+- `url`：下载失败的 URL
+- `statusCode`：服务器返回的 HTTP 状态码（可选）
+- `statusText`：服务器返回的 HTTP 状态文本（可选）
+- `cause`：导致下载失败的底层错误（可选）
+- `message`：包含下载失败详情的错误消息（可选，自动生成）
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_DownloadError` using:
+你可以通过以下方式检查错误是否为 `AI_DownloadError` 的实例：
 
 ```typescript
 import { DownloadError } from 'ai';

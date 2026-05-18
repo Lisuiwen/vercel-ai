@@ -1,18 +1,16 @@
 ---
-title: File Uploads
-description: Learn how to upload files and use provider references with the AI SDK.
+title: 文件上传
+description: 了解如何使用 AI SDK 上传文件并使用提供商引用。
 ---
 
-# File Uploads
+# 文件上传
 
-The AI SDK provides the [`uploadFile`](/docs/reference/ai-sdk-core/upload-file)
-function to upload files to a provider and get back a `ProviderReference` that can be
-used in subsequent API calls.
+AI SDK 提供 [`uploadFile`](/docs/reference/ai-sdk-core/upload-file)
+函数，用于将文件上传到提供商并获取可在后续 API 调用中使用的 `ProviderReference`。
 
-In the AI SDK, the uploaded file is identified by a `ProviderReference` — a
-`Record<string, string>` mapping provider names to provider-specific identifiers.
-This concept is used for other provider specific asset references too, such as
-uploaded skills.
+在 AI SDK 中，已上传文件由 `ProviderReference` 标识——
+将提供商名称映射到提供商特定标识符的 `Record<string, string>`。
+该概念也用于其他提供商特定资产引用，例如已上传的 skill。
 
 ```ts
 import { uploadFile, generateText } from 'ai';
@@ -39,7 +37,7 @@ const { text } = await generateText({
 });
 ```
 
-As a shorthand, you can pass a provider instance directly to `api` instead of calling `.files()` explicitly — the SDK will call `.files()` for you:
+作为简写，可将提供商实例直接传给 `api`，而无需显式调用 `.files()`——SDK 会为你调用 `.files()`：
 
 ```ts highlight="3"
 const { providerReference } = await uploadFile({
@@ -49,10 +47,10 @@ const { providerReference } = await uploadFile({
 });
 ```
 
-## Supported File Types
+## 支持的文件类型
 
-You can upload images, PDFs, text files, and other documents depending on the provider.
-The media type is auto-detected from the file bytes when not specified explicitly:
+根据提供商不同，可上传图像、PDF、文本文件及其他文档。
+未显式指定时，会从文件字节自动检测媒体类型：
 
 ```ts highlight="4"
 const { providerReference } = await uploadFile({
@@ -63,7 +61,7 @@ const { providerReference } = await uploadFile({
 });
 ```
 
-Use the `providerReference` in a file content part with its media type:
+在文件内容部分中使用 `providerReference` 及其媒体类型：
 
 ```ts
 {
@@ -75,10 +73,10 @@ Use the `providerReference` in a file content part with its media type:
 }
 ```
 
-## Provider-Specific Options
+## 提供商特定选项
 
-Some providers accept additional options through `providerOptions`.
-For example, OpenAI requires a `purpose` field:
+部分提供商通过 `providerOptions` 接受额外选项。
+例如，OpenAI 需要 `purpose` 字段：
 
 ```ts highlight="5-9"
 import { openai, type OpenAIFilesOptions } from '@ai-sdk/openai';
@@ -94,10 +92,9 @@ const { providerReference } = await uploadFile({
 });
 ```
 
-## Provider References
+## 提供商引用
 
-A `ProviderReference` is a `Record<string, string>` that maps provider names to
-provider-specific file identifiers:
+`ProviderReference` 是将提供商名称映射到提供商特定文件标识符的 `Record<string, string>`：
 
 ```ts
 // Example ProviderReference
@@ -106,15 +103,11 @@ provider-specific file identifiers:
 }
 ```
 
-When you pass a `ProviderReference` as the `data` or `image` field of a message content
-part, the provider looks up its own file ID from the reference. If the reference doesn't
-contain an entry for the current provider, an error is thrown.
+将 `ProviderReference` 作为消息内容部分的 `data` 或 `image` 字段传入时，提供商会从引用中查找自己的文件 ID。若引用中不包含当前提供商的条目，将抛出错误。
 
-## Multi-Provider Usage
+## 多提供商用法
 
-If you switch providers mid-conversation (for example, continuing a chat started with
-OpenAI using Anthropic), you need to upload the file to both providers and merge the
-references:
+若在对话中途切换提供商（例如用 Anthropic 继续以 OpenAI 开始的聊天），需要将文件上传到两个提供商并合并引用：
 
 ```ts
 const openaiResult = await uploadFile({
@@ -137,19 +130,17 @@ const mergedReference = {
 // mergedReference: { openai: 'file-abc123', anthropic: 'file-xyz789' }
 ```
 
-The merged reference can then be used in messages regardless of which provider processes
-the request — each provider will find its own file ID.
+合并后的引用可在消息中使用，无论由哪个提供商处理请求——各提供商都会找到自己的文件 ID。
 
-## Supported Providers
+## 支持的提供商
 
-The following providers support `files()` and file uploads:
+以下提供商支持 `files()` 与文件上传：
 
-| Provider  | Factory Method      |
+| 提供商    | 工厂方法            |
 | --------- | ------------------- |
 | Anthropic | `anthropic.files()` |
 | Google    | `google.files()`    |
 | OpenAI    | `openai.files()`    |
 | xAI       | `xai.files()`       |
 
-Providers without file upload support will throw an `UnsupportedFunctionalityError`
-if they encounter a provider reference in a message.
+不支持文件上传的提供商若在消息中遇到提供商引用，将抛出 `UnsupportedFunctionalityError`。

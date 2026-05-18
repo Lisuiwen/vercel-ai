@@ -1467,7 +1467,7 @@ describe('validateUIMessages', () => {
                   type: 'tool-foo',
                   toolCallId: '1',
                   state: 'input-available',
-                  input: { foo: 123 }, // wrong type
+                  input: { foo: 123 }, // 错误的类型
                   providerExecuted: true,
                 },
               ],
@@ -1506,7 +1506,7 @@ describe('validateUIMessages', () => {
                   state: 'output-available',
                   providerExecuted: true,
                   input: { foo: 'bar' },
-                  output: { result: 123 }, // wrong type
+                  output: { result: 123 }, // 错误的类型
                 },
               ],
             },
@@ -1541,7 +1541,7 @@ describe('validateUIMessages', () => {
                 type: 'tool-foo',
                 toolCallId: '1',
                 state: 'input-streaming',
-                input: { foo: 123 }, // wrong type but should not be validated
+                input: { foo: 123 }, // 类型错误但不应验证
                 providerExecuted: true,
               },
             ],

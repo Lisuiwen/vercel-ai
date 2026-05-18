@@ -2044,7 +2044,7 @@ describe('streamText', () => {
             title: 'Tool 1',
             inputSchema: z.object({ value: z.string() }),
             execute: async ({ value }) => {
-              await delay(50); // delay to show bug where step finish is sent before tool result
+              await delay(50); // 延迟显示在工具结果之前发送步骤完成的错误
               return `${value}-result`;
             },
           },
@@ -2264,7 +2264,7 @@ describe('streamText', () => {
             { type: 'text-start', id: '1' },
             { type: 'text-delta', id: '1', delta: 'Hello' },
             { type: 'error', error: new Error('chunk error') },
-            // Note: finish-step and finish are still added after error
+            // 注：出错后仍添加finish-step和finish
             {
               type: 'finish',
               finishReason: { unified: 'error', raw: undefined },
@@ -2279,12 +2279,12 @@ describe('streamText', () => {
 
       await result.consumeStream();
 
-      // Verify onError was called
+      // 验证 onError 被调用
       expect(onError).toHaveBeenCalledWith({
         error: new Error('chunk error'),
       });
 
-      // Verify onFinish was still called after the error
+      // 验证错误后仍调用 onFinish
       expect(onFinish).toHaveBeenCalledWith(
         expect.objectContaining({
           finishReason: 'error',
@@ -4033,7 +4033,7 @@ describe('streamText', () => {
       });
 
       const uiMessageStream = result.toUIMessageStream({
-        onFinish: () => {}, // provided onFinish should trigger a new message id
+        onFinish: () => {}, // 提供的 onFinish 应该触发一个新的消息 ID
       });
 
       expect(await convertReadableStreamToArray(uiMessageStream))
@@ -4184,9 +4184,9 @@ describe('streamText', () => {
         (p: any) => p.type === 'text',
       );
       expect(textPart).toBeDefined();
-      expect(textPart.text).toContain('Streaming'); // Partial content
+      expect(textPart.text).toContain('Streaming'); // 部分内容
       expect(textPart.state).toBe('streaming');
-      expect(callArgs.isAborted).toBe(false); // Stream was cancelled, not aborted
+      expect(callArgs.isAborted).toBe(false); // 流被取消，而不是中止
     });
 
     it('should call onFinish when async iteration stops mid-stream', async () => {
@@ -4262,9 +4262,9 @@ describe('streamText', () => {
         (p: any) => p.type === 'text',
       );
       expect(textPart).toBeDefined();
-      expect(textPart.text).toContain('First chunk'); // Should have at least the first parts
+      expect(textPart.text).toContain('First chunk'); // 至少应该有第一部分
       expect(textPart.state).toBe('streaming');
-      expect(callArgs.isAborted).toBe(false); // No explicit abort, just stopped iteration
+      expect(callArgs.isAborted).toBe(false); // 没有显式中止，只是停止迭代
     });
 
     it.skipIf(isNodeVersionAtLeast(24, 15))(
@@ -4363,8 +4363,8 @@ describe('streamText', () => {
           (p: any) => p.type === 'text',
         );
         expect(textPart).toBeDefined();
-        expect(textPart.text).toBe(''); // Text was not streamed yet when aborted
-        expect(callArgs.isAborted).toBe(true); // Stream was aborted
+        expect(textPart.text).toBe(''); // 中止时文本尚未传输
+        expect(callArgs.isAborted).toBe(true); // 流已中止
 
         reader.releaseLock();
       },
@@ -4397,18 +4397,18 @@ describe('streamText', () => {
         onFinish,
       });
 
-      // Get the UI message stream and break after third chunk
+      // 获取 UI 消息流并在第三块后中断
       const stream = result.toUIMessageStream();
       let chunkCount = 0;
 
       for await (const chunk of stream) {
         chunkCount++;
         if (chunkCount === 3) {
-          break; // Break the iteration early, simulating cancellation
+          break; // 尽早中断迭代，模拟取消
         }
       }
 
-      // Verify that onFinish was NOT called when stream was cancelled
+      // 验证取消流时未调用 onFinish
       expect(onFinish).not.toHaveBeenCalled();
     });
 
@@ -4452,7 +4452,7 @@ describe('streamText', () => {
       await reader.cancel();
       reader.releaseLock();
 
-      // Verify that onFinish was NOT called when stream was cancelled
+      // 验证取消流时未调用 onFinish
       expect(onFinishCallback).not.toHaveBeenCalled();
     });
   });
@@ -7100,7 +7100,7 @@ describe('streamText', () => {
       expect(startEvent.provider).toBe('mock-provider');
       expect(startEvent.modelId).toBe('mock-model-id');
       expect(startEvent.instructions).toBe('you are a helpful assistant');
-      // expect(startEvent.prompt).toBeUndefined();
+      // 期望(startEvent.prompt).toBeUndefine();
       expect(startEvent.messages).toEqual([
         { role: 'user', content: 'test-message' },
       ]);
@@ -10212,7 +10212,7 @@ describe('streamText', () => {
           },
         }),
         prompt: 'test-input',
-        onFinish() {}, // just defined; do nothing
+        onFinish() {}, // 刚刚定义；什么也不做
         onError: () => {},
       });
 
@@ -15084,7 +15084,7 @@ describe('streamText', () => {
 
       await result.consumeStream();
 
-      // The merged signal should be different from the original
+      // 合并后的信号应该与原始信号不同
       expect(receivedAbortSignal).toBeDefined();
       expect(receivedAbortSignal).not.toBe(abortController.signal);
     });
@@ -15213,7 +15213,7 @@ describe('streamText', () => {
 
       await result.consumeStream();
 
-      // The merged signal should be different from the original
+      // 合并后的信号应该与原始信号不同
       expect(receivedAbortSignal).toBeDefined();
       expect(receivedAbortSignal).not.toBe(abortController.signal);
     });
@@ -15337,7 +15337,7 @@ describe('streamText', () => {
       await result.consumeStream();
 
       expect(receivedAbortSignals.length).toBe(2);
-      // The same abort signal is reused for all steps (timeout is reset per step)
+      // 所有步骤重复使用相同的中止信号（每个步骤都会重置超时）
       expect(receivedAbortSignals[0]).toBeDefined();
       expect(receivedAbortSignals[1]).toBeDefined();
       expect(receivedAbortSignals[0]).toBe(receivedAbortSignals[1]);
@@ -15428,13 +15428,13 @@ describe('streamText', () => {
           },
         }),
         prompt: 'test-input',
-        timeout: { chunkMs: 5000 }, // generous chunk timeout
+        timeout: { chunkMs: 5000 }, // 慷慨的块超时
         onError: () => {},
       });
 
       await result.consumeStream();
 
-      // Stream should complete successfully without abort
+      // 流应成功完成而不会中止
       expect(receivedAbortSignal?.aborted).toBeFalsy();
     });
 
@@ -15449,7 +15449,7 @@ describe('streamText', () => {
             return {
               stream: new ReadableStream({
                 async start(controller) {
-                  // Send first chunk immediately
+                  // 立即发送第一个块
                   controller.enqueue({ type: 'text-start', id: '1' });
                   controller.enqueue({
                     type: 'text-delta',
@@ -15457,7 +15457,7 @@ describe('streamText', () => {
                     delta: 'Hello',
                   });
 
-                  // Wait for the stream to stall (will be resolved after timeout fires)
+                  // 等待流停止（将在超时触发后解决）
                   await delayedPromise.promise;
 
                   controller.enqueue({ type: 'text-end', id: '1' });
@@ -15473,22 +15473,22 @@ describe('streamText', () => {
           },
         }),
         prompt: 'test-input',
-        timeout: { chunkMs: 50 }, // 50ms chunk timeout
+        timeout: { chunkMs: 50 }, // 50ms 块超时
         onError: () => {},
       });
 
-      // Start consuming the stream (won't complete until delayedPromise resolves)
+      // 开始使用流（在delayedPromise解析之前不会完成）
       const consumePromise = result.consumeStream();
 
-      // Advance time past the chunk timeout
+      // 提前时间超过块超时
       await vi.advanceTimersByTimeAsync(100);
 
-      // Resolve the delayed promise to allow the stream to finish
+      // 解决延迟的承诺以允许流完成
       delayedPromise.resolve(undefined);
 
       await consumePromise;
 
-      // The abort signal should have been triggered due to chunk timeout
+      // 由于块超时，中止信号应该被触发
       expect(receivedAbortSignal?.aborted).toBe(true);
       expect((receivedAbortSignal?.reason as Error)?.name).toBe('TimeoutError');
     });
@@ -15864,7 +15864,7 @@ describe('streamText', () => {
           super({
             supportedUrls() {
               supportedUrlsCalled = true;
-              // Reference 'this' to verify context
+              // 引用“this”来验证上下文
               return this.modelId === 'mock-model-id'
                 ? ({ 'image/*': [/^https:\/\/.*$/] } as Record<
                     string,
@@ -16241,7 +16241,7 @@ describe('streamText', () => {
               chunk.delta = chunk.delta.toUpperCase();
             }
 
-            // assuming test arg structure:
+            // 假设测试参数结构：
             if (chunk.type === 'tool-call' && !chunk.dynamic) {
               chunk.input = {
                 ...chunk.input,
@@ -17464,10 +17464,10 @@ describe('streamText', () => {
         <TOOLS extends ToolSet>() =>
         ({ stopStream }: { stopStream: () => void }) =>
           new TransformStream<TextStreamPart<TOOLS>, TextStreamPart<TOOLS>>({
-            // note: this is a simplified transformation for testing;
-            // in a real-world version more there would need to be
-            // stream buffering and scanning to correctly emit prior text
-            // and to detect all STOP occurrences.
+            // 注意：这是测试的简化转换；
+            // 在现实世界的版本中，还需要更多
+            // 流缓冲和扫描以正确发出先前的文本
+            // 并检测所有 STOP 事件。
             transform(chunk, controller) {
               if (chunk.type !== 'text-delta') {
                 controller.enqueue(chunk);
@@ -17998,7 +17998,7 @@ describe('streamText', () => {
           await convertAsyncIterableToArray(result.textStream),
         ).toStrictEqual([
           `{ `,
-          // key difference: need to combine after `:`
+          // 主要区别：需要在`:`之后组合
           `"value": "Hello, `,
           `world`,
           `!"`,
@@ -18351,26 +18351,26 @@ describe('streamText', () => {
               stream: convertArrayToReadableStream([
                 { type: 'text-start', id: '1' },
                 { type: 'text-delta', id: '1', delta: '{"elements":[' },
-                // first element:
+                // 第一个元素：
                 { type: 'text-delta', id: '1', delta: '{' },
                 { type: 'text-delta', id: '1', delta: '"content":' },
                 { type: 'text-delta', id: '1', delta: `"element 1"` },
                 { type: 'text-delta', id: '1', delta: '},' },
-                // second element:
+                // 第二个元素：
                 { type: 'text-delta', id: '1', delta: '{ ' },
                 { type: 'text-delta', id: '1', delta: '"content": ' },
                 { type: 'text-delta', id: '1', delta: `"element 2"` },
                 { type: 'text-delta', id: '1', delta: '},' },
-                // third element:
+                // 第三个元素：
                 { type: 'text-delta', id: '1', delta: '{' },
                 { type: 'text-delta', id: '1', delta: '"content":' },
                 { type: 'text-delta', id: '1', delta: `"element 3"` },
                 { type: 'text-delta', id: '1', delta: '}' },
-                // end of array
+                // 数组末尾
                 { type: 'text-delta', id: '1', delta: ']' },
                 { type: 'text-delta', id: '1', delta: '}' },
                 { type: 'text-end', id: '1' },
-                // finish
+                // 结束
                 {
                   type: 'finish',
                   finishReason: { unified: 'stop', raw: 'stop' },
@@ -20310,7 +20310,7 @@ describe('streamText', () => {
 
       await result.consumeStream();
 
-      // tool should be executed by client
+      // 工具应由客户端执行
       expect(recordedContext).toStrictEqual({
         context: 'test',
       });
@@ -20589,7 +20589,7 @@ describe('streamText', () => {
                 toolCallType: 'function',
                 toolCallId: 'call-1',
                 toolName: 'cityAttractions',
-                // wrong tool call arguments (city vs cities):
+                // 错误的工具调用参数（城市与城市）：
                 input: `{ "cities": "San Francisco" }`,
               },
               {
@@ -21592,7 +21592,7 @@ describe('streamText', () => {
       }>;
       let rollDieExecutions: Array<{ player: string }>;
 
-      // Fixture-based tool call IDs (from anthropic-programmatic-tool-calling.1.chunks.txt)
+      // 基于夹具的工具调用 ID（来自 anthropic-programmatic-tool-calling.1.chunks.txt）
       const CODE_EXEC_ID = 'srvtoolu_01MzSrFWsmzBdcoQkGWLyRjK';
       const CONTAINER_ID = 'container_011CWHPPTDTn1XufeRB9uHeH';
 
@@ -21612,7 +21612,7 @@ describe('streamText', () => {
 
               switch (responseCount++) {
                 case 0:
-                  // Step 1: text + server_tool_use (code_execution) + rollDie call
+                  // 步骤一：文本+server_tool_use(code_execution)+rollDie调用
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -21669,7 +21669,7 @@ describe('streamText', () => {
                   };
 
                 case 1:
-                  // Step 2: rollDie call (player2)
+                  // 第 2 步：rollDie 调用（玩家 2）
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -21711,7 +21711,7 @@ describe('streamText', () => {
                   };
 
                 case 2:
-                  // Step 3: rollDie calls (round 2)
+                  // 第 3 步：rollDie 调用（第 2 轮）
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -21753,7 +21753,7 @@ describe('streamText', () => {
                   };
 
                 case 3:
-                  // Step 4: more rollDie calls
+                  // 第 4 步：更多 rollDie 调用
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -21795,7 +21795,7 @@ describe('streamText', () => {
                   };
 
                 case 4:
-                  // Step 5: code_execution_tool_result + final text
+                  // 第5步：code_execution_tool_result + 最终文本
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -21899,7 +21899,7 @@ describe('streamText', () => {
               messages: [...messages],
             });
 
-            // Forward container ID from previous step (simulating forwardAnthropicContainerIdFromLastStep)
+            // 转发上一步的容器 ID（模拟forwardAnthropicContainerIdFromLastStep）
             if (stepNumber > 0 && steps.length > 0) {
               const lastStep = steps[steps.length - 1];
               const containerId = (
@@ -22598,19 +22598,19 @@ describe('streamText', () => {
 
         it('should pass accumulated messages to prepareStep', async () => {
           await result.consumeStream();
-          // Step 0: just the initial user message
+          // 第0步：只是初始用户消息
           expect(prepareStepCalls[0].messages.length).toBe(1);
 
-          // Step 1: user message + assistant message + tool message
+          // 步骤一：用户消息+助手消息+工具消息
           expect(prepareStepCalls[1].messages.length).toBe(3);
 
-          // Step 2: user message + assistant + tool + assistant + tool
+          // 第二步：用户留言+助手+工具+助手+工具
           expect(prepareStepCalls[2].messages.length).toBe(5);
 
-          // Step 3: continued accumulation
+          // 第三步：持续积累
           expect(prepareStepCalls[3].messages.length).toBe(7);
 
-          // Step 4: continued accumulation
+          // 第四步：持续积累
           expect(prepareStepCalls[4].messages.length).toBe(9);
         });
       });
@@ -23261,11 +23261,11 @@ describe('streamText', () => {
           stopWhen: isStepCount(2),
         });
 
-        // Consume the stream
+        // 消费流
         await result.consumeStream();
 
-        // Verify that the stream completes with only one step
-        // (if the deferred tool call wasn't resolved, it would wait for another step)
+        // 验证流是否仅通过一步完成
+        // （如果延迟的工具调用没有解决，它将等待另一个步骤）
         expect((await result.steps).length).toBe(1);
 
         expect(await result.content).toMatchInlineSnapshot(`
@@ -23308,7 +23308,7 @@ describe('streamText', () => {
             doStream: async () => {
               switch (responseCount++) {
                 case 0:
-                  // Step 1: tool call without result
+                  // 步骤一：工具调用无结果
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -23333,7 +23333,7 @@ describe('streamText', () => {
                     response: {},
                   };
                 case 1:
-                  // Step 2: tool-error arrives
+                  // 第 2 步：出现工具错误
                   return {
                     stream: convertArrayToReadableStream([
                       {
@@ -23393,10 +23393,10 @@ describe('streamText', () => {
           stopWhen: isStepCount(3),
         });
 
-        // Consume the stream
+        // 消费流
         await result.consumeStream();
 
-        // Verify that the stream completes with two steps
+        // 通过两个步骤验证流是否完成
         expect((await result.steps).length).toBe(2);
 
         expect(await result.content).toMatchInlineSnapshot(`
@@ -23453,7 +23453,7 @@ describe('streamText', () => {
         ...defaultSettings(),
       });
 
-      // Consume the stream to trigger the warning logging
+      // 使用流来触发警告日志记录
       await result.finishReason;
 
       expect(logWarningsSpy).toHaveBeenCalledOnce();
@@ -23548,7 +23548,7 @@ describe('streamText', () => {
         ...defaultSettings(),
       });
 
-      // Consume the stream to trigger the warning logging
+      // 使用流来触发警告日志记录
       await result.finishReason;
 
       expect(logWarningsSpy).toHaveBeenCalledTimes(2);
@@ -23567,12 +23567,12 @@ describe('streamText', () => {
     it('should call logWarnings with empty array when no warnings are present', async () => {
       const result = streamText({
         model: createTestModel({
-          warnings: [], // no warnings
+          warnings: [], // 没有警告
         }),
         ...defaultSettings(),
       });
 
-      // Consume the stream to trigger the warning logging
+      // 使用流来触发警告日志记录
       await result.finishReason;
 
       expect(logWarningsSpy).toHaveBeenCalledOnce();
@@ -26603,7 +26603,7 @@ describe('streamText', () => {
         ],
         prepareStep: async () => {
           return {
-            model: modelWithoutImageUrlSupport, // model switch
+            model: modelWithoutImageUrlSupport, // 型号切换
           };
         },
         experimental_download: customDownload,

@@ -1,55 +1,54 @@
 ---
 title: streamUI
-description: Reference for the streamUI function from the AI SDK RSC
+description: AI SDK RSC 中 streamUI 函数的参考
 ---
 
 # `streamUI`
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境中使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。关于从 RSC 迁移到 UI 的指导，请参阅我们的[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-A helper function to create a streamable UI from LLM providers. This function is similar to AI SDK Core APIs and supports the same model interfaces.
+一个辅助函数，用于从 LLM providers 创建 streamable UI。此函数类似于 AI SDK Core API，并支持相同的模型接口。
 
-To see `streamUI` in action, check out [these examples](#examples).
+要查看 `streamUI` 的实际用法，请参阅[这些示例](#examples)。
 
-## Import
+## 导入
 
 <Snippet text={`import { streamUI } from "@ai-sdk/rsc"`} prompt={false} />
 
-## Parameters
+## 参数
 
 <PropertiesTable
   content={[
     {
       name: 'model',
       type: 'LanguageModel',
-      description: 'The language model to use. Example: openai("gpt-4.1")',
+      description: '要使用的语言模型。示例：openai("gpt-4.1")',
     },
     {
       name: 'initial',
       isOptional: true,
       type: 'ReactNode',
-      description: 'The initial UI to render.',
+      description: '要渲染的初始 UI。',
     },
     {
       name: 'instructions',
       type: 'Instructions',
       description:
-        'Instructions to use that specify the behavior of the model.'
+        '要使用的 instructions，用于指定模型的行为。'
     },
     {
       name: 'prompt',
       type: 'string',
-      description: 'The input prompt to generate the text from.',
+      description: '用于生成文本的输入 prompt。',
     },
     {
       name: 'messages',
       type: 'Array<SystemModelMessage | UserModelMessage | AssistantModelMessage | ToolModelMessage> | Array<UIMessage>',
       description:
-        'A list of messages that represent a conversation. Automatically converts UI messages from the useChat hook.',
+        '表示对话的消息列表。会自动转换来自 useChat hook 的 UI messages。',
       properties: [
         {
           type: 'SystemModelMessage',
@@ -57,12 +56,12 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'role',
               type: "'system'",
-              description: 'The role for the system message.',
+              description: 'system message 的角色。',
             },
             {
               name: 'content',
               type: 'string',
-              description: 'The content of the message.',
+              description: '消息内容。',
             },
           ],
         },
@@ -72,12 +71,12 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'role',
               type: "'user'",
-              description: 'The role for the user message.',
+              description: 'user message 的角色。',
             },
             {
               name: 'content',
               type: 'string | Array<TextPart | ImagePart | FilePart>',
-              description: 'The content of the message.',
+              description: '消息内容。',
               properties: [
                 {
                   type: 'TextPart',
@@ -85,12 +84,12 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'type',
                       type: "'text'",
-                      description: 'The type of the message part.',
+                      description: '消息 part 的类型。',
                     },
                     {
                       name: 'text',
                       type: 'string',
-                      description: 'The text content of the message part.',
+                      description: '消息 part 的文本内容。',
                     },
                   ],
                 },
@@ -100,20 +99,20 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'type',
                       type: "'image'",
-                      description: 'The type of the message part.',
+                      description: '消息 part 的类型。',
                     },
                     {
                       name: 'image',
                       type: 'string | Uint8Array | Buffer | ArrayBuffer | URL',
                       description:
-                        'The image content of the message part. String are either base64 encoded content, base64 data URLs, or http(s) URLs.',
+                        '消息 part 的图片内容。字符串可以是 base64 编码内容、base64 data URL 或 http(s) URL。',
                     },
                     {
                       name: 'mediaType',
                       type: 'string',
                       isOptional: true,
                       description:
-                        'The IANA media type of the image. Optional.',
+                        '图片的 IANA 媒体类型。可选。',
                     },
                   ],
                 },
@@ -123,18 +122,18 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'type',
                       type: "'file'",
-                      description: 'The type of the message part.',
+                      description: '消息 part 的类型。',
                     },
                     {
                       name: 'data',
                       type: 'string | Uint8Array | Buffer | ArrayBuffer | URL',
                       description:
-                        'The file content of the message part. String are either base64 encoded content, base64 data URLs, or http(s) URLs.',
+                        '消息 part 的文件内容。字符串可以是 base64 编码内容、base64 data URL 或 http(s) URL。',
                     },
                     {
                       name: 'mediaType',
                       type: 'string',
-                      description: 'The IANA media type of the file.',
+                      description: '文件的 IANA 媒体类型。',
                     },
                   ],
                 },
@@ -148,12 +147,12 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'role',
               type: "'assistant'",
-              description: 'The role for the assistant message.',
+              description: 'assistant message 的角色。',
             },
             {
               name: 'content',
               type: 'string | Array<TextPart | ToolCallPart>',
-              description: 'The content of the message.',
+              description: '消息内容。',
               properties: [
                 {
                   type: 'TextPart',
@@ -161,12 +160,12 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'type',
                       type: "'text'",
-                      description: 'The type of the message part.',
+                      description: '消息 part 的类型。',
                     },
                     {
                       name: 'text',
                       type: 'string',
-                      description: 'The text content of the message part.',
+                      description: '消息 part 的文本内容。',
                     },
                   ],
                 },
@@ -176,24 +175,24 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'type',
                       type: "'tool-call'",
-                      description: 'The type of the message part.',
+                      description: '消息 part 的类型。',
                     },
                     {
                       name: 'toolCallId',
                       type: 'string',
-                      description: 'The id of the tool call.',
+                      description: 'tool call 的 ID。',
                     },
                     {
                       name: 'toolName',
                       type: 'string',
                       description:
-                        'The name of the tool, which typically would be the name of the function.',
+                        'tool 的名称，通常是函数名称。',
                     },
                     {
                       name: 'args',
                       type: 'object based on zod schema',
                       description:
-                        'Parameters generated by the model to be used by the tool.',
+                        '模型生成并供 tool 使用的参数。',
                     },
                   ],
                 },
@@ -207,12 +206,12 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'role',
               type: "'tool'",
-              description: 'The role for the assistant message.',
+              description: 'assistant message 的角色。',
             },
             {
               name: 'content',
               type: 'Array<ToolResultPart>',
-              description: 'The content of the message.',
+              description: '消息内容。',
               properties: [
                 {
                   type: 'ToolResultPart',
@@ -220,32 +219,32 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'type',
                       type: "'tool-result'",
-                      description: 'The type of the message part.',
+                      description: '消息 part 的类型。',
                     },
                     {
                       name: 'toolCallId',
                       type: 'string',
                       description:
-                        'The id of the tool call the result corresponds to.',
+                        '该结果对应的 tool call ID。',
                     },
                     {
                       name: 'toolName',
                       type: 'string',
                       description:
-                        'The name of the tool the result corresponds to.',
+                        '该结果对应的 tool 名称。',
                     },
                     {
                       name: 'result',
                       type: 'unknown',
                       description:
-                        'The result returned by the tool after execution.',
+                        'tool 执行后返回的结果。',
                     },
                     {
                       name: 'isError',
                       type: 'boolean',
                       isOptional: true,
                       description:
-                        'Whether the result is an error or an error message.',
+                        '该结果是否为错误或错误消息。',
                     },
                   ],
                 },
@@ -260,89 +259,89 @@ To see `streamUI` in action, check out [these examples](#examples).
       type: 'boolean',
       isOptional: true,
       description:
-        'Whether system messages are allowed in the `prompt` or `messages` fields. Defaults to false. System messages in the `instructions` option are always allowed. Enabling this for user-controlled messages can create a prompt injection risk.',
+        '是否允许在 `prompt` 或 `messages` 字段中使用 system messages。默认值为 false。`instructions` 选项中的 system messages 始终允许。对用户可控消息启用此项可能带来 prompt injection 风险。',
     },
     {
       name: 'maxOutputTokens',
       type: 'number',
       isOptional: true,
-      description: 'Maximum number of tokens to generate.',
+      description: '要生成的最大 token 数。',
     },
     {
       name: 'temperature',
       type: 'number',
       isOptional: true,
       description:
-        'Temperature setting. The value is passed through to the provider. The range depends on the provider and model. It is recommended to set either `temperature` or `topP`, but not both.',
+        'Temperature 设置。该值会透传给 provider。取值范围取决于 provider 和模型。建议设置 `temperature` 或 `topP` 其中之一，但不要同时设置。',
     },
     {
       name: 'topP',
       type: 'number',
       isOptional: true,
       description:
-        'Nucleus sampling. The value is passed through to the provider. The range depends on the provider and model. It is recommended to set either `temperature` or `topP`, but not both.',
+        '核采样。该值会透传给 provider。取值范围取决于 provider 和模型。建议设置 `temperature` 或 `topP` 其中之一，但不要同时设置。',
     },
     {
       name: 'topK',
       type: 'number',
       isOptional: true,
       description:
-        'Only sample from the top K options for each subsequent token. Used to remove "long tail" low probability responses. Recommended for advanced use cases only. You usually only need to use temperature.',
+        '对于每个后续 token，仅从前 K 个选项中采样。用于移除“长尾”的低概率响应。仅建议高级用例使用。通常只需要使用 temperature。',
     },
     {
       name: 'presencePenalty',
       type: 'number',
       isOptional: true,
       description:
-        'Presence penalty setting. It affects the likelihood of the model to repeat information that is already in the prompt. The value is passed through to the provider. The range depends on the provider and model.',
+        'Presence penalty 设置。它会影响模型重复 prompt 中已有信息的可能性。该值会透传给 provider。取值范围取决于 provider 和模型。',
     },
     {
       name: 'frequencyPenalty',
       type: 'number',
       isOptional: true,
       description:
-        'Frequency penalty setting. It affects the likelihood of the model to repeatedly use the same words or phrases. The value is passed through to the provider. The range depends on the provider and model.',
+        'Frequency penalty 设置。它会影响模型重复使用相同单词或短语的可能性。该值会透传给 provider。取值范围取决于 provider 和模型。',
     },
     {
       name: 'stopSequences',
       type: 'string[]',
       isOptional: true,
       description:
-        'Sequences that will stop the generation of the text. If the model generates any of these sequences, it will stop generating further text.',
+        '会停止文本生成的序列。如果模型生成其中任意序列，它将停止继续生成文本。',
     },
     {
       name: 'seed',
       type: 'number',
       isOptional: true,
       description:
-        'The seed (integer) to use for random sampling. If set and supported by the model, calls will generate deterministic results.',
+        '用于随机采样的 seed（整数）。如果设置且模型支持，调用将生成确定性结果。',
     },
     {
       name: 'maxRetries',
       type: 'number',
       isOptional: true,
       description:
-        'Maximum number of retries. Set to 0 to disable retries. Default: 2.',
+        '最大重试次数。设置为 0 可禁用重试。默认值：2。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal',
       isOptional: true,
       description:
-        'An optional abort signal that can be used to cancel the call.',
+        '可选的中止信号，可用于取消调用。',
     },
     {
       name: 'headers',
       type: 'Record<string, string>',
       isOptional: true,
       description:
-        'Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.',
+        '随请求发送的额外 HTTP 标头。仅适用于基于 HTTP 的 provider。',
     },
     {
       name: 'tools',
       type: 'ToolSet',
       description:
-        'Tools that are accessible to and can be called by the model.',
+        '模型可以访问并调用的 tools。',
       properties: [
         {
           type: 'Tool',
@@ -352,20 +351,20 @@ To see `streamUI` in action, check out [these examples](#examples).
               isOptional: true,
               type: 'string',
               description:
-                'Information about the purpose of the tool including details on how and when it can be used by the model.',
+                '关于 tool 用途的信息，包括模型如何以及何时可以使用它的详细信息。',
             },
             {
               name: 'inputSchema',
               type: 'zod schema',
               description:
-                'The typed schema that describes the parameters of the tool that can also be used to validation and error handling.',
+                '描述 tool 参数的类型化 schema，也可用于校验和错误处理。',
             },
             {
               name: 'generate',
               isOptional: true,
               type: '(async (parameters) => ReactNode) | AsyncGenerator<ReactNode, ReactNode, void>',
               description:
-                'A function or a generator function that is called with the arguments from the tool call and yields React nodes as the UI.',
+                '一个函数或生成器函数，会使用 tool call 的参数调用，并产出 React 节点作为 UI。',
             },
           ],
         },
@@ -376,13 +375,13 @@ To see `streamUI` in action, check out [these examples](#examples).
       isOptional: true,
       type: '"auto" | "none" | "required" | { "type": "tool", "toolName": string }',
       description:
-        'The tool choice setting. It specifies how tools are selected for execution. The default is "auto". "none" disables tool execution. "required" requires tools to be executed. { "type": "tool", "toolName": string } specifies a specific tool to execute.',
+        'tool choice 设置。它指定如何选择 tools 执行。默认值为 "auto"。"none" 禁用 tool 执行。"required" 要求执行 tools。{ "type": "tool", "toolName": string } 指定要执行的特定 tool。',
     },
     {
       name: 'text',
       isOptional: true,
       type: '(Text) => ReactNode',
-      description: 'Callback to handle the generated tokens from the model.',
+      description: '用于处理模型生成 token 的回调。',
       properties: [
         {
           type: 'Text',
@@ -390,10 +389,10 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'content',
               type: 'string',
-              description: 'The full content of the completion.',
+              description: 'completion 的完整内容。',
             },
-            { name: 'delta', type: 'string', description: 'The delta.' },
-            { name: 'done', type: 'boolean', description: 'Is it done?' },
+            { name: 'delta', type: 'string', description: '增量内容。' },
+            { name: 'done', type: 'boolean', description: '是否已完成？' },
           ],
         },
       ],
@@ -403,14 +402,14 @@ To see `streamUI` in action, check out [these examples](#examples).
       type: 'Record<string,JSONObject> | undefined',
       isOptional: true,
       description:
-        'Provider-specific options. The outer key is the provider name. The inner values are the metadata. Details depend on the provider.',
+        'provider 专属选项。外层键是 provider 名称，内层值是元数据。具体细节取决于 provider。',
     },
     {
       name: 'onFinish',
       type: '(result: OnFinishResult) => void',
       isOptional: true,
       description:
-        'Callback that is called when the LLM response and all request tool executions (for tools that have a `generate` function) are finished.',
+        '当 LLM 响应以及所有请求中的 tool 执行（针对具有 `generate` 函数的 tools）完成时调用的回调。',
       properties: [
         {
           type: 'OnFinishResult',
@@ -418,7 +417,7 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'usage',
               type: 'LanguageModelUsage',
-              description: 'The token usage of the generated text.',
+              description: '生成文本的 token 用量。',
               properties: [
                 {
                   type: 'LanguageModelUsage',
@@ -426,13 +425,13 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'inputTokens',
                       type: 'number | undefined',
-                      description: 'The total number of input (prompt) tokens used.',
+                      description: '使用的输入（prompt）token 总数。',
                     },
                     {
                       name: 'inputTokenDetails',
                       type: 'LanguageModelInputTokenDetails',
                       description:
-                        'Detailed information about the input (prompt) tokens. See also: cached tokens and non-cached tokens.',
+                        '关于输入（prompt）token 的详细信息。另请参阅：缓存 token 和非缓存 token。',
                       properties: [
                         {
                           type: 'LanguageModelInputTokenDetails',
@@ -441,19 +440,19 @@ To see `streamUI` in action, check out [these examples](#examples).
                               name: 'noCacheTokens',
                               type: 'number | undefined',
                               description:
-                                'The number of non-cached input (prompt) tokens used.',
+                                '使用的非缓存输入（prompt）token 数量。',
                             },
                             {
                               name: 'cacheReadTokens',
                               type: 'number | undefined',
                               description:
-                                'The number of cached input (prompt) tokens read.',
+                                '读取的缓存输入（prompt）token 数量。',
                             },
                             {
                               name: 'cacheWriteTokens',
                               type: 'number | undefined',
                               description:
-                                'The number of cached input (prompt) tokens written.',
+                                '写入的缓存输入（prompt）token 数量。',
                             },
                           ],
                         },
@@ -462,13 +461,13 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'outputTokens',
                       type: 'number | undefined',
-                      description: 'The number of total output (completion) tokens used.',
+                      description: '使用的输出（completion）token 总数。',
                     },
                     {
                       name: 'outputTokenDetails',
                       type: 'LanguageModelOutputTokenDetails',
                       description:
-                        'Detailed information about the output (completion) tokens.',
+                        '关于输出（completion）token 的详细信息。',
                       properties: [
                         {
                           type: 'LanguageModelOutputTokenDetails',
@@ -476,12 +475,12 @@ To see `streamUI` in action, check out [these examples](#examples).
                             {
                               name: 'textTokens',
                               type: 'number | undefined',
-                              description: 'The number of text tokens used.',
+                              description: '使用的文本 token 数量。',
                             },
                             {
                               name: 'reasoningTokens',
                               type: 'number | undefined',
-                              description: 'The number of reasoning tokens used.',
+                              description: '使用的 reasoning token 数量。',
                             },
                           ],
                         },
@@ -490,13 +489,13 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'totalTokens',
                       type: 'number | undefined',
-                      description: 'The total number of tokens used.',
+                      description: '使用的 token 总数。',
                     },
                     {
                       name: 'raw',
                       type: 'object | undefined',
                       isOptional: true,
-                      description: 'Raw usage information from the provider. This is the provider\'s original usage information and may include additional fields.',
+                      description: '来自 provider 的原始用量信息。这是 provider 的原始用量信息，可能包含额外字段。',
                     },
                   ],
                 },
@@ -505,18 +504,18 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'value',
               type: 'ReactNode',
-              description: 'The final ui node that was generated.',
+              description: '生成的最终 UI 节点。',
             },
             {
               name: 'warnings',
               type: 'Warning[] | undefined',
               description:
-                'Warnings from the model provider (e.g. unsupported settings).',
+                '模型 provider 返回的警告（例如不支持的设置）。',
             },
             {
               name: 'response',
               type: 'Response',
-              description: 'Optional response data.',
+              description: '可选响应数据。',
               properties: [
                 {
                   type: 'Response',
@@ -525,7 +524,7 @@ To see `streamUI` in action, check out [these examples](#examples).
                       name: 'headers',
                       isOptional: true,
                       type: 'Record<string, string>',
-                      description: 'Response headers.',
+                      description: '响应标头。',
                     },
                   ],
                 },
@@ -539,20 +538,20 @@ To see `streamUI` in action, check out [these examples](#examples).
 ]}
 />
 
-## Returns
+## 返回值
 
 <PropertiesTable
   content={[
     {
       name: 'value',
       type: 'ReactNode',
-      description: 'The user interface based on the stream output.',
+      description: '基于流输出的用户界面。',
     },
     {
       name: 'response',
       type: 'Response',
       isOptional: true,
-      description: 'Optional response data.',
+      description: '可选响应数据。',
       properties: [
         {
           type: 'Response',
@@ -561,7 +560,7 @@ To see `streamUI` in action, check out [these examples](#examples).
               name: 'headers',
               isOptional: true,
               type: 'Record<string, string>',
-              description: 'Response headers.',
+              description: '响应标头。',
             },
           ],
         },
@@ -571,13 +570,13 @@ To see `streamUI` in action, check out [these examples](#examples).
       name: 'warnings',
       type: 'Warning[] | undefined',
       description:
-        'Warnings from the model provider (e.g. unsupported settings).',
+        '模型 provider 返回的警告（例如不支持的设置）。',
     },
     {
       name: 'stream',
       type: 'AsyncIterable<StreamPart> & ReadableStream<StreamPart>',
       description:
-        'A stream with all events, including text deltas, tool calls, tool results, and errors. You can use it as either an AsyncIterable or a ReadableStream. When an error occurs, the stream will throw the error.',
+        '包含所有事件的流，包括文本增量、tool calls、tool results 和错误。你可以将其用作 AsyncIterable 或 ReadableStream。发生错误时，该流会抛出错误。',
       properties: [
         {
           type: 'StreamPart',
@@ -585,12 +584,12 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'type',
               type: "'text-delta'",
-              description: 'The type to identify the object as text delta.',
+              description: '用于将对象标识为文本增量的类型。',
             },
             {
               name: 'textDelta',
               type: 'string',
-              description: 'The text delta.',
+              description: '文本增量。',
             },
           ],
         },
@@ -600,24 +599,24 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'type',
               type: "'tool-call'",
-              description: 'The type to identify the object as tool call.',
+              description: '用于将对象标识为 tool call 的类型。',
             },
             {
               name: 'toolCallId',
               type: 'string',
-              description: 'The id of the tool call.',
+              description: 'tool call 的 ID。',
             },
             {
               name: 'toolName',
               type: 'string',
               description:
-                'The name of the tool, which typically would be the name of the function.',
+                'tool 的名称，通常是函数名称。',
             },
             {
               name: 'args',
               type: 'object based on zod schema',
               description:
-                'Parameters generated by the model to be used by the tool.',
+                '模型生成并供 tool 使用的参数。',
             },
           ],
         },
@@ -627,13 +626,13 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'type',
               type: "'error'",
-              description: 'The type to identify the object as error.',
+              description: '用于将对象标识为错误的类型。',
             },
             {
               name: 'error',
               type: 'Error',
               description:
-                'Describes the error that may have occurred during execution.',
+                '描述执行期间可能发生的错误。',
             },
           ],
         },
@@ -643,17 +642,17 @@ To see `streamUI` in action, check out [these examples](#examples).
             {
               name: 'type',
               type: "'finish'",
-              description: 'The type to identify the object as finish.',
+              description: '用于将对象标识为完成事件的类型。',
             },
             {
               name: 'finishReason',
               type: "'stop' | 'length' | 'content-filter' | 'tool-calls' | 'error' | 'other'",
-              description: 'The reason the model finished generating the text.',
+              description: '模型完成文本生成的原因。',
             },
             {
               name: 'usage',
               type: 'LanguageModelUsage',
-              description: 'The token usage of the generated text.',
+              description: '生成文本的 token 用量。',
               properties: [
                 {
                   type: 'LanguageModelUsage',
@@ -662,13 +661,13 @@ To see `streamUI` in action, check out [these examples](#examples).
                       name: 'inputTokens',
                       type: 'number | undefined',
                       description:
-                        'The total number of input (prompt) tokens used.',
+                        '使用的输入（prompt）token 总数。',
                     },
                     {
                       name: 'inputTokenDetails',
                       type: 'LanguageModelInputTokenDetails',
                       description:
-                        'Detailed information about the input (prompt) tokens. See also: cached tokens and non-cached tokens.',
+                        '关于输入（prompt）token 的详细信息。另请参阅：缓存 token 和非缓存 token。',
                       properties: [
                         {
                           type: 'LanguageModelInputTokenDetails',
@@ -677,19 +676,19 @@ To see `streamUI` in action, check out [these examples](#examples).
                               name: 'noCacheTokens',
                               type: 'number | undefined',
                               description:
-                                'The number of non-cached input (prompt) tokens used.',
+                                '使用的非缓存输入（prompt）token 数量。',
                             },
                             {
                               name: 'cacheReadTokens',
                               type: 'number | undefined',
                               description:
-                                'The number of cached input (prompt) tokens read.',
+                                '读取的缓存输入（prompt）token 数量。',
                             },
                             {
                               name: 'cacheWriteTokens',
                               type: 'number | undefined',
                               description:
-                                'The number of cached input (prompt) tokens written.',
+                                '写入的缓存输入（prompt）token 数量。',
                             },
                           ],
                         },
@@ -699,13 +698,13 @@ To see `streamUI` in action, check out [these examples](#examples).
                       name: 'outputTokens',
                       type: 'number | undefined',
                       description:
-                        'The number of total output (completion) tokens used.',
+                        '使用的输出（completion）token 总数。',
                     },
                     {
                       name: 'outputTokenDetails',
                       type: 'LanguageModelOutputTokenDetails',
                       description:
-                        'Detailed information about the output (completion) tokens.',
+                        '关于输出（completion）token 的详细信息。',
                       properties: [
                         {
                           type: 'LanguageModelOutputTokenDetails',
@@ -713,13 +712,13 @@ To see `streamUI` in action, check out [these examples](#examples).
                             {
                               name: 'textTokens',
                               type: 'number | undefined',
-                              description: 'The number of text tokens used.',
+                              description: '使用的文本 token 数量。',
                             },
                             {
                               name: 'reasoningTokens',
                               type: 'number | undefined',
                               description:
-                                'The number of reasoning tokens used.',
+                                '使用的 reasoning token 数量。',
                             },
                           ],
                         },
@@ -728,14 +727,14 @@ To see `streamUI` in action, check out [these examples](#examples).
                     {
                       name: 'totalTokens',
                       type: 'number | undefined',
-                      description: 'The total number of tokens used.',
+                      description: '使用的 token 总数。',
                     },
                     {
                       name: 'raw',
                       type: 'object | undefined',
                       isOptional: true,
                       description:
-                        "Raw usage information from the provider. This is the provider's original usage information and may include additional fields.",
+                        "来自 provider 的原始用量信息。这是 provider 的原始用量信息，可能包含额外字段。",
                     },
                   ],
                 },
@@ -748,26 +747,26 @@ To see `streamUI` in action, check out [these examples](#examples).
   ]}
 />
 
-## Examples
+## 示例
 
 <ExampleLinks
   examples={[
     {
       title:
-        'Learn to render a React component as a function call using a language model in Next.js',
+        '学习如何在 Next.js 中使用语言模型将 React 组件渲染为函数调用',
       link: '/examples/next-app/state-management/ai-ui-states',
     },
     {
-      title: 'Learn to persist and restore states UI/AI states in Next.js',
+      title: '学习如何在 Next.js 中持久化和恢复 UI/AI 状态',
       link: '/examples/next-app/state-management/save-and-restore-states',
     },
     {
       title:
-        'Learn to route React components using a language model in Next.js',
+        '学习如何在 Next.js 中使用语言模型路由 React 组件',
       link: '/examples/next-app/interface/route-components',
     },
     {
-      title: 'Learn to stream component updates to the client in Next.js',
+      title: '学习如何在 Next.js 中将组件更新流式传输到客户端',
       link: '/examples/next-app/interface/stream-component-updates',
     },
   ]}

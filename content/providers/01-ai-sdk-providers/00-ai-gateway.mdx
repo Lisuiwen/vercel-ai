@@ -1,28 +1,28 @@
 ---
-title: AI Gateway
-description: Learn how to use the AI Gateway provider with the AI SDK.
+title: AI 网关
+description: 了解如何在 AI SDK 中使用 AI Gateway 提供商。
 ---
 
-# AI Gateway Provider
+# AI Gateway 提供商
 
-The [AI Gateway](https://vercel.com/docs/ai-gateway) provider connects you to models from multiple AI providers through a single interface. Instead of integrating with each provider separately, you can access OpenAI, Anthropic, Google, Meta, xAI, and other providers and their models.
+[AI Gateway](https://vercel.com/docs/ai-gateway) 提供商通过一个统一接口为你接入来自多家 AI 提供商的模型。无需分别对接每家提供商，即可使用 OpenAI、Anthropic、Google、Meta、xAI 以及其他提供商及其模型。
 
-## Features
+## 功能特性
 
-- Access models from multiple providers without having to install additional provider modules/dependencies
-- Use the same code structure across different AI providers
-- Switch between models and providers easily
-- Automatic authentication when deployed on Vercel
-- View pricing information across providers
-- Observability for AI model usage through the Vercel dashboard
+- 使用多家提供商的模型，而无需安装额外的提供商模块或依赖
+- 在不同 AI 提供商之间保持相同的代码结构
+- 轻松切换模型与提供商
+- 部署在 Vercel 上时自动完成身份验证
+- 查看各提供商的价格信息
+- 通过 Vercel 控制台观测 AI 模型使用情况
 
-## Setup
+## 安装配置
 
-The Vercel AI Gateway provider is part of the AI SDK.
+Vercel AI Gateway 提供商包含在 AI SDK 中。
 
-## Basic Usage
+## 基本用法
 
-For most use cases, you can use the AI Gateway directly with a model string:
+在大多数场景下，可以直接使用模型字符串调用 AI Gateway：
 
 ```ts
 // use plain model string with global provider
@@ -44,29 +44,28 @@ const { text } = await generateText({
 });
 ```
 
-The AI SDK automatically uses the AI Gateway when you pass a model string in the `creator/model-name` format.
+当你以 `creator/model-name` 格式传入模型字符串时，AI SDK 会自动使用 AI Gateway。
 
-## Provider Instance
+## 提供商实例
 
 <Note>
-  The `gateway` provider instance is available from the `ai` package in version
-  5.0.36 and later.
+  `gateway` 提供商实例自 `ai` 包的 5.0.36 版本起提供。
 </Note>
 
-You can also import the default provider instance `gateway` from `ai`:
+你也可以从 `ai` 导入默认提供商实例 `gateway`：
 
 ```ts
 import { gateway } from 'ai';
 ```
 
-You may want to create a custom provider instance when you need to:
+在以下场景中，你可能需要创建自定义提供商实例：
 
-- Set custom configuration options (API key, base URL, headers)
-- Use the provider in a [provider registry](/docs/ai-sdk-core/provider-management)
-- Wrap the provider with [middleware](/docs/ai-sdk-core/middleware)
-- Use different settings for different parts of your application
+- 设置自定义配置项（API 密钥、基础 URL、请求头）
+- 在 [提供商注册表](/docs/ai-sdk-core/provider-management) 中使用该提供商
+- 使用 [中间件](/docs/ai-sdk-core/middleware) 包装提供商
+- 在应用的不同部分使用不同设置
 
-To create a custom provider instance, import `createGateway` from `ai`:
+若要创建自定义提供商实例，请从 `ai` 导入 `createGateway`：
 
 ```ts
 import { createGateway } from 'ai';
@@ -76,45 +75,44 @@ const gateway = createGateway({
 });
 ```
 
-You can use the following optional settings to customize the AI Gateway provider instance:
+可使用下列可选设置自定义 AI Gateway 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls. The default prefix is `https://ai-gateway.vercel.sh/v4/ai`.
+  为 API 调用使用不同的 URL 前缀。默认前缀为 `https://ai-gateway.vercel.sh/v4/ai`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header. It defaults to
-  the `AI_GATEWAY_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API 密钥。默认读取环境变量 `AI_GATEWAY_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要附加的自定义请求头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch`。
+  可用作拦截请求的中间件，
+  或在测试等场景提供自定义 fetch。
 
 - **metadataCacheRefreshMillis** _number_
 
-  How frequently to refresh the metadata cache in milliseconds. Defaults to 5 minutes (300,000ms).
+  元数据缓存刷新间隔（毫秒）。默认为 5 分钟（300,000ms）。
 
-## Authentication
+## 身份验证
 
-The Gateway provider supports two authentication methods:
+Gateway 提供商支持两种身份验证方式：
 
-### API Key Authentication
+### API 密钥身份验证
 
-Set your API key via environment variable:
+通过环境变量设置 API 密钥：
 
 ```bash
 AI_GATEWAY_API_KEY=your_api_key_here
 ```
 
-Or pass it directly to the provider:
+或直接传给提供商：
 
 ```ts
 import { createGateway } from 'ai';
@@ -124,47 +122,46 @@ const gateway = createGateway({
 });
 ```
 
-### OIDC Authentication (Vercel Deployments)
+### OIDC 身份验证（Vercel 部署）
 
-When deployed to Vercel, the AI Gateway provider supports authenticating using [OIDC (OpenID Connect)
-tokens](https://vercel.com/docs/oidc) without API Keys.
+部署到 Vercel 时，AI Gateway 提供商支持使用 [OIDC（OpenID Connect）令牌](https://vercel.com/docs/oidc) 进行身份验证，而无需 API 密钥。
 
-#### How OIDC Authentication Works
+#### OIDC 身份验证如何工作
 
-1. **In Production/Preview Deployments**:
-   - OIDC authentication is automatically handled
-   - No manual configuration needed
-   - Tokens are automatically obtained and refreshed
+1. **在生产/预览部署中**：
+   - OIDC 身份验证会自动处理
+   - 无需手动配置
+   - 令牌会自动获取并刷新
 
-2. **In Local Development**:
-   - First, install and authenticate with the [Vercel CLI](https://vercel.com/docs/cli)
-   - Run `vercel env pull` to download your project's OIDC token locally
-   - For automatic token management:
-     - Use `vercel dev` to start your development server - this will handle token refreshing automatically
-   - For manual token management:
-     - If not using `vercel dev`, note that OIDC tokens expire after 12 hours
-     - You'll need to run `vercel env pull` again to refresh the token before it expires
+2. **在本地开发时**：
+   - 首先安装并完成 [Vercel CLI](https://vercel.com/docs/cli) 的身份验证
+   - 运行 `vercel env pull` 将项目的 OIDC 令牌下载到本地
+   - 若需自动管理令牌：
+     - 使用 `vercel dev` 启动开发服务器，它会自动处理令牌刷新
+   - 若需手动管理令牌：
+     - 若不使用 `vercel dev`，请注意 OIDC 令牌会在 12 小时后过期
+     - 需要在过期前再次运行 `vercel env pull` 以刷新令牌
 
 <Note>
-  If an API Key is present (either passed directly or via environment), it will
-  always be used, even if invalid.
+  若存在 API 密钥（直接传入或通过环境变量），则
+  始终会优先使用该密钥，即便密钥无效也是如此。
 </Note>
 
-Read more about using OIDC tokens in the [Vercel AI Gateway docs](https://vercel.com/docs/ai-gateway#using-the-ai-gateway-with-a-vercel-oidc-token).
+关于 OIDC 令牌的更多说明，请参阅 [Vercel AI Gateway 文档](https://vercel.com/docs/ai-gateway#using-the-ai-gateway-with-a-vercel-oidc-token)。
 
-## Bring Your Own Key (BYOK)
+## 自带密钥（BYOK）
 
-You can connect your own provider credentials to use with Vercel AI Gateway. This lets you use your existing provider accounts and access private resources.
+你可以接入自己的提供商凭证，与 Vercel AI Gateway 一起使用。这样可使用既有提供商账号并访问私有资源。
 
-To set up BYOK, add your provider credentials in your Vercel team's AI Gateway settings. Once configured, AI Gateway automatically uses your credentials. No code changes are needed.
+要完成 BYOK 配置，请在 Vercel 团队的 AI Gateway 设置中添加提供商凭证。配置完成后，AI Gateway 会自动使用你的凭证，无需修改代码。
 
-For providers like Azure where you can use custom deployment names, you can configure model mappings to map gateway model slugs to your deployment names. See [model mappings](https://vercel.com/docs/ai-gateway/byok#model-mappings) for details.
+对于 Azure 等可使用自定义部署名称的提供商，你可以配置模型映射，将网关模型 slug 映射到你的部署名称。详情请参阅 [模型映射](https://vercel.com/docs/ai-gateway/byok#model-mappings)。
 
-Learn more in the [BYOK documentation](https://vercel.com/docs/ai-gateway/byok).
+更多信息见 [BYOK 文档](https://vercel.com/docs/ai-gateway/byok)。
 
-## Language Models
+## 语言模型
 
-You can create language models using a provider instance. The first argument is the model ID in the format `creator/model-name`:
+可使用提供商实例创建语言模型。第一个参数为 `creator/model-name` 格式的模型 ID：
 
 ```ts
 import { generateText } from 'ai';
@@ -175,11 +172,11 @@ const { text } = await generateText({
 });
 ```
 
-AI Gateway language models can also be used in the `streamText` function and support structured data generation with [`Output`](/docs/reference/ai-sdk-core/output) (see [AI SDK Core](/docs/ai-sdk-core)).
+AI Gateway 语言模型也可用于 `streamText`，并支持结合 [`Output`](/docs/reference/ai-sdk-core/output) 进行结构化数据生成（参见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-## Reranking Models
+## 重排序模型
 
-You can create reranking models using the `rerankingModel` method on the provider instance:
+可使用提供商实例上的 `rerankingModel` 方法创建重排序模型：
 
 ```ts
 import { rerank } from 'ai';
@@ -203,17 +200,17 @@ console.log(ranking);
 // ]
 ```
 
-Reranking models are useful for improving search results in retrieval-augmented generation (RAG) pipelines by re-scoring candidate documents after an initial retrieval step.
+重排序模型适用于在检索增强生成（RAG）流程中，在初次检索后对候选文档重新打分，从而改进搜索结果。
 
-## Available Models
+## 可用模型
 
-The AI Gateway supports models from OpenAI, Anthropic, Google, Meta, xAI, Mistral, DeepSeek, Amazon Bedrock, Cohere, Perplexity, Alibaba, and other providers.
+AI Gateway 支持来自 OpenAI、Anthropic、Google、Meta、xAI、Mistral、DeepSeek、Amazon Bedrock、Cohere、Perplexity、Alibaba 等多家提供商的模型。
 
-For the complete list of available models, see the [AI Gateway documentation](https://vercel.com/docs/ai-gateway).
+完整可用模型列表见 [AI Gateway 文档](https://vercel.com/docs/ai-gateway)。
 
-## Dynamic Model Discovery
+## 动态模型发现
 
-You can discover available models programmatically:
+可通过编程方式发现可用模型：
 
 ```ts
 import { gateway, generateText } from 'ai';
@@ -249,9 +246,9 @@ const { text } = await generateText({
 });
 ```
 
-## Credit Usage
+## 额度使用情况
 
-You can check your team's current credit balance and usage:
+可查询团队当前的额度余额与使用量：
 
 ```ts
 import { gateway } from 'ai';
@@ -262,16 +259,16 @@ console.log(`Team balance: ${credits.balance} credits`);
 console.log(`Team total used: ${credits.total_used} credits`);
 ```
 
-The `getCredits()` method returns your team's credit information based on the authenticated API key or OIDC token:
+`getCredits()` 方法根据已认证的 API 密钥或 OIDC 令牌返回团队的额度信息：
 
-- **balance** _number_ - Your team's current available credit balance
-- **total_used** _number_ - Total credits consumed by your team
+- **balance** _number_ — 团队当前可用额度余额
+- **total_used** _number_ — 团队已累计消耗的额度
 
-## Generation Lookup
+## 生成记录查询
 
-Look up detailed information about a specific generation by its ID, including cost, token usage, latency, and provider details. Generation IDs are available in `providerMetadata.gateway.generationId` on both `generateText` and `streamText` responses.
+可按生成 ID 查询某次生成的详细信息，包括费用、令牌用量、延迟与提供商详情。在 `generateText` 与 `streamText` 的响应中，生成 ID 位于 `providerMetadata.gateway.generationId`。
 
-When streaming, the generation ID is injected on the first content chunk, so you can capture it early in the stream without waiting for completion. This is especially useful in cases where a network interruption or mid-stream error could prevent you from receiving the final response — since the gateway records the final status server-side, you can use the generation ID to look up the results (including cost, token usage, and finish reason) later via `getGenerationInfo()`.
+流式输出时，生成 ID 会在首个内容分片中注入，因此可在流早期捕获，而无需等待结束。这在网络中断或流中途出错导致无法收到最终响应时尤其有用——由于网关在服务端记录最终状态，你可稍后通过 `getGenerationInfo()` 根据生成 ID 查询结果（包括费用、令牌用量与结束原因）。
 
 ```ts
 import { gateway, generateText } from 'ai';
@@ -295,7 +292,7 @@ console.log(`Prompt tokens: ${generation.promptTokens}`);
 console.log(`Completion tokens: ${generation.completionTokens}`);
 ```
 
-With `streamText`, you can capture the generation ID from the first chunk via `fullStream`:
+使用 `streamText` 时，可通过 `fullStream` 从第一个分片捕获生成 ID：
 
 ```ts
 import { gateway, streamText } from 'ai';
@@ -322,34 +319,34 @@ if (generationId) {
 }
 ```
 
-The `getGenerationInfo()` method accepts:
+`getGenerationInfo()` 方法接受：
 
-- **id** _string_ - The generation ID to look up (format: `gen_<ulid>`, required)
+- **id** _string_ — 要查询的生成 ID（格式：`gen_<ulid>`，必填）
 
-It returns a `GatewayGenerationInfo` object with the following fields:
+返回的 `GatewayGenerationInfo` 对象包含下列字段：
 
-- **id** _string_ - The generation ID
-- **totalCost** _number_ - Total cost in USD
-- **upstreamInferenceCost** _number_ - Upstream inference cost in USD (relevant for BYOK)
-- **usage** _number_ - Usage cost in USD (same as totalCost)
-- **createdAt** _string_ - ISO 8601 timestamp when the generation was created
-- **model** _string_ - Model identifier used
-- **isByok** _boolean_ - Whether Bring Your Own Key credentials were used
-- **providerName** _string_ - The provider that served this generation
-- **streamed** _boolean_ - Whether streaming was used
-- **finishReason** _string_ - Finish reason (e.g. `'stop'`)
-- **latency** _number_ - Time to first token in milliseconds
-- **generationTime** _number_ - Total generation time in milliseconds
-- **promptTokens** _number_ - Number of prompt tokens
-- **completionTokens** _number_ - Number of completion tokens
-- **reasoningTokens** _number_ - Reasoning tokens used (if applicable)
-- **cachedTokens** _number_ - Cached tokens used (if applicable)
-- **cacheCreationTokens** _number_ - Cache creation input tokens
-- **billableWebSearchCalls** _number_ - Number of billable web search calls
+- **id** _string_ — 生成 ID
+- **totalCost** _number_ — 总费用（美元）
+- **upstreamInferenceCost** _number_ — 上游推理费用（美元，与 BYOK 相关）
+- **usage** _number_ — 使用费用（美元，与 totalCost 相同）
+- **createdAt** _string_ — 生成创建时间的 ISO 8601 时间戳
+- **model** _string_ — 使用的模型标识符
+- **isByok** _boolean_ — 是否使用了自带密钥（BYOK）凭证
+- **providerName** _string_ — 实际提供本次生成的提供商
+- **streamed** _boolean_ — 是否使用流式输出
+- **finishReason** _string_ — 结束原因（例如 `'stop'`）
+- **latency** _number_ — 首 token 时间（毫秒）
+- **generationTime** _number_ — 总生成时间（毫秒）
+- **promptTokens** _number_ — 提示令牌数
+- **completionTokens** _number_ — 补全令牌数
+- **reasoningTokens** _number_ — 推理令牌数（若适用）
+- **cachedTokens** _number_ — 缓存令牌数（若适用）
+- **cacheCreationTokens** _number_ — 缓存创建输入令牌数
+- **billableWebSearchCalls** _number_ — 可计费的网页搜索调用次数
 
-## Examples
+## 示例
 
-### Basic Text Generation
+### 基础文本生成
 
 ```ts
 import { generateText } from 'ai';
@@ -362,7 +359,7 @@ const { text } = await generateText({
 console.log(text);
 ```
 
-### Streaming
+### 流式输出
 
 ```ts
 import { streamText } from 'ai';
@@ -377,7 +374,7 @@ for await (const textPart of textStream) {
 }
 ```
 
-### Tool Usage
+### 工具调用
 
 ```ts
 import { generateText, tool } from 'ai';
@@ -401,9 +398,9 @@ const { text } = await generateText({
 });
 ```
 
-### Provider-Executed Tools
+### 由提供商执行的工具
 
-Some providers offer tools that are executed by the provider itself, such as [OpenAI's web search tool](/providers/ai-sdk-providers/openai#web-search-tool). To use these tools through AI Gateway, import the provider to access the tool definitions:
+部分提供商提供由提供商自身执行的工具，例如 [OpenAI 的网页搜索工具](/providers/ai-sdk-providers/openai#web-search-tool)。若要通过 AI Gateway 使用这些工具，请导入对应提供商以获取工具定义：
 
 ```ts
 import { generateText, isStepCount } from 'ai';
@@ -422,18 +419,18 @@ console.dir(result.text);
 ```
 
 <Note>
-  Some provider-executed tools require account-specific configuration (such as
-  Claude Agent Skills) and may not work through AI Gateway. To use these tools,
-  you must bring your own key (BYOK) directly to the provider.
+  部分由提供商执行的工具需要账号级配置（例如
+  Claude Agent Skills），可能无法通过 AI Gateway 使用。要使用这些工具，
+  必须将自带密钥（BYOK）直接配置给对应提供商。
 </Note>
 
-### Gateway Tools
+### Gateway 工具
 
-The AI Gateway provider includes built-in tools that are executed by the gateway itself. These tools can be used with any model through the gateway.
+AI Gateway 提供商包含由网关自身执行的内置工具。这些工具可与任意通过网关调用的模型配合使用。
 
 #### Perplexity Search
 
-The Perplexity Search tool enables models to search the web using [Perplexity's search API](https://docs.perplexity.ai/guides/search-quickstart). This tool is executed by the AI Gateway and returns web search results that the model can use to provide up-to-date information.
+Perplexity Search 工具使模型能够通过 [Perplexity 搜索 API](https://docs.perplexity.ai/guides/search-quickstart) 搜索网页。该工具由 AI Gateway 执行，返回可供模型使用的网页搜索结果，以提供最新信息。
 
 ```ts
 import { gateway, generateText } from 'ai';
@@ -451,7 +448,7 @@ console.log('Tool calls:', JSON.stringify(result.toolCalls, null, 2));
 console.log('Tool results:', JSON.stringify(result.toolResults, null, 2));
 ```
 
-You can also configure the search with optional parameters:
+也可以使用可选参数配置搜索：
 
 ```ts
 import { gateway, generateText } from 'ai';
@@ -475,37 +472,37 @@ console.log('Tool calls:', JSON.stringify(result.toolCalls, null, 2));
 console.log('Tool results:', JSON.stringify(result.toolResults, null, 2));
 ```
 
-The Perplexity Search tool supports the following optional configuration options:
+Perplexity Search 工具支持下列可选配置：
 
 - **maxResults** _number_
 
-  The maximum number of search results to return (1-20, default: 10).
+  返回的最大搜索结果数量（1–20，默认：10）。
 
 - **maxTokensPerPage** _number_
 
-  The maximum number of tokens to extract per search result page (256-2048, default: 2048).
+  每个搜索结果页面提取的最大令牌数（256–2048，默认：2048）。
 
 - **maxTokens** _number_
 
-  The maximum total tokens across all search results (default: 25000, max: 1000000).
+  所有搜索结果合计的最大令牌数（默认：25000，最大：1000000）。
 
 - **searchLanguageFilter** _string[]_
 
-  Filter search results by language using ISO 639-1 language codes (e.g., `['en']` for English, `['en', 'es']` for English and Spanish).
+  使用 ISO 639-1 语言代码按语言过滤结果（例如 `['en']` 表示英语，`['en', 'es']` 表示英语与西班牙语）。
 
 - **country** _string_
 
-  Filter search results by country using ISO 3166-1 alpha-2 country codes (e.g., `'US'` for United States, `'GB'` for United Kingdom).
+  使用 ISO 3166-1 alpha-2 国家代码按国家过滤结果（例如 `'US'` 表示美国，`'GB'` 表示英国）。
 
 - **searchDomainFilter** _string[]_
 
-  Limit search results to specific domains (e.g., `['reuters.com', 'bbc.com']`). This is useful for restricting results to trusted sources.
+  将搜索结果限定在特定域名（例如 `['reuters.com', 'bbc.com']`）。适用于将结果限制在可信来源。
 
 - **searchRecencyFilter** _'day' | 'week' | 'month' | 'year'_
 
-  Filter search results by relative time period. Useful for always getting recent results (e.g., 'week' for results from the last week).
+  按相对时间段过滤搜索结果。适用于始终获取较新结果（例如 `'week'` 表示最近一周）。
 
-The tool works with both `generateText` and `streamText`:
+该工具同时适用于 `generateText` 与 `streamText`：
 
 ```ts
 import { gateway, streamText } from 'ai';
@@ -535,7 +532,7 @@ for await (const part of result.fullStream) {
 
 #### Parallel Search
 
-The Parallel Search tool enables models to search the web using [Parallel AI's Search API](https://docs.parallel.ai/api-reference/search-beta/search). This tool is optimized for LLM consumption, returning relevant excerpts from web pages that can replace multiple keyword searches with a single call.
+Parallel Search 工具使模型能够通过 [Parallel AI 搜索 API](https://docs.parallel.ai/api-reference/search-beta/search) 搜索网页。该工具针对 LLM 消费场景优化，返回网页中的相关摘录，可用单次调用替代多次关键词搜索。
 
 ```ts
 import { gateway, generateText } from 'ai';
@@ -553,7 +550,7 @@ console.log('Tool calls:', JSON.stringify(result.toolCalls, null, 2));
 console.log('Tool results:', JSON.stringify(result.toolResults, null, 2));
 ```
 
-You can also configure the search with optional parameters:
+也可以使用可选参数配置搜索：
 
 ```ts
 import { gateway, generateText } from 'ai';
@@ -580,37 +577,37 @@ console.log('Tool calls:', JSON.stringify(result.toolCalls, null, 2));
 console.log('Tool results:', JSON.stringify(result.toolResults, null, 2));
 ```
 
-The Parallel Search tool supports the following optional configuration options:
+Parallel Search 工具支持下列可选配置：
 
 - **mode** _'one-shot' | 'agentic'_
 
-  Mode preset for different use cases:
-  - `'one-shot'` - Comprehensive results with longer excerpts for single-response answers (default)
-  - `'agentic'` - Concise, token-efficient results optimized for multi-step agentic workflows
+  针对不同用场景的预设模式：
+  - `'one-shot'` — 单次回答场景下的全面结果与更长摘录（默认）
+  - `'agentic'` — 面向多步智能体工作流的精简、省令牌结果
 
 - **maxResults** _number_
 
-  Maximum number of results to return (1-20). Defaults to 10 if not specified.
+  返回的最大结果数量（1–20）。未指定时默认为 10。
 
 - **sourcePolicy** _object_
 
-  Source policy for controlling which domains to include/exclude:
-  - `includeDomains` - List of domains to include in search results
-  - `excludeDomains` - List of domains to exclude from search results
-  - `afterDate` - Only include results published after this date (ISO 8601 format)
+  控制包含或排除哪些域名的来源策略：
+  - `includeDomains` — 搜索结果中要包含的域名列表
+  - `excludeDomains` — 搜索结果中要排除的域名列表
+  - `afterDate` — 仅包含该日期之后发布的结果（ISO 8601 格式）
 
 - **excerpts** _object_
 
-  Excerpt configuration for controlling result length:
-  - `maxCharsPerResult` - Maximum characters per result
-  - `maxCharsTotal` - Maximum total characters across all results
+  控制结果长度的摘录配置：
+  - `maxCharsPerResult` — 每个结果的最大字符数
+  - `maxCharsTotal` — 所有结果合计的最大字符数
 
 - **fetchPolicy** _object_
 
-  Fetch policy for controlling content freshness:
-  - `maxAgeSeconds` - Maximum age in seconds for cached content (set to 0 for always fresh)
+  控制内容新鲜度的抓取策略：
+  - `maxAgeSeconds` — 缓存内容的最大存活秒数（设为 0 表示始终获取最新）
 
-The tool works with both `generateText` and `streamText`:
+该工具同时适用于 `generateText` 与 `streamText`：
 
 ```ts
 import { gateway, streamText } from 'ai';
@@ -638,11 +635,11 @@ for await (const part of result.fullStream) {
 }
 ```
 
-### Custom Reporting
+### 自定义报表
 
-Track usage per end-user and categorize requests with tags, then query the data through the reporting API.
+按终端用户跟踪使用量并使用标签归类请求，然后通过报表 API 查询数据。
 
-#### Usage Tracking with User and Tags
+#### 使用 user 与 tags 跟踪使用量
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -660,15 +657,15 @@ const { text } = await generateText({
 });
 ```
 
-This allows you to:
+这样你可以：
 
-- View usage and costs broken down by end-user in your analytics
-- Filter and analyze spending by feature or use case using tags
-- Track which users or features are driving the most AI usage
+- 在分析中按终端用户查看使用量与费用拆分
+- 使用标签按功能或用例筛选与分析支出
+- 跟踪哪些用户或功能带来了最多的 AI 使用量
 
-#### Querying Spend Reports
+#### 查询支出报表
 
-Use the `getSpendReport()` method to query usage data programmatically. The reporting API is only available for Vercel Pro and Enterprise plans. For pricing, see the [Custom Reporting docs](https://vercel.com/docs/ai-gateway/capabilities/custom-reporting).
+使用 `getSpendReport()` 方法以编程方式查询使用数据。报表 API 仅适用于 Vercel Pro 与 Enterprise 套餐。定价请参阅 [自定义报表文档](https://vercel.com/docs/ai-gateway/capabilities/custom-reporting)。
 
 ```ts
 import { gateway } from 'ai';
@@ -684,30 +681,30 @@ for (const row of report.results) {
 }
 ```
 
-The `getSpendReport()` method accepts the following parameters:
+`getSpendReport()` 方法接受下列参数：
 
-- **startDate** _string_ - Start date in `YYYY-MM-DD` format (inclusive, required)
-- **endDate** _string_ - End date in `YYYY-MM-DD` format (inclusive, required)
-- **groupBy** _string_ - Aggregation dimension: `'day'` (default), `'user'`, `'model'`, `'tag'`, `'provider'`, or `'credential_type'`
-- **datePart** _string_ - Time granularity when `groupBy` is `'day'`: `'day'` or `'hour'`
-- **userId** _string_ - Filter to a specific user
-- **model** _string_ - Filter to a specific model (e.g. `'anthropic/claude-sonnet-4.5'`)
-- **provider** _string_ - Filter to a specific provider (e.g. `'anthropic'`)
-- **credentialType** _string_ - Filter by `'byok'` or `'system'` credentials
-- **tags** _string[]_ - Filter to requests matching these tags
+- **startDate** _string_ — 开始日期，`YYYY-MM-DD` 格式（含当日，必填）
+- **endDate** _string_ — 结束日期，`YYYY-MM-DD` 格式（含当日，必填）
+- **groupBy** _string_ — 聚合维度：`'day'`（默认）、`'user'`、`'model'`、`'tag'`、`'provider'` 或 `'credential_type'`
+- **datePart** _string_ — 当 `groupBy` 为 `'day'` 时的时间粒度：`'day'` 或 `'hour'`
+- **userId** _string_ — 仅筛选特定用户
+- **model** _string_ — 仅筛选特定模型（例如 `'anthropic/claude-sonnet-4.5'`）
+- **provider** _string_ — 仅筛选特定提供商（例如 `'anthropic'`）
+- **credentialType** _string_ — 按 `'byok'` 或 `'system'` 凭证筛选
+- **tags** _string[]_ — 仅筛选匹配这些标签的请求
 
-Each row in `results` contains a grouping field (matching your `groupBy` choice) and metrics:
+`results` 中每一行包含与所选 `groupBy` 对应的归类字段及指标：
 
-- **totalCost** _number_ - Total cost in USD
-- **marketCost** _number_ - Market cost in USD
-- **inputTokens** _number_ - Number of input tokens
-- **outputTokens** _number_ - Number of output tokens
-- **cachedInputTokens** _number_ - Number of cached input tokens
-- **cacheCreationInputTokens** _number_ - Number of cache creation input tokens
-- **reasoningTokens** _number_ - Number of reasoning tokens
-- **requestCount** _number_ - Number of requests
+- **totalCost** _number_ — 总费用（美元）
+- **marketCost** _number_ — 市场价格（美元）
+- **inputTokens** _number_ — 输入令牌数
+- **outputTokens** _number_ — 输出令牌数
+- **cachedInputTokens** _number_ — 缓存输入令牌数
+- **cacheCreationInputTokens** _number_ — 缓存创建输入令牌数
+- **reasoningTokens** _number_ — 推理令牌数
+- **requestCount** _number_ — 请求次数
 
-You can combine tracking and querying to analyze spend by tags you defined:
+可将跟踪与查询结合，分析你所定义标签下的支出：
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -737,13 +734,13 @@ for (const row of report.results) {
 }
 ```
 
-## Provider Options
+## 提供商选项
 
-The AI Gateway provider accepts provider options that control routing behavior and provider-specific configurations.
+AI Gateway 提供商接受用于控制路由行为与提供商专属配置的选项。
 
-### Gateway Provider Options
+### Gateway 提供商选项
 
-You can use the `gateway` key in `providerOptions` to control how AI Gateway routes requests:
+可在 `providerOptions` 中使用 `gateway` 键控制 AI Gateway 如何路由请求：
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -761,90 +758,90 @@ const { text } = await generateText({
 });
 ```
 
-The following gateway provider options are available:
+可用的 gateway 提供商选项如下：
 
 - **order** _string[]_
 
-  Specifies the sequence of providers to attempt when routing requests. The gateway will try providers in the order specified. If a provider fails or is unavailable, it will move to the next provider in the list.
+  指定路由请求时尝试提供商的顺序。网关按所列顺序依次尝试。若某提供商失败或不可用，将转到列表中的下一个。
 
-  Example: `order: ['bedrock', 'anthropic']` will attempt Amazon Bedrock first, then fall back to Anthropic.
+  示例：`order: ['bedrock', 'anthropic']` 会先尝试 Amazon Bedrock，再回退到 Anthropic。
 
 - **only** _string[]_
 
-  Restricts routing to only the specified providers. When set, the gateway will never route to providers not in this list, even if they would otherwise be available.
+  将路由限制为仅所列提供商。设置后，网关绝不会路由到列表外的提供商，即使它们原本可用。
 
-  Example: `only: ['anthropic', 'vertex']` will only allow routing to Anthropic or Vertex AI.
+  示例：`only: ['anthropic', 'vertex']` 仅允许路由到 Anthropic 或 Vertex AI。
 
 - **sort** _'cost' | 'ttft' | 'tps'_
 
-  Sorts available providers by a performance or cost metric before routing. The gateway will try the best-scoring provider first and fall back through the rest in sorted order. If unspecified, providers are ordered using the gateway's default system ranking.
-  - `'cost'` — lowest cost first
-  - `'ttft'` — lowest time-to-first-token first
-  - `'tps'` — highest tokens-per-second first
+  在路由前按性能或成本指标对可用提供商排序。网关会先尝试得分最优的提供商，再按排序依次回退。若未指定，则使用网关默认的系统排序。
+  - `'cost'` — 成本最低优先
+  - `'ttft'` — 首 token 时间最短优先
+  - `'tps'` — 每秒令牌数最高优先
 
-  When combined with `order`, the user-specified providers are promoted to the front while remaining providers follow the sorted order.
+  与 `order` 联用时，用户指定的提供商会提升到前排，其余提供商仍遵循排序顺序。
 
-  Example: `sort: 'ttft'` will route to the provider with the fastest time-to-first-token.
+  示例：`sort: 'ttft'` 会优先路由到首 token 最快的提供商。
 
-  When `sort` is active, the response's `providerMetadata.gateway.routing.sort` object contains the sort option used, the resulting execution order, per-provider metric values, and any providers that were deprioritized.
+  启用 `sort` 时，响应中的 `providerMetadata.gateway.routing.sort` 对象会包含所用排序选项、最终执行顺序、各提供商指标值以及被降权的提供商。
 
 - **models** _string[]_
 
-  Specifies fallback models to use when the primary model fails or is unavailable. The gateway will try the primary model first (specified in the `model` parameter), then try each model in this array in order until one succeeds.
+  指定主模型失败或不可用时的回退模型。网关会先尝试 `model` 参数中的主模型，再按数组顺序依次尝试，直至成功。
 
-  Example: `models: ['openai/gpt-5.4-nano', 'gemini-3-flash-preview']` will try the fallback models in order if the primary model fails.
+  示例：`models: ['openai/gpt-5.4-nano', 'gemini-3-flash-preview']` 会在主模型失败时按顺序尝试这些回退模型。
 
 - **user** _string_
 
-  Optional identifier for the end user on whose behalf the request is being made. This is used for spend tracking and attribution purposes, allowing you to track usage per end-user in your application.
+  可选的终端用户标识，表示请求所代表的用户。用于支出跟踪与归因，便于在应用中按终端用户统计使用量。
 
-  Example: `user: 'user-123'` will associate this request with end-user ID "user-123" in usage reports.
+  示例：`user: 'user-123'` 会将该请求关联到使用量报表中的终端用户 ID「user-123」。
 
 - **tags** _string[]_
 
-  Optional array of tags for categorizing and filtering usage in reports. Useful for tracking spend by feature, prompt version, or any other dimension relevant to your application.
+  可选的标签数组，用于在报表中归类与筛选使用量。适用于按功能、提示版本或应用中其他维度跟踪支出。
 
-  Example: `tags: ['chat', 'v2']` will tag this request with "chat" and "v2" for filtering in usage analytics.
+  示例：`tags: ['chat', 'v2']` 会为该请求打上「chat」与「v2」标签，便于在使用量分析中筛选。
 
 - **byok** _Record&lt;string, Array&lt;Record&lt;string, unknown&gt;&gt;&gt;_
 
-  Request-scoped BYOK (Bring Your Own Key) credentials to use for this request. When provided, any cached BYOK credentials configured in the gateway system are not considered. Requests may still fall back to use system credentials if the provided credentials fail.
+  请求级 BYOK（自带密钥）凭证。提供时，网关在网关中配置的缓存 BYOK 凭证将不会被考虑。若所提供的凭证失败，请求仍可能回退使用系统凭证。
 
-  Each provider can have multiple credentials (tried in order). The structure is a record where keys are provider slugs and values are arrays of credential objects.
+  每个提供商可有多组凭证（按顺序尝试）。结构为：键为提供商 slug，值为凭证对象数组。
 
-  Each credential can optionally include a `modelMappings` array to map AI Gateway model slugs to your deployment names (for example, custom Azure deployment names). If a BYOK request fails, the gateway falls back to system credentials using the default model name.
+  每个凭证可选包含 `modelMappings` 数组，用于将 AI Gateway 模型 slug 映射到你的部署名称（例如自定义 Azure 部署名）。若 BYOK 请求失败，网关会使用默认模型名回退到系统凭证。
 
-  Examples:
-  - Single provider: `byok: { 'anthropic': [{ apiKey: 'sk-ant-...' }] }`
-  - Multiple credentials: `byok: { 'vertex': [{ project: 'proj-1', googleCredentials: { privateKey: '...', clientEmail: '...' } }, { project: 'proj-2', googleCredentials: { privateKey: '...', clientEmail: '...' } }] }`
-  - Multiple providers: `byok: { 'anthropic': [{ apiKey: '...' }], 'bedrock': [{ accessKeyId: '...', secretAccessKey: '...' }] }`
-  - With model mappings: `byok: { 'azure': [{ apiKey: '...', resourceName: '...', modelMappings: [{ gatewayModelSlug: 'openai/gpt-5.4-nano', customModelId: 'my-deployment' }] }] }`
+  示例：
+  - 单一提供商：`byok: { 'anthropic': [{ apiKey: 'sk-ant-...' }] }`
+  - 多组凭证：`byok: { 'vertex': [{ project: 'proj-1', googleCredentials: { privateKey: '...', clientEmail: '...' } }, { project: 'proj-2', googleCredentials: { privateKey: '...', clientEmail: '...' } }] }`
+  - 多个提供商：`byok: { 'anthropic': [{ apiKey: '...' }], 'bedrock': [{ accessKeyId: '...', secretAccessKey: '...' }] }`
+  - 含模型映射：`byok: { 'azure': [{ apiKey: '...', resourceName: '...', modelMappings: [{ gatewayModelSlug: 'openai/gpt-5.4-nano', customModelId: 'my-deployment' }] }] }`
 
 - **zeroDataRetention** _boolean_
 
-  Restricts routing to providers that have zero data retention agreements with Vercel for AI Gateway. When using BYOK credentials, this filter is not applied. If BYOK credentials fail and the request falls back to system credentials, only providers with zero data retention agreements will be used. If there are no providers available for the model with zero data retention, the request will fail. Request-level ZDR is only available for Vercel Pro and Enterprise plans.
+  将路由限制为与 Vercel 就 AI Gateway 签订了零数据保留协议的提供商。使用 BYOK 凭证时不应用此筛选。若 BYOK 失败并回退到系统凭证，仅使用签订了零数据保留协议的提供商。若没有符合零数据保留的提供商可用，请求将失败。请求级 ZDR 仅适用于 Vercel Pro 与 Enterprise 套餐。
 
 - **disallowPromptTraining** _boolean_
 
-  Restricts routing to providers that have agreements with Vercel for AI Gateway to not use prompts for model training. When using BYOK credentials, this filter is not applied. If BYOK credentials fail and the request falls back to system credentials, only providers that do not train on prompt data will be used. If there are no providers available for the model that disallow prompt training, the request will fail.
+  将路由限制为与 Vercel 就 AI Gateway 约定不使用提示进行模型训练的提供商。使用 BYOK 凭证时不应用此筛选。若 BYOK 失败并回退到系统凭证，仅使用不对提示数据训练的提供商。若没有符合「禁止提示训练」的提供商可用，请求将失败。
 
 - **hipaaCompliant** _boolean_
 
-  Restricts routing to models and tools from providers that have signed a BAA with Vercel for the use of AI Gateway (requires Vercel HIPAA BAA add on). BYOK credentials are skipped when `hipaaCompliant` is set to `true` to ensure that requests are only routed to providers that support HIPAA compliance.
+  将路由限制为已与 Vercel 签署 BAA、可用于 AI Gateway 的提供商所提供的模型与工具（需要 Vercel HIPAA BAA 附加服务）。当 `hipaaCompliant` 设为 `true` 时会跳过 BYOK 凭证，以确保请求仅路由到支持 HIPAA 合规的提供商。
 
 - **quotaEntityId** _string_
 
-  The unique identifier for the entity against which quota is tracked. Used for quota management and enforcement purposes.
+  用于计量与强制配额所针对实体的唯一标识。用于配额管理与强制执行。
 
 - **providerTimeouts** _object_
 
-  Per-provider timeouts for BYOK credentials in milliseconds. Controls how long to wait for a provider to start responding before falling back to the next available provider.
+  BYOK 凭证下各提供商的超时时间（毫秒）。控制等待某提供商开始响应的最长时间，超时后将回退到下一个可用提供商。
 
-  Example: `providerTimeouts: { byok: { openai: 5000, anthropic: 2000 } }`
+  示例：`providerTimeouts: { byok: { openai: 5000, anthropic: 2000 } }`
 
-  For full details, see [Provider Timeouts](https://vercel.com/docs/ai-gateway/models-and-providers/provider-timeouts).
+  完整说明见 [提供商超时](https://vercel.com/docs/ai-gateway/models-and-providers/provider-timeouts)。
 
-You can combine these options to have fine-grained control over routing and tracking:
+可组合这些选项，精细控制路由与跟踪：
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -862,9 +859,9 @@ const { text } = await generateText({
 });
 ```
 
-#### Model Fallbacks Example
+#### 模型回退示例
 
-The `models` option enables automatic fallback to alternative models when the primary model fails:
+`models` 选项可在主模型失败时自动回退到备选模型：
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -887,9 +884,9 @@ const { text } = await generateText({
 // 4. Return the result from the first model that succeeds
 ```
 
-#### Zero Data Retention Example
+#### 零数据保留示例
 
-Set `zeroDataRetention` to true to route requests to providers that have zero data retention agreements with Vercel for AI Gateway. When using BYOK credentials, this filter is not applied. If BYOK credentials fail and the request falls back to system credentials, only providers with zero data retention agreements will be used. If there are no providers available for the model with zero data retention, the request will fail. When `zeroDataRetention` is `false` or not specified, there is no enforcement of restricting routing. Request-level ZDR is only available for Vercel Pro and Enterprise plans.
+将 `zeroDataRetention` 设为 true，可将请求路由到与 Vercel 就 AI Gateway 签订了零数据保留协议的提供商。使用 BYOK 凭证时不应用此筛选。若 BYOK 失败并回退到系统凭证，仅使用签订了零数据保留协议的提供商。若没有符合零数据保留的提供商可用，请求将失败。当 `zeroDataRetention` 为 `false` 或未指定时，不会强制限制路由。请求级 ZDR 仅适用于 Vercel Pro 与 Enterprise 套餐。
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -906,9 +903,9 @@ const { text } = await generateText({
 });
 ```
 
-#### Disallow Prompt Training Example
+#### 禁止提示训练示例
 
-Set `disallowPromptTraining` to true to route requests to providers that have agreements with Vercel for AI Gateway to not use prompts for model training. When using BYOK credentials, this filter is not applied. If BYOK credentials fail and the request falls back to system credentials, only providers that do not train on prompt data will be used. If there are no providers available for the model that disallow prompt training, the request will fail. When `disallowPromptTraining` is `false` or not specified, there is no enforcement of restricting routing.
+将 `disallowPromptTraining` 设为 true，可将请求路由到与 Vercel 就 AI Gateway 约定不使用提示进行模型训练的提供商。使用 BYOK 凭证时不应用此筛选。若 BYOK 失败并回退到系统凭证，仅使用不对提示数据训练的提供商。若没有符合「禁止提示训练」的提供商可用，请求将失败。当 `disallowPromptTraining` 为 `false` 或未指定时，不会强制限制路由。
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -925,9 +922,9 @@ const { text } = await generateText({
 });
 ```
 
-#### HIPAA Compliance Example
+#### HIPAA 合规示例
 
-Set `hipaaCompliant` to true to route requests only to models or tools by providers that have signed a BAA with Vercel for the use of AI Gateway. If the model or tool does not have a HIPAA-compliant provider, the request will fail. When `hipaaCompliant` is `false` or not specified, there is no enforcement of restricting routing. BYOK credentials are skipped when `hipaaCompliant` is set to `true` to ensure that requests are only routed to providers that support HIPAA compliance.
+将 `hipaaCompliant` 设为 true，可将请求仅路由到已与 Vercel 签署 BAA、可用于 AI Gateway 的提供商所提供的模型或工具。若模型或工具没有符合 HIPAA 的提供商，请求将失败。当 `hipaaCompliant` 为 `false` 或未指定时，不会强制限制路由。当 `hipaaCompliant` 设为 `true` 时会跳过 BYOK 凭证，以确保请求仅路由到支持 HIPAA 合规的提供商。
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -944,9 +941,9 @@ const { text } = await generateText({
 });
 ```
 
-#### Quota Entity ID Example
+#### 配额实体 ID 示例
 
-Set `quotaEntityId` to track and enforce quota against a specific entity. This is useful for multi-tenant applications where you need to manage quota at the entity level (e.g., per organization or team).
+设置 `quotaEntityId` 可针对特定实体跟踪并强制执行配额。适用于多租户应用中需要按实体（例如按组织或团队）管理配额的场景。
 
 ```ts
 import type { GatewayProviderOptions } from '@ai-sdk/gateway';
@@ -963,9 +960,9 @@ const { text } = await generateText({
 });
 ```
 
-### Provider-Specific Options
+### 提供商专属选项
 
-When using provider-specific options through AI Gateway, use the actual provider name (e.g. `anthropic`, `openai`, not `gateway`) as the key:
+通过 AI Gateway 使用提供商专属选项时，请使用实际提供商名称（例如 `anthropic`、`openai`，而非 `gateway`）作为键：
 
 ```ts
 import type { AnthropicLanguageModelOptions } from '@ai-sdk/anthropic';
@@ -986,17 +983,17 @@ const { text } = await generateText({
 });
 ```
 
-This works with any provider supported by AI Gateway. Each provider has its own set of options - see the individual [provider documentation pages](/providers/ai-sdk-providers) for details on provider-specific options.
+这与 AI Gateway 支持的任意提供商均可配合使用。各提供商有各自的选项集——提供商专属选项详情请参阅各 [提供商文档页面](/providers/ai-sdk-providers)。
 
-### Available Providers
+### 可用提供商
 
-AI Gateway supports routing to 20+ providers.
+AI Gateway 支持路由到 20 余家提供商。
 
-For a complete list of available providers and their slugs, see the [AI Gateway documentation](https://vercel.com/docs/ai-gateway/provider-options#available-providers).
+完整提供商列表及其 slug，请参阅 [AI Gateway 文档](https://vercel.com/docs/ai-gateway/provider-options#available-providers)。
 
-## Model Capabilities
+## 模型能力
 
-Model capabilities depend on the specific provider and model you're using. For detailed capability information, see:
+模型能力取决于你所使用的具体提供商与模型。详细能力说明请参阅：
 
-- [AI Gateway provider options](https://vercel.com/docs/ai-gateway/provider-options#available-providers) for an overview of available providers
-- Individual [AI SDK provider pages](/providers/ai-sdk-providers) for specific model capabilities and features
+- [AI Gateway 提供商选项](https://vercel.com/docs/ai-gateway/provider-options#available-providers)，了解可用提供商概览
+- 各 [AI SDK 提供商页面](/providers/ai-sdk-providers)，了解具体模型能力与特性

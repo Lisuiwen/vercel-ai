@@ -3,11 +3,11 @@ import { streamText } from 'ai';
 import { run } from '../../lib/run';
 
 const openai = createOpenAI({
-  // example fetch wrapper that injects an error after 1000 characters:
+  // 示例 fetch 包装器在 1000 个字符后注入错误：
   fetch: async (url, options) => {
     const result = await fetch(url, options);
 
-    // Intercept the response stream
+    // 拦截响应流
     const originalBody = result.body;
     if (originalBody) {
       const reader = originalBody.getReader();

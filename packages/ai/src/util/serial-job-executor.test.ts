@@ -22,7 +22,7 @@ describe('SerialJobExecutor', () => {
     const job2Promise = new DelayedPromise<void>();
     const job3Promise = new DelayedPromise<void>();
 
-    // Start all jobs
+    // 启动所有作业
     const promise1 = executor.run(async () => {
       executionOrder.push(1);
       job1Promise.resolve();
@@ -38,10 +38,10 @@ describe('SerialJobExecutor', () => {
       job3Promise.resolve();
     });
 
-    // Wait for all jobs to complete
+    // 等待所有作业完成
     await Promise.all([promise1, promise2, promise3]);
 
-    // Verify execution order
+    // 验证执行顺序
     expect(executionOrder).toEqual([1, 2, 3]);
   });
 
@@ -63,7 +63,7 @@ describe('SerialJobExecutor', () => {
     const job1 = new DelayedPromise<void>();
     const job2 = new DelayedPromise<void>();
 
-    // Start two jobs
+    // 开始两份工作
     const promise1 = executor.run(async () => {
       concurrentJobs++;
       maxConcurrentJobs = Math.max(maxConcurrentJobs, concurrentJobs);
@@ -78,7 +78,7 @@ describe('SerialJobExecutor', () => {
       concurrentJobs--;
     });
 
-    // Let both jobs proceed and complete
+    // 让两项工作继续进行并完成
     job1.resolve();
     job2.resolve();
 
@@ -92,7 +92,7 @@ describe('SerialJobExecutor', () => {
     const results: string[] = [];
     const error = new Error('test error');
 
-    // Queue multiple jobs with mixed success/failure
+    // 对多个作业进行排队，成功/失败参差不齐
     const promise1 = executor.run(async () => {
       results.push('job1');
     });
@@ -105,14 +105,14 @@ describe('SerialJobExecutor', () => {
       results.push('job3');
     });
 
-    // First job should succeed
+    // 第一份工作应该成功
     await promise1;
     expect(results).toEqual(['job1']);
 
-    // Second job should fail
+    // 第二份工作应该会失败
     await expect(promise2).rejects.toThrow(error);
 
-    // Third job should still execute and succeed
+    // 第三项工作仍应执行并成功
     await promise3;
     expect(results).toEqual(['job1', 'job3']);
   });
@@ -122,12 +122,12 @@ describe('SerialJobExecutor', () => {
     const executionOrder: number[] = [];
     const startOrder: number[] = [];
 
-    // Create delayed promises for controlling job execution
+    // 创建延迟承诺来控制作业执行
     const job1 = new DelayedPromise<void>();
     const job2 = new DelayedPromise<void>();
     const job3 = new DelayedPromise<void>();
 
-    // Start all jobs concurrently
+    // 同时启动所有作业
     const promises = [
       executor.run(async () => {
         startOrder.push(1);
@@ -146,17 +146,17 @@ describe('SerialJobExecutor', () => {
       }),
     ].map(p => p.catch(e => e));
 
-    // Resolve jobs in reverse order to verify execution order is maintained
+    // 以相反的顺序解决作业以验证执行顺序是否得到维护
     job3.resolve();
     job2.resolve();
     job1.resolve();
 
-    // Wait for all jobs to complete
+    // 等待所有作业完成
     await Promise.all(promises);
 
-    // Verify that jobs were queued in the order they were submitted
+    // 验证作业是否按照提交顺序排队
     expect(startOrder).toEqual([1, 2, 3]);
-    // Verify that jobs were executed in the order they were queued
+    // 验证作业是否按照排队顺序执行
     expect(executionOrder).toEqual([1, 2, 3]);
   });
 });

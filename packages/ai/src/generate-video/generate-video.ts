@@ -35,7 +35,7 @@ export type GenerateVideoPrompt =
     };
 
 /**
- * Generates videos using a video model.
+ * 使用视频模型生成视频。
  *
  * @param model - The video model to use.
  * @param prompt - The prompt that should be used to generate the video.
@@ -46,7 +46,7 @@ export type GenerateVideoPrompt =
  * @param fps - Frames per second for the video.
  * @param seed - Seed for the video generation.
  * @param providerOptions - Additional provider-specific options that are passed through to the provider
- * as body parameters.
+ * 作为身体参数。
  * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
  * @param abortSignal - An optional abort signal that can be used to cancel the call.
  * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
@@ -72,77 +72,77 @@ export async function experimental_generateVideo({
   download: downloadFn = defaultDownload,
 }: {
   /**
-   * The video model to use.
+   * 要使用的视频模型。
    */
   model: VideoModel;
 
   /**
-   * The prompt that should be used to generate the video.
+   * 应用于生成视频的提示。
    */
   prompt: GenerateVideoPrompt;
 
   /**
-   * Number of videos to generate.
+   * 要生成的视频数量。
    */
   n?: number;
 
   /**
-   * Maximum number of videos per API call. If not provided, the model's default will be used.
+   * 每个 API 调用的最大视频数。如果未提供，将使用模型的默认值。
    */
   maxVideosPerCall?: number;
 
   /**
-   * Aspect ratio of the videos to generate. Must have the format `{width}:{height}`.
+   * 要生成的视频的宽高比。必须采用“{width}:{height}”格式。
    */
   aspectRatio?: `${number}:${number}`;
 
   /**
-   * Resolution of the videos to generate. Must have the format `{width}x{height}`.
+   * 要生成的视频的分辨率。格式必须为“{宽度}x{高度}”。
    */
   resolution?: `${number}x${number}`;
 
   /**
-   * Duration of the video in seconds.
+   * 视频的持续时间（以秒为单位）。
    */
   duration?: number;
 
   /**
-   * Frames per second for the video.
+   * 视频的每秒帧数。
    */
   fps?: number;
 
   /**
-   * Seed for the video generation.
+   * 视频生成的种子。
    */
   seed?: number;
 
   /**
-   * Additional provider-specific options that are passed through to the provider
-   * as body parameters.
+   * 传递给提供商的其他特定于提供商的选项
+   * 作为身体参数。
    */
   providerOptions?: ProviderOptions;
 
   /**
-   * Maximum number of retries per video model call. Set to 0 to disable retries.
+   * 每个视频模型调用的最大重试次数。设置为 0 以禁用重试。
    *
    * @default 2
    */
   maxRetries?: number;
 
   /**
-   * Abort signal.
+   * 中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional headers to include in the request.
-   * Only applicable for HTTP-based providers.
+   * 要包含在请求中的附加标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string>;
 
   /**
-   * Custom download function for fetching videos from URLs.
-   * Use `createDownload()` from `ai` to create a download function with custom size limits.
+   * 用于从 URL 获取视频的自定义下载功能。
+   * 使用“ai”中的“createDownload()”创建具有自定义大小限制的下载函数。
    *
    * @default createDownload() (2 GiB limit)
    */
@@ -168,7 +168,7 @@ export async function experimental_generateVideo({
   const maxVideosPerCallWithDefault =
     maxVideosPerCall ?? (await invokeModelMaxVideosPerCall(model)) ?? 1;
 
-  // parallelize calls to the model:
+  // 并行调用模型：
   const callCount = Math.ceil(n / maxVideosPerCallWithDefault);
   const callVideoCounts = Array.from({ length: callCount }, (_, index) => {
     const remaining = n - index * maxVideosPerCallWithDefault;
@@ -196,7 +196,7 @@ export async function experimental_generateVideo({
     ),
   );
 
-  // collect result videos, warnings, and response metadata
+  // 收集结果视频、警告和响应元数据
   const videos: Array<GeneratedFile> = [];
   const warnings: Array<Warning> = [];
   const responses: Array<VideoModelResponseMetadata> = [];
@@ -211,7 +211,7 @@ export async function experimental_generateVideo({
             abortSignal,
           });
 
-          // Filter out generic/unknown media types that should fall through to detection
+          // 过滤掉应进行检测的通用/未知媒体类型
           const isUsableMediaType = (type: string | undefined): boolean =>
             !!type && type !== 'application/octet-stream';
 
@@ -283,7 +283,7 @@ export async function experimental_generateVideo({
             ...metadata,
           };
 
-          // Merge videos arrays if both exist
+          // 合并视频数组（如果两者都存在）
           if (
             'videos' in existingMetadata &&
             Array.isArray(existingMetadata.videos) &&

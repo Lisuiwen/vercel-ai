@@ -48,7 +48,7 @@ run(async () => {
 
   console.log('Files saved in:', workspaceRoot);
 
-  // List created files
+  // 列出已创建的文件
   const files = await fs.readdir(workspaceRoot);
   for (const file of files) {
     const filePath = path.join(workspaceRoot, file);

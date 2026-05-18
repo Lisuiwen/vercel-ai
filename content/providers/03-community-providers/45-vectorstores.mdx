@@ -1,15 +1,15 @@
 ---
 title: vectorstores
-description: Learn how to use vector databases with the AI SDK.
+description: 介绍如何在 AI SDK 中使用向量数据库。
 ---
 
-# vectorstores Provider
+# vectorstores 提供商
 
-The [vectorstores provider](https://www.vectorstores.org/integration/vercel/) integrates [vectorstores](https://www.vectorstores.org/) with the AI SDK, enabling AI workflows that retrieve and store data in vector databases.
+[vectorstores provider](https://www.vectorstores.org/integration/vercel/) 将 [vectorstores](https://www.vectorstores.org/) 与 AI SDK 集成，支持在向量数据库中检索与存储数据的 AI 工作流。
 
-## Setup
+## 安装与配置
 
-The vectorstores provider is available in the `@vectorstores/vercel` module. You can install it with:
+vectorstores 提供商位于 `@vectorstores/vercel` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -26,25 +26,25 @@ The vectorstores provider is available in the `@vectorstores/vercel` module. You
   </Tab>
 </Tabs>
 
-## Document Indexing
+## 文档索引
 
-Before you can use the vectorstores provider, you need to define an index for your documents. An index stores document embeddings in a vector database, enabling semantic search over your content.
+使用 vectorstores 提供商前，需要先为文档定义索引。索引将文档嵌入存储在向量数据库中，从而可对内容进行语义搜索。
 
-An easy way to create an index is by using the `VectorStoreIndex.fromDocuments` function from the `@vectorstores/core` package. This function will automatically chunk your documents into smaller chunks, embed them, and store them in the vector database.
+一种简便方式是使用 `@vectorstores/core` 包中的 `VectorStoreIndex.fromDocuments`。该函数会自动将文档切分为更小片段、嵌入并存入向量数据库。
 
-To be able to embed the documents, you need an embedding model. You can use the `vercelEmbedding` function (see [Utilities](#utilities)) to use any AI SDK embedding model.
+要对文档嵌入，需要嵌入模型。可使用 `vercelEmbedding` 函数（见[工具函数](#工具函数)）包装任意 AI SDK 嵌入模型。
 
-Once you have an index, you can use a retriever to find the most relevant documents based on similarity to a given query.
+建立索引后，可使用检索器基于与查询的相似度查找最相关文档。
 
-## Utilities
+## 工具函数
 
-The vectorstores provider offers two main utility functions for integrating AI SDK with vectorstores.
+vectorstores 提供商提供两个主要工具函数，用于集成 AI SDK 与 vectorstores。
 
 ### vercelEmbedding
 
-The `vercelEmbedding` function adapts any AI SDK embedding model for use with vectorstores. This enables you to use embedding providers like OpenAI or Cohere within the vectorstores ecosystem.
+`vercelEmbedding` 将任意 AI SDK 嵌入模型适配为 vectorstores 可用格式，从而在 vectorstores 生态中使用 OpenAI、Cohere 等嵌入提供商。
 
-Here is an example of how to create an index using the `vercelEmbedding` function:
+以下示例展示如何用 `vercelEmbedding` 创建索引：
 
 ```ts
 import { openai } from '@ai-sdk/openai';
@@ -60,7 +60,7 @@ const index = await VectorStoreIndex.fromDocuments(documents, {
 
 ### vercelTool
 
-The `vercelTool` function wraps a vectorstores retriever as an AI SDK tool, enabling agents that can autonomously access data in vector databases.
+`vercelTool` 将 vectorstores 检索器包装为 AI SDK 工具，使智能体能够自主访问向量数据库中的数据。
 
 ```ts
 import { generateText } from 'ai';
@@ -79,29 +79,29 @@ const { text } = await generateText({
 });
 ```
 
-#### Configuration Options
+#### 配置选项
 
-| Option             | Type          | Required | Description                                                                                 |
-| ------------------ | ------------- | -------- | ------------------------------------------------------------------------------------------- |
-| `retriever`        | BaseRetriever | Yes      | The vectorstores retriever instance to wrap                                                 |
-| `description`      | string        | Yes      | Guidance text helping the LLM understand when and how to use the tool                       |
-| `noResultsMessage` | string        | No       | Custom fallback message when no documents match (default: "No results found in documents.") |
+| 选项               | 类型          | 必填 | 说明                                                         |
+| ------------------ | ------------- | ---- | ------------------------------------------------------------ |
+| `retriever`        | BaseRetriever | 是   | 要包装的 vectorstores 检索器实例                           |
+| `description`      | string        | 是   | 帮助 LLM 理解何时及如何使用该工具的引导文案                   |
+| `noResultsMessage` | string        | 否   | 无匹配文档时的自定义回退文案（默认："No results found in documents."） |
 
-## Use Cases
+## 使用场景
 
-### Agentic RAG
+### 智能体 RAG
 
-Ask questions over the knowledge stores in the vector database. The LLM autonomously decides whether to query the vector database using a tool, retrieves relevant content, and incorporates findings into responses.
+就向量数据库中的知识库提问。LLM 自主决定是否通过工具查询向量数据库，检索相关内容并融入回答。
 
-[View example →](https://github.com/marcusschiesser/vectorstores/blob/main/examples/vercel/agentic-rag.ts)
+[查看示例 →](https://github.com/marcusschiesser/vectorstores/blob/main/examples/vercel/agentic-rag.ts)
 
-### Agent Memory Systems
+### 智能体记忆系统
 
-Store and retrieve user-specific information across conversations by combining a tool storing memories in the vector database and a tool retrieving memories from the vector database.
+结合用于写入记忆的向量数据库工具与用于读取记忆的向量数据库工具，在多轮对话间存储与检索用户相关信息。
 
-[View example →](https://github.com/marcusschiesser/vectorstores/blob/main/examples/vercel/agent-memory.ts)
+[查看示例 →](https://github.com/marcusschiesser/vectorstores/blob/main/examples/vercel/agent-memory.ts)
 
-## References
+## 参考链接
 
-- [Vectorstores Documentation](https://www.vectorstores.org/)
-- [Vectorstores AI SDK Integration](https://www.vectorstores.org/integration/vercel/)
+- [Vectorstores 文档](https://www.vectorstores.org/)
+- [Vectorstores AI SDK 集成](https://www.vectorstores.org/integration/vercel/)

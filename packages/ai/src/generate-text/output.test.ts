@@ -58,8 +58,8 @@ describe('Output.text', () => {
     });
 
     it('should handle undefined as string "undefined"', async () => {
-      // Output.text() expects a string, so passing undefined would be a type error,
-      // but we cast for test purposes to ensure what happens
+      // Output.text() 需要一个字符串，因此传递 undefined 将是一个类型错误，
+      // 但我们出于测试目的进行铸造以确保发生什么
       const result = await text1.parseCompleteOutput(
         { text: undefined as any },
         context,
@@ -365,11 +365,11 @@ describe('Output.array', () => {
     });
 
     it('should parse partial output successfully for repaired-parse (returns all but last element)', async () => {
-      // Simulate an incomplete last element (at the end, missing " }")
+      // 模拟不完整的最后一个元素（最后，缺少“}”）
       const partial = await array1.parsePartialOutput({
         text: `{ "elements": [{ "content": "a" }, { "content": "b" }`,
       });
-      // Should only return [{ content: "a" }]
+      // 应该只返回 [{ content: "a" }]
       expect(partial).toEqual({
         partial: [{ content: 'a' }],
       });
@@ -390,7 +390,7 @@ describe('Output.array', () => {
     });
 
     it('should return undefined if elements is missing', async () => {
-      // "elements" property is missing
+      // 缺少“元素”属性
       const partial = await array1.parsePartialOutput({
         text: `{ "foo": [1,2,3] }`,
       });
@@ -398,7 +398,7 @@ describe('Output.array', () => {
     });
 
     it('should return undefined if elements is not an array', async () => {
-      // "elements" property exists but is not an array
+      // “elements”属性存在但不是数组
       const partial = await array1.parsePartialOutput({
         text: `{ "elements": "not-an-array" }`,
       });
@@ -672,9 +672,9 @@ describe('Output.json', () => {
     });
 
     it('should parse partial valid JSON (repaired-parse)', async () => {
-      // simulate incomplete/repaired but still valid
+      // 模拟不完整/修复但仍然有效
       const result = await json1.parsePartialOutput({ text: `{ "foo": 123` });
-      // Since parsePartialJson may not be able to repair this, just check it's undefined or a value
+      // 由于 parsePartialJson 可能无法修复此问题，只需检查它是未定义的还是一个值
       expect([undefined, { partial: expect.anything() }]).toContainEqual(
         result,
       );

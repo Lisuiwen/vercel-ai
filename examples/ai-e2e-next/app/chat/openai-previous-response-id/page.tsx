@@ -13,7 +13,7 @@ import { DefaultChatTransport } from 'ai';
 import { useRef } from 'react';
 
 export default function OpenPreviousResponseIdPage() {
-  // Keep the last provider metadata so we can supply previousResponseId on the next request.
+  // 保留最后的 provider metadata，以便下次请求提供 previousResponseId。
   const providerMetadataRef = useRef<
     OpenaiResponsesProviderMetadata | undefined
   >(undefined);
@@ -23,7 +23,7 @@ export default function OpenPreviousResponseIdPage() {
       transport: new DefaultChatTransport({
         api: '/api/chat/openai-previous-response-id',
         prepareSendMessagesRequest: ({ messages }) => {
-          // Send the newest message plus the previous provider metadata.
+          // 发送最新消息及先前的 provider metadata。
           const body: PreviousResponseIdRequestBody = {
             message: messages[messages.length - 1],
             previousProviderMetadata: providerMetadataRef.current,
@@ -36,7 +36,7 @@ export default function OpenPreviousResponseIdPage() {
       onData: ({ data, type }) => {
         switch (type) {
           case 'data-providerMetadata': {
-            // Store the latest responseId for the next round trip.
+            // 存储最新的 responseId 供下次往返使用。
             providerMetadataRef.current = data;
             break;
           }

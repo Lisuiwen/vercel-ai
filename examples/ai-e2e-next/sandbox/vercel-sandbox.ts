@@ -3,19 +3,19 @@ import type { Sandbox as VercelSandboxSDK } from '@vercel/sandbox';
 
 const rootDirectory = '/vercel/sandbox';
 
-// Vercel Sandbox authenticates with a Vercel OIDC token.
+// Vercel Sandbox 使用 Vercel OIDC token 认证。
 //
-// Deployed on Vercel:
-// 1. Open the project in the Vercel dashboard.
-// 2. Go to Settings > Security.
-// 3. Enable "Secure backend access with OIDC federation" and save.
+// 部署在 Vercel 上：
+// 1. 在 Vercel 控制台中打开项目。
+// 2. 进入 Settings > Security。
+// 3. 启用 "Secure backend access with OIDC federation" 并保存。
 //
-// Local development:
-// 1. Run `vercel link`.
-// 2. Run `vercel env pull` to write VERCEL_OIDC_TOKEN to .env.local.
+// 本地开发：
+// 1. 运行 `vercel link`。
+// 2. 运行 `vercel env pull` 将 VERCEL_OIDC_TOKEN 写入 .env.local。
 //
-// Without OIDC, @vercel/sandbox reports a missing `x-vercel-oidc-token`
-// header when creating or retrieving sandboxes.
+// 无 OIDC 时，@vercel/sandbox 会报告缺少 `x-vercel-oidc-token`
+// 创建或获取 sandbox 时使用的 header。
 export class VercelSandbox implements Sandbox {
   constructor(
     public readonly sandbox: Awaited<

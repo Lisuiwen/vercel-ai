@@ -40,8 +40,8 @@ run(async () => {
         } = providerMetadata;
         console.log(`itemId: ${itemId}`);
 
-        // In the Responses API, store is set to true by default, so conversation history is cached.
-        // The reasoning tokens from that interaction are also cached, and as a result, reasoningEncryptedContent returns null.
+        // 在 Responses API 中，store 默认设置为 true，因此会话历史记录会被缓存。
+        // 该交互中的推理令牌也会被缓存，因此，reasoningEncryptedContent 返回 null。
         console.log(`reasoningEncryptedContent: ${reasoningEncryptedContent}`);
         break;
 

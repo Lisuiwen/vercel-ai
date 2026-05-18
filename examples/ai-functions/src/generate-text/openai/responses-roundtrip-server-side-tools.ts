@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { run } from '../../lib/run';
 
 const openai = createOpenAI({
-  // Console log the API request body for debugging
+  // 控制台记录 API 请求正文以进行调试
   fetch: async (url, options) => {
     console.log(
       `Body ${JSON.stringify(JSON.parse(options!.body! as string), null, 2)}`,

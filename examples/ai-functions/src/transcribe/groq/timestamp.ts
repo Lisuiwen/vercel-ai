@@ -12,7 +12,7 @@ async function main() {
       groq: {
         language: 'en',
         timestampGranularities: ['word', 'segment'],
-        responseFormat: 'verbose_json', // this is required for timestamp granularities
+        responseFormat: 'verbose_json', // 这是时间戳粒度所必需的
       } satisfies GroqTranscriptionModelOptions,
     },
   });

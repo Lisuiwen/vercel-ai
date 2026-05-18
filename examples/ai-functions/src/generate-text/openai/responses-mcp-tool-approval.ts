@@ -59,7 +59,7 @@ run(async () => {
       stopWhen: isStepCount(10),
     });
 
-    // Log raw response for debugging
+    // 记录原始响应以进行调试
     console.log('\n=== RAW RESPONSE ===');
     console.log('Steps:', result.steps.length);
     for (const [i, step] of result.steps.entries()) {

@@ -1,53 +1,47 @@
 ---
-title: Chatbot Resume Streams
-description: Learn how to resume chatbot streams after client disconnects.
+title: 聊天机器人恢复流
+description: 学习如何在客户端断开后恢复聊天机器人流。
 ---
 
-# Chatbot Resume Streams
+# 聊天机器人恢复流
 
-`useChat` supports resuming ongoing streams after page reloads. Use this feature to build applications with long-running generations.
+`useChat` 支持在页面重新加载后恢复正在进行的流。使用此功能可构建具有长时间运行的生成的应用。
 
 <Note type="warning">
-  In a resumable stream setup, client-side aborts are treated as disconnects.
-  Closing a tab, refreshing the page, or calling `stop()` only closes the
-  current HTTP connection and should not cancel the underlying generation. To
-  let users stop generation, add a dedicated stop endpoint that persists the
-  partial response, cancels the active work, and clears the active stream. See
-  [Stop an Active Resumable Stream](#stop-an-active-resumable-stream) and
-  [troubleshooting](/docs/troubleshooting/abort-breaks-resumable-streams) for
-  more details.
+  在可恢复流设置中，客户端中止被视为断开连接。
+  关闭标签页、刷新页面或调用 `stop()` 只会关闭当前 HTTP 连接，不应取消底层生成。若要允许用户停止生成，请添加专用停止端点，持久化部分响应、取消活动工作并清除活动流。更多详情请参阅[停止活动的可恢复流](#stop-an-active-resumable-stream)和[故障排除](/docs/troubleshooting/abort-breaks-resumable-streams)。
 </Note>
 
-## How stream resumption works
+## 流恢复的工作原理
 
-Stream resumption requires persistence for messages and active streams in your application. The AI SDK provides tools to connect to storage, but you need to set up the storage yourself.
+流恢复要求应用对消息和活动流进行持久化。AI SDK 提供连接存储的工具，但你需要自行设置存储。
 
-**The AI SDK provides:**
+**AI SDK 提供：**
 
-- A `resume` option in `useChat` that automatically reconnects to active streams
-- Access to the outgoing stream through the `consumeSseStream` callback
-- Automatic HTTP requests to your resume endpoints
+- `useChat` 中的 `resume` 选项，可自动重新连接到活动流
+- 通过 `consumeSseStream` 回调访问传出流
+- 自动向恢复端点发送 HTTP 请求
 
-**You build:**
+**你需要构建：**
 
-- Storage to track which stream belongs to each chat
-- Redis to store the UIMessage stream
-- Two API endpoints: POST to create streams, GET to resume them
-- Integration with [`resumable-stream`](https://www.npmjs.com/package/resumable-stream) to manage Redis storage
+- 跟踪每个聊天属于哪个流的存储
+- 用于存储 UIMessage 流的 Redis
+- 两个 API 端点：POST 创建流，GET 恢复流
+- 与 [`resumable-stream`](https://www.npmjs.com/package/resumable-stream) 集成以管理 Redis 存储
 
-## Prerequisites
+## 前置条件
 
-To implement resumable streams in your chat application, you need:
+要在聊天应用中实现可恢复流，你需要：
 
-1. **The `resumable-stream` package** - Handles the publisher/subscriber mechanism for streams
-2. **A Redis instance** - Stores stream data (e.g. [Redis through Vercel](https://vercel.com/marketplace/redis))
-3. **A persistence layer** - Tracks which stream ID is active for each chat (e.g. database)
+1. **`resumable-stream` 包** — 处理流的发布/订阅机制
+2. **Redis 实例** — 存储流数据（例如 [Vercel 上的 Redis](https://vercel.com/marketplace/redis)）
+3. **持久化层** — 跟踪每个聊天的活动流 ID（例如数据库）
 
-## Implementation
+## 实现
 
-### 1. Client-side: Enable stream resumption
+### 1. 客户端：启用流恢复
 
-Use the `resume` option in the `useChat` hook to enable stream resumption. When `resume` is true, the hook automatically attempts to reconnect to any active stream for the chat on mount:
+在 `useChat` hook 中使用 `resume` 选项启用流恢复。当 `resume` 为 true 时，hook 会在挂载时自动尝试重新连接到该聊天的任何活动流：
 
 ```tsx filename="app/chat/[chatId]/chat.tsx"
 'use client';
@@ -84,17 +78,16 @@ export function Chat({
 ```
 
 <Note>
-  You must send the chat ID with each request (see
-  `prepareSendMessagesRequest`).
+  你必须在每次请求中发送聊天 ID（参见 `prepareSendMessagesRequest`）。
 </Note>
 
-When you enable `resume`, the `useChat` hook makes a `GET` request to `/api/chat/[id]/stream` on mount to check for and resume any active streams.
+启用 `resume` 后，`useChat` hook 会在挂载时向 `/api/chat/[id]/stream` 发送 `GET` 请求，以检查并恢复任何活动流。
 
-Let's start by creating the POST handler to create the resumable stream.
+让我们先创建用于创建可恢复流的 POST 处理程序。
 
-### 2. Create the POST handler
+### 2. 创建 POST 处理程序
 
-The POST handler creates resumable streams using the `consumeSseStream` callback:
+POST 处理程序使用 `consumeSseStream` 回调创建可恢复流：
 
 ```ts filename="app/api/chat/route.ts"
 import { openai } from '@ai-sdk/openai';

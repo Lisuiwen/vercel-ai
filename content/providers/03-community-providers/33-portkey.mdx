@@ -1,24 +1,24 @@
 ---
 title: Portkey
-description: Learn how to use the Portkey provider for the AI SDK.
+description: 介绍如何在 AI SDK 中使用 Portkey 提供商。
 ---
 
-# Portkey Provider
+# Portkey 提供商
 
-[Portkey](https://portkey.ai/?utm_source=vercel&utm_medium=docs&utm_campaign=integration) natively integrates with the AI SDK to make your apps production-ready and reliable. Import Portkey's Vercel package and use it as a provider in your Vercel AI app to enable all of Portkey's features:
+[Portkey](https://portkey.ai/?utm_source=vercel&utm_medium=docs&utm_campaign=integration) 原生集成 AI SDK，帮助应用具备生产级稳定性与可靠性。导入 Portkey 的 Vercel 包并在 Vercel AI 应用中作为提供商使用，即可启用 Portkey 的各项能力：
 
-- Full-stack **observability** and **tracing** for all requests
-- Interoperability across **250+ LLMs**
-- Built-in **50+** state-of-the-art guardrails
-- Simple & semantic **caching** to save costs & time
-- Conditional request routing with fallbacks, load-balancing, automatic retries, and more
-- Continuous improvement based on user feedback
+- 面向全部请求的端到端**可观测性**与**链路追踪**
+- 跨 **250+ LLM** 的互操作
+- 内置 **50+** 先进护栏（guardrails）
+- 简单且语义化的**缓存**，节省成本与时间
+- 条件路由、降级、负载均衡、自动重试等
+- 基于用户反馈的持续改进
 
-Learn more at [Portkey docs for the AI SDK](https://docs.portkey.ai/docs/integrations/libraries/vercel)
+更多说明见 [面向 AI SDK 的 Portkey 文档](https://docs.portkey.ai/docs/integrations/libraries/vercel)
 
-## Setup
+## 安装与配置
 
-The Portkey provider is available in the `@portkey-ai/vercel-provider` module. You can install it with:
+Portkey 提供商位于 `@portkey-ai/vercel-provider` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -36,9 +36,9 @@ The Portkey provider is available in the `@portkey-ai/vercel-provider` module. Y
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-To create a Portkey provider instance, use the `createPortkey` function:
+使用 `createPortkey` 创建 Portkey 提供商实例：
 
 ```typescript
 import { createPortkey } from '@portkey-ai/vercel-provider';
@@ -57,22 +57,22 @@ const portkey = createPortkey({
 });
 ```
 
-You can find your Portkey API key in the [Portkey Dashboard](https://app.portkey.ai).
+可在 [Portkey 控制台](https://app.portkey.ai) 查找 API 密钥。
 
-## Language Models
+## 语言模型
 
-Portkey supports both chat and completion models. Use `portkey.chatModel()` for chat models and `portkey.completionModel()` for completion models:
+Portkey 支持聊天模型与补全模型。聊天模型使用 `portkey.chatModel()`，补全模型使用 `portkey.completionModel()`：
 
 ```typescript
 const chatModel = portkey.chatModel('');
 const completionModel = portkey.completionModel('');
 ```
 
-Note: You can provide an empty string as the model name if you've defined it in the `portkeyConfig`.
+说明：若已在 `portkeyConfig` 中定义模型，可将模型名参数传为空字符串。
 
-## Examples
+## 示例
 
-You can use Portkey language models with the `generateText` or `streamText` function:
+可将 Portkey 语言模型与 `generateText` 或 `streamText` 配合使用：
 
 ### `generateText`
 
@@ -114,30 +114,30 @@ for await (const chunk of result) {
 }
 ```
 
-Note:
+说明：
 
-- Portkey supports `Tool` use with the AI SDK
-- Structured output with [`Output`](/docs/reference/ai-sdk-core/output) is currently not supported.
+- Portkey 支持在 AI SDK 中使用 `Tool`
+- 配合 [`Output`](/docs/reference/ai-sdk-core/output) 的结构化输出目前不支持。
 
-## Advanced Features
+## 高级功能
 
-Portkey offers several advanced features to enhance your AI applications:
+Portkey 还提供多项高级能力：
 
-1. **Interoperability**: Easily switch between 250+ AI models by changing the provider and model name in your configuration.
+1. **互操作性**：在配置中更改提供商与模型名即可在 250+ 模型间切换。
 
-2. **Observability**: Access comprehensive analytics and logs for all your requests.
+2. **可观测性**：为所有请求提供分析与日志。
 
-3. **Reliability**: Implement caching, fallbacks, load balancing, and conditional routing.
+3. **可靠性**：缓存、降级、负载均衡与条件路由。
 
-4. **Guardrails**: Enforce LLM behavior in real-time with input and output checks.
+4. **护栏**：通过输入/输出检查实时约束 LLM 行为。
 
-5. **Security and Compliance**: Set budget limits and implement fine-grained user roles and permissions.
+5. **安全与合规**：预算上限与细粒度角色权限。
 
-For detailed information on these features and advanced configuration options, please refer to the [Portkey documentation](https://docs.portkey.ai/docs/integrations/libraries/vercel).
+详细说明与高级配置请参阅 [Portkey 文档](https://docs.portkey.ai/docs/integrations/libraries/vercel)。
 
-## Additional Resources
+## 更多资源
 
-- [Portkey Documentation](https://docs.portkey.ai/docs/integrations/libraries/vercel)
+- [Portkey 文档](https://docs.portkey.ai/docs/integrations/libraries/vercel)
 - [Twitter](https://twitter.com/portkeyai)
-- [Discord Community](https://discord.gg/JHPt4C7r)
-- [Portkey Dashboard](https://app.portkey.ai)
+- [Discord 社区](https://discord.gg/JHPt4C7r)
+- [Portkey 控制台](https://app.portkey.ai)

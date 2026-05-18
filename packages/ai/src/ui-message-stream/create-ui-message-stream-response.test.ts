@@ -26,12 +26,12 @@ describe('createUIMessageStreamResponse', () => {
       ]),
     });
 
-    // Verify response properties
+    // 验证响应属性
     expect(response).toBeInstanceOf(Response);
     expect(response.status).toBe(200);
     expect(response.statusText).toBe('OK');
 
-    // Verify headers
+    // 验证标头
     expect(Object.fromEntries(response.headers.entries()))
       .toMatchInlineSnapshot(`
         {
@@ -102,13 +102,13 @@ describe('createUIMessageStreamResponse', () => {
       consumeSseStream,
     });
 
-    // Verify consumeSseStream was called
+    // 验证 ConsumerSseStream 被调用
     expect(consumeSseStream).toHaveBeenCalledTimes(1);
     expect(consumeSseStream).toHaveBeenCalledWith({
       stream: expect.any(ReadableStream),
     });
 
-    // Verify the response stream still works correctly
+    // 验证响应流是否仍然正常工作
     const responseData = await convertReadableStreamToArray(
       response.body!.pipeThrough(new TextDecoderStream()),
     );
@@ -127,10 +127,10 @@ describe('createUIMessageStreamResponse', () => {
       ]
     `);
 
-    // Wait for consumeSseStream to complete
+    // 等待 ConsumerSseStream 完成
     await vi.advanceTimersByTimeAsync(0);
 
-    // Verify consumeSseStream received the same data
+    // 验证 ConsumerSseStream 收到相同的数据
     expect(consumedData).toMatchInlineSnapshot(`
       [
         "data: {"type":"text-delta","id":"1","delta":"test-data-1"}
@@ -154,7 +154,7 @@ describe('createUIMessageStreamResponse', () => {
 
     const consumeSseStream = vi.fn(
       async ({ stream }: { stream: ReadableStream<string> }) => {
-        // Consume the stream but wait for external resolution
+        // 消耗流但等待外部解析
         await convertReadableStreamToArray(stream);
         await consumePromise;
       },
@@ -168,11 +168,11 @@ describe('createUIMessageStreamResponse', () => {
       consumeSseStream,
     });
 
-    // The response should be immediately available even though consumeSseStream hasn't finished
+    // 即使 ConsumerSseStream 尚未完成，响应也应该立即可用
     expect(response).toBeInstanceOf(Response);
     expect(response.status).toBe(200);
 
-    // The response body should be readable immediately
+    // 响应正文应该立即可读
     const responseData = await convertReadableStreamToArray(
       response.body!.pipeThrough(new TextDecoderStream()),
     );
@@ -188,10 +188,10 @@ describe('createUIMessageStreamResponse', () => {
       ]
     `);
 
-    // Verify consumeSseStream was called but may still be running
+    // 验证 ConsumerSseStream 已被调用但可能仍在运行
     expect(consumeSseStream).toHaveBeenCalledTimes(1);
 
-    // Now resolve the consumeSseStream
+    // 现在解析consumeSseStream
     consumeResolve!();
   });
 
@@ -199,7 +199,7 @@ describe('createUIMessageStreamResponse', () => {
     const consumedData: string[] = [];
     const consumeSseStream = vi.fn(
       ({ stream }: { stream: ReadableStream<string> }) => {
-        // Synchronous consumption (not returning a promise)
+        // 同步消费（不返回承诺）
         stream.pipeTo(
           new WritableStream({
             write(chunk) {
@@ -251,7 +251,7 @@ describe('createUIMessageStreamResponse', () => {
       consumeSseStream,
     });
 
-    // The response should still work even if consumeSseStream fails
+    // 即使 ConsumerSseStream 失败，响应也应该仍然有效
     const responseData = await convertReadableStreamToArray(
       response.body!.pipeThrough(new TextDecoderStream()),
     );

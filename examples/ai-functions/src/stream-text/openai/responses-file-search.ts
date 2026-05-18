@@ -3,22 +3,22 @@ import { streamText } from 'ai';
 import { run } from '../../lib/run';
 
 /**
- * prepare
- * Please create vector store and put file in your vector.
- * URL:openai vector store dashboard
+ * 准备
+ * 请创建矢量存储并将文件放入您的矢量中。
+ * URL：openai矢量商店仪表板
  * https://platform.openai.com/storage/vector_stores/
  */
 
-const VectorStoreId = 'vs_xxxxxxxxxxxxxxxxxxxxxxxx'; // put your vector store id.
+const VectorStoreId = 'vs_xxxxxxxxxxxxxxxxxxxxxxxx'; // 输入您的矢量商店 ID。
 
 run(async () => {
-  // Basic text generation
+  // 基本文本生成
   const result = await streamText({
     model: openai.responses('gpt-4.1-mini'),
-    prompt: 'What is quantum computing?', // please question about your documents.
+    prompt: 'What is quantum computing?', // 请询问您的文件。
     tools: {
       file_search: openai.tools.fileSearch({
-        // optional configuration:
+        // 可选配置：
         vectorStoreIds: [VectorStoreId],
         maxNumResults: 10,
         ranking: {
@@ -26,7 +26,7 @@ run(async () => {
         },
       }),
     },
-    // Force file search tool:
+    // 强制文件搜索工具：
     toolChoice: { type: 'tool', toolName: 'file_search' },
   });
 

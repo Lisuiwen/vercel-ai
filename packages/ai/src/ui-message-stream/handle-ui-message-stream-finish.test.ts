@@ -36,7 +36,7 @@ describe('handleUIMessageStreamFinish', () => {
         messageId: 'msg-123',
         originalMessages: [],
         onError: mockErrorHandler,
-        // onFinish is not provided
+        // 未提供 onFinish
       });
 
       const result = await convertReadableStreamToArray(resultStream);
@@ -47,7 +47,7 @@ describe('handleUIMessageStreamFinish', () => {
 
     it('should inject messageId when not present in start chunk', async () => {
       const inputChunks: UIMessageChunk[] = [
-        { type: 'start' }, // no messageId
+        { type: 'start' }, // 没有消息 ID
         { type: 'text-start', id: 'text-1' },
         { type: 'text-delta', id: 'text-1', delta: 'Test' },
         { type: 'text-end', id: 'text-1' },
@@ -173,7 +173,7 @@ describe('handleUIMessageStreamFinish', () => {
 
       const resultStream = handleUIMessageStreamFinish<UIMessage>({
         stream,
-        messageId: 'msg-999', // this should be ignored since we're continuing
+        messageId: 'msg-999', // 这应该被忽略，因为我们正在继续
         originalMessages,
         onError: mockErrorHandler,
         onFinish: onFinishCallback,
@@ -185,8 +185,8 @@ describe('handleUIMessageStreamFinish', () => {
 
       const callArgs = onFinishCallback.mock.calls[0][0];
       expect(callArgs.isContinuation).toBe(true);
-      expect(callArgs.responseMessage.id).toBe('assistant-msg-1'); // uses the existing assistant message id
-      expect(callArgs.messages).toHaveLength(2); // original user message + updated assistant message
+      expect(callArgs.responseMessage.id).toBe('assistant-msg-1'); // 使用现有的助手消息 ID
+      expect(callArgs.messages).toHaveLength(2); // 原始用户消息+更新后的助手消息
       expect(callArgs.messages[0]).toEqual(originalMessages[0]);
       expect(callArgs.messages[1]).toEqual(callArgs.responseMessage);
     });
@@ -231,7 +231,7 @@ describe('handleUIMessageStreamFinish', () => {
       const callArgs = onFinishCallback.mock.calls[0][0];
       expect(callArgs.isContinuation).toBe(false);
       expect(callArgs.responseMessage.id).toBe('msg-001');
-      expect(callArgs.messages).toHaveLength(3); // 2 user messages + 1 new assistant message
+      expect(callArgs.messages).toHaveLength(3); // 2 条用户消息 + 1 条新助理消息
     });
   });
 
@@ -356,7 +356,7 @@ describe('handleUIMessageStreamFinish', () => {
         messageId: 'msg-abort-passthrough',
         originalMessages: [],
         onError: mockErrorHandler,
-        // onFinish is not provided
+        // 未提供 onFinish
       });
 
       const result = await convertReadableStreamToArray(resultStream);
@@ -475,18 +475,18 @@ describe('handleUIMessageStreamFinish', () => {
       const onStepFinishCallback = vi.fn();
       const inputChunks: UIMessageChunk[] = [
         { type: 'start', messageId: 'msg-multi-step' },
-        // Step 1
+        // 步骤1
         { type: 'text-start', id: 'text-1' },
         { type: 'text-delta', id: 'text-1', delta: 'Step 1' },
         { type: 'text-end', id: 'text-1' },
         { type: 'finish-step' },
-        // Step 2
+        // 步骤2
         { type: 'start-step' },
         { type: 'text-start', id: 'text-2' },
         { type: 'text-delta', id: 'text-2', delta: 'Step 2' },
         { type: 'text-end', id: 'text-2' },
         { type: 'finish-step' },
-        // Step 3
+        // 步骤3
         { type: 'start-step' },
         { type: 'text-start', id: 'text-3' },
         { type: 'text-delta', id: 'text-3', delta: 'Step 3' },
@@ -514,10 +514,10 @@ describe('handleUIMessageStreamFinish', () => {
       expect(step1Args.responseMessage.parts).toHaveLength(1);
 
       const step2Args = onStepFinishCallback.mock.calls[1][0];
-      expect(step2Args.responseMessage.parts).toHaveLength(3); // step-start + 2 text parts
+      expect(step2Args.responseMessage.parts).toHaveLength(3); // 步骤开始 + 2 个文本部分
 
       const step3Args = onStepFinishCallback.mock.calls[2][0];
-      expect(step3Args.responseMessage.parts).toHaveLength(5); // 2 step-starts + 3 text parts
+      expect(step3Args.responseMessage.parts).toHaveLength(5); // 2 个步骤开始 + 3 个文本部分
     });
 
     it('should call both onStepFinish and onFinish when both are provided', async () => {
@@ -577,13 +577,13 @@ describe('handleUIMessageStreamFinish', () => {
         onStepFinish: onStepFinishCallback,
       });
 
-      // Stream should complete without throwing
+      // 流应该完成而不抛出
       const result = await convertReadableStreamToArray(resultStream);
 
       expect(result).toEqual(inputChunks);
-      // Both steps should have been attempted
+      // 这两个步骤都应该尝试过
       expect(onStepFinishCallback).toHaveBeenCalledTimes(2);
-      // Error should have been logged twice
+      // 错误应该被记录两次
       expect(mockErrorHandler).toHaveBeenCalledTimes(2);
       expect(mockErrorHandler).toHaveBeenCalledWith(expect.any(Error));
     });
@@ -652,7 +652,7 @@ describe('handleUIMessageStreamFinish', () => {
         originalMessages: [],
         onError: mockErrorHandler,
         onStepFinish: event => {
-          // Mutate the message in the callback
+          // 改变回调中的消息
           event.responseMessage.parts.push({ type: 'text', text: 'MUTATION!' });
           onStepFinishCallback(event);
         },
@@ -661,12 +661,12 @@ describe('handleUIMessageStreamFinish', () => {
 
       await convertReadableStreamToArray(resultStream);
 
-      // Verify onStepFinish was called and received the mutated message
+      // 验证 onStepFinish 已被调用并收到变异消息
       expect(onStepFinishCallback).toHaveBeenCalledTimes(1);
       const stepMessage = onStepFinishCallback.mock.calls[0][0].responseMessage;
-      expect(stepMessage.parts).toHaveLength(2); // Original + mutation
+      expect(stepMessage.parts).toHaveLength(2); // 原始+变异
 
-      // onFinish should NOT see the mutation from onStepFinish
+      // onFinish 不应看到 onStepFinish 的突变
       const finishMessage = onFinishCallback.mock.calls[0][0].responseMessage;
       expect(finishMessage.parts).toHaveLength(1);
     });
@@ -688,7 +688,7 @@ describe('handleUIMessageStreamFinish', () => {
         messageId: 'msg-passthrough',
         originalMessages: [],
         onError: mockErrorHandler,
-        // Neither onFinish nor onStepFinish provided
+        // 未提供 onFinish 和 onStepFinish
       });
 
       const result = await convertReadableStreamToArray(resultStream);

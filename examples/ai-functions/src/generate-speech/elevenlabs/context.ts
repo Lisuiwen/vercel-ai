@@ -11,7 +11,7 @@ run(async () => {
       elevenlabs: {
         previous_text: 'The previous sentence ended with a question mark?',
         next_text: 'The next sentence will continue the story.',
-        seed: 42, // For reproducible generation
+        seed: 42, // 用于可再生一代
       },
     },
   });

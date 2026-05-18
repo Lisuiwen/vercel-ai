@@ -31,7 +31,7 @@ run(async () => {
         }),
         execute: async ({ player }) => {
           if (player === 'player1') {
-            // Simulate a loaded die that slightly skews towards 6
+            // 模拟稍微偏向 6 的加载模具
             const r = Math.random();
             if (r < 0.13) return 1;
             if (r < 0.26) return 2;
@@ -51,10 +51,10 @@ run(async () => {
       }),
     },
 
-    // Propagate container ID between steps for code execution continuity
+    // 在步骤之间传播容器 ID，以保证代码执行的连续性
     prepareStep: forwardAnthropicContainerIdFromLastStep,
 
-    // Log request at each step (response body not available in streaming)
+    // 每一步记录请求（响应正文在流中不可用）
     onStepFinish: async ({ request, response }) => {
       stepIndex++;
       console.log(`\n${'='.repeat(60)}`);
@@ -69,13 +69,13 @@ run(async () => {
     },
   });
 
-  // Stream the text output
+  // 流式传输文本输出
   process.stdout.write('\nStreaming: ');
   for await (const textPart of result.textStream) {
     process.stdout.write(textPart);
   }
 
-  // Wait for all promises to resolve
+  // 等待所有的承诺得到解决
   const [text, steps] = await Promise.all([result.text, result.steps]);
 
   console.log(`\n\n${'='.repeat(60)}`);

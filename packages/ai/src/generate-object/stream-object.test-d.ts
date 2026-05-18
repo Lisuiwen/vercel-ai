@@ -11,7 +11,7 @@ describe('streamObject', () => {
       schema: z.object({ number: z.number() }),
       model: undefined!,
       prompt: 'test',
-      // @ts-expect-error timeout is not supported for the deprecated streamObject API
+      // 已废弃的 StreamObject API 不支持 @ts-expect-error 超时
       timeout: 5000,
     });
   });

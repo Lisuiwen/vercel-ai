@@ -18,7 +18,7 @@ run(async () => {
         textVerbosity: 'medium',
         promptCacheKey: '<prompt_cache_key>',
         safetyIdentifier: '<safety_identifier>',
-        // @ts-expect-error
+        // @ts-预期错误
         invalidOption: null,
       } satisfies OpenAIChatLanguageModelOptions,
     },

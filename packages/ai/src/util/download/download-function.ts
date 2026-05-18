@@ -1,21 +1,21 @@
 import { download as originalDownload } from './download';
 
 /**
- * Experimental. Can change in patch versions without warning.
+ * 实验性的。可以在没有警告的情况下更改补丁版本。
  *
- * Download function. Called with the array of URLs and a boolean indicating
- * whether the URL is supported by the model.
+ * 下载功能。使用 URL 数组和指示的布尔值进行调用
+ * 该 URL 是否受模型支持。
  *
- * The download function can decide for each URL:
- * - to return null (which means that the URL should be passed to the model)
- * - to download the asset and return the data (incl. retries, authentication, etc.)
+ * 下载函数可以针对每个 URL 进行决定：
+ * - 返回 null（这意味着 URL 应传递给模型）
+ * - 下载资产并返回数据（包括重试、身份验证等）
  *
- * Should throw DownloadError if the download fails.
+ * 如果下载失败，应该抛出 DownloadError。
  *
- * Should return an array of objects sorted by the order of the requested downloads.
- * For each object, the data should be a Uint8Array if the URL was downloaded.
- * For each object, the mediaType should be the media type of the downloaded asset.
- * For each object, the data should be null if the URL should be passed through as is.
+ * 应该返回按请求下载的顺序排序的对象数组。
+ * 对于每个对象，如果下载了 URL，则数据应该是 Uint8Array。
+ * 对于每个对象，mediaType 应是下载资源的媒体类型。
+ * 对于每个对象，如果 URL 应按原样传递，则数据应为 null。
  */
 export type DownloadFunction = (
   options: Array<{
@@ -30,8 +30,8 @@ export type DownloadFunction = (
 >;
 
 /**
- * Default download function.
- * Downloads the file if it is not supported by the model.
+ * 默认下载功能。
+ * 如果模型不支持，则下载该文件。
  */
 export const createDefaultDownloadFunction =
   (download: typeof originalDownload = originalDownload): DownloadFunction =>

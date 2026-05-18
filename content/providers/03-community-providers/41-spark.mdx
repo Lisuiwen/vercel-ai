@@ -1,35 +1,33 @@
 ---
 title: Spark
-description: Learn how to use the Spark provider for the AI SDK.
+description: 介绍如何在 AI SDK 中使用 Spark 提供商。
 ---
 
-# Spark Provider
+# Spark 提供商
 
 <Note type="warning">
-  This community provider is not yet compatible with AI SDK 5. Please wait for
-  the provider to be updated or consider using an [AI SDK 5 compatible
-  provider](/providers/ai-sdk-providers).
+  该社区提供商尚未兼容 AI SDK 5。请等待提供商更新，或考虑使用 [兼容 AI SDK 5 的提供商](/providers/ai-sdk-providers)。
 </Note>
 
-The **[Spark provider](https://github.com/klren0312/spark-ai-provider)** contains language model support for the Spark API, giving you access to models like lite, generalv3, pro-128k, generalv3.5, max-32k and 4.0Ultra.
+**[Spark provider](https://github.com/klren0312/spark-ai-provider)** 为 Spark API 提供语言模型支持，可使用 lite、generalv3、pro-128k、generalv3.5、max-32k、4.0Ultra 等模型。
 
-## Setup
+## 安装与配置
 
-The Spark provider is available in the `spark-ai-provider` module. You can install it with
+Spark 提供商位于 `spark-ai-provider` 模块。可使用以下命令安装：
 
 ```bash
 npm i spark-ai-provider
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import `createSparkProvider` from `spark-ai-provider` to create a provider instance:
+从 `spark-ai-provider` 导入 `createSparkProvider` 以创建提供商实例：
 
 ```ts
 import { createSparkProvider } from 'spark-ai-provider';
 ```
 
-## Example
+## 示例
 
 ```ts
 import { createSparkProvider } from './index.mjs';
@@ -43,6 +41,6 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[Spark provider documentation](https://github.com/klren0312/spark-ai-provider)** for more information.
+更多信息请参阅 **[Spark provider 文档](https://github.com/klren0312/spark-ai-provider)**。

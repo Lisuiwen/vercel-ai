@@ -3,7 +3,7 @@ import type { EmbeddingModelMiddleware } from '../types';
 import { mergeObjects } from '../util/merge-objects';
 
 /**
- * Applies default settings for an embedding model.
+ * 应用嵌入模型的默认设置。
  */
 export function defaultEmbeddingSettingsMiddleware({
   settings,

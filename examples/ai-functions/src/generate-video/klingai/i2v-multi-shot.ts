@@ -34,7 +34,7 @@ run(async () => {
               },
             ],
             sound: 'on',
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies KlingAIVideoModelOptions,
         },
       }),

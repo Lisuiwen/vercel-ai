@@ -1,19 +1,18 @@
 ---
-title: Handling Authentication
-description: Learn how to authenticate with the AI SDK.
+title: 身份验证
+description: 学习如何使用 AI SDK 进行身份验证。
 ---
 
-# Authentication
+# 身份验证
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。有关从 RSC 迁移到 UI 的指南，请参阅[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-The RSC API makes extensive use of [`Server Actions`](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) to power streaming values and UI from the server.
+RSC API 大量使用 [`Server Actions`](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) 来实现从服务器流式传输值和 UI。
 
-Server Actions are exposed as public, unprotected endpoints. As a result, you should treat Server Actions as you would public-facing API endpoints and ensure that the user is authorized to perform the action before returning any data.
+Server Actions 作为公开的、未受保护的端点暴露。因此，你应将 Server Actions 视为面向公众的 API 端点，在返回任何数据之前确保用户有权执行该操作。
 
 ```tsx filename="app/actions.tsx"
 'use server';

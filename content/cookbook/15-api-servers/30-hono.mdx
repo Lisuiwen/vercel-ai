@@ -1,31 +1,30 @@
 ---
 title: Hono
-description: Example of using the AI SDK in a Hono server.
+description: 在 Hono 服务器中使用 AI SDK 的示例
 tags: ['api servers', 'streaming']
 ---
 
 # Hono
 
-You can use the AI SDK in a [Hono](https://hono.dev/) server to generate and stream text and objects to the client.
+你可以在 [Hono](https://hono.dev/) 服务器中使用 AI SDK，向客户端生成并流式传输文本与对象。
 
-## Examples
+## 示例
 
-The examples start a simple HTTP server that listens on port 8080. You can e.g. test it using `curl`:
+示例会启动一个简单的 HTTP 服务器，监听 8080 端口。例如可用 `curl` 测试：
 
 ```bash
 curl -X POST http://localhost:8080
 ```
 
 <Note>
-  The examples use the Vercel AI Gateway. Ensure that your AI Gateway API key is
-  set in the `AI_GATEWAY_API_KEY` environment variable.
+  示例使用 Vercel AI Gateway。请确保已在 `AI_GATEWAY_API_KEY` 环境变量中设置 AI Gateway API 密钥。
 </Note>
 
-**Full example**: [github.com/vercel/ai/examples/hono](https://github.com/vercel/ai/tree/main/examples/hono)
+**完整示例**：[github.com/vercel/ai/examples/hono](https://github.com/vercel/ai/tree/main/examples/hono)
 
 ### UI Message Stream
 
-You can use the `toUIMessageStreamResponse` method to create a properly formatted streaming response.
+可使用 `toUIMessageStreamResponse` 方法创建格式正确的流式响应。
 
 ```ts filename='index.ts'
 import { serve } from '@hono/node-server';
@@ -47,7 +46,7 @@ serve({ fetch: app.fetch, port: 8080 });
 
 ### Text Stream
 
-You can use the `toTextStreamResponse` method to return a text stream response.
+可使用 `toTextStreamResponse` 方法返回文本流响应。
 
 ```ts filename='index.ts'
 import { serve } from '@hono/node-server';
@@ -67,9 +66,9 @@ app.post('/text', async c => {
 serve({ fetch: app.fetch, port: 8080 });
 ```
 
-### Sending Custom Data
+### 发送自定义数据
 
-You can use `createUIMessageStream` and `createUIMessageStreamResponse` to send custom data to the client.
+可使用 `createUIMessageStream` 与 `createUIMessageStreamResponse` 向客户端发送自定义数据。
 
 ```ts filename='index.ts'
 import { serve } from '@hono/node-server';
@@ -118,6 +117,6 @@ app.post('/stream-data', async c => {
 serve({ fetch: app.fetch, port: 8080 });
 ```
 
-## Troubleshooting
+## 故障排除
 
-- Streaming not working when [proxied](/docs/troubleshooting/streaming-not-working-when-proxied)
+- 经[代理](/docs/troubleshooting/streaming-not-working-when-proxied)时流式传输异常

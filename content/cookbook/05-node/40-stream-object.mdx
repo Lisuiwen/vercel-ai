@@ -1,17 +1,17 @@
 ---
-title: Stream Object
-description: Learn how to stream structured data using the AI SDK and Node
+title: 流式对象
+description: 学习如何使用 AI SDK 和 Node 流式输出结构化数据
 tags: ['node', 'streaming', 'structured data']
 ---
 
-# Stream Object
+# 流式对象
 
-Object generation can sometimes take a long time to complete,
-especially when you're generating a large schema.
+对象生成有时需要较长时间，
+尤其是 schema 较大时。
 
-In Generative UI use cases, it is useful to stream the object to the client in real-time
-to render UIs as the object is being generated.
-You can use `streamText` with `Output.object` to generate partial object streams.
+在 Generative UI 场景中，将对象实时流式传输到客户端很有用，
+以便在生成过程中渲染 UI。
+你可以使用带 `Output.object` 的 `streamText` 生成部分对象流。
 
 ```ts file='index.ts'
 import { streamText, Output } from 'ai';

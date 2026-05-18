@@ -1,16 +1,16 @@
-# Node.js Http Server + AI SDK Example
+# Node.js HTTP Server + AI SDK 示例
 
-You can use the AI SDK in a simple Node.js HTTP server to generate and stream text and objects.
+可在简单 Node.js HTTP 服务器中使用 AI SDK 生成并流式传输文本与对象。
 
-## Usage
+## 用法
 
-1. Create .env file with the following content (and more settings, depending on the providers you want to use):
+1. 创建 `.env` 文件（并按需添加其他配置）：
 
 ```sh
 OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
 ```
 
-2. Run the following commands from the root directory of the AI SDK repo:
+2. 在 AI SDK 仓库根目录执行：
 
 ```sh
 pnpm install

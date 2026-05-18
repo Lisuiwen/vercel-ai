@@ -1,44 +1,42 @@
 ---
-title: Migrate AI SDK 3.0 to 3.1
-description: Learn how to upgrade AI SDK 3.0 to 3.1.
+title: 将 AI SDK 3.0 迁移到 3.1
+description: 了解如何将 AI SDK 3.0 升级到 3.1。
 ---
 
-# Migrate AI SDK 3.0 to 3.1
+# 将 AI SDK 3.0 迁移到 3.1
 
 <Note>
-  Check out the [AI SDK 3.1 release blog
-  post](https://vercel.com/blog/vercel-ai-sdk-3-1-modelfusion-joins-the-team)
-  for more information about the release.
+  更多信息请参阅 [AI SDK 3.1 发布公告](https://vercel.com/blog/vercel-ai-sdk-3-1-modelfusion-joins-the-team)。
 </Note>
 
-This guide will help you:
+本指南帮助你：
 
-- Upgrade to AI SDK 3.1
-- Migrate from Legacy Providers to AI SDK Core
-- Migrate from [`render`](/docs/reference/ai-sdk-rsc/render) to [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui)
+- 升级到 AI SDK 3.1
+- 从旧版 Provider 迁移到 AI SDK Core
+- 从 [`render`](/docs/reference/ai-sdk-rsc/render) 迁移到 [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui)
 
-Upgrading to AI SDK 3.1 does not require using the newly released AI SDK Core API or [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) function.
+升级到 AI SDK 3.1 **不要求**你立刻改用新发布的 AI SDK Core API 或 [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui)。
 
-## Upgrading
+## 升级
 
 ### AI SDK
 
-To update to AI SDK version 3.1, run the following command using your preferred package manager:
+要使用你喜欢的包管理器升级到 AI SDK 3.1，请运行：
 
 <Snippet text="pnpm add ai@3.1" />
 
-## Next Steps
+## 下一步
 
-The release of AI SDK 3.1 introduces several new features that improve the way you build AI applications with the SDK:
+AI SDK 3.1 引入了多项新功能，帮助你更高效地使用 SDK 构建 AI 应用：
 
-- AI SDK Core, a brand new unified API for interacting with large language models (LLMs).
-- [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui), a new abstraction, built upon AI SDK Core functions that simplifies building streaming UIs.
+- **AI SDK Core**：全新的统一 API，用于与大语言模型（LLM）交互。
+- [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui)：基于 AI SDK Core 构建的新抽象，简化流式 UI 的开发。
 
-## Migrating from Legacy Providers to AI SDK Core
+## 从旧版 Provider 迁移到 AI SDK Core
 
-Prior to AI SDK Core, you had to use a model provider's SDK to query their models.
+在 AI SDK Core 之前，你必须使用各模型提供商的 SDK 来调用他们的模型。
 
-In the following Route Handler, you use the OpenAI SDK to query their model. You then pipe that response into the `OpenAIStream` function which returns a [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) that you can pass to the client using a new `StreamingTextResponse`.
+在下面的 Route Handler 中，你使用 OpenAI SDK 调用模型，然后将响应通过 `OpenAIStream` 函数转换为 [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)，再用 `StreamingTextResponse` 返回给客户端。
 
 ```tsx
 import OpenAI from 'openai';
@@ -63,9 +61,9 @@ export async function POST(req: Request) {
 }
 ```
 
-With AI SDK Core you have a unified API for any provider that implements the [AI SDK Language Model Specification](/providers/community-providers/custom-providers).
+借助 AI SDK Core，你可以使用统一 API 调用任意实现了 [AI SDK Language Model Specification](/providers/community-providers/custom-providers) 的提供商。
 
-Let’s take a look at the example above, but refactored to utilize the AI SDK Core API alongside the AI SDK OpenAI provider. In this example, you import the LLM function you want to use from the `ai` package, import the OpenAI provider from `@ai-sdk/openai`, and then you call the model and return the response using the `toDataStreamResponse()` helper function.
+下面是将上文示例重构为 AI SDK Core 与 AI SDK OpenAI provider 的版本：你从 `ai` 包导入要使用的 LLM 函数，从 `@ai-sdk/openai` 导入 OpenAI provider，然后调用模型并通过 `toDataStreamResponse()` 辅助函数返回响应。
 
 ```tsx
 import { streamText } from 'ai';
@@ -84,11 +82,11 @@ export async function POST(req: Request) {
 }
 ```
 
-## Migrating from `render` to `streamUI`
+## 从 `render` 迁移到 `streamUI`
 
-The AI SDK RSC API was launched as part of version 3.0. This API introduced the [`render`](/docs/reference/ai-sdk-rsc/render) function, a helper function to create streamable UIs with OpenAI models. With the new AI SDK Core API, it became possible to make streamable UIs possible with any compatible provider.
+AI SDK RSC API 随 3.0 发布，其中包含 [`render`](/docs/reference/ai-sdk-rsc/render) 函数，用于借助 OpenAI 模型创建可流式更新的 UI。借助新的 AI SDK Core API，可以在任意兼容的提供商上实现流式 UI。
 
-The following example Server Action uses the `render` function using the model provider directly from OpenAI. You first create an OpenAI provider instance with the OpenAI SDK. Then, you pass it to the provider key of the render function alongside a tool that returns a React Server Component, defined in the `render` key of the tool.
+下面的 Server Action 示例直接使用 OpenAI 的模型提供商调用 `render`。你先用 OpenAI SDK 创建 OpenAI provider 实例，再把它传给 `render` 的 provider 字段，并声明一个在工具的 `render` 字段中返回 React Server Component 的工具。
 
 ```tsx
 import { render } from '@ai-sdk/rsc';
@@ -129,7 +127,7 @@ async function submitMessage(userInput = 'What is the weather in SF?') {
 }
 ```
 
-With the new [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) function, you can now use any compatible AI SDK provider. In this example, you import the AI SDK OpenAI provider. Then, you pass it to the [`model`](/docs/reference/ai-sdk-rsc/stream-ui#model) key of the new [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) function. Finally, you declare a tool and return a React Server Component, defined in the [`generate`](/docs/reference/ai-sdk-rsc/stream-ui#tools-generate) key of the tool.
+借助新的 [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui)，你可以使用任意兼容的 AI SDK provider。此例导入 AI SDK OpenAI provider，将其传给 [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) 的 [`model`](/docs/reference/ai-sdk-rsc/stream-ui#model) 字段，最后在工具的 [`generate`](/docs/reference/ai-sdk-rsc/stream-ui#tools-generate) 字段中返回 React Server Component。
 
 ```tsx
 import { streamUI } from '@ai-sdk/rsc';

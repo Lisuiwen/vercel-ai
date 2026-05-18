@@ -1,24 +1,24 @@
-# AI SDK Codemods
+# AI SDK Codemod
 
-The AI SDK provides automated code transformations (codemods) to help upgrade your codebase when features are deprecated, removed, or changed between versions.
+AI SDK 提供自动化代码转换（codemod），在版本间功能弃用、移除或变更时帮助升级代码库。
 
-Codemods are transformations that run on your codebase programmatically, allowing you to easily apply many changes without manually editing every file.
+Codemod 以编程方式在代码库上运行转换，无需逐文件手动修改即可批量应用变更。
 
-## Quick Start
+## 快速开始
 
-### Run All Codemods (Recommended)
+### 运行全部 Codemod（推荐）
 
-To run all codemods:
+运行全部 codemod：
 
 ```sh
 npx @ai-sdk/codemod upgrade
 ```
 
-This will automatically detect and transform all applicable code patterns in your project.
+将自动检测并转换项目中所有适用的代码模式。
 
-### Run Version-Specific Codemods
+### 运行指定版本的 Codemod
 
-To run codemods for a specific version:
+运行指定版本的 codemod：
 
 ```sh
 npx @ai-sdk/codemod v4
@@ -30,15 +30,15 @@ npx @ai-sdk/codemod v6
 npx @ai-sdk/codemod upgrade
 ```
 
-### Run Individual Codemods
+### 运行单个 Codemod
 
-To run a specific codemod:
+运行单个 codemod：
 
 ```sh
 npx @ai-sdk/codemod <codemod-name> <path>
 ```
 
-Examples:
+示例：
 
 ```sh
 # Transform a specific file
@@ -51,13 +51,13 @@ npx @ai-sdk/codemod v4/replace-baseurl src/lib/
 npx @ai-sdk/codemod v5/rename-format-stream-part .
 ```
 
-## Available Codemods
+## 可用 Codemod
 
-### v4 Codemods (v3 → v4 Migration)
+### v4 Codemod（v3 → v4 迁移）
 
-| Codemod                                               | Description                                                    |
-| ----------------------------------------------------- | -------------------------------------------------------------- |
-| `v4/remove-ai-stream-methods-from-stream-text-result` | Transforms v4/remove ai stream methods from stream text result |
+| Codemod | 说明 |
+| --- | --- |
+| `v4/remove-ai-stream-methods-from-stream-text-result` | 转换 v4/remove ai stream methods from stream text result |
 | `v4/remove-anthropic-facade`                          | Transforms v4/remove anthropic facade                          |
 | `v4/remove-await-streamobject`                        | Transforms v4/remove await streamobject                        |
 | `v4/remove-await-streamtext`                          | Transforms v4/remove await streamtext                          |
@@ -82,11 +82,11 @@ npx @ai-sdk/codemod v5/rename-format-stream-part .
 | `v4/replace-token-usage-types`                        | Transforms v4/replace token usage types                        |
 | `v4/rewrite-framework-imports`                        | Transforms v4/rewrite framework imports                        |
 
-### v5 Codemods (v4 → v5 Migration)
+### v5 Codemod（v4 → v5 迁移）
 
 | Codemod                                                               | Description                                                                    |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `v5/flatten-streamtext-file-properties`                               | Transforms v5/flatten streamtext file properties                               |
+| `v5/flatten-streamtext-file-properties`                               | 转换 v5/flatten streamtext file properties                               |
 | `v5/import-LanguageModelV2-from-provider-package`                     | Transforms v5/import LanguageModelV2 from provider package                     |
 | `v5/migrate-to-data-stream-protocol-v2`                               | Transforms v5/migrate to data stream protocol v2                               |
 | `v5/move-image-model-maxImagesPerCall`                                | Transforms v5/move image model maxImagesPerCall                                |
@@ -137,11 +137,11 @@ npx @ai-sdk/codemod v5/rename-format-stream-part .
 | `v5/restructure-source-stream-parts`                                  | Transforms v5/restructure source stream parts                                  |
 | `v5/rsc-package`                                                      | Transforms v5/rsc package                                                      |
 
-### v6 Codemods (v5 → v6 Migration)
+### v6 Codemod（v5 → v6 迁移）
 
 | Codemod                                                     | Description                                                          |
 | ----------------------------------------------------------- | -------------------------------------------------------------------- |
-| `v6/add-await-converttomodelmessages`                       | Transforms v6/add await converttomodelmessages                       |
+| `v6/add-await-converttomodelmessages`                       | 转换 v6/add await converttomodelmessages                       |
 | `v6/rename-converttocoremessages-to-converttomodelmessages` | Transforms v6/rename converttocoremessages to converttomodelmessages |
 | `v6/rename-core-message-to-model-message`                   | Transforms v6/rename core message to model message                   |
 | `v6/rename-mock-v2-to-v3`                                   | Transforms v6/rename mock v2 to v3                                   |
@@ -150,29 +150,29 @@ npx @ai-sdk/codemod v5/rename-format-stream-part .
 | `v6/rename-vertex-provider-metadata-key`                    | Transforms v6/rename vertex provider metadata key                    |
 | `v6/wrap-tomodeloutput-parameter`                           | Transforms v6/wrap tomodeloutput parameter                           |
 
-## CLI Options
+## CLI 选项
 
-### Commands
+### 命令
 
 ```sh
 npx @ai-sdk/codemod@beta <command> [options]
 ```
 
-**Available Commands:**
+**可用命令：**
 
-- `upgrade` - Apply all codemods (v4 + v5 + v6)
-- `v4` - Apply v4 codemods (v3 → v4 migration)
-- `v5` - Apply v5 codemods (v4 → v5 migration)
-- `v6` - Apply v6 codemods (v5 → v6 migration)
-- `<codemod-name> <path>` - Apply specific codemod
+- `upgrade` - 应用全部 codemod（v4 + v5 + v6）
+- `v4` - 应用 v4 codemod（v3 → v4 迁移）
+- `v5` - 应用 v5 codemod（v4 → v5 迁移）
+- `v6` - 应用 v6 codemod（v5 → v6 迁移）
+- `<codemod-name> <path>` - 应用指定 codemod
 
-### Global Options
+### 全局选项
 
-- `--dry` - Preview changes without applying them
-- `--print` - Print transformed code to stdout
-- `--verbose` - Show detailed transformation logs
+- `--dry` - 预览变更而不写入
+- `--print` - 将转换后的代码打印到 stdout
+- `--verbose` - 显示详细转换日志
 
-### Examples
+### 示例
 
 ```sh
 # Preview all changes without applying
@@ -194,48 +194,48 @@ npx @ai-sdk/codemod@beta --verbose v4/remove-experimental-ai-fn-exports src/
 npx @ai-sdk/codemod@beta --print v4/replace-baseurl src/config.ts
 ```
 
-## Best Practices
+## 最佳实践
 
-### Before Running Codemods
+### 运行 Codemod 之前
 
-1. **Backup your code** - Commit all changes to version control
-2. **Review current deprecation warnings** - Fix any obvious issues first
-3. **Update dependencies** - Ensure you're on the target AI SDK version
+1. **备份代码** - 将全部变更提交到版本控制
+2. **查看当前弃用警告** - 先修复明显问题
+3. **更新依赖** - 确保已升级到目标 AI SDK 版本
 
-### After Running Codemods
+### 运行 Codemod 之后
 
-1. **Review changes** - Check the diff to understand what was transformed
-2. **Test your application** - Ensure everything works as expected
-3. **Handle edge cases** - Some complex patterns may need manual fixes
-4. **Run type checking** - Fix any TypeScript errors that remain
+1. **审查变更** - 查看 diff 了解转换内容
+2. **测试应用** - 确认一切按预期工作
+3. **处理边界情况** - 部分复杂模式可能需手动修复
+4. **运行类型检查** - 修复剩余 TypeScript 错误
 
-### Troubleshooting
+### 故障排除
 
-If a codemod doesn't transform some code:
+若某段代码未被 codemod 转换：
 
-1. **Check file extensions** - Codemods work on `.ts`, `.tsx`, `.js`, `.jsx` files
-2. **Review patterns** - Complex or unusual code patterns may need manual updates
-3. **Run specific codemods** - Try running individual codemods for targeted fixes
-4. **Check documentation** - Some changes may not have automated codemods
+1. **检查文件扩展名** - Codemod 适用于 `.ts`、`.tsx`、`.js`、`.jsx`
+2. **检查模式** - 复杂或非典型代码可能需手动更新
+3. **运行指定 codemod** - 可单独运行以针对性修复
+4. **查阅文档** - 部分变更可能没有自动化 codemod
 
-## Contributing
+## 贡献
 
-### Adding New Codemods
+### 添加新 Codemod
 
-1. Create the codemod in `src/codemods/`
-2. Add test fixtures in `src/test/__testfixtures__/`
-3. Create tests in `src/test/`
-4. Update the bundle in `src/lib/upgrade.ts`
+1. 在 `src/codemods/` 中创建 codemod
+2. 在 `src/test/__testfixtures__/` 添加测试 fixture
+3. 在 `src/test/` 中编写测试
+4. 更新 `src/lib/upgrade.ts` 中的 bundle
 
-### Testing Codemods
+### 测试 Codemod
 
-First, navigate to the codemod directory:
+首先进入 codemod 目录：
 
 ```sh
 cd packages/codemod
 ```
 
-Then run the tests:
+然后运行测试：
 
 ```sh
 # Run all tests
@@ -248,21 +248,21 @@ pnpm test <codemod-name>
 pnpm test:watch
 ```
 
-## Support
+## 支持
 
-- **Documentation**: [AI SDK Migration Guides](https://ai-sdk.dev/docs/migration-guides)
-- **Issues**: [GitHub Issues](https://github.com/vercel/ai/issues)
-- **Community**: [Discord](https://discord.gg/vercel)
+- **文档**：[AI SDK 迁移指南](https://ai-sdk.dev/docs/migration-guides)
+- **Issue**：[GitHub Issues](https://github.com/vercel/ai/issues)
+- **社区**：[Discord](https://discord.gg/vercel)
 
-## Version Compatibility
+## 版本兼容性
 
-- **AI SDK 6.0**: All codemods in this package
-- **AI SDK 5.0**: Use v4 + v5 codemods
-- **AI SDK 4.x**: Use `@ai-sdk/codemod@1.x`
-- **AI SDK 3.x**: Manual migration required
+- **AI SDK 6.0**：本包中的全部 codemod
+- **AI SDK 5.0**：使用 v4 + v5 codemod
+- **AI SDK 4.x**：使用 `@ai-sdk/codemod@1.x`
+- **AI SDK 3.x**：需手动迁移
 
 ---
 
-For more detailed migration information, see:
+更详细的迁移信息见：
 
-- [AI SDK 6.0 Migration Guide](https://ai-sdk.dev/docs/migration-guides/migration-guide-6-0)
+- [AI SDK 6.0 迁移指南](https://ai-sdk.dev/docs/migration-guides/migration-guide-6-0)

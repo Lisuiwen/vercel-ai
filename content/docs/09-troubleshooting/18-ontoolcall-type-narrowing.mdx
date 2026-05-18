@@ -1,15 +1,15 @@
 ---
-title: Type Error with onToolCall
-description: How to handle TypeScript type errors when using the onToolCall callback
+title: onToolCall 类型错误
+description: 使用 onToolCall 回调时如何处理 TypeScript 类型错误
 ---
 
-# Type Error with onToolCall
+# onToolCall 类型错误
 
-When using the `onToolCall` callback with TypeScript, you may encounter type errors when trying to pass tool properties directly to `addToolOutput`.
+在 TypeScript 中使用 `onToolCall` 回调时，若直接把工具属性传给 `addToolOutput`，可能遇到类型错误。
 
-## Problem
+## 问题
 
-TypeScript cannot automatically narrow the type of `toolCall.toolName` when you have both static and dynamic tools, leading to type errors:
+同时存在静态与动态工具时，TypeScript 无法自动缩窄 `toolCall.toolName` 的类型，导致报错：
 
 ```tsx
 // ❌ This causes a TypeScript error
@@ -24,15 +24,15 @@ const { messages, sendMessage, addToolOutput } = useChat({
 });
 ```
 
-The error occurs because:
+原因包括：
 
-- Static tools have specific literal types for their names (e.g., `"getWeatherInformation"`)
-- Dynamic tools have `toolName` as a generic `string`
-- TypeScript can't guarantee that `toolCall.toolName` matches your specific tool names
+- 静态工具的名称是具体的字面量类型（例如 `"getWeatherInformation"`）
+- 动态工具的 `toolName` 为泛化的 `string`
+- TypeScript 无法保证 `toolCall.toolName` 一定匹配你的工具名联合类型
 
-## Solution
+## 解决方案
 
-Check if the tool is dynamic first to enable proper type narrowing:
+先判断是否为动态工具，以便正确缩窄类型：
 
 ```tsx
 // ✅ Correct approach with type narrowing
@@ -54,13 +54,11 @@ const { messages, sendMessage, addToolOutput } = useChat({
 ```
 
 <Note>
-  If you're still using the deprecated `addToolResult` method, this solution
-  applies the same way. Consider migrating to `addToolOutput` for consistency
-  with the latest API.
+  若仍在使用已弃用的 `addToolResult`，同样适用上述做法。建议迁移到 `addToolOutput`，与最新 API 保持一致。
 </Note>
 
-## Related
+## 相关文档
 
-- [Chatbot Tool Usage](/docs/ai-sdk-ui/chatbot-tool-usage)
-- [Dynamic Tools](/docs/reference/ai-sdk-core/dynamic-tool)
-- [useChat Reference](/docs/reference/ai-sdk-ui/use-chat)
+- [聊天机器人工具用法](/docs/ai-sdk-ui/chatbot-tool-usage)
+- [动态工具](/docs/reference/ai-sdk-core/dynamic-tool)
+- [useChat 参考](/docs/reference/ai-sdk-ui/use-chat)

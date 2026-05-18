@@ -1,74 +1,72 @@
 ---
 title: LanguageModelV4Middleware
-description: Middleware for enhancing language model behavior (API Reference)
+description: 用于增强语言模型行为的中间件（API 参考）
 ---
 
 # `LanguageModelV4Middleware`
 
 <Note type="warning">
-  Language model middleware is an experimental feature.
+  语言模型中间件为实验性功能。
 </Note>
 
-Language model middleware provides a way to enhance the behavior of language models
-by intercepting and modifying the calls to the language model. It can be used to add
-features like guardrails, RAG, caching, and logging in a language model agnostic way.
+语言模型中间件通过拦截并修改对语言模型的调用来增强行为，可用于以与具体模型无关的方式加入护栏、RAG、缓存、日志等。
 
-See [Language Model Middleware](/docs/ai-sdk-core/middleware) for more information.
+详见[语言模型中间件](/docs/ai-sdk-core/middleware)。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { LanguageModelV4Middleware } from "ai"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
 <PropertiesTable
   content={[
     {
       name: 'specificationVersion',
       type: "'v3'",
-      description: 'The specification version of the middleware. Must be "v3".',
+      description: '中间件的规范版本。必须为 "v3"。',
     },
     {
       name: 'transformParams',
       type: '({ type: "generate" | "stream", params: LanguageModelV4CallOptions, model: LanguageModelV4 }) => PromiseLike<LanguageModelV4CallOptions>',
       isOptional: true,
       description:
-        'Transforms the parameters before they are passed to the language model.',
+        '在参数传入语言模型之前进行转换。',
     },
     {
       name: 'wrapGenerate',
       type: '({ doGenerate: () => PromiseLike<LanguageModelV4GenerateResult>, doStream: () => PromiseLike<LanguageModelV4StreamResult>, params: LanguageModelV4CallOptions, model: LanguageModelV4 }) => PromiseLike<LanguageModelV4GenerateResult>',
       isOptional: true,
       description:
-        'Wraps the generate operation of the language model. Receives both doGenerate and doStream functions.',
+        '包装语言模型的 generate 操作。同时接收 doGenerate 与 doStream。',
     },
     {
       name: 'wrapStream',
       type: '({ doGenerate: () => PromiseLike<LanguageModelV4GenerateResult>, doStream: () => PromiseLike<LanguageModelV4StreamResult>, params: LanguageModelV4CallOptions, model: LanguageModelV4 }) => PromiseLike<LanguageModelV4StreamResult>',
       isOptional: true,
       description:
-        'Wraps the stream operation of the language model. Receives both doGenerate and doStream functions.',
+        '包装语言模型的 stream 操作。同时接收 doGenerate 与 doStream。',
     },
     {
       name: 'overrideProvider',
       type: '(options: { model: LanguageModelV4 }) => string',
       isOptional: true,
-      description: 'Override the provider ID of the model.',
+      description: '覆盖模型的 provider ID。',
     },
     {
       name: 'overrideModelId',
       type: '(options: { model: LanguageModelV4 }) => string',
       isOptional: true,
-      description: 'Override the model ID of the model.',
+      description: '覆盖模型的 model ID。',
     },
     {
       name: 'overrideSupportedUrls',
       type: '(options: { model: LanguageModelV4 }) => PromiseLike<Record<string, RegExp[]>> | Record<string, RegExp[]>',
       isOptional: true,
-      description: 'Override the supported URLs for the model.',
+      description: '覆盖模型支持的 URL。',
     },
   ]}
 />

@@ -1,15 +1,15 @@
 ---
-title: Abort and resumable streams
-description: Troubleshooting abort and stop behavior with resumable streams
+title: 中止与可恢复流
+description: 排查可恢复流场景下的中止与停止行为
 ---
 
-# Abort and resumable streams
+# 中止与可恢复流
 
-## Issue
+## 问题
 
-When using `useChat` with `resume: true` for stream resumption, client-side aborts are treated as disconnects. Closing a tab, refreshing the page, navigating away, or calling `stop()` closes the current HTTP connection, but it should not cancel the underlying generation.
+在 `useChat` 中使用 `resume: true` 做流恢复时，客户端中止会被视为断开连接。关闭标签页、刷新、离开页面或调用 `stop()` 会关闭当前 HTTP 连接，但不应取消底层生成任务。
 
-If your application passes the request abort signal through to the model call, disconnects can cancel the work that stream resumption expects to keep running. If your stop button only calls `stop()`, the server-side generation can continue and the client may reconnect to the same active stream.
+若应用把请求的 abort signal 一直传到模型调用，断开可能会取消「流恢复」期望继续运行的工作。若停止按钮只调用 `stop()`，服务端生成可能仍在继续，客户端可能重连到同一条活动流。
 
 ```tsx
 const { messages, stop } = useChat({
@@ -21,24 +21,24 @@ const { messages, stop } = useChat({
 // It is not a server-side cancellation request.
 ```
 
-## Background
+## 背景
 
-Stream resumption lets the client reconnect to an active stream after the original connection closes. To support that, the server needs to keep the stream producer running even when no client is currently connected.
+流恢复允许客户端在原始连接关闭后重连到仍在进行的活动流。为此，即使没有客户端当前连接，服务端也需要让流的生产端继续运行。
 
-This means route cleanup, page unloads, and network disconnects should be handled as resumable disconnects. Explicit user cancellation needs a separate server-side signal that cancels the active producer and clears the stored active stream reference.
+这意味着路由清理、页面卸载与网络断开应作为可恢复的断开处理。明确的用户取消需要单独的服务端信号，用于取消活动生产者并清除已保存的活动流引用。
 
-## Solution
+## 解决方案
 
-Use `resume: true` for reconnecting after disconnects, and add a dedicated stop endpoint for explicit user cancellation.
+使用 `resume: true` 处理断开后的重连，并单独提供用于明确取消的 stop 接口。
 
-The stop endpoint should:
+stop 接口应：
 
-1. Load the chat and read its active stream ID
-2. Persist the latest partial assistant message if the client sends one
-3. Cancel the work that is producing the stream
-4. Clear the active stream reference only if it still points to the same stream
+1. 加载会话并读取其活动流 ID
+2. 若客户端传入最新的部分助理消息，则持久化
+3. 取消正在生成该流的工作
+4. 仅当活动流引用仍指向同一条流时再清除它
 
-On the client, call your stop endpoint before stopping the local chat stream:
+在客户端，在停止本地聊天流之前先调用 stop 接口：
 
 ```tsx
 const chat = useChat({
@@ -52,9 +52,9 @@ async function stopStream() {
 }
 ```
 
-Keep navigation separate from stop behavior. Do not call the stop endpoint from route cleanup code, page unload handlers, or component unmount cleanup. Those events are disconnects that should remain resumable.
+将导航行为与停止行为分开。不要在路由清理、页面 `unload` 或组件卸载清理里调用 stop 接口——那些属于应保持可恢复的断开。
 
-If you do not need stream resumption and only want client-side cancellation, disable `resume` and use `stop()` directly:
+若不需要流恢复、只需客户端取消，请关闭 `resume` 并直接使用 `stop()`：
 
 ```tsx
 const { messages, sendMessage, stop } = useChat({
@@ -63,7 +63,7 @@ const { messages, sendMessage, stop } = useChat({
 });
 ```
 
-## Related
+## 相关文档
 
-- [Chatbot Resume Streams](/docs/ai-sdk-ui/chatbot-resume-streams)
-- [Stopping Streams](/docs/advanced/stopping-streams)
+- [聊天机器人恢复流](/docs/ai-sdk-ui/chatbot-resume-streams)
+- [停止流](/docs/advanced/stopping-streams)

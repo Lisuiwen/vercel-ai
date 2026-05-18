@@ -1,11 +1,11 @@
 ---
-title: Rendering UI with Language Models
-description: Rendering UI with Language Models
+title: 使用语言模型渲染 UI
+description: 使用语言模型渲染 UI
 ---
 
-# Rendering User Interfaces with Language Models
+# 使用语言模型渲染用户界面
 
-Language models generate text, so at first it may seem like you would only need to render text in your application.
+语言模型生成文本，因此起初你可能认为应用中只需渲染文本。
 
 ```tsx highlight="16" filename="app/actions.tsx"
 const text = generateText({
@@ -30,7 +30,7 @@ const text = generateText({
 });
 ```
 
-Above, the language model is passed a [tool](/docs/ai-sdk-core/tools-and-tool-calling) called `getWeather` that returns the weather information as text. However, instead of returning text, if you return a JSON object that represents the weather information, you can use it to render a React component instead.
+如上，语言模型被传入名为 `getWeather` 的[工具](/docs/ai-sdk-core/tools-and-tool-calling)，以文本形式返回天气信息。然而，若不返回文本而返回表示天气信息的 JSON 对象，即可渲染 React 组件。
 
 ```tsx highlight="18-23" filename="app/action.ts"
 const text = generateText({
@@ -62,7 +62,7 @@ const text = generateText({
 });
 ```
 
-Now you can use the object returned by the `getWeather` function to conditionally render a React component `<WeatherCard/>` that displays the weather information by passing the object as props.
+现在可以使用 `getWeather` 函数返回的对象，条件渲染 React 组件 `<WeatherCard/>`，并将对象作为 props 传入。
 
 ```tsx filename="app/page.tsx"
 return (
@@ -95,7 +95,7 @@ return (
 );
 ```
 
-Here's a little preview of what that might look like.
+以下是可能呈现效果的预览。
 
 <div className="not-prose flex flex-col">
   <CardPlayer
@@ -105,24 +105,24 @@ Here's a little preview of what that might look like.
   />
 </div>
 
-Rendering interfaces as part of language model generations elevates the user experience of your application, allowing people to interact with language models beyond text.
+在语言模型生成过程中渲染界面可提升应用用户体验，让用户超越纯文本与语言模型交互。
 
-They also make it easier for you to interpret [sequential tool calls](/docs/ai-sdk-rsc/multistep-interfaces) that take place in multiple steps and help identify and debug where the model reasoned incorrectly.
+它们还有助于理解以多步进行的[顺序工具调用](/docs/ai-sdk-rsc/multistep-interfaces)，并帮助识别和调试模型推理错误的位置。
 
-## Rendering Multiple User Interfaces
+## 渲染多个用户界面
 
-To recap, an application has to go through the following steps to render user interfaces as part of model generations:
+回顾一下，应用要在模型生成过程中渲染用户界面，需完成以下步骤：
 
-1. The user prompts the language model.
-2. The language model generates a response that includes a tool call.
-3. The tool call returns a JSON object that represents the user interface.
-4. The response is sent to the client.
-5. The client receives the response and checks if the latest message was a tool call.
-6. If it was a tool call, the client renders the user interface based on the JSON object returned by the tool call.
+1. 用户向语言模型发出提示。
+2. 语言模型生成包含工具调用的响应。
+3. 工具调用返回表示用户界面的 JSON 对象。
+4. 响应发送到客户端。
+5. 客户端接收响应并检查最新消息是否为工具调用。
+6. 若是工具调用，客户端根据工具调用返回的 JSON 对象渲染用户界面。
 
-Most applications have multiple tools that are called by the language model, and each tool can return a different user interface.
+大多数应用有多个由语言模型调用的工具，每个工具可返回不同的用户界面。
 
-For example, a tool that searches for courses can return a list of courses, while a tool that searches for people can return a list of people. As this list grows, the complexity of your application will grow as well and it can become increasingly difficult to manage these user interfaces.
+例如，搜索课程的工具可返回课程列表，搜索人员的工具可返回人员列表。随着列表增长，应用复杂度也会增加，管理这些用户界面可能越来越困难。
 
 ```tsx filename='app/page.tsx'
 {
@@ -151,11 +151,11 @@ For example, a tool that searches for courses can return a list of courses, whil
 }
 ```
 
-## Rendering User Interfaces on the Server
+## 在服务端渲染用户界面
 
-The **AI SDK RSC (`@ai-sdk/rsc`)** takes advantage of RSCs to solve the problem of managing all your React components on the client side, allowing you to render React components on the server and stream them to the client.
+**AI SDK RSC（`@ai-sdk/rsc`）** 利用 RSC 解决在客户端管理所有 React 组件的问题，允许在服务端渲染 React 组件并流式传输到客户端。
 
-Rather than conditionally rendering user interfaces on the client based on the data returned by the language model, you can directly stream them from the server during a model generation.
+你无需根据语言模型返回的数据在客户端条件渲染用户界面，而可在模型生成过程中直接从服务端流式传输。
 
 ```tsx highlight="3,22-31,38" filename="app/action.ts"
 import { createStreamableUI } from '@ai-sdk/rsc'
@@ -199,9 +199,9 @@ return {
 }
 ```
 
-The [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) function belongs to the `@ai-sdk/rsc` module and creates a stream that can send React components to the client.
+[`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) 函数属于 `@ai-sdk/rsc` 模块，创建可向客户端发送 React 组件的流。
 
-On the server, you render the `<WeatherCard/>` component with the props passed to it, and then stream it to the client. On the client side, you only need to render the UI that is streamed from the server.
+在服务端，你用传入的 props 渲染 `<WeatherCard/>` 组件，然后流式传输到客户端。在客户端，只需渲染从服务端流式传输的 UI。
 
 ```tsx filename="app/page.tsx" highlight="4"
 return (
@@ -213,13 +213,13 @@ return (
 );
 ```
 
-Now the steps involved are simplified:
+现在步骤简化为：
 
-1. The user prompts the language model.
-2. The language model generates a response that includes a tool call.
-3. The tool call renders a React component along with relevant props that represent the user interface.
-4. The response is streamed to the client and rendered directly.
+1. 用户向语言模型发出提示。
+2. 语言模型生成包含工具调用的响应。
+3. 工具调用渲染 React 组件及相关 props，表示用户界面。
+4. 响应流式传输到客户端并直接渲染。
 
-> **Note:** You can also render text on the server and stream it to the client using React Server Components. This way, all operations from language model generation to UI rendering can be done on the server, while the client only needs to render the UI that is streamed from the server.
+> **注意：** 你也可以使用 React Server Components 在服务端渲染文本并流式传输到客户端。这样，从语言模型生成到 UI 渲染的所有操作都可在服务端完成，客户端只需渲染从服务端流式传输的 UI。
 
-Check out this [example](/examples/next-app/interface/stream-component-updates) for a full illustration of how to stream component updates with React Server Components in Next.js App Router.
+完整示例请参阅此[示例](/examples/next-app/interface/stream-component-updates)，了解如何在 Next.js App Router 中使用 React Server Components 流式传输组件更新。

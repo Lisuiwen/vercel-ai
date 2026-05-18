@@ -19,7 +19,7 @@ run(async () => {
             referenceUrls: [
               'https://raw.githubusercontent.com/vercel/ai/refs/heads/main/examples/ai-functions/data/comic-cat.png',
             ],
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies AlibabaVideoModelOptions,
         },
       }),

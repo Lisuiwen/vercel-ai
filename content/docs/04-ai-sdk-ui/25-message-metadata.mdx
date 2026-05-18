@@ -1,23 +1,23 @@
 ---
-title: Message Metadata
-description: Learn how to attach and use metadata with messages in AI SDK UI
+title: 消息元数据
+description: 学习如何在 AI SDK UI 中为消息附加和使用元数据
 ---
 
-# Message Metadata
+# 消息元数据
 
-Message metadata allows you to attach custom information to messages at the message level. This is useful for tracking timestamps, model information, token usage, user context, and other message-level data.
+消息元数据允许你在消息级别附加自定义信息。这对于跟踪时间戳、模型信息、token 用量、用户上下文及其他消息级数据很有用。
 
-## Overview
+## 概述
 
-Message metadata differs from [data parts](/docs/ai-sdk-ui/streaming-data) in that it's attached at the message level rather than being part of the message content. While data parts are ideal for dynamic content that forms part of the message, metadata is perfect for information about the message itself.
+消息元数据与[数据部分](/docs/ai-sdk-ui/streaming-data)不同：它附加在消息级别，而不是消息内容的一部分。数据部分适合作为消息内容的动态内容，而元数据适合关于消息本身的信息。
 
-## Getting Started
+## 入门
 
-Here's a simple example of using message metadata to track timestamps and model information:
+以下示例展示如何使用消息元数据跟踪时间戳和模型信息：
 
-### Defining Metadata Types
+### 定义元数据类型
 
-First, define your metadata type for type safety:
+首先定义元数据类型以确保类型安全：
 
 ```tsx filename="app/types.ts"
 import { UIMessage } from 'ai';
@@ -36,9 +36,9 @@ export type MessageMetadata = z.infer<typeof messageMetadataSchema>;
 export type MyUIMessage = UIMessage<MessageMetadata>;
 ```
 
-### Sending Metadata from the Server
+### 从服务端发送元数据
 
-Use the `messageMetadata` callback in `toUIMessageStreamResponse` to send metadata at different streaming stages:
+在 `toUIMessageStreamResponse` 中使用 `messageMetadata` 回调，在不同流式阶段发送元数据：
 
 ```ts filename="app/api/chat/route.ts" highlight="11-20"
 import { convertToModelMessages, streamText } from 'ai';
@@ -76,13 +76,12 @@ export async function POST(req: Request) {
 ```
 
 <Note>
-  To enable type-safe metadata return object in `messageMetadata`, pass in the
-  `originalMessages` parameter typed to your UIMessage type.
+  若要在 `messageMetadata` 中启用类型安全的元数据返回对象，请传入以你的 UIMessage 类型标注的 `originalMessages` 参数。
 </Note>
 
-### Accessing Metadata on the Client
+### 在客户端访问元数据
 
-Access metadata through the `message.metadata` property:
+通过 `message.metadata` 属性访问元数据：
 
 ```tsx filename="app/page.tsx" highlight="8,18-23"
 'use client';
@@ -130,23 +129,22 @@ export default function Chat() {
 ```
 
 <Note>
-  For streaming arbitrary data that changes during generation, consider using
-  [data parts](/docs/ai-sdk-ui/streaming-data) instead.
+  对于生成过程中变化的任意流式数据，请考虑改用[数据部分](/docs/ai-sdk-ui/streaming-data)。
 </Note>
 
-## Common Use Cases
+## 常见用例
 
-Message metadata is ideal for:
+消息元数据适用于：
 
-- **Timestamps**: When messages were created or completed
-- **Model Information**: Which AI model was used
-- **Token Usage**: Track costs and usage limits
-- **User Context**: User IDs, session information
-- **Performance Metrics**: Generation time, time to first token
-- **Quality Indicators**: Finish reason, confidence scores
+- **时间戳**：消息创建或完成的时间
+- **模型信息**：使用的 AI 模型
+- **Token 用量**：跟踪成本和用量限制
+- **用户上下文**：用户 ID、会话信息
+- **性能指标**：生成时间、首 token 时间
+- **质量指标**：完成原因、置信度分数
 
-## See Also
+## 另请参阅
 
-- [Chatbot Guide](/docs/ai-sdk-ui/chatbot#message-metadata) - Message metadata in the context of building chatbots
-- [Streaming Data](/docs/ai-sdk-ui/streaming-data#message-metadata-vs-data-parts) - Comparison with data parts
-- [UIMessage Reference](/docs/reference/ai-sdk-core/ui-message) - Complete UIMessage type reference
+- [聊天机器人指南](/docs/ai-sdk-ui/chatbot#message-metadata) — 在构建聊天机器人场景下的消息元数据
+- [流式数据](/docs/ai-sdk-ui/streaming-data#message-metadata-vs-data-parts) — 与数据部分的对比
+- [UIMessage 参考](/docs/reference/ai-sdk-core/ui-message) — 完整的 UIMessage 类型参考

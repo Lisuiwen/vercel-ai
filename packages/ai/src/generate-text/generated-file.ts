@@ -4,21 +4,21 @@ import {
 } from '@ai-sdk/provider-utils';
 
 /**
- * A generated file.
+ * 生成的文件。
  */
 export interface GeneratedFile {
   /**
-   * File as a base64 encoded string.
+   * 文件为 base64 编码字符串。
    */
   readonly base64: string;
 
   /**
-   * File as a Uint8Array.
+   * 文件为 Uint8Array。
    */
   readonly uint8Array: Uint8Array;
 
   /**
-   * The IANA media type of the file.
+   * 文件的 IANA 媒体类型。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
@@ -44,7 +44,7 @@ export class DefaultGeneratedFile implements GeneratedFile {
     this.mediaType = mediaType;
   }
 
-  // lazy conversion with caching to avoid unnecessary conversion overhead:
+  // 带缓存的惰性转换以避免不必要的转换开销：
   get base64() {
     if (this.base64Data == null) {
       this.base64Data = convertUint8ArrayToBase64(this.uint8ArrayData!);
@@ -52,7 +52,7 @@ export class DefaultGeneratedFile implements GeneratedFile {
     return this.base64Data;
   }
 
-  // lazy conversion with caching to avoid unnecessary conversion overhead:
+  // 带缓存的惰性转换以避免不必要的转换开销：
   get uint8Array() {
     if (this.uint8ArrayData == null) {
       this.uint8ArrayData = convertBase64ToUint8Array(this.base64Data!);

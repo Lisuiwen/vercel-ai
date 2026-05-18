@@ -1,7 +1,7 @@
 import type { ModelMessage, SystemModelMessage } from '@ai-sdk/provider-utils';
 
 /**
- * Instructions to include in the prompt. Can be used with `prompt` or `messages`.
+ * 要包含在提示中的说明。可以与“提示”或“消息”一起使用。
  */
 export type Instructions =
   | string
@@ -9,27 +9,27 @@ export type Instructions =
   | Array<SystemModelMessage>;
 
 /**
- * Prompt part of the AI function options.
- * It contains instructions, a simple text prompt, or a list of messages.
+ * 提示部分AI功能选项。
+ * 它包含说明、简单的文本提示或消息列表。
  */
 export type Prompt = {
   /**
-   * Instructions to include in the prompt. Can be used with `prompt` or `messages`.
+   * 要包含在提示中的说明。可以与“提示”或“消息”一起使用。
    */
   instructions?: Instructions;
 
   /**
-   * Instructions to include in the prompt. Can be used with `prompt` or `messages`.
+   * 要包含在提示中的说明。可以与“提示”或“消息”一起使用。
    *
-   * @deprecated Use `instructions` instead.
+   * @deprecated 请改用“说明”。
    */
   system?: Instructions;
 
   /**
-   * Whether system messages are allowed in the `prompt` or `messages` fields.
+   * “提示”或“消息”字段中是否允许系统消息。
    *
-   * When disabled, system messages must be provided through the `instructions`
-   * option.
+   * 禁用时，必须通过“说明”提供系统消息
+   * 选项。
    *
    * @default false
    */
@@ -37,31 +37,31 @@ export type Prompt = {
 } & (
   | {
       /**
-       * A prompt. It can be either a text prompt or a list of messages.
+       * 一个提示。它可以是文本提示或消息列表。
        *
-       * You can either use `prompt` or `messages` but not both.
+       * 您可以使用“提示”或“消息”，但不能同时使用两者。
        */
       prompt: string | Array<ModelMessage>;
 
       /**
-       * A list of messages.
+       * 消息列表。
        *
-       * You can either use `prompt` or `messages` but not both.
+       * 您可以使用“提示”或“消息”，但不能同时使用两者。
        */
       messages?: never;
     }
   | {
       /**
-       * A list of messages.
+       * 消息列表。
        *
-       * You can either use `prompt` or `messages` but not both.
+       * 您可以使用“提示”或“消息”，但不能同时使用两者。
        */
       messages: Array<ModelMessage>;
 
       /**
-       * A prompt. It can be either a text prompt or a list of messages.
+       * 一个提示。它可以是文本提示或消息列表。
        *
-       * You can either use `prompt` or `messages` but not both.
+       * 您可以使用“提示”或“消息”，但不能同时使用两者。
        */
       prompt?: never;
     }

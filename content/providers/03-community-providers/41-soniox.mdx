@@ -1,14 +1,14 @@
 ---
 title: 'Soniox'
-description: 'Learn how to use the Soniox provider for the AI SDK.'
+description: '介绍如何在 AI SDK 中使用 Soniox 提供商。'
 ---
 
-# Soniox Provider
+# Soniox 提供商
 
-[Soniox provider](https://github.com/soniox/vercel-ai-sdk-provider) integrates Soniox transcription models with the Vercel AI SDK.
-For more information, see the [Soniox Documentation](https://soniox.com/docs).
+[Soniox provider](https://github.com/soniox/vercel-ai-sdk-provider) 将 Soniox 转写模型与 Vercel AI SDK 集成。
+更多信息见 [Soniox 文档](https://soniox.com/docs)。
 
-## Installation
+## 安装
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -25,12 +25,12 @@ For more information, see the [Soniox Documentation](https://soniox.com/docs).
   </Tab>
 </Tabs>
 
-## Authentication
+## 认证
 
-Set `SONIOX_API_KEY` in your environment or pass `apiKey` when creating the provider.
-Get your API key from the [Soniox Console](https://console.soniox.com).
+在环境中设置 `SONIOX_API_KEY`，或在创建提供商时传入 `apiKey`。
+在 [Soniox 控制台](https://console.soniox.com) 获取 API 密钥。
 
-## Example
+## 示例
 
 ```ts
 import { soniox } from '@soniox/vercel-ai-sdk-provider';
@@ -42,9 +42,9 @@ const { text } = await transcribe({
 });
 ```
 
-## Provider options
+## 提供商选项
 
-Use `createSoniox` to customize the provider instance:
+使用 `createSoniox` 自定义提供商实例：
 
 ```ts
 import { createSoniox } from '@soniox/vercel-ai-sdk-provider';
@@ -55,17 +55,17 @@ const soniox = createSoniox({
 });
 ```
 
-Options:
+选项：
 
-- `apiKey`: override `SONIOX_API_KEY`.
-- `apiBaseUrl`: custom API base URL. See list of regional API endpoints [here](https://soniox.com/docs/stt/data-residency#regional-endpoints).
-- `headers`: additional request headers.
-- `fetch`: custom fetch implementation.
-- `pollingIntervalMs`: transcription polling interval in milliseconds. Default is 1000ms.
+- `apiKey`：覆盖 `SONIOX_API_KEY`。
+- `apiBaseUrl`：自定义 API 基础 URL。区域端点列表见 [此处](https://soniox.com/docs/stt/data-residency#regional-endpoints)。
+- `headers`：额外请求头。
+- `fetch`：自定义 fetch 实现。
+- `pollingIntervalMs`：转写轮询间隔（毫秒）。默认 1000ms。
 
-## Transcription options
+## 转写选项
 
-Per-request options are passed via `providerOptions`:
+单次请求的选项通过 `providerOptions` 传入：
 
 ```ts
 const { text } = await transcribe({
@@ -84,26 +84,26 @@ const { text } = await transcribe({
 });
 ```
 
-Available options:
+可用选项：
 
-- `languageHints` - Array of ISO language codes to bias recognition
-- `languageHintsStrict` - When true, rely more heavily on language hints (note: not supported by all models)
-- `enableLanguageIdentification` - Automatically detect spoken language
-- `enableSpeakerDiarization` - Identify and separate different speakers
-- `context` - Additional context to improve accuracy
-- `clientReferenceId` - Optional client-defined reference ID
-- `webhookUrl` - Webhook URL for transcription completion notifications
-- `webhookAuthHeaderName` - Webhook authentication header name
-- `webhookAuthHeaderValue` - Webhook authentication header value
-- `translation` - Translation configuration
+- `languageHints` — ISO 语言代码数组，用于偏置识别
+- `languageHintsStrict` — 为 true 时更依赖语言提示（注意：并非所有模型均支持）
+- `enableLanguageIdentification` — 自动检测口语语言
+- `enableSpeakerDiarization` — 识别并分离不同说话人
+- `context` — 额外上下文以提升准确度
+- `clientReferenceId` — 可选客户端自定义引用 ID
+- `webhookUrl` — 转写完成通知的 Webhook URL
+- `webhookAuthHeaderName` — Webhook 认证头名称
+- `webhookAuthHeaderValue` — Webhook 认证头值
+- `translation` — 翻译配置
 
-Check the [Soniox API reference](https://soniox.com/docs/stt/api-reference/transcriptions/create_transcription) for more details.
+详见 [Soniox API 参考](https://soniox.com/docs/stt/api-reference/transcriptions/create_transcription)。
 
-## Language hints
+## 语言提示
 
-Soniox automatically detects and transcribes speech in [**60+ languages**](https://soniox.com/docs/stt/concepts/supported-languages). When you know which languages are likely to appear in your audio, provide `languageHints` to improve accuracy by biasing recognition toward those languages.
+Soniox 可自动检测并转写 [**60+ 种语言**](https://soniox.com/docs/stt/concepts/supported-languages)。若已知音频中可能出现的语言，可提供 `languageHints`，通过偏置模型提升准确度。
 
-Language hints **do not restrict** recognition — they only **bias** the model toward the specified languages, while still allowing other languages to be detected if present.
+语言提示**不会限制**识别范围——仅**偏置**向指定语言，仍可在音频中存在其他语言时被检测到。
 
 ```ts
 const { text } = await transcribe({
@@ -117,13 +117,13 @@ const { text } = await transcribe({
 });
 ```
 
-For more details, see the [Soniox language hints documentation](https://soniox.com/docs/stt/concepts/language-hints).
+更多说明见 [Soniox 语言提示文档](https://soniox.com/docs/stt/concepts/language-hints)。
 
-## Context
+## 上下文
 
-Provide custom context to improve transcription and translation accuracy. Context helps the model understand your domain, recognize important terms, and apply custom vocabulary.
+提供自定义上下文以提升转写与翻译准确度。上下文帮助模型理解领域、识别重要术语并应用自定义词汇。
 
-The `context` object supports four optional sections:
+`context` 对象支持四个可选段落：
 
 ```ts
 const { text } = await transcribe({
@@ -153,4 +153,4 @@ const { text } = await transcribe({
 });
 ```
 
-For more details, see the [Soniox context documentation](https://soniox.com/docs/stt/concepts/context).
+更多说明见 [Soniox 上下文文档](https://soniox.com/docs/stt/concepts/context)。

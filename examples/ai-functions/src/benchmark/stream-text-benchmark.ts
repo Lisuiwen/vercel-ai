@@ -8,7 +8,7 @@ const generateLongContent = (tokens: number, includeTools = false) => {
     { type: 'text-start', id: 'text-1' },
   ];
 
-  // Generate many token chunks to simulate a long response
+  // 生成许多​​令牌块来模拟长响应
   for (let i = 0; i < tokens; i++) {
     chunks.push({
       type: 'text-delta',
@@ -19,9 +19,9 @@ const generateLongContent = (tokens: number, includeTools = false) => {
 
   chunks.push({ type: 'text-end', id: 'text-1' });
 
-  // Add tool-related chunks if requested
+  // 如果需要，添加与工具相关的块
   if (includeTools) {
-    // Add tool call chunks
+    // 添加工具调用块
     chunks.push(
       {
         type: 'tool-input-start',
@@ -86,8 +86,8 @@ const generateLongContent = (tokens: number, includeTools = false) => {
   return chunks;
 };
 
-// Calculate approximate bytes for throughput measurement
-// Reuses the generateLongContent function to avoid duplication
+// 计算吞吐量测量的近似字节数
+// 重用generateLongContent函数以避免重复
 const calculateTotalBytes = (tokens: number, includeTools = false) => {
   const chunks = generateLongContent(tokens, includeTools);
   let totalBytes = 0;
@@ -108,8 +108,8 @@ async function benchmarkSingleStream() {
     doStream: async () => ({
       stream: simulateReadableStream({
         chunks,
-        initialDelayInMs: null, // No delay
-        chunkDelayInMs: null, // No delay between chunks
+        initialDelayInMs: null, // 无延迟
+        chunkDelayInMs: null, // 块之间没有延迟
       }),
     }),
   });
@@ -148,8 +148,8 @@ async function benchmarkConcurrentStreams() {
     doStream: async () => ({
       stream: simulateReadableStream({
         chunks,
-        initialDelayInMs: null, // No delay
-        chunkDelayInMs: null, // No delay between chunks
+        initialDelayInMs: null, // 无延迟
+        chunkDelayInMs: null, // 块之间没有延迟
       }),
     }),
   });
@@ -192,8 +192,8 @@ async function benchmarkStreamWithToolCalls() {
     doStream: async () => ({
       stream: simulateReadableStream({
         chunks,
-        initialDelayInMs: null, // No delay
-        chunkDelayInMs: null, // No delay between chunks
+        initialDelayInMs: null, // 无延迟
+        chunkDelayInMs: null, // 块之间没有延迟
       }),
     }),
   });

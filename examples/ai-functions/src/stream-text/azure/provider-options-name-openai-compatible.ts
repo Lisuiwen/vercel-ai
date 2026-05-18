@@ -4,7 +4,7 @@ import { run } from '../../lib/run';
 import { azure } from '@ai-sdk/azure';
 
 // Note: `providerOption` is set to `openai` (not `azure`) intentionally.
-// This verifies that Azure works with OpenAI-compatible provider options.
+// 这将验证 Azure 是否可以与 OpenAI 兼容的提供程序选项配合使用。
 
 run(async () => {
   const result = streamText({

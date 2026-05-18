@@ -1,28 +1,32 @@
-# AI SDK - Baseten Provider
+# AI SDK - Baseten 提供商
 
-The **[Baseten provider](https://ai-sdk.dev/providers/ai-sdk-providers/baseten)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model and embedding model support for the [Baseten](https://baseten.co) platform.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Baseten provider](https://ai-sdk.dev/providers/ai-sdk-providers/baseten)** contains language model and embedding model support for the [Baseten](https://baseten.co) platform.
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Baseten (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Baseten（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Baseten provider is available in the `@ai-sdk/baseten` module. You can install it with
+Baseten 提供商位于 `@ai-sdk/baseten` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/baseten
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `baseten` from `@ai-sdk/baseten`:
+可从 `@ai-sdk/baseten` 导入默认提供商实例 `baseten`：
+
+
 
 ```ts
 import { baseten } from '@ai-sdk/baseten';
@@ -40,6 +44,6 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[Baseten provider](https://ai-sdk.dev/providers/ai-sdk-providers/baseten)** for more information.
+更多信息请参阅 **[Baseten 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/baseten)**。

@@ -22,12 +22,12 @@ const tools = {
 } as const;
 
 export type ReasoningToolsMessage = UIMessage<
-  never, // could define metadata here
-  UIDataTypes, // could define data parts here
+  never, // 可在此定义 metadata
+  UIDataTypes, // 可在此定义 data parts
   InferUITools<typeof tools>
 >;
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     tools,
     providerOptions: {
       openai: {
-        reasoningSummary: 'detailed', // 'auto' for condensed or 'detailed' for comprehensive
+        reasoningSummary: 'detailed', // 'auto' 为精简版，'detailed' 为完整版
       } satisfies OpenAILanguageModelResponsesOptions,
     },
   });

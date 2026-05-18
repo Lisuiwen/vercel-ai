@@ -1,26 +1,26 @@
 ---
 title: AI_APICallError
-description: Learn how to fix AI_APICallError
+description: 了解如何修复 AI_APICallError
 ---
 
 # AI_APICallError
 
-This error occurs when an API call fails.
+此错误在 API 调用失败时发生。
 
-## Properties
+## 属性
 
-- `url`: The URL of the API request that failed
-- `requestBodyValues`: The request body values sent to the API
-- `statusCode`: The HTTP status code returned by the API (optional)
-- `responseHeaders`: The response headers returned by the API (optional)
-- `responseBody`: The response body returned by the API (optional)
-- `isRetryable`: Whether the request can be retried based on the status code
-- `data`: Any additional data associated with the error (optional)
-- `cause`: The underlying error that caused the API call to fail (optional)
+- `url`：导致失败的 API 请求的 URL
+- `requestBodyValues`：发送到 API 的请求体字段值
+- `statusCode`：API 返回的 HTTP 状态码（可选）
+- `responseHeaders`：API 返回的响应头（可选）
+- `responseBody`：API 返回的响应体（可选）
+- `isRetryable`：根据状态码判断请求是否可重试
+- `data`：与该错误关联的任意额外数据（可选）
+- `cause`：导致 API 调用失败的底层错误（可选）
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_APICallError` using:
+你可以通过以下方式检查错误是否为 `AI_APICallError` 的实例：
 
 ```typescript
 import { APICallError } from 'ai';

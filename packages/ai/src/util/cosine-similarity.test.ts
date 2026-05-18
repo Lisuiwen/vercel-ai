@@ -7,7 +7,7 @@ it('should calculate cosine similarity correctly', () => {
 
   const result = cosineSimilarity(vector1, vector2);
 
-  // test against pre-calculated value:
+  // 针对预先计算的值进行测试：
   expect(result).toBeCloseTo(0.9746318461970762, 5);
 });
 
@@ -17,7 +17,7 @@ it('should calculate negative cosine similarity correctly', () => {
 
   const result = cosineSimilarity(vector1, vector2);
 
-  // test against pre-calculated value:
+  // 针对预先计算的值进行测试：
   expect(result).toBeCloseTo(-1, 5);
 });
 

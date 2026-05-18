@@ -1,7 +1,7 @@
 import type { ServerResponse } from 'node:http';
 
 /**
- * Writes the content of a stream to a server response.
+ * 将流的内容写入服务器响应。
  */
 export function writeToServerResponse({
   response,
@@ -30,7 +30,7 @@ export function writeToServerResponse({
         const { done, value } = await reader.read();
         if (done) break;
 
-        // Respect backpressure: if write() returns false, wait for 'drain' event
+        // 尊重背压：如果 write() 返回 false，则等待“drain”事件
         const canContinue = response.write(value);
         if (!canContinue) {
           await new Promise<void>(resolve => {

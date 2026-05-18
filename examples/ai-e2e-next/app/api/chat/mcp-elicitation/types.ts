@@ -13,7 +13,7 @@ export interface ElicitationResponse {
   content?: Record<string, unknown>;
 }
 
-// Define custom data types for elicitation
+// 为征询定义自定义数据类型
 export type ElicitationDataTypes = {
   'elicitation-request': {
     elicitationId: string;
@@ -27,9 +27,9 @@ export type ElicitationDataTypes = {
   };
 };
 
-// Define custom message type with elicitation data parts
+// 使用征询 data parts 定义自定义消息类型
 export type MCPElicitationUIMessage = UIMessage<
-  never, // metadata type
+  never, // metadata 类型
   ElicitationDataTypes,
-  never // no tools in this example (all tools come from MCP)
+  never // 本示例无 tools（所有 tools 来自 MCP）
 >;

@@ -7,12 +7,12 @@ import {
   resetLogWarningsState,
 } from './log-warnings';
 
-// Mock console.warn and console.info
+// 模拟 console.warn 和 console.info
 const mockConsoleWarn = vi.fn();
 const mockConsoleInfo = vi.fn();
 vi.stubGlobal('console', { warn: mockConsoleWarn, info: mockConsoleInfo });
 
-// Mock process.emitWarning
+// 模拟进程.emitWarning
 const mockProcessEmitWarning = vi
   .spyOn(process, 'emitWarning')
   .mockImplementation(() => {});
@@ -175,7 +175,7 @@ describe('logWarnings', () => {
       logWarnings({ warnings: first, provider: 'a', model: 'b' });
       logWarnings({ warnings: second, provider: 'a', model: 'b' });
 
-      // Info on first call only
+      // 仅在第一次通话时提供信息
       expect(mockConsoleInfo).toHaveBeenCalledTimes(1);
       expect(mockConsoleInfo).toHaveBeenCalledWith(FIRST_WARNING_INFO_MESSAGE);
       expect(mockConsoleWarn).not.toHaveBeenCalled();
@@ -215,7 +215,7 @@ describe('logWarnings', () => {
         provider: 'prov',
         model: 'mod',
       });
-      expect(mockConsoleInfo).toHaveBeenCalledOnce(); // only once
+      expect(mockConsoleInfo).toHaveBeenCalledOnce(); // 只有一次
       expect(mockProcessEmitWarning).toHaveBeenCalledTimes(2);
     });
 

@@ -1,33 +1,33 @@
 ---
-title: Navigating the Library
-description: Learn how to navigate the AI SDK.
+title: 浏览库
+description: 了解如何浏览 AI SDK。
 ---
 
-# Navigating the Library
+# 浏览库
 
-The AI SDK is a powerful toolkit for building AI applications. This page will help you pick the right tools for your requirements.
+AI SDK 是构建 AI 应用的强大工具包。本页将帮助你根据需求选择合适的工具。
 
-Let’s start with a quick overview of the AI SDK, which is comprised of three parts:
+先从 AI SDK 的快速概览开始，它由三部分组成：
 
-- **[AI SDK Core](/docs/ai-sdk-core/overview):** A unified, provider agnostic API for generating text, structured objects, and tool calls with LLMs.
-- **[AI SDK UI](/docs/ai-sdk-ui/overview):** A set of framework-agnostic hooks for building chat and generative user interfaces.
-- [AI SDK RSC](/docs/ai-sdk-rsc/overview): Stream generative user interfaces with React Server Components (RSC). Development is currently experimental and we recommend using [AI SDK UI](/docs/ai-sdk-ui/overview).
+- **[AI SDK Core](/docs/ai-sdk-core/overview)：** 统一的、与 provider 无关的 API，用于通过 LLM 生成文本、结构化对象和 tool 调用。
+- **[AI SDK UI](/docs/ai-sdk-ui/overview)：** 一组与框架无关的 hooks，用于构建聊天和生成式用户界面。
+- [AI SDK RSC](/docs/ai-sdk-rsc/overview)：使用 React Server Components (RSC) 流式传输生成式用户界面。目前处于实验阶段，我们建议使用 [AI SDK UI](/docs/ai-sdk-ui/overview)。
 
-## Choosing the Right Tool for Your Environment
+## 根据环境选择合适工具
 
-When deciding which part of the AI SDK to use, your first consideration should be the environment and existing stack you are working with. Different components of the SDK are tailored to specific frameworks and environments.
+在决定使用 AI SDK 的哪一部分时，首先应考虑你所处的环境和现有技术栈。SDK 的不同组件针对特定框架和环境进行了优化。
 
 | Library                                   | Purpose                                                                                                                                                                                                  | Environment Compatibility                                          |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [AI SDK Core](/docs/ai-sdk-core/overview) | Call any LLM with unified API (e.g. [generateText](/docs/reference/ai-sdk-core/generate-text) and [streamText](/docs/reference/ai-sdk-core/stream-text))                                                 | Any JS environment (e.g. Node.js, Deno, Browser)                   |
-| [AI SDK UI](/docs/ai-sdk-ui/overview)     | Build streaming chat and generative UIs (e.g. [useChat](/docs/reference/ai-sdk-ui/use-chat))                                                                                                             | React & Next.js, Vue & Nuxt, Svelte & SvelteKit                    |
-| [AI SDK RSC](/docs/ai-sdk-rsc/overview)   | Stream generative UIs from Server to Client (e.g. [streamUI](/docs/reference/ai-sdk-rsc/stream-ui)). Development is currently experimental and we recommend using [AI SDK UI](/docs/ai-sdk-ui/overview). | Any framework that supports React Server Components (e.g. Next.js) |
+| [AI SDK Core](/docs/ai-sdk-core/overview) | 使用统一 API 调用任意 LLM（例如 [generateText](/docs/reference/ai-sdk-core/generate-text) 和 [streamText](/docs/reference/ai-sdk-core/stream-text)）                                                 | 任意 JS 环境（如 Node.js、Deno、Browser）                   |
+| [AI SDK UI](/docs/ai-sdk-ui/overview)     | 构建流式聊天和生成式 UI（例如 [useChat](/docs/reference/ai-sdk-ui/use-chat)）                                                                                                             | React & Next.js、Vue & Nuxt、Svelte & SvelteKit                    |
+| [AI SDK RSC](/docs/ai-sdk-rsc/overview)   | 从服务端向客户端流式传输生成式 UI（例如 [streamUI](/docs/reference/ai-sdk-rsc/stream-ui)）。目前处于实验阶段，我们建议使用 [AI SDK UI](/docs/ai-sdk-ui/overview)。 | 支持 React Server Components 的任意框架（如 Next.js） |
 
-## Environment Compatibility
+## 环境兼容性
 
-These tools have been designed to work seamlessly with each other and it's likely that you will be using them together. Let's look at how you could decide which libraries to use based on your application environment, existing stack, and requirements.
+这些工具被设计为可无缝协同工作，你很可能会在同一项目中组合使用它们。下面说明如何根据应用环境、现有技术栈和需求来决定使用哪些库。
 
-The following table outlines AI SDK compatibility based on environment:
+下表概述了 AI SDK 在不同环境下的兼容性：
 
 | Environment           | [AI SDK Core](/docs/ai-sdk-core/overview) | [AI SDK UI](/docs/ai-sdk-ui/overview) | [AI SDK RSC](/docs/ai-sdk-rsc/overview) |
 | --------------------- | ----------------------------------------- | ------------------------------------- | --------------------------------------- |
@@ -37,18 +37,18 @@ The following table outlines AI SDK compatibility based on environment:
 | Next.js Pages Router  | <Check size={18} />                       | <Check size={18} />                   | <Cross size={18} />                     |
 | Next.js App Router    | <Check size={18} />                       | <Check size={18} />                   | <Check size={18} />                     |
 
-## When to use AI SDK UI
+## 何时使用 AI SDK UI
 
-AI SDK UI provides a set of framework-agnostic hooks for quickly building **production-ready AI-native applications**. It offers:
+AI SDK UI 提供一组与框架无关的 hooks，用于快速构建**生产级 AI 原生应用**。它提供：
 
-- Full support for streaming chat and client-side generative UI
-- Utilities for handling common AI interaction patterns (i.e. chat, completion, assistant)
-- Production-tested reliability and performance
-- Compatibility across popular frameworks
+- 对流式聊天和客户端生成式 UI 的完整支持
+- 处理常见 AI 交互模式（如聊天、补全、助手）的工具
+- 经过生产验证的可靠性与性能
+- 跨主流框架的兼容性
 
-## AI SDK UI Framework Compatibility
+## AI SDK UI 框架兼容性
 
-AI SDK UI supports the following frameworks: [React](https://react.dev/), [Svelte](https://svelte.dev/), and [Vue.js](https://vuejs.org/). Here is a comparison of the supported functions across these frameworks:
+AI SDK UI 支持以下框架：[React](https://react.dev/)、[Svelte](https://svelte.dev/) 和 [Vue.js](https://vuejs.org/)。以下是各框架支持功能的对比：
 
 | Function                                                   | React               | Svelte              | Vue.js              |
 | ---------------------------------------------------------- | ------------------- | ------------------- | ------------------- |
@@ -59,28 +59,23 @@ AI SDK UI supports the following frameworks: [React](https://react.dev/), [Sve
 | [MCP Apps](/docs/ai-sdk-core/mcp-apps)                     | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
 
 <Note>
-  [Contributions](https://github.com/vercel/ai/blob/main/CONTRIBUTING.md) are
-  welcome to implement missing features for non-React frameworks.
+  欢迎为 non-React 框架[贡献](https://github.com/vercel/ai/blob/main/CONTRIBUTING.md)缺失功能的实现。
 </Note>
 
-## When to use AI SDK RSC
+## 何时使用 AI SDK RSC
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。有关从 RSC 迁移到 UI 的指南，请参阅我们的[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
 [React Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components)
-(RSCs) provide a new approach to building React applications that allow components
-to render on the server, fetch data directly, and stream the results to the client,
-reducing bundle size and improving performance. They also introduce a new way to
-call server-side functions from anywhere in your application called [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations).
+(RSC) 为构建 React 应用提供了一种新方法：组件可在服务端渲染、直接获取数据并将结果流式传输到客户端，从而减小 bundle 体积并提升性能。它还引入了一种称为 [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) 的新方式，可在应用任意位置调用服务端函数。
 
-AI SDK RSC provides a number of utilities that allow you to stream values and UI directly from the server to the client. However, **it's important to be aware of current limitations**:
+AI SDK RSC 提供多种实用工具，允许你将值和 UI 直接从服务端流式传输到客户端。但**需要注意当前的限制**：
 
-- **Cancellation**: currently, it is not possible to abort a stream using Server Actions. This will be improved in future releases of React and Next.js.
-- **Increased Data Transfer**: using [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) can lead to quadratic data transfer (quadratic to the length of generated text). You can avoid this using [ `createStreamableValue` ](/docs/reference/ai-sdk-rsc/create-streamable-value) instead, and rendering the component client-side.
-- **Re-mounting Issue During Streaming**: when using `createStreamableUI`, components re-mount on `.done()`, causing [flickering](https://github.com/vercel/ai/issues/2232).
+- **取消**：目前无法使用 Server Actions 中止流。React 和 Next.js 的未来版本将改进这一点。
+- **数据传输增加**：使用 [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) 可能导致二次方级别的数据传输（与生成文本长度呈二次方关系）。你可以改用 [ `createStreamableValue` ](/docs/reference/ai-sdk-rsc/create-streamable-value)，并在客户端渲染组件以避免此问题。
+- **流式传输期间重新挂载**：使用 `createStreamableUI` 时，组件会在 `.done()` 时重新挂载，导致[闪烁](https://github.com/vercel/ai/issues/2232)。
 
-Given these limitations, **we recommend using [AI SDK UI](/docs/ai-sdk-ui/overview) for production applications**.
+鉴于这些限制，**我们建议在生产应用中使用 [AI SDK UI](/docs/ai-sdk-ui/overview)**。

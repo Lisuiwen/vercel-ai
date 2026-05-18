@@ -4,7 +4,7 @@ import {
   type RetryFunction,
 } from '../util/retry-with-exponential-backoff';
 /**
- * Validate and prepare retries.
+ * 验证并准备重试。
  */
 export function prepareRetries({
   maxRetries,

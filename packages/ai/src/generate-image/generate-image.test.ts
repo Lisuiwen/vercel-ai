@@ -26,10 +26,10 @@ const prompt = 'sunny day at the beach';
 const testDate = new Date(2024, 0, 1);
 
 const pngBase64 =
-  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=='; // 1x1 transparent PNG
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=='; // 1x1 透明 PNG
 const jpegBase64 =
-  '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k='; // 1x1 black JPEG
-const gifBase64 = 'R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='; // 1x1 transparent GIF
+  '/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k='; // 1x1 黑色 JPEG
+const gifBase64 = 'R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='; // 1x1 透明 GIF
 
 vi.mock('../version', () => {
   return {
@@ -241,7 +241,7 @@ describe('generateImage', () => {
         doGenerate: async () =>
           createMockResponse({
             images: [pngBase64],
-            warnings: [], // no warnings
+            warnings: [], // 没有警告
           }),
       }),
       prompt,
@@ -1282,7 +1282,7 @@ describe('data URL handling', () => {
   });
 
   it('should detect media type from data when data URL has no media type', async () => {
-    // Data URL with minimal header (no explicit media type before semicolon)
+    // 具有标有最小头的数据URL（分号在没有明确的媒体类型之前）
     const dataUrl = `data:;base64,${pngBase64}`;
 
     let capturedArgs!: Parameters<ImageModelV4['doGenerate']>[0];
@@ -1302,7 +1302,7 @@ describe('data URL handling', () => {
       },
     });
 
-    // Should detect PNG from the actual image data
+    // 应该从实际图像数据中检测PNG
     expect(capturedArgs.files).toStrictEqual([
       {
         type: 'file',
@@ -1384,7 +1384,7 @@ describe('data URL handling', () => {
 
 describe('deprecated APIs', () => {
   it('experimental_generateImage should still work', async () => {
-    // Import the deprecated export
+    // 导入已弃用的导出
     const { experimental_generateImage } = await import('./index');
 
     const result = await experimental_generateImage({
@@ -1402,7 +1402,7 @@ describe('deprecated APIs', () => {
   });
 
   it('Experimental_GenerateImageResult type should be exported', async () => {
-    // Import the deprecated exports
+    // 导入已弃用的导出
     const { experimental_generateImage } = await import('./index');
     type ResultType = IndexModule.Experimental_GenerateImageResult;
 
@@ -1416,7 +1416,7 @@ describe('deprecated APIs', () => {
       prompt,
     });
 
-    // Type assertions to verify the shape is correct
+    // 输入断言以验证形状是否正确
     expect(result.images).toBeDefined();
     expect(result.image).toBeDefined();
     expect(result.warnings).toBeDefined();

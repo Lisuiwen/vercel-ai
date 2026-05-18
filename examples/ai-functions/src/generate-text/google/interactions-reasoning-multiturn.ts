@@ -5,11 +5,11 @@ import { run } from '../../lib/run';
 run(async () => {
   /*
    * Stateless multi-turn with reasoning enabled. Because we pass `store: false`
-   * and re-send the full message history each turn, the assistant's prior
+   * 并每轮重新发送完整的消息历史记录，助手的先前信息
    * reasoning blocks — including their `thoughtSignature` — must round-trip
-   * back to the API verbatim on turn 2. If a signature is missing or corrupted
-   * the server rejects the request, so a successful follow-up confirms that
-   * thought signatures are preserved correctly.
+   * 在第 2 轮逐字返回 API。如果签名丢失或损坏
+   * 服务器拒绝请求，因此成功的后续操作确认
+   * 认为签名被正确保存。
    */
   const messages: Array<ModelMessage> = [
     {

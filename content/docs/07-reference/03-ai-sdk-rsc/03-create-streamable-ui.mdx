@@ -1,28 +1,27 @@
 ---
 title: createStreamableUI
-description: Reference for the createStreamableUI function from the AI SDK RSC
+description: AI SDK RSC 中 createStreamableUI 函数的参考
 ---
 
 # `createStreamableUI`
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境中使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。关于从 RSC 迁移到 UI 的指导，请参阅我们的[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-Create a stream that sends UI from the server to the client. On the client side, it can be rendered as a normal React node.
+创建一个从服务器向客户端发送 UI 的流。在客户端，它可以像普通 React 节点一样渲染。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { createStreamableUI } from "@ai-sdk/rsc"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -30,12 +29,12 @@ Create a stream that sends UI from the server to the client. On the client side,
       name: 'initialValue',
       type: 'ReactNode',
       isOptional: true,
-      description: 'The initial value of the streamable UI.',
+      description: 'streamable UI 的初始值。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
 <PropertiesTable
   content={[
@@ -43,12 +42,12 @@ Create a stream that sends UI from the server to the client. On the client side,
       name: 'value',
       type: 'ReactNode',
       description:
-        'The value of the streamable UI. This can be returned from a Server Action and received by the client.',
+        'streamable UI 的值。它可以从 Server Action 返回并由客户端接收。',
     },
   ]}
 />
 
-### Methods
+### 方法
 
 <PropertiesTable
   content={[
@@ -56,35 +55,35 @@ Create a stream that sends UI from the server to the client. On the client side,
       name: 'update',
       type: '(ReactNode) => void',
       description:
-        'Updates the current UI node. It takes a new UI node and replaces the old one.',
+        '更新当前 UI 节点。它接收一个新的 UI 节点并替换旧节点。',
     },
     {
       name: 'append',
       type: '(ReactNode) => void',
       description:
-        'Appends a new UI node to the end of the old one. Once appended a new UI node, the previous UI node cannot be updated anymore.',
+        '将新的 UI 节点追加到旧节点末尾。一旦追加新的 UI 节点，之前的 UI 节点就不能再更新。',
     },
     {
       name: 'done',
       type: '(ReactNode | null) => void',
       description:
-        'Marks the UI node as finalized and closes the stream. Once called, the UI node cannot be updated or appended anymore. This method is always required to be called, otherwise the response will be stuck in a loading state.',
+        '将 UI 节点标记为完成并关闭流。一旦调用，UI 节点就不能再更新或追加。必须始终调用此方法，否则响应会停留在加载状态。',
     },
     {
       name: 'error',
       type: '(Error) => void',
       description:
-        'Signals that there is an error in the UI stream. It will be thrown on the client side and caught by the nearest error boundary component.',
+        '表示 UI 流中出现错误。该错误会在客户端抛出，并由最近的错误边界组件捕获。',
     },
   ]}
 />
 
-## Examples
+## 示例
 
 <ExampleLinks
   examples={[
     {
-      title: 'Render a React component during a tool call',
+      title: '在 tool 调用期间渲染 React 组件',
       link: '/examples/next-app/tools/render-interface-during-tool-call',
     },
   ]}

@@ -14,7 +14,7 @@ run(async () => {
     providerOptions: {
       bedrock: {
         // Without `reasoningConfig.display: 'summarized'` here, this won't include reasoning in the stream,
-        // but it may still include a reasoning signature.
+        // 但它可能仍然包含推理签名。
         reasoningConfig: {
           type: 'adaptive',
           maxReasoningEffort: 'high',

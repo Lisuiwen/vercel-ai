@@ -2,8 +2,8 @@ import { asArray, type Arrayable } from '@ai-sdk/provider-utils';
 import type { Callback } from './callback';
 
 /**
- * Notifies all provided callbacks with the given event in parallel.
- * Errors in callbacks do not break the generation flow.
+ * 并行通知给定事件的所有提供的回调。
+ * 回调中的错误不会破坏生成流程。
  */
 export async function notify<EVENT>(options: {
   event: EVENT;

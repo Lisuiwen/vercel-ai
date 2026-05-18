@@ -1,21 +1,21 @@
 ---
 title: Apertis
-description: Apertis AI Provider for the AI SDK
+description: 适用于 AI SDK 的 Apertis 提供商
 ---
 
-# Apertis Provider
+# Apertis 提供商
 
-[Apertis](https://apertis.ai) is a unified AI gateway providing access to 470+ models from leading providers including OpenAI, Anthropic, Google, and more through a single API.
+[Apertis](https://apertis.ai) 是统一 AI 网关，通过单一 API 访问来自 OpenAI、Anthropic、Google 等厂商的 470+ 模型。
 
-## Key Features
+## 核心特性
 
-- **One API Key**: Access 470+ models from multiple providers with a single API key
-- **Pay-as-you-go**: Transparent pricing with no monthly fees
-- **Enterprise Ready**: High availability infrastructure with automatic failover
-- **OpenAI Compatible**: Drop-in replacement for OpenAI API
-- **Latest Models**: Immediate access to newly released models
+- **一把 API 密钥**：用单一密钥访问多家提供商的 470+ 模型
+- **按量付费**：定价透明，无月费
+- **企业就绪**：高可用基础设施与自动故障转移
+- **OpenAI 兼容**：可作为 OpenAI API 的直接替代
+- **紧跟新模型**：新模型发布即可使用
 
-## Setup
+## 安装与配置
 
 <Tabs items={['pnpm', 'npm', 'yarn']}>
   <Tab>
@@ -29,15 +29,15 @@ description: Apertis AI Provider for the AI SDK
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can import the default `apertis` provider instance or create a custom one:
+可导入默认 `apertis` 实例，或创建自定义实例：
 
 ```ts
 import { apertis } from '@apertis/ai-sdk-provider';
 ```
 
-Or create a custom instance with your API key:
+或使用 API 密钥创建自定义实例：
 
 ```ts
 import { createApertis } from '@apertis/ai-sdk-provider';
@@ -47,11 +47,11 @@ const apertis = createApertis({
 });
 ```
 
-Get your API key from the [Apertis Dashboard](https://apertis.ai/token).
+在 [Apertis 控制台](https://apertis.ai/token) 获取 API 密钥。
 
-## Language Models
+## 语言模型
 
-Access chat models using `apertis()` or `apertis.chat()`:
+使用 `apertis()` 或 `apertis.chat()` 访问聊天模型：
 
 ```ts
 const model = apertis('gpt-5.2');
@@ -59,30 +59,30 @@ const model = apertis('gpt-5.2');
 const model = apertis.chat('claude-sonnet-4.5');
 ```
 
-### Supported Models
+### 支持的模型
 
-- **OpenAI**: `gpt-5.2`, `gpt-5.2-chat`, `gpt-5.2-pro`
-- **Anthropic**: `claude-opus-4-5-20251101`, `claude-sonnet-4.5`, `claude-haiku-4.5`
-- **Google**: `gemini-3.1-pro-preview`, `gemini-3-flash-preview`, `gemini-2.5-pro`
-- **Other**: `glm-4.7`, `minimax-m2.1`, and 470+ more
+- **OpenAI**：`gpt-5.2`、`gpt-5.2-chat`、`gpt-5.2-pro`
+- **Anthropic**：`claude-opus-4-5-20251101`、`claude-sonnet-4.5`、`claude-haiku-4.5`
+- **Google**：`gemini-3.1-pro-preview`、`gemini-3-flash-preview`、`gemini-2.5-pro`
+- **其他**：`glm-4.7`、`minimax-m2.1` 等 470+ 模型
 
-## Embedding Models
+## 嵌入模型
 
-Create text embeddings using `apertis.textEmbeddingModel()`:
+使用 `apertis.textEmbeddingModel()` 创建文本嵌入：
 
 ```ts
 const embeddingModel = apertis.textEmbeddingModel('text-embedding-3-small');
 ```
 
-### Supported Embedding Models
+### 支持的嵌入模型
 
 - `text-embedding-3-small`
 - `text-embedding-3-large`
 - `text-embedding-ada-002`
 
-## Examples
+## 示例
 
-### Generate Text
+### 生成文本
 
 ```ts
 import { apertis } from '@apertis/ai-sdk-provider';
@@ -94,7 +94,7 @@ const { text } = await generateText({
 });
 ```
 
-### Stream Text
+### 流式文本
 
 ```ts
 import { apertis } from '@apertis/ai-sdk-provider';
@@ -110,7 +110,7 @@ for await (const chunk of textStream) {
 }
 ```
 
-### Generate Embeddings
+### 生成嵌入
 
 ```ts
 import { apertis } from '@apertis/ai-sdk-provider';
@@ -122,8 +122,8 @@ const { embedding } = await embed({
 });
 ```
 
-## Additional Resources
+## 更多资源
 
-- [GitHub Repository](https://github.com/apertis-ai/apertis-sdk)
-- [Apertis Documentation](https://docs.apertis.ai)
-- [Apertis Dashboard](https://apertis.ai/token)
+- [GitHub 仓库](https://github.com/apertis-ai/apertis-sdk)
+- [Apertis 文档](https://docs.apertis.ai)
+- [Apertis 控制台](https://apertis.ai/token)

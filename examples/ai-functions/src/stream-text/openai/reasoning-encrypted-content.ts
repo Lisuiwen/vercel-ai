@@ -14,7 +14,7 @@ run(async () => {
       openai: {
         reasoningSummary: 'detailed',
         store: false,
-        include: ['reasoning.encrypted_content'], // Use encrypted reasoning items
+        include: ['reasoning.encrypted_content'], // 使用加密推理项目
       } satisfies OpenAILanguageModelResponsesOptions,
     },
   });
@@ -41,8 +41,8 @@ run(async () => {
         } = providerMetadata;
         console.log(`itemId: ${itemId}`);
 
-        // In the Responses API, explicitly setting store to false opts out of both conversation history and reasoning token storage.
-        // As a result, reasoningEncryptedContent is used to restore the reasoning tokens for the conversation history.
+        // 在 Responses API 中，显式将 store 设置为 false 会选择退出对话历史记录和推理令牌存储。
+        // 因此，reasoningEncryptedContent 用于恢复对话历史记录的推理令牌。
         console.log(`reasoningEncryptedContent: ${reasoningEncryptedContent}`);
         break;
 

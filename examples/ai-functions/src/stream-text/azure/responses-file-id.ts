@@ -3,22 +3,22 @@ import { streamText } from 'ai';
 import { run } from '../../lib/run';
 
 /**
- * prepare 1
- * Please add parameters in your .env file for initialize Azure OpenAI.
+ * 准备1
+ * 请在 .env 文件中添加参数以初始化 Azure OpenAI。
  * AZURE_RESOURCE_NAME="<your_resource_name>"
  * AZURE_API_KEY="<your_api_key>"
  *
- * prepare 2
- * Please put file in your Data files storage.
- * URL:AOAI Data files storage portal
+ * 准备2
+ * 请将文件放入您的数据文件存储中。
+ * URL：AOAI数据文件存储门户
  * https://oai.azure.com/resource/datafile
  */
 
-const fileId = 'assistant-xxxxxxxxxxxxxxxxxxxxxx'; // put your vector store id.
+const fileId = 'assistant-xxxxxxxxxxxxxxxxxxxxxx'; // 输入您的矢量商店 ID。
 
 run(async () => {
   const result = streamText({
-    model: azure.responses('gpt-4.1-mini'), // please question about your documents.
+    model: azure.responses('gpt-4.1-mini'), // 请询问您的文件。
     messages: [
       {
         role: 'user',

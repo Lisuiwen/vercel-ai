@@ -1,15 +1,15 @@
 ---
 title: Gladia
-description: Learn how to use the Gladia provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 Gladia 提供商。
 ---
 
-# Gladia Provider
+# Gladia 提供商
 
-The [Gladia](https://gladia.io/) provider contains language model support for the Gladia transcription API.
+[Gladia](https://gladia.io/) 提供商为 Gladia 转写 API 提供语言模型支持。
 
-## Setup
+## 安装
 
-The Gladia provider is available in the `@ai-sdk/gladia` module. You can install it with
+Gladia 提供商位于 `@ai-sdk/gladia` 模块中，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -27,15 +27,15 @@ The Gladia provider is available in the `@ai-sdk/gladia` module. You can install
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `gladia` from `@ai-sdk/gladia`:
+可从 `@ai-sdk/gladia` 导入默认的 `gladia` 提供商实例：
 
 ```ts
 import { gladia } from '@ai-sdk/gladia';
 ```
 
-If you need a customized setup, you can import `createGladia` from `@ai-sdk/gladia` and create a provider instance with your settings:
+如需自定义配置，可导入 `createGladia` 并创建实例：
 
 ```ts
 import { createGladia } from '@ai-sdk/gladia';
@@ -46,34 +46,33 @@ const gladia = createGladia({
 });
 ```
 
-You can use the following optional settings to customize the Gladia provider instance:
+可使用以下可选设置自定义 Gladia 提供商实例：
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
-  It defaults to the `GLADIA_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API Key。
+  默认为环境变量 `GLADIA_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch`。
+  可用作拦截请求的中间件，
+  或在测试中提供自定义 `fetch`。
 
-## Transcription Models
+## 转写模型
 
-You can create models that call the [Gladia transcription API](https://docs.gladia.io/chapters/pre-recorded-stt/getting-started)
-using the `.transcription()` factory method.
+可使用 `.transcription()` 工厂方法创建调用 [Gladia transcription API](https://docs.gladia.io/chapters/pre-recorded-stt/getting-started) 的模型。
 
 ```ts
 const model = gladia.transcription();
 ```
 
-You can also pass additional provider-specific options using the `providerOptions` argument. For example, supplying the `summarize` option will enable summaries for sections of content.
+也可通过 `providerOptions` 传入额外选项；例如启用 `summarization` 可为内容段落生成摘要。
 
 ```ts highlight="7"
 import { experimental_transcribe as transcribe } from 'ai';
@@ -93,71 +92,70 @@ const result = await transcribe({
 ```
 
 <Note>
-  Gladia does not have various models, so you can omit the standard `model` id
-  parameter.
+  Gladia 不提供多型号选择，因此可省略常规的 `model` ID 参数。
 </Note>
 
-The following provider options are available:
+可用的提供商选项如下：
 
 - **contextPrompt** _string_
 
-  Context to feed the transcription model with for possible better accuracy.
-  Optional.
+  提供给转写模型的上下文，可能提升准确度。
+  可选。
 
 - **customVocabulary** _boolean | any[]_
 
-  Custom vocabulary to improve transcription accuracy.
-  Optional.
+  自定义词汇以提升准确度。
+  可选。
 
 - **customVocabularyConfig** _object_
 
-  Configuration for custom vocabulary.
-  Optional.
+  自定义词汇配置。
+  可选。
   - **vocabulary** _Array&lt;string | \{ value: string, intensity?: number, pronunciations?: string[], language?: string \}&gt;_
   - **defaultIntensity** _number_
 
 - **detectLanguage** _boolean_
 
-  Whether to automatically detect the language.
-  Optional.
+  是否自动检测语言。
+  可选。
 
 - **enableCodeSwitching** _boolean_
 
-  Enable code switching for multilingual audio.
-  Optional.
+  是否为多语种混说启用代码切换（code switching）。
+  可选。
 
 - **codeSwitchingConfig** _object_
 
-  Configuration for code switching.
-  Optional.
+  代码切换配置。
+  可选。
   - **languages** _string[]_
 
 - **language** _string_
 
-  Specify the language of the audio.
-  Optional.
+  指定音频语言。
+  可选。
 
 - **callback** _boolean_
 
-  Enable callback when transcription is complete.
-  Optional.
+  转写完成后是否启用回调。
+  可选。
 
 - **callbackConfig** _object_
 
-  Configuration for callback.
-  Optional.
+  回调配置。
+  可选。
   - **url** _string_
   - **method** _'POST' | 'PUT'_
 
 - **subtitles** _boolean_
 
-  Generate subtitles from the transcription.
-  Optional.
+  是否从转写生成字幕。
+  可选。
 
 - **subtitlesConfig** _object_
 
-  Configuration for subtitles.
-  Optional.
+  字幕配置。
+  可选。
   - **formats** _Array&lt;'srt' | 'vtt'&gt;_
   - **minimumDuration** _number_
   - **maximumDuration** _number_
@@ -167,13 +165,13 @@ The following provider options are available:
 
 - **diarization** _boolean_
 
-  Enable speaker diarization.
-  Optional.
+  是否启用说话人分离（diarization）。
+  可选。
 
 - **diarizationConfig** _object_
 
-  Configuration for diarization.
-  Optional.
+  说话人分离配置。
+  可选。
   - **numberOfSpeakers** _number_
   - **minSpeakers** _number_
   - **maxSpeakers** _number_
@@ -181,108 +179,108 @@ The following provider options are available:
 
 - **translation** _boolean_
 
-  Enable translation of the transcription.
-  Optional.
+  是否对转写结果进行翻译。
+  可选。
 
 - **translationConfig** _object_
 
-  Configuration for translation.
-  Optional.
+  翻译配置。
+  可选。
   - **targetLanguages** _string[]_
   - **model** _'base' | 'enhanced'_
   - **matchOriginalUtterances** _boolean_
 
 - **summarization** _boolean_
 
-  Enable summarization of the transcription.
-  Optional.
+  是否对转写进行摘要。
+  可选。
 
 - **summarizationConfig** _object_
 
-  Configuration for summarization.
-  Optional.
+  摘要配置。
+  可选。
   - **type** _'general' | 'bullet_points' | 'concise'_
 
 - **moderation** _boolean_
 
-  Enable content moderation.
-  Optional.
+  是否启用内容审核。
+  可选。
 
 - **namedEntityRecognition** _boolean_
 
-  Enable named entity recognition.
-  Optional.
+  是否启用命名实体识别。
+  可选。
 
 - **chapterization** _boolean_
 
-  Enable chapterization of the transcription.
-  Optional.
+  是否为转写划分章节。
+  可选。
 
 - **nameConsistency** _boolean_
 
-  Enable name consistency in the transcription.
-  Optional.
+  是否在转写中保持名称一致性。
+  可选。
 
 - **customSpelling** _boolean_
 
-  Enable custom spelling.
-  Optional.
+  是否启用自定义拼写。
+  可选。
 
 - **customSpellingConfig** _object_
 
-  Configuration for custom spelling.
-  Optional.
+  自定义拼写配置。
+  可选。
   - **spellingDictionary** _Record&lt;string, string[]&gt;_
 
 - **structuredDataExtraction** _boolean_
 
-  Enable structured data extraction.
-  Optional.
+  是否启用结构化数据抽取。
+  可选。
 
 - **structuredDataExtractionConfig** _object_
 
-  Configuration for structured data extraction.
-  Optional.
+  结构化数据抽取配置。
+  可选。
   - **classes** _string[]_
 
 - **sentimentAnalysis** _boolean_
 
-  Enable sentiment analysis.
-  Optional.
+  是否启用情感分析。
+  可选。
 
 - **audioToLlm** _boolean_
 
-  Enable audio to LLM processing.
-  Optional.
+  是否启用「音频到大模型」处理。
+  可选。
 
 - **audioToLlmConfig** _object_
 
-  Configuration for audio to LLM.
-  Optional.
+  「音频到大模型」配置。
+  可选。
   - **prompts** _string[]_
 
 - **customMetadata** _Record&lt;string, any&gt;_
 
-  Custom metadata to include with the request.
-  Optional.
+  随请求附加的自定义元数据。
+  可选。
 
 - **sentences** _boolean_
 
-  Enable sentence detection.
-  Optional.
+  是否启用句子切分。
+  可选。
 
 - **displayMode** _boolean_
 
-  Enable display mode.
-  Optional.
+  是否启用显示模式。
+  可选。
 
 - **punctuationEnhanced** _boolean_
 
-  Enable enhanced punctuation.
-  Optional.
+  是否启用增强标点。
+  可选。
 
-### Model Capabilities
+### 模型能力
 
-| Model     | Transcription       | Duration            | Segments            | Language            |
-| --------- | ------------------- | ------------------- | ------------------- | ------------------- |
+| Model     | 转写               | 时长               | 分段               | 语言               |
+| --------- | ------------------ | ------------------ | ------------------ | ------------------ |
 | `Default` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |

@@ -1,6 +1,6 @@
 ---
-title: Streaming Values
-description: Overview of streaming RSCs
+title: 流式传输值
+description: 流式 RSC 概述
 ---
 
 import { UIPreviewCard, Card } from '@/components/home/card';
@@ -8,40 +8,37 @@ import { EventPlanning } from '@/components/home/event-planning';
 import { Searching } from '@/components/home/searching';
 import { Weather } from '@/components/home/weather';
 
-# Streaming Values
+# 流式传输值
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。有关从 RSC 迁移到 UI 的指南，请参阅[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-The RSC API provides several utility functions to allow you to stream values from the server to the client. This is useful when you need more granular control over what you are streaming and how you are streaming it.
+RSC API 提供多种实用函数，允许你从服务器向客户端流式传输值。当你需要对流式传输的内容和方式进行更细粒度的控制时，这会很有用。
 
 <Note>
-  These utilities can also be paired with [AI SDK Core](/docs/ai-sdk-core)
-  functions like [`streamText`](/docs/reference/ai-sdk-core/stream-text) to
-  easily stream LLM generations from the server to the client.
+  这些实用函数也可与 [AI SDK Core](/docs/ai-sdk-core) 的函数（如 [`streamText`](/docs/reference/ai-sdk-core/stream-text)）配合使用，轻松将 LLM 生成从服务器流式传输到客户端。
 </Note>
 
-There are two functions provided by the RSC API that allow you to create streamable values:
+RSC API 提供两个函数用于创建可流式传输的值：
 
-- [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value) - creates a streamable (serializable) value, with full control over how you create, update, and close the stream.
-- [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) - creates a streamable React component, with full control over how you create, update, and close the stream.
+- [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value) — 创建可流式传输的（可序列化）值，完全控制如何创建、更新和关闭流。
+- [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) — 创建可流式传输的 React 组件，完全控制如何创建、更新和关闭流。
 
 ## `createStreamableValue`
 
-The RSC API allows you to stream serializable JavaScript values from the server to the client using [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value), such as strings, numbers, objects, and arrays.
+RSC API 允许你使用 [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value) 将可序列化的 JavaScript 值从服务器流式传输到客户端，例如字符串、数字、对象和数组。
 
-This is useful when you want to stream:
+适用于流式传输：
 
-- Text generations from the language model in real-time.
-- Buffer values of image and audio generations from multi-modal models.
-- Progress updates from multi-step agent runs.
+- 语言模型的实时文本生成。
+- 多模态模型的图像和音频生成的缓冲值。
+- 多步 agent 运行的进度更新。
 
-## Creating a Streamable Value
+## 创建可流式传输的值
 
-You can import `createStreamableValue` from `@ai-sdk/rsc` and use it to create a streamable value.
+你可以从 `@ai-sdk/rsc` 导入 `createStreamableValue` 并用于创建可流式传输的值。
 
 ```tsx file='app/actions.ts'
 'use server';
@@ -64,9 +61,9 @@ export const runThread = async () => {
 };
 ```
 
-## Reading a Streamable Value
+## 读取可流式传输的值
 
-You can read streamable values on the client using `readStreamableValue`. It returns an async iterator that yields the value of the streamable as it is updated:
+你可以在客户端使用 `readStreamableValue` 读取可流式传输的值。它返回一个 async iterator，在值更新时产出流式值：
 
 ```tsx file='app/page.tsx'
 import { readStreamableValue } from '@ai-sdk/rsc';
@@ -89,15 +86,15 @@ export default function Page() {
 }
 ```
 
-Learn how to stream a text generation (with `streamText`) using the Next.js App Router and `createStreamableValue` in this [example](/examples/next-app/basics/streaming-text-generation).
+了解如何在 Next.js App Router 中使用 `createStreamableValue` 流式传输文本生成（配合 `streamText`），请参阅此[示例](/examples/next-app/basics/streaming-text-generation)。
 
 ## `createStreamableUI`
 
-`createStreamableUI` creates a stream that holds a React component. Unlike AI SDK Core APIs, this function does not call a large language model. Instead, it provides a primitive that can be used to have granular control over streaming a React component.
+`createStreamableUI` 创建持有 React 组件的流。与 AI SDK Core API 不同，此函数不调用大语言模型，而是提供可对 React 组件流式传输进行细粒度控制的 primitive。
 
-## Using `createStreamableUI`
+## 使用 `createStreamableUI`
 
-Let's look at how you can use the `createStreamableUI` function with a Server Action.
+让我们看看如何将 `createStreamableUI` 与 Server Action 配合使用。
 
 ```tsx filename='app/actions.tsx'
 'use server';
@@ -117,11 +114,11 @@ export async function getWeather() {
 }
 ```
 
-First, you create a streamable UI with an empty state and then update it with a loading message. After 1 second, you mark the stream as done passing in the actual weather information as its final value. The `.value` property contains the actual UI that can be sent to the client.
+首先，创建一个空状态的可流式传输 UI，然后用加载消息更新它。1 秒后，传入实际天气信息作为最终值并标记流完成。`.value` 属性包含可发送到客户端的实际 UI。
 
-## Reading a Streamable UI
+## 读取可流式传输 UI
 
-On the client side, you can call the `getWeather` Server Action and render the returned UI like any other React component.
+在客户端，你可以调用 `getWeather` Server Action 并像渲染任何其他 React 组件一样渲染返回的 UI。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -150,8 +147,8 @@ export default function Page() {
 }
 ```
 
-When the button is clicked, the `getWeather` function is called, and the returned UI is set to the `weather` state and rendered on the page. Users will see the loading message first and then the actual weather information after 1 second.
+点击按钮时，会调用 `getWeather` 函数，返回的 UI 会设置到 `weather` 状态并渲染在页面上。用户会先看到加载消息，1 秒后看到实际天气信息。
 
-Learn more about handling multiple streams in a single request in the [Multiple Streamables](/docs/advanced/multiple-streamables) guide.
+有关在单个请求中处理多个流的更多信息，请参阅[多个可流式传输对象](/docs/advanced/multiple-streamables)指南。
 
-Learn more about handling state for more complex use cases with [ AI/UI State ](/docs/ai-sdk-rsc/generative-ui-state).
+有关更复杂用例的状态处理，请参阅 [AI/UI 状态](/docs/ai-sdk-rsc/generative-ui-state)。

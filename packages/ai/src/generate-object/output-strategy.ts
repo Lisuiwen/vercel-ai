@@ -110,7 +110,7 @@ const objectOutputStrategy = <OBJECT>(
     return {
       success: true,
       value: {
-        // Note: currently no validation of partial results:
+        // 注意：目前尚未验证部分结果：
         partial: value as DeepPartial<OBJECT>,
         textDelta,
       },
@@ -136,11 +136,11 @@ const arrayOutputStrategy = <ELEMENT>(
   return {
     type: 'array',
 
-    // wrap in object that contains array of elements, since most LLMs will not
-    // be able to generate an array directly:
-    // possible future optimization: use arrays directly when model supports grammar-guided generation
+    // 包装在底层元素数组的对象中，因为大多数LLM不会
+    // 能够直接生成数组：
+    // 未来可能的优化：当模型支持语法引导生成时直接使用数组
     jsonSchema: async () => {
-      // remove $schema from schema.jsonSchema:
+      // 从 schema.jsonSchema 中删除$schema：
       const { $schema: _$schema, ...itemSchema } = await schema.jsonSchema;
 
       return {
@@ -160,7 +160,7 @@ const arrayOutputStrategy = <ELEMENT>(
       isFirstDelta,
       isFinalDelta,
     }) {
-      // check that the value is an object that contains an array of elements:
+      // 检查该值是否是包含元素数组的对象：
       if (!isJSONObject(value) || !isJSONArray(value.elements)) {
         return {
           success: false,
@@ -178,10 +178,10 @@ const arrayOutputStrategy = <ELEMENT>(
         const element = inputArray[i];
         const result = await safeValidateTypes({ value: element, schema });
 
-        // special treatment for last processed element:
-        // ignore parse or validation failures, since they indicate that the
-        // last element is incomplete and should not be included in the result,
-        // unless it is the final delta
+        // 对最后处理的元素进行特殊处理：
+        // 忽略解析或验证失败，因为它们表明
+        // 最后一个元素不完整，不应包含在结果中，
+        // 除非它是最终的增量
         if (i === inputArray.length - 1 && !isFinalDelta) {
           continue;
         }
@@ -193,7 +193,7 @@ const arrayOutputStrategy = <ELEMENT>(
         resultArray.push(result.value);
       }
 
-      // calculate delta:
+      // 计算增量：
       const publishedElementCount = latestObject?.length ?? 0;
 
       let textDelta = '';
@@ -207,7 +207,7 @@ const arrayOutputStrategy = <ELEMENT>(
       }
 
       textDelta += resultArray
-        .slice(publishedElementCount) // only new elements
+        .slice(publishedElementCount) // 只有新元素
         .map(element => JSON.stringify(element))
         .join(',');
 
@@ -227,7 +227,7 @@ const arrayOutputStrategy = <ELEMENT>(
     async validateFinalResult(
       value: JSONValue | undefined,
     ): Promise<ValidationResult<Array<ELEMENT>>> {
-      // check that the value is an object that contains an array of elements:
+      // 检查该值是否是包含元素数组的对象：
       if (!isJSONObject(value) || !isJSONArray(value.elements)) {
         return {
           success: false,
@@ -240,7 +240,7 @@ const arrayOutputStrategy = <ELEMENT>(
 
       const inputArray = value.elements as Array<JSONObject>;
 
-      // check that each element in the array is of the correct type:
+      // 检查数组中每个元素的类型是否正确：
       for (const element of inputArray) {
         const result = await safeValidateTypes({ value: element, schema });
         if (!result.success) {
@@ -264,7 +264,7 @@ const arrayOutputStrategy = <ELEMENT>(
                 case 'object': {
                   const array = chunk.object;
 
-                  // publish new elements one by one:
+                  // 一一发布新元素：
                   for (
                     ;
                     publishedElements < array.length;
@@ -278,7 +278,7 @@ const arrayOutputStrategy = <ELEMENT>(
 
                 case 'text-delta':
                 case 'finish':
-                case 'error': // suppress error (use onError instead)
+                case 'error': // 抑制错误（用onError代替）
                   break;
 
                 default: {
@@ -302,9 +302,9 @@ const enumOutputStrategy = <ENUM extends string>(
   return {
     type: 'enum',
 
-    // wrap in object that contains result, since most LLMs will not
-    // be able to generate an enum value directly:
-    // possible future optimization: use enums directly when model supports top-level enums
+    // 包装在包含结果的对象中，因为大多数法学硕士不会
+    // 能够直接生成枚举值：
+    // 未来可能的优化：当模型支持顶级枚举时直接使用枚举
     jsonSchema: async () => ({
       $schema: 'http://json-schema.org/draft-07/schema#',
       type: 'object',
@@ -318,7 +318,7 @@ const enumOutputStrategy = <ENUM extends string>(
     async validateFinalResult(
       value: JSONValue | undefined,
     ): Promise<ValidationResult<ENUM>> {
-      // check that the value is an object that contains an array of elements:
+      // 检查该值是否是包含元素数组的对象：
       if (!isJSONObject(value) || typeof value.result !== 'string') {
         return {
           success: false,
@@ -381,7 +381,7 @@ const enumOutputStrategy = <ENUM extends string>(
     },
 
     createElementStream() {
-      // no streaming in enum mode
+      // 枚举模式下无流式传输
       throw new UnsupportedFunctionalityError({
         functionality: 'element streams in enum mode',
       });

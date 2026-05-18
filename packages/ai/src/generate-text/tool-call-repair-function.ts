@@ -5,10 +5,10 @@ import type { Instructions, ModelMessage } from '../prompt';
 import type { ToolSet } from '@ai-sdk/provider-utils';
 
 /**
- * A function that attempts to repair a tool call that failed to parse.
+ * 尝试修复无法解析的工具调用的函数。
  *
- * It receives the error and the context as arguments and returns the repair
- * tool call JSON as text.
+ * 它接收错误和上下文作为参数并返回修复
+ * 工具将 JSON 作为文本调用。
  *
  * @param options.instructions - The instructions provided to the model.
  * @param options.system - The instructions provided to the model.
@@ -21,7 +21,7 @@ import type { ToolSet } from '@ai-sdk/provider-utils';
 export type ToolCallRepairFunction<TOOLS extends ToolSet> = (options: {
   instructions: Instructions | undefined;
   /**
-   * @deprecated Use `instructions` instead.
+   * @deprecated 请改用“说明”。
    */
   system: Instructions | undefined;
   messages: ModelMessage[];

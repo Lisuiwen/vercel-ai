@@ -48,8 +48,8 @@ run(async () => {
   const finishMessage =
     result.finalStep.providerMetadata?.vertex?.finishMessage;
 
-  console.log('Finish Reason:', rawFinishReason); // expect MALFORMED_FUNCTION_CALL
-  console.log('Response:', JSON.stringify(response, null, 2)); // expect an error
+  console.log('Finish Reason:', rawFinishReason); // 预计 MALFORMED_FUNCTION_CALL
+  console.log('Response:', JSON.stringify(response, null, 2)); // 预计会出现错误
   console.log('Finish Message:', finishMessage);
-  console.log('Text:', text); // will be empty since the tool call is not executed
+  console.log('Text:', text); // 将为空，因为工具调用未执行
 });

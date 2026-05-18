@@ -1,13 +1,13 @@
 ---
-title: Error Handling
-description: Learn how to handle errors in the AI SDK Core
+title: 错误处理
+description: 了解如何在 AI SDK Core 中处理错误
 ---
 
-# Error Handling
+# 错误处理
 
-## Handling regular errors
+## 处理常规错误
 
-Regular errors are thrown and can be handled using the `try/catch` block.
+常规错误通过抛出异常产生，可使用 `try/catch` 处理。
 
 ```ts highlight="3,8-10"
 import { generateText } from 'ai';
@@ -23,13 +23,12 @@ try {
 }
 ```
 
-See [Error Types](/docs/reference/ai-sdk-errors) for more information on the different types of errors that may be thrown.
+关于可能抛出的错误类型，请参阅[错误类型](/docs/reference/ai-sdk-errors)。
 
-## Handling streaming errors (simple streams)
+## 处理流式错误（简单流）
 
-When errors occur during streams that do not support error chunks,
-the error is thrown as a regular error.
-You can handle these errors using the `try/catch` block.
+当在不支持 error chunk 的流中发生错误时，会以常规异常抛出。
+可使用 `try/catch` 处理。
 
 ```ts highlight="3,12-14"
 import { streamText } from 'ai';
@@ -49,12 +48,11 @@ try {
 }
 ```
 
-## Handling streaming errors (streaming with `error` support)
+## 处理流式错误（支持 `error` 的流）
 
-Full streams support error parts.
-You can handle those parts similar to other parts.
-It is recommended to also add a try-catch block for errors that
-happen outside of the streaming.
+完整流支持 error 部分。
+可像处理其他部分一样处理这些部分。
+建议同时使用 try-catch 捕获流外发生的错误。
 
 ```ts highlight="13-21"
 import { streamText } from 'ai';
@@ -93,11 +91,11 @@ try {
 }
 ```
 
-## Handling stream aborts
+## 处理流中止
 
-When streams are aborted (e.g., via chat stop button), you may want to perform cleanup operations like updating stored messages in your UI. Use the `onAbort` callback to handle these cases.
+当流被中止（例如通过聊天停止按钮）时，你可能需要执行清理操作，例如在 UI 中更新已存储的消息。使用 `onAbort` 回调处理这些情况。
 
-The `onAbort` callback is called when a stream is aborted via `AbortSignal`, but `onFinish` is not called. This ensures you can still update your UI state appropriately.
+通过 `AbortSignal` 中止流时会调用 `onAbort`，但不会调用 `onFinish`。这样仍可适当更新 UI 状态。
 
 ```ts highlight="5-9"
 import { streamText } from 'ai';
@@ -121,11 +119,11 @@ for await (const textPart of textStream) {
 }
 ```
 
-The `onAbort` callback receives:
+`onAbort` 回调接收：
 
-- `steps`: An array of all completed steps before the abort
+- `steps`：中止前已完成的所有 step 数组
 
-You can also handle abort events directly in the stream:
+也可在流中直接处理中止事件：
 
 ```ts highlight="10-13"
 import { streamText } from 'ai';

@@ -74,137 +74,137 @@ export interface TelemetryDispatcher {
 }
 
 /**
- * Implement this interface to create custom telemetry integrations.
- * Methods can be sync or return a PromiseLike.
+ * 实现此接口以创建自定义遥测集成。
+ * 方法可以同步或返回 PromiseLike。
  */
 export interface Telemetry {
   /**
-   * Called when an operation begins. Fired for text generation
-   * (generateText/streamText), object generation (generateObject/streamObject),
-   * embedding (embed/embedMany), and reranking operations.
+   * 当操作开始时调用。因文本生成而被激发
+   * (generateText/streamText)、对象生成(generateObject/streamObject)、
+   * 嵌入（embed/embedMany）和重新排序操作。
    *
-   * Use the `operationId` field to distinguish between operation types.
+   * 使用“operationId”字段来区分操作类型。
    */
   onStart?: Callback<InferTelemetryEvent<OperationStartEvent>>;
 
   /**
-   * Called when an individual step (single LLM invocation) begins.
-   * A generation may consist of multiple steps (e.g. when tool calls trigger
-   * follow-up LLM calls). Use this to create per-step spans or record
-   * step-level inputs.
+   * 当单个步骤（单个 LLM 调用）开始时调用。
+   * 生成可能由多个步骤组成（例如，当工具调用触发器时
+   * 后续LLM电话）。使用它来创建每步跨度或记录
+   * 步进级输入。
    *
-   * The event includes the step number, accumulated previous step results,
-   * and the messages that will be sent to the model.
+   * 该事件包括步骤编号、累计的前一步结果、
+   * 以及将发送到模型的消息。
    */
   onStepStart?: Callback<InferTelemetryEvent<GenerateTextStepStartEvent>>;
 
   /**
-   * Called immediately before the provider model call begins.
-   * Unlike `onStepStart`, this callback is scoped to model work only and
-   * excludes any later client-side tool execution.
+   * 在提供者模型调用开始之前立即调用。
+   * 与“onStepStart”不同，此回调的范围仅限于模型工作，并且
+   * 排除任何后续的客户端工具执行。
    */
   onLanguageModelCallStart?: Callback<
     InferTelemetryEvent<LanguageModelCallStartEvent>
   >;
 
   /**
-   * Called after the model response has been normalized and parsed, but before
-   * any client-side tool execution begins.
+   * 在模型响应标准化和解析之后但之前调用
+   * 任何客户端工具开始执行。
    */
   onLanguageModelCallEnd?: Callback<
     InferTelemetryEvent<LanguageModelCallEndEvent>
   >;
 
   /**
-   * Called when a tool execution begins, before the tool's `execute` function
-   * is invoked. Use this to create tool-level spans or log tool invocations.
+   * 当工具执行开始时，在工具的“execute”函数之前调用
+   * 被调用。使用它来创建工具级跨度或记录工具调用。
    */
   onToolExecutionStart?: Callback<InferTelemetryEvent<ToolExecutionStartEvent>>;
 
   /**
-   * Called when a tool execution completes, either successfully or with an error.
-   * The event uses a discriminated union on the `success` field — check
-   * `event.success` to determine whether `output` or `error` is available.
+   * 当工具执行成功或有错误完成时调用。
+   * 该事件在“成功”字段上使用可区分联合 - 检查
+   * `event.success` 来确定 `output` 或 `error` 是否可用。
    *
-   * The event includes execution time (`toolExecutionMs`) for performance tracking.
+   * 该事件包括用于性能跟踪的执行时间（“toolExecutionMs”）。
    */
   onToolExecutionEnd?: Callback<InferTelemetryEvent<ToolExecutionEndEvent>>;
 
   /**
-   * Called when an individual step (single LLM invocation) completes.
-   * The event is a `StepResult` containing the model's response, tool calls
-   * and results, usage statistics, finish reason, and optional request/response
-   * bodies.
+   * 当单个步骤（单个 LLM 调用）完成时调用。
+   * 该事件是一个包含模型响应、工具调用的“StepResult”
+   * 和结果、使用统计、完成原因和可选的请求/响应
+   * 尸体。
    */
   onStepFinish?: Callback<InferTelemetryEvent<GenerateTextStepEndEvent>>;
 
   /**
-   * Called when an object generation step (single LLM invocation) begins.
-   * For generateObject/streamObject there is always exactly one step.
+   * 当对象生成步骤（单个 LLM 调用）开始时调用。
+   * 对于generateObject/streamObject 总是只有一个步骤。
    *
-   * @deprecated
+   * @已弃用
    */
   onObjectStepStart?: Callback<
     InferTelemetryEvent<GenerateObjectStepStartEvent>
   >;
 
   /**
-   * Called when an object generation step (single LLM invocation) completes,
-   * with the raw result before JSON parsing and schema validation.
+   * 当对象生成步骤（单个 LLM 调用）完成时调用，
+   * 使用 JSON 解析和模式验证之前的原始结果。
    *
-   * @deprecated
+   * @已弃用
    */
   onObjectStepFinish?: Callback<
     InferTelemetryEvent<GenerateObjectStepEndEvent>
   >;
 
   /**
-   * Called when an individual embedding model call (doEmbed) begins.
-   * For `embed`, there is one call. For `embedMany`, there may be multiple
-   * calls when values are chunked.
+   * 当单独的嵌入模型调用 (doEmbed) 开始时调用。
+   * 对于“embed”，只有一个调用。对于“embedMany”，可能有多个
+   * 当值被分块时调用。
    */
   onEmbedStart?: Callback<InferTelemetryEvent<EmbeddingModelCallStartEvent>>;
 
   /**
-   * Called when an individual embedding model call (doEmbed) completes.
-   * Contains the embeddings, usage, and any warnings from the model response.
+   * 当单个嵌入模型调用 (doEmbed) 完成时调用。
+   * 包含嵌入、用法以及模型响应中的任何警告。
    */
   onEmbedEnd?: Callback<InferTelemetryEvent<EmbeddingModelCallEndEvent>>;
 
   /**
-   * Called when an individual reranking model call (doRerank) begins.
-   * There is one call per `rerank` invocation.
+   * 当单独的重新排序模型调用 (doRerank) 开始时调用。
+   * 每次“rerank”调用都会有一次调用。
    */
   onRerankStart?: Callback<InferTelemetryEvent<RerankingModelCallStartEvent>>;
 
   /**
-   * Called when an individual reranking model call (doRerank) completes.
-   * Contains the ranking results from the model response.
+   * 当单独的重新排名模型调用 (doRerank) 完成时调用。
+   * 包含模型响应的排名结果。
    */
   onRerankEnd?: Callback<InferTelemetryEvent<RerankingModelCallEndEvent>>;
 
   /**
-   * Called when an operation completes. Fired for text generation
-   * (generateText/streamText), object generation (generateObject/streamObject),
-   * embedding (embed/embedMany), and reranking operations.
+   * 操作完成时调用。因文本生成而被激发
+   * (generateText/streamText)、对象生成(generateObject/streamObject)、
+   * 嵌入（embed/embedMany）和重新排序操作。
    *
-   * Use the event shape or `operationId` to distinguish between operation types.
+   * 使用事件形状或“operationId”来区分操作类型。
    */
   onEnd?: Callback<InferTelemetryEvent<OperationEndEvent>>;
 
   /**
-   * Called when an unrecoverable error occurs during the generation lifecycle.
-   * The error value is untyped — it may be an `Error` instance, an `AISDKError`,
-   * or any thrown value.
+   * 当生成生命周期中发生不可恢复的错误时调用。
+   * 错误值是无类型的——它可能是一个“Error”实例，一个“AISDKError”，
+   * 或任何抛出的值。
    *
-   * Use this to record error details on telemetry spans and set error status.
+   * 使用它来记录遥测范围的错误详细信息并设置错误状态。
    */
   onError?: Callback<unknown>;
 
   /**
-   * Optionally runs the tool execute function in a telemetry-integration-specific context. This enables
-   * nested traces — e.g. when a tool's `execute` function calls `generateText`,
-   * the inner call's spans become children of the tool span.
+   * （可选）在特定于遥测集成的上下文中运行工具执行函数。这使得
+   * 嵌套痕迹——例如当工具的“execute”函数调用“generateText”时，
+   * 内部调用的跨度成为工具跨度的子代。
    *
    * @param options.callId - The call ID of the tool call.
    * @param options.toolCallId - The tool call ID.

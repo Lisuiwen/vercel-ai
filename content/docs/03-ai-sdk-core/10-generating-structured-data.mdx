@@ -1,31 +1,31 @@
 ---
-title: Generating Structured Data
-description: Learn how to generate structured data with the AI SDK.
+title: 生成结构化数据
+description: 了解如何使用 AI SDK 生成结构化数据。
 ---
 
-# Generating Structured Data
+# 生成结构化数据
 
-While text generation can be useful, your use case will likely call for generating structured data.
-For example, you might want to extract information from text, classify data, or generate synthetic data.
+文本生成很有用，但许多场景更需要结构化数据。
+例如，从文本抽取信息、分类数据或生成合成数据。
 
-Many language models are capable of generating structured data, often defined as using "JSON modes" or "tools".
-However, you need to manually provide schemas and then validate the generated data as LLMs can produce incorrect or incomplete structured data.
+许多语言模型能生成结构化数据，常通过「JSON 模式」或「tools」实现。
+但你仍需手动提供 schema 并校验生成结果，因为 LLM 可能产生不正确或不完整的结构化数据。
 
-The AI SDK standardises structured object generation across model providers
-using the `output` property on [`generateText`](/docs/reference/ai-sdk-core/generate-text)
-and [`streamText`](/docs/reference/ai-sdk-core/stream-text).
-You can use [Zod schemas](/docs/reference/ai-sdk-core/zod-schema), [Valibot](/docs/reference/ai-sdk-core/valibot-schema), or [JSON schemas](/docs/reference/ai-sdk-core/json-schema) to specify the shape of the data that you want,
-and the AI model will generate data that conforms to that structure.
+AI SDK 通过 [`generateText`](/docs/reference/ai-sdk-core/generate-text)
+与 [`streamText`](/docs/reference/ai-sdk-core/stream-text) 上的 `output` 属性，
+在各 model provider 间标准化结构化对象生成。
+可使用 [Zod schema](/docs/reference/ai-sdk-core/zod-schema)、[Valibot](/docs/reference/ai-sdk-core/valibot-schema) 或 [JSON schema](/docs/reference/ai-sdk-core/json-schema) 指定所需数据形状，
+模型将生成符合该结构的数据。
 
 <Note>
-  Structured output generation is part of the `generateText` and `streamText`
-  flow. This means you can combine it with tool calling in the same request.
+  结构化输出生成是 `generateText` 与 `streamText`
+  流程的一部分，因此可在同一请求中与 tool 调用组合使用。
 </Note>
 
-## Generating Structured Outputs
+## 生成结构化输出
 
-Use `generateText` with `Output.object()` to generate structured data from a prompt.
-The schema is also used to validate the generated data, ensuring type safety and correctness.
+使用 `generateText` 与 `Output.object()` 根据提示生成结构化数据。
+schema 也用于校验生成数据，确保类型安全与正确性。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -50,17 +50,15 @@ const { output } = await generateText({
 ```
 
 <Note>
-  Structured output generation counts as a step in the AI SDK's multi-turn
-  execution model (where each model call or tool execution is one step). When
-  combining with tools, account for this in your `stopWhen` configuration.
+  结构化输出生成在 AI SDK 的多轮执行模型中计为一步（每次模型调用或 tool 执行为一步）。与 tool 组合使用时，请在 `stopWhen` 配置中考虑这一点。
 </Note>
 
-### Accessing response headers & body
+### 访问响应头与 body
 
-Sometimes you need access to the full response from the model provider,
-e.g. to access some provider-specific headers or body content.
+有时需要访问模型提供商的完整响应，
+例如获取 provider 特定的头或 body 内容。
 
-You can access the raw response headers and body using the `response` property:
+可通过 `response` 属性访问原始响应头与 body：
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -74,10 +72,10 @@ console.log(JSON.stringify(result.response.headers, null, 2));
 console.log(JSON.stringify(result.response.body, null, 2));
 ```
 
-## Stream Structured Outputs
+## 流式结构化输出
 
-Given the added complexity of returning structured data, model response time can be unacceptable for your interactive use case.
-With `streamText` and `output`, you can stream the model's structured response as it is generated.
+返回结构化数据会增加复杂度，模型响应时间可能无法满足交互式场景。
+通过 `streamText` 与 `output`，可在生成过程中流式输出模型的结构化响应。
 
 ```ts
 import { streamText, Output } from 'ai';
@@ -106,13 +104,13 @@ for await (const partialObject of partialOutputStream) {
 }
 ```
 
-You can consume the structured output on the client with the [`useObject`](/docs/reference/ai-sdk-ui/use-object) hook.
+可在客户端通过 [`useObject`](/docs/reference/ai-sdk-ui/use-object) hook 消费结构化输出。
 
-### Error Handling in Streams
+### 流式错误处理
 
-`streamText` starts streaming immediately. When errors occur during streaming, they become part of the stream rather than thrown exceptions (to prevent stream crashes).
+`streamText` 会立即开始流式输出。流式过程中发生的错误会成为流的一部分，而非抛出异常（以避免流崩溃）。
 
-To handle errors, provide an `onError` callback:
+要处理错误，请提供 `onError` 回调：
 
 ```tsx highlight="5-7"
 import { streamText, Output } from 'ai';
@@ -126,15 +124,15 @@ const result = streamText({
 });
 ```
 
-For non-streaming error handling with `generateText`, see the [Error Handling](#error-handling) section below.
+关于 `generateText` 的非流式错误处理，见下文[错误处理](#error-handling)一节。
 
-## Output Types
+## 输出类型
 
-The AI SDK supports multiple ways of specifying the expected structure of generated data via the `Output` object. You can select from various strategies for structured/text generation and validation.
+AI SDK 通过 `Output` 对象支持多种方式指定生成数据的预期结构。可选择不同的结构化/文本生成与校验策略。
 
 ### `Output.text()`
 
-Use `Output.text()` to generate plain text from a model. This option doesn't enforce any schema on the result: you simply receive the model's text as a string. This is the default behavior when no `output` is specified.
+使用 `Output.text()` 从模型生成纯文本。该选项不对结果强制任何 schema：你直接收到模型的文本字符串。未指定 `output` 时此为默认行为。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -149,7 +147,7 @@ const { output } = await generateText({
 
 ### `Output.object()`
 
-Use `Output.object({ schema })` to generate a structured object based on a schema (for example, a Zod schema). The output is type-validated to ensure the returned result matches the schema.
+使用 `Output.object({ schema })` 根据 schema（例如 Zod schema）生成结构化对象。输出会经类型校验，确保返回结果符合 schema。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -170,14 +168,13 @@ const { output } = await generateText({
 ```
 
 <Note>
-  Partial outputs streamed via `streamText` cannot be validated against your
-  provided schema, as incomplete data may not yet conform to the expected
-  structure.
+  通过 `streamText` 流式输出的部分结果无法对照你提供的 schema 校验，
+  因为不完整的数据可能尚不符合预期结构。
 </Note>
 
 ### `Output.array()`
 
-Use `Output.array({ element })` to specify that you expect an array of typed objects from the model, where each element should conform to a schema (defined in the `element` property).
+使用 `Output.array({ element })` 指定期望模型返回类型化对象数组，其中每个元素应符合 schema（在 `element` 属性中定义）。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -201,7 +198,7 @@ const { output } = await generateText({
 // ]
 ```
 
-When streaming arrays with `streamText`, you can use `elementStream` to receive each completed element as it is generated:
+使用 `streamText` 流式输出数组时，可用 `elementStream` 在生成时接收每个已完成的元素：
 
 ```ts
 import { streamText, Output } from 'ai';
@@ -225,14 +222,13 @@ for await (const hero of elementStream) {
 ```
 
 <Note>
-  Each element emitted by `elementStream` is complete and validated against your
-  element schema. This differs from `partialOutputStream`, which streams the
-  entire partial array including incomplete elements.
+  `elementStream` 发出的每个元素都是完整且经 element schema 校验的。
+  这与 `partialOutputStream` 不同，后者会流式输出包含未完成元素的整个部分数组。
 </Note>
 
 ### `Output.choice()`
 
-Use `Output.choice({ options })` when you expect the model to choose from a specific set of string options, such as for classification or fixed-enum answers.
+当期望模型从特定字符串选项集合中选择时（例如分类或固定枚举答案），使用 `Output.choice({ options })`。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -247,13 +243,13 @@ const { output } = await generateText({
 // output will be one of: 'sunny', 'rainy', or 'snowy'
 ```
 
-You can provide any set of string options, and the output will always be a single string value that matches one of the specified options. The AI SDK validates that the result matches one of your options, and will throw if the model returns something invalid.
+可提供任意字符串选项集合，输出始终是匹配某一指定选项的单个字符串。AI SDK 会校验结果是否匹配你的选项之一；若模型返回无效值则抛出错误。
 
-This is especially useful for making classification-style generations or forcing valid values for API compatibility.
+这对分类式生成或为 API 兼容性强制有效值尤其有用。
 
 ### `Output.json()`
 
-Use `Output.json()` when you want to generate and parse unstructured JSON values from the model, without enforcing a specific schema. This is useful if you want to capture arbitrary objects, flexible structures, or when you want to rely on the model's natural output rather than rigid validation.
+当需要生成并解析模型返回的非结构化 JSON、且不强制特定 schema 时，使用 `Output.json()`。适用于捕获任意对象、灵活结构，或依赖模型自然输出而非严格校验的场景。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -272,13 +268,13 @@ const { output } = await generateText({
 // }
 ```
 
-With `Output.json`, the AI SDK only checks that the response is valid JSON; it doesn't validate the structure or types of the values. If you need schema validation, use the `.object` or `.array` outputs instead.
+使用 `Output.json` 时，AI SDK 仅检查响应是否为合法 JSON，不校验值的结构或类型。若需要 schema 校验，请改用 `.object` 或 `.array` 输出。
 
-For more advanced validation or different structures, see [the Output API reference](/docs/reference/ai-sdk-core/output).
+更高级的校验或不同结构，见 [Output API 参考](/docs/reference/ai-sdk-core/output)。
 
-## Generating Structured Outputs with Tools
+## 结合 Tool 生成结构化输出
 
-One of the key advantages of using structured output with `generateText` and `streamText` is the ability to combine it with tool calling.
+在 `generateText` 与 `streamText` 中使用结构化输出的关键优势之一，是可与 tool 调用组合。
 
 ```ts
 import { generateText, Output, tool, isStepCount } from 'ai';
@@ -309,14 +305,12 @@ const { output } = await generateText({
 ```
 
 <Note>
-  When using tools with structured output, remember that generating the
-  structured output counts as a step. Configure `stopWhen` to allow enough steps
-  for both tool execution and output generation.
+  将 tool 与结构化输出一起使用时，请记住生成结构化输出也计为一步。请配置 `stopWhen`，为 tool 执行与输出生成留出足够步数。
 </Note>
 
-## Property Descriptions
+## 属性描述
 
-You can add `.describe("...")` to individual schema properties to give the model hints about what each property is for. This helps improve the quality and accuracy of generated structured data:
+可在各 schema 属性上使用 `.describe("...")`，向模型说明每个属性的用途。这有助于提高生成结构化数据的质量与准确性：
 
 ```ts highlight="5,9"
 import { generateText, Output } from 'ai';
@@ -345,15 +339,15 @@ const { output } = await generateText({
 });
 ```
 
-Property descriptions are particularly useful for:
+属性描述尤其适用于：
 
-- Clarifying ambiguous property names
-- Specifying expected formats or conventions
-- Providing context for complex nested structures
+- 澄清含糊的属性名
+- 指定预期格式或约定
+- 为复杂嵌套结构提供上下文
 
-## Output Name and Description
+## 输出名称与描述
 
-You can optionally specify a `name` and `description` for the output. These are used by some providers for additional LLM guidance, e.g. via tool or schema name.
+可为输出可选指定 `name` 与 `description`。部分 provider 会将其用于额外 LLM 引导，例如通过 tool 或 schema 名称。
 
 ```ts highlight="6-7"
 import { generateText, Output } from 'ai';
@@ -375,16 +369,16 @@ const { output } = await generateText({
 });
 ```
 
-This works with all output types that support structured generation:
+适用于所有支持结构化生成的输出类型：
 
 - `Output.object({ name, description, schema })`
 - `Output.array({ name, description, element })`
 - `Output.choice({ name, description, options })`
 - `Output.json({ name, description })`
 
-## Accessing Reasoning
+## 访问推理内容
 
-You can access the reasoning used by the language model to generate the object via the `reasoning` property on the result. This property contains a string with the model's thought process, if available.
+可通过结果上的 `reasoning` 属性访问语言模型生成对象时使用的推理。若可用，该属性包含模型思考过程的字符串。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -413,23 +407,23 @@ const result = await generateText({
 console.log(result.reasoningText);
 ```
 
-## Error Handling
+## 错误处理
 
-When `generateText` with structured output cannot generate a valid object, it throws a [`AI_NoObjectGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-object-generated-error).
+当带结构化输出的 `generateText` 无法生成有效对象时，会抛出 [`AI_NoObjectGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-object-generated-error)。
 
-This error occurs when the AI provider fails to generate a parsable object that conforms to the schema.
-It can arise due to the following reasons:
+当 AI provider 未能生成可解析且符合 schema 的对象时会出现此错误。
+可能原因包括：
 
-- The model failed to generate a response.
-- The model generated a response that could not be parsed.
-- The model generated a response that could not be validated against the schema.
+- 模型未能生成响应。
+- 模型生成的响应无法解析。
+- 模型生成的响应无法通过 schema 校验。
 
-The error preserves the following information to help you log the issue:
+错误保留以下信息以帮助记录问题：
 
-- `text`: The text that was generated by the model. This can be the raw text or the tool call text, depending on the object generation mode.
-- `response`: Metadata about the language model response, including response id, timestamp, and model.
-- `usage`: Request token usage.
-- `cause`: The cause of the error (e.g. a JSON parsing error). You can use this for more detailed error handling.
+- `text`：模型生成的文本。根据对象生成模式，可能是原始文本或 tool 调用文本。
+- `response`：语言模型响应的元数据，包括响应 id、时间戳与模型。
+- `usage`：请求的 token 用量。
+- `cause`：错误原因（例如 JSON 解析错误）。可用于更详细的错误处理。
 
 ```ts
 import { generateText, Output, NoObjectGeneratedError } from 'ai';
@@ -451,47 +445,47 @@ try {
 }
 ```
 
-## More Examples
+## 更多示例
 
-You can see structured output generation in action using various frameworks in the following examples:
+以下示例展示在不同框架中使用结构化输出生成：
 
-### `generateText` with Output
+### 使用 Output 的 `generateText`
 
 <ExampleLinks
   examples={[
     {
-      title: 'Learn to generate structured data in Node.js',
+      title: '在 Node.js 中生成结构化数据',
       link: '/examples/node/generating-structured-data/generate-object',
     },
     {
       title:
-        'Learn to generate structured data in Next.js with Route Handlers (AI SDK UI)',
+        '在 Next.js 中使用 Route Handlers（AI SDK UI）生成结构化数据',
       link: '/examples/next-pages/basics/generating-object',
     },
     {
       title:
-        'Learn to generate structured data in Next.js with Server Actions (AI SDK RSC)',
+        '在 Next.js 中使用 Server Actions（AI SDK RSC）生成结构化数据',
       link: '/examples/next-app/basics/generating-object',
     },
   ]}
 />
 
-### `streamText` with Output
+### 使用 Output 的 `streamText`
 
 <ExampleLinks
   examples={[
     {
-      title: 'Learn to stream structured data in Node.js',
+      title: '在 Node.js 中流式生成结构化数据',
       link: '/examples/node/streaming-structured-data/stream-object',
     },
     {
       title:
-        'Learn to stream structured data in Next.js with Route Handlers (AI SDK UI)',
+        '在 Next.js 中使用 Route Handlers（AI SDK UI）流式生成结构化数据',
       link: '/examples/next-pages/basics/streaming-object-generation',
     },
     {
       title:
-        'Learn to stream structured data in Next.js with Server Actions (AI SDK RSC)',
+        '在 Next.js 中使用 Server Actions（AI SDK RSC）流式生成结构化数据',
       link: '/examples/next-app/basics/streaming-object-generation',
     },
   ]}

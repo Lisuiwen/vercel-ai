@@ -6,7 +6,7 @@ import { embed } from 'ai';
 import { run } from '../../lib/run';
 
 run(async () => {
-  // Nova embedding models support custom dimensions and purposes
+  // Nova 嵌入模型支持自定义尺寸和用途
   const { embedding, usage, warnings } = await embed({
     model: amazonBedrock.embedding('amazon.nova-2-multimodal-embeddings-v1:0'),
     value: 'sunny day at the beach',

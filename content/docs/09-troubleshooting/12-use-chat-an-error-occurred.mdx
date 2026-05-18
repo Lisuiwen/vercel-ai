@@ -1,22 +1,22 @@
 ---
-title: useChat "An error occurred"
-description: Troubleshooting errors related to the "An error occurred" error in useChat.
+title: useChat「An error occurred」
+description: 排查 useChat 中出现「An error occurred」的问题。
 ---
 
-# `useChat` "An error occurred"
+# `useChat`「An error occurred」
 
-## Issue
+## 问题
 
-I am using [`useChat`](/docs/reference/ai-sdk-ui/use-chat) and I get the error "An error occurred".
+我在使用 [`useChat`](/docs/reference/ai-sdk-ui/use-chat)，报错「An error occurred」。
 
-## Background
+## 背景
 
-Error messages from `streamText` are masked by default when using `toDataStreamResponse` for security reasons (secure-by-default).
-This prevents leaking sensitive information to the client.
+使用 `toDataStreamResponse` 时，出于安全考虑（secure-by-default），来自 `streamText` 的错误信息默认会被遮蔽。
+这样可避免向客户端泄露敏感信息。
 
-## Solution
+## 解决方案
 
-To forward error details to the client or to log errors, use the `getErrorMessage` function when calling `toDataStreamResponse`.
+若要将错误详情转发到客户端或记录日志，可在调用 `toUIMessageStreamResponse` 时使用 `getErrorMessage` 函数。
 
 ```tsx
 export function errorHandler(error: unknown) {
@@ -46,7 +46,7 @@ return result.toUIMessageStreamResponse({
 });
 ```
 
-In case you are using `createDataStreamResponse`, you can use the `onError` function when calling `toDataStreamResponse`:
+若使用 `createDataStreamResponse`，可在调用 `toDataStreamResponse` 时使用 `onError`：
 
 ```tsx
 const response = createDataStreamResponse({

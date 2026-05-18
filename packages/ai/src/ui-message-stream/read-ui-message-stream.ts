@@ -12,7 +12,7 @@ import {
 import { consumeStream } from '../util/consume-stream';
 
 /**
- * Transforms a stream of `UIMessageChunk`s into an `AsyncIterableStream` of `UIMessage`s.
+ * 将“UIMessageChunk”流转换为“UIMessage”的“AsyncIterableStream”。
  *
  * @param options.message - The last assistant message to use as a starting point when the conversation is resumed. Otherwise undefined.
  * @param options.stream - The stream of `UIMessageChunk`s to read.
@@ -20,7 +20,7 @@ import { consumeStream } from '../util/consume-stream';
  * @param options.onError - A function that is called when an error occurs.
  *
  * @returns An `AsyncIterableStream` of `UIMessage`s. Each stream part is a different state of the same message
- * as it is being completed.
+ * 因为它正在完成。
  */
 export function readUIMessageStream<UI_MESSAGE extends UIMessage>({
   message,
@@ -76,8 +76,8 @@ export function readUIMessageStream<UI_MESSAGE extends UIMessage>({
     }),
     onError: handleError,
   }).finally(() => {
-    // Only close if no error occurred. Calling close() on an errored controller
-    // throws "Invalid state: Controller is already closed" TypeError.
+    // 仅在未发生错误时关闭。在出错的控制器上调用 close()
+    // 抛出“无效状态：控制器已关闭”类型错误。
     if (!hasErrored) {
       controller?.close();
     }

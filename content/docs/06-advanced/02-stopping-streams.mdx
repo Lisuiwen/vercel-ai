@@ -1,20 +1,19 @@
 ---
-title: Stopping Streams
-description: Learn how to cancel streams with the AI SDK
+title: 停止流
+description: 学习如何使用 AI SDK 取消流
 ---
 
-# Stopping Streams
+# 停止流
 
-Canceling ongoing streams is often needed.
-For example, users might want to stop a stream when they realize that the response is not what they want.
+经常需要取消正在进行的流。
+例如，当用户意识到响应不是他们想要的时，可能希望停止流。
 
-The different parts of the AI SDK support canceling streams in different ways.
+AI SDK 的不同部分以不同方式支持取消流。
 
 ## AI SDK Core
 
-The AI SDK functions have an `abortSignal` argument that you can use to cancel a stream.
-You would use this if you want to cancel a stream from the server side to the LLM API, e.g. by
-forwarding the `abortSignal` from the request.
+AI SDK 函数提供 `abortSignal` 参数，可用于取消流。
+若要从服务端向 LLM API 取消流（例如转发请求中的 `abortSignal`），可使用此参数。
 
 ```tsx highlight="10,11,12-16"
 import { streamText } from 'ai';
@@ -41,14 +40,11 @@ export async function POST(req: Request) {
 
 ## AI SDK UI
 
-The hooks, e.g. `useChat` or `useCompletion`, provide a `stop` helper function that can be used to cancel a stream.
-This will cancel the stream from the client side to the server.
+hook（例如 `useChat` 或 `useCompletion`）提供 `stop` 辅助函数，可用于取消流。
+这将取消从客户端到服务端的流。
 
 <Note type="warning">
-  Stream abort functionality is not compatible with stream resumption. If you're
-  using `resume: true` in `useChat`, the abort functionality will break the
-  resumption mechanism. Choose either abort or resume functionality, but not
-  both.
+  流中止功能与流恢复不兼容。若在 `useChat` 中使用 `resume: true`，中止功能会破坏恢复机制。请在中止或恢复功能中二选一，不要同时使用。
 </Note>
 
 ```tsx file="app/page.tsx" highlight="9,18-20"
@@ -76,17 +72,14 @@ export default function Chat() {
 }
 ```
 
-## Handling stream abort cleanup
+## 处理流中止清理
 
-When streams are aborted, you may need to perform cleanup operations such as persisting partial results or cleaning up resources. The `onAbort` callback provides a way to handle these scenarios on the server side.
+流被中止时，你可能需要执行清理操作，例如持久化部分结果或释放资源。`onAbort` 回调提供在服务端处理这些场景的方式。
 
-Unlike `onFinish`, which is called when a stream completes normally, `onAbort` is specifically called when a stream is aborted via `AbortSignal`. This distinction allows you to handle normal completion and aborted streams differently.
+与流正常完成时调用的 `onFinish` 不同，`onAbort` 专门在通过 `AbortSignal` 中止流时调用。这一区别使你能够分别处理正常完成和中止的流。
 
 <Note>
-  For UI message streams (`toUIMessageStreamResponse`), the `onFinish` callback
-  also receives an `isAborted` parameter that indicates whether the stream was
-  aborted. This allows you to handle both completion and abort scenarios in a
-  single callback.
+  对于 UI 消息流（`toUIMessageStreamResponse`），`onFinish` 回调还会接收 `isAborted` 参数，表示流是否被中止。这样你可以在单个回调中同时处理完成和中止场景。
 </Note>
 
 ```tsx highlight="8-12"
@@ -109,18 +102,18 @@ const result = streamText({
 });
 ```
 
-The `onAbort` callback receives:
+`onAbort` 回调接收：
 
-- `steps`: Array of all completed steps before the abort occurred
+- `steps`：中止前所有已完成步骤的数组
 
-This is particularly useful for:
+这对以下场景特别有用：
 
-- Persisting partial conversation history to database
-- Saving partial progress for later continuation
-- Cleaning up server-side resources or connections
-- Logging abort events for analytics
+- 将部分对话历史持久化到数据库
+- 保存部分进度以便后续继续
+- 清理服务端资源或连接
+- 记录中止事件用于分析
 
-You can also handle abort events directly in the stream using the `abort` stream part:
+你也可以在流中通过 `abort` 流部分直接处理中止事件：
 
 ```tsx highlight="8-12"
 for await (const part of result.fullStream) {
@@ -137,9 +130,9 @@ for await (const part of result.fullStream) {
 }
 ```
 
-## UI Message Streams
+## UI 消息流
 
-When using `toUIMessageStreamResponse`, you need to handle stream abortion slightly differently. The `onFinish` callback receives an `isAborted` parameter, and you should pass the `consumeStream` function to ensure proper abort handling:
+使用 `toUIMessageStreamResponse` 时，需要以略有不同的方式处理流中止。`onFinish` 回调接收 `isAborted` 参数，你应传入 `consumeStream` 函数以确保正确处理中止：
 
 ```tsx highlight="5,19,20-24,26"
 import { openai } from '@ai-sdk/openai';
@@ -175,10 +168,10 @@ export async function POST(req: Request) {
 }
 ```
 
-The `consumeStream` function is necessary for proper abort handling in UI message streams. It ensures that the stream is properly consumed even when aborted, preventing potential memory leaks or hanging connections.
+`consumeStream` 函数对于 UI 消息流中的正确中止处理是必需的。它确保即使在中止时也能正确消费流，防止潜在的内存泄漏或挂起连接。
 
 ## AI SDK RSC
 
 <Note type="warning">
-  The AI SDK RSC does not currently support stopping streams.
+  AI SDK RSC 目前不支持停止流。
 </Note>

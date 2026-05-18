@@ -5,7 +5,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   const result = streamText({
-    model: azure('gpt-4.1-mini'), // use your own deployment
+    model: azure('gpt-4.1-mini'), // 使用您自己的部署
     output: Output.object({
       schema: z.object({
         characters: z.array(

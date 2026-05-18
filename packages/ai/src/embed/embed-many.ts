@@ -23,28 +23,28 @@ const originalGenerateCallId = createIdGenerator({
 });
 
 /**
- * Embed several values using an embedding model. The type of the value is defined
- * by the embedding model.
+ * 使用嵌入模型嵌入多个值。值的类型已定义
+ * 通过嵌入模型。
  *
- * `embedMany` automatically splits large requests into smaller chunks if the model
- * has a limit on how many embeddings can be generated in a single call.
+ * 如果模型满足以下条件，`embedMany`会自动将大请求分割成更小的块：
+ * 对一次调用中可以生成的嵌入数量有限制。
  *
- * @param model - The embedding model to use.
- * @param values - The values that should be embedded.
+ * @param model - 要使用的嵌入模型。
+ * @param values - 应嵌入的价值观。
  *
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
  *
- * @param maxParallelCalls - Maximum number of concurrent requests. Default: Infinity.
+ * @param maxParallelCalls - 最大并发请求数。默认值：无穷大。
  *
- * @param telemetry - Optional telemetry configuration.
+ * @param telemetry - 可选遥测配置。
  *
- * @param providerOptions - Additional provider-specific options. They are passed through
- * to the provider from the AI SDK and enable provider-specific
- * functionality that can be fully encapsulated in the provider.
+ * @param providerOptions - 其他特定于提供商的选项。他们通过
+ * 从AI SDK发送给成功并实现特定的成功
+ * 可以完全封装在提供者中的功能。
  *
- * @returns A result object that contains the embeddings, the value, and additional information.
+ * @returns 包含嵌入、值和附加信息的结果对象。
  */
 export async function embedMany({
   model: modelArg,
@@ -61,73 +61,73 @@ export async function embedMany({
   _internal: { generateCallId = originalGenerateCallId } = {},
 }: {
   /**
-   * The embedding model to use.
+   * 要使用的嵌入模型。
    */
   model: EmbeddingModel;
 
   /**
-   * The values that should be embedded.
+   * 应嵌入的价值观。
    */
   values: Array<string>;
 
   /**
-   * Maximum number of retries per embedding model call. Set to 0 to disable retries.
+   * 每个嵌入模型调用的最大重试次数。设置为 0 以禁用重试。
    *
    * @default 2
    */
   maxRetries?: number;
 
   /**
-   * Abort signal.
+   * 中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional headers to include in the request.
-   * Only applicable for HTTP-based providers.
+   * 要包含在请求中的附加标头。
+   * 仅适用于基于 HTTP 的业务。
    */
   headers?: Record<string, string>;
 
   /**
-   * Optional telemetry configuration.
+   * 可选遥测配置。
    */
   telemetry?: TelemetryOptions;
 
   /**
-   * Optional telemetry configuration.
+   * 可选遥测配置。
    *
-   * @deprecated Use `telemetry` instead. This alias will be removed in a future major release.
+   * @deprecated 请改用`遥测`。该别名将在未来的主要版本中删除。
    */
   experimental_telemetry?: TelemetryOptions;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从AI SDK发送给成功并实现特定的成功
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 
   /**
-   * Maximum number of concurrent requests.
+   * 最大并发请求数。
    *
    * @default Infinity
    */
   maxParallelCalls?: number;
 
   /**
-   * Callback that is called when the embedMany operation begins,
-   * before the embedding model is called.
+   * embedMany操作开始时调用的回调，
+   * 在调用嵌入模型之前。
    */
   experimental_onStart?: Callback<EmbedStartEvent>;
 
   /**
-   * Callback that is called when the embedMany operation completes,
-   * after all embedding model calls return.
+   * embedMany完成操作时调用的回调，
+   * 所有嵌入模型调用返回后。
    */
   experimental_onEnd?: Callback<EmbedEndEvent>;
 
   /**
-   * Internal. For test use only. May change without notice.
+   * 内部的。仅供测试使用。可能会更改，恕不另行通知。
    */
   _internal?: {
     generateCallId?: () => string;

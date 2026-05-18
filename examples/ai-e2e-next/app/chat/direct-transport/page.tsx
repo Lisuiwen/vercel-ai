@@ -5,8 +5,8 @@ import ChatInput from '@/components/chat-input';
 import { convertToModelMessages, streamText, type ChatTransport } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 
-// Note: this needs a client-side OpenAI API key to work.
-// DO NOT USE THIS IN ENVIRONMENTS WHERE THE API KEY IS CONFIDENTIAL.
+// 注意：这需要客户端 OpenAI API 密钥才能工作。
+// 切勿在 API 密钥需保密的环境中使用。
 const openai = createOpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 });

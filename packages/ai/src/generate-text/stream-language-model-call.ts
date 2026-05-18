@@ -121,26 +121,26 @@ export type LanguageModelStreamPart<TOOLS extends ToolSet = ToolSet> =
       type: 'model-call-response-metadata';
 
       /**
-       * ID for the generated response, if the provider sends one.
+       * 生成的响应的 ID（如果提供商发送了响应）。
        */
       id?: string;
 
       /**
-       * Timestamp for the start of the generated response, if the provider sends one.
+       * 生成的响应的开始时间戳（如果提供者发送响应）。
        */
       timestamp?: Date;
 
       /**
-       * The ID of the response model that was used to generate the response, if the provider sends one.
+       * 用于生成响应的响应模型的 ID（如果提供者发送了响应模型）。
        */
       modelId?: string;
     };
 
 /**
- * Streams a single language model call after standardizing the prompt and tools.
+ * 在标准化提示和工具后流式传输单一语言模型调用。
  *
- * The returned stream emits model call parts together with request and response
- * metadata when available.
+ * 返回的流发出模型调用部分以及请求和响应
+ * 元数据（如果可用）。
  *
  * @param model - The language model to use.
  * @param tools - Tools that are accessible to and can be called by the model. The model needs to support calling tools.
@@ -154,24 +154,24 @@ export type LanguageModelStreamPart<TOOLS extends ToolSet = ToolSet> =
  *
  * @param maxOutputTokens - Maximum number of tokens to generate.
  * @param temperature - Temperature setting.
- * The value is passed through to the provider. The range depends on the provider and model.
- * It is recommended to set either `temperature` or `topP`, but not both.
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * 建议设置“温度”或“topP”，但不能同时设置两者。
  * @param topP - Nucleus sampling.
- * The value is passed through to the provider. The range depends on the provider and model.
- * It is recommended to set either `temperature` or `topP`, but not both.
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * 建议设置“温度”或“topP”，但不能同时设置两者。
  * @param topK - Only sample from the top K options for each subsequent token.
- * Used to remove "long tail" low probability responses.
- * Recommended for advanced use cases only. You usually only need to use temperature.
+ * 用于删除“长尾”低概率响应。
+ * 仅推荐用于高级用例。通常您只需要使用温度。
  * @param presencePenalty - Presence penalty setting.
- * It affects the likelihood of the model to repeat information that is already in the prompt.
- * The value is passed through to the provider. The range depends on the provider and model.
+ * 它会影响模型重复提示中已有信息的可能性。
+ * 该值被传递给提供者。范围取决于提供商和型号。
  * @param frequencyPenalty - Frequency penalty setting.
- * It affects the likelihood of the model to repeatedly use the same words or phrases.
- * The value is passed through to the provider. The range depends on the provider and model.
+ * 它影响模型重复使用相同单词或短语的可能性。
+ * 该值被传递给提供者。范围取决于提供商和型号。
  * @param stopSequences - Stop sequences.
- * If set, the model will stop generating text when one of the stop sequences is generated.
+ * 如果设置，模型将在生成停止序列之一时停止生成文本。
  * @param seed - The seed (integer) to use for random sampling.
- * If set and supported by the model, calls will generate deterministic results.
+ * 如果模型设置并支持，调用将生成确定性结果。
  * @param reasoning - Reasoning configuration for the model call.
  *
  * @param download - A function that downloads URLs as part of prompt conversion.
@@ -231,12 +231,12 @@ export async function streamLanguageModelCall<
   refineToolInput?: ToolInputRefinement<TOOLS> | undefined;
   callId?: string;
   /**
-   * Tool context used to resolve per-call tool metadata such as function
-   * descriptions before sending tools to the model.
+   * 用于解析每次调用工具元数据（例如函数）的工具上下文
+   * 将工具发送到模型之前的描述。
    */
   toolsContext?: InferToolSetContext<TOOLS>;
   /**
-   * Sandbox passed through for resolving tool descriptions that depend on it.
+   * 沙盒通过来解析依赖于它的工具描述。
    */
   experimental_sandbox?: Sandbox;
   _internal?: {
@@ -247,14 +247,14 @@ export async function streamLanguageModelCall<
   onLanguageModelCallStart?: Arrayable<OnLanguageModelCallStartCallback>;
   onLanguageModelCallEnd?: Arrayable<OnLanguageModelCallEndCallback<TOOLS>>;
 
-  // onStart is currently required because the telemetry callbacks need
-  // LanguageModelV4Prompt and we only want download URLs at most once.
-  // Therefore convertToLanguageModelPrompt can only be called once
-  // per step and the resulting LanguageModelV4Prompt needs to be
-  // passed to the onStart callback.
+  // 目前需要 onStart，因为遥测回调需要
+  // LanguageModelV4Prompt，我们最多只需要一次下载 URL。
+  // 因此convertToLanguageModelPrompt只能被调用一次
+  // 每一步和生成的 LanguageModelV4Prompt 需要是
+  // 传递给 onStart 回调。
   //
-  // TODO explore decoupling by changing the telemetry callbacks to accept
-  // a Prompt or a standardized Prompt.
+  // TODO 通过更改遥测回调以接受来探索解耦
+  // 提示或标准化提示。
   onStart?: (args: {
     promptMessages: LanguageModelV4Prompt;
   }) => Promise<void> | void;
@@ -263,13 +263,13 @@ export async function streamLanguageModelCall<
   stream: AsyncIterableStream<LanguageModelStreamPart<TOOLS>>;
   request?: {
     /**
-     * Request HTTP body that was sent to the provider API.
+     * 请求发送到提供商 API 的 HTTP 正文。
      */
     body?: unknown;
   };
   response?: {
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers?: SharedV4Headers;
   };
@@ -365,7 +365,7 @@ export async function streamLanguageModelCall<
   };
 }
 
-// Java Loves You.
+// Java 爱你。
 function createLanguageModelV4StreamPartToLanguageModelStreamPartTransform<
   TOOLS extends ToolSet,
 >({
@@ -395,8 +395,8 @@ function createLanguageModelV4StreamPartToLanguageModelStreamPartTransform<
   callStartTimestampMs: number;
   onLanguageModelCallEnd?: Arrayable<OnLanguageModelCallEndCallback<TOOLS>>;
 }) {
-  // keep track of parsed tool calls so provider-emitted approval requests can reference them
-  // keep track of tool inputs for provider-side tool results
+  // 跟踪已解析的工具调用，以便提供商发出的批准请求可以引用它们
+  // 跟踪提供商端工具结果的工具输入
   const toolCallsByToolCallId = new Map<string, TypedToolCall<TOOLS>>();
   const modelCallContent: Array<ContentPart<TOOLS>> = [];
   const textPartIndexes = new Map<string, number>();
@@ -724,9 +724,9 @@ function createLanguageModelV4StreamPartToLanguageModelStreamPartTransform<
 }
 
 /**
- * Returns true for streamed deltas that contain generated output tokens.
- * Used to measure time-to-first-token for text, reasoning, and streamed tool
- * input.
+ * 对于包含生成的输出令牌的流式增量返回 true。
+ * 用于测量文本、推理和流工具的首次标记时间
+ * 输入。
  */
 function isChunkWithTokens(chunk: LanguageModelV4StreamPart): boolean {
   return (
@@ -737,7 +737,7 @@ function isChunkWithTokens(chunk: LanguageModelV4StreamPart): boolean {
 }
 
 /**
- * Appends a text or reasoning content part into the content array and updates the part indexes.
+ * 将文本或推理内容部分附加到内容数组中并更新部分索引。
  */
 function upsertTextContentPart<TOOLS extends ToolSet>({
   content,

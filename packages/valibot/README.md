@@ -1,17 +1,16 @@
 # AI SDK - Valibot Schema Support
 
-Allows you to use [Valibot](https://valibot.dev/) schemas with AI SDK.
+允许在 AI SDK 中使用 [Valibot](https://valibot.dev/) schema。
 
-The `valibotSchema` function supports both validation and JSON schema conversion
-for Valibot schemas.
+`valibotSchema` 函数支持 Valibot schema 的校验与 JSON schema 转换。
 
-## Setup
+## 安装
 
 ```bash
 npm install @ai-sdk/valibot
 ```
 
-## Example
+## 示例
 
 ```ts
 import { anthropic } from '@ai-sdk/anthropic';

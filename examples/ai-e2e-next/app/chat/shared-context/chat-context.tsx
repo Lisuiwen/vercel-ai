@@ -9,7 +9,7 @@ import React, {
 import { Chat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
 interface ChatContextValue {
-  // replace with your custom message type
+  // 替换为你的自定义消息类型
   chat: Chat<UIMessage>;
   clearChat: () => void;
 }

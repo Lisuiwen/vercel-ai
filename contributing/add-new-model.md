@@ -1,11 +1,11 @@
-# Adding a new model
+# 添加新模型
 
-1. Add model id to settings (model ids) for auto-complete
-1. Add model id to list in provider page under `/content/providers/...` (Model Capabilities table at the bottom)
-1. If the model is notable, add to
+1. 将 model id 添加到 settings（model ids）以支持自动补全
+1. 将 model id 添加到 `/content/providers/...` 下 provider 页面的列表中（底部的 Model Capabilities 表）
+1. 若模型较重要，还需添加到
    - `content/providers/01-ai-sdk-providers/index.mdx`
    - `content/docs/02-foundations/02-providers-and-models.mdx`
-1. PR with changeset
-1. NPM publish through Changesets PR
+1. 提交带 changeset 的 PR
+1. 通过 Changesets PR 发布到 NPM
 
-Example PR: https://github.com/vercel/ai/pull/7313
+示例 PR：https://github.com/vercel/ai/pull/7313

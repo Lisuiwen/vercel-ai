@@ -1,15 +1,15 @@
 ---
 title: ByteDance
-description: Learn how to use ByteDance Seedance video models with the AI SDK.
+description: 了解如何在 AI SDK 中使用字节跳动 Seedance 视频模型。
 ---
 
-# ByteDance Provider
+# ByteDance 提供商
 
-The [ByteDance](https://www.bytedance.com/) provider contains support for the Seedance family of video generation models through the [BytePlus ModelArk](https://docs.byteplus.com/en/docs/ModelArk/Video_Generation_API) platform. Seedance provides high-quality text-to-video and image-to-video generation capabilities, including audio-video synchronization, first-and-last frame control, and multi-reference image generation.
+[ByteDance](https://www.bytedance.com/) 提供商通过 [BytePlus ModelArk](https://docs.byteplus.com/en/docs/ModelArk/Video_Generation_API) 平台支持 Seedance 系列视频生成模型。Seedance 提供高质量的文生视频与图生视频能力，包括音画同步、首尾帧控制与多参考图生成。
 
-## Setup
+## 安装
 
-The ByteDance provider is available via the `@ai-sdk/bytedance` module. You can install it with
+ByteDance 提供商位于 `@ai-sdk/bytedance` 模块中，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -27,15 +27,15 @@ The ByteDance provider is available via the `@ai-sdk/bytedance` module. You can 
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `byteDance` from `@ai-sdk/bytedance`:
+可从 `@ai-sdk/bytedance` 导入默认的 `byteDance` 提供商实例：
 
 ```ts
 import { byteDance } from '@ai-sdk/bytedance';
 ```
 
-If you need a customized setup, you can import `createByteDance` and create a provider instance with your settings:
+如需自定义配置，可导入 `createByteDance` 并以你的设置创建提供商实例：
 
 ```ts
 import { createByteDance } from '@ai-sdk/bytedance';
@@ -49,37 +49,37 @@ const byteDance = createByteDance({
 });
 ```
 
-You can use the following optional settings to customize the ByteDance provider instance:
+可使用以下可选设置自定义 ByteDance 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `https://ark.ap-southeast.bytepluses.com/api/v3`.
+  为 API 调用使用不同的 URL 前缀（例如经由代理）。
+  默认前缀为 `https://ark.ap-southeast.bytepluses.com/api/v3`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
-  It defaults to the `ARK_API_KEY` environment variable.
-  You can [obtain an API key](https://console.byteplus.com/ark/apiKey) from the BytePlus console.
+  通过 `Authorization` 请求头发送的 API Key。
+  默认为环境变量 `ARK_API_KEY`。
+  可在 BytePlus 控制台 [获取 API Key](https://console.byteplus.com/ark/apiKey)。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义请求头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  可作为中间件拦截请求，
+  或在测试中提供自定义 `fetch` 实现。
 
-## Video Models
+## 视频模型
 
-You can create ByteDance video models using the `.video()` factory method.
-For more on video generation with the AI SDK see [generateVideo()](/docs/reference/ai-sdk-core/generate-video).
+可使用 `.video()` 工厂方法创建 ByteDance 视频模型。
+详见 AI SDK 的 [generateVideo()](/docs/reference/ai-sdk-core/generate-video)。
 
-### Text-to-Video
+### 文生视频
 
-Generate videos from text prompts:
+由文本提示生成视频：
 
 ```ts
 import {
@@ -104,9 +104,9 @@ const { video } = await generateVideo({
 console.log(video.url);
 ```
 
-### Image-to-Video
+### 图生视频
 
-Generate videos from a first-frame image with an optional text prompt:
+由首帧图像与可选文本提示生成视频：
 
 ```ts
 import {
@@ -130,9 +130,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### Image-to-Video with Audio
+### 带音频的图生视频
 
-Seedance 1.5 Pro supports generating synchronized audio alongside the video:
+Seedance 1.5 Pro 支持在生成视频的同时生成同步音频：
 
 ```ts
 import {
@@ -157,9 +157,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### First-and-Last Frame Video
+### 首尾帧视频
 
-Generate smooth transitions between a starting and ending keyframe image:
+在起始关键帧与结束关键帧图像之间生成平滑过渡：
 
 ```ts
 import {
@@ -185,9 +185,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### Multi-Reference Image-to-Video
+### 多参考图图生视频
 
-Using the Seedance 1.0 Lite I2V model, you can provide multiple reference images (1-4) that the model uses to faithfully reproduce object shapes, colors, and textures:
+使用 Seedance 1.0 Lite I2V 模型时，可提供多幅参考图（1–4 张），模型会据此尽可能还原物体形状、颜色与纹理：
 
 ```ts
 import {
@@ -215,9 +215,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### Reference Video
+### 参考视频
 
-Seedance 2.0 supports reference videos that guide the style, motion, or composition of the generated video:
+Seedance 2.0 支持参考视频，用于引导生成视频的风格、运动或构图：
 
 ```ts
 import {
@@ -241,9 +241,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### Reference Audio
+### 参考音频
 
-Seedance 2.0 supports reference audio that is used as background music or sound for the generated video:
+Seedance 2.0 支持参考音频，用作生成视频的背景音乐或音效：
 
 ```ts
 import {
@@ -267,91 +267,89 @@ const { video } = await generateVideo({
 });
 ```
 
-### Video Provider Options
+### 视频的提供商选项
 
-The following provider options are available via `providerOptions.bytedance`:
+可通过 `providerOptions.bytedance` 使用以下提供商选项：
 
-#### Generation Options
+#### 生成选项
 
 - **watermark** _boolean_
 
-  Whether to add a watermark to the generated video.
+  是否为生成的视频添加水印。
 
 - **generateAudio** _boolean_
 
-  Whether to generate synchronized audio for the video. Only supported by Seedance 1.5 Pro.
+  是否为视频生成同步音频。仅 Seedance 1.5 Pro 支持。
 
 - **cameraFixed** _boolean_
 
-  Whether to fix the camera during generation.
+  生成过程中是否固定镜头。
 
 - **returnLastFrame** _boolean_
 
-  Whether to return the last frame of the generated video. Useful for chaining consecutive videos.
+  是否返回生成视频的末帧。可用于串联多段连续视频。
 
 - **serviceTier** _'default' | 'flex'_
 
-  Inference tier. `'default'` for online inference. `'flex'` for offline inference at 50% of the price, with higher latency (response times on the order of hours).
+  推理档位。`'default'` 为在线推理。`'flex'` 为离线推理，价格为 50%，延迟更高（响应时间可达数小时量级）。
 
 - **draft** _boolean_
 
-  Enable draft sample mode for low-cost preview generation. Only supported by Seedance 1.5 Pro. Generates a 480p preview video for rapid iteration before committing to a full-quality generation.
+  是否启用草稿采样模式以低成本预览。仅 Seedance 1.5 Pro 支持。先生成 480p 预览以便快速迭代，再生成正式高质量版本。
 
-#### Image Input Options
+#### 图像输入选项
 
 - **lastFrameImage** _string_
 
-  URL of the last frame image for first-and-last frame video generation. The model generates smooth transitions between the first frame (provided via the `image` prompt) and this last frame. Supported by Seedance 1.5 Pro, 1.0 Pro, and 1.0 Lite I2V.
+  首尾帧视频中的末帧图像 URL。模型在由 `image` 提示提供的首帧与此末帧之间生成平滑过渡。Seedance 1.5 Pro、1.0 Pro 与 1.0 Lite I2V 支持。
 
 - **referenceImages** _string[]_
 
-  Array of reference image URLs (1-4 images) for multi-reference image-to-video generation. The model extracts key features from each image and reproduces them in the video. Use `[Image 1]`, `[Image 2]`, etc. in your prompt to reference specific images. Supported by Seedance 1.0 Lite I2V.
+  多参考图图生视频的参考图 URL 数组（1–4 张）。模型从每张图提取关键特征并在视频中还原。在提示中使用 `[Image 1]`、`[Image 2]` 等引用具体图像。Seedance 1.0 Lite I2V 支持。
 
-#### Media Reference Options
+#### 媒体引用选项
 
 - **referenceVideos** _string[]_
 
-  Array of reference video URLs (up to 3 videos, max 15 seconds each) for reference-guided video generation. The model uses the referenced videos to guide style, motion, or composition. Supported by Seedance 2.0.
+  参考视频 URL 数组（最多 3 个，每个最长 15 秒），用于参考引导生成。模型根据参考视频引导风格、运动或构图。Seedance 2.0 支持。
 
 - **referenceAudio** _string[]_
 
-  Array of reference audio URLs (up to 3, max 15 seconds each) for audio-guided video generation. The model uses the referenced audio as background music or synchronized sound. Supports data URIs (e.g., `data:audio/wav;base64,...`). Supported by Seedance 2.0.
+  参考音频 URL 数组（最多 3 个，每个最长 15 秒），用于音频引导生成。模型将参考音频用作背景音乐或同步音效。支持 data URI（如 `data:audio/wav;base64,...`）。Seedance 2.0 支持。
 
-#### Polling Options
+#### 轮询选项
 
 - **pollIntervalMs** _number_
 
-  Control how frequently the API is checked for completed videos while they are
-  being processed. Defaults to 3000ms.
+  处理中轮询完成状态的间隔（毫秒）。
+  默认为 3000 ms。
 
 - **pollTimeoutMs** _number_
 
-  Maximum time to wait for video generation to complete before timing out.
-  Defaults to 300000ms (5 minutes).
+  视频生成完成前的最长等待时间。
+  默认为 300000 ms（5 分钟）。
 
 <Note>
-  Video generation is an asynchronous process that can take several minutes.
-  Consider setting `pollTimeoutMs` to at least 10 minutes (600000ms) for
-  reliable operation.
+  视频生成是异步过程，可能需要数分钟。
+  建议将 `pollTimeoutMs` 至少设为 10 分钟（600000 ms）以保证稳定。
 </Note>
 
-### Video Model Capabilities
+### 视频模型能力
 
-| Model                   | Model ID                            | Capabilities                                                                                                                                     |
-| ----------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Seedance 2.0            | `dreamina-seedance-2-0-260128`      | T2V, I2V, reference videos (up to 3), reference audio (up to 3), audio-video sync. Duration: 4-15s. Resolution: 480p, 720p.                      |
-| Seedance 2.0 Fast       | `dreamina-seedance-2-0-fast-260128` | T2V, I2V, reference videos (up to 3), reference audio (up to 3), audio-video sync. Optimized for speed. Duration: 4-15s. Resolution: 480p, 720p. |
-| Seedance 1.5 Pro        | `seedance-1-5-pro-251215`           | T2V, I2V (first frame), I2V (first+last frame), audio-video sync, draft mode. Duration: 4-12s. Resolution: 480p, 720p, 1080p.                    |
-| Seedance 1.0 Pro        | `seedance-1-0-pro-250528`           | T2V, I2V (first frame), I2V (first+last frame). Duration: 2-12s. Resolution: 480p, 720p, 1080p.                                                  |
-| Seedance 1.0 Pro Fast   | `seedance-1-0-pro-fast-251015`      | T2V, I2V (first frame). Optimized for speed and cost. Duration: 2-12s.                                                                           |
-| Seedance 1.0 Lite (T2V) | `seedance-1-0-lite-t2v-250428`      | Text-to-video only. Duration: 2-12s. Resolution: 480p, 720p, 1080p.                                                                              |
-| Seedance 1.0 Lite (I2V) | `seedance-1-0-lite-i2v-250428`      | I2V (first frame), I2V (first+last frame), multi-reference images (1-4). Duration: 2-12s. Resolution: 480p, 720p.                                |
+| 模型                    | Model ID                            | 能力说明                                                                                                                                        |
+| ----------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Seedance 2.0            | `dreamina-seedance-2-0-260128`      | 文生视频、图生视频、参考视频（最多 3 个）、参考音频（最多 3 个）、音画同步。时长 4–15s。分辨率 480p、720p。                                      |
+| Seedance 2.0 Fast       | `dreamina-seedance-2-0-fast-260128` | 文生视频、图生视频、参考视频（最多 3 个）、参考音频（最多 3 个）、音画同步；侧重速度。时长 4–15s。分辨率 480p、720p。                             |
+| Seedance 1.5 Pro        | `seedance-1-5-pro-251215`           | 文生视频、图生视频（首帧）、图生视频（首尾帧）、音画同步、草稿模式。时长 4–12s。分辨率 480p、720p、1080p。                                      |
+| Seedance 1.0 Pro        | `seedance-1-0-pro-250528`           | 文生视频、图生视频（首帧）、图生视频（首尾帧）。时长 2–12s。分辨率 480p、720p、1080p。                                                            |
+| Seedance 1.0 Pro Fast   | `seedance-1-0-pro-fast-251015`      | 文生视频、图生视频（首帧）；侧重速度与成本。时长 2–12s。                                                                                        |
+| Seedance 1.0 Lite (T2V) | `seedance-1-0-lite-t2v-250428`      | 仅文生视频。时长 2–12s。分辨率 480p、720p、1080p。                                                                                              |
+| Seedance 1.0 Lite (I2V) | `seedance-1-0-lite-i2v-250428`      | 图生视频（首帧）、图生视频（首尾帧）、多参考图（1–4）。时长 2–12s。分辨率 480p、720p。                                                           |
 
-Supported aspect ratios: `16:9`, `4:3`, `1:1`, `3:4`, `9:16`, `21:9`, `adaptive` (image-to-video only).
+支持的宽高比：`16:9`、`4:3`、`1:1`、`3:4`、`9:16`、`21:9`、`adaptive`（仅图生视频）。
 
-All models output MP4 video at 24 fps.
+所有模型输出 24 fps 的 MP4 视频。
 
 <Note>
-  You can also pass any model ID string if needed, e.g. for future models not
-  yet listed here.
+  如需也可直接传入任意模型 ID 字符串，例如尚未列入此处的未来模型。
 </Note>

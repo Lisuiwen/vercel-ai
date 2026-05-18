@@ -1,41 +1,40 @@
 ---
-title: Writing a Custom Provider
-description: Learn how to write a custom provider for the AI SDK
+title: 编写自定义提供商
+description: 了解如何为 AI SDK 编写自定义提供商
 ---
 
-# Writing a Custom Provider
+# 编写自定义提供商
 
-The AI SDK provides a [Language Model Specification](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v4) that enables you to create custom providers compatible with the AI SDK. This specification ensures consistency across different providers.
+AI SDK 提供[语言模型规范](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v4)，用于创建与 AI SDK 兼容的自定义提供商。该规范在不同提供商之间保持一致性。
 
-## Publishing Your Provider
+## 发布你的提供商
 
-Please publish your custom provider in your own GitHub repository and as an NPM package. You are responsible for hosting and maintaining your provider. Once published, you can submit a PR to the AI SDK repository to add your provider to the [Community Providers](/providers/community-providers) documentation section. Use the [OpenRouter provider documentation](https://github.com/vercel/ai/blob/main/content/providers/03-community-providers/13-openrouter.mdx) as a template for your documentation.
+请将自定义提供商发布到你自己的 GitHub 仓库与 NPM 包，并自行负责托管与维护。发布后，可向 AI SDK 仓库提交 PR，将提供商加入[社区提供商](/providers/community-providers)文档。编写文档时可参考 [OpenRouter 提供商文档](https://github.com/vercel/ai/blob/main/content/providers/03-community-providers/13-openrouter.mdx) 模板。
 
-## Why the Language Model Specification?
+## 为何要采用语言模型规范？
 
-The Language Model Specification V4 is a standardized specification for interacting with language models that provides a unified abstraction layer across all AI providers. This specification creates a consistent interface that works seamlessly with different language models, ensuring that developers can interact with any provider using the same patterns and methods. It enables:
+语言模型规范 V4 是与语言模型交互的标准化规范，为所有 AI 提供商提供统一的抽象层。开发者可用相同的模式与方法对接任意提供商。它支持：
 
 <Note>
-  If you open-source a provider, we'd love to promote it here. Please send us a
-  PR to add it to the [Community Providers](/providers/community-providers)
-  section.
+  若你开源了提供商，我们很乐意在此推荐。请向我们提交 PR，将其加入 [Community Providers](/providers/community-providers)
+  章节。
 </Note>
 
-## Understanding the V4 Specification
+## 理解 V4 规范
 
-The Language Model Specification V4 creates a robust abstraction layer that works across all current and future AI providers. By establishing a standardized interface, it provides the flexibility to support emerging LLM capabilities while ensuring your application code remains provider-agnostic and future-ready.
+语言模型规范 V4 在现有与未来 AI 提供商之上建立稳健抽象；通过统一接口，既能支持新兴 LLM 能力，又能让应用代码保持与具体提供商解耦、面向未来。
 
-### Architecture
+### 架构
 
-At its heart, the V4 specification defines three main interfaces:
+V4 规范核心是三个主要接口：
 
-1. **ProviderV4**: The top-level interface that serves as a factory for different model types
-2. **LanguageModelV4**: The primary interface for text generation models
-3. **EmbeddingModelV4** and **ImageModelV4**: Interfaces for embeddings and image generation
+1. **ProviderV4**：顶层工厂，用于创建各类模型实例
+2. **LanguageModelV4**：文本生成模型的主接口
+3. **EmbeddingModelV4** 与 **ImageModelV4**：向量嵌入与图像生成接口
 
 ### `ProviderV4`
 
-The `ProviderV4` interface acts as the entry point:
+`ProviderV4` 作为入口：
 
 ```ts
 interface ProviderV4 {
@@ -47,7 +46,7 @@ interface ProviderV4 {
 
 ### `LanguageModelV4`
 
-The `LanguageModelV4` interface defines the methods your provider must implement:
+`LanguageModelV4` 规定了提供商必须实现的方法：
 
 ```ts
 interface LanguageModelV4 {
@@ -61,26 +60,26 @@ interface LanguageModelV4 {
 }
 ```
 
-Key aspects:
+要点：
 
-- **specificationVersion**: Must be 'V4'
-- **supportedUrls**: Declares which URLs (for file parts) the provider can handle natively
-- **doGenerate/doStream**: methods for non-streaming and streaming generation
+- **specificationVersion**：必须为 `'V4'`
+- **supportedUrls**：声明提供商可原生处理的文件片段 URL（模式）
+- **doGenerate / doStream**：非流式与流式生成
 
-### Understanding Input vs Output
+### 理解输入与输出
 
-Before diving into the details, it's important to understand the distinction between two key concepts in the V4 specification:
+在深入细节前，需要区分规范中的两类概念：
 
-1. **LanguageModelV4Content**: The specification for what the models generate
-2. **LanguageModelV4Prompt**: The specification for what you send to the model
+1. **LanguageModelV4Content**：模型生成内容的规格
+2. **LanguageModelV4Prompt**：发送给模型的提示（prompt）规格
 
 ### `LanguageModelV4Content`
 
-The V4 specification supports five distinct content types that models can generate, each designed for specific use cases:
+V4 支持模型可生成的五类内容，各自面向不同场景：
 
-#### Text Content
+#### 文本内容
 
-The fundamental building block for all text generation:
+文本生成的基本单元：
 
 ```ts
 type LanguageModelV4Text = {
@@ -89,11 +88,11 @@ type LanguageModelV4Text = {
 };
 ```
 
-This is used for standard model responses, system messages, and any plain text output.
+用于标准模型响应、系统消息及纯文本输出。
 
-#### Tool Calls
+#### 工具调用
 
-Enable models to invoke functions with structured arguments:
+使模型能够以结构化参数调用函数：
 
 ```ts
 type LanguageModelV4ToolCall = {
@@ -105,11 +104,11 @@ type LanguageModelV4ToolCall = {
 };
 ```
 
-The `toolCallId` is crucial for correlating tool results back to their calls, especially in streaming scenarios.
+`toolCallId` 用于将工具结果与调用对应起来，流式场景中尤为重要。
 
-#### File Generation
+#### 文件生成
 
-Support for multimodal output generation:
+支持多模态输出：
 
 ```ts
 type LanguageModelV4File = {
@@ -119,11 +118,11 @@ type LanguageModelV4File = {
 };
 ```
 
-This enables models to generate images, audio, documents, and other file types directly.
+使模型可直接生成图像、音频、文档等。
 
-#### Reasoning
+#### 推理（Reasoning）
 
-Dedicated support for chain-of-thought reasoning (essential for models like OpenAI's o1):
+为链式思维推理提供专门支持（对 OpenAI o1 等模型很重要）：
 
 ```ts
 type LanguageModelV4Reasoning = {
@@ -137,9 +136,9 @@ type LanguageModelV4Reasoning = {
 };
 ```
 
-Reasoning content is tracked separately from regular text, allowing for proper token accounting and UI presentation.
+推理内容与常规文本分开追踪，便于 token 计量与界面展示。
 
-#### Sources
+#### 来源（Sources）
 
 ```ts
 type LanguageModelV4Source = {
@@ -154,49 +153,49 @@ type LanguageModelV4Source = {
 
 ### `LanguageModelV4Prompt`
 
-The V4 prompt format (`LanguageModelV4Prompt`) is designed as a flexible message array that supports multimodal inputs:
+V4 的提示格式 `LanguageModelV4Prompt` 为灵活的消息数组，支持多模态输入：
 
-#### Message Roles
+#### 消息角色
 
-Each message has a specific role with allowed content types:
+每条消息具有角色及允许的内容类型：
 
-- **System**: Model instructions (text only)
+- **System**：模型指令（仅文本）
 
   ```ts
   { role: 'system', content: string }
   ```
 
-- **User**: Human inputs supporting text and files
+- **User**：人类输入，可含文本与文件
 
   ```ts
   { role: 'user', content: Array<LanguageModelV4TextPart | LanguageModelV4FilePart> }
   ```
 
-- **Assistant**: Model outputs with full content type support
+- **Assistant**：助手输出，支持完整内容类型
 
   ```ts
   { role: 'assistant', content: Array<LanguageModelV4TextPart | LanguageModelV4FilePart | LanguageModelV4ReasoningPart | LanguageModelV4ToolCallPart> }
   ```
 
-- **Tool**: Results from tool executions
+- **Tool**：工具执行结果
   ```ts
   { role: 'tool', content: Array<LanguageModelV4ToolResultPart> }
   ```
 
-#### Prompt Parts
+#### 提示片段（Prompt Parts）
 
-Prompt parts are the building blocks of messages in the prompt structure. While `LanguageModelV4Content` represents the model's output content, prompt parts are specifically designed for constructing input messages. Each message role supports different types of prompt parts:
+提示片段用于构造输入消息。`LanguageModelV4Content` 表示模型输出，而提示片段专用于拼装输入消息。不同角色允许的片段类型不同：
 
-- **System messages**: Only support text content
-- **User messages**: Support text and file parts
-- **Assistant messages**: Support text, file, reasoning, and tool call parts
-- **Tool messages**: Only support tool result parts
+- **System**：仅文本
+- **User**：文本与文件片段
+- **Assistant**：文本、文件、推理与工具调用片段
+- **Tool**：仅工具结果片段
 
-Let's explore each prompt part type:
+下面介绍各片段类型：
 
-##### Text Parts
+##### 文本片段
 
-The most basic prompt part, containing plain text content:
+最基础的片段，包含纯文本：
 
 ```ts
 interface LanguageModelV4TextPart {
@@ -206,9 +205,9 @@ interface LanguageModelV4TextPart {
 }
 ```
 
-##### Reasoning Parts
+##### 推理片段
 
-Used in assistant messages to capture the model's reasoning process:
+用于助手消息中记录模型的推理过程：
 
 ```ts
 interface LanguageModelV4ReasoningPart {
@@ -218,9 +217,9 @@ interface LanguageModelV4ReasoningPart {
 }
 ```
 
-##### File Parts
+##### 文件片段
 
-Enable multimodal inputs by including files in prompts:
+在提示中包含文件以实现多模态输入：
 
 ```ts
 interface LanguageModelV4FilePart {
@@ -232,15 +231,15 @@ interface LanguageModelV4FilePart {
 }
 ```
 
-The `data` field offers flexibility:
+`data` 字段支持：
 
-- **Uint8Array**: Direct binary data
-- **string**: Base64-encoded data
-- **URL**: Reference to external content (if supported by provider via `supportedUrls`)
+- **Uint8Array**：原始二进制
+- **string**：Base64 编码数据
+- **URL**：外部内容引用（若提供商通过 `supportedUrls` 支持）
 
-##### Tool Call Parts
+##### 工具调用片段
 
-Represent tool calls made by the assistant:
+表示助手发起的工具调用：
 
 ```ts
 interface LanguageModelV4ToolCallPart {
@@ -252,9 +251,9 @@ interface LanguageModelV4ToolCallPart {
 }
 ```
 
-##### Tool Result Parts
+##### 工具结果片段
 
-Contain the results of executed tool calls:
+承载已执行工具调用的返回：
 
 ```ts
 interface LanguageModelV4ToolResultPart {
@@ -273,26 +272,26 @@ interface LanguageModelV4ToolResultPart {
 }
 ```
 
-The optional `content` field enables rich tool results including images, providing more flexibility than the basic `result` field.
+可选字段 `content` 可表达含图像等更丰富结果，相较单纯 `result` 更灵活。
 
-### Streaming
+### 流式（Streaming）
 
-#### Stream Parts
+#### 流式片段
 
-The streaming system uses typed events for different stages:
+流式系统使用类型化事件表示各阶段：
 
-1. **Stream Lifecycle Events**:
-   - `stream-start`: Initial event with any warnings about unsupported features
-   - `response-metadata`: Model information and response headers
-   - `finish`: Final event with usage statistics and finish reason
-   - `error`: Error events that can occur at any point
+1. **流生命周期事件**：
+   - `stream-start`：起始事件，可含不受支持特性的告警
+   - `response-metadata`：模型信息与响应头
+   - `finish`：结束事件，含用量统计与停止原因
+   - `error`：任意时点可能发生的错误
 
-2. **Content Events**:
-   - All content types (`text`, `file`, `reasoning`, `source`, `tool-call`) stream directly
-   - `tool-call-delta`: Incremental updates for tool call arguments
-   - `reasoning-part-finish`: Explicit marker for reasoning section completion
+2. **内容事件**：
+   - 各类内容（`text`、`file`、`reasoning`、`source`、`tool-call`）可直接流式输出
+   - `tool-call-delta`：工具调用参数的增量更新
+   - `reasoning-part-finish`：推理段结束的显式标记
 
-Example stream sequence:
+示例序列：
 
 ```ts
 { type: 'stream-start', warnings: [] }
@@ -303,9 +302,9 @@ Example stream sequence:
 { type: 'finish', usage: { inputTokens: 10, outputTokens: 20 }, finishReason: 'stop' }
 ```
 
-#### Usage Tracking
+#### 用量追踪
 
-Enhanced usage information:
+扩展的用量信息：
 
 ```ts
 type LanguageModelV4Usage = {
@@ -317,13 +316,13 @@ type LanguageModelV4Usage = {
 };
 ```
 
-### Tools
+### 工具（Tools）
 
-The V4 specification supports two types of tools:
+V4 规范支持两类工具：
 
-#### Function Tools
+#### 函数工具
 
-Standard user-defined functions with JSON Schema validation:
+使用 JSON Schema 校验的标准自定义函数：
 
 ```ts
 type LanguageModelV4FunctionTool = {
@@ -334,9 +333,9 @@ type LanguageModelV4FunctionTool = {
 };
 ```
 
-#### Provider-Defined Client Tools
+#### 提供商定义的客户端工具
 
-Native provider capabilities exposed as tools:
+将提供商原生能力暴露为工具：
 
 ```ts
 export type LanguageModelV4ProviderClientDefinedTool = {
@@ -347,15 +346,15 @@ export type LanguageModelV4ProviderClientDefinedTool = {
 };
 ```
 
-Tool choice can be controlled via:
+可通过以下方式控制工具选择：
 
 ```ts
 toolChoice: 'auto' | 'none' | 'required' | { type: 'tool', toolName: string };
 ```
 
-### Native URL Support
+### 原生 URL 支持
 
-Providers can declare URLs they can access directly:
+提供商可声明可直接访问的 URL 模式：
 
 ```ts
 supportedUrls: {
@@ -365,11 +364,11 @@ supportedUrls: {
 }
 ```
 
-The AI SDK checks these patterns before downloading any URL-based content.
+AI SDK 在下载基于 URL 的内容前会校验这些模式。
 
-### Provider Options
+### 提供商选项（Provider Options）
 
-The specification includes a flexible system for provider-specific features without breaking the standard interface:
+规范提供灵活机制承载各提供商专有特性，且不破坏通用接口：
 
 ```ts
 providerOptions: {
@@ -384,53 +383,52 @@ providerOptions: {
 }
 ```
 
-Provider options can be specified at multiple levels:
+可在多层指定：
 
-- **Call level**: In `LanguageModelV4CallOptions`
-- **Message level**: On individual messages
-- **Part level**: On specific content parts (text, file, etc.)
+- **调用层**：在 `LanguageModelV4CallOptions` 中
+- **消息层**：单条消息上
+- **片段层**：具体文本 / 文件等片段上
 
-This layered approach allows fine-grained control while maintaining compatibility.
+分层设计便于细粒度控制并保持兼容。
 
-### Error Handling
+### 错误处理
 
-The V4 specification emphasizes robust error handling:
+V4 规范强调稳健错误处理：
 
-1. **Streaming Errors**: Can be emitted at any point via `{ type: 'error', error: unknown }`
-2. **Warnings**: Non-fatal issues reported in `stream-start` and response objects
-3. **Finish Reasons**: Clear indication of why generation stopped:
-   - `'stop'`: Natural completion
-   - `'length'`: Hit max tokens
-   - `'content-filter'`: Safety filtering
-   - `'tool-calls'`: Stopped to execute tools
-   - `'error'`: Generation failed
-   - `'other'`: Provider-specific reasons
+1. **流式错误**：任意时刻可通过 `{ type: 'error', error: unknown }` 发出
+2. **告警**：非致命问题在 `stream-start` 与响应对象中报告
+3. **结束原因**：明确生成停止缘由：
+   - `'stop'`：自然结束
+   - `'length'`：达到最大 token
+   - `'content-filter'`：安全过滤
+   - `'tool-calls'`：为执行工具而暂停
+   - `'error'`：生成失败
+   - `'other'`：提供商特有原因
 
-## Provider Implementation Guide
+## 提供商实现指南
 
-To implement a custom language model provider, you'll need to install the required packages:
+实现自定义语言模型提供商需安装：
 
 ```bash
 npm install @ai-sdk/provider @ai-sdk/provider-utils
 ```
 
-Implementing a custom language model provider involves several steps:
+主要步骤包括：
 
-- Creating an entry point
-- Adding a language model implementation
-- Mapping the input (prompt, tools, settings)
-- Processing the results (generate, streaming, tool calls)
-- Supporting object generation
+- 创建入口
+- 实现语言模型
+- 映射输入（prompt、tools、settings）
+- 处理结果（generate、streaming、tool calls）
+- 支持结构化对象生成
 
 <Note>
-  The best way to get started is to use the [Mistral
-  provider](https://github.com/vercel/ai/tree/main/packages/mistral) as a
-  reference implementation.
+  入门可参考 [Mistral
+  provider](https://github.com/vercel/ai/tree/main/packages/mistral) 实现。
 </Note>
 
-### Step 1: Create the Provider Entry Point
+### 步骤 1：创建提供商入口
 
-Start by creating a `provider.ts` file that exports a factory function and a default instance:
+创建 `provider.ts`，导出工厂函数与默认实例：
 
 ```ts filename="provider.ts"
 import {
@@ -510,9 +508,9 @@ function createCustom(options: CustomProviderSettings = {}): CustomProvider {
 const custom = createCustom();
 ```
 
-### Step 2: Implement the Language Model
+### 步骤 2：实现语言模型
 
-Create a `custom-chat-language-model.ts` file that implements `LanguageModelV4`:
+创建 `custom-chat-language-model.ts`，实现 `LanguageModelV4`：
 
 ```ts filename="custom-chat-language-model.ts"
 import { LanguageModelV4, LanguageModelV4CallOptions } from '@ai-sdk/provider';
@@ -640,9 +638,9 @@ class CustomChatLanguageModel implements LanguageModelV4 {
 }
 ```
 
-### Step 3: Implement Message Conversion
+### 步骤 3：实现消息转换
 
-Map AI SDK messages to your provider's format:
+将 AI SDK 消息映射为提供商格式：
 
 ```ts filename="custom-chat-language-model.ts#L50-100"
 private convertToProviderMessages(prompt: LanguageModelV4Prompt) {
@@ -686,9 +684,9 @@ private convertToProviderMessages(prompt: LanguageModelV4Prompt) {
 }
 ```
 
-### Step 4: Implement Streaming
+### 步骤 4：实现流式
 
-Create a streaming transformer that converts provider chunks to AI SDK stream parts:
+编写将提供商分片转换为 AI SDK 流式片段的 transformer：
 
 ```ts filename="custom-chat-language-model.ts#L150-200"
 private createTransformer(warnings: SharedV4Warning[]) {
@@ -739,9 +737,9 @@ private createTransformer(warnings: SharedV4Warning[]) {
 }
 ```
 
-### Step 5: Handle Errors
+### 步骤 5：处理错误
 
-Use standardized AI SDK errors for consistent error handling:
+使用 AI SDK 标准错误类以保持一致行为：
 
 ```ts filename="custom-chat-language-model.ts#L250-280"
 import {
@@ -773,11 +771,11 @@ private handleError(error: unknown): never {
 }
 ```
 
-### Step 6: Add Workflow Serialization Support
+### 步骤 6：支持 Workflow 序列化
 
-To make your provider compatible with [Workflow DevKit](https://useworkflow.dev), model instances need to be serializable when they cross workflow step boundaries. The AI SDK provides helpers that make this straightforward.
+若需与 [Workflow DevKit](https://useworkflow.dev) 兼容，模型实例在跨越 workflow 步骤边界时需可序列化。AI SDK 提供辅助方法简化该过程。
 
-First, make `headers` optional in your config type so deserialized models work without pre-configured auth:
+首先在配置类型中将 `headers` 设为可选，以便反序列化后的模型在无预配置认证时仍可用：
 
 ```ts filename="custom-chat-language-model.ts"
 type CustomChatConfig = {
@@ -789,7 +787,7 @@ type CustomChatConfig = {
 };
 ```
 
-Then add the static serialization methods to your model class:
+再在模型类中加入静态序列化方法：
 
 ```ts filename="custom-chat-language-model.ts"
 import {
@@ -817,9 +815,9 @@ class CustomChatLanguageModel implements LanguageModelV4 {
 }
 ```
 
-`serializeModel()` automatically extracts only serializable config properties (strings, numbers, booleans), filtering out functions like `headers`, `fetch`, and `generateId`.
+`serializeModel()` 会自动提取可序列化配置（字符串、数字、布尔值），并过滤 `headers`、`fetch`、`generateId` 等函数。
 
-Since headers are not serialized, update any call sites to use optional chaining:
+由于标头不会序列化，调用处请改用可选链：
 
 ```ts
 // Before
@@ -830,15 +828,13 @@ headers: combineHeaders(this.config.headers?.(), options.headers),
 ```
 
 <Note>
-  The deserialized model will not have auth headers. In a workflow context,
-  authentication is typically handled through environment variables or
-  request-level options available in the step execution environment.
+  反序列化后的模型不会包含认证标头。在 workflow 场景中，认证通常由环境变量或步骤执行环境中的请求级选项处理。
 </Note>
 
-## Next Steps
+## 后续步骤
 
-- Dig into the [Language Model Specification V4](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v4)
-- Check out the [Mistral provider](https://github.com/vercel/ai/tree/main/packages/mistral) reference implementation
-- Check out [provider utilities](https://github.com/vercel/ai/tree/main/packages/provider-utils) for helpful functions
-- Test your provider with the AI SDK's built-in examples
-- Explore the V4 types in detail at [`@ai-sdk/provider`](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v4)
+- 深入阅读 [Language Model Specification V4](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v4)
+- 参考 [Mistral provider](https://github.com/vercel/ai/tree/main/packages/mistral) 实现
+- 查看 [provider utilities](https://github.com/vercel/ai/tree/main/packages/provider-utils) 实用函数
+- 使用 AI SDK 内置示例测试你的提供商
+- 在 [`@ai-sdk/provider`](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v4) 细查 V4 类型

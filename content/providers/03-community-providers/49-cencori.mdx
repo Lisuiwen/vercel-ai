@@ -1,22 +1,22 @@
 ---
 title: Cencori
-description: Cencori Provider for the AI SDK
+description: 适用于 AI SDK 的 Cencori 提供商
 ---
 
 # Cencori
 
-[Cencori](https://cencori.com) is the unified infrastructure layer for AI applications. It provides built-in security, observability, and multi-provider support through a single API.
+[Cencori](https://cencori.com) 是 AI 应用的统一基础设施层，通过单一 API 提供内置安全、可观测性与多提供商支持。
 
-With Cencori, you get:
+使用 Cencori 可获得：
 
-- **Multi-Provider Gateway**: Access OpenAI, Anthropic, Google Gemini, Mistral, DeepSeek, and more through one API
-- **Built-in Security**: Automatic PII detection, prompt injection protection, and content filtering
-- **Full Observability**: Complete audit logs, analytics, and cost tracking for every request
-- **Transparent Pricing**: Credits-based billing with real-time cost visibility
+- **多提供商网关**：通过同一 API 访问 OpenAI、Anthropic、Google Gemini、Mistral、DeepSeek 等
+- **内置安全**：自动 PII 检测、提示注入防护与内容过滤
+- **完整可观测性**：每次请求的审计日志、分析与成本追踪
+- **透明计费**：基于额度计费，成本实时可见
 
-## Setup
+## 安装与配置
 
-The Cencori provider is available in the `cencori` module. You can install it with:
+Cencori 提供商位于 `cencori` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn']}>
   <Tab>```bash pnpm add cencori ```</Tab>
@@ -24,9 +24,9 @@ The Cencori provider is available in the `cencori` module. You can install it wi
   <Tab>```bash yarn add cencori ```</Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-To create a Cencori provider instance, use the `createCencori` function:
+使用 `createCencori` 创建 Cencori 提供商实例：
 
 ```ts
 import { createCencori } from 'cencori/vercel';
@@ -36,11 +36,11 @@ const cencori = createCencori({
 });
 ```
 
-You can obtain your Cencori API key from the [Cencori Dashboard](https://cencori.com/dashboard).
+可在 [Cencori 控制台](https://cencori.com/dashboard) 获取 API 密钥。
 
-### Environment Variable
+### 环境变量
 
-Alternatively, you can set the `CENCORI_API_KEY` environment variable and use the default provider:
+也可设置 `CENCORI_API_KEY` 环境变量并使用默认提供商：
 
 ```ts
 import { cencori } from 'cencori/vercel';
@@ -49,9 +49,9 @@ import { cencori } from 'cencori/vercel';
 const model = cencori('gpt-4o');
 ```
 
-## Language Models
+## 语言模型
 
-Cencori provides access to language models from multiple providers. Use the provider function directly to create a model:
+Cencori 提供多家提供商的语言模型。直接使用提供商函数创建模型：
 
 ```ts
 // OpenAI models
@@ -73,11 +73,11 @@ const grok = cencori('grok-4');
 const llama = cencori('llama-3-70b');
 ```
 
-You can find the full list of available models in the [Cencori Documentation](https://cencori.com/docs).
+完整模型列表见 [Cencori 文档](https://cencori.com/docs)。
 
-## Examples
+## 示例
 
-Here are examples of using Cencori with the AI SDK:
+以下示例展示如何将 Cencori 与 AI SDK 配合使用：
 
 ### generateText
 
@@ -109,9 +109,9 @@ for await (const chunk of result.textStream) {
 }
 ```
 
-### Tool Calling
+### 工具调用
 
-Cencori supports tool calling with all compatible models:
+Cencori 在兼容模型上支持工具调用：
 
 ```ts
 import { cencori } from 'cencori/vercel';
@@ -137,7 +137,7 @@ const { text, toolCalls } = await generateText({
 console.log(text, toolCalls);
 ```
 
-### Next.js Route Handler
+### Next.js 路由处理器
 
 ```ts
 import { cencori } from 'cencori/vercel';
@@ -183,27 +183,27 @@ export default function Chat() {
 }
 ```
 
-## Advanced Features
+## 高级功能
 
-Cencori offers several advanced features to enhance your AI applications:
+Cencori 提供多项高级能力以增强 AI 应用：
 
-1. **Built-in Security**: Every request passes through automatic safety filters including PII detection, prompt injection protection, and harmful content filtering. Requests that violate safety policies are blocked before reaching the model.
+1. **内置安全**：每次请求经过自动安全检查，包括 PII 检测、提示注入防护与有害内容过滤。违反安全策略的请求会在到达模型前被拦截。
 
-2. **Multi-Provider Routing**: Switch between 15+ AI providers (OpenAI, Anthropic, Google, Mistral, DeepSeek, xAI, and more) without changing your code. Cencori handles the routing automatically.
+2. **多提供商路由**：无需改代码即可在 15+ 提供商（OpenAI、Anthropic、Google、Mistral、DeepSeek、xAI 等）间切换，路由由 Cencori 自动处理。
 
-3. **Cost Tracking**: Real-time cost tracking and analytics for every request. View detailed breakdowns by model, provider, and project in your dashboard.
+3. **成本追踪**：每次请求实时追踪成本与分析。可在控制台按模型、提供商与项目查看明细。
 
-4. **Complete Audit Logs**: Every request is logged with full payloads, token usage, costs, and safety scores for compliance and debugging.
+4. **完整审计日志**：每次请求记录完整载荷、token 用量、成本与安全分数，便于合规与调试。
 
-5. **Bring Your Own Keys (BYOK)**: Use your own API keys for each provider while still benefiting from Cencori's security and observability layer.
+5. **自带密钥（BYOK）**：可为各提供商使用自有 API 密钥，同时仍享受 Cencori 的安全与可观测层。
 
-6. **Provider Failover**: Automatic failover to backup providers if your primary provider is unavailable.
+6. **提供商故障转移**：主提供商不可用时自动切换到备用提供商。
 
-For more information about these features and advanced configuration options, visit the [Cencori Documentation](https://cencori.com/docs).
+更多信息与高级配置见 [Cencori 文档](https://cencori.com/docs)。
 
-## Provider Options
+## 提供商选项
 
-You can customize the provider with additional options:
+可使用额外选项自定义提供商：
 
 ```ts
 import { createCencori } from 'cencori/vercel';
@@ -218,9 +218,9 @@ const cencori = createCencori({
 });
 ```
 
-### Model-Specific Options
+### 模型专属选项
 
-You can also pass model-specific options:
+也可传入模型专属选项：
 
 ```ts
 const model = cencori('gpt-4o', {
@@ -228,9 +228,9 @@ const model = cencori('gpt-4o', {
 });
 ```
 
-## Additional Resources
+## 更多资源
 
-- [Cencori Provider Repository](https://github.com/cencori/cencori)
-- [Cencori Documentation](https://cencori.com/docs)
-- [Cencori Dashboard](https://cencori.com/dashboard/organizations)
-- [NPM Package](https://www.npmjs.com/package/cencori)
+- [Cencori 提供商仓库](https://github.com/cencori/cencori)
+- [Cencori 文档](https://cencori.com/docs)
+- [Cencori 控制台](https://cencori.com/dashboard/organizations)
+- [NPM 包](https://www.npmjs.com/package/cencori)

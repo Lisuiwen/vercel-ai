@@ -13,7 +13,7 @@ import type {
 import { validateUIMessages } from './validate-ui-messages';
 
 /**
- * Options for the `DirectChatTransport` class.
+ * “DirectChatTransport”类的选项。
  */
 export type DirectChatTransportOptions<
   CALL_OPTIONS,
@@ -23,7 +23,7 @@ export type DirectChatTransportOptions<
   UI_MESSAGE extends UIMessage<unknown, never, InferUITools<TOOLS>>,
 > = {
   /**
-   * The agent to use for generating responses.
+   * 用于生成响应的代理。
    */
   agent: Agent<CALL_OPTIONS, TOOLS, RUNTIME_CONTEXT, OUTPUT>;
 
@@ -34,20 +34,20 @@ export type DirectChatTransportOptions<
 } & Omit<UIMessageStreamOptions<UI_MESSAGE>, 'onFinish'>;
 
 /**
- * A transport that directly communicates with an Agent in-process,
- * without going through HTTP. This is useful for:
- * - Server-side rendering scenarios
- * - Testing without network
- * - Single-process applications
+ * 直接与进程内代理通信的传输，
+ * 无需通过 HTTP。这对于：
+ * - 服务端渲染场景
+ * - 无网络测试
+ * - 单进程应用程序
  *
  * @example
- * ```tsx
- * import { useChat } from '@ai-sdk/react';
- * import { DirectChatTransport } from 'ai';
- * import { myAgent } from './my-agent';
+ * ````tsx
+ * 从'@ai-sdk/react'导入{useChat}；
+ * 从 'ai' 导入 { DirectChatTransport }；
+ * 从 './my-agent' 导入 { myAgent }；
  *
- * const { messages, sendMessage } = useChat({
- *   transport: new DirectChatTransport({ agent: myAgent }),
+ * const { 消息, sendMessage } = useChat({
+ *   传输：新的 DirectChatTransport({ 代理: myAgent }),
  * });
  * ```
  */
@@ -91,11 +91,11 @@ export class DirectChatTransport<
   }: Parameters<ChatTransport<UI_MESSAGE>['sendMessages']>[0]): Promise<
     ReadableStream<UIMessageChunk>
   > {
-    // Validate the incoming UI messages
+    // 验证传入的 UI 消息
     const validatedMessages = await validateUIMessages<UI_MESSAGE>({
       messages,
-      // tools are compatible; the casting is required because the context param is
-      // not available in ui messages
+      // 工具兼容；需要进行转换，因为上下文参数是
+      // 在用户界面消息中不可用
       tools: this.agent.tools as unknown as {
         [NAME in keyof InferUIMessageTools<UI_MESSAGE> & string]?: Tool<
           InferUIMessageTools<UI_MESSAGE>[NAME]['input'],
@@ -104,12 +104,12 @@ export class DirectChatTransport<
       },
     });
 
-    // Convert UI messages to model messages
+    // 将 UI 消息转换为模型消息
     const modelMessages = await convertToModelMessages(validatedMessages, {
       tools: this.agent.tools,
     });
 
-    // Stream from the agent
+    // 来自代理的流
     const result = await this.agent.stream({
       prompt: modelMessages,
       abortSignal,
@@ -120,13 +120,13 @@ export class DirectChatTransport<
       Agent<CALL_OPTIONS, TOOLS, RUNTIME_CONTEXT, OUTPUT>['stream']
     >[0]);
 
-    // Return the UI message stream
+    // 返回UI消息流
     return result.toUIMessageStream(this.uiMessageStreamOptions);
   }
 
   /**
-   * Direct transport does not support reconnection since there is no
-   * persistent server-side stream to reconnect to.
+   * 直接传输不支持重连，因为没有
+   * 要重新连接的持久服务器端流。
    *
    * @returns Always returns `null`
    */

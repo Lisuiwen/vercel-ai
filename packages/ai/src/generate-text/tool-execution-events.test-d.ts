@@ -13,12 +13,12 @@ import type {
 } from './tool-execution-events';
 
 /**
- * Type tests for tool execution events.
+ * 工具执行事件的类型测试。
  *
- * `toolCall` ↔ `toolContext` correlation is expressed as a discriminated union; use
- * `Extract<...>` to assert it. TypeScript does not narrow `toolContext` from
- * `toolCall.toolName` in control flow (it stays `unknown` on the static branch), while
- * `toolCall.input` does narrow after ruling out `dynamic === true`.
+ * `toolCall` ↔ `toolContext` 相关性表示为可区分联合；使用
+ * `Extract<...>` 来断言它。 TypeScript 不会缩小“toolContext”的范围
+ * 控制流中的“toolCall.toolName”（在静态分支上保持“未知”），而
+ * 在排除“dynamic === true”后，“toolCall.input”确实缩小了。
  */
 describe('ToolExecutionStartEvent', () => {
   const tools = {

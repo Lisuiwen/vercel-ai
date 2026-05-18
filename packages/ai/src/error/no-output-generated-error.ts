@@ -5,10 +5,10 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 /**
- * Thrown when no LLM output was generated, e.g. because of errors.
+ * 当没有生成LLM输出时推送，例如因为错误。
  */
 export class NoOutputGeneratedError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   constructor({
     message = 'No output generated.',

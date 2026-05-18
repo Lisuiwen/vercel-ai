@@ -1,56 +1,56 @@
 ---
-title: Vercel Deployment Guide
-description: Learn how to deploy an AI application to production on Vercel
+title: Vercel 部署指南
+description: 学习如何将 AI 应用部署到 Vercel 生产环境
 ---
 
-# Vercel Deployment Guide
+# Vercel 部署指南
 
-In this guide, you will deploy an AI application to [Vercel](https://vercel.com) using [Next.js](https://nextjs.org) (App Router).
+本指南将教你如何使用 [Next.js](https://nextjs.org)（App Router）将 AI 应用部署到 [Vercel](https://vercel.com)。
 
-Vercel is a platform for developers that provides the tools, workflows, and infrastructure you need to build and deploy your web apps faster, without the need for additional configuration.
+Vercel 是面向开发者的平台，提供更快构建和部署 Web 应用所需的工具、工作流和基础设施，无需额外配置。
 
-Vercel allows for automatic deployments on every branch push and merges onto the production branch of your GitHub, GitLab, and Bitbucket projects. It is a great option for deploying your AI application.
+Vercel 支持在每次推送到分支以及合并到生产分支时自动部署。对于部署 AI 应用来说，这是一个很好的选择。
 
-## Before You Begin
+## 开始之前
 
-To follow along with this guide, you will need:
+要跟随本指南，你需要：
 
-- a Vercel account
-- an account with a Git provider (this tutorial will use [Github](https://github.com))
-- an OpenAI API key
+- Vercel 账户
+- Git 提供商账户（本教程使用 [Github](https://github.com)）
+- OpenAI API 密钥
 
-This guide will teach you how to deploy the application you built in the Next.js (App Router) quickstart tutorial to Vercel. If you haven’t completed the quickstart guide, you can start with [this repo](https://github.com/vercel-labs/ai-sdk-deployment-guide).
+本指南将教你如何把 Next.js（App Router）快速入门教程中构建的应用部署到 Vercel。若尚未完成快速入门，可从[此仓库](https://github.com/vercel-labs/ai-sdk-deployment-guide)开始。
 
-## Commit Changes
+## 提交更改
 
-Vercel offers a powerful git-centered workflow that automatically deploys your application to production every time you push to your repository’s main branch.
+Vercel 提供强大的以 Git 为中心的工作流，每次推送到仓库主分支时都会自动部署到生产环境。
 
-Before committing your local changes, make sure that you have a `.gitignore`. Within your `.gitignore`, ensure that you are excluding your environment variables (`.env`) and your node modules (`node_modules`).
+在提交本地更改之前，请确保有 `.gitignore`。在 `.gitignore` 中，应排除环境变量（`.env`）和 node modules（`node_modules`）。
 
-If you have any local changes, you can commit them by running the following commands:
+若有本地更改，可运行以下命令提交：
 
 ```bash
 git add .
 git commit -m "init"
 ```
 
-## Create Git Repo
+## 创建 Git 仓库
 
-You can create a GitHub repository from within your terminal, or on [github.com](https://github.com/). For this tutorial, you will use the GitHub CLI ([more info here](https://cli.github.com/)).
+你可以在终端或 [github.com](https://github.com/) 上创建 GitHub 仓库。本教程使用 GitHub CLI（[更多信息](https://cli.github.com/)）。
 
-To create your GitHub repository:
+创建 GitHub 仓库：
 
-1. Navigate to [github.com](http://github.com/)
-2. In the top right corner, click the "plus" icon and select "New repository"
-3. Pick a name for your repository (this can be anything)
-4. Click "Create repository"
+1. 访问 [github.com](http://github.com/)
+2. 在右上角点击「加号」图标并选择「New repository」
+3. 为仓库选择一个名称（可任意）
+4. 点击「Create repository」
 
-Once you have created your repository, GitHub will redirect you to your new repository.
+创建仓库后，GitHub 会重定向到新仓库页面。
 
-1. Scroll down the page and copy the commands under the title "...or push an existing repository from the command line"
-2. Go back to the terminal, paste and then run the commands
+1. 向下滚动，复制标题「...or push an existing repository from the command line」下的命令
+2. 回到终端，粘贴并运行这些命令
 
-Note: if you run into the error "error: remote origin already exists.", this is because your local repository is still linked to the repository you cloned. To "unlink", you can run the following command:
+注意：若遇到错误「error: remote origin already exists.」，说明本地仓库仍链接到克隆的仓库。要「取消链接」，可运行：
 
 ```bash
 rm -rf .git
@@ -59,59 +59,59 @@ git add .
 git commit -m "init"
 ```
 
-Rerun the code snippet from the previous step.
+然后重新运行上一步的代码片段。
 
-## Import Project in Vercel
+## 在 Vercel 中导入项目
 
-On the [New Project](https://vercel.com/new) page, under the **Import Git Repository** section, select the Git provider that you would like to import your project from. Follow the prompts to sign in to your GitHub account.
+在 [New Project](https://vercel.com/new) 页面的 **Import Git Repository** 部分，选择要导入项目的 Git 提供商，并按提示登录 GitHub 账户。
 
-Once you have signed in, you should see your newly created repository from the previous step in the "Import Git Repository" section. Click the "Import" button next to that project.
+登录后，你应能在「Import Git Repository」部分看到上一步创建的仓库。点击该项目旁的「Import」按钮。
 
-### Add Environment Variables
+### 添加环境变量
 
-Your application uses environment secrets to store your OpenAI API key using a `.env.local` file locally in development. To add this API key to your production deployment, expand the "Environment Variables" section and paste in your `.env.local` file. Vercel will automatically parse your variables and enter them in the appropriate `key:value` format.
+应用使用环境密钥通过 `.env.local` 在本地开发中存储 OpenAI API 密钥。要将此 API 密钥添加到生产部署，展开「Environment Variables」部分并粘贴 `.env.local` 文件内容。Vercel 会自动解析变量并以适当的 `key:value` 格式填入。
 
-### Deploy
+### 部署
 
-Press the **Deploy** button. Vercel will create the Project and deploy it based on the chosen configurations.
+点击 **Deploy** 按钮。Vercel 将根据所选配置创建项目并部署。
 
-### Enjoy the confetti!
+### 庆祝一下！
 
-To view your deployment, select the Project in the dashboard and then select the **Domain**. This page is now visible to anyone who has the URL.
+要查看部署，在仪表板中选择项目，然后选择 **Domain**。拥有该 URL 的任何人都可以访问此页面。
 
-## Considerations
+## 注意事项
 
-When deploying an AI application, there are infrastructure-related considerations to be aware of.
+部署 AI 应用时，需要注意一些与基础设施相关的事项。
 
-### Function Duration
+### 函数持续时间
 
-In most cases, you will call the large language model (LLM) on the server. By default, Vercel serverless functions have a maximum duration of 10 seconds on the Hobby Tier. Depending on your prompt, it can take an LLM more than this limit to complete a response. If the response is not resolved within this limit, the server will throw an error.
+在大多数情况下，你会在服务器上调用大语言模型（LLM）。默认情况下，Vercel 无服务器函数在 Hobby 套餐上的最长持续时间为 10 秒。根据你的提示，LLM 可能需要超过此限制才能完成响应。若在此限制内未完成，服务器将抛出错误。
 
-You can specify the maximum duration of your Vercel function using [route segment config](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config). To update your maximum duration, add the following route segment config to the top of your route handler or the page which is calling your server action.
+你可以使用 [route segment config](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config) 指定 Vercel 函数的最长持续时间。要更新最长持续时间，在路由处理程序或调用 Server Action 的页面顶部添加以下 route segment config：
 
 ```ts
 export const maxDuration = 30;
 ```
 
-You can increase the max duration to 60 seconds on the Hobby Tier. For other tiers, [see the documentation](https://vercel.com/docs/functions/runtimes#max-duration) for limits.
+在 Hobby 套餐上可将最长持续时间增至 60 秒。其他套餐的限额请参阅[文档](https://vercel.com/docs/functions/runtimes#max-duration)。
 
-## Security Considerations
+## 安全注意事项
 
-Given the high cost of calling an LLM, it's important to have measures in place that can protect your application from abuse.
+鉴于调用 LLM 成本较高，采取保护措施防止应用被滥用很重要。
 
-### Rate Limit
+### 速率限制
 
-Rate limiting is a method used to regulate network traffic by defining a maximum number of requests that a client can send to a server within a given time frame.
+速率限制通过定义客户端在给定时间窗口内可向服务器发送的最大请求数来调节网络流量。
 
-Follow [this guide](https://vercel.com/guides/securing-ai-app-rate-limiting) to add rate limiting to your application.
+请遵循[此指南](https://vercel.com/guides/securing-ai-app-rate-limiting)为应用添加速率限制。
 
-### Firewall
+### 防火墙
 
-A firewall helps protect your applications and websites from DDoS attacks and unauthorized access.
+防火墙有助于保护应用和网站免受 DDoS 攻击和未授权访问。
 
-[Vercel Firewall](https://vercel.com/docs/security/vercel-firewall) is a set of tools and infrastructure, created specifically with security in mind. It automatically mitigates DDoS attacks and Enterprise teams can get further customization for their site, including dedicated support and custom rules for IP blocking.
+[Vercel Firewall](https://vercel.com/docs/security/vercel-firewall) 是专为安全设计的工具与基础设施套件。它自动缓解 DDoS 攻击，Enterprise 团队可进一步自定义站点，包括专属支持和 IP 封禁的自定义规则。
 
-## Troubleshooting
+## 故障排除
 
-- Streaming not working when [proxied](/docs/troubleshooting/streaming-not-working-when-proxied)
-- Experiencing [Timeouts](/docs/troubleshooting/timeout-on-vercel)
+- 使用[代理](/docs/troubleshooting/streaming-not-working-when-proxied)时流式传输不工作
+- 遇到[超时](/docs/troubleshooting/timeout-on-vercel)

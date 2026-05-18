@@ -5,14 +5,14 @@ import { run } from '../../lib/run';
 
 run(async () => {
   // Ctrl+C aborts the stream, which fires `POST /interactions/{id}/cancel`
-  // on Google's side so the agent stops billing instead of running to
-  // completion in the background.
+  // 在 Google 这边，代理会停止计费而不是跑去
+  // 在后台完成。
   const ac = cancelOnSigint();
 
-  // The deep-research agent runs a multi-step research workflow on the
-  // server. Expect this call to take a while (often a minute or more). With
+  // 深度研究代理在
+  // 服务器。预计此呼叫需要一段时间（通常是一分钟或更长时间）。和
   // `thinkingSummaries: 'auto'` the agent emits intermediate reasoning
-  // events as it works -- printed dimmed below alongside the final answer.
+  // 事件的运作方式——在最终答案旁边打印成灰色。
   const result = streamText({
     model: google.interactions({
       agent: 'deep-research-pro-preview-12-2025',

@@ -1,28 +1,26 @@
 ---
 title: Letta
-description: Learn how to use the Letta provider with the AI SDK.
+description: 了解如何在 AI SDK 中使用 Letta 提供商。
 ---
 
-# Letta Provider
+# Letta 提供商
 
-The [Letta AI SDK provider](https://github.com/letta-ai/vercel-ai-sdk-provider) allows you to use Letta agents with the AI SDK.
+[Letta AI SDK provider](https://github.com/letta-ai/vercel-ai-sdk-provider) 让你将 Letta agent 与 AI SDK 配合使用。
 
-Features include:
+特性包括：
 
-- Persistent and long-term memory
-- Access to both agent-level and model-level reasoning messages with source attribution
-- Support for custom agent-configured tools and MCP (Model Context Protocol)
-- Agent-managed filesystem operations with tool-based file access
-- Built-in utilities to convert between Letta and AI SDK message formats
-- [Every Letta Send Message API feature](https://docs.letta.com/api-reference/agents/messages/create-stream), like [Long-Running Agent Executions](https://docs.letta.com/guides/agents/long-running)
+- 持久化与长期记忆
+- 可访问 agent 级与模型级推理消息并带来源标注
+- 支持自定义 agent 配置工具与 MCP（Model Context Protocol）
+- Agent 管理文件系统，基于工具的文件访问
+- 内置 Letta 与 AI SDK 消息格式互转工具
+- [Letta Send Message API 的各项能力](https://docs.letta.com/api-reference/agents/messages/create-stream)，例如 [长时间运行的 Agent](https://docs.letta.com/guides/agents/long-running)
 
-## Supported Models
+## 支持的模型
 
-See the [Letta documentation](https://docs.letta.com/connecting-model-providers/supported-models) for the complete list of supported models. For models not on the list, you can try configuring Letta to use [OpenAI proxy](https://docs.letta.com/guides/server/providers/openai-proxy).
+完整列表见 [Letta documentation](https://docs.letta.com/connecting-model-providers/supported-models)。若模型不在列表中，可尝试为 Letta 配置 [OpenAI proxy](https://docs.letta.com/guides/server/providers/openai-proxy)。
 
-## Setup
-
-You can install the Letta provider with:
+## 安装
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -39,9 +37,9 @@ You can install the Letta provider with:
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can import the provider instance `lettaCloud` or `lettaLocal` from `@letta-ai/vercel-ai-sdk-provider`:
+从 `@letta-ai/vercel-ai-sdk-provider` 导入 `lettaCloud` 或 `lettaLocal`：
 
 ```ts
 // For cloud users
@@ -59,9 +57,9 @@ const letta = createLetta({
 });
 ```
 
-## Basic Usage
+## 基本用法
 
-Get your API key from the [Letta dashboard](https://app.letta.com/api-keys).
+在 [Letta dashboard](https://app.letta.com/api-keys) 获取 API key。
 
 ```bash
 # .env
@@ -85,11 +83,11 @@ const result = await generateText({
 console.log(result.text);
 ```
 
-## Advanced Usage
+## 高级用法
 
-### Provider Options
+### 提供商选项
 
-You can configure Letta-specific settings using the `providerOptions.letta` parameter:
+通过 `providerOptions.letta` 配置 Letta 专有设置：
 
 ```typescript
 import { lettaCloud } from '@letta-ai/vercel-ai-sdk-provider';
@@ -112,26 +110,26 @@ const result = streamText({
 });
 ```
 
-#### Agent Configuration
+#### Agent 配置
 
-Configure agent-specific parameters for message creation. These settings apply to both streaming and non-streaming operations.
+配置创建消息时的 agent 参数，对流式与非流式均生效。
 
-Available options:
+可用选项：
 
-- `id` (`string`, required): The ID of your Letta agent
-- `maxSteps` (`number`): Maximum number of agent execution steps
-- `includePings` (`boolean`): Whether to include ping messages in the stream
-- `streamTokens` (`boolean`): Enable token-by-token streaming
-- `background` (`boolean`): Enable background execution for long-running operations
-- Additional parameters available in the [Letta API documentation](https://docs.letta.com/api-reference/agents/messages/create-stream)
+- `id`（`string`，必填）：Letta agent ID
+- `maxSteps`（`number`）：最大执行步数
+- `includePings`（`boolean`）：流中是否包含 ping 消息
+- `streamTokens`（`boolean`）：是否按 token 流式输出
+- `background`（`boolean`）：长时间任务是否后台执行
+- 更多参数见 [Letta API documentation](https://docs.letta.com/api-reference/agents/messages/create-stream)
 
-#### Timeout Configuration
+#### 超时配置
 
-**Type:** `number`
+**类型：** `number`
 
-**Default:** `1000`
+**默认：** `1000`
 
-Set the maximum wait time (in seconds) for agent responses. This is important for long-running agent operations or when working with complex reasoning chains.
+agent 响应的最长等待时间（秒）。对长时运行 agent 或复杂推理链尤为重要。
 
 ```typescript
 const result = streamText({
@@ -146,9 +144,9 @@ const result = streamText({
 });
 ```
 
-## Custom Tools and MCP
+## 自定义工具与 MCP
 
-Letta agents support custom tools and MCP (Model Context Protocol) servers through provider-executed tools. Once [ configured on your Letta agent ](https://docs.letta.com/guides/agents/custom-tools), you can include them in your requests using `letta.tool()` and Letta handles tool execution.
+Letta agent 支持通过提供商执行工具的自定义工具与 MCP 服务器。在 Letta agent 上 [完成配置](https://docs.letta.com/guides/agents/custom-tools) 后，可用 `letta.tool()` 在请求中包含，工具执行由 Letta 负责。
 
 ```typescript
 import { streamText } from 'ai';
@@ -181,9 +179,9 @@ const result = streamText({
 });
 ```
 
-## Using other Letta Client Functions
+## 使用其他 Letta Client 函数
 
-The `vercel-ai-sdk-provider` extends the [@letta-ai/letta-client](https://www.npmjs.com/package/@letta-ai/letta-client), you can access the operations directly by using `lettaCloud.client` or `lettaLocal.client` or your custom generated `letta.client`
+`vercel-ai-sdk-provider` 扩展了 [@letta-ai/letta-client](https://www.npmjs.com/package/@letta-ai/letta-client)，可通过 `lettaCloud.client`、`lettaLocal.client` 或自定义 `letta.client` 直接调用操作：
 
 ```ts
 // with Letta Cloud
@@ -197,6 +195,6 @@ import { lettaLocal } from '@letta-ai/vercel-ai-sdk-provider';
 lettaLocal.client.agents.list();
 ```
 
-### More Information
+### 更多信息
 
-For more information on the Letta API, please refer to the [Letta API documentation](https://docs.letta.com/api-reference/overview).
+Letta API 详见 [Letta API documentation](https://docs.letta.com/api-reference/overview)。

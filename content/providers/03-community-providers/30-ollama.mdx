@@ -1,46 +1,46 @@
 ---
 title: Ollama
-description: Learn how to use the Ollama provider.
+description: 介绍如何使用 Ollama 提供商。
 ---
 
-# Ollama Provider
+# Ollama 提供商
 
-The AI SDK supports [Ollama](https://ollama.com/) through two community providers:
+AI SDK 通过两个社区提供商支持 [Ollama](https://ollama.com/)：
 
-- [nordwestt/ollama-ai-provider-v2](https://github.com/nordwestt/ollama-ai-provider-v2) - Direct HTTP API integration
-- [ai-sdk-ollama](https://github.com/jagreehal/ai-sdk-ollama) - Built on the official Ollama JavaScript client
+- [nordwestt/ollama-ai-provider-v2](https://github.com/nordwestt/ollama-ai-provider-v2) — 直连 HTTP API
+- [ai-sdk-ollama](https://github.com/jagreehal/ai-sdk-ollama) — 基于官方 Ollama JavaScript 客户端
 
-Both provide language model support for the AI SDK with different approaches and feature sets.
+二者均为 AI SDK 提供语言模型支持，实现方式与功能集合不同。
 
-## Choosing Your Provider
+## 如何选择提供商
 
-The AI SDK ecosystem offers multiple Ollama providers, each optimized for different use cases:
+AI SDK 生态中有多种 Ollama 提供商，各自适用于不同场景：
 
-### For Simple Text Generation
+### 简单文本生成
 
-[nordwestt/ollama-ai-provider-v2](https://github.com/nordwestt/ollama-ai-provider-v2) provides straightforward access to Ollama models with direct HTTP API calls, making it ideal for basic text generation and getting started quickly.
+[nordwestt/ollama-ai-provider-v2](https://github.com/nordwestt/ollama-ai-provider-v2) 通过直连 HTTP API 访问 Ollama 模型，适合基础文本生成与快速上手。
 
-### For Advanced Features & Tool Reliability
+### 高级特性与工具可靠性
 
-[`ai-sdk-ollama` by jagreehal](https://github.com/jagreehal/ai-sdk-ollama) is recommended when you need:
+在需要以下能力时，推荐使用 [`ai-sdk-ollama`](https://github.com/jagreehal/ai-sdk-ollama)（作者 jagreehal）：
 
-- **Reliable tool calling** with guaranteed complete responses (solves common empty response issues)
-- **Web search capabilities** using [Ollama's new web search API](https://docs.ollama.com/web-search) for current information
-- **Cross-environment support** with automatic detection for Node.js and browsers
-- **Advanced Ollama features** like `mirostat`, `repeat_penalty`, `num_ctx` for fine-tuned control
-- **Enhanced reliability** with built-in error handling and retries via the official client
+- **可靠的工具调用**，保证完整响应（缓解常见的空响应问题）
+- **联网搜索**，基于 [Ollama 新版联网搜索 API](https://docs.ollama.com/web-search) 获取最新信息
+- **跨环境支持**，自动检测 Node.js 与浏览器
+- **高级 Ollama 功能**，如 `mirostat`、`repeat_penalty`、`num_ctx` 等细粒度控制
+- **更高可靠性**，官方客户端内置错误处理与重试
 
-Key technical advantages:
+关键技术优势：
 
-- Built on the official [`Ollama`](https://www.npmjs.com/package/ollama) JavaScript client library
-- Supports both CommonJS and ESM module formats
-- Full TypeScript support with type-safe Ollama-specific options
+- 基于官方 [`Ollama`](https://www.npmjs.com/package/ollama) JavaScript 客户端库
+- 同时支持 CommonJS 与 ESM
+- 完整 TypeScript 支持与类型安全的 Ollama 专属选项
 
-Both providers implement the AI SDK specification and offer excellent TypeScript support. Choose based on your project's complexity and feature requirements.
+两种提供商均实现 AI SDK 规范，并提供良好的 TypeScript 支持。请根据项目复杂度与功能需求选择。
 
-## Setup
+## 安装与配置
 
-Choose and install your preferred Ollama provider:
+选择并安装你偏好的 Ollama 提供商：
 
 ### ollama-ai-provider-v2
 
@@ -76,15 +76,15 @@ Choose and install your preferred Ollama provider:
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `ollama` from `ollama-ai-provider-v2`:
+可从 `ollama-ai-provider-v2` 导入默认提供商实例 `ollama`：
 
 ```ts
 import { ollama } from 'ollama-ai-provider-v2';
 ```
 
-If you need a customized setup, you can import `createOllama` from `ollama-ai-provider-v2` and create a provider instance with your settings:
+如需自定义配置，可导入 `createOllama` 并创建实例：
 
 ```ts
 import { createOllama } from 'ollama-ai-provider-v2';
@@ -95,31 +95,31 @@ const ollama = createOllama({
 });
 ```
 
-You can use the following optional settings to customize the Ollama provider instance:
+可使用以下可选设置自定义 Ollama 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `http://localhost:11434/api`.
+  为 API 调用使用不同的 URL 前缀，例如经由代理。
+  默认前缀为 `http://localhost:11434/api`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义标头。
 
-## Language Models
+## 语言模型
 
-You can create models that call the [Ollama Chat Completion API](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion) using the provider instance.
-The first argument is the model id, e.g. `phi3`. Some models have multi-modal capabilities.
+使用提供商实例可创建调用 [Ollama Chat Completion API](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-chat-completion) 的模型。
+第一个参数为模型 id，例如 `phi3`。部分模型具备多模态能力。
 
 ```ts
 const model = ollama('phi3');
 ```
 
-You can find more models on the [Ollama Library](https://ollama.com/library) homepage.
+更多模型见 [Ollama Library](https://ollama.com/library) 主页。
 
-### Model Capabilities
+### 模型能力
 
-This provider is capable of using hybrid reasoning models such as qwen3, allowing toggling of reasoning between messages.
+该提供商可使用 qwen3 等混合推理模型，并支持在消息间切换推理行为。
 
 ```ts
 import { ollama } from 'ollama-ai-provider-v2';
@@ -133,10 +133,9 @@ const { text } = await generateText({
 });
 ```
 
-## Embedding Models
+## 嵌入模型
 
-You can create models that call the [Ollama embeddings API](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings)
-using the `.embeddingModel()` factory method.
+使用 `.embeddingModel()` 工厂方法可创建调用 [Ollama embeddings API](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings) 的模型。
 
 ```ts
 const model = ollama.embeddingModel('nomic-embed-text');

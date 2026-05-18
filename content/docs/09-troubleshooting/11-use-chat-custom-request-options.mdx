@@ -1,13 +1,13 @@
 ---
-title: Custom headers, body, and credentials not working with useChat
-description: Troubleshooting errors related to custom request configuration in useChat hook
+title: useChat 无法应用自定义 headers、body、credentials
+description: 排查 useChat 钩子中自定义请求配置不生效的问题
 ---
 
-# Custom headers, body, and credentials not working with useChat
+# useChat 无法应用自定义 headers、body、credentials
 
-## Issue
+## 问题
 
-When using the `useChat` hook, custom request options like headers, body fields, and credentials configured directly on the hook are not being sent with the request:
+使用 `useChat` 时，直接在钩子上配置的 headers、body、credentials 等自定义请求选项不会随请求发送：
 
 ```tsx
 // These options are not sent with the request
@@ -22,17 +22,17 @@ const { messages, sendMessage } = useChat({
 });
 ```
 
-## Background
+## 背景
 
-The `useChat` hook has changed its API for configuring request options. Direct options like `headers`, `body`, and `credentials` on the hook itself are no longer supported. Instead, you need to use the `transport` configuration with `DefaultChatTransport` or pass options at the request level.
+`useChat` 配置请求选项的方式已变更。钩子本体上直接使用 `headers`、`body`、`credentials` 已不再支持。应改用带 `DefaultChatTransport` 的 `transport`，或在单次请求级别传入选项。
 
-## Solution
+## 解决方案
 
-There are three ways to properly configure request options with `useChat`:
+正确配置 `useChat` 请求有三种方式：
 
-### Option 1: Request-Level Configuration (Recommended for Dynamic Values)
+### 方式 1：请求级配置（推荐用于动态值）
 
-For dynamic values that change over time, the recommended approach is to pass options when calling `sendMessage`:
+对会随时间变化的值，推荐在调用 `sendMessage` 时传入：
 
 ```tsx
 const { messages, sendMessage } = useChat();
@@ -55,11 +55,11 @@ sendMessage(
 );
 ```
 
-This approach ensures that the most up-to-date values are always sent with each request.
+这样每次请求都会带上最新值。
 
-### Option 2: Hook-Level Configuration with Static Values
+### 方式 2：钩子级静态配置
 
-For static values that don't change during the component lifecycle, use the `DefaultChatTransport`:
+对组件生命周期内不变的值，使用 `DefaultChatTransport`：
 
 ```tsx
 import { useChat } from '@ai-sdk/react';
@@ -81,9 +81,9 @@ const { messages, sendMessage } = useChat({
 });
 ```
 
-### Option 3: Hook-Level Configuration with Resolvable Functions
+### 方式 3：钩子级可解析函数
 
-If you need dynamic values at the hook level, you can use functions that return configuration values. However, request-level configuration is generally preferred for better reliability:
+若需在钩子层使用动态值，可传入返回配置的函数。但一般而言，请求级配置更可靠：
 
 ```tsx
 import { useChat } from '@ai-sdk/react';
@@ -106,15 +106,13 @@ const { messages, sendMessage } = useChat({
 ```
 
 <Note>
-  For component state that changes over time, request-level configuration
-  (Option 1) is recommended. If using hook-level functions, consider using
-  `useRef` to store current values and reference `ref.current` in your
-  configuration function.
+  对会随组件状态变化的配置，推荐请求级配置（方式 1）。
+  若使用钩子级函数，可考虑用 `useRef` 保存当前值，在配置函数中读取 `ref.current`。
 </Note>
 
-### Combining Hook and Request Level Options
+### 合并钩子级与请求级选项
 
-Request-level options take precedence over hook-level options:
+请求级选项会覆盖钩子级选项：
 
 ```tsx
 // Hook-level default configuration
@@ -146,4 +144,4 @@ sendMessage(
 );
 ```
 
-For more details on request configuration, see the [Request Configuration](/docs/ai-sdk-ui/chatbot#request-configuration) documentation.
+更多说明见 [请求配置](/docs/ai-sdk-ui/chatbot#request-configuration) 文档。

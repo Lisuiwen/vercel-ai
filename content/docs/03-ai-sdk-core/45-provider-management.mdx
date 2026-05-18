@@ -1,30 +1,28 @@
 ---
-title: Provider & Model Management
-description: Learn how to work with multiple providers and models
+title: Provider 与模型管理
+description: 了解如何同时使用多个 provider 与模型
 ---
 
-# Provider & Model Management
+# Provider 与模型管理
 
-When you work with multiple providers and models, it is often desirable to manage them in a central place
-and access the models through simple string ids.
+同时使用多个 provider 与模型时，通常希望在中心位置统一管理，
+并通过简单的字符串 id 访问模型。
 
-The AI SDK offers [custom providers](/docs/reference/ai-sdk-core/custom-provider) and
-a [provider registry](/docs/reference/ai-sdk-core/provider-registry) for this purpose:
+AI SDK 为此提供[自定义 provider](/docs/reference/ai-sdk-core/custom-provider)与
+[provider 注册表](/docs/reference/ai-sdk-core/provider-registry)：
 
-- With **custom providers**, you can pre-configure model settings, provide model name aliases,
-  and limit the available models.
-- The **provider registry** lets you mix multiple providers and access them through simple string ids.
+- 使用**自定义 provider**，可预配置模型设置、提供模型名称别名并限制可用模型。
+- **Provider 注册表**让你混合多个 provider，并通过简单字符串 id 访问。
 
-You can mix and match custom providers, the provider registry, and [middleware](/docs/ai-sdk-core/middleware) in your application.
+你可以在应用中混合使用自定义 provider、provider 注册表与[中间件](/docs/ai-sdk-core/middleware)。
 
-## Custom Providers
+## 自定义 Provider
 
-You can create a [custom provider](/docs/reference/ai-sdk-core/custom-provider) using `customProvider`.
+可使用 `customProvider` 创建[自定义 provider](/docs/reference/ai-sdk-core/custom-provider)。
 
-### Example: custom model settings
+### 示例：自定义模型设置
 
-You might want to override the default model settings for a provider or provide model name aliases
-with pre-configured settings.
+你可能希望覆盖 provider 的默认模型设置，或提供带有预配置设置的模型名称别名。
 
 ```ts
 import {
@@ -68,9 +66,9 @@ export const openai = customProvider({
 });
 ```
 
-### Example: model name alias
+### 示例：模型名称别名
 
-You can also provide model name aliases, so you can update the model version in one place in the future:
+也可提供模型名称别名，便于日后在一处更新模型版本：
 
 ```ts
 import { customProvider, gateway } from 'ai';
@@ -86,9 +84,9 @@ export const anthropic = customProvider({
 });
 ```
 
-### Example: limit available models
+### 示例：限制可用模型
 
-You can limit the available models in the system, even if you have multiple providers.
+即使拥有多个 provider，也可限制系统中可用模型。
 
 ```ts
 import {
@@ -134,9 +132,9 @@ export const myProvider = customProvider({
 });
 ```
 
-### Example: files and skills interfaces
+### 示例：files 与 skills 接口
 
-You can attach a provider's `files` or `skills` interface to your custom provider. This allows you to use `uploadFile` and `uploadSkill` through the same provider abstraction.
+可将 provider 的 `files` 或 `skills` 接口挂到自定义 provider 上，从而通过同一 provider 抽象使用 `uploadFile` 与 `uploadSkill`。
 
 ```ts
 import { anthropic } from '@ai-sdk/anthropic';
@@ -172,13 +170,13 @@ await uploadSkill({
 });
 ```
 
-If no `files` or `skills` option is set but a `fallbackProvider` is configured, the custom provider will inherit those interfaces from the fallback.
+若未设置 `files` 或 `skills` 但配置了 `fallbackProvider`，自定义 provider 将从 fallback 继承这些接口。
 
-## Provider Registry
+## Provider 注册表
 
-You can create a [provider registry](/docs/reference/ai-sdk-core/provider-registry) with multiple providers and models using `createProviderRegistry`.
+可使用 `createProviderRegistry` 创建包含多个 provider 与模型的 [provider 注册表](/docs/reference/ai-sdk-core/provider-registry)。
 
-### Setup
+### 设置
 
 ```ts filename={"registry.ts"}
 import { anthropic } from '@ai-sdk/anthropic';
@@ -195,9 +193,9 @@ export const registry = createProviderRegistry({
 });
 ```
 
-### Setup with Custom Separator
+### 使用自定义分隔符设置
 
-By default, the registry uses `:` as the separator between provider and model IDs. You can customize this separator:
+默认注册表使用 `:` 作为 provider 与模型 ID 之间的分隔符。可自定义该分隔符：
 
 ```ts filename={"registry.ts"}
 import { anthropic } from '@ai-sdk/anthropic';
@@ -214,10 +212,10 @@ export const customSeparatorRegistry = createProviderRegistry(
 );
 ```
 
-### Example: Use language models
+### 示例：使用语言模型
 
-You can access language models by using the `languageModel` method on the registry.
-The provider id will become the prefix of the model id: `providerId:modelId`.
+通过注册表的 `languageModel` 方法访问语言模型。
+provider id 将成为模型 id 的前缀：`providerId:modelId`。
 
 ```ts highlight={"5"}
 import { generateText } from 'ai';
@@ -231,10 +229,10 @@ const { text } = await generateText({
 });
 ```
 
-### Example: Use text embedding models
+### 示例：使用文本嵌入模型
 
-You can access text embedding models by using the `.embeddingModel` method on the registry.
-The provider id will become the prefix of the model id: `providerId:modelId`.
+通过注册表的 `.embeddingModel` 方法访问文本嵌入模型。
+provider id 将成为模型 id 的前缀：`providerId:modelId`。
 
 ```ts highlight={"5"}
 import { embed } from 'ai';
@@ -246,10 +244,10 @@ const { embedding } = await embed({
 });
 ```
 
-### Example: Use image models
+### 示例：使用图像模型
 
-You can access image models by using the `imageModel` method on the registry.
-The provider id will become the prefix of the model id: `providerId:modelId`.
+通过注册表的 `imageModel` 方法访问图像模型。
+provider id 将成为模型 id 的前缀：`providerId:modelId`。
 
 ```ts highlight={"5"}
 import { generateImage } from 'ai';
@@ -261,10 +259,10 @@ const { image } = await generateImage({
 });
 ```
 
-### Example: Use video models
+### 示例：使用视频模型
 
-You can access video models by using the `videoModel` method on the registry.
-The provider id will become the prefix of the model id: `providerId:modelId`.
+通过注册表的 `videoModel` 方法访问视频模型。
+provider id 将成为模型 id 的前缀：`providerId:modelId`。
 
 ```ts highlight={"5"}
 import { experimental_generateVideo } from 'ai';
@@ -279,10 +277,10 @@ const { videos } = await experimental_generateVideo({
 });
 ```
 
-### Example: Use files interface
+### 示例：使用 files 接口
 
-You can access a provider's files interface by calling `registry.files(providerId)`.
-This is useful when you want to upload files through a provider in the registry before referencing them in model requests.
+通过 `registry.files(providerId)` 访问 provider 的 files 接口。
+适用于先在注册表中的 provider 上传文件，再在模型请求中引用。
 
 ```ts highlight={"7,8"}
 import { openai } from '@ai-sdk/openai';
@@ -320,9 +318,9 @@ const { text } = await generateText({
 });
 ```
 
-### Example: Use skills interface
+### 示例：使用 skills 接口
 
-You can access a provider's skills interface by calling `registry.skills(providerId)`.
+通过 `registry.skills(providerId)` 访问 provider 的 skills 接口。
 
 ```ts highlight={"8"}
 import { anthropic } from '@ai-sdk/anthropic';
@@ -342,22 +340,22 @@ await uploadSkill({
 });
 ```
 
-## Combining Custom Providers, Provider Registry, and Middleware
+## 组合自定义 Provider、注册表与中间件
 
-The central idea of provider management is to set up a file that contains all the providers and models you want to use.
-You may want to pre-configure model settings, provide model name aliases, limit the available models, and more.
+provider 管理的核心是在一个文件中集中配置要用的 provider 与模型。
+可预配置模型设置、提供模型别名、限制可用模型等。
 
-Here is an example that implements the following concepts:
+以下示例实现以下概念：
 
-- pass through gateway with a namespace prefix (here: `gateway > *`)
-- pass through a full provider with a namespace prefix (here: `xai > *`)
-- setup an OpenAI-compatible provider with custom api key and base URL (here: `custom > *`)
-- setup model name aliases (here: `anthropic > fast`, `anthropic > writing`, `anthropic > reasoning`)
-- pre-configure model settings (here: `anthropic > reasoning`)
-- validate the provider-specific options (here: `AnthropicLanguageModelOptions`)
-- use a fallback provider (here: `anthropic > *`)
-- limit a provider to certain models without a fallback (here: `groq > gemma2-9b-it`, `groq > qwen-qwq-32b`)
-- define a custom separator for the provider registry (here: `>`)
+- 带命名空间前缀透传 gateway（此处：`gateway > *`）
+- 带命名空间前缀透传完整 provider（此处：`xai > *`）
+- 使用自定义 API 密钥与 base URL 配置 OpenAI 兼容 provider（此处：`custom > *`）
+- 配置模型名称别名（此处：`anthropic > fast`、`anthropic > writing`、`anthropic > reasoning`）
+- 预配置模型设置（此处：`anthropic > reasoning`）
+- 校验 provider 特定选项（此处：`AnthropicLanguageModelOptions`）
+- 使用 fallback provider（此处：`anthropic > *`）
+- 将某 provider 限制为特定模型且无 fallback（此处：`groq > gemma2-9b-it`、`groq > qwen-qwq-32b`）
+- 为 provider 注册表定义自定义分隔符（此处：`>`）
 
 ```ts
 import { anthropic, AnthropicLanguageModelOptions } from '@ai-sdk/anthropic';
@@ -431,9 +429,9 @@ export const registry = createProviderRegistry(
 const model = registry.languageModel('anthropic > reasoning');
 ```
 
-## Global Provider Configuration
+## 全局 Provider 配置
 
-The AI SDK 5 includes a global provider feature that allows you to specify a model using just a plain model ID string:
+AI SDK 5 提供全局 provider 功能，仅用纯模型 ID 字符串即可指定模型：
 
 ```ts
 import { streamText } from 'ai';
@@ -445,11 +443,11 @@ const result = await streamText({
 });
 ```
 
-By default, the global provider is set to the Vercel AI Gateway.
+默认全局 provider 为 Vercel AI Gateway。
 
-### Customizing the Global Provider
+### 自定义全局 Provider
 
-You can set your own preferred global provider:
+可设置首选的全局 provider：
 
 ```ts filename="setup.ts"
 import { openai } from '@ai-sdk/openai';
@@ -467,4 +465,4 @@ const result = await streamText({
 });
 ```
 
-This simplifies provider usage and makes it easier to switch between providers without changing your model references throughout your codebase.
+这可简化 provider 使用，便于在代码库中切换 provider 而无需到处修改模型引用。

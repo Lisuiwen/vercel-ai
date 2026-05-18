@@ -38,6 +38,6 @@ run(async () => {
       console.log();
       printed++;
     }
-    if (printed >= 5) break; // Output only the first 5 entries to prevent excessive logging
+    if (printed >= 5) break; // 仅输出前 5 条条目以防止过多的日志记录
   }
 });

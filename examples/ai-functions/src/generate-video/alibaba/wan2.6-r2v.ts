@@ -20,7 +20,7 @@ run(async () => {
               'https://raw.githubusercontent.com/vercel/ai/refs/heads/main/examples/ai-functions/data/comic-dog.png',
             ],
             shotType: 'single',
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies AlibabaVideoModelOptions,
         },
       }),

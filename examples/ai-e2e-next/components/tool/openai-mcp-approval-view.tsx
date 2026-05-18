@@ -1,6 +1,6 @@
 import type { ChatAddToolApproveResponseFunction, DynamicToolUIPart } from 'ai';
 
-// Type definitions for MCP output
+// MCP 输出的类型定义
 type McpOutput = {
   type: 'call';
   serverLabel: string;
@@ -101,7 +101,7 @@ export default function OpenAIMCPApprovalView({
     }
     case 'output-available': {
       const output = invocation.output as McpOutput | undefined;
-      // Handle MCP call output
+      // 处理 MCP 调用输出
       if (
         output &&
         typeof output === 'object' &&
@@ -157,7 +157,7 @@ export default function OpenAIMCPApprovalView({
           </div>
         );
       }
-      // Fallback if output structure is unexpected
+      // 输出结构异常时的回退
       return (
         <div className="mb-4 p-3 bg-gray-50 rounded border-l-4 border-gray-400 shadow">
           <div className="flex items-center font-semibold text-gray-700">

@@ -1,23 +1,23 @@
 ---
-title: Tool calling with structured outputs
-description: Troubleshooting tool calling when combined with structured output generation
+title: 工具调用与结构化输出
+description: 排查在结合结构化输出生成时使用工具调用的问题
 ---
 
-# Tool calling with structured outputs
+# 工具调用与结构化输出
 
-## Issue
+## 问题
 
-You may want to combine tool calling with structured output generation.
+你可能希望同时使用工具调用与结构化输出生成。
 
-## Background
+## 背景
 
-To use tool calling with structured outputs, use `generateText` or `streamText` with the `output` option.
+要在使用结构化输出的同时使用工具调用，请对 `generateText` 或 `streamText` 使用 `output` 选项。
 
-**Important**: When using `output` with tool calling, the structured output generation counts as an additional step in the execution flow.
+**重要**：`output` 与工具调用一起使用时，结构化输出生成在执行流程中算作额外一步。
 
-## Solution
+## 解决方案
 
-When using `output` with tool calling, adjust your `stopWhen` condition to account for the additional step required for structured output generation:
+同时使用 `output` 与工具调用时，请相应调整 `stopWhen` 条件，为结构化输出所需的额外步骤留出空间：
 
 ```tsx
 const result = await generateText({
@@ -45,4 +45,4 @@ const result = await generateText({
 });
 ```
 
-For more information about using structured outputs with `generateText` and `streamText` see [Generating Structured Data](/docs/ai-sdk-core/generating-structured-data#structured-outputs-with-generatetext-and-streamtext).
+更多关于在 `generateText` 与 `streamText` 中使用结构化输出的说明，见 [生成结构化数据](/docs/ai-sdk-core/generating-structured-data#structured-outputs-with-generatetext-and-streamtext)。

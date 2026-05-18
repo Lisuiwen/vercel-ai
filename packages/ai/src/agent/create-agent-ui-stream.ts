@@ -22,18 +22,18 @@ import type { AsyncIterableStream } from '../util/async-iterable-stream';
 import type { Agent } from './agent';
 
 /**
- * Runs the agent and stream the output as a UI message stream.
+ * 运行代理把输出作为UI消息流进行流式传输。
  *
- * @param agent - The agent to run.
- * @param uiMessages - The input UI messages.
- * @param abortSignal - The abort signal. Optional.
- * @param timeout - Timeout in milliseconds. Optional.
- * @param experimental_sandbox - The sandbox environment that is passed through to tool execution. Optional.
- * @param options - The options for the agent.
- * @param experimental_transform - The stream transformations. Optional.
- * @param onStepFinish - Callback that is called when each step is finished. Optional.
+ * @param agent - 要运行的代理。
+ * @param uiMessages - 输入 UI 消息。
+ * @param abortSignal - 中止信号。选修的。
+ * @param timeout - 超时（以毫秒为单位）。选修的。
+ * @param experimental_sandbox - 传递到工具执行的沙箱环境。选修的。
+ * @param options - 代理的选项。
+ * @param experimental_transform - 流变换。选修的。
+ * @param onStepFinish - 每个步骤完成时调用的回调。选修的。
  *
- * @returns The UI message stream.
+ * @returns UI 消息流。
  */
 export async function createAgentUIStream<
   CALL_OPTIONS = never,
@@ -60,7 +60,7 @@ export async function createAgentUIStream<
   options?: CALL_OPTIONS;
   experimental_transform?: Arrayable<StreamTextTransform<TOOLS>>;
   onStepFinish?: GenerateTextOnStepFinishCallback<TOOLS>;
-  // TODO `originalMessages` is part of this for bc, omit in v7
+  // TODO `originalMessages` 是 bc 的一部分，在 v7 中省略
 } & UIMessageStreamOptions<
   UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>
 >): Promise<
@@ -72,8 +72,8 @@ export async function createAgentUIStream<
     UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>
   >({
     messages: uiMessages,
-    // tools are compatible; the casting is required because the context param is
-    // not available in ui messages
+    // 工具兼容；需要进行转换，因为上下文参数是
+    // 在用户界面消息中不可用
     tools: agent.tools as unknown as {
       [NAME in keyof InferUIMessageTools<
         UIMessage<MESSAGE_METADATA, never, InferUITools<TOOLS>>
@@ -105,7 +105,7 @@ export async function createAgentUIStream<
 
   return result.toUIMessageStream({
     ...uiMessageStreamOptions,
-    // TODO reading `originalMessages` is here for bc, always use `validatedMessages` in v7
+    // TODO 阅读 `originalMessages` 是针对 bc，在 v7 中始终使用 `validatedMessages`
     originalMessages:
       uiMessageStreamOptions.originalMessages ?? validatedMessages,
   });

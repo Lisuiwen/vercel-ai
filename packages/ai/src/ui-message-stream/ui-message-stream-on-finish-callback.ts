@@ -4,29 +4,29 @@ import type { UIMessage } from '../ui/ui-messages';
 export type UIMessageStreamOnFinishCallback<UI_MESSAGE extends UIMessage> =
   (event: {
     /**
-     * The updated list of UI messages.
+     * 更新的 UI 消息列表。
      */
     messages: UI_MESSAGE[];
 
     /**
-     * Indicates whether the response message is a continuation of the last original message,
-     * or if a new message was created.
+     * 指示响应消息是否是上一条原始消息的延续，
+     * 或者是否创建了新消息。
      */
     isContinuation: boolean;
 
     /**
-     * Indicates whether the stream was aborted.
+     * 指示流是否被中止。
      */
     isAborted: boolean;
 
     /**
-     * The message that was sent to the client as a response
-     * (including the original message if it was extended).
+     * 作为响应发送给客户端的消息
+     * （如果有扩展，则包括原始消息）。
      */
     responseMessage: UI_MESSAGE;
 
     /**
-     * The reason why the generation finished.
+     * 一代完结的原因。
      */
     finishReason?: FinishReason;
   }) => PromiseLike<void> | void;

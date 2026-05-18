@@ -1,3 +1,3 @@
-# AI SDK - LlamaIndex Adapter
+# AI SDK - LlamaIndex 适配器
 
-This package contains a LlamaIndex adapter for the AI SDK.
+本包提供面向 AI SDK 的 LlamaIndex 适配器。

@@ -1,17 +1,17 @@
 ---
 title: SambaNova
-description: Learn how to use the SambaNova provider for the AI SDK.
+description: 介绍如何在 AI SDK 中使用 SambaNova 提供商。
 ---
 
-# SambaNova Provider
+# SambaNova 提供商
 
-[sambanova-ai-provider](https://github.com/sambanova/sambanova-ai-provider) contains language model support for the SambaNova API.
+[sambanova-ai-provider](https://github.com/sambanova/sambanova-ai-provider) 为 SambaNova API 提供语言模型支持。
 
-API keys can be obtained from the [SambaNova Cloud Platform](https://cloud.sambanova.ai/apis).
+API 密钥可在 [SambaNova Cloud 平台](https://cloud.sambanova.ai/apis) 获取。
 
-## Setup
+## 安装与配置
 
-The SambaNova provider is available via the `sambanova-ai-provider` module. You can install it with:
+SambaNova 提供商通过 `sambanova-ai-provider` 模块提供。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -29,19 +29,19 @@ The SambaNova provider is available via the `sambanova-ai-provider` module. You 
   </Tab>
 </Tabs>
 
-### Environment variables
+### 环境变量
 
-Create a `.env` file with a `SAMBANOVA_API_KEY` variable.
+在 `.env` 中创建 `SAMBANOVA_API_KEY` 变量。
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `sambanova` from `sambanova-ai-provider`:
+可从 `sambanova-ai-provider` 导入默认提供商实例 `sambanova`：
 
 ```ts
 import { sambanova } from 'sambanova-ai-provider';
 ```
 
-If you need a customized setup, you can import `createSambaNova` from `sambanova-ai-provider` and create a provider instance with your settings:
+如需自定义配置，可导入 `createSambaNova` 并创建实例：
 
 ```ts
 import { createSambaNova } from 'sambanova-ai-provider';
@@ -51,60 +51,60 @@ const sambanova = createSambaNova({
 });
 ```
 
-You can use the following optional settings to customize the SambaNova provider instance:
+可使用以下可选设置自定义 SambaNova 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `https://api.sambanova.ai/v1`.
+  为 API 调用使用不同的 URL 前缀，例如代理。
+  默认前缀为 `https://api.sambanova.ai/v1`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
-  It defaults to the `SAMBANOVA_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API 密钥。
+  默认读取 `SAMBANOVA_API_KEY` 环境变量。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义标头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch`。
+  可用作中间件拦截请求，
+  或为测试等场景提供自定义 fetch。
 
-## Models
+## 模型
 
-You can use [SambaNova models](https://docs.sambanova.ai/cloud/docs/get-started/supported-models) on a provider instance.
-The first argument is the model id, e.g. `Meta-Llama-3.1-70B-Instruct`.
+可在提供商实例上使用 [SambaNova 模型](https://docs.sambanova.ai/cloud/docs/get-started/supported-models)。
+第一个参数为模型 id，例如 `Meta-Llama-3.1-70B-Instruct`。
 
 ```ts
 const model = sambanova('Meta-Llama-3.1-70B-Instruct');
 ```
 
-## Tested models and capabilities
+## 已测模型与能力
 
-This provider is capable of generating and streaming text, and interpreting image inputs.
+该提供商支持文本生成与流式输出，并可处理图像输入。
 
-At least it has been tested with the following features (which use the `/chat/completion` endpoint):
+至少已在以下功能上测试（使用 `/chat/completion` 端点）：
 
-| Chat completion     | Image input         |
+| 聊天补全            | 图像输入            |
 | ------------------- | ------------------- |
 | <Check size={18} /> | <Check size={18} /> |
 
-### Image input
+### 图像输入
 
-You need to use any of the following models for visual understanding:
+视觉理解需使用以下任一模型：
 
 - Llama3.2-11B-Vision-Instruct
 - Llama3.2-90B-Vision-Instruct
 
-SambaNova does not support URLs, but the ai-sdk is able to download the file and send it to the model.
+SambaNova 不支持 URL，但 ai-sdk 可下载文件并发送给模型。
 
-## Example Usage
+## 示例用法
 
-Basic demonstration of text generation using the SambaNova provider.
+使用 SambaNova 提供商进行文本生成的基础示例。
 
 ```ts
 import { createSambaNova } from 'sambanova-ai-provider';
@@ -124,17 +124,17 @@ const { text } = await generateText({
 console.log(text);
 ```
 
-You will get an output text similar to this one:
+输出文本大致如下：
 
 ```
 Hello. Nice to meet you too. Is there something I can help you with or would you like to chat?
 ```
 
-## Intercepting Fetch Requests
+## 拦截 Fetch 请求
 
-This provider supports [Intercepting Fetch Requests](/examples/providers/intercepting-fetch-requests).
+该提供商支持 [拦截 Fetch 请求](/examples/providers/intercepting-fetch-requests)。
 
-### Example
+### 示例
 
 ```ts
 import { createSambaNova } from 'sambanova-ai-provider';
@@ -158,7 +158,7 @@ const { text } = await generateText({
 });
 ```
 
-And you will get an output like this:
+输出类似：
 
 ```bash
 URL https://api.sambanova.ai/v1/chat/completions

@@ -29,7 +29,7 @@ run(async () => {
             toolCallType: 'function',
             toolCallId: 'call-1',
             toolName: 'cityAttractions',
-            // wrong tool call arguments (city vs cities):
+            // 错误的工具调用参数（城市与城市）：
             input: `{ "city": "San Francisco" }`,
           },
         ],
@@ -49,12 +49,12 @@ run(async () => {
       error,
     }) => {
       if (NoSuchToolError.isInstance(error)) {
-        return null; // do not attempt to fix invalid tool names
+        return null; // 不要尝试修复无效的工具名称
       }
 
       const tool = tools[toolCall.toolName as keyof typeof tools];
 
-      // example approach: use a model with structured outputs for repair:
+      // 示例方法：使用具有结构化输出的模型进行修复：
       const { output: repairedArgs } = await generateText({
         model: openai('gpt-4o'),
         output: Output.object({ schema: tool.inputSchema }),

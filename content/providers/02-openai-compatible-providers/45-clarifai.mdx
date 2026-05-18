@@ -1,15 +1,15 @@
 ---
 title: Clarifai
-description: Use Clarifai OpenAI compatible API with the AI SDK.
+description: 将 Clarifai 上与 OpenAI 兼容的 API 与 AI SDK 一起使用。
 ---
 
-# Clarifai Provider
+# Clarifai 提供商
 
-[Clarifai](https://docs.clarifai.com/getting-started/quickstart) is a platform for building, deploying, and scaling AI-powered applications. It provides a suite of tools and APIs for computer vision, natural language processing, and generative AI. Clarifai offers an OpenAI-compatible API through its full-stack AI development platform, making it easy to integrate powerful AI capabilities using the AI SDK.
+[Clarifai](https://docs.clarifai.com/getting-started/quickstart) 是用于构建、部署和扩展 AI 驱动应用的平台。它提供面向计算机视觉、自然语言处理和生成式 AI 的一套工具与 API。Clarifai 通过其全栈 AI 开发平台提供与 OpenAI 兼容的 API，因此可以便捷地使用 AI SDK 集成强大的 AI 能力。
 
-## Setup
+## 安装
 
-The Clarifai provider is available via the `@ai-sdk/openai-compatible` module as it is compatible with the OpenAI API. You can install it with:
+Clarifai provider 通过 `@ai-sdk/openai-compatible` 模块提供，因为它与 OpenAI API 兼容。可按以下方式安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn']}>
   <Tab>
@@ -23,9 +23,9 @@ The Clarifai provider is available via the `@ai-sdk/openai-compatible` module as
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-To use Clarifai, you can create a custom provider instance with the `createOpenAICompatible` function from `@ai-sdk/openai-compatible`:
+要使用 Clarifai，可使用 `@ai-sdk/openai-compatible` 中的 `createOpenAICompatible` 创建自定义 provider 实例：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -38,15 +38,15 @@ const clarifai = createOpenAICompatible({
 ```
 
 <Note>
-  You can obtain an API key by creating a Personal Access Token (PAT) in your Clarifai [account settings](https://clarifai.com/settings/security). Make sure to set the `CLARIFAI_PAT` environment variable with your PAT.
+  可在 Clarifai [账户设置](https://clarifai.com/settings/security)中创建个人访问令牌（PAT）以获取 API 密钥。请务必将 `CLARIFAI_PAT` 环境变量设置为你的 PAT。
 
-New users can sign up for a free account on [Clarifai](https://clarifai.com/signup) to get started.
+新用户可在 [Clarifai](https://clarifai.com/signup) 注册免费账户以开始使用。
 
 </Note>
 
-## Language Models
+## 语言模型
 
-You can interact with various large language models (LLMs) available on Clarifai using the provider instance. For example, to use [DeepSeek-R1](https://clarifai.com/deepseek-ai/deepseek-chat/models/DeepSeek-R1-0528-Qwen3-8B), a powerful open-source language model:
+你可以使用 provider 实例与 Clarifai 上提供的多种大语言模型（LLM）交互。例如，使用 [DeepSeek-R1](https://clarifai.com/deepseek-ai/deepseek-chat/models/DeepSeek-R1-0528-Qwen3-8B) 这款强大的开源语言模型：
 
 ```ts
 const model = clarifai.chatModel(
@@ -54,9 +54,9 @@ const model = clarifai.chatModel(
 );
 ```
 
-### Example - Generate Text
+### 示例 - 生成文本
 
-You can use Clarifai language models to generate text with the `generateText` function:
+可使用 Clarifai 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -82,9 +82,9 @@ console.log('Token usage:', usage);
 console.log('Finish reason:', finishReason);
 ```
 
-### Example - Streaming Text
+### 示例 - 流式文本
 
-You can also stream text responses from Clarifai models using the `streamText` function:
+也可使用 `streamText` 从 Clarifai 模型流式获取文本响应：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -110,4 +110,4 @@ for await (const message of result.textStream) {
 }
 ```
 
-For full list of available models, you can refer to the [Clarifai Model Gallery](https://clarifai.com/explore).
+完整可用模型列表见 [Clarifai Model Gallery](https://clarifai.com/explore)。

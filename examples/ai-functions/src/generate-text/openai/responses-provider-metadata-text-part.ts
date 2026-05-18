@@ -13,7 +13,7 @@ run(async () => {
     tools: {
       code_interpreter: openai.tools.codeInterpreter(),
       web_search: openai.tools.webSearch(),
-      file_search: openai.tools.fileSearch({ vectorStoreIds: ['vs_1234'] }), // requires a configured vector store
+      file_search: openai.tools.fileSearch({ vectorStoreIds: ['vs_1234'] }), // 需要一个已配置的向量存储
     },
   });
 
@@ -29,20 +29,20 @@ run(async () => {
       for (const annotation of annotations) {
         switch (annotation.type) {
           case 'url_citation':
-            // url_citation is returned from web_search and provides:
-            // properties: type, url, title, start_index and end_index
+            // url_引用从 web_search 返回并提供：
+            // 属性：类型、url、标题、start_index 和 end_index
             break;
           case 'file_citation':
-            // file_citation is returned from file_search and provides:
-            // properties: type, file_id, filename and index
+            // file_引用从 file_search 返回并提供：
+            // 属性：类型、file_id、文件名和索引
             break;
           case 'container_file_citation':
-            // container_file_citation is returned from code_interpreter and provides:
-            // properties: type, container_id, file_id, filename, start_index and end_index
+            // container_file_引用从 code_interpreter 返回并提供：
+            // 属性：类型、container_id、file_id、文件名、start_index 和 end_index
             break;
           case 'file_path':
-            // file_path provides:
-            // properties: type, file_id and index
+            // file_path 提供：
+            // 属性：类型、file_id 和索引
             break;
           default: {
             const _exhaustiveCheck: never = annotation;

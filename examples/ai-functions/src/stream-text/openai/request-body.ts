@@ -8,7 +8,7 @@ run(async () => {
     prompt: 'Invent a new holiday and describe its traditions.',
   });
 
-  // consume stream
+  // 消费流
   for await (const textPart of result.textStream) {
   }
 

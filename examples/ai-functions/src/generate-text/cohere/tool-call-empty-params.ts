@@ -18,7 +18,7 @@ run(async () => {
     prompt: 'What is the current time?',
   });
 
-  // typed tool calls:
+  // 键入工具调用：
   for (const toolCall of result.toolCalls) {
     switch (toolCall.toolName) {
       case 'currentTime': {
@@ -28,7 +28,7 @@ run(async () => {
     }
   }
 
-  // typed tool results for tools with execute method:
+  // 具有执行方法的工具的类型化工具结果：
   for (const toolResult of result.toolResults) {
     switch (toolResult.toolName) {
       case 'currentTime': {

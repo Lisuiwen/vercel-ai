@@ -5,18 +5,18 @@ import { type Experimental_Sandbox as Sandbox } from 'ai';
 const execAsync = promisify(exec);
 
 /**
- * WARNING: This is not a security sandbox.
+ * 警告：这不是安全沙箱。
  *
- * LocalSandbox only sets the working directory for shell commands. Commands can
+ * LocalSandbox 仅设置 shell 命令的工作目录。命令可以
  * still read or edit files outside `rootDirectory` through absolute paths,
- * parent-directory paths, symlinks, subprocesses, and shell features. Only use
- * this with trusted commands.
+ * 父目录路径、符号链接、子进程和 shell 功能。仅使用
+ * 这与受信任的命令。
  */
 export class LocalSandbox implements Sandbox {
   /**
-   * Root directory used as the default working directory.
+   * 根目录用作默认工作目录。
    *
-   * WARNING: This does not provide filesystem isolation.
+   * 警告：这不提供文件系统隔离。
    */
   readonly rootDirectory: string;
 

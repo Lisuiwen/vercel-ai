@@ -14,7 +14,7 @@ import type {
   ToolExecutionStartEvent,
 } from './tool-execution-events';
 
-// mock now function
+// 立即模拟功能
 vi.mock('../util/now', () => ({
   now: vi.fn(),
 }));
@@ -858,9 +858,9 @@ describe('executeToolCall', () => {
         toolCallId: string;
         execute: () => PromiseLike<T>;
       }) => Promise<T> = vi.fn(async ({ execute }) => {
-        now(); // simulate wrapper overhead before the tool runs
+        now(); // 在工具运行之前模拟包装器开销
         const result = await execute();
-        now(); // simulate wrapper overhead after the tool runs
+        now(); // 工具运行后模拟包装器开销
         return result;
       });
 

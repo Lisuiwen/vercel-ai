@@ -1,37 +1,35 @@
 ---
-title: Coding Agents
-description: Learn how to set up the AI SDK for use with coding agents, including installing skills, accessing bundled docs, and using DevTools.
+title: 编程 Agent
+description: 了解如何为编程 agent 配置 AI SDK，包括安装 skills、访问捆绑文档和使用 DevTools。
 ---
 
-# Getting Started with Coding Agents
+# 编程 Agent 入门
 
-This page explains how to get the most out of the AI SDK when working inside a coding agent (such as Claude Code, Codex, OpenCode, Cursor, or any other AI-assisted development environment).
+本页说明如何在编程 agent（如 Claude Code、Codex、OpenCode、Cursor 或其他 AI 辅助开发环境）中充分利用 AI SDK。
 
-## Install the AI SDK Skill
+## 安装 AI SDK Skill
 
-The fastest way to give your coding agent deep knowledge of the AI SDK is to install the official AI SDK skill. Skills are lightweight markdown files that load specialized instructions into your agent's context on demand — so your agent knows exactly how to use the SDK without you needing to explain it.
+让编程 agent 深入了解 AI SDK 的最快方式是安装官方 AI SDK skill。Skills 是轻量级 markdown 文件，可按需将专门指令加载到 agent 上下文中——这样 agent 无需你额外说明即可正确使用 SDK。
 
-Install the AI SDK skill using `npx skills add`:
+使用 `npx skills add` 安装 AI SDK skill：
 
 ```bash
 npx skills add vercel/ai
 ```
 
-This installs the skill into your agent's specific skills directory (e.g., `.claude/skills`, `.codex/skills`). If you select more than one agent, the CLI creates symlinks so each agent can discover the skill. Use `-a` to specify agents directly — for example, `-a amp` installs into the universal `.agents/skills` directory. Use `-y` for non-interactive installation.
+这会将 skill 安装到 agent 专属的 skills 目录（如 `.claude/skills`、`.codex/skills`）。若选择多个 agent，CLI 会创建符号链接以便各 agent 发现该 skill。使用 `-a` 直接指定 agent，例如 `-a amp` 会安装到通用 `.agents/skills` 目录。使用 `-y` 进行非交互式安装。
 
-Once installed, any agent that supports the [Agent Skills](https://agentskills.io) format will automatically discover and load the skill when working on AI SDK tasks.
+安装后，支持 [Agent Skills](https://agentskills.io) 格式的任意 agent 在处理 AI SDK 任务时会自动发现并加载该 skill。
 
 <Note>
-  Agent Skills use **progressive disclosure**: your agent loads only the skill's
-  name and description at startup. The full instructions are only pulled into
-  context when the task calls for it, keeping your agent fast and focused.
+  Agent Skills 采用**渐进式披露**：agent 在启动时仅加载 skill 的名称和描述。完整指令仅在任务需要时才拉入上下文，保持 agent 快速且专注。
 </Note>
 
-## Docs and Source Code in `node_modules`
+## `node_modules` 中的文档与源代码
 
-Once you've installed the `ai` package, you already have the full AI SDK documentation and source code available locally inside `node_modules`. Your coding agent can read these directly — no internet access required.
+安装 `ai` 包后，完整的 AI SDK 文档和源代码已本地存在于 `node_modules` 中。编程 agent 可直接读取——无需联网。
 
-Install the `ai` package if you haven't already:
+若尚未安装，请安装 `ai` 包：
 
 <div className="my-4">
   <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
@@ -50,25 +48,24 @@ Install the `ai` package if you haven't already:
   </Tabs>
 </div>
 
-After installation, your agent can reference the bundled source code and documentation at paths like:
+安装后，agent 可参考捆绑的源代码和文档，路径例如：
 
 ```
 node_modules/ai/src/              # Full source code organized by module
 node_modules/ai/docs/             # Official documentation with examples
 ```
 
-This means your agent can look up accurate API signatures, implementations, and usage examples directly from the installed package — ensuring it always uses the version of the SDK that's actually installed in your project.
+这意味着 agent 可直接从已安装包中查找准确的 API 签名、实现和用法示例——确保始终使用项目中实际安装的 SDK 版本。
 
-## Install DevTools
+## 安装 DevTools
 
-AI SDK DevTools gives you full visibility into your AI SDK calls during development. It captures LLM requests, responses, tool calls, token usage, and multi-step interactions, and displays them in a local web UI.
+AI SDK DevTools 可在开发期间完整查看 AI SDK 调用。它捕获 LLM 请求、响应、tool 调用、token 用量和多步交互，并在本地 Web UI 中展示。
 
 <Note type="warning">
-  AI SDK DevTools is experimental and intended for local development only. Do
-  not use in production environments.
+  AI SDK DevTools 处于实验阶段，仅用于本地开发。请勿在生产环境使用。
 </Note>
 
-Install the DevTools package:
+安装 DevTools 包：
 
 <div className="my-4">
   <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
@@ -87,9 +84,9 @@ Install the DevTools package:
   </Tabs>
 </div>
 
-### Register the integration
+### 注册集成
 
-Register `DevToolsTelemetry` globally so it captures all AI SDK calls:
+全局注册 `DevToolsTelemetry`，以捕获所有 AI SDK 调用：
 
 ```ts
 import { registerTelemetry } from 'ai';
@@ -98,7 +95,7 @@ import { DevToolsTelemetry } from '@ai-sdk/devtools';
 registerTelemetry(DevToolsTelemetry());
 ```
 
-Once an integration is registered, [telemetry](/docs/ai-sdk-core/telemetry) is enabled automatically for all your AI SDK calls:
+注册集成后，所有 AI SDK 调用会自动启用[遥测](/docs/ai-sdk-core/telemetry)：
 
 ```ts
 import { generateText } from 'ai';
@@ -109,28 +106,28 @@ const result = await generateText({
 });
 ```
 
-### Launch the viewer
+### 启动查看器
 
-Start the DevTools viewer in a separate terminal:
+在单独终端中启动 DevTools 查看器：
 
 ```bash
 npx @ai-sdk/devtools
 ```
 
-Open [http://localhost:4983](http://localhost:4983) to inspect your AI SDK interactions in real time.
+打开 [http://localhost:4983](http://localhost:4983) 实时检查 AI SDK 交互。
 
-## Inspecting Tool Calls and Outputs
+## 检查 Tool 调用与输出
 
-DevTools captures and displays the following for every call:
+DevTools 为每次调用捕获并展示以下内容：
 
-- **Input parameters and prompts** — the complete input sent to your LLM
-- **Output content and tool calls** — generated text and tool invocations
-- **Token usage and timing** — resource consumption and latency per step
-- **Raw provider data** — complete request and response payloads
+- **输入参数与 prompt** — 发送给 LLM 的完整输入
+- **输出内容与 tool 调用** — 生成的文本和 tool 调用
+- **Token 用量与耗时** — 每步的资源消耗与延迟
+- **原始 provider 数据** — 完整的请求与响应负载
 
-For multi-step agent interactions, DevTools groups everything into **runs** (a complete interaction) and **steps** (each individual LLM call within it), making it easy to trace exactly what your agent did and why.
+对于多步 agent 交互，DevTools 将所有内容分组为**运行**（完整交互）和**步骤**（其中的每次 LLM 调用），便于追踪 agent 的行为与原因。
 
-You can also log tool results directly in code during development:
+你也可以在开发期间直接在代码中记录 tool 结果：
 
 ```ts
 import { streamText, tool, isStepCount } from 'ai';
@@ -160,17 +157,16 @@ const result = streamText({
 });
 ```
 
-The `onStepFinish` callback fires after each LLM step and prints any tool results to your terminal — useful for quick debugging without opening the DevTools UI.
+`onStepFinish` 回调在每个 LLM 步骤完成后触发，并将 tool 结果打印到终端——无需打开 DevTools UI 即可快速调试。
 
 <Note>
-  DevTools stores all AI interactions in a local `.devtools/generations.json`
-  file. It automatically adds `.devtools` to your `.gitignore` to prevent
-  committing sensitive interaction data.
+  DevTools 将所有 AI 交互存储在本地 `.devtools/generations.json`
+  文件中。它会自动将 `.devtools` 添加到 `.gitignore`，防止提交敏感的交互数据。
 </Note>
 
-## Where to Next?
+## 下一步？
 
-- Learn about [Agent Skills](https://agentskills.io/specification) to understand the full skill format.
-- Read the [DevTools reference](/docs/ai-sdk-core/devtools) for a complete list of captured data and configuration options.
-- Explore [Tools and Tool Calling](/docs/ai-sdk-core/tools-and-tool-calling) to build agents that can take real-world actions.
-- Check out the [Add Skills to Your Agent](/cookbook/guides/agent-skills) cookbook guide for a step-by-step integration walkthrough.
+- 了解 [Agent Skills](https://agentskills.io/specification) 以理解完整的 skill 格式。
+- 阅读 [DevTools 参考](/docs/ai-sdk-core/devtools) 获取捕获数据的完整列表和配置选项。
+- 探索[工具与 Tool 调用](/docs/ai-sdk-core/tools-and-tool-calling) 以构建能执行真实世界操作的 agent。
+- 查看[为 Agent 添加 Skills](/cookbook/guides/agent-skills) 烹饪书指南，获取分步集成演练。

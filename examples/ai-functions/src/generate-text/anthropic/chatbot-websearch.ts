@@ -4,7 +4,7 @@ import * as readline from 'node:readline/promises';
 import { run } from '../../lib/run';
 
 const anthropic = createAnthropic({
-  // example fetch wrapper that logs the input to the API call:
+  // 记录 API 调用输入的 fetch 包装器示例：
   fetch: async (url, options) => {
     console.log(
       `Body ${JSON.stringify(JSON.parse(options!.body! as string), null, 2)}`,

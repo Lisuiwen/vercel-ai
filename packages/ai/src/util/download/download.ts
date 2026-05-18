@@ -9,7 +9,7 @@ import {
 import { VERSION } from '../../version';
 
 /**
- * Download a file from a URL.
+ * 从 URL 下载文件。
  *
  * @param url - The URL to download from.
  * @param maxBytes - Maximum allowed download size in bytes. Defaults to 100 MiB.
@@ -39,7 +39,7 @@ export const download = async ({
       signal: abortSignal,
     });
 
-    // Validate final URL after redirects to prevent SSRF via open redirect
+    // 重定向后验证最终 URL，以通过开放重定向防止 SSRF
     if (response.redirected) {
       validateDownloadUrl(response.url);
     }

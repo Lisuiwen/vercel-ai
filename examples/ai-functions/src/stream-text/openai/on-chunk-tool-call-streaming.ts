@@ -19,7 +19,7 @@ run(async () => {
     prompt: 'What is the weather in San Francisco?',
   });
 
-  // consume stream:
+  // 消费流：
   for await (const textPart of result.textStream) {
   }
 });

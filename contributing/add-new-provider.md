@@ -1,27 +1,27 @@
-# Add new provider
+# 添加新 provider
 
-## `@ai-sdk/<provider>` vs 3rd party package
+## `@ai-sdk/<provider>` 与第三方包
 
-Every provider is welcome to create a 3rd party package. We are happy to link to it from our documentation.
+欢迎任何 provider 创建第三方包。我们乐意在文档中链接。
 
-If you would prefer a 1st party `@ai-sdk/<provider>` package, please create an issue first to discuss.
+若你更希望使用官方 `@ai-sdk/<provider>` 包，请先创建 issue 讨论。
 
-## Example
+## 示例
 
 https://github.com/vercel/ai/pull/8136/files
 
-## How
+## 步骤
 
-1. Create new folder `packages/<provider>`
-2. Set version in `packages/<provider>/package.json` to `0.0.0`
-3. Create changeset for new package with `major`
-4. Add workflow serialization support to all model classes (see [providers.md#workflow-serialization](providers.md#workflow-serialization))
-5. Add examples to `examples/ai-functions/src/*/<provider>.ts` depending on what model types the provider supports
-6. Add documentation in `content/providers/01-ai-sdk-providers/<last number + 10>-<provider>.mdx`
-7. Bootstrap the npm package and Trusted Publisher (Vercel IT team) — see [Bootstrapping a new `@ai-sdk/*` package](./releases.md#bootstrapping-a-new-ai-sdk-package). This is required before the first automated release can publish the package with provenance.
+1. 创建新文件夹 `packages/<provider>`
+2. 将 `packages/<provider>/package.json` 中的版本设为 `0.0.0`
+3. 为新包创建 changeset，版本类型为 `major`
+4. 为所有 model 类添加 workflow 序列化支持（见 [providers.md#workflow-serialization](providers.md#workflow-serialization)）
+5. 根据 provider 支持的 model 类型，在 `examples/ai-functions/src/*/<provider>.ts` 添加示例
+6. 在 `content/providers/01-ai-sdk-providers/<last number + 10>-<provider>.mdx` 添加文档
+7. 在 npm 上 bootstrap 包并配置 Trusted Publisher（Vercel IT 团队）——见 [Bootstrapping a new `@ai-sdk/*` package](./releases.md#bootstrapping-a-new-ai-sdk-package)。首次自动化发布带 provenance 前必须完成此步骤。
 
-See also [providers.md](providers.md)
+另见 [providers.md](providers.md)
 
-## When in pre-release mode
+## 预发布模式下
 
-If `main` is set up to publish `beta` releases, no further action is necessary. Just make sure not to backport it to the `vX.Y` stable branch since it will result in an npm version conflict once we exit pre-release mode on `main`
+若 `main` 已配置为发布 `beta` 版本，无需额外操作。注意不要将其 backport 到 `vX.Y` 稳定分支，否则在 `main` 退出预发布模式后会导致 npm 版本冲突。

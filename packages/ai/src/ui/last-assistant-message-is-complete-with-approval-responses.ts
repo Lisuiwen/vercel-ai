@@ -1,8 +1,8 @@
 import { isToolUIPart, type UIMessage } from './ui-messages';
 /**
- * Check if the last message is an assistant message with completed tool call approvals.
- * The last step of the message must have at least one tool approval response and
- * all tool approvals must have a response.
+ * 检查最后一条消息是否是已完成工具调用批准的辅助消息。
+ * 消息的最后一步必须至少有一个工具批准响应，并且
+ * 所有工具批准都必须有响应。
  */
 export function lastAssistantMessageIsCompleteWithApprovalResponses({
   messages,
@@ -28,10 +28,10 @@ export function lastAssistantMessageIsCompleteWithApprovalResponses({
     .filter(isToolUIPart);
 
   return (
-    // has at least one tool approval response
+    // 至少有一项工具批准响应
     lastStepToolInvocations.filter(part => part.state === 'approval-responded')
       .length > 0 &&
-    // all tool approvals must have a response
+    // 所有工具批准都必须有响应
     lastStepToolInvocations.every(
       part =>
         part.state === 'output-available' ||

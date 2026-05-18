@@ -168,7 +168,7 @@ run(async () => {
 
   console.log();
 
-  await setTimeout(1000); // wait for it to be cached?g
+  await setTimeout(1000); // 等待它被缓存？g
 
   start = performance.now();
   const {

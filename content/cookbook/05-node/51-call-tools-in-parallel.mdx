@@ -1,12 +1,12 @@
 ---
-title: Call Tools in Parallel
-description: Learn how to call tools in parallel using the AI SDK in Node.js
+title: 并行调用工具
+description: 学习如何在 Node.js 中使用 AI SDK 并行调用工具
 tags: ['node', 'tool use']
 ---
 
-# Call Tools in Parallel
+# 并行调用工具
 
-Some language models support calling tools in parallel. This is particularly useful when multiple tools are independent of each other and can be executed in parallel during the same generation step.
+部分语言模型支持并行调用工具。当多个工具彼此独立、可在同一生成步骤中并行执行时尤其有用。
 
 ```ts
 import { generateText, tool } from 'ai';

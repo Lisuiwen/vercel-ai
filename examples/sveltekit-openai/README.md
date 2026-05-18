@@ -1,19 +1,19 @@
 # `sveltekit-openai`
 
-To run this example, clone the repository, and at the root install dependencies and build:
+运行本示例：克隆仓库后，在根目录安装依赖并构建：
 
 ```
 pnpm install
 pnpm build
 ```
 
-Then create a `.env.local` file in `examples/sveltekit-openai` with:
+在 `examples/sveltekit-openai` 中创建 `.env.local`：
 
 ```
 OPENAI_API_KEY=<your key>
 ```
 
-Then, run:
+然后执行：
 
 ```bash
 pnpm -F sveltekit-openai dev

@@ -2,7 +2,7 @@ import type { ValueOf } from '../util/value-of';
 import type { ToolSet } from '@ai-sdk/provider-utils';
 
 /**
- * Tool output when the tool execution has been denied (for static tools).
+ * 工具执行被拒绝时的工具输出（对于静态工具）。
  */
 export type StaticToolOutputDenied<TOOLS extends ToolSet> = ValueOf<{
   [NAME in keyof TOOLS]: {
@@ -15,7 +15,7 @@ export type StaticToolOutputDenied<TOOLS extends ToolSet> = ValueOf<{
 }>;
 
 /**
- * Tool output when the tool execution has been denied.
+ * 工具执行被拒绝时的工具输出。
  */
 export type TypedToolOutputDenied<TOOLS extends ToolSet> =
   StaticToolOutputDenied<TOOLS>;

@@ -1,7 +1,7 @@
 import { openai } from '@ai-sdk/openai';
 import { Sandbox } from '@vercel/sandbox';
 import { ToolLoopAgent, type InferAgentUIMessage } from 'ai';
-// warning: this is a demo sandbox that is shared across chats on localhost
+// 警告：这是 localhost 上跨聊天共享的演示 sandbox
 let globalSandboxId: string | null = null;
 async function getSandbox(): Promise<Sandbox> {
   if (globalSandboxId) {
@@ -20,7 +20,7 @@ export const openaiLocalShellAgent = new ToolLoopAgent({
   tools: {
     shell: openai.tools.localShell({
       needsApproval({ action }) {
-        // allow only `ls` to be executed without approval
+        // 仅允许无需审批即可执行 `ls`
         return action.command.join(' ') !== 'ls';
       },
       async execute({ action }) {

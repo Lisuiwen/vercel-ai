@@ -34,210 +34,210 @@ import type {
 } from './tool-result';
 
 /**
- * Performance metrics for a single step in the generation process.
+ * 生成过程中单个步骤的性能指标。
  */
 export type StepResultPerformance = {
   /**
-   * Effective number of output tokens per second over the full language model
-   * response.
+   * 完整语言模型每秒输出令牌的有效数量
+   * 回应。
    *
-   * Calculated as `outputTokens / requestSeconds`.
+   * 计算公式为“outputTokens / requestSeconds”。
    */
   readonly effectiveOutputTokensPerSecond: number;
 
   /**
-   * Number of output tokens per second after the first output token was
-   * received.
+   * 第一个输出令牌后每秒输出令牌的数量
+   * 收到。
    *
-   * Only available for streaming steps.
+   * 仅适用于流步骤。
    *
-   * Calculated as `outputTokens / outputStreamSeconds`.
+   * 计算公式为“outputTokens / outputStreamSeconds”。
    */
   readonly outputTokensPerSecond: number | undefined;
 
   /**
-   * Number of input tokens processed per second before the first output token
-   * was received.
+   * 在第一个输出令牌之前每秒处理的输入令牌数
+   * 已收到。
    *
-   * Only available for streaming steps.
+   * 仅适用于流步骤。
    *
-   * Calculated as `inputTokens / ttftSeconds`.
+   * 计算公式为“inputTokens / ttftSeconds”。
    */
   readonly inputTokensPerSecond: number | undefined;
 
   /**
-   * Effective number of input and output tokens per second over the full
-   * language model response.
+   * 每秒输入和输出令牌的有效数量
+   * 语言模型响应。
    *
-   * Calculated as `(inputTokens + outputTokens) / requestSeconds`.
+   * 计算公式为“(inputTokens + outputTokens) / requestSeconds”。
    */
   readonly effectiveTotalTokensPerSecond: number;
 
   /**
-   * Total time spent on the step in milliseconds.
+   * 该步骤花费的总时间（以毫秒为单位）。
    */
   readonly stepTimeMs: number;
 
   /**
-   * Time spent waiting for the language model response in milliseconds.
+   * 等待语言模型响应所花费的时间（以毫秒为单位）。
    */
   readonly responseTimeMs: number;
 
   /**
-   * Time spent executing each client-side tool call in milliseconds, keyed by
-   * tool call ID.
+   * 执行每个客户端工具调用所花费的时间（以毫秒为单位），由
+   * 工具调用 ID。
    */
   readonly toolExecutionMs: Readonly<Record<string, number>>;
 
   /**
-   * Time until the first text, reasoning, or tool input delta was received in
-   * milliseconds.
+   * 收到第一个文本、推理或工具输入增量所需的时间
+   * 毫秒。
    *
-   * Only available for streaming steps.
+   * 仅适用于流步骤。
    */
   readonly timeToFirstOutputTokenMs: number | undefined;
 };
 
 /**
- * The result of a single step in the generation process.
+ * 生成过程中单个步骤的结果。
  */
 export type StepResult<
   TOOLS extends ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
 > = {
   /**
-   * Unique identifier for the generation call this step belongs to.
+   * 此步骤所属的生成调用的唯一标识符。
    */
   readonly callId: string;
 
   /**
-   * Zero-based index of this step.
+   * 此步骤的从零开始的索引。
    */
   readonly stepNumber: number;
 
   /**
-   * Information about the model that produced this step.
+   * 有关生成此步骤的模型的信息。
    */
   readonly model: {
-    /** The provider of the model. */
+    /* * 模型的提供者。 */
     readonly provider: string;
 
-    /** The ID of the model. */
+    /* * 模型的 ID。 */
     readonly modelId: string;
   };
 
   /**
-   * Tool context.
+   * 工具上下文。
    */
   readonly toolsContext: InferToolSetContext<TOOLS>;
 
   /**
-   * The runtime context that was used as input for the step.
+   * 用作步骤输入的运行时上下文。
    */
   readonly runtimeContext: RUNTIME_CONTEXT;
 
   /**
-   * The content that was generated in the last step.
+   * 上一步生成的内容。
    */
   readonly content: Array<ContentPart<TOOLS>>;
 
   /**
-   * The generated text. Can be an empty string if the model has not generated any text.
+   * 生成的文本。如果模型未生成任何文本，则可以为空字符串。
    */
   readonly text: string;
 
   /**
-   * The reasoning that was generated during the generation.
+   * 在一代人中产生的推理。
    */
   readonly reasoning: Array<ReasoningPart | ReasoningFilePart>;
 
   /**
-   * The reasoning text that was generated during the generation.
+   * 生成过程中生成的推理文本。
    *
-   * It is a concatenation of all reasoning parts (but excluding reasoning file parts).
-   * Can be undefined if the model has only generated text.
+   * 它是所有推理部分的串联（但不包括推理文件部分）。
+   * 如果模型仅生成文本，则可以未定义。
    */
   readonly reasoningText: string | undefined;
 
   /**
-   * The files that were generated during the generation.
+   * 生成过程中生成的文件。
    */
   readonly files: Array<GeneratedFile>;
 
   /**
-   * The sources that were used to generate the text.
+   * 用于生成文本的来源。
    */
   readonly sources: Array<Source>;
 
   /**
-   * The tool calls that were made during the generation.
+   * 在生成期间进行的工具调用。
    */
   readonly toolCalls: Array<TypedToolCall<TOOLS>>;
 
   /**
-   * The static tool calls that were made in the last step.
+   * 上一步中进行的静态工具调用。
    */
   readonly staticToolCalls: Array<StaticToolCall<TOOLS>>;
 
   /**
-   * The dynamic tool calls that were made in the last step.
+   * 上一步中进行的动态工具调用。
    */
   readonly dynamicToolCalls: Array<DynamicToolCall>;
 
   /**
-   * The results of the tool calls.
+   * 工具调用的结果。
    */
   readonly toolResults: Array<TypedToolResult<TOOLS>>;
 
   /**
-   * The static tool results that were made in the last step.
+   * 上一步中生成的静态工具结果。
    */
   readonly staticToolResults: Array<StaticToolResult<TOOLS>>;
 
   /**
-   * The dynamic tool results that were made in the last step.
+   * 上一步中生成的动态工具结果。
    */
   readonly dynamicToolResults: Array<DynamicToolResult>;
 
   /**
-   * The unified reason why the generation finished.
+   * 一代结束的统一原因。
    */
   readonly finishReason: FinishReason;
 
   /**
-   * The raw reason why the generation finished (from the provider).
+   * 生成完成的原始原因（来自提供者）。
    */
   readonly rawFinishReason: string | undefined;
 
   /**
-   * The token usage of the generated text.
+   * 生成文本的标记使用情况。
    */
   readonly usage: LanguageModelUsage;
 
   /**
-   * Performance metrics for the step.
+   * 该步骤的性能指标。
    */
   readonly performance: StepResultPerformance;
 
   /**
-   * Warnings from the model provider (e.g. unsupported settings).
+   * 来自模型提供商的警告（例如不支持的设置）。
    */
   readonly warnings: CallWarning[] | undefined;
 
   /**
-   * Additional request information.
+   * 附加请求信息。
    */
   readonly request: LanguageModelRequestMetadata;
 
   /**
-   * Additional response information.
+   * 附加响应信息。
    */
   readonly response: LanguageModelResponseMetadata;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * from the provider to the AI SDK and enable provider-specific
-   * results that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从提供商到 AI SDK 并启用提供商特定的
+   * 可以完全封装在提供者中的结果。
    */
   readonly providerMetadata: ProviderMetadata | undefined;
 };

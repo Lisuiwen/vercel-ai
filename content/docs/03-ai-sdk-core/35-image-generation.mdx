@@ -1,12 +1,12 @@
 ---
-title: Image Generation
-description: Learn how to generate images with the AI SDK.
+title: 图像生成
+description: 了解如何使用 AI SDK 生成图像。
 ---
 
-# Image Generation
+# 图像生成
 
-The AI SDK provides the [`generateImage`](/docs/reference/ai-sdk-core/generate-image)
-function to generate images based on a given prompt using an image model.
+AI SDK 提供 [`generateImage`](/docs/reference/ai-sdk-core/generate-image)
+函数，使用图像模型根据给定提示生成图像。
 
 ```tsx
 import { generateImage } from 'ai';
@@ -18,23 +18,23 @@ const { image } = await generateImage({
 });
 ```
 
-You can access the image data using the `base64` or `uint8Array` properties:
+可使用 `base64` 或 `uint8Array` 属性访问图像数据：
 
 ```tsx
 const base64 = image.base64; // base64 image data
 const uint8Array = image.uint8Array; // Uint8Array image data
 ```
 
-## Settings
+## 设置
 
-### Size and Aspect Ratio
+### 尺寸与宽高比
 
-Depending on the model, you can either specify the size or the aspect ratio.
+根据模型不同，可指定尺寸或宽高比。
 
-##### Size
+##### 尺寸
 
-The size is specified as a string in the format `{width}x{height}`.
-Models only support a few sizes, and the supported sizes are different for each model and provider.
+尺寸以 `{width}x{height}` 格式的字符串指定。
+模型仅支持少数尺寸，且各模型与提供商支持的尺寸不同。
 
 ```tsx highlight={"7"}
 import { generateImage } from 'ai';
@@ -47,10 +47,10 @@ const { image } = await generateImage({
 });
 ```
 
-##### Aspect Ratio
+##### 宽高比
 
-The aspect ratio is specified as a string in the format `{width}:{height}`.
-Models only support a few aspect ratios, and the supported aspect ratios are different for each model and provider.
+宽高比以 `{width}:{height}` 格式的字符串指定。
+模型仅支持少数宽高比，且各模型与提供商支持的宽高比不同。
 
 ```tsx highlight={"7"}
 import { generateImage } from 'ai';
@@ -63,9 +63,9 @@ const { image } = await generateImage({
 });
 ```
 
-### Generating Multiple Images
+### 生成多张图像
 
-`generateImage` also supports generating multiple images at once:
+`generateImage` 也支持一次生成多张图像：
 
 ```tsx highlight={"7"}
 import { generateImage } from 'ai';
@@ -79,13 +79,12 @@ const { images } = await generateImage({
 ```
 
 <Note>
-  `generateImage` will automatically call the model as often as needed (in
-  parallel) to generate the requested number of images.
+  `generateImage` 会根据需要自动（并行）多次调用模型，以生成请求数量的图像。
 </Note>
 
-Each image model has an internal limit on how many images it can generate in a single API call. The AI SDK manages this automatically by batching requests appropriately when you request multiple images using the `n` parameter. By default, the SDK uses provider-documented limits (for example, DALL-E 3 can only generate 1 image per call, while DALL-E 2 supports up to 10).
+每个图像模型对单次 API 调用可生成的图像数量有内部限制。使用 `n` 参数请求多张图像时，AI SDK 会通过适当批处理自动管理这一点。默认情况下，SDK 使用提供商文档中的限制（例如 DALL-E 3 每次调用只能生成 1 张，而 DALL-E 2 最多支持 10 张）。
 
-If needed, you can override this behavior using the `maxImagesPerCall` setting when generating your image. This is particularly useful when working with new or custom models where the default batch size might not be optimal:
+若需要，可在生成图像时使用 `maxImagesPerCall` 设置覆盖此行为。这在处理新的或自定义模型且默认批大小可能不是最优时尤其有用：
 
 ```tsx
 const { images } = await generateImage({
@@ -96,10 +95,10 @@ const { images } = await generateImage({
 });
 ```
 
-### Providing a Seed
+### 提供种子
 
-You can provide a seed to the `generateImage` function to control the output of the image generation process.
-If supported by the model, the same seed will always produce the same image.
+可向 `generateImage` 提供种子以控制图像生成过程的输出。
+若模型支持，相同种子将始终产生相同图像。
 
 ```tsx highlight={"7"}
 import { generateImage } from 'ai';
@@ -112,12 +111,11 @@ const { image } = await generateImage({
 });
 ```
 
-### Provider-specific Settings
+### 提供商特定设置
 
-Image models often have provider- or even model-specific settings.
-You can pass such settings to the `generateImage` function
-using the `providerOptions` parameter. The options for the provider
-(`openai` in the example below) become request body properties.
+图像模型通常具有提供商甚至模型特定的设置。
+可使用 `providerOptions` 参数将这些设置传给 `generateImage` 函数。
+提供商选项（下例中的 `openai`）将成为请求体属性。
 
 ```tsx highlight={"12"}
 import { generateImage } from 'ai';
@@ -136,11 +134,10 @@ const { image } = await generateImage({
 });
 ```
 
-### Abort Signals and Timeouts
+### 中止信号与超时
 
-`generateImage` accepts an optional `abortSignal` parameter of
-type [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)
-that you can use to abort the image generation process or set a timeout.
+`generateImage` 接受可选的 `abortSignal` 参数（类型为 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)），
+用于中止图像生成过程或设置超时。
 
 ```ts highlight={"7"}
 import { generateImage } from 'ai';
@@ -153,10 +150,10 @@ const { image } = await generateImage({
 });
 ```
 
-### Custom Headers
+### 自定义头
 
-`generateImage` accepts an optional `headers` parameter of type `Record<string, string>`
-that you can use to add custom headers to the image generation request.
+`generateImage` 接受可选的 `headers` 参数（类型为 `Record<string, string>`），
+用于向图像生成请求添加自定义头。
 
 ```ts highlight={"7"}
 import { generateImage } from 'ai';
@@ -169,9 +166,9 @@ const { image } = await generateImage({
 });
 ```
 
-### Warnings
+### 警告
 
-If the model returns warnings, e.g. for unsupported parameters, they will be available in the `warnings` property of the response.
+若模型返回警告（例如不支持的参数），可在响应的 `warnings` 属性中获取。
 
 ```tsx
 const { image, warnings } = await generateImage({
@@ -180,9 +177,9 @@ const { image, warnings } = await generateImage({
 });
 ```
 
-### Additional provider-specific meta data
+### 额外提供商特定元数据
 
-Some providers expose additional meta data for the result overall or per image.
+部分提供商为整体结果或每张图像暴露额外元数据。
 
 ```tsx
 const prompt = 'Santa Claus driving a Cadillac';
@@ -200,21 +197,21 @@ console.log({
 });
 ```
 
-The outer key of the returned `providerMetadata` is the provider name. The inner values are the metadata. An `images` key is always present in the metadata and is an array with the same length as the top level `images` key.
+返回的 `providerMetadata` 的外层键为提供商名称。内层值为元数据。元数据中始终存在 `images` 键，为与顶层 `images` 键长度相同的数组。
 
-### Error Handling
+### 错误处理
 
-When `generateImage` cannot generate a valid image, it throws a [`AI_NoImageGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-image-generated-error).
+当 `generateImage` 无法生成有效图像时，会抛出 [`AI_NoImageGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-image-generated-error)。
 
-This error occurs when the AI provider fails to generate an image. It can arise due to the following reasons:
+可能原因包括：
 
-- The model failed to generate a response
-- The model generated a response that could not be parsed
+- 模型未能生成响应
+- 模型生成的响应无法解析
 
-The error preserves the following information to help you log the issue:
+该错误保留以下信息以帮助记录问题：
 
-- `responses`: Metadata about the image model responses, including timestamp, model, and headers.
-- `cause`: The cause of the error. You can use this for more detailed error handling
+- `responses`：图像模型响应的元数据，包括时间戳、模型和头。
+- `cause`：错误原因。可用于更详细的错误处理
 
 ```ts
 import { generateImage, NoImageGeneratedError } from 'ai';
@@ -230,12 +227,11 @@ try {
 }
 ```
 
-## Image Middleware
+## 图像中间件
 
-You can enhance image models, e.g. to set default values or implement logging, using
-`wrapImageModel` and `ImageModelV4Middleware`.
+可使用 `wrapImageModel` 和 `ImageModelV4Middleware` 增强图像模型，例如设置默认值或实现日志记录。
 
-Here is an example that sets a default size when none is provided:
+以下示例在未提供尺寸时设置默认尺寸：
 
 ```ts
 import { generateImage, wrapImageModel } from 'ai';
@@ -258,10 +254,10 @@ const { image } = await generateImage({
 });
 ```
 
-## Generating Images with Language Models
+## 使用语言模型生成图像
 
-Some language models such as Google `gemini-2.5-flash-image` support multi-modal outputs including images.
-With such models, you can access the generated images using the `files` property of the response.
+部分语言模型（如 Google `gemini-2.5-flash-image`）支持包括图像在内的多模态输出。
+使用此类模型时，可通过响应的 `files` 属性访问生成的图像。
 
 ```ts
 import { google } from '@ai-sdk/google';
@@ -283,9 +279,9 @@ for (const file of result.files) {
 }
 ```
 
-## Image Models
+## 图像模型
 
-| Provider                                                                        | Model                                                        | Support sizes (`width x height`) or aspect ratios (`width : height`)                                                                                                |
+| 提供商                                                                        | 模型                                                        | 支持的尺寸（`width x height`）或宽高比（`width : height`）                                                                                                          |
 | ------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [xAI Grok](/providers/ai-sdk-providers/xai#image-models)                        | `grok-imagine-image`                                         | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `3:2`, `2:3`, `2:1`, `1:2`, `19.5:9`, `9:19.5`, `20:9`, `9:20`, `auto`                                                         |
 | [OpenAI](/providers/ai-sdk-providers/openai#image-models)                       | `gpt-image-1`                                                | 1024x1024, 1536x1024, 1024x1536                                                                                                                                     |
@@ -341,4 +337,4 @@ for (const file of result.files) {
 | [Black Forest Labs](/providers/ai-sdk-providers/black-forest-labs#image-models) | `flux-pro-1.1`                                               | From 3:7 (portrait) to 7:3 (landscape)                                                                                                                              |
 | [Black Forest Labs](/providers/ai-sdk-providers/black-forest-labs#image-models) | `flux-pro-1.0-fill`                                          | From 3:7 (portrait) to 7:3 (landscape)                                                                                                                              |
 
-Above are a small subset of the image models supported by the AI SDK providers. For more, see the respective provider documentation.
+以上为 AI SDK 提供商支持的图像模型的一小部分。更多请参阅各提供商文档。

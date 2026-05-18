@@ -11,12 +11,12 @@ import type { UIMessageStreamOnStepFinishCallback } from './ui-message-stream-on
 import type { UIMessageStreamWriter } from './ui-message-stream-writer';
 
 /**
- * Creates a UI message stream that can be used to send messages to the client.
+ * 创建可用于向客户端发送消息的 UI 消息流。
  *
  * @param options.execute - A function that is called with a writer to write UI message chunks to the stream.
  * @param options.onError - A function that extracts an error message from an error. Defaults to `getErrorMessage`.
  * @param options.originalMessages - The original messages. If provided, persistence mode is assumed
- *   and a message ID is provided for the response message.
+ *   并为响应消息提供消息ID。
  * @param options.onStepFinish - A callback that is called when each step finishes. Useful for persisting intermediate messages.
  * @param options.onFinish - A callback that is called when the stream finishes.
  * @param options.generateId - A function that generates a unique ID. Defaults to the built-in ID generator.
@@ -37,13 +37,13 @@ export function createUIMessageStream<UI_MESSAGE extends UIMessage>({
   onError?: (error: unknown) => string;
 
   /**
-   * The original messages. If they are provided, persistence mode is assumed,
-   * and a message ID is provided for the response message.
+   * 原始消息。如果提供了它们，则假定为持久模式，
+   * 并为响应消息提供消息ID。
    */
   originalMessages?: UI_MESSAGE[];
 
   /**
-   * Callback that is called when each step finishes during multi-step agent runs.
+   * 在多步骤代理运行期间每个步骤完成时调用的回调。
    */
   onStepFinish?: UIMessageStreamOnStepFinishCallback<UI_MESSAGE>;
 
@@ -67,7 +67,7 @@ export function createUIMessageStream<UI_MESSAGE extends UIMessage>({
     try {
       controller.enqueue(data);
     } catch {
-      // suppress errors when the stream has been closed
+      // 当流关闭时抑制错误
     }
   }
 
@@ -117,8 +117,8 @@ export function createUIMessageStream<UI_MESSAGE extends UIMessage>({
 
   // Wait until all ongoing streams are done. This approach enables merging
   // streams even after execute has returned, as long as there is still an
-  // open merged stream. This is important to e.g. forward new streams and
-  // from callbacks.
+  // open merged stream.这对于例如forward new streams and
+  // 来自回调。
   const waitForStreams: Promise<void> = new Promise(async resolve => {
     while (ongoingStreamPromises.length > 0) {
       await ongoingStreamPromises.shift();
@@ -130,7 +130,7 @@ export function createUIMessageStream<UI_MESSAGE extends UIMessage>({
     try {
       controller.close();
     } catch {
-      // suppress errors when the stream has been closed
+      // 当流关闭时抑制错误
     }
   });
 

@@ -22,7 +22,7 @@ export const anthropicCodeExecutionAgent = new ToolLoopAgent({
           id: options?.containerId,
           skills: [{ type: 'anthropic', skillId: 'pdf' }],
         },
-      } satisfies AnthropicLanguageModelOptions as any, // TODO rm any once JSONObject allows undefined
+      } satisfies AnthropicLanguageModelOptions as any, // TODO：JSONObject 支持 undefined 后移除 any
     },
   }),
 });

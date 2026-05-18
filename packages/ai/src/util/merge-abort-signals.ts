@@ -1,14 +1,14 @@
 import { filterNullable } from '@ai-sdk/provider-utils';
 
 /**
- * Merges multiple abort sources into a single `AbortSignal`.
- * The returned signal will abort when any input signal aborts or when any
- * numeric timeout elapses, using the reason from the first source to abort.
+ * 将多个中止源合并为单个“AbortSignal”。
+ * 当任何输入信号中止或任何
+ * 数字超时过去，使用第一个源中的原因来中止。
  *
  * @param signals - Abort signals or timeout durations in milliseconds.
- * `null` and `undefined` values are ignored.
+ * `null` 和 `undefined` 值将被忽略。
  * @returns An `AbortSignal` that aborts when any valid source aborts,
- * or `undefined` if no valid sources are provided.
+ * 如果未提供有效来源，则为“未定义”。
  */
 export function mergeAbortSignals(
   ...signals: (AbortSignal | null | undefined | number)[]

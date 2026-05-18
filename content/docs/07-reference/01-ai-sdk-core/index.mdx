@@ -1,204 +1,203 @@
 ---
 title: AI SDK Core
-description: Reference documentation for the AI SDK Core
+description: AI SDK Core 参考文档
 collapsed: true
 ---
 
 # AI SDK Core
 
-[AI SDK Core](/docs/ai-sdk-core) is a set of functions that allow you to interact with language models and other AI models.
-These functions are designed to be easy-to-use and flexible, allowing you to generate text, structured data,
-and embeddings from language models and other AI models.
+[AI SDK Core](/docs/ai-sdk-core) 提供一组与语言模型及其他 AI 模型交互的函数。
+这些函数设计为易用且灵活，可用于从语言模型及其他模型生成文本、结构化数据与嵌入向量。
 
-AI SDK Core contains the following main functions:
+AI SDK Core 包含以下主要函数：
 
 <IndexCards
   cards={[
     {
       title: 'generateText()',
-      description: 'Generate text and call tools from a language model.',
+      description: '由语言模型生成文本并调用工具。',
       href: '/docs/reference/ai-sdk-core/generate-text',
     },
     {
       title: 'streamText()',
-      description: 'Stream text and call tools from a language model.',
+      description: '由语言模型流式生成文本并调用工具。',
       href: '/docs/reference/ai-sdk-core/stream-text',
     },
     {
       title: 'Output',
-      description: 'Structured output types for generateText and streamText.',
+      description: '供 generateText 与 streamText 使用的结构化输出类型。',
       href: '/docs/reference/ai-sdk-core/output',
     },
     {
       title: 'embed()',
       description:
-        'Generate an embedding for a single value using an embedding model.',
+        '使用嵌入模型为单个值生成嵌入向量。',
       href: '/docs/reference/ai-sdk-core/embed',
     },
     {
       title: 'embedMany()',
       description:
-        'Generate embeddings for several values using an embedding model (batch embedding).',
+        '使用嵌入模型为多个值批量生成嵌入向量。',
       href: '/docs/reference/ai-sdk-core/embed-many',
     },
     {
       title: 'generateImage()',
       description:
-        'Generate images based on a given prompt using an image model.',
+        '根据给定提示使用图像模型生成图像。',
       href: '/docs/reference/ai-sdk-core/generate-image',
     },
     {
       title: 'experimental_generateVideo()',
       description:
-        'Generate videos based on a given prompt using a video model.',
+        '根据给定提示使用视频模型生成视频。',
       href: '/docs/reference/ai-sdk-core/generate-video',
     },
     {
       title: 'experimental_transcribe()',
-      description: 'Generate a transcript from an audio file.',
+      description: '从音频文件生成文字稿。',
       href: '/docs/reference/ai-sdk-core/transcribe',
     },
     {
       title: 'experimental_generateSpeech()',
-      description: 'Generate speech audio from text.',
+      description: '从文本生成语音音频。',
       href: '/docs/reference/ai-sdk-core/generate-speech',
     },
     {
       title: 'uploadFile()',
-      description: 'Upload a file to a provider and get a provider reference.',
+      description: '将文件上传到提供商并获取提供商引用。',
       href: '/docs/reference/ai-sdk-core/upload-file',
     },
     {
       title: 'uploadSkill()',
-      description: 'Upload a skill to a provider and get a provider reference.',
+      description: '将技能上传到提供商并获取提供商引用。',
       href: '/docs/reference/ai-sdk-core/upload-skill',
     },
   ]}
 />
 
-It also contains the following helper functions:
+此外还包含以下辅助函数：
 
 <IndexCards
   cards={[
     {
       title: 'tool()',
-      description: 'Type inference helper function for tools.',
+      description: '用于工具的类型推断辅助函数。',
       href: '/docs/reference/ai-sdk-core/tool',
     },
     {
       title: 'Experimental_Sandbox',
       description:
-        'Experimental execution environment interface passed to tool execution.',
+        '传入工具执行的实验性执行环境接口。',
       href: '/docs/reference/ai-sdk-core/sandbox',
     },
     {
       title: 'experimental_filterActiveTools()',
-      description: 'Filters a tool set to only the currently active tools.',
+      description: '将工具集过滤为当前激活的工具。',
       href: '/docs/reference/ai-sdk-core/filter-active-tools',
     },
     {
       title: 'createMCPClient()',
-      description: 'Creates a client for connecting to MCP servers.',
+      description: '创建用于连接 MCP 服务器的客户端。',
       href: '/docs/reference/ai-sdk-core/create-mcp-client',
     },
     {
       title: 'MCP Apps',
       description:
-        'Helpers for rendering interactive MCP tool UIs and filtering app-visible tools.',
+        '用于渲染交互式 MCP 工具 UI 与过滤应用可见工具的辅助函数。',
       href: '/docs/reference/ai-sdk-core/mcp-apps',
     },
     {
       title: 'jsonSchema()',
-      description: 'Creates AI SDK compatible JSON schema objects.',
+      description: '创建与 AI SDK 兼容的 JSON schema 对象。',
       href: '/docs/reference/ai-sdk-core/json-schema',
     },
     {
       title: 'zodSchema()',
-      description: 'Creates AI SDK compatible Zod schema objects.',
+      description: '创建与 AI SDK 兼容的 Zod schema 对象。',
       href: '/docs/reference/ai-sdk-core/zod-schema',
     },
     {
       title: 'createProviderRegistry()',
       description:
-        'Creates a registry for using models from multiple providers.',
+        '创建可在多个提供商之间使用模型的注册表。',
       href: '/docs/reference/ai-sdk-core/provider-registry',
     },
     {
       title: 'cosineSimilarity()',
       description:
-        'Calculates the cosine similarity between two vectors, e.g. embeddings.',
+        '计算两个向量（例如嵌入向量）之间的余弦相似度。',
       href: '/docs/reference/ai-sdk-core/cosine-similarity',
     },
     {
       title: 'simulateReadableStream()',
       description:
-        'Creates a ReadableStream that emits values with configurable delays.',
+        '创建可按可配置延迟发出值的 ReadableStream。',
       href: '/docs/reference/ai-sdk-core/simulate-readable-stream',
     },
     {
       title: 'wrapLanguageModel()',
-      description: 'Wraps a language model with middleware.',
+      description: '用中间件包装语言模型。',
       href: '/docs/reference/ai-sdk-core/wrap-language-model',
     },
     {
       title: 'wrapImageModel()',
-      description: 'Wraps an image model with middleware.',
+      description: '用中间件包装图像模型。',
       href: '/docs/reference/ai-sdk-core/wrap-image-model',
     },
     {
       title: 'extractReasoningMiddleware()',
       description:
-        'Extracts reasoning from the generated text and exposes it as a `reasoning` property on the result.',
+        '从生成文本中提取推理内容，并在结果的 `reasoning` 属性中暴露。',
       href: '/docs/reference/ai-sdk-core/extract-reasoning-middleware',
     },
     {
       title: 'extractJsonMiddleware()',
       description:
-        'Extracts JSON from text content by stripping markdown code fences.',
+        '通过去除 Markdown 代码围栏从文本内容中提取 JSON。',
       href: '/docs/reference/ai-sdk-core/extract-json-middleware',
     },
     {
       title: 'isStepCount()',
       description:
-        'Creates a stop condition that triggers after a specified number of steps.',
+        '创建在达到指定步数后触发的停止条件。',
       href: '/docs/reference/ai-sdk-core/is-step-count',
     },
     {
       title: 'hasToolCall()',
       description:
-        'Creates a stop condition that triggers when any specified tool is called.',
+        '创建在调用任一指定工具时触发的停止条件。',
       href: '/docs/reference/ai-sdk-core/has-tool-call',
     },
     {
       title: 'isLoopFinished()',
       description:
-        'Creates a stop condition that lets the agent loop run until it naturally finishes.',
+        '创建永不触发的停止条件，让智能体循环自然结束。',
       href: '/docs/reference/ai-sdk-core/loop-finished',
     },
     {
       title: 'simulateStreamingMiddleware()',
       description:
-        'Simulates streaming behavior with responses from non-streaming language models.',
+        '为非流式语言模型的响应模拟流式行为。',
       href: '/docs/reference/ai-sdk-core/simulate-streaming-middleware',
     },
     {
       title: 'defaultSettingsMiddleware()',
-      description: 'Applies default settings to a language model.',
+      description: '为语言模型应用默认设置。',
       href: '/docs/reference/ai-sdk-core/default-settings-middleware',
     },
     {
       title: 'smoothStream()',
-      description: 'Smooths text and reasoning streaming output.',
+      description: '平滑文本与推理的流式输出。',
       href: '/docs/reference/ai-sdk-core/smooth-stream',
     },
     {
       title: 'generateId()',
-      description: 'Helper function for generating unique IDs',
+      description: '用于生成唯一 ID 的辅助函数',
       href: '/docs/reference/ai-sdk-core/generate-id',
     },
     {
       title: 'createIdGenerator()',
-      description: 'Creates an ID generator',
+      description: '创建 ID 生成器',
       href: '/docs/reference/ai-sdk-core/create-id-generator',
     },
   ]}

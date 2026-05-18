@@ -6,10 +6,10 @@ import { wrapLanguageModel } from './wrap-language-model';
 import { asProviderV4 } from '../model/as-provider-v4';
 
 /**
- * Wraps a ProviderV4 instance with middleware functionality.
- * This function allows you to apply middleware to all language models
- * from the provider, enabling you to transform parameters, wrap generate
- * operations, and wrap stream operations for every language model.
+ * 使用中间件功能包装 ProviderV4 实例。
+ * 该功能允许您将中间件应用于所有语言模型
+ * 来自提供者，使您能够转换参数、包装生成
+ * 操作，以及每种语言模型的包装流操作。
  *
  * @param options - Configuration options for wrapping the provider.
  * @param options.provider - The original ProviderV4 instance to be wrapped.

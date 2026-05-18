@@ -276,7 +276,7 @@ describe('wrapLanguageModel', () => {
 
       get supportedUrls() {
         supportedUrlsCalled = true;
-        // Reference 'this' to verify context
+        // 引用“this”来验证上下文
         return this.value;
       }
     }
@@ -437,7 +437,7 @@ describe('wrapLanguageModel', () => {
 
       const result = await wrappedModel.doGenerate(params);
 
-      // The middlewares should wrap in order, applying wrapGenerate2 last
+      // 中间件应按顺序换行，最后应用wrapGenerate2
       expect(result).toBe(
         'wrapGenerate1(wrapGenerate2(final generate result))',
       );
@@ -483,7 +483,7 @@ describe('wrapLanguageModel', () => {
 
       const result = await wrappedModel.doStream(params);
 
-      // The middlewares should wrap in order, applying wrapStream2 last
+      // 中间件应该按顺序换行，最后应用wrapStream2
       expect(result).toBe('wrapStream1(wrapStream2(final stream result))');
       expect(wrapStream1).toHaveBeenCalled();
       expect(wrapStream2).toHaveBeenCalled();

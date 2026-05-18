@@ -19,7 +19,7 @@ const weatherTool = dynamicTool({
   async *execute() {
     yield { state: 'loading' as const };
 
-    // Add artificial delay of 2 seconds
+    // 人为增加 2 秒延迟
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     yield {
@@ -30,13 +30,13 @@ const weatherTool = dynamicTool({
   },
 });
 
-// type as generic ToolSet (tools are not known at development time)
+// 类型为泛型 ToolSet（开发时未知 tools）
 const tools: {} = { weather: weatherTool } satisfies ToolSet;
 
 export const dynamicWeatherWithApprovalAgent = new ToolLoopAgent({
   model: anthropic('claude-sonnet-4-5'),
-  // context engineering required to make sure the model does not retry
-  // the tool execution if it is not approved:
+  // 需要上下文工程以确保模型不会重试
+  // 若未获批准，则阻止 tool 执行：
   instructions:
     'When a tool execution is not approved by the user, do not retry it.' +
     'Just say that the tool execution was not approved.',

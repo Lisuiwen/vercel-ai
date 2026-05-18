@@ -1,18 +1,17 @@
 ---
-title: Embeddings
-description: Learn how to embed values with the AI SDK.
+title: 嵌入
+description: 了解如何使用 AI SDK 嵌入值。
 ---
 
-# Embeddings
+# 嵌入
 
-Embeddings are a way to represent words, phrases, or images as vectors in a high-dimensional space.
-In this space, similar words are close to each other, and the distance between words can be used to measure their similarity.
+嵌入是将词、短语或图像表示为高维空间向量的方式。
+在该空间中，相似词彼此接近，词之间的距离可用于衡量相似度。
 
-## Embedding a Single Value
+## 嵌入单个值
 
-The AI SDK provides the [`embed`](/docs/reference/ai-sdk-core/embed) function to embed single values, which is useful for tasks such as finding similar words
-or phrases or clustering text.
-You can use it with embeddings models, e.g. `openai.embeddingModel('text-embedding-3-large')` or `mistral.embeddingModel('mistral-embed')`.
+AI SDK 提供 [`embed`](/docs/reference/ai-sdk-core/embed) 函数用于嵌入单个值，适用于查找相似词或短语、文本聚类等任务。
+可与嵌入模型一起使用，例如 `openai.embeddingModel('text-embedding-3-large')` 或 `mistral.embeddingModel('mistral-embed')`。
 
 ```tsx
 import { embed } from 'ai';
@@ -24,14 +23,14 @@ const { embedding } = await embed({
 });
 ```
 
-## Embedding Many Values
+## 嵌入多个值
 
-When loading data, e.g. when preparing a data store for retrieval-augmented generation (RAG),
-it is often useful to embed many values at once (batch embedding).
+加载数据时（例如为检索增强生成（RAG）准备数据存储），
+通常需要一次嵌入多个值（批量嵌入）。
 
-The AI SDK provides the [`embedMany`](/docs/reference/ai-sdk-core/embed-many) function for this purpose.
-Similar to `embed`, you can use it with embeddings models,
-e.g. `openai.embeddingModel('text-embedding-3-large')` or `mistral.embeddingModel('mistral-embed')`.
+AI SDK 为此提供 [`embedMany`](/docs/reference/ai-sdk-core/embed-many) 函数。
+与 `embed` 类似，可与嵌入模型一起使用，
+例如 `openai.embeddingModel('text-embedding-3-large')` 或 `mistral.embeddingModel('mistral-embed')`。
 
 ```tsx
 import { embedMany } from 'ai';
@@ -48,11 +47,11 @@ const { embeddings } = await embedMany({
 });
 ```
 
-## Embedding Similarity
+## 嵌入相似度
 
-After embedding values, you can calculate the similarity between them using the [`cosineSimilarity`](/docs/reference/ai-sdk-core/cosine-similarity) function.
-This is useful to e.g. find similar words or phrases in a dataset.
-You can also rank and filter related items based on their similarity.
+嵌入值后，可使用 [`cosineSimilarity`](/docs/reference/ai-sdk-core/cosine-similarity) 函数计算相似度。
+适用于在数据集中查找相似词或短语。
+也可根据相似度对相关项排序和筛选。
 
 ```ts highlight={"1,9"}
 import { cosineSimilarity, embedMany } from 'ai';
@@ -67,10 +66,10 @@ console.log(
 );
 ```
 
-## Token Usage
+## Token 用量
 
-Many providers charge based on the number of tokens used to generate embeddings.
-Both `embed` and `embedMany` provide token usage information in the `usage` property of the result object:
+许多提供商按生成嵌入所用的 token 数计费。
+`embed` 和 `embedMany` 均在结果对象的 `usage` 属性中提供 token 用量信息：
 
 ```ts highlight={"3,8"}
 import { embed } from 'ai';
@@ -83,11 +82,11 @@ const { embedding, usage } = await embed({
 console.log(usage); // { tokens: 10 }
 ```
 
-## Settings
+## 设置
 
-### Provider Options
+### 提供商选项
 
-Embedding model settings can be configured using `providerOptions` for provider-specific parameters:
+可使用 `providerOptions` 配置嵌入模型的提供商特定参数：
 
 ```ts highlight={"4-8"}
 import { embed } from 'ai';
@@ -103,11 +102,11 @@ const { embedding } = await embed({
 });
 ```
 
-Google's `gemini-embedding-2-preview` model also supports multimodal embedding content through `providerOptions.google.content`. Each entry corresponds to the value at the same index and can contain `{ text: string }`, `{ inlineData: { mimeType: string; data: string } }`, or `{ fileData: { fileUri: string; mimeType: string } }` parts. `fileUri` can reference remote content such as HTTP URLs or Google Cloud Storage URIs (`gs://...`).
+Google 的 `gemini-embedding-2-preview` 模型也支持通过 `providerOptions.google.content` 进行多模态嵌入内容。每个条目对应相同索引处的值，可包含 `{ text: string }`、`{ inlineData: { mimeType: string; data: string } }` 或 `{ fileData: { fileUri: string; mimeType: string } }` 部分。`fileUri` 可引用远程内容，例如 HTTP URL 或 Google Cloud Storage URI（`gs://...`）。
 
-### Parallel Requests
+### 并行请求
 
-The `embedMany` function now supports parallel processing with configurable `maxParallelCalls` to optimize performance:
+`embedMany` 现支持通过可配置的 `maxParallelCalls` 进行并行处理以优化性能：
 
 ```ts highlight={"3"}
 import { embedMany } from 'ai';
@@ -123,11 +122,11 @@ const { embeddings, usage } = await embedMany({
 });
 ```
 
-### Retries
+### 重试
 
-Both `embed` and `embedMany` accept an optional `maxRetries` parameter of type `number`
-that you can use to set the maximum number of retries for the embedding process.
-It defaults to `2` retries (3 attempts in total). You can set it to `0` to disable retries.
+`embed` 和 `embedMany` 均接受可选的 `maxRetries` 参数（类型为 `number`），
+用于设置嵌入过程的最大重试次数。
+默认为 `2` 次重试（共 3 次尝试）。设为 `0` 可禁用重试。
 
 ```ts highlight={"6"}
 import { embed } from 'ai';
@@ -139,11 +138,10 @@ const { embedding } = await embed({
 });
 ```
 
-### Abort Signals and Timeouts
+### 中止信号与超时
 
-Both `embed` and `embedMany` accept an optional `abortSignal` parameter of
-type [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)
-that you can use to abort the embedding process or set a timeout.
+`embed` 和 `embedMany` 均接受可选的 `abortSignal` 参数（类型为 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)），
+用于中止嵌入过程或设置超时。
 
 ```ts highlight={"6"}
 import { embed } from 'ai';
@@ -155,10 +153,10 @@ const { embedding } = await embed({
 });
 ```
 
-### Custom Headers
+### 自定义头
 
-Both `embed` and `embedMany` accept an optional `headers` parameter of type `Record<string, string>`
-that you can use to add custom headers to the embedding request.
+`embed` 和 `embedMany` 均接受可选的 `headers` 参数（类型为 `Record<string, string>`），
+用于向嵌入请求添加自定义头。
 
 ```ts highlight={"6"}
 import { embed } from 'ai';
@@ -170,9 +168,9 @@ const { embedding } = await embed({
 });
 ```
 
-## Response Information
+## 响应信息
 
-Both `embed` and `embedMany` return response information that includes the raw provider response:
+`embed` 和 `embedMany` 均返回包含原始提供商响应的响应信息：
 
 ```ts highlight={"3,8"}
 import { embed } from 'ai';
@@ -185,12 +183,11 @@ const { embedding, response } = await embed({
 console.log(response); // Raw provider response
 ```
 
-## Embedding Middleware
+## 嵌入中间件
 
-You can enhance embedding models, e.g. to set default values, using
-`wrapEmbeddingModel` and `EmbeddingModelMiddleware`.
+可使用 `wrapEmbeddingModel` 和 `EmbeddingModelMiddleware` 增强嵌入模型，例如设置默认值。
 
-Here is an example that uses the built-in `defaultEmbeddingSettingsMiddleware`:
+以下示例使用内置的 `defaultEmbeddingSettingsMiddleware`：
 
 ```ts
 import {
@@ -215,11 +212,11 @@ const embeddingModelWithDefaults = wrapEmbeddingModel({
 });
 ```
 
-## Embedding Providers & Models
+## 嵌入提供商与模型
 
-Several providers offer embedding models:
+多个提供商提供嵌入模型：
 
-| Provider                                                                      | Model                           | Embedding Dimensions | Multimodal          |
+| 提供商                                                                        | 模型                            | 嵌入维度             | 多模态              |
 | ----------------------------------------------------------------------------- | ------------------------------- | -------------------- | ------------------- |
 | [OpenAI](/providers/ai-sdk-providers/openai#embedding-models)                 | `text-embedding-3-large`        | 3072                 | <Cross size={18} /> |
 | [OpenAI](/providers/ai-sdk-providers/openai#embedding-models)                 | `text-embedding-3-small`        | 1536                 | <Cross size={18} /> |

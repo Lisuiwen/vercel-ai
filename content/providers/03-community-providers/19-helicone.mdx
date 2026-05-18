@@ -1,23 +1,23 @@
 ---
 title: Helicone
-description: Helicone Provider for the AI SDK
+description: AI SDK 的 Helicone 提供商
 ---
 
 # Helicone
 
-The [Helicone AI Gateway](https://helicone.ai/) provides you with access to hundreds of AI models, as well as tracing and monitoring integrated directly through our observability platform.
+[Helicone AI Gateway](https://helicone.ai/) 可让你访问数百款 AI 模型，并通过可观测性平台直接集成追踪与监控。
 
-- **Unified model access**: Use one API key to access hundreds of models from leading providers like Anthropic, Google, Meta, and more.
-- **Smart provider selection**: Always hit the cheapest provider, enabling fallbacks for provider uptimes and rate limits.
-- **Simplified tracing**: Monitor your LLM's performance and debug applications with Helicone observability by default, including OpenTelemetry support for logs, metrics, and traces.
-- **Improve performance and cost**: Cache responses to reduce costs and latency.
-- **Prompt management**: Handle prompt versioning and playground directly from Helicone, so you no longer depend on engineers to make changes.
+- **统一模型访问**：一把 API Key 访问 Anthropic、Google、Meta 等多家主流提供商的数百款模型。
+- **智能选路**：优先命中更便宜的路由，并在提供商故障或限流时回退。
+- **简化追踪**：默认通过 Helicone 可观测性监控 LLM 表现与排障，含 OpenTelemetry 的日志、指标与链路支持。
+- **性能与成本**：缓存响应以降低成本与延迟。
+- **提示词管理**：在 Helicone 内管理提示词版本与 Playground，减少对工程师改动的依赖。
 
-Learn more about Helicone's capabilities in the [Helicone Documentation](https://helicone.ai/docs).
+更多能力见 [Helicone Documentation](https://helicone.ai/docs)。
 
-## Setup
+## 安装
 
-The Helicone provider is available in the `@helicone/ai-sdk-provider` package. You can install it with:
+Helicone 提供商位于 `@helicone/ai-sdk-provider` 包：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -34,9 +34,9 @@ The Helicone provider is available in the `@helicone/ai-sdk-provider` package. Y
   </Tab>
 </Tabs>
 
-## Get started
+## 快速开始
 
-To get started with Helicone, use the `createHelicone` function to create a provider instance. Then query any model you like.
+使用 `createHelicone` 创建提供商实例，然后查询任意模型。
 
 ```typescript
 import { createHelicone } from '@helicone/ai-sdk-provider';
@@ -54,11 +54,9 @@ const result = await generateText({
 console.log(result.text);
 ```
 
-You can obtain your Helicone API key from the [Helicone Dashboard](https://us.helicone.ai/settings/api-keys).
+API Key 可在 [Helicone Dashboard](https://us.helicone.ai/settings/api-keys) 获取。
 
-## Examples
-
-Here are examples of using Helicone with the AI SDK.
+## 示例
 
 ### `generateText`
 
@@ -98,20 +96,15 @@ for await (const chunk of result.textStream) {
 console.log('\n\nStream completed!');
 ```
 
-## Advanced Features
+## 高级能力
 
-Helicone offers several advanced features to enhance your AI applications:
+Helicone 提供多项高级能力以增强 AI 应用：
 
-1. **Model flexibility**: Switch between hundreds of models without changing your code or managing multiple API keys.
+1. **模型灵活**：在数百款模型间切换而无需大幅改代码或管理多把 Key。
+2. **成本管控**：通过 Helicone LLM 可观测面板实时掌握各模型成本。
+3. **可观测性**：在面板中查看请求分析与日志。
+4. **提示词管理**：在控制台管理提示词与版本。
+5. **缓存**：缓存响应以降本提速。
+6. **持续更新**：新模型与新能力可用时自动获得访问。
 
-2. **Cost management**: Manage costs per model in real-time through Helicone's LLM observability dashboard.
-
-3. **Observability**: Access comprehensive analytics and logs for all your requests through Helicone's LLM observability dashboard.
-
-4. **Prompts management**: Manage prompts and versioning through the Helicone dashboard.
-
-5. **Caching**: Cache responses to reduce costs and latency.
-
-6. **Regular updates**: Automatic access to new models and features as they become available.
-
-For more information about these features and advanced configuration options, visit the [Helicone Documentation](https://docs.helicone.ai).
+更多信息与高级配置见 [Helicone Documentation](https://docs.helicone.ai)。

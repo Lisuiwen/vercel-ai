@@ -1,1 +1,1 @@
-A minimal example to test persistence, SSR, and stream resume.
+用于测试持久化、SSR 与流恢复的极简示例。

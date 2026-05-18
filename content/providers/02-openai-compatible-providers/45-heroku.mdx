@@ -1,17 +1,17 @@
 ---
 title: Heroku
-description: Use a Heroku OpenAI compatible API with the AI SDK.
+description: 将 Heroku 上与 OpenAI 兼容的 API 与 AI SDK 一起使用。
 ---
 
-# Heroku Provider
+# Heroku 提供商
 
-[Heroku](https://heroku.com/) is a cloud platform that allows you to deploy and run applications, including AI models with OpenAI API compatibility.
-You can deploy models that are OpenAI API compatible and use them with the AI SDK.
+[Heroku](https://heroku.com/) 是云平台，可用于部署和运行应用，包括对 OpenAI API 兼容的 AI 模型。
+你可以部署与 OpenAI API 兼容的模型，并将其与 AI SDK 一起使用。
 
-## Setup
+## 安装
 
-The Heroku provider is available via the `@ai-sdk/openai-compatible` module as it is compatible with the OpenAI API.
-You can install it with
+Heroku provider 通过 `@ai-sdk/openai-compatible` 模块提供，因为它与 OpenAI API 兼容。
+可按以下方式安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn']}>
   <Tab>
@@ -25,21 +25,21 @@ You can install it with
   </Tab>
 </Tabs>
 
-### Heroku Setup
+### Heroku 配置
 
-1. Create a test app in Heroku:
+1. 在 Heroku 中创建测试应用：
 
 ```bash
 heroku create
 ```
 
-2. Inference using claude-3-5-haiku:
+2. 使用 claude-3-5-haiku 进行推理：
 
 ```bash
 heroku ai:models:create -a $APP_NAME claude-3-5-haiku
 ```
 
-3. Export Variables:
+3. 导出变量：
 
 ```bash
 export INFERENCE_KEY=$(heroku config:get INFERENCE_KEY -a $APP_NAME)
@@ -47,9 +47,9 @@ export INFERENCE_MODEL_ID=$(heroku config:get INFERENCE_MODEL_ID -a $APP_NAME)
 export INFERENCE_URL=$(heroku config:get INFERENCE_URL -a $APP_NAME)
 ```
 
-## Provider Instance
+## Provider 实例
 
-To use Heroku, you can create a custom provider instance with the `createOpenAICompatible` function from `@ai-sdk/openai-compatible`:
+要使用 Heroku，可使用 `@ai-sdk/openai-compatible` 中的 `createOpenAICompatible` 创建自定义 provider 实例：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -61,20 +61,20 @@ const heroku = createOpenAICompatible({
 });
 ```
 
-Be sure to have your `INFERENCE_KEY`, `INFERENCE_MODEL_ID`, and `INFERENCE_URL` set in your environment variables.
+请确保在环境变量中设置 `INFERENCE_KEY`、`INFERENCE_MODEL_ID` 和 `INFERENCE_URL`。
 
-## Language Models
+## 语言模型
 
-You can create Heroku models using a provider instance.
-The first argument is the served model name, e.g. `claude-3-5-haiku`.
+你可以使用 provider 实例创建 Heroku 模型。
+第一个参数为已提供服务的模型名称，例如 `claude-3-5-haiku`。
 
 ```ts
 const model = heroku('claude-3-5-haiku');
 ```
 
-### Example
+### 示例
 
-You can use Heroku language models to generate text with the `generateText` function:
+可使用 Heroku 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -94,7 +94,7 @@ const { text } = await generateText({
 console.log(text);
 ```
 
-Heroku language models are also able to generate text in a streaming fashion with the `streamText` function:
+Heroku 语言模型也可配合 `streamText` 以流式方式生成文本：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -116,4 +116,4 @@ for await (const message of result.textStream) {
 }
 ```
 
-Heroku language models also support structured data generation with [`Output`](/docs/reference/ai-sdk-core/output).
+Heroku 语言模型也支持通过 [`Output`](/docs/reference/ai-sdk-core/output) 进行结构化数据生成。

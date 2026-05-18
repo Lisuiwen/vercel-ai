@@ -171,21 +171,21 @@ const imageTest = (model: ImageModelV4) => {
       },
     });
 
-    // Verify we got a Uint8Array back
+    // 验证我们返回了 Uint8Array
     expect(image.uint8Array).toBeInstanceOf(Uint8Array);
 
-    // Check the file size is reasonable (at least 10KB, less than 10MB)
+    // 检查文件大小是否合理（至少10KB，小于10MB）
     expect(image.uint8Array.length).toBeGreaterThan(10 * 1024);
     expect(image.uint8Array.length).toBeLessThan(10 * 1024 * 1024);
 
-    // Verify PNG format
+    // 验证 PNG 格式
     const mediaType = detectImageMediaType(image.uint8Array);
     expect(mediaType).toBe('image/png');
 
-    // Create a temporary buffer to verify image dimensions
+    // 创建临时缓冲区来验证图像尺寸
     const tempBuffer = Buffer.from(image.uint8Array);
 
-    // PNG dimensions are stored at bytes 16-24
+    // PNG 尺寸存储在字节 16-24
     const width = tempBuffer.readUInt32BE(16);
     const height = tempBuffer.readUInt32BE(20);
 

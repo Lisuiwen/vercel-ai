@@ -4,7 +4,7 @@ import type { ToolChoice } from '../types/language-model';
 export function prepareToolChoice({
   toolChoice,
 }: {
-  // use of any because it doesn't matter for tool choice preparation
+  // 使用any，因为它对于工具选择准备并不重要
   toolChoice: ToolChoice<any> | undefined;
 }): LanguageModelV4ToolChoice {
   return toolChoice == null

@@ -11,7 +11,7 @@ const CHUNKING_REGEXPS = {
 };
 
 /**
- * Detects the first chunk in a buffer.
+ * 检测缓冲区中的第一个块。
  *
  * @param buffer - The buffer to detect the first chunk in.
  *
@@ -20,7 +20,7 @@ const CHUNKING_REGEXPS = {
 export type ChunkDetector = (buffer: string) => string | undefined | null;
 
 /**
- * Smooths text and reasoning streaming output.
+ * 平滑文本和推理流输出。
  *
  * @param delayInMs - The delay in milliseconds between each chunk. Defaults to 10ms. Can be set to `null` to skip the delay.
  * @param chunking - Controls how the text is chunked for streaming. Use "word" to stream word by word (default), "line" to stream line by line, provide a custom RegExp pattern for custom chunking, provide an Intl.Segmenter for locale-aware word segmentation (recommended for CJK languages), or provide a custom ChunkDetector function.
@@ -35,7 +35,7 @@ export function smoothStream<TOOLS extends ToolSet>({
   delayInMs?: number | null;
   chunking?: 'word' | 'line' | RegExp | ChunkDetector | Intl.Segmenter;
   /**
-   * Internal. For test use only. May change without notice.
+   * 内部的。仅供测试使用。可能会更改，恕不另行通知。
    */
   _internal?: {
     delay?: (delayInMs: number | null) => Promise<void>;
@@ -45,7 +45,7 @@ export function smoothStream<TOOLS extends ToolSet>({
 }) => TransformStream<TextStreamPart<TOOLS>, TextStreamPart<TOOLS>> {
   let detectChunk: ChunkDetector;
 
-  // Check if chunking is an Intl.Segmenter (duck-typing for segment method)
+  // 检查分块是否是 Intl.Segmenter（分段方法的鸭子类型）
   if (
     chunking != null &&
     typeof chunking === 'object' &&
@@ -128,14 +128,14 @@ export function smoothStream<TOOLS extends ToolSet>({
 
     return new TransformStream<TextStreamPart<TOOLS>, TextStreamPart<TOOLS>>({
       async transform(chunk, controller) {
-        // Handle non-smoothable chunks: flush buffer and pass through
+        // 处理不可平滑的块：刷新缓冲区并通过
         if (chunk.type !== 'text-delta' && chunk.type !== 'reasoning-delta') {
           flushBuffer(controller);
           controller.enqueue(chunk);
           return;
         }
 
-        // Flush buffer when type or id changes
+        // 当类型或 ID 更改时刷新缓冲区
         if ((chunk.type !== type || chunk.id !== id) && buffer.length > 0) {
           flushBuffer(controller);
         }
@@ -144,7 +144,7 @@ export function smoothStream<TOOLS extends ToolSet>({
         id = chunk.id;
         type = chunk.type;
 
-        // Preserve providerMetadata (e.g., Anthropic thinking signatures)
+        // 保留提供者元数据（例如，人择思维签名）
         if (chunk.providerMetadata != null) {
           providerMetadata = chunk.providerMetadata;
         }

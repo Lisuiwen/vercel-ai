@@ -1,50 +1,48 @@
 ---
-title: Next.js Pages Router
-description: Learn how to build your first agent with the AI SDK and Next.js Pages Router.
+title: Next.js 页面路由器
+description: 了解如何使用 AI SDK 与 Next.js Pages Router 构建你的第一个 agent。
 ---
 
-# Next.js Pages Router Quickstart
+# Next.js Pages Router 快速入门
 
-The AI SDK is a powerful TypeScript library designed to help developers build AI-powered applications.
+AI SDK 是一个强大的 TypeScript 库，旨在帮助开发者构建由 AI 驱动的应用。
 
-In this quickstart tutorial, you'll build a simple agent with a streaming chat user interface. Along the way, you'll learn key concepts and techniques that are fundamental to using the AI SDK in your own projects.
+在本快速入门中，你将构建一个带有流式聊天界面的简易 agent，并在此过程中掌握在自己的项目中使用 AI SDK 所需的核心概念与技巧。
 
-If you are unfamiliar with the concepts of [Prompt Engineering](/docs/advanced/prompt-engineering) and [HTTP Streaming](/docs/foundations/streaming), you can optionally read these documents first.
+如果你对 [Prompt Engineering](/docs/advanced/prompt-engineering) 与 [HTTP 流式传输](/docs/foundations/streaming) 还不熟悉，可以先阅读这两篇文档。
 
-## Prerequisites
+## 前置条件
 
-To follow this quickstart, you'll need:
+要完成本快速入门，你需要：
 
-- Node.js 18+ and pnpm installed on your local development machine.
-- A [ Vercel AI Gateway ](https://vercel.com/ai-gateway) API key.
+- 在本地开发环境中安装 Node.js 18+ 与 pnpm。
+- 一枚 [ Vercel AI Gateway ](https://vercel.com/ai-gateway) API key。
 
-If you haven't obtained your Vercel AI Gateway API key, you can do so by [signing up](https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai&title=Go+to+AI+Gateway) on the Vercel website.
+若尚未获取 Vercel AI Gateway API key，可在 Vercel 网站[注册](https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai&title=Go+to+AI+Gateway)后申请。
 
-## Setup Your Application
+## 搭建应用
 
-Start by creating a new Next.js application. This command will create a new directory named `my-ai-app` and set up a basic Next.js application inside it.
+先创建一个新的 Next.js 应用。以下命令会创建名为 `my-ai-app` 的目录，并在其中初始化一个基础的 Next.js 应用。
 
 <Note>
-  Be sure to select no when prompted to use the App Router. If you are looking
-  for the Next.js App Router quickstart guide, you can find it
-  [here](/docs/getting-started/nextjs-app-router).
+  在提示是否使用 App Router 时请选择否。如果你在找 Next.js App Router
+  的快速入门，请参见[此文](/docs/getting-started/nextjs-app-router)。
 </Note>
 
 <Snippet text="pnpm create next-app@latest my-ai-app" />
 
-Navigate to the newly created directory:
+进入新建的目录：
 
 <Snippet text="cd my-ai-app" />
 
-### Install dependencies
+### 安装依赖
 
-Install `ai` and `@ai-sdk/react`, the AI package and AI SDK's React hooks. The AI SDK's [ Vercel AI Gateway provider ](/providers/ai-sdk-providers/ai-gateway) ships with the `ai` package. You'll also install `zod`, a schema validation library used for defining tool inputs.
+安装 `ai` 与 `@ai-sdk/react`（AI 包与 AI SDK 的 React hooks）。AI SDK 的 [ Vercel AI Gateway provider ](/providers/ai-sdk-providers/ai-gateway) 已随 `ai` 包提供。你还需要安装 `zod`，用于为 tool 的输入定义 schema。
 
 <Note>
-  This guide uses the Vercel AI Gateway provider so you can access hundreds of
-  models from different providers with one API key, but you can switch to any
-  provider or model by installing its package. Check out available [AI SDK
-  providers](/providers/ai-sdk-providers) for more information.
+  本指南使用 Vercel AI Gateway provider，这样只需一枚 API key 即可访问多家
+  provider 的众多模型；你也可以安装对应包，切换到任意 provider 或模型。更多说明见
+  [AI SDK providers](/providers/ai-sdk-providers)。
 </Note>
 
 <div className="my-4">
@@ -66,34 +64,32 @@ Install `ai` and `@ai-sdk/react`, the AI package and AI SDK's React hooks. The A
   </Tabs>
 </div>
 
-### Configure your AI Gateway API key
+### 配置 AI Gateway API key
 
-Create a `.env.local` file in your project root and add your AI Gateway API key. This key authenticates your application with the Vercel AI Gateway.
+在项目根目录创建 `.env.local`，并写入 AI Gateway API key，用于向 Vercel AI Gateway 认证你的应用。
 
 <Snippet text="touch .env.local" />
 
-Edit the `.env.local` file:
+编辑 `.env.local`：
 
 ```env filename=".env.local"
 AI_GATEWAY_API_KEY=xxxxxxxxx
 ```
 
-Replace `xxxxxxxxx` with your actual Vercel AI Gateway API key.
+将 `xxxxxxxxx` 替换为你的真实 Vercel AI Gateway API key。
 
 <Note className="mb-4">
-  The AI SDK's Vercel AI Gateway Provider will default to using the
-  `AI_GATEWAY_API_KEY` environment variable.
+  AI SDK 的 Vercel AI Gateway Provider 默认会读取 `AI_GATEWAY_API_KEY` 环境变量。
 </Note>
 
-## Create a Route Handler
+## 创建 Route Handler
 
 <Note>
-  As long as you are on Next.js 13+, you can use Route Handlers (using the App
-  Router) alongside the Pages Router. This is recommended to enable you to use
-  the Web APIs interface/signature and to better support streaming.
+  在 Next.js 13+ 中，可以在使用 Pages Router 的同时使用 App Router 的 Route
+  Handler。建议这样做，以便使用 Web API 的接口/签名，并更好地支持流式传输。
 </Note>
 
-Create a Route Handler (`app/api/chat/route.ts`) and add the following code:
+创建 Route Handler（`app/api/chat/route.ts`），并加入以下代码：
 
 ```tsx filename="app/api/chat/route.ts"
 import { streamText, UIMessage, convertToModelMessages } from 'ai';
@@ -111,26 +107,26 @@ export async function POST(req: Request) {
 }
 ```
 
-Let's take a look at what is happening in this code:
+下面说明这段代码在做什么：
 
-1. Define an asynchronous `POST` request handler and extract `messages` from the body of the request. The `messages` variable contains a history of the conversation between you and the chatbot and provides the chatbot with the necessary context to make the next generation. The `messages` are of UIMessage type, which are designed for use in application UI - they contain the entire message history and associated metadata like timestamps.
-2. Call [`streamText`](/docs/reference/ai-sdk-core/stream-text), which is imported from the `ai` package. This function accepts a configuration object that contains a `model` provider and `messages` (defined in step 1). You can pass additional [settings](/docs/ai-sdk-core/settings) to further customize the model's behavior. The `messages` key expects a `ModelMessage[]` array. This type is different from `UIMessage` in that it does not include metadata, such as timestamps or sender information. To convert between these types, we use the `convertToModelMessages` function, which strips the UI-specific metadata and transforms the `UIMessage[]` array into the `ModelMessage[]` format that the model expects.
-3. The `streamText` function returns a [`StreamTextResult`](/docs/reference/ai-sdk-core/stream-text#result-object). This result object contains the [ `toUIMessageStreamResponse` ](/docs/reference/ai-sdk-core/stream-text#to-ui-message-stream-response) function which converts the result to a streamed response object.
-4. Finally, return the result to the client to stream the response.
+1. 定义异步 `POST` 处理函数，并从请求体中取出 `messages`。`messages` 保存你与聊天机器人之间的对话历史，为下一次生成提供上下文。其类型为 `UIMessage`，面向应用 UI：包含完整消息历史及时间戳等元数据。
+2. 调用从 `ai` 包导入的 [`streamText`](/docs/reference/ai-sdk-core/stream-text)。该函数接收配置对象，其中包含 `model` provider 与第 1 步的 `messages`。还可传入更多 [设置](/docs/ai-sdk-core/settings) 以定制模型行为。`messages` 字段期望 `ModelMessage[]`，与 `UIMessage` 不同，不含时间戳或发送者等元数据。类型转换使用 `convertToModelMessages`，它会去掉 UI 专用元数据，将 `UIMessage[]` 转为模型所需的 `ModelMessage[]`。
+3. `streamText` 返回 [`StreamTextResult`](/docs/reference/ai-sdk-core/stream-text#result-object)。该结果对象包含 [ `toUIMessageStreamResponse` ](/docs/reference/ai-sdk-core/stream-text#to-ui-message-stream-response)，用于把结果转为流式响应对象。
+4. 最后将结果返回给客户端以流式输出。
 
-This Route Handler creates a POST request endpoint at `/api/chat`.
+该 Route Handler 在 `/api/chat` 提供 POST 端点。
 
-## Choosing a Provider
+## 选择 Provider
 
-The AI SDK supports dozens of model providers through [first-party](/providers/ai-sdk-providers), [OpenAI-compatible](/providers/openai-compatible-providers), and [ community ](/providers/community-providers) packages.
+AI SDK 通过 [官方](/providers/ai-sdk-providers)、[OpenAI 兼容](/providers/openai-compatible-providers)与[社区](/providers/community-providers)包支持大量 model provider。
 
-This quickstart uses the [Vercel AI Gateway](https://vercel.com/ai-gateway) provider, which is the default [global provider](/docs/ai-sdk-core/provider-management#global-provider-configuration). This means you can access models using a simple string in the model configuration:
+本快速入门使用 [Vercel AI Gateway](https://vercel.com/ai-gateway) provider，即默认的 [全局 provider](/docs/ai-sdk-core/provider-management#global-provider-configuration)。因此可在 model 配置中用简单字符串引用模型：
 
 ```ts
 model: __MODEL__;
 ```
 
-You can also explicitly import and use the gateway provider in two other equivalent ways:
+也可以显式导入并使用 gateway provider，以下两种方式等价：
 
 ```ts
 // Option 1: Import from 'ai' package (included by default)
@@ -142,9 +138,9 @@ import { gateway } from '@ai-sdk/gateway';
 model: gateway('anthropic/claude-sonnet-4.5');
 ```
 
-### Using other providers
+### 使用其他 provider
 
-To use a different provider, install its package and create a provider instance. For example, to use OpenAI directly:
+要使用其他 provider，请安装对应包并创建 provider 实例。例如直接使用 OpenAI：
 
 <div className="my-4">
   <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
@@ -171,17 +167,17 @@ import { openai } from '@ai-sdk/openai';
 model: openai('gpt-5.1');
 ```
 
-#### Updating the global provider
+#### 更新全局 provider
 
-You can change the default global provider so string model references use your preferred provider everywhere in your application. Learn more about [provider management](/docs/ai-sdk-core/provider-management#global-provider-configuration).
+可修改默认全局 provider，使应用各处用字符串引用 model 时都走你偏好的 provider。详见 [provider 管理](/docs/ai-sdk-core/provider-management#global-provider-configuration)。
 
-Pick the approach that best matches how you want to manage providers across your application.
+按你在全应用内管理 provider 的方式选择合适做法。
 
-## Wire up the UI
+## 接入 UI
 
-Now that you have an API route that can query an LLM, it's time to setup your frontend. The AI SDK's [ UI ](/docs/ai-sdk-ui) package abstract the complexity of a chat interface into one hook, [`useChat`](/docs/reference/ai-sdk-ui/use-chat).
+有了可查询 LLM 的 API 路由后，接下来搭建前端。AI SDK 的 [ UI ](/docs/ai-sdk-ui) 包将聊天界面的复杂度抽象为一个 hook：[`useChat`](/docs/reference/ai-sdk-ui/use-chat)。
 
-Update your root page (`pages/index.tsx`) with the following code to show a list of chat messages and provide a user message input:
+用以下代码更新根页面（`pages/index.tsx`），展示消息列表并提供用户输入：
 
 ```tsx filename="pages/index.tsx"
 import { useChat } from '@ai-sdk/react';
@@ -223,34 +219,34 @@ export default function Chat() {
 }
 ```
 
-This page utilizes the `useChat` hook, which will, by default, use the `POST` API route you created earlier (`/api/chat`). The hook provides functions and state for handling user input and form submission. The `useChat` hook provides multiple utility functions and state variables:
+该页面使用 `useChat` hook，默认会请求你先前创建的 `POST` API 路由（`/api/chat`）。hook 提供处理用户输入与表单提交的函数和状态。`useChat` 还提供多种工具函数与状态变量：
 
-- `messages` - the current chat messages (an array of objects with `id`, `role`, and `parts` properties).
-- `sendMessage` - a function to send a message to the chat API.
+- `messages`：当前聊天消息（对象数组，含 `id`、`role`、`parts`）。
+- `sendMessage`：向聊天 API 发送消息的函数。
 
-The component uses local state (`useState`) to manage the input field value, and handles form submission by calling `sendMessage` with the input text and then clearing the input field.
+组件用本地状态（`useState`）管理输入框，提交表单时调用 `sendMessage` 传入文本并清空输入。
 
-The LLM's response is accessed through the message `parts` array. Each message contains an ordered array of `parts` that represents everything the model generated in its response. These parts can include plain text, reasoning tokens, and more that you will see later. The `parts` array preserves the sequence of the model's outputs, allowing you to display or process each component in the order it was generated.
+LLM 的回复通过消息的 `parts` 数组访问。每条消息包含有序的 `parts`，表示模型在该轮生成的全部内容，可含纯文本、reasoning token 等，后续还会见到更多类型。`parts` 保持模型输出的顺序，便于按生成顺序展示或处理。
 
-## Running Your Application
+## 运行应用
 
-With that, you have built everything you need for your chatbot! To start your application, use the command:
+至此，聊天机器人所需部分已就绪。启动开发服务器：
 
 <Snippet text="pnpm run dev" />
 
-Head to your browser and open http://localhost:3000. You should see an input field. Test it out by entering a message and see the AI chatbot respond in real-time! The AI SDK makes it fast and easy to build AI chat interfaces with Next.js.
+在浏览器打开 http://localhost:3000，应能看到输入框。输入消息测试，AI 会实时回复。借助 AI SDK，用 Next.js 搭建 AI 聊天界面既快又简单。
 
-## Enhance Your Chatbot with Tools
+## 用 Tool 增强聊天机器人
 
-While large language models (LLMs) have incredible generation capabilities, they struggle with discrete tasks (e.g. mathematics) and interacting with the outside world (e.g. getting the weather). This is where [tools](/docs/ai-sdk-core/tools-and-tool-calling) come in.
+大语言模型（LLM）生成能力很强，但在离散任务（如数学）或与外界交互（如查天气）上往往吃力，这时就需要 [tools](/docs/ai-sdk-core/tools-and-tool-calling)。
 
-Tools are actions that an LLM can invoke. The results of these actions can be reported back to the LLM to be considered in the next response.
+Tool 是 LLM 可调用的动作；执行结果可回传给模型，供下一轮回复参考。
 
-For example, if a user asks about the current weather, without tools, the model would only be able to provide general information based on its training data. But with a weather tool, it can fetch and provide up-to-date, location-specific weather information.
+例如用户问当前天气，没有 tool 时模型只能根据训练数据泛泛而谈；有了天气 tool，就能拉取与地点相关的实时天气。
 
-### Update Your Route Handler
+### 更新 Route Handler
 
-Let's start by giving your chatbot a weather tool. Update your Route Handler (`app/api/chat/route.ts`):
+先为聊天机器人添加天气 tool。更新 Route Handler（`app/api/chat/route.ts`）：
 
 ```tsx filename="app/api/chat/route.ts" highlight="1,11-25"
 import { streamText, UIMessage, convertToModelMessages, tool } from 'ai';
@@ -284,29 +280,28 @@ export async function POST(req: Request) {
 }
 ```
 
-In this updated code:
+本次更新要点：
 
-1. You import the `tool` function from the `ai` package and `z` from `zod` for schema validation.
-2. You define a `tools` object with a `weather` tool. This tool:
-   - Has a description that helps the model understand when to use it.
-   - Defines `inputSchema` using a Zod schema, specifying that it requires a `location` string to execute this tool. The model will attempt to extract this input from the context of the conversation. If it can't, it will ask the user for the missing information.
-   - Defines an `execute` function that simulates getting weather data (in this case, it returns a random temperature). This is an asynchronous function running on the server so you can fetch real data from an external API.
+1. 从 `ai` 导入 `tool`，从 `zod` 导入 `z` 做 schema 校验。
+2. 在 `tools` 中定义 `weather` tool：
+   - `description` 帮助模型判断何时调用。
+   - 用 Zod 定义 `inputSchema`，要求 `location` 字符串；模型会从对话上下文中抽取；若无法抽取会请用户补充。
+   - `execute` 模拟获取天气（此处返回随机温度）。该异步函数在服务端运行，可改为请求真实外部 API。
 
-Now your chatbot can "fetch" weather information for any location the user asks about. When the model determines it needs to use the weather tool, it will generate a tool call with the necessary input. The `execute` function will then be automatically run, and the tool output will be added to the `messages` as a `tool` message.
+现在聊天机器人可以为用户询问的任意地点「获取」天气。当模型决定调用天气 tool 时，会生成带输入的 tool call；`execute` 会自动执行，输出会以 `tool` 消息加入 `messages`。
 
-Try asking something like "What's the weather in New York?" and see how the model uses the new tool.
+可尝试问「纽约天气怎么样？」之类问题，观察模型如何使用新 tool。
 
-Notice the blank response in the UI? This is because instead of generating a text response, the model generated a tool call. You can access the tool call and subsequent tool result on the client via the `tool-weather` part of the `message.parts` array.
+界面里是否出现空白回复？那是因为模型本轮生成的是 tool call 而非文本。你可在客户端通过 `message.parts` 中的 `tool-weather` 部分访问 tool 调用及后续结果。
 
 <Note>
-  Tool parts are always named `tool-{toolName}`, where `{toolName}` is the key
-  you used when defining the tool. In this case, since we defined the tool as
-  `weather`, the part type is `tool-weather`.
+  Tool 部分的类型名恒为 `tool-{toolName}`，其中 `{toolName}` 是你在定义 tool
+  时使用的键名。本例中键为 `weather`，故 part 类型为 `tool-weather`。
 </Note>
 
-### Update the UI
+### 更新 UI
 
-To display the tool invocations in your UI, update your `pages/index.tsx` file:
+若要在界面展示 tool 调用，请更新 `pages/index.tsx`：
 
 ```tsx filename="pages/index.tsx" highlight="16-21"
 import { useChat } from '@ai-sdk/react';
@@ -354,19 +349,19 @@ export default function Chat() {
 }
 ```
 
-With this change, you're updating the UI to handle different message parts. For text parts, you display the text content as before. For weather tool invocations, you display a JSON representation of the tool call and its result.
+这样 UI 会按不同 message part 渲染：文本部分照旧显示；天气 tool 则显示为 JSON 形式的调用与结果。
 
-Now, when you ask about the weather, you'll see the tool call and its result displayed in your chat interface.
+再次询问天气时，聊天界面会展示 tool 调用及其结果。
 
-## Enabling Multi-Step Tool Calls
+## 启用多步 Tool 调用
 
-You may have noticed that while the tool is now visible in the chat interface, the model isn't using this information to answer your original query. This is because once the model generates a tool call, it has technically completed its generation.
+你可能已经发现：虽然 tool 在界面里可见，模型却没有用这些信息回答最初的问题。这是因为一旦模型生成了 tool call，从技术上讲本轮生成即已结束。
 
-To solve this, you can enable multi-step tool calls using `stopWhen`. By default, `stopWhen` is set to `isStepCount(1)`, which means generation stops after the first step when there are tool results. By changing this condition, you can allow the model to automatically send tool results back to itself to trigger additional generations until your specified stopping condition is met. In this case, you want the model to continue generating so it can use the weather tool results to answer your original question.
+可通过 `stopWhen` 启用多步 tool 调用。默认 `stopWhen` 为 `isStepCount(1)`，即有 tool 结果时会在第一步后停止生成。调整该条件后，模型可自动把 tool 结果带回自身，触发后续生成，直到满足你设定的停止条件。这里我们希望模型在拿到天气结果后继续生成，从而回答原问题。
 
-### Update Your Route Handler
+### 更新 Route Handler
 
-Modify your `app/api/chat/route.ts` file to include the `stopWhen` condition:
+修改 `app/api/chat/route.ts`，加入 `stopWhen`：
 
 ```tsx filename="app/api/chat/route.ts"  highlight="16"
 import {
@@ -407,13 +402,13 @@ export async function POST(req: Request) {
 }
 ```
 
-Head back to the browser and ask about the weather in a location. You should now see the model using the weather tool results to answer your question.
+回到浏览器，询问某地天气。此时模型应会利用天气 tool 的结果来作答。
 
-By setting `stopWhen: isStepCount(5)`, you're allowing the model to use up to 5 "steps" for any given generation. This enables more complex interactions and allows the model to gather and process information over several steps if needed. You can see this in action by adding another tool to convert the temperature from Celsius to Fahrenheit.
+设置 `stopWhen: isStepCount(5)` 表示单次生成最多允许 5 个「步骤」，便于更复杂的交互、分多步收集与处理信息。可再添加一个将摄氏温度转为华氏温度的 tool，观察多步流程。
 
-### Add another tool
+### 再添加一个 tool
 
-Update your `app/api/chat/route.ts` file to add a new tool to convert the temperature from Fahrenheit to Celsius:
+更新 `app/api/chat/route.ts`，新增将华氏温度转为摄氏温度的 tool：
 
 ```tsx filename="app/api/chat/route.ts" highlight="31-46"
 import {
@@ -468,9 +463,9 @@ export async function POST(req: Request) {
 }
 ```
 
-### Update Your Frontend
+### 更新前端
 
-Update your `pages/index.tsx` file to render the new temperature conversion tool:
+更新 `pages/index.tsx`，渲染新的温度换算 tool：
 
 ```tsx filename="pages/index.tsx" highlight="17"
 import { useChat } from '@ai-sdk/react';
@@ -519,23 +514,23 @@ export default function Chat() {
 }
 ```
 
-This update handles the new `tool-convertFahrenheitToCelsius` part type, displaying the temperature conversion tool calls and results in the UI.
+该更新会处理新的 `tool-convertFahrenheitToCelsius` part 类型，在 UI 中展示温度换算的调用与结果。
 
-Now, when you ask "What's the weather in New York in celsius?", you should see a more complete interaction:
+当你问「纽约天气多少摄氏度？」之类问题时，应能看到更完整的流程：
 
-1. The model will call the weather tool for New York.
-2. You'll see the tool output displayed.
-3. It will then call the temperature conversion tool to convert the temperature from Fahrenheit to Celsius.
-4. The model will then use that information to provide a natural language response about the weather in New York.
+1. 模型调用纽约的天气 tool。
+2. 界面显示 tool 输出。
+3. 接着调用温度换算 tool，把华氏转为摄氏。
+4. 模型再用这些信息生成关于纽约天气的自然语言回答。
 
-This multi-step approach allows the model to gather information and use it to provide more accurate and contextual responses, making your chatbot considerably more useful.
+多步流程让模型能汇总信息并给出更准确、更贴合上下文的回复，聊天机器人会实用得多。
 
-This simple example demonstrates how tools can expand your model's capabilities. You can create more complex tools to integrate with real APIs, databases, or any other external systems, allowing the model to access and process real-world data in real-time. Tools bridge the gap between the model's knowledge cutoff and current information.
+这个简单示例说明 tool 如何扩展模型能力。你还可以构建更复杂的 tool，对接真实 API、数据库或其他外部系统，让模型实时访问并处理真实数据。Tool 弥合了模型知识截止与当前信息之间的鸿沟。
 
-## Where to Next?
+## 接下来做什么？
 
-You've built an AI chatbot using the AI SDK! From here, you have several paths to explore:
+你已经用 AI SDK 搭好了一个 AI 聊天机器人。可以继续探索：
 
-- To learn more about the AI SDK, read through the [documentation](/docs).
-- If you're interested in diving deeper with guides, check out the [RAG (retrieval-augmented generation)](/cookbook/guides/rag-chatbot) and [multi-modal chatbot](/cookbook/guides/multi-modal-chatbot) guides.
-- To jumpstart your first AI project, explore available [templates](https://vercel.com/templates?type=ai).
+- 想深入了解 AI SDK，请阅读[文档](/docs)。
+- 若希望跟着指南深入，可看 [RAG（检索增强生成）](/cookbook/guides/rag-chatbot)与[多模态聊天机器人](/cookbook/guides/multi-modal-chatbot)教程。
+- 若要快速启动第一个 AI 项目，可浏览 [templates](https://vercel.com/templates?type=ai)。

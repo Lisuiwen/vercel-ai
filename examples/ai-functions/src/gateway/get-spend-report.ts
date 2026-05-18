@@ -7,7 +7,7 @@ run(async () => {
     .toISOString()
     .split('T')[0];
 
-  // Query spend grouped by day for the last 30 days
+  // 查询过去 30 天按天分组的支出
   console.log(`\n--- Spend by day (${thirtyDaysAgo} to ${today}) ---\n`);
   const byDay = await gateway.getSpendReport({
     startDate: thirtyDaysAgo,
@@ -20,7 +20,7 @@ run(async () => {
     );
   }
 
-  // Query spend grouped by model
+  // 按模型分组的查询支出
   console.log(`\n--- Spend by model ---\n`);
   const byModel = await gateway.getSpendReport({
     startDate: thirtyDaysAgo,
@@ -34,7 +34,7 @@ run(async () => {
     );
   }
 
-  // Query spend filtered by the tags written by stream-text-with-tags example
+  // 按stream-text-with-tags示例编写的标签过滤的查询支出
   console.log(`\n--- Spend filtered by tag "feature:reporting-test" ---\n`);
   const byTag = await gateway.getSpendReport({
     startDate: thirtyDaysAgo,

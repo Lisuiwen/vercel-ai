@@ -17,13 +17,13 @@ run(async () => {
         },
         providerOptions: {
           klingai: {
-            // Required: URL to the reference motion video
+            // 必需：参考动态视频的 URL
             videoUrl: 'https://example.com/reference-motion.mp4',
-            // Required: whether to match orientation from image or video
+            // 必需：是否匹配图像或视频的方向
             characterOrientation: 'image',
             // Required: 'std' (standard) or 'pro' (professional)
             mode: 'std',
-            // Optional: reference element from element library (v3.0+, max 1)
+            // 可选：元素库中的参考元素（v3.0+，最多 1）
             elementList: [{ element_id: 829836802793406551 }],
           } satisfies KlingAIVideoModelOptions,
         },

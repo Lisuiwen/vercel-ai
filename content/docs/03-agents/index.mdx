@@ -1,59 +1,59 @@
 ---
-title: Agents
-description: An overview of building agents with the AI SDK.
+title: Agent
+description: 使用 AI SDK 构建 Agent 的概览。
 ---
 
-# Agents
+# Agent
 
-The following section shows you how to build agents with the AI SDK - systems where large language models (LLMs) use tools in a loop to accomplish tasks.
+以下章节介绍如何使用 AI SDK 构建 Agent——即大语言模型（LLM）在循环中调用工具以完成任务的系统。
 
 <IndexCards
   cards={[
     {
-      title: 'Overview',
+      title: '概览',
       description:
-        'Learn what agents are, how they manage state, and why to use the ToolLoopAgent.',
+        '了解什么是 Agent、它们如何管理状态，以及为何使用 ToolLoopAgent。',
       href: '/docs/agents/overview',
     },
     {
-      title: 'Building Agents',
+      title: '构建 Agent',
       description:
-        'Create ToolLoopAgent instances with tools, runtime context, and loop control.',
+        '创建带有工具、运行时上下文和循环控制的 ToolLoopAgent 实例。',
       href: '/docs/agents/building-agents',
     },
     {
-      title: 'Workflow Patterns',
+      title: '工作流模式',
       description:
-        'Structured patterns using core functions for complex workflows.',
+        '使用核心函数实现复杂工作流的结构化模式。',
       href: '/docs/agents/workflows',
     },
     {
-      title: 'Loop Control',
-      description: 'Advanced execution control with stopWhen and prepareStep.',
+      title: '循环控制',
+      description: '使用 stopWhen 和 prepareStep 进行高级执行控制。',
       href: '/docs/agents/loop-control',
     },
     {
-      title: 'Configuring Call Options',
+      title: '配置调用选项',
       description:
-        'Pass type-safe runtime inputs to dynamically configure agent behavior.',
+        '传递类型安全的运行时输入，以动态配置 Agent 行为。',
       href: '/docs/agents/configuring-call-options',
     },
     {
-      title: 'Tool Approvals',
+      title: '工具审批',
       description:
-        'Review, approve, or deny sensitive tool calls before they execute.',
+        '在敏感工具执行前进行审查、批准或拒绝。',
       href: '/docs/agents/tool-approvals',
     },
     {
-      title: 'Subagents',
+      title: '子 Agent',
       description:
-        'Delegate context-heavy tasks to specialized subagents while keeping the main agent focused.',
+        '将上下文密集的任务委托给专用子 Agent，同时保持主 Agent 专注。',
       href: '/docs/agents/subagents',
     },
     {
       title: 'WorkflowAgent',
       description:
-        'Build durable, resumable agents with @ai-sdk/workflow for the Workflow SDK.',
+        '使用 @ai-sdk/workflow 为 Workflow SDK 构建持久、可恢复的 Agent。',
       href: '/docs/agents/workflow-agent',
     },
   ]}

@@ -1,28 +1,28 @@
 # AI SDK - LangChain Adapter
 
-The **[AI SDK](https://ai-sdk.dev)** LangChain adapter provides seamless integration between [LangChain](https://langchain.com/) and the AI SDK, enabling you to use LangChain agents and graphs with AI SDK UI components.
+**[AI SDK](https://ai-sdk.dev)** 的 LangChain 适配器在 [LangChain](https://langchain.com/) 与 AI SDK 之间提供无缝集成，便于将 LangChain Agent 与图用于 AI SDK UI 组件。
 
-## Installation
+## 安装
 
 ```bash
 npm install @ai-sdk/langchain @langchain/core
 ```
 
-> **Note:** `@langchain/core` is a required peer dependency.
+> **注意：** `@langchain/core` 为必需的 peer dependency。
 
-## Features
+## 功能
 
-- Convert AI SDK `UIMessage` to LangChain `BaseMessage` format
-- Transform LangChain/LangGraph streams to AI SDK `UIMessageStream`
-- `ChatTransport` implementation for LangSmith deployments
-- Full support for text, tool calls, and tool results
-- Custom data streaming with typed events (`data-{type}`)
+- 将 AI SDK `UIMessage` 转为 LangChain `BaseMessage`
+- 将 LangChain/LangGraph 流转为 AI SDK `UIMessageStream`
+- 面向 LangSmith 部署的 `ChatTransport` 实现
+- 完整支持文本、工具调用与工具结果
+- 使用类型化事件（`data-{type}`）的自定义数据流
 
-## Usage
+## 用法
 
-### Converting Messages
+### 转换消息
 
-Use `toBaseMessages` to convert AI SDK messages to LangChain format:
+使用 `toBaseMessages` 将 AI SDK 消息转为 LangChain 格式：
 
 ```ts
 import { toBaseMessages } from '@ai-sdk/langchain';
@@ -34,9 +34,9 @@ const langchainMessages = await toBaseMessages(uiMessages);
 const response = await model.invoke(langchainMessages);
 ```
 
-### Streaming from LangGraph
+### 从 LangGraph 流式传输
 
-Use `toUIMessageStream` to convert LangGraph streams to AI SDK format:
+使用 `toUIMessageStream` 将 LangGraph 流转为 AI SDK 格式：
 
 ```ts
 import { toBaseMessages, toUIMessageStream } from '@ai-sdk/langchain';
@@ -56,9 +56,9 @@ return createUIMessageStreamResponse({
 });
 ```
 
-### Streaming with Callbacks
+### 使用回调进行流式传输
 
-Use callbacks to access the final LangGraph state, handle errors, or detect aborts:
+使用回调访问最终 LangGraph 状态、处理错误或检测中止：
 
 ```ts
 const langchainStream = await graph.stream(
@@ -80,9 +80,9 @@ return createUIMessageStreamResponse({
 });
 ```
 
-### Streaming with `streamEvents`
+### 使用 `streamEvents` 进行流式传输
 
-You can also use `toUIMessageStream` with `streamEvents()` for more granular event handling:
+也可将 `toUIMessageStream` 与 `streamEvents()` 配合以进行更细粒度的事件处理：
 
 ```ts
 import { toBaseMessages, toUIMessageStream } from '@ai-sdk/langchain';
@@ -101,15 +101,15 @@ return createUIMessageStreamResponse({
 });
 ```
 
-The adapter automatically detects the stream type and handles:
+适配器自动检测流类型并处理：
 
-- `on_chat_model_stream` events for text streaming
-- `on_tool_start` and `on_tool_end` events for tool calls
-- Reasoning content from contentBlocks
+- 文本流式的 `on_chat_model_stream` 事件
+- 工具调用的 `on_tool_start` 与 `on_tool_end` 事件
+- 来自 contentBlocks 的推理内容
 
-### Custom Data Streaming
+### 自定义数据流
 
-LangChain tools can emit custom data events using `config.writer()`. The adapter converts these to typed `data-{type}` parts:
+LangChain 工具可通过 `config.writer()` 发出自定义数据事件，适配器将其转为类型化 `data-{type}` 部分：
 
 ```ts
 import { tool, type ToolRuntime } from 'langchain';
@@ -145,7 +145,7 @@ const analyzeDataTool = tool(
 );
 ```
 
-Enable the `custom` stream mode to receive these events:
+启用 `custom` 流模式以接收这些事件：
 
 ```ts
 const stream = await graph.stream(
@@ -154,15 +154,15 @@ const stream = await graph.stream(
 );
 ```
 
-**Custom data behavior:**
+**自定义数据行为：**
 
-- Data with an `id` field is **persistent** (added to `message.parts` for rendering)
-- Data without an `id` is **transient** (only delivered via the `onData` callback)
-- The `type` field determines the event name: `{ type: 'progress' }` → `data-progress`
+- 带 `id` 的数据为**持久**（加入 `message.parts` 用于渲染）
+- 无 `id` 的数据为**瞬态**（仅通过 `onData` 回调传递）
+- `type` 字段决定事件名：`{ type: 'progress' }` → `data-progress`
 
-### LangSmith Deployment Transport
+### LangSmith 部署 Transport
 
-Use `LangSmithDeploymentTransport` with the AI SDK `useChat` hook to connect directly to a LangGraph deployment from the browser:
+在浏览器中使用 AI SDK `useChat` 与 `LangSmithDeploymentTransport` 直接连接 LangGraph 部署：
 
 ```tsx
 import { useChat } from 'ai/react';
@@ -197,59 +197,59 @@ function Chat() {
 }
 ```
 
-## API Reference
+## API 参考
 
 ### `toBaseMessages(messages)`
 
-Converts AI SDK `UIMessage` objects to LangChain `BaseMessage` objects.
+将 AI SDK `UIMessage` 转为 LangChain `BaseMessage`。
 
-**Parameters:**
+**参数：**
 
-- `messages`: `UIMessage[]` - Array of AI SDK UI messages
+- `messages`：`UIMessage[]` - AI SDK UI 消息数组
 
-**Returns:** `Promise<BaseMessage[]>`
+**返回：** `Promise<BaseMessage[]>`
 
 ### `convertModelMessages(modelMessages)`
 
-Converts AI SDK `ModelMessage` objects to LangChain `BaseMessage` objects.
+将 AI SDK `ModelMessage` 转为 LangChain `BaseMessage`。
 
-**Parameters:**
+**参数：**
 
-- `modelMessages`: `ModelMessage[]` - Array of model messages
+- `modelMessages`：`ModelMessage[]` - 模型消息数组
 
-**Returns:** `BaseMessage[]`
+**返回：** `BaseMessage[]`
 
 ### `toUIMessageStream(stream, callbacks?)`
 
-Converts a LangChain/LangGraph stream to an AI SDK `UIMessageStream`.
+将 LangChain/LangGraph 流转为 AI SDK `UIMessageStream`。
 
-**Parameters:**
+**参数：**
 
-- `stream`: `AsyncIterable | ReadableStream` - A stream from LangChain `model.stream()`, LangGraph `graph.stream()`, or `streamEvents()`
-- `callbacks?`: `StreamCallbacks<TState>` - Optional lifecycle callbacks:
-  - `onStart()` - Called when stream initializes
-  - `onToken(token)` - Called for each token
-  - `onText(text)` - Called for each text chunk
-  - `onFinal(text)` - Called with aggregated text (on success, error, or abort)
-  - `onFinish(state)` - Called on success with LangGraph state (or `undefined` for other streams)
-  - `onError(error)` - Called when stream errors
-  - `onAbort()` - Called when stream is aborted
+- `stream`：`AsyncIterable | ReadableStream` - 来自 LangChain `model.stream()`、LangGraph `graph.stream()` 或 `streamEvents()` 的流
+- `callbacks?`：`StreamCallbacks<TState>` - 可选生命周期回调：
+  - `onStart()` - 流初始化时调用
+  - `onToken(token)` - 每个 token 时调用
+  - `onText(text)` - 每个文本块时调用
+  - `onFinal(text)` - 聚合文本时调用（成功、错误或中止）
+  - `onFinish(state)` - 成功时携带 LangGraph 状态（其他流为 `undefined`）
+  - `onError(error)` - 流出错时调用
+  - `onAbort()` - 流中止时调用
 
 **Returns:** `ReadableStream<UIMessageChunk>`
 
-**Supported stream types:**
+**支持的流类型：**
 
-- **Model streams** - Direct `AIMessageChunk` streams from `model.stream()`
-- **LangGraph streams** - Streams with `streamMode: ['values', 'messages']`
-- **streamEvents** - Event streams from `agent.streamEvents()` or `model.streamEvents()`
+- **模型流** - 来自 `model.stream()` 的 `AIMessageChunk` 流
+- **LangGraph 流** - `streamMode: ['values', 'messages']` 的流
+- **streamEvents** - 来自 `agent.streamEvents()` 或 `model.streamEvents()` 的事件流
 
-**Supported LangGraph stream events:**
+**支持的 LangGraph 流事件：**
 
-- `messages` - Streaming message chunks (text, tool calls)
-- `values` - State updates that finalize pending message chunks
-- `custom` - Custom data events (emitted as `data-{type}` chunks)
+- `messages` - 流式消息块（文本、工具调用）
+- `values` - 完成待处理消息块的状态更新
+- `custom` - 自定义数据事件（以 `data-{type}` 块发出）
 
-**Supported streamEvents events:**
+**支持的 streamEvents 事件：**
 
 - `on_chat_model_stream` - Token streaming from chat models
 - `on_tool_start` - Tool execution start
@@ -257,17 +257,17 @@ Converts a LangChain/LangGraph stream to an AI SDK `UIMessageStream`.
 
 ### `LangSmithDeploymentTransport`
 
-A `ChatTransport` implementation for LangSmith/LangGraph deployments.
+面向 LangSmith/LangGraph 部署的 `ChatTransport` 实现。
 
-**Constructor Parameters:**
+**构造参数：**
 
-- `options`: `LangSmithDeploymentTransportOptions` - Configuration for the RemoteGraph connection
-  - `url`: `string` - LangSmith deployment URL or local server URL
-  - `apiKey?`: `string` - API key for authentication (optional for local development)
-  - `graphId?`: `string` - The ID of the graph to connect to (defaults to `'agent'`)
+- `options`：`LangSmithDeploymentTransportOptions` - RemoteGraph 连接配置
+  - `url`：`string` - LangSmith 部署 URL 或本地服务器 URL
+  - `apiKey?`：`string` - 身份验证 API Key（本地开发可选）
+  - `graphId?`：`string` - 要连接的图 ID（默认 `'agent'`）
 
-**Implements:** `ChatTransport`
+**实现：** `ChatTransport`
 
-## Documentation
+## 文档
 
-Please check out the [AI SDK documentation](https://ai-sdk.dev) for more information.
+更多信息请参阅 [AI SDK 文档](https://ai-sdk.dev)。

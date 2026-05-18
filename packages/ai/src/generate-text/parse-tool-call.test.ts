@@ -302,7 +302,7 @@ describe('parseToolCall', () => {
         type: 'tool-call',
         toolName: 'testTool',
         toolCallId: '123',
-        input: '{"param1": "test"}', // Missing required param2
+        input: '{"param1": "test"}', // 缺少必需的参数2
       },
       tools: {
         testTool: tool({
@@ -359,7 +359,7 @@ describe('parseToolCall', () => {
           type: 'tool-call',
           toolName: 'testTool',
           toolCallId: '123',
-          input: 'invalid json', // This will trigger repair
+          input: 'invalid json', // 这将触发修复
         },
         tools: {
           testTool: tool({
@@ -374,7 +374,7 @@ describe('parseToolCall', () => {
         instructions: 'test instructions',
       });
 
-      // Verify repair function was called
+      // 验证修复函数被调用
       expect(repairToolCall).toHaveBeenCalledTimes(1);
       expect(repairToolCall).toHaveBeenCalledWith({
         toolCall: expect.objectContaining({
@@ -389,7 +389,7 @@ describe('parseToolCall', () => {
         error: expect.any(InvalidToolInputError),
       });
 
-      // Verify the repaired result was used
+      // 验证已使用修复结果
       expect(result).toMatchInlineSnapshot(`
         {
           "input": {

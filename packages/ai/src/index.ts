@@ -1,7 +1,7 @@
-// import globals
+// 导入全局变量
 import './global';
 
-// re-exports:
+// 再出口：
 export { createGateway, gateway, type GatewayModelId } from '@ai-sdk/gateway';
 export {
   asSchema,
@@ -27,7 +27,7 @@ export {
   type ToolSet,
 } from '@ai-sdk/provider-utils';
 
-// directory exports
+// 目录导出
 export * from './agent';
 export * from './embed';
 export * from './error';

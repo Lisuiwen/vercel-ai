@@ -1,11 +1,11 @@
 ---
 title: DefaultGeneratedFile
-description: API Reference for DefaultGeneratedFile.
+description: DefaultGeneratedFile 的 API 参考。
 ---
 
 # `DefaultGeneratedFile`
 
-A concrete implementation of the `GeneratedFile` interface that provides lazy conversion between base64 and Uint8Array formats.
+`GeneratedFile` 接口的具体实现，在 base64 与 `Uint8Array` 格式之间提供惰性转换。
 
 ```ts
 import { DefaultGeneratedFile } from 'ai';
@@ -15,17 +15,17 @@ const file = new DefaultGeneratedFile({
   mediaType: 'image/png',
 });
 
-console.log(file.base64); // Automatically converted to base64
-console.log(file.uint8Array); // Original Uint8Array
+console.log(file.base64); // 自动转换为 base64
+console.log(file.uint8Array); // 原始 Uint8Array
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { DefaultGeneratedFile } from "ai"`} prompt={false} />
 
-## Constructor
+## 构造函数
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -33,17 +33,17 @@ console.log(file.uint8Array); // Original Uint8Array
       name: 'data',
       type: 'string | Uint8Array',
       description:
-        'The file data as either a base64 encoded string or Uint8Array.',
+        '文件数据，可为 base64 编码字符串或 Uint8Array。',
     },
     {
       name: 'mediaType',
       type: 'string',
-      description: 'The IANA media type of the file.',
+      description: '文件的 IANA 媒体类型。',
     },
   ]}
 />
 
-## Properties
+## 属性
 
 <PropertiesTable
   content={[
@@ -51,18 +51,18 @@ console.log(file.uint8Array); // Original Uint8Array
       name: 'base64',
       type: 'string',
       description:
-        'File as a base64 encoded string. Lazily converted from Uint8Array if needed.',
+        '文件以 base64 编码字符串表示。如需则从 Uint8Array 惰性转换。',
     },
     {
       name: 'uint8Array',
       type: 'Uint8Array',
       description:
-        'File as a Uint8Array. Lazily converted from base64 if needed.',
+        '文件以 Uint8Array 表示。如需则从 base64 惰性转换。',
     },
     {
       name: 'mediaType',
       type: 'string',
-      description: 'The IANA media type of the file.',
+      description: '文件的 IANA 媒体类型。',
     },
   ]}
 />

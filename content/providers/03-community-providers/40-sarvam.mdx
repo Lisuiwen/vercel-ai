@@ -1,15 +1,15 @@
 ---
 title: 'Sarvam'
-description: 'Learn how to use the Sarvam AI provider for the AI SDK.'
+description: '介绍如何在 AI SDK 中使用 Sarvam AI 提供商。'
 ---
 
-# Sarvam Provider
+# Sarvam 提供商
 
-The Sarvam AI Provider is a library developed to integrate with the AI SDK. This library brings Speech to Text (STT) capabilities to your applications, allowing for seamless interaction with audio and text data.
+Sarvam AI Provider 是与 AI SDK 集成的库，为应用带来语音转文本（STT）能力，便于处理音频与文本数据。
 
-## Setup
+## 安装与配置
 
-The Sarvam provider is available in the `sarvam-ai-provider` module. You can install it with:
+Sarvam 提供商位于 `sarvam-ai-provider` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -26,11 +26,11 @@ The Sarvam provider is available in the `sarvam-ai-provider` module. You can ins
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-First, get your **Sarvam API Key** from the [Sarvam Dashboard](https://dashboard.sarvam.ai/auth/signin).
+首先在 [Sarvam 控制台](https://dashboard.sarvam.ai/auth/signin) 获取 **Sarvam API Key**。
 
-Then initialize `Sarvam` in your application:
+然后在应用中初始化 `Sarvam`：
 
 ```ts
 import { createSarvam } from 'sarvam-ai-provider';
@@ -43,11 +43,11 @@ const sarvam = createSarvam({
 ```
 
 <Note>
-  The `api-subscription-key` needs to be passed in headers. Consider using
-  `YOUR_API_KEY` as environment variables for security.
+  `api-subscription-key` 需通过请求头传入。为安全起见建议使用环境变量存放
+  `YOUR_API_KEY`。
 </Note>
 
-- Transcribe speech to text
+- 语音转文字
 
 ```ts
 import { experimental_transcribe as transcribe } from 'ai';
@@ -64,11 +64,11 @@ await transcribe({
 });
 ```
 
-## Features
+## 功能
 
-### Changing parameters
+### 修改参数
 
-- Change language_code
+- 更改 language_code
 
 ```ts
 providerOptions: {
@@ -79,62 +79,52 @@ providerOptions: {
 ```
 
 <Note>
-  `language_code` specifies the language of the input audio and is required for
-  accurate transcription. • It is mandatory for the `saarika:v1` model (this
-  model does not support `unknown`). • It is optional for the `saarika:v2`
-  model. • Use `unknown` when the language is not known; in that case, the API
-  will auto‑detect it. Available options: `unknown`, `hi-IN`, `bn-IN`, `kn-IN`,
-  `ml-IN`, `mr-IN`, `od-IN`, `pa-IN`, `ta-IN`, `te-IN`, `en-IN`, `gu-IN`.
+  `language_code` 指定输入音频语言，对准确转写为必填。• `saarika:v1` 模型为必填（不支持 `unknown`）。• `saarika:v2` 为可选。• 语言未知时可使用 `unknown`，此时 API 会自动检测。可选值：`unknown`、`hi-IN`、`bn-IN`、`kn-IN`、`ml-IN`、`mr-IN`、`od-IN`、`pa-IN`、`ta-IN`、`te-IN`、`en-IN`、`gu-IN`。
 </Note>
 
 - with_timestamps?
 
 ```ts
 providerOptions: {
-  sarvam: {
-    with_timestamps: true,
+    sarvam: {
+      with_timestamps: true,
+    },
   },
-},
 ```
 
 <Note>
-  `with_timestamps` specifies whether to include start/end timestamps for each
-  word/token. • Type: boolean • When true, each word/token will include
-  start/end timestamps. • Default: false
+  `with_timestamps` 指定是否为每个词/token 包含起止时间戳。• 类型：布尔 • 为 true 时，每个词/token 包含起止时间戳。• 默认：false
 </Note>
 
 - with_diarization?
 
 ```ts
 providerOptions: {
-  sarvam: {
-    with_diarization: true,
+    sarvam: {
+      with_diarization: true,
+    },
   },
-},
 ```
 
 <Note>
-  `with_diarization` enables speaker diarization (Beta). • Type: boolean • When
-  true, enables speaker diarization. • Default: false
+  `with_diarization` 启用说话人分离（Beta）。• 类型：布尔 • 为 true 时启用说话人分离。• 默认：false
 </Note>
 
 - num_speakers?
 
 ```ts
 providerOptions: {
-  sarvam: {
-    with_diarization: true,
-    num_speakers: 2,
+    sarvam: {
+      with_diarization: true,
+      num_speakers: 2,
+    },
   },
-},
 ```
 
 <Note>
-  `num_speakers` sets the number of distinct speakers to detect (only when
-  `with_diarization` is true). • Type: number | null • Number of distinct
-  speakers to detect. • Default: null
+  `num_speakers` 设置要检测的不同说话人数量（仅在 `with_diarization` 为 true 时生效）。• 类型：number | null • 要检测的不同说话人数量。• 默认：null
 </Note>
 
-## References
+## 参考链接
 
-- [Sarvam API Docs](https://docs.sarvam.ai/api-reference-docs/endpoints/speech-to-text)
+- [Sarvam API 文档](https://docs.sarvam.ai/api-reference-docs/endpoints/speech-to-text)

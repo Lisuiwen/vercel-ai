@@ -1,31 +1,24 @@
 ---
 title: Experimental_Sandbox
-description: API Reference for the Experimental_Sandbox interface.
+description: Experimental_Sandbox 接口的 API 参考。
 ---
 
 # `Experimental_Sandbox`
 
-The `Experimental_Sandbox` interface describes an execution environment that
-tools can use to run commands. Pass an experimental sandbox using the
-`experimental_sandbox` option to `generateText`, `streamText`,
-`ToolLoopAgent.generate`, `ToolLoopAgent.stream`, or agent UI stream helpers to
-make it available to tool description functions and tool execution.
+`Experimental_Sandbox` 接口描述工具可用于运行命令的执行环境。通过 `experimental_sandbox` 选项传入实验性沙箱至 `generateText`、`streamText`、`ToolLoopAgent.generate`、`ToolLoopAgent.stream` 或智能体 UI 流辅助函数，即可在工具描述函数与工具执行中使用。
 
 <Note type="warning">
-  This API is experimental and can change in patch releases. Passing an
-  experimental sandbox does not sandbox the tool itself. Tool code still runs in
-  your application process unless the tool explicitly delegates work to the
-  experimental sandbox.
+  该 API 为实验性，可能在补丁版本中变更。传入实验性沙箱**并不会**将工具本身沙箱化；除非工具显式将工作委托给实验性沙箱，否则工具代码仍在应用进程中运行。
 </Note>
 
-## Import
+## 导入
 
 <Snippet
   text={`import type { Experimental_Sandbox } from "ai"`}
   prompt={false}
 />
 
-## Type Definition
+## 类型定义
 
 ```ts
 type Experimental_Sandbox = {
@@ -42,7 +35,7 @@ type Experimental_Sandbox = {
 };
 ```
 
-## Properties
+## 属性
 
 <PropertiesTable
   content={[
@@ -50,13 +43,13 @@ type Experimental_Sandbox = {
       name: 'description',
       type: 'string',
       description:
-        'Description of the experimental sandbox environment. Include this in your prompt or instructions when the model needs to know details such as the root directory, exposed ports, public hostname, or other environment constraints. The AI SDK does not add it to the prompt automatically.',
+        '实验性沙箱环境的描述。当模型需要了解根目录、开放端口、公共主机名或其他环境约束时，请将其包含在提示或说明中。AI SDK 不会自动将其加入提示。',
     },
     {
       name: 'runCommand',
       type: '(options: { command: string; workingDirectory?: string; abortSignal?: AbortSignal }) => PromiseLike<{ exitCode: number; stdout: string; stderr: string }>',
       description:
-        'Executes a command in the experimental sandbox and resolves with the command exit code, standard output, and standard error.',
+        '在实验性沙箱中执行命令，并解析为退出码、标准输出与标准错误。',
       properties: [
         {
           type: 'options',
@@ -65,19 +58,19 @@ type Experimental_Sandbox = {
               name: 'command',
               type: 'string',
               description:
-                'The command to execute in the experimental sandbox.',
+                '在实验性沙箱中执行的命令。',
             },
             {
               name: 'workingDirectory',
               type: 'string | undefined',
               description:
-                'Optional working directory to execute the command in. If omitted, the experimental sandbox implementation uses its default working directory.',
+                '执行命令的可选工作目录。若省略，实验性沙箱实现使用其默认工作目录。',
             },
             {
               name: 'abortSignal',
               type: 'AbortSignal | undefined',
               description:
-                'Optional abort signal that the experimental sandbox implementation can use to cancel the command.',
+                '实验性沙箱实现可用于取消命令的可选中止信号。',
             },
           ],
         },
@@ -86,7 +79,7 @@ type Experimental_Sandbox = {
   ]}
 />
 
-## Example
+## 示例
 
 ```ts
 const result = await generateText({
@@ -97,7 +90,7 @@ const result = await generateText({
 });
 ```
 
-Inside a tool, read the experimental sandbox from the second `execute` argument:
+在工具内，从 `execute` 的第二个参数读取实验性沙箱：
 
 ```ts
 const shell = tool({
@@ -122,9 +115,9 @@ const shell = tool({
 });
 ```
 
-## See Also
+## 另请参阅
 
-- [Tool Calling: Experimental Sandbox](/docs/ai-sdk-core/tools-and-tool-calling#experimental-sandbox)
+- [工具调用：实验性沙箱](/docs/ai-sdk-core/tools-and-tool-calling#experimental-sandbox)
 - [`generateText`](/docs/reference/ai-sdk-core/generate-text)
 - [`streamText`](/docs/reference/ai-sdk-core/stream-text)
 - [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent)

@@ -83,7 +83,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
   onToolCall,
   onData,
 }: {
-  // input stream is not fully typed yet:
+  // 输入流尚未完全键入：
   stream: ReadableStream<UIMessageChunk>;
   messageMetadataSchema?: FlexibleSchema<InferUIMessageMetadata<UI_MESSAGE>>;
   dataPartSchemas?: UIDataTypesToSchemas<InferUIMessageData<UI_MESSAGE>>;
@@ -199,7 +199,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
               if (options.toolMetadata !== undefined) {
                 anyPart.toolMetadata = options.toolMetadata;
               }
-              // once providerExecuted is set, it stays for streaming
+              // 一旦设置了providerExecuted，它就会保留用于流式传输
               anyPart.providerExecuted =
                 anyOptions.providerExecuted ?? part.providerExecuted;
 
@@ -307,7 +307,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
               if (options.toolMetadata !== undefined) {
                 anyPart.toolMetadata = options.toolMetadata;
               }
-              // once providerExecuted is set, it stays for streaming
+              // 一旦设置了providerExecuted，它就会保留用于流式传输
               anyPart.providerExecuted =
                 anyOptions.providerExecuted ?? part.providerExecuted;
 
@@ -541,7 +541,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
               const toolInvocations =
                 state.message.parts.filter(isStaticToolUIPart);
 
-              // add the partial tool call to the map
+              // 将部分工具调用添加到地图
               state.partialToolCalls[chunk.toolCallId] = {
                 text: '',
                 toolName: chunk.toolName,
@@ -648,10 +648,10 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
 
               write();
 
-              // invoke the onToolCall callback if it exists. This is blocking.
-              // In the future we should make this non-blocking, which
-              // requires additional state management for error handling etc.
-              // Skip calling onToolCall for provider-executed tools since they are already executed
+              // 调用 onToolCall 回调（如果存在）。这是阻塞。
+              // 将来我们应该使其成为非阻塞的，这
+              // 需要额外的状态管理来进行错误处理等。
+              // 跳过对提供者执行的工具调用 onToolCall，因为它们已经执行
               if (onToolCall && !chunk.providerExecuted) {
                 await onToolCall({
                   toolCall: chunk as InferUIMessageToolCall<UI_MESSAGE>,
@@ -661,9 +661,9 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
             }
 
             case 'tool-input-error': {
-              // When a part already exists for this toolCallId (e.g. from
-              // tool-input-start), honour its type so we update in place
-              // instead of creating a duplicate with a mismatched type.
+              // 当该 toolCallId 的部件已存在时（例如来自
+              // tool-input-start)，尊重其类型，以便我们就地更新
+              // 而不是创建类型不匹配的重复项。
               const existingPart = state.message.parts
                 .filter(isToolUIPart)
                 .find(p => p.toolCallId === chunk.toolCallId);
@@ -815,13 +815,13 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
             }
 
             case 'start-step': {
-              // add a step boundary part to the message
+              // 在消息中添加步骤边界部分
               state.message.parts.push({ type: 'step-start' });
               break;
             }
 
             case 'finish-step': {
-              // reset the current text and reasoning parts
+              // 重置当前文本和推理部分
               state.activeTextParts = {};
               state.activeReasoningParts = {};
               break;
@@ -866,7 +866,7 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
 
             default: {
               if (isDataUIMessageChunk(chunk)) {
-                // validate data chunk if dataPartSchemas is provided
+                // 如果提供了 dataPartSchemas，则验证数据块
                 if (dataPartSchemas?.[chunk.type] != null) {
                   const partIdx = state.message.parts.findIndex(
                     p =>
@@ -889,12 +889,12 @@ export function processUIMessageStream<UI_MESSAGE extends UIMessage>({
                   });
                 }
 
-                // cast, validation is done above
+                // 强制转换，验证已在上面完成
                 const dataChunk = chunk as DataUIMessageChunk<
                   InferUIMessageData<UI_MESSAGE>
                 >;
 
-                // transient parts are not added to the message state
+                // 瞬态部分不会添加到消息状态中
                 if (dataChunk.transient) {
                   onData?.(dataChunk);
                   break;

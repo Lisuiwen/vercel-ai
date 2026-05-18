@@ -1,33 +1,30 @@
 ---
-title: Chatbot Tool Usage
-description: Learn how to use tools with the useChat hook.
+title: 聊天机器人工具调用
+description: 学习如何将工具与 useChat hook 配合使用。
 ---
 
-# Chatbot Tool Usage
+# 聊天机器人工具调用
 
-With [`useChat`](/docs/reference/ai-sdk-ui/use-chat) and [`streamText`](/docs/reference/ai-sdk-core/stream-text), you can use tools in your chatbot application.
-The AI SDK supports three tool execution patterns in this context:
+通过 [`useChat`](/docs/reference/ai-sdk-ui/use-chat) 和 [`streamText`](/docs/reference/ai-sdk-core/stream-text)，你可以在聊天机器人应用中使用工具。
+在此场景下，AI SDK 支持三种工具执行模式：
 
-1. Automatically executed server-side tools
-2. Automatically executed client-side tools
-3. Tools that require user interaction, such as confirmation dialogs
+1. 在服务端自动执行的工具
+2. 在客户端自动执行的工具
+3. 需要用户交互的工具，例如确认对话框
 
-The flow is as follows:
+流程如下：
 
-1. The user enters a message in the chat UI.
-1. The message is sent to the API route.
-1. In your server side route, the language model generates tool calls during the `streamText` call.
-1. All tool calls are forwarded to the client.
-1. Server-side tools are executed using their `execute` method and their results are forwarded to the client.
-1. Client-side tools that should be automatically executed are handled with the `onToolCall` callback.
-   You must call `addToolOutput` to provide the tool result.
-1. Client-side tool that require user interactions can be displayed in the UI.
-   The tool calls and results are available as tool invocation parts in the `parts` property of the last assistant message.
-1. When the user interaction is done, `addToolOutput` can be used to add the tool result to the chat.
-1. The chat can be configured to automatically submit when all tool results are available using `sendAutomaticallyWhen`.
-   This triggers another iteration of this flow.
+1. 用户在聊天 UI 中输入消息。
+1. 消息发送到 API 路由。
+1. 在服务端路由中，语言模型在 `streamText` 调用期间生成工具调用。
+1. 所有工具调用转发到客户端。
+1. 服务端工具使用其 `execute` 方法执行，结果转发到客户端。
+1. 应自动执行的客户端工具通过 `onToolCall` 回调处理。你必须调用 `addToolOutput` 提供工具结果。
+1. 需要用户交互的客户端工具可在 UI 中显示。工具调用和结果可作为工具调用部分，在最后一条助手消息的 `parts` 属性中访问。
+1. 用户交互完成后，可使用 `addToolOutput` 将工具结果添加到聊天。
+1. 可使用 `sendAutomaticallyWhen` 配置聊天，在所有工具结果可用时自动提交。这将触发此流程的另一次迭代。
 
-The tool calls and tool executions are integrated into the assistant message as typed tool parts.
+工具调用和工具执行作为类型化的工具部分集成到助手消息中。
 A tool part is at first a tool call, and then it becomes a tool result when the tool is executed.
 The tool result contains all information about the tool call as well as the result of the tool execution.
 

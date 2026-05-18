@@ -1,57 +1,56 @@
 ---
-title: render (Removed)
-description: Reference for the render function from the AI SDK RSC
+title: render（已移除）
+description: AI SDK RSC 中 render 函数的参考
 ---
 
-# `render` (Removed)
+# `render`（已移除）
 
-<Note type="warning">"render" has been removed in AI SDK 4.0.</Note>
+<Note type="warning">"render" 已在 AI SDK 4.0 中移除。</Note>
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境中使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。关于从 RSC 迁移到 UI 的指导，请参阅我们的[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-A helper function to create a streamable UI from LLM providers. This function is similar to AI SDK Core APIs and supports the same model interfaces.
+一个辅助函数，用于从 LLM providers 创建 streamable UI。此函数类似于 AI SDK Core API，并支持相同的模型接口。
 
-> **Note**: `render` has been deprecated in favor of [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui). During migration, please ensure that the `messages` parameter follows the updated [specification](/docs/reference/ai-sdk-rsc/stream-ui#messages).
+> **注意**：`render` 已弃用，请改用 [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui)。迁移期间，请确保 `messages` 参数遵循更新后的[规范](/docs/reference/ai-sdk-rsc/stream-ui#messages)。
 
-## Import (No longer available)
+## 导入（不再可用）
 
-The following import will no longer work since `render` has been removed:
+由于 `render` 已被移除，以下导入将不再生效：
 
 <Snippet text={`import { render } from "@ai-sdk/rsc"`} prompt={false} />
 
-Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
+请改用 [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui)。
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'model',
       type: 'string',
-      description: 'Model identifier, must be OpenAI SDK compatible.',
+      description: '模型标识符，必须兼容 OpenAI SDK。',
     },
     {
       name: 'provider',
       type: 'provider client',
       description:
-        'Currently the only provider available is OpenAI. This needs to match the model name.',
+        '目前唯一可用的 provider 是 OpenAI。它需要与模型名称匹配。',
     },
     {
       name: 'initial',
       isOptional: true,
       type: 'ReactNode',
-      description: 'The initial UI to render.',
+      description: '要渲染的初始 UI。',
     },
     {
       name: 'messages',
       type: 'Array<SystemMessage | UserMessage | AssistantMessage | ToolMessage>',
-      description: 'A list of messages that represent a conversation.',
+      description: '表示对话的消息列表。',
       properties: [
         {
           type: 'SystemMessage',
@@ -59,12 +58,12 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
             {
               name: 'role',
               type: "'system'",
-              description: 'The role for the system message.',
+              description: 'system message 的角色。',
             },
             {
               name: 'content',
               type: 'string',
-              description: 'The content of the message.',
+              description: '消息内容。',
             },
           ],
         },
@@ -74,12 +73,12 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
             {
               name: 'role',
               type: "'user'",
-              description: 'The role for the user message.',
+              description: 'user message 的角色。',
             },
             {
               name: 'content',
               type: 'string',
-              description: 'The content of the message.',
+              description: '消息内容。',
             },
           ],
         },
@@ -89,17 +88,17 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
             {
               name: 'role',
               type: "'assistant'",
-              description: 'The role for the assistant message.',
+              description: 'assistant message 的角色。',
             },
             {
               name: 'content',
               type: 'string',
-              description: 'The content of the message.',
+              description: '消息内容。',
             },
             {
               name: 'tool_calls',
               type: 'ToolCall[]',
-              description: 'A list of tool calls made by the model.',
+              description: '模型发起的 tool calls 列表。',
               properties: [
                 {
                   type: 'ToolCall',
@@ -107,17 +106,17 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
                     {
                       name: 'id',
                       type: 'string',
-                      description: 'The id of the tool call.',
+                      description: 'tool call 的 ID。',
                     },
                     {
                       name: 'type',
                       type: "'function'",
-                      description: 'The type of the tool call.',
+                      description: 'tool call 的类型。',
                     },
                     {
                       name: 'function',
                       type: 'Function',
-                      description: 'The function to call.',
+                      description: '要调用的函数。',
                       properties: [
                         {
                           type: 'Function',
@@ -125,12 +124,12 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
                             {
                               name: 'name',
                               type: 'string',
-                              description: 'The name of the function.',
+                              description: '函数名称。',
                             },
                             {
                               name: 'arguments',
                               type: 'string',
-                              description: 'The arguments of the function.',
+                              description: '函数参数。',
                             },
                           ],
                         },
@@ -148,17 +147,17 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
             {
               name: 'role',
               type: "'tool'",
-              description: 'The role for the tool message.',
+              description: 'tool message 的角色。',
             },
             {
               name: 'content',
               type: 'string',
-              description: 'The content of the message.',
+              description: '消息内容。',
             },
             {
               name: 'toolCallId',
               type: 'string',
-              description: 'The id of the tool call.',
+              description: 'tool call 的 ID。',
             },
           ],
         },
@@ -169,7 +168,7 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
       type: 'ToolSet',
       isOptional: true,
       description:
-        'Tools that are accessible to and can be called by the model.',
+        '模型可以访问并调用的 tools。',
       properties: [
         {
           type: 'Tool',
@@ -179,20 +178,20 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
               isOptional: true,
               type: 'string',
               description:
-                'Information about the purpose of the tool including details on how and when it can be used by the model.',
+                '关于 tool 用途的信息，包括模型如何以及何时可以使用它的详细信息。',
             },
             {
               name: 'parameters',
               type: 'zod schema',
               description:
-                'The typed schema that describes the parameters of the tool that can also be used to validation and error handling.',
+                '描述 tool 参数的类型化 schema，也可用于校验和错误处理。',
             },
             {
               name: 'render',
               isOptional: true,
               type: 'async (parameters) => any',
               description:
-                'An async function that is called with the arguments from the tool call and produces a result.',
+                '一个异步函数，会使用 tool call 的参数调用并生成结果。',
             },
           ],
         },
@@ -203,7 +202,7 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
       type: 'ToolSet',
       isOptional: true,
       description:
-        'Tools that are accessible to and can be called by the model.',
+        '模型可以访问并调用的 tools。',
       properties: [
         {
           type: 'Tool',
@@ -213,20 +212,20 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
               isOptional: true,
               type: 'string',
               description:
-                'Information about the purpose of the tool including details on how and when it can be used by the model.',
+                '关于 tool 用途的信息，包括模型如何以及何时可以使用它的详细信息。',
             },
             {
               name: 'parameters',
               type: 'zod schema',
               description:
-                'The typed schema that describes the parameters of the tool that can also be used to validation and error handling.',
+                '描述 tool 参数的类型化 schema，也可用于校验和错误处理。',
             },
             {
               name: 'render',
               isOptional: true,
               type: 'async (parameters) => any',
               description:
-                'An async function that is called with the arguments from the tool call and produces a result.',
+                '一个异步函数，会使用 tool call 的参数调用并生成结果。',
             },
           ],
         },
@@ -236,7 +235,7 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
       name: 'text',
       isOptional: true,
       type: '(Text) => ReactNode',
-      description: 'Callback to handle the generated tokens from the model.',
+      description: '用于处理模型生成 token 的回调。',
       properties: [
         {
           type: 'Text',
@@ -244,10 +243,10 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
             {
               name: 'content',
               type: 'string',
-              description: 'The full content of the completion.',
+              description: 'completion 的完整内容。',
             },
-            { name: 'delta', type: 'string', description: 'The delta.' },
-            { name: 'done', type: 'boolean', description: 'Is it done?' },
+            { name: 'delta', type: 'string', description: '增量内容。' },
+            { name: 'done', type: 'boolean', description: '是否已完成？' },
           ],
         },
       ],
@@ -256,11 +255,11 @@ Use [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui) instead.
       name: 'temperature',
       isOptional: true,
       type: 'number',
-      description: 'The temperature to use for the model.',
+      description: '模型要使用的 temperature。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-It can return any valid ReactNode.
+它可以返回任何有效的 ReactNode。

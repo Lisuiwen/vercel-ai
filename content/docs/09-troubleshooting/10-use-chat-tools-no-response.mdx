@@ -1,18 +1,18 @@
 ---
-title: useChat No Response
-description: Troubleshooting errors related to the Use Chat Failed to Parse Stream error.
+title: useChat 无回复
+description: 排查与 Use Chat 无响应相关的问题。
 ---
 
-# `useChat` No Response
+# `useChat` 无回复
 
-## Issue
+## 问题
 
-I am using [`useChat`](/docs/reference/ai-sdk-ui/use-chat).
-When I log the incoming messages on the server, I can see the tool call and the tool result, but the model does not respond with anything.
+我在使用 [`useChat`](/docs/reference/ai-sdk-ui/use-chat)。
+在服务端打印收到的消息时，能看到工具调用和工具结果，但模型没有任何文字回复。
 
-## Solution
+## 解决方案
 
-To resolve this issue, convert the incoming messages to the `ModelMessage` format using the [`convertToModelMessages`](/docs/reference/ai-sdk-ui/convert-to-model-messages) function.
+使用 [`convertToModelMessages`](/docs/reference/ai-sdk-ui/convert-to-model-messages) 将收到的消息转为 `ModelMessage` 格式。
 
 ```tsx highlight="9"
 import { openai } from '@ai-sdk/openai';

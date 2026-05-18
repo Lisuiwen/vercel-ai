@@ -40,8 +40,8 @@ run(async () => {
     tools,
     toolChoice: 'required',
     providerOptions: {
-      // alternatively this feature can be enabled with:
-      // anthropic: {
+      // 或者可以通过以下方式启用此功能：
+      // 人择：{
       //   anthropicBeta: ['fine-grained-tool-streaming-2025-05-14'],
       // },
     },
@@ -52,7 +52,7 @@ run(async () => {
   let sawToolInputEnd = false;
   const toolInputDeltaTimestamps: number[] = [];
 
-  // ts() prints a compact timestamp to stderr so we can see real-time ordering
+  // ts() 向 stderr 打印一个紧凑的时间戳，以便我们可以看到实时排序
   const T0 = Date.now();
   const ts = (label: string) =>
     process.stderr.write(
@@ -125,12 +125,12 @@ run(async () => {
     }
   }
 
-  // ── diagnosis ─────────────────────────────────────────────────────────────
-  // Count consecutive delta intervals >= 5ms (genuine per-token generation time).
-  // A buffered dump replays all deltas synchronously (<1ms each); real streaming
-  // has most intervals >= 5ms as each token takes time to generate.
-  // Threshold is heuristic — the desired behavior is smooth continuous streaming
-  // instead of a long hang followed by a dump of all chunks at once.
+  // ── 诊断──────────────────────────────────────────────────────────────
+  // 计算连续的增量间隔 >= 5ms（真正的每个令牌生成时间）。
+  // 缓冲转储同步重放所有增量（每个增量<1ms）；真正的流媒体
+  // 大多数间隔 >= 5ms，因为每个令牌都需要时间来生成。
+  // 阈值是启发式的 - 所需的行为是平滑连续流
+  // 而不是长时间挂起然后立即转储所有块。
   let liveIntervals = 0;
   for (let i = 1; i < toolInputDeltaTimestamps.length; i++) {
     if (toolInputDeltaTimestamps[i] - toolInputDeltaTimestamps[i - 1] >= 5)

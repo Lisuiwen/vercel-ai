@@ -1,7 +1,7 @@
 import type { DeepPartial } from 'ai';
 import { z } from 'zod';
 
-// define a schema for the notifications
+// 为 notifications 定义 schema
 export const notificationSchema = z.object({
   notifications: z.array(
     z.object({
@@ -12,5 +12,5 @@ export const notificationSchema = z.object({
   ),
 });
 
-// define a type for the partial notifications during generation
+// 为生成过程中的 partial notifications 定义类型
 export type PartialNotification = DeepPartial<typeof notificationSchema>;

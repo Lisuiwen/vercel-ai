@@ -14,7 +14,7 @@ async function getSandbox(sandboxId?: string) {
         return sandbox;
       }
     } catch {
-      // If the previous sandbox is gone, fall through and create a new one.
+      // 若先前的 sandbox 已不存在，则继续创建新的。
     }
   }
 

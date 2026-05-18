@@ -1,13 +1,13 @@
 ---
 title: Gemini CLI
-description: Learn how to use the Gemini CLI provider to access Google's Gemini models.
+description: 了解如何使用 Gemini CLI 提供商访问 Google Gemini 模型。
 ---
 
-# Gemini CLI Provider
+# Gemini CLI 提供商
 
-The [ai-sdk-provider-gemini-cli](https://github.com/ben-vargas/ai-sdk-provider-gemini-cli) community provider enables using Google's Gemini models through the [@google/gemini-cli-core](https://www.npmjs.com/package/@google/gemini-cli-core) library. It's useful for developers who want to use their existing Gemini Code Assist subscription or API key authentication.
+[ai-sdk-provider-gemini-cli](https://github.com/ben-vargas/ai-sdk-provider-gemini-cli) 社区提供商通过 [@google/gemini-cli-core](https://www.npmjs.com/package/@google/gemini-cli-core) 使用 Google Gemini 模型；适合已有 Gemini Code Assist 订阅或使用 API Key 认证的场景。
 
-## Version Compatibility
+## 版本兼容
 
 | Provider Version | AI SDK Version | NPM Tag     | Status      |
 | ---------------- | -------------- | ----------- | ----------- |
@@ -26,7 +26,7 @@ npm install ai-sdk-provider-gemini-cli@ai-sdk-v5 ai@^5.0.0
 npm install ai-sdk-provider-gemini-cli@ai-sdk-v4 ai@^4.0.0
 ```
 
-## Setup
+## 安装
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -43,9 +43,9 @@ npm install ai-sdk-provider-gemini-cli@ai-sdk-v4 ai@^4.0.0
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-Import `createGeminiProvider` and create a provider instance with your authentication settings:
+导入 `createGeminiProvider`，按认证方式创建提供商实例：
 
 ```ts
 import { createGeminiProvider } from 'ai-sdk-provider-gemini-cli';
@@ -75,32 +75,32 @@ const gemini = createGeminiProvider({
 });
 ```
 
-Authentication options:
+认证选项：
 
-- **authType** _'oauth' | 'oauth-personal' | 'api-key' | 'gemini-api-key' | 'vertex-ai' | 'google-auth-library'_ - Optional. Defaults to `'oauth-personal'`.
-- **apiKey** _string_ - Required for `'api-key'` / `'gemini-api-key'`.
-- **vertexAI** _\{ projectId, location \}_ - Required for `'vertex-ai'`.
-- **googleAuth** _GoogleAuth_ - Required for `'google-auth-library'`.
-- **cacheDir** _string_ - Optional directory for OAuth credentials cache.
-- **proxy** _string_ - HTTP/HTTPS proxy URL.
+- **authType** _'oauth' | 'oauth-personal' | 'api-key' | 'gemini-api-key' | 'vertex-ai' | 'google-auth-library'_ — 可选，默认 `'oauth-personal'`。
+- **apiKey** _string_ — `'api-key'` / `'gemini-api-key'` 时必填。
+- **vertexAI** _\{ projectId, location \}_ — `'vertex-ai'` 时必填。
+- **googleAuth** _GoogleAuth_ — `'google-auth-library'` 时必填。
+- **cacheDir** _string_ — OAuth 凭证缓存目录（可选）。
+- **proxy** _string_ — HTTP/HTTPS 代理 URL。
 
-## Language Models
+## 语言模型
 
-Create models that call Gemini through the CLI using the provider instance:
+通过提供商实例创建经由 CLI 调用 Gemini 的模型：
 
 ```ts
 const model = gemini('gemini-2.5-pro');
 ```
 
-Supported models:
+支持的模型：
 
-- **gemini-3.1-pro-preview**: Latest model with enhanced reasoning (supports `thinkingLevel`)
-- **gemini-3-flash-preview**: Fast Gemini 3 model (supports `thinkingLevel`)
-- **gemini-3.1-flash-lite-preview**: Latest model with enhanced reasoning (supports `thinkingLevel`)
-- **gemini-2.5-pro**: Production-ready model with 64K output tokens (supports `thinkingBudget`)
-- **gemini-2.5-flash**: Fast, efficient model with 64K output tokens (supports `thinkingBudget`)
+- **gemini-3.1-pro-preview**：增强推理的最新模型（支持 `thinkingLevel`）
+- **gemini-3-flash-preview**：快速 Gemini 3 模型（支持 `thinkingLevel`）
+- **gemini-3.1-flash-lite-preview**：增强推理的最新轻量预览（支持 `thinkingLevel`）
+- **gemini-2.5-pro**：生产可用，输出上限 64K tokens（支持 `thinkingBudget`）
+- **gemini-2.5-flash**：快速高效，输出上限 64K tokens（支持 `thinkingBudget`）
 
-### Example
+### 示例
 
 ```ts
 import { createGeminiProvider } from 'ai-sdk-provider-gemini-cli';
@@ -116,7 +116,7 @@ const { text } = await generateText({
 });
 ```
 
-### Model Settings
+### 模型设置
 
 ```ts
 const model = gemini('gemini-3.1-pro-preview', {
@@ -132,7 +132,7 @@ const model = gemini('gemini-3.1-pro-preview', {
 });
 ```
 
-### Model Capabilities
+### 模型能力
 
 | Model                    | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
 | ------------------------ | ------------------- | ------------------- | ------------------- | ------------------- |
@@ -143,32 +143,32 @@ const model = gemini('gemini-3.1-pro-preview', {
 | `gemini-2.5-flash`       | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  Images must be provided as base64-encoded data. Image URLs are not supported.
+  图像需以 base64 编码提供；不支持图像 URL。
 </Note>
 
-## Authentication
+## 认证
 
-### OAuth Authentication (Recommended)
+### OAuth 认证（推荐）
 
-Install and authenticate the Gemini CLI globally:
+全局安装并登录 Gemini CLI：
 
 ```bash
 npm install -g @google/gemini-cli
 gemini  # Follow the interactive authentication setup
 ```
 
-Then use OAuth authentication in your code with `authType: 'oauth-personal'`.
+随后在代码中使用 `authType: 'oauth-personal'`。
 
-### API Key Authentication
+### API Key 认证
 
-1. Generate an API key from [Google AI Studio](https://aistudio.google.com/apikey).
-2. Set it as an environment variable: `export GEMINI_API_KEY="YOUR_API_KEY"`
-3. Use `authType: 'api-key'` with your key.
+1. 在 [Google AI Studio](https://aistudio.google.com/apikey) 生成 API Key。
+2. `export GEMINI_API_KEY="YOUR_API_KEY"`。
+3. 使用 `authType: 'api-key'` 并传入密钥。
 
-## Requirements
+## 要求
 
-- Node.js 20 or higher
-- Gemini CLI installed globally for OAuth authentication
-- Valid Google account or Gemini API key
+- Node.js 20 或更高
+- OAuth 场景需全局安装 Gemini CLI
+- 有效的 Google 账号或 Gemini API Key
 
-For more details, see the [provider documentation](https://github.com/ben-vargas/ai-sdk-provider-gemini-cli).
+详见 [provider documentation](https://github.com/ben-vargas/ai-sdk-provider-gemini-cli)。

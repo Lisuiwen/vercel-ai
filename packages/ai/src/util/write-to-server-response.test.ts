@@ -46,17 +46,17 @@ describe('writeToServerResponse', () => {
       let drainEventCount = 0;
       let readyToEnqueue: ((value: unknown) => void) | null = null;
 
-      // Track drain events
+      // 跟踪流失事件
       mockResponse.on('drain', () => {
         drainEventCount++;
       });
 
-      // Create stream that provides chunks on-demand (async)
+      // 创建按需提供块的流（异步）
       const stream = new ReadableStream({
         start(controller) {
-          // First chunk available immediately
+          // 第一个块立即可用
           controller.enqueue(new TextEncoder().encode('chunk1'));
-          // Set up callback for additional chunks
+          // 设置附加块的回调
           readyToEnqueue = value => {
             if (value === null) {
               controller.close();
@@ -73,39 +73,39 @@ describe('writeToServerResponse', () => {
         stream,
       });
 
-      // Wait for first chunk to be written
+      // 等待第一个块被写入
       await vi.advanceTimersByTimeAsync(10);
       expect(mockResponse.writeCallCount).toBe(1);
 
-      // Enqueue second chunk - it should trigger write which returns false (backpressure)
+      // 将第二个块加入队列 - 它应该触发返回 false 的写入（背压）
       readyToEnqueue!(new TextEncoder().encode('chunk2'));
       await vi.advanceTimersByTimeAsync(5);
 
-      // Second chunk write should have been called but returned false
+      // 第二个块写入应该被调用但返回 false
       expect(mockResponse.writeCallCount).toBe(2);
       expect(mockResponse.writtenChunks.length).toBe(2);
 
-      // Enqueue third chunk - it should NOT trigger write yet (still waiting for drain from chunk 2)
+      // 将第三个块入队 - 它不应该触发写入（仍在等待块 2 的耗尽）
       readyToEnqueue!(new TextEncoder().encode('chunk3'));
       await vi.advanceTimersByTimeAsync(5);
 
-      // Third chunk shouldn't be written yet (waiting for drain)
+      // 第三块还不应该被写入（等待耗尽）
       expect(mockResponse.writeCallCount).toBe(2);
 
-      // Simulate drain to allow third write
+      // 模拟耗尽以允许第三次写入
       mockResponse.simulateDrain();
       await vi.advanceTimersByTimeAsync(10);
       expect(mockResponse.writeCallCount).toBe(3);
 
-      // Close the stream
+      // 关闭流
       readyToEnqueue!(null);
       await vi.runAllTimersAsync();
 
       expect(mockResponse.ended).toBe(true);
 
-      // Verify that drain was called (indicating backpressure was respected)
+      // 验证是否调用了排水（表明遵守了背压）
       expect(drainEventCount).toBeGreaterThanOrEqual(1);
-      // Verify all chunks were eventually written
+      // 验证所有块最终都已写入
       expect(mockResponse.writtenChunks).toHaveLength(3);
     });
   });
@@ -216,18 +216,18 @@ class BackpressureMockResponse extends EventEmitter {
     this.writtenChunks.push(chunk);
     this.writeCallCount++;
 
-    // First write succeeds, subsequent writes signal backpressure
+    // 首次写入成功，后续写入信号反压
     if (this.writeCallCount === 1) {
       this.shouldApplyBackpressure = true;
-      return true; // First write is okay
+      return true; // 第一次写没问题
     }
 
-    // If we're in backpressure mode, return false
+    // 如果我们处于背压模式，则返回 false
     if (this.shouldApplyBackpressure) {
       return false;
     }
 
-    // After drain, this write succeeds, but next will need drain again
+    // 在drain之后，本次写入成功，但是接下来又需要drain
     this.shouldApplyBackpressure = true;
     return true;
   }

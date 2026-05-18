@@ -1,19 +1,19 @@
 ---
 title: LM Studio
-description: Use the LM Studio OpenAI compatible API with the AI SDK.
+description: 将 LM Studio 上与 OpenAI 兼容的 API 与 AI SDK 一起使用。
 ---
 
 # LM Studio Provider
 
-[LM Studio](https://lmstudio.ai/) is a user interface for running local models.
+[LM Studio](https://lmstudio.ai/) 是用于在本地运行模型的用户界面。
 
-It contains an OpenAI compatible API server that you can use with the AI SDK.
-You can start the local server under the [Local Server tab](https://lmstudio.ai/docs/basics/server) in the LM Studio UI ("Start Server" button).
+它内置与 OpenAI 兼容的 API 服务器，可与 AI SDK 一起使用。
+你可以在 LM Studio 界面中的 [Local Server 标签页](https://lmstudio.ai/docs/basics/server)启动本地服务器（「Start Server」按钮）。
 
-## Setup
+## 安装
 
-The LM Studio provider is available via the `@ai-sdk/openai-compatible` module as it is compatible with the OpenAI API.
-You can install it with
+LM Studio provider 通过 `@ai-sdk/openai-compatible` 模块提供，因为它与 OpenAI API 兼容。
+可按以下方式安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -31,9 +31,9 @@ You can install it with
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-To use LM Studio, you can create a custom provider instance with the `createOpenAICompatible` function from `@ai-sdk/openai-compatible`:
+要使用 LM Studio，可使用 `@ai-sdk/openai-compatible` 中的 `createOpenAICompatible` 创建自定义 provider 实例：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -45,24 +45,24 @@ const lmstudio = createOpenAICompatible({
 ```
 
 <Note>
-  LM Studio uses port `1234` by default, but you can change in the [app's Local
-  Server tab](https://lmstudio.ai/docs/basics/server).
+  LM Studio 默认使用端口 `1234`，但你可以在应用 [Local
+  Server 标签页](https://lmstudio.ai/docs/basics/server)中更改。
 </Note>
 
-## Language Models
+## 语言模型
 
-You can interact with local LLMs in [LM Studio](https://lmstudio.ai/docs/basics/server#endpoints-overview) using a provider instance.
-The first argument is the model id, e.g. `llama-3.2-1b`.
+你可以使用 provider 实例在 [LM Studio](https://lmstudio.ai/docs/basics/server#endpoints-overview) 中与本地 LLM 交互。
+第一个参数为模型 id，例如 `llama-3.2-1b`。
 
 ```ts
 const model = lmstudio('llama-3.2-1b');
 ```
 
-###### To be able to use a model, you need to [download it first](https://lmstudio.ai/docs/basics/download-model).
+###### 要使用某个模型，需要先[下载模型](https://lmstudio.ai/docs/basics/download-model)。
 
-### Example
+### 示例
 
-You can use LM Studio language models to generate text with the `generateText` function:
+可使用 LM Studio 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -80,18 +80,18 @@ const { text } = await generateText({
 });
 ```
 
-LM Studio language models can also be used with `streamText`.
+LM Studio 语言模型也可配合 `streamText` 使用。
 
-## Embedding Models
+## 嵌入模型
 
-You can create models that call the [LM Studio embeddings API](https://lmstudio.ai/docs/basics/server#endpoints-overview)
-using the `.embeddingModel()` factory method.
+可使用 `.embeddingModel()` 工厂方法创建调用 [LM Studio embeddings API](https://lmstudio.ai/docs/basics/server#endpoints-overview)
+的模型。
 
 ```ts
 const model = lmstudio.embeddingModel('text-embedding-nomic-embed-text-v1.5');
 ```
 
-### Example - Embedding a Single Value
+### 示例 - 嵌入单个值
 
 ```tsx
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -109,14 +109,14 @@ const { embedding } = await embed({
 });
 ```
 
-### Example - Embedding Many Values
+### 示例 - 嵌入多个值
 
-When loading data, e.g. when preparing a data store for retrieval-augmented generation (RAG),
-it is often useful to embed many values at once (batch embedding).
+在加载数据时（例如为检索增强生成（RAG）准备数据存储），
+通常需要一次嵌入多个值（批量嵌入）。
 
-The AI SDK provides the [`embedMany`](/docs/reference/ai-sdk-core/embed-many) function for this purpose.
-Similar to `embed`, you can use it with embeddings models,
-e.g. `lmstudio.embeddingModel('text-embedding-nomic-embed-text-v1.5')` or `lmstudio.embeddingModel('text-embedding-bge-small-en-v1.5')`.
+AI SDK 为此提供 [`embedMany`](/docs/reference/ai-sdk-core/embed-many) 函数。
+与 `embed` 类似，可将其用于嵌入模型，
+例如 `lmstudio.embeddingModel('text-embedding-nomic-embed-text-v1.5')` 或 `lmstudio.embeddingModel('text-embedding-bge-small-en-v1.5')`。
 
 ```tsx
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';

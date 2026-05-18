@@ -7,7 +7,7 @@ const openai = createOpenAI({
   headers: {
     'custom-provider-header': 'value-1',
   },
-  // fetch wrapper to log the headers:
+  // 获取包装器以记录标头：
   fetch: async (url, options) => {
     console.log('Headers', options?.headers);
     return fetch(url, options);

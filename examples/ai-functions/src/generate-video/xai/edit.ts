@@ -16,7 +16,7 @@ run(async () => {
             mode: 'edit-video',
             videoUrl:
               'https://raw.githubusercontent.com/vercel/ai/refs/heads/main/examples/ai-functions/data/prudence.mp4',
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies XaiVideoModelOptions,
         },
       }),

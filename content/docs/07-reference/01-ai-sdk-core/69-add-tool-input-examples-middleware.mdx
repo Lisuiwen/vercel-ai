@@ -1,13 +1,13 @@
 ---
 title: addToolInputExamplesMiddleware
-description: Middleware that appends tool input examples to tool descriptions.
+description: 将工具输入示例追加到工具描述中的中间件。
 ---
 
 # `addToolInputExamplesMiddleware`
 
-`addToolInputExamplesMiddleware` is a middleware function that appends input examples to tool descriptions. This is especially useful for language model providers that **do not natively support the `inputExamples` property**—the middleware serializes and injects the examples into the tool's `description` so models can learn from them.
+`addToolInputExamplesMiddleware` 将输入示例追加到工具描述中。对于**原生不支持 `inputExamples` 属性**的语言模型提供商特别有用——中间件会将示例序列化并注入工具的 `description`，供模型学习。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { addToolInputExamplesMiddleware } from "ai"`}
@@ -16,7 +16,7 @@ description: Middleware that appends tool input examples to tool descriptions.
 
 ## API
 
-### Signature
+### 签名
 
 ```ts
 function addToolInputExamplesMiddleware(options?: {
@@ -26,7 +26,7 @@ function addToolInputExamplesMiddleware(options?: {
 }): LanguageModelMiddleware;
 ```
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -35,36 +35,36 @@ function addToolInputExamplesMiddleware(options?: {
       type: 'string',
       isOptional: true,
       description:
-        "A prefix prepended before the input examples section. Defaults to `'Input Examples:'`.",
+        "置于输入示例区块前的字符串前缀。默认为 `'Input Examples:'`。",
     },
     {
       name: 'format',
       type: '(example: { input: JSONObject }, index: number) => string',
       isOptional: true,
       description:
-        'Optional custom formatter for each example. Receives the example object and its index. Default: JSON.stringify(example.input).',
+        '可选的每条示例自定义格式化函数。接收示例对象及其下标。默认：JSON.stringify(example.input)。',
     },
     {
       name: 'remove',
       type: 'boolean',
       isOptional: true,
       description:
-        'Whether to remove the `inputExamples` property from the tool after adding them to the description. Default: true.',
+        '是否在将示例加入描述后从工具上移除 `inputExamples` 属性。默认：true。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A [LanguageModelMiddleware](/docs/ai-sdk-core/middleware) that:
+[LanguageModelMiddleware](/docs/ai-sdk-core/middleware)，会：
 
-- Locates function tools with an `inputExamples` property.
-- Serializes each input example (by default as JSON, or using your custom formatter).
-- Prepends a section at the end of the tool description containing all formatted examples, prefixed by the `prefix`.
-- Removes the `inputExamples` property from the tool (unless `remove: false`).
-- Passes through all other tools (including those without examples) unchanged.
+- 查找带 `inputExamples` 属性的函数工具。
+- 序列化每个输入示例（默认 JSON，或使用自定义 `format`）。
+- 在工具描述末尾以前缀 `prefix` 为标题追加包含所有格式化示例的区块。
+- 从工具上移除 `inputExamples` 属性（除非 `remove: false`）。
+- 其他工具（含无示例者）原样透传。
 
-## Usage Example
+## 使用示例
 
 ```ts
 import {
@@ -101,11 +101,11 @@ const result = await generateText({
 });
 ```
 
-## How It Works
+## 工作原理
 
-1. For every function tool that defines `inputExamples`, the middleware:
-   - Formats each example with the `format` function (default: JSON.stringify).
-   - Builds a section like:
+1. 对每个定义了 `inputExamples` 的函数工具，中间件会：
+   - 使用 `format`（默认 JSON.stringify）格式化每条示例。
+   - 构建类似以下区块：
 
      ```
      Input Examples:
@@ -113,16 +113,16 @@ const result = await generateText({
      {"location":"London"}
      ```
 
-   - Appends this section to the end of the tool's `description`.
+   - 将其追加到工具 `description` 末尾。
 
-2. By default, it removes the `inputExamples` property after appending to prevent duplication (can be disabled with `remove: false`).
-3. Tools without input examples or non-function tools are left unmodified.
+2. 默认在追加后移除 `inputExamples` 以防重复（可用 `remove: false` 关闭）。
+3. 无输入示例的工具或非函数工具保持不变。
 
-> **Tip:** This middleware is especially useful with providers such as OpenAI or Anthropic, where native support for `inputExamples` is not available.
+> **提示：** 该中间件对 OpenAI、Anthropic 等尚不支持原生 `inputExamples` 的提供商尤其有用。
 
-## Example effect
+## 示例效果
 
-If your original tool definition is:
+若原始工具定义为：
 
 ```ts
 {
@@ -137,7 +137,7 @@ If your original tool definition is:
 }
 ```
 
-After applying the middleware (with default settings), the tool passed to the model will look like:
+应用中间件（默认设置）后，传给模型的工具形如：
 
 ```ts
 {
@@ -149,6 +149,6 @@ Input Examples:
 {"location":"San Francisco"}
 {"location":"London"}`,
   inputSchema: { ... }
-  // inputExamples is removed by default
+  // 默认会移除 inputExamples
 }
 ```

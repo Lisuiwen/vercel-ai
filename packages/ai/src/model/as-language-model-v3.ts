@@ -22,8 +22,8 @@ export function asLanguageModelV3(
     modelId: model.modelId,
   });
 
-  // TODO this could break, we need to properly map v2 to v3
-  // and support all relevant v3 properties:
+  // TODO 这可能会破坏，我们需要正确地将 v2 映射到 v3
+  // 并支持所有相关的 v3 属性：
   return new Proxy(model, {
     get(target, prop: keyof LanguageModelV2) {
       switch (prop) {
@@ -68,7 +68,7 @@ function convertV2StreamToV3(
             });
             break;
           default:
-            // TODO: AI SDK 6 - no casting (stream parts need to be mapped)
+            // TODO：AI SDK 6 - 无转换（需要映射流部分）
             controller.enqueue(chunk as LanguageModelV3StreamPart);
             break;
         }

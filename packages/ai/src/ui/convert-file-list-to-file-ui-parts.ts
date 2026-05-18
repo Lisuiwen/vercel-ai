@@ -7,7 +7,7 @@ export async function convertFileListToFileUIParts(
     return [];
   }
 
-  // React-native doesn't have a FileList global:
+  // React-native 没有全局 FileList：
   if (!globalThis.FileList || !(files instanceof globalThis.FileList)) {
     throw new Error('FileList is not supported in the current environment');
   }

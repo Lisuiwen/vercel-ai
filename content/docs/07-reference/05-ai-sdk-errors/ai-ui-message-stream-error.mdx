@@ -1,32 +1,32 @@
 ---
 title: AI_UIMessageStreamError
-description: Learn how to fix AI_UIMessageStreamError
+description: 了解如何修复 AI_UIMessageStreamError
 ---
 
 # AI_UIMessageStreamError
 
-This error occurs when a UI message stream contains invalid or out-of-sequence chunks.
+此错误在 UI 消息流包含无效或顺序错误的分片时发生。
 
-Common causes:
+常见原因：
 
-- Receiving a `text-delta` chunk without a preceding `text-start` chunk
-- Receiving a `text-end` chunk without a preceding `text-start` chunk
-- Receiving a `reasoning-delta` chunk without a preceding `reasoning-start` chunk
-- Receiving a `reasoning-end` chunk without a preceding `reasoning-start` chunk
-- Receiving a `tool-input-delta` chunk without a preceding `tool-input-start` chunk
-- Attempting to access a tool invocation that doesn't exist
+- 在未收到前置 `text-start` 分片的情况下收到 `text-delta` 分片
+- 在未收到前置 `text-start` 分片的情况下收到 `text-end` 分片
+- 在未收到前置 `reasoning-start` 分片的情况下收到 `reasoning-delta` 分片
+- 在未收到前置 `reasoning-start` 分片的情况下收到 `reasoning-end` 分片
+- 在未收到前置 `tool-input-start` 分片的情况下收到 `tool-input-delta` 分片
+- 尝试访问不存在的工具调用
 
-This error often surfaces when an upstream request fails **before any tokens are streamed** and a custom transport tries to write an inline error message to the UI stream without the proper start chunk.
+此错误经常在**尚未流式输出任何 token**之前上游请求失败，且自定义传输层尝试在未发送正确起始分片的情况下向 UI 流写入内联错误消息时出现。
 
-## Properties
+## 属性
 
-- `chunkType`: The type of chunk that caused the error (e.g., `text-delta`, `reasoning-end`, `tool-input-delta`)
-- `chunkId`: The ID associated with the failing chunk (part ID or toolCallId)
-- `message`: The error message with details about what went wrong
+- `chunkType`：导致错误的分片类型（例如 `text-delta`、`reasoning-end`、`tool-input-delta`）
+- `chunkId`：与失败分片关联的 ID（片段 ID 或 toolCallId）
+- `message`：包含问题详情的错误消息
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_UIMessageStreamError` using:
+你可以通过以下方式检查错误是否为 `AI_UIMessageStreamError` 的实例：
 
 ```typescript
 import { UIMessageStreamError } from 'ai';
@@ -38,9 +38,9 @@ if (UIMessageStreamError.isInstance(error)) {
 }
 ```
 
-## Common Solutions
+## 常见解决方案
 
-1. **Ensure proper chunk ordering**: Always send a `*-start` chunk before any `*-delta` or `*-end` chunks for the same ID:
+1. **确保分片顺序正确**：对同一 ID，务必在任意 `*-delta` 或 `*-end` 分片之前发送 `*-start` 分片：
 
    ```typescript
    // Correct order
@@ -49,9 +49,9 @@ if (UIMessageStreamError.isInstance(error)) {
    writer.write({ type: 'text-end', id: 'my-text' });
    ```
 
-2. **Verify IDs match**: Ensure the `id` used in `*-delta` and `*-end` chunks matches the `id` used in the corresponding `*-start` chunk.
+2. **核对 ID 一致**：确保 `*-delta` 与 `*-end` 分片中使用的 `id` 与对应 `*-start` 分片中的 `id` 一致。
 
-3. **Handle error paths correctly**: When writing error messages in custom transports, ensure you emit the full start/delta/end sequence:
+3. **正确处理错误路径**：在自定义传输层中写入错误消息时，确保发出完整的 start/delta/end 序列：
 
    ```typescript
    // When handling errors in custom transports
@@ -64,4 +64,4 @@ if (UIMessageStreamError.isInstance(error)) {
    writer.write({ type: 'text-end', id: errorId });
    ```
 
-4. **Check stream producer logic**: Review your streaming implementation to ensure chunks are sent in the correct order, especially when dealing with concurrent operations or merged streams.
+4. **检查流式生产者逻辑**：审阅你的流式实现，确保分片按正确顺序发送，尤其在并发操作或合并流的情况下。

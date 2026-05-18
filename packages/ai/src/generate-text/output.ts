@@ -20,17 +20,17 @@ import type { EnrichedStreamPart } from './stream-text';
 
 export interface Output<OUTPUT = any, PARTIAL = any, ELEMENT = any> {
   /**
-   * The name of the output mode.
+   * 输出模式的名称。
    */
   name: string;
 
   /**
-   * The response format to use for the model.
+   * 用于模型的响应格式。
    */
   responseFormat: PromiseLike<LanguageModelV4CallOptions['responseFormat']>;
 
   /**
-   * Parses the complete output of the model.
+   * 解析模型的完整输出。
    */
   parseCompleteOutput(
     options: { text: string },
@@ -42,14 +42,14 @@ export interface Output<OUTPUT = any, PARTIAL = any, ELEMENT = any> {
   ): Promise<OUTPUT>;
 
   /**
-   * Parses the partial output of the model.
+   * 解析模型的部分输出。
    */
   parsePartialOutput(options: {
     text: string;
   }): Promise<{ partial: PARTIAL } | undefined>;
 
   /**
-   * Creates a stream transform that emits individual elements as they complete.
+   * 创建一个流转换，在完成时发出各个元素。
    */
   createElementStreamTransform():
     | TransformStream<EnrichedStreamPart<any, PARTIAL>, ELEMENT>
@@ -57,8 +57,8 @@ export interface Output<OUTPUT = any, PARTIAL = any, ELEMENT = any> {
 }
 
 /**
- * Output specification for text generation.
- * This is the default output mode that generates plain text.
+ * 文本生成的输出规范。
+ * 这是生成纯文本的默认输出模式。
  *
  * @returns An output specification for generating text.
  */
@@ -80,8 +80,8 @@ export const text = (): Output<string, string, never> => ({
 });
 
 /**
- * Output specification for typed object generation using schemas.
- * When the model generates a text response, it will return an object that matches the schema.
+ * 使用模式生成类型化对象的输出规范。
+ * 当模型生成文本响应时，它将返回与模式匹配的对象。
  *
  * @param schema - The schema of the object to generate.
  * @param name - Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.
@@ -96,13 +96,13 @@ export const object = <OBJECT>({
 }: {
   schema: FlexibleSchema<OBJECT>;
   /**
-   * Optional name of the output that should be generated.
-   * Used by some providers for additional LLM guidance, e.g. via tool or schema name.
+   * 应生成的输出的可选名称。
+   * 一些提供者使用额外的法学硕士指导，例如通过工具或模式名称。
    */
   name?: string;
   /**
-   * Optional description of the output that should be generated.
-   * Used by some providers for additional LLM guidance, e.g. via tool or schema description.
+   * 应生成的输出的可选描述。
+   * 一些提供者使用额外的法学硕士指导，例如通过工具或模式描述。
    */
   description?: string;
 }): Output<OBJECT, DeepPartial<OBJECT>, never> => {
@@ -170,7 +170,7 @@ export const object = <OBJECT>({
         case 'repaired-parse':
         case 'successful-parse': {
           return {
-            // Note: currently no validation of partial results:
+            // 注意：目前尚未验证部分结果：
             partial: result.value as DeepPartial<OBJECT>,
           };
         }
@@ -184,8 +184,8 @@ export const object = <OBJECT>({
 };
 
 /**
- * Output specification for array generation.
- * When the model generates a text response, it will return an array of elements.
+ * 数组生成的输出规范。
+ * 当模型生成文本响应时，它将返回一个元素数组。
  *
  * @param element - The schema of the array elements to generate.
  * @param name - Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.
@@ -200,13 +200,13 @@ export const array = <ELEMENT>({
 }: {
   element: FlexibleSchema<ELEMENT>;
   /**
-   * Optional name of the output that should be generated.
-   * Used by some providers for additional LLM guidance, e.g. via tool or schema name.
+   * 应生成的输出的可选名称。
+   * 一些提供者使用额外的法学硕士指导，例如通过工具或模式名称。
    */
   name?: string;
   /**
-   * Optional description of the output that should be generated.
-   * Used by some providers for additional LLM guidance, e.g. via tool or schema description.
+   * 应生成的输出的可选描述。
+   * 一些提供者使用额外的法学硕士指导，例如通过工具或模式描述。
    */
   description?: string;
 }): Output<Array<ELEMENT>, Array<ELEMENT>, ELEMENT> => {
@@ -215,9 +215,9 @@ export const array = <ELEMENT>({
   return {
     name: 'array',
 
-    // JSON schema that describes an array of elements:
+    // 描述元素数组的 JSON 模式：
     responseFormat: resolve(elementSchema.jsonSchema).then(jsonSchema => {
-      // remove $schema from schema.jsonSchema:
+      // 从 schema.jsonSchema 中删除 $schema：
       const { $schema: _$schema, ...itemSchema } = jsonSchema;
 
       return {
@@ -312,7 +312,7 @@ export const array = <ELEMENT>({
         case 'successful-parse': {
           const outerValue = result.value;
 
-          // no parsable elements array
+          // 没有可解析的元素数组
           if (
             outerValue == null ||
             typeof outerValue !== 'object' ||
@@ -353,7 +353,7 @@ export const array = <ELEMENT>({
       >({
         transform({ partialOutput }, controller) {
           if (partialOutput != null) {
-            // Only enqueue new elements that haven't been published yet
+            // 只将尚未发布的新元素放入队列
             for (
               ;
               publishedElements < partialOutput.length;
@@ -369,8 +369,8 @@ export const array = <ELEMENT>({
 };
 
 /**
- * Output specification for choice generation.
- * When the model generates a text response, it will return a one of the choice options.
+ * 选择生成的输出规范。
+ * 当模型生成文本响应时，它将返回选择选项之一。
  *
  * @param options - The available choices.
  * @param name - Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.
@@ -385,20 +385,20 @@ export const choice = <CHOICE extends string>({
 }: {
   options: Array<CHOICE>;
   /**
-   * Optional name of the output that should be generated.
-   * Used by some providers for additional LLM guidance, e.g. via tool or schema name.
+   * 应生成的输出的可选名称。
+   * 一些提供者使用额外的法学硕士指导，例如通过工具或模式名称。
    */
   name?: string;
   /**
-   * Optional description of the output that should be generated.
-   * Used by some providers for additional LLM guidance, e.g. via tool or schema description.
+   * 应生成的输出的可选描述。
+   * 一些提供者使用额外的法学硕士指导，例如通过工具或模式描述。
    */
   description?: string;
 }): Output<CHOICE, CHOICE, never> => {
   return {
     name: 'choice',
 
-    // JSON schema that describes an enumeration:
+    // 描述枚举的 JSON 模式：
     responseFormat: Promise.resolve({
       type: 'json',
       schema: {
@@ -482,18 +482,18 @@ export const choice = <CHOICE extends string>({
             return undefined;
           }
 
-          // list of potential matches.
+          // 潜在匹配的列表。
           const potentialMatches = choiceOptions.filter(choiceOption =>
             choiceOption.startsWith(outerValue.result as string),
           );
 
           if (result.state === 'successful-parse') {
-            // successful parse: exact choice value
+            // 成功解析：精确选择值
             return potentialMatches.includes(outerValue.result as any)
               ? { partial: outerValue.result as CHOICE }
               : undefined;
           } else {
-            // repaired parse: only return if not ambiguous
+            // 修复解析：仅在明确时返回
             return potentialMatches.length === 1
               ? { partial: potentialMatches[0] as CHOICE }
               : undefined;
@@ -509,8 +509,8 @@ export const choice = <CHOICE extends string>({
 };
 
 /**
- * Output specification for unstructured JSON generation.
- * When the model generates a text response, it will return a JSON object.
+ * 非结构化 JSON 生成的输出规范。
+ * 当模型生成文本响应时，它将返回一个 JSON 对象。
  *
  * @param name - Optional name of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema name.
  * @param description - Optional description of the output that should be generated. Used by some providers for additional LLM guidance, e.g. via tool or schema description.
@@ -522,13 +522,13 @@ export const json = ({
   description,
 }: {
   /**
-   * Optional name of the output that should be generated.
-   * Used by some providers for additional LLM guidance, e.g. via tool or schema name.
+   * 应生成的输出的可选名称。
+   * 一些提供者使用额外的法学硕士指导，例如通过工具或模式名称。
    */
   name?: string;
   /**
-   * Optional description of the output that should be generated.
-   * Used by some providers for additional LLM guidance, e.g. via tool or schema description.
+   * 应生成的输出的可选描述。
+   * 一些提供者使用额外的法学硕士指导，例如通过工具或模式描述。
    */
   description?: string;
 } = {}): Output<JSONValue, JSONValue, never> => {

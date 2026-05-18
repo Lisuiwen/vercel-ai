@@ -3,8 +3,8 @@ import { createUIMessageStreamResponse, simulateReadableStream } from 'ai';
 export async function POST(req: Request) {
   return createUIMessageStreamResponse({
     stream: simulateReadableStream({
-      initialDelayInMs: 0, // Delay before the first chunk
-      chunkDelayInMs: 0, // Delay between chunks
+      initialDelayInMs: 0, // 首个 chunk 之前的延迟
+      chunkDelayInMs: 0, // chunk 之间的延迟
       chunks: [
         {
           type: 'start',

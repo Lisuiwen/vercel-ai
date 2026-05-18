@@ -1,29 +1,29 @@
 ---
-title: High memory usage when processing many images
-description: Troubleshooting high memory usage when using generateText or streamText with many images
+title: 处理大量图片时内存占用高
+description: 排查在 generateText 或 streamText 中处理大量图片时的内存占用问题
 ---
 
-# High memory usage when processing many images
+# 处理大量图片时内存占用高
 
-## Issue
+## 问题
 
-When using `generateText` or `streamText` with many images (e.g., in a loop or batch processing), you may notice:
+在循环或批处理中对很多图片使用 `generateText` 或 `streamText` 时，可能观察到：
 
-- Memory usage grows continuously and doesn't decrease
-- Application eventually runs out of memory
-- Memory is not reclaimed even after garbage collection
+- 内存持续增长不回落
+- 应用最终内存耗尽
+- 即使垃圾回收后内存也未释放
 
-This is especially noticeable when using `experimental_download` to process images from URLs, or when sending base64-encoded images in prompts.
+在使用 `experimental_download` 处理 URL 图片，或在提示词中发送 base64 图片时尤为明显。
 
-## Background
+## 背景
 
-By default, the AI SDK includes the full request messages plus request and response bodies in the step results. When processing images, the request messages and request body can contain base64-encoded image data, which can be very large (a single image can be 1MB+ when base64 encoded). If you process many images and keep references to the results, this data accumulates in memory.
+默认情况下，AI SDK 会在步骤结果中包含完整请求消息以及请求/响应体。处理图片时，请求消息与请求体可能含 base64 数据，体积很大（单张图片 base64 后可达 1MB+）。若处理大量图片并长期持有结果引用，这些数据会在内存中累积。
 
-For example, processing 100 images of 500KB each would include ~50MB+ of request body data in memory.
+例如处理 100 张各约 500KB 的图片，请求体数据在内存中可达约 50MB 以上。
 
-## Solution
+## 解决方案
 
-Use the `include` option to disable inclusion of request messages and/or request and response bodies:
+使用 `include` 选项，关闭在步骤结果中包含请求消息和/或请求与响应体：
 
 ```ts
 import { generateText } from 'ai';
@@ -48,31 +48,31 @@ const result = await generateText({
 });
 ```
 
-### Options
+### 选项说明
 
-The `include` option accepts:
+`include` 可包含：
 
-- `requestBody`: Set to `true` to include the request body in step results. The request body is where base64-encoded images are often stored. Default: `false`. Available in both `generateText` and `streamText`.
-- `requestMessages`: Set to `true` to include the request messages in step results. The request messages can contain large message content such as images and files. Default: `false`. Available in both `generateText` and `streamText`.
-- `rawChunks`: Set to `true` to include raw provider chunks in the stream. Default: `false`. Only available in `streamText`.
-- `responseBody`: Set to `true` to include the response body in step results. Default: `false`. Only available in `generateText`.
+- `requestBody`：设为 `true` 时把请求体纳入步骤结果。请求体常存放 base64 图片。默认：`false`。`generateText` 与 `streamText` 均支持。
+- `requestMessages`：设为 `true` 时把请求消息纳入步骤结果。消息内容可能含大图与文件。默认：`false`。`generateText` 与 `streamText` 均支持。
+- `rawChunks`：设为 `true` 时包含原始 provider 分片。默认：`false`。仅 `streamText` 支持。
+- `responseBody`：设为 `true` 时把响应体纳入步骤结果。默认：`false`。仅 `generateText` 支持。
 
-### When to use
+### 何时使用
 
-- **Batch processing images**: When processing many images in a loop
-- **Long-running agents**: When an agent may process many images over its lifetime
-- **Memory-constrained environments**: When running in environments with limited memory
+- **批量处理图片**：在循环中处理大量图片时
+- **长时间运行的智能体**：生命周期内可能处理很多图片时
+- **内存受限环境**：在内存紧张的环境中运行时
 
-### Trade-offs
+### 权衡
 
-When you disable body inclusion:
+关闭 body 包含后：
 
-- You won't have access to `result.request.body` or `result.response.body`
-- You won't have access to `result.request.messages` unless `requestMessages` is enabled
-- Debugging may be harder since you can't inspect the raw request/response
-- If you need the bodies for logging or debugging, consider extracting the data you need before the next iteration
+- 无法访问 `result.request.body` 或 `result.response.body`
+- 除非启用 `requestMessages`，否则无法访问 `result.request.messages`
+- 调试变难，因为无法检查原始请求/响应
+- 若需要 body 做日志或调试，可在下一轮迭代前先提取所需字段
 
-## Example: Processing multiple images
+## 示例：处理多张图片
 
 ```ts
 import { generateText } from 'ai';
@@ -105,7 +105,7 @@ for (const imageUrl of imageUrls) {
 }
 ```
 
-## Learn more
+## 延伸阅读
 
-- [`generateText` API Reference](/docs/reference/ai-sdk-core/generate-text)
-- [`streamText` API Reference](/docs/reference/ai-sdk-core/stream-text)
+- [`generateText` API 参考](/docs/reference/ai-sdk-core/generate-text)
+- [`streamText` API 参考](/docs/reference/ai-sdk-core/stream-text)

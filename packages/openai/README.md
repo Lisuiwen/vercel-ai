@@ -1,13 +1,15 @@
 # AI SDK - OpenAI Provider
 
-The **[OpenAI provider](https://ai-sdk.dev/providers/ai-sdk-providers/openai)** for the [AI SDK](https://ai-sdk.dev/docs)
-contains language model support for the OpenAI chat and completion APIs and embedding model support for the OpenAI embeddings API.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[OpenAI provider](https://ai-sdk.dev/providers/ai-sdk-providers/openai)**
+提供 OpenAI chat and completion APIs and embedding model support for the OpenAI embeddings API 的语言模型支持。
 
 > **Deploying to Vercel?** With Vercel's AI Gateway you can access OpenAI (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
 
-## Setup
+## 安装
 
-The OpenAI provider is available in the `@ai-sdk/openai` module. You can install it with
+OpenAI 提供商位于 `@ai-sdk/openai` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/openai
@@ -23,7 +25,9 @@ npx skills add vercel/ai
 
 ## Provider Instance
 
-You can import the default provider instance `openai` from `@ai-sdk/openai`:
+可从 `@ai-sdk/openai` 导入默认提供商实例 `openai`：
+
+
 
 ```ts
 import { openai } from '@ai-sdk/openai';
@@ -43,4 +47,4 @@ const { text } = await generateText({
 
 ## Documentation
 
-Please check out the **[OpenAI provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/openai)** for more information.
+更多信息请参阅 **[OpenAI 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/openai)**。

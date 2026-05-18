@@ -26,7 +26,7 @@ run(async () => {
     ],
   });
 
-  // topic is strongly typed
+  // 主题是强类型的
   const topic = await router.route(
     'Many consider Michael Jordan the greatest basketball player ever.',
   );

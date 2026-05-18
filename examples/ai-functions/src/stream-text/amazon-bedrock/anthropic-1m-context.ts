@@ -8,7 +8,7 @@ const bedrockAnthropic = createBedrockAnthropic({
   },
 });
 
-// Build a large text block intended to exceed the standard context window
+// 构建一个旨在超出标准上下文窗口的大文本块
 const APPROX_TOKENS = 110_000;
 const CHARS_PER_TOKEN = 4;
 const TARGET_CHARS = APPROX_TOKENS * CHARS_PER_TOKEN;
@@ -52,8 +52,8 @@ run(async () => {
       },
     ],
     providerOptions: {
-      // alternatively this feature can be enabled with:
-      // anthropic: {
+      // 或者可以通过以下方式启用此功能：
+      // 人择：{
       //   anthropicBeta: ['context-1m-2025-08-07'],
       // },
     },

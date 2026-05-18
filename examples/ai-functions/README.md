@@ -1,50 +1,50 @@
-# AI Function Examples
+# AI 函数示例
 
-This directory contains scripts and test suites for quickly and easily validating, testing, and iterating on `ai` functions across providers.
+本目录包含脚本与测试套件，便于快速验证、测试与迭代各提供商的 `ai` 函数。
 
-## Basic Examples
+## 基础示例
 
-Basic examples for the `ai` functions (script usage).
+面向 `ai` 函数的基础示例（脚本用法）。
 
-### Usage
+### 用法
 
-1. Create a `.env` file with the following content (and more settings, depending on the providers you want to use):
+1. 创建 `.env` 文件，内容如下（并按需添加其他提供商相关配置）：
 
 ```sh
 OPENAI_API_KEY="YOUR_OPENAI_API_KEY"
 ...
 ```
 
-2. Run the following commands from the root directory of the AI SDK repo:
+2. 在 AI SDK 仓库根目录执行：
 
 ```sh
 pnpm install
 pnpm build
 ```
 
-3. Run any example (from the `examples/ai-functions` directory) with the following command:
+3. 在 `examples/ai-functions` 目录下运行任意示例：
 
 ```sh
 pnpm tsx src/path/to/example.ts
 ```
 
-## End-to-end Provider Integration Tests
+## 端到端提供商集成测试
 
-There are a set of end-to-end provider integration tests under `src/e2e`. These tests are not run on the CI pipeline -- they are only run manually. Failures can be seen due to external issues e.g. quota restrictions, vendor-side changes, missing or stale credentials, etc.
+`src/e2e` 下有端到端提供商集成测试。这些测试不在 CI 中运行，仅手动执行。失败可能由配额限制、厂商侧变更、凭证缺失或过期等外部原因导致。
 
-The intent is to allow an easy way for an AI SDK developer to smoke-test provider support for a set of common features. Test filtering can allow slicing to a subset of tests. Most of the test cases in these end-to-end tests are also represented in some form as basic example scripts in the appropriate sub-directory of the `src` directory.
+目的是让 AI SDK 开发者能方便地对常见功能做冒烟测试；可通过过滤只跑部分用例。多数端到端用例在 `src` 相应子目录中也有基础示例脚本对应。
 
 ```sh
 pnpm run test:e2e:all
 ```
 
-or a single file:
+或单个文件：
 
 ```sh
 pnpm run test:file src/e2e/google.test.ts
 ```
 
-filter to a subset of test cases:
+过滤部分测试用例：
 
 ```sh
 pnpm run test:file src/e2e/google.test.ts -t stream

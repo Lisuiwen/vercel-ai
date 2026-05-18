@@ -6,10 +6,10 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 /**
- * Error that is thrown when no transcript was generated.
+ * 未生成转录本时引发的错误。
  */
 export class NoTranscriptGeneratedError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly responses: Array<TranscriptionModelResponseMetadata>;
 

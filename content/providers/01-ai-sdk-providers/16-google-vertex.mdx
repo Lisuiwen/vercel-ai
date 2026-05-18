@@ -1,24 +1,24 @@
 ---
 title: Google Vertex AI
-description: Learn how to use the Google Vertex AI provider.
+description: 了解如何使用 Google Vertex AI 提供商。
 ---
 
-# Google Vertex Provider
+# Google Vertex 提供商
 
-The Google Vertex provider for the [AI SDK](/docs) contains language model support for the [Google Vertex AI](https://cloud.google.com/vertex-ai) APIs. This includes support for [Google's Gemini models](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models), [Anthropic's Claude partner models](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude), [xAI's Grok partner models](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/grok), and [MaaS (Model as a Service) open models](https://cloud.google.com/vertex-ai/generative-ai/docs/maas/use-open-models).
+面向 [AI SDK](/docs) 的 Google Vertex 提供商为 [Google Vertex AI](https://cloud.google.com/vertex-ai) API 提供语言模型支持，其中包括 [Google 的 Gemini 模型](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models)、[Anthropic 的 Claude 合作模型](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude)、[xAI 的 Grok 合作模型](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/grok)，以及 [MaaS（模型即服务）开放模型](https://cloud.google.com/vertex-ai/generative-ai/docs/maas/use-open-models)。
 
 <Note>
-  The Google Vertex provider is compatible with both Node.js and Edge runtimes.
-  The Edge runtime is supported through the `@ai-sdk/google-vertex/edge`
-  sub-module. More details can be found in the [Google Vertex Edge
-  Runtime](#google-vertex-edge-runtime), [Google Vertex Anthropic Edge
-  Runtime](#google-vertex-anthropic-edge-runtime), and [Google Vertex MaaS Edge
-  Runtime](#google-vertex-maas-edge-runtime) sections below.
+  Google Vertex 提供商同时兼容 Node.js 与 Edge 运行时。
+  Edge 运行时通过 `@ai-sdk/google-vertex/edge`
+  子模块提供支持。更多说明见下文 [Google Vertex Edge
+  运行时](#google-vertex-edge-runtime)、[Google Vertex Anthropic Edge
+  运行时](#google-vertex-anthropic-edge-runtime) 与 [Google Vertex MaaS Edge
+  运行时](#google-vertex-maas-edge-runtime) 各节。
 </Note>
 
-## Setup
+## 安装
 
-The Google Vertex, Google Vertex Anthropic, Google Vertex xAI, and Google Vertex MaaS providers are available in the `@ai-sdk/google-vertex` module. You can install it with
+Google Vertex、Google Vertex Anthropic、Google Vertex xAI 与 Google Vertex MaaS 提供商位于 `@ai-sdk/google-vertex` 模块中。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -39,19 +39,19 @@ The Google Vertex, Google Vertex Anthropic, Google Vertex xAI, and Google Vertex
   </Tab>
 </Tabs>
 
-## Google Vertex Provider Usage
+## Google Vertex 提供商用法
 
-The Google Vertex provider instance is used to create model instances that call the Vertex AI API. The models available with this provider include [Google's Gemini models](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models). If you're looking to use [Anthropic's Claude models](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude), see the [Google Vertex Anthropic Provider](#google-vertex-anthropic-provider-usage) section below.
+通过 Google Vertex 提供商实例可创建调用 Vertex AI API 的模型实例。该提供商涵盖 [Google 的 Gemini 模型](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models)。若要使用 [Anthropic 的 Claude 模型](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude)，请参阅下文 [Google Vertex Anthropic 提供商](#google-vertex-anthropic-provider-usage) 一节。
 
-### Provider Instance
+### 提供商实例
 
-You can import the default provider instance `googleVertex` from `@ai-sdk/google-vertex`:
+可从 `@ai-sdk/google-vertex` 导入默认提供商实例 `googleVertex`：
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
 ```
 
-If you need a customized setup, you can import `createGoogleVertex` from `@ai-sdk/google-vertex` and create a provider instance with your settings:
+若需自定义配置，可从 `@ai-sdk/google-vertex` 导入 `createGoogleVertex`，并按你的设置创建提供商实例：
 
 ```ts
 import { createGoogleVertex } from '@ai-sdk/google-vertex';
@@ -62,13 +62,13 @@ const googleVertex = createGoogleVertex({
 });
 ```
 
-Google Vertex supports multiple authentication methods depending on your runtime environment and requirements.
+Google Vertex 会根据运行时环境与需求支持多种身份验证方式。
 
-#### Node.js Runtime
+#### Node.js 运行时
 
-The Node.js runtime is the default runtime supported by the AI SDK. It supports all standard Google Cloud authentication options through the [`google-auth-library`](https://github.com/googleapis/google-auth-library-nodejs?tab=readme-ov-file#ways-to-authenticate). Typical use involves setting a path to a json credentials file in the `GOOGLE_APPLICATION_CREDENTIALS` environment variable. The credentials file can be obtained from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+Node.js 运行时是 AI SDK 的默认运行时，可通过 [`google-auth-library`](https://github.com/googleapis/google-auth-library-nodejs?tab=readme-ov-file#ways-to-authenticate) 使用所有标准 Google Cloud 身份验证选项。常见做法是在 `GOOGLE_APPLICATION_CREDENTIALS` 环境变量中指定 JSON 凭据文件路径。凭据文件可从 [Google Cloud 控制台](https://console.cloud.google.com/apis/credentials) 获取。
 
-If you want to customize the Google authentication options you can pass them as options to the `createGoogleVertex` function, for example:
+若要自定义 Google 身份验证选项，可将其作为参数传给 `createGoogleVertex`，例如：
 
 ```ts
 import { createGoogleVertex } from '@ai-sdk/google-vertex';
@@ -83,90 +83,90 @@ const googleVertex = createGoogleVertex({
 });
 ```
 
-##### Optional Provider Settings
+##### 可选提供商设置
 
-You can use the following optional settings to customize the provider instance:
+可使用以下可选设置自定义提供商实例：
 
 - **project** _string_
 
-  The Google Cloud project ID that you want to use for the API calls.
-  It uses the `GOOGLE_VERTEX_PROJECT` environment variable by default.
+  用于发起 API 调用的 Google Cloud 项目 ID。
+  默认读取 `GOOGLE_VERTEX_PROJECT` 环境变量。
 
 - **location** _string_
 
-  The Google Cloud location that you want to use for the API calls, e.g. `us-central1`.
-  It uses the `GOOGLE_VERTEX_LOCATION` environment variable by default.
+  用于发起 API 调用的 Google Cloud 区域，例如 `us-central1`。
+  默认读取 `GOOGLE_VERTEX_LOCATION` 环境变量。
 
 - **googleAuthOptions** _object_
 
-  Optional. The Authentication options used by the [Google Auth Library](https://github.com/googleapis/google-auth-library-nodejs/). See also the [GoogleAuthOptions](https://github.com/googleapis/google-auth-library-nodejs/blob/08978822e1b7b5961f0e355df51d738e012be392/src/auth/googleauth.ts#L87C18-L87C35) interface.
+  可选。供 [Google Auth Library](https://github.com/googleapis/google-auth-library-nodejs/) 使用的身份验证选项。另请参阅 [GoogleAuthOptions](https://github.com/googleapis/google-auth-library-nodejs/blob/08978822e1b7b5961f0e355df51d738e012be392/src/auth/googleauth.ts#L87C18-L87C35) 接口。
   - **authClient** _object_
-    An `AuthClient` to use.
+    要使用的 `AuthClient`。
 
   - **keyFilename** _string_
-    Path to a .json, .pem, or .p12 key file.
+    指向 .json、.pem 或 .p12 密钥文件的路径。
 
   - **keyFile** _string_
-    Path to a .json, .pem, or .p12 key file.
+    指向 .json、.pem 或 .p12 密钥文件的路径。
 
   - **credentials** _object_
-    Object containing client_email and private_key properties, or the external account client options.
+    包含 client_email 与 private_key 字段的对象，或外部账号客户端选项。
 
   - **clientOptions** _object_
-    Options object passed to the constructor of the client.
+    传给客户端构造函数的选项对象。
 
   - **scopes** _string | string[]_
-    Required scopes for the desired API request.
+    目标 API 请求所需的权限范围。
 
   - **projectId** _string_
-    Your project ID.
+    你的项目 ID。
 
   - **universeDomain** _string_
-    The default service domain for a given Cloud universe.
+    给定 Cloud 宇宙的默认服务域名。
 
 - **headers** _Resolvable&lt;Record&lt;string, string | undefined&gt;&gt;_
 
-  Headers to include in the requests. Can be provided in multiple formats:
-  - A record of header key-value pairs: `Record<string, string | undefined>`
-  - A function that returns headers: `() => Record<string, string | undefined>`
-  - An async function that returns headers: `async () => Record<string, string | undefined>`
-  - A promise that resolves to headers: `Promise<Record<string, string | undefined>>`
+  要包含在请求中的标头。可用多种形式提供：
+  - 标头键值对对象：`Record<string, string | undefined>`
+  - 返回标头的函数：`() => Record<string, string | undefined>`
+  - 异步返回标头的函数：`async () => Record<string, string | undefined>`
+  - 解析为标头的 Promise：`Promise<Record<string, string | undefined>>`
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认使用全局 `fetch`。
+  可用作中间件拦截请求，
+  或在测试等场景提供自定义 fetch。
 
 - **baseURL** _string_
 
-  Optional. Base URL for the Google Vertex API calls e.g. to use proxy servers. By default, it is constructed using the location and project:
+  可选。Google Vertex API 调用的基础 URL，例如用于代理服务器。默认会基于 location 与 project 拼接：
   `https://${location}-aiplatform.googleapis.com/v1/projects/${project}/locations/${location}/publishers/google`
 
 <a id="google-vertex-edge-runtime"></a>
-#### Edge Runtime
+#### Edge 运行时
 
-Edge runtimes (like Vercel Edge Functions and Cloudflare Workers) are lightweight JavaScript environments that run closer to users at the network edge.
-They only provide a subset of the standard Node.js APIs.
-For example, direct file system access is not available, and many Node.js-specific libraries
-(including the standard Google Auth library) are not compatible.
+Edge 运行时（如 Vercel Edge Functions 与 Cloudflare Workers）是更贴近用户的轻量 JavaScript 环境。
+仅提供标准 Node.js API 的子集。
+例如无法直接访问文件系统，许多 Node.js 专用库
+（包括标准 Google Auth 库）也不兼容。
 
-The Edge runtime version of the Google Vertex provider supports Google's [Application Default Credentials](https://github.com/googleapis/google-auth-library-nodejs?tab=readme-ov-file#application-default-credentials) through environment variables. The values can be obtained from a json credentials file from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+Google Vertex 提供商的 Edge 版本可通过环境变量使用 Google 的[应用程序默认凭据](https://github.com/googleapis/google-auth-library-nodejs?tab=readme-ov-file#application-default-credentials)。相关取值可从 [Google Cloud 控制台](https://console.cloud.google.com/apis/credentials) 的 JSON 凭据文件获取。
 
-You can import the default provider instance `googleVertex` from `@ai-sdk/google-vertex/edge`:
+可从 `@ai-sdk/google-vertex/edge` 导入默认提供商实例 `googleVertex`：
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex/edge';
 ```
 
 <Note>
-  The `/edge` sub-module is included in the `@ai-sdk/google-vertex` package, so
-  you don't need to install it separately. You must import from
-  `@ai-sdk/google-vertex/edge` to differentiate it from the Node.js provider.
+  `/edge` 子模块已包含在 `@ai-sdk/google-vertex` 包内，因此
+  无需单独安装。必须从
+  `@ai-sdk/google-vertex/edge` 导入，以与 Node.js 版提供商区分。
 </Note>
 
-If you need a customized setup, you can import `createGoogleVertex` from `@ai-sdk/google-vertex/edge` and create a provider instance with your settings:
+若需自定义配置，可从 `@ai-sdk/google-vertex/edge` 导入 `createGoogleVertex`，并按你的设置创建提供商实例：
 
 ```ts
 import { createGoogleVertex } from '@ai-sdk/google-vertex/edge';
@@ -177,58 +177,58 @@ const googleVertex = createGoogleVertex({
 });
 ```
 
-For Edge runtime authentication, you'll need to set these environment variables from your Google Default Application Credentials JSON file:
+在 Edge 运行时中完成身份验证时，需根据 Google 应用程序默认凭据 JSON 文件设置以下环境变量：
 
 - `GOOGLE_CLIENT_EMAIL`
 - `GOOGLE_PRIVATE_KEY`
-- `GOOGLE_PRIVATE_KEY_ID` (optional)
+- `GOOGLE_PRIVATE_KEY_ID`（可选）
 
-These values can be obtained from a service account JSON file from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+这些值可从 [Google Cloud 控制台](https://console.cloud.google.com/apis/credentials) 的服务账号 JSON 文件获取。
 
-##### Optional Provider Settings
+##### 可选提供商设置
 
-You can use the following optional settings to customize the provider instance:
+可使用以下可选设置自定义提供商实例：
 
 - **project** _string_
 
-  The Google Cloud project ID that you want to use for the API calls.
-  It uses the `GOOGLE_VERTEX_PROJECT` environment variable by default.
+  用于发起 API 调用的 Google Cloud 项目 ID。
+  默认读取 `GOOGLE_VERTEX_PROJECT` 环境变量。
 
 - **location** _string_
 
-  The Google Cloud location that you want to use for the API calls, e.g. `us-central1`.
-  It uses the `GOOGLE_VERTEX_LOCATION` environment variable by default.
+  用于发起 API 调用的 Google Cloud 区域，例如 `us-central1`。
+  默认读取 `GOOGLE_VERTEX_LOCATION` 环境变量。
 
 - **googleCredentials** _object_
 
-  Optional. The credentials used by the Edge provider for authentication. These credentials are typically set through environment variables and are derived from a service account JSON file.
+  可选。Edge 提供商用于身份验证的凭据。这些凭据通常通过环境变量设置，并源自服务账号 JSON 文件。
   - **clientEmail** _string_
-    The client email from the service account JSON file. Defaults to the contents of the `GOOGLE_CLIENT_EMAIL` environment variable.
+    服务账号 JSON 文件中的客户端邮箱。默认读取 `GOOGLE_CLIENT_EMAIL` 环境变量。
 
   - **privateKey** _string_
-    The private key from the service account JSON file. Defaults to the contents of the `GOOGLE_PRIVATE_KEY` environment variable.
+    服务账号 JSON 文件中的私钥。默认读取 `GOOGLE_PRIVATE_KEY` 环境变量。
 
   - **privateKeyId** _string_
-    The private key ID from the service account JSON file (optional). Defaults to the contents of the `GOOGLE_PRIVATE_KEY_ID` environment variable.
+    服务账号 JSON 文件中的私钥 ID（可选）。默认读取 `GOOGLE_PRIVATE_KEY_ID` 环境变量。
 
 - **headers** _Resolvable&lt;Record&lt;string, string | undefined&gt;&gt;_
 
-  Headers to include in the requests. Can be provided in multiple formats:
-  - A record of header key-value pairs: `Record<string, string | undefined>`
-  - A function that returns headers: `() => Record<string, string | undefined>`
-  - An async function that returns headers: `async () => Record<string, string | undefined>`
-  - A promise that resolves to headers: `Promise<Record<string, string | undefined>>`
+  要包含在请求中的标头。可用多种形式提供：
+  - 标头键值对对象：`Record<string, string | undefined>`
+  - 返回标头的函数：`() => Record<string, string | undefined>`
+  - 异步返回标头的函数：`async () => Record<string, string | undefined>`
+  - 解析为标头的 Promise：`Promise<Record<string, string | undefined>>`
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认使用全局 `fetch`。
+  可用作中间件拦截请求，
+  或在测试等场景提供自定义 fetch。
 
-#### Express Mode
+#### 快捷模式（Express Mode）
 
-Express mode provides a simplified authentication method using an API key instead of OAuth or service account credentials. When using express mode, the `project` and `location` settings are not required.
+快捷模式使用 API 密钥完成身份验证，无需 OAuth 或服务账号凭据。启用快捷模式时，不需要配置 `project` 与 `location`。
 
 ```ts
 import { createGoogleVertex } from '@ai-sdk/google-vertex';
@@ -238,31 +238,30 @@ const googleVertex = createGoogleVertex({
 });
 ```
 
-##### Optional Provider Settings
+##### 可选提供商设置
 
 - **apiKey** _string_
 
-  The API key for Google Vertex AI. When provided, the provider uses express mode with API key authentication instead of OAuth.
-  It uses the `GOOGLE_VERTEX_API_KEY` environment variable by default.
+  Google Vertex AI 的 API 密钥。提供该值后，提供商将使用 API 密钥的快捷模式，而不再使用 OAuth。
+  默认读取 `GOOGLE_VERTEX_API_KEY` 环境变量。
 
-### Language Models
+### 语言模型
 
-You can create models that call the Vertex API using the provider instance.
-The first argument is the model id, e.g. `gemini-2.5-pro`.
+使用提供商实例可创建调用 Vertex API 的模型。
+第一个参数为模型 ID，例如 `gemini-2.5-pro`。
 
 ```ts
 const model = googleVertex('gemini-2.5-pro');
 ```
 
 <Note>
-  If you are using [your own
-  models](https://cloud.google.com/vertex-ai/docs/training-overview), the name
-  of your model needs to start with `projects/`.
+  若使用[自有
+  模型](https://cloud.google.com/vertex-ai/docs/training-overview)，模型
+  名称需以 `projects/` 开头。
 </Note>
 
-Google Vertex models support also some model specific settings that are not part
-of the [standard call settings](/docs/ai-sdk-core/settings). You can pass them as
-an options argument:
+Google Vertex 模型还支持一些不属于[标准调用设置](/docs/ai-sdk-core/settings)的模型专属配置，可通过
+options 参数传入：
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -285,30 +284,30 @@ await generateText({
 });
 ```
 
-The following optional provider options are available for Google Vertex models:
+Google Vertex 语言模型可使用以下可选提供商选项：
 
 - **cachedContent** _string_
 
-  Optional. The name of the cached content used as context to serve the prediction.
-  Format: projects/\{project\}/locations/\{location\}/cachedContents/\{cachedContent\}
+  可选。用作预测上下文的缓存内容名称。
+  格式：projects/\{project\}/locations/\{location\}/cachedContents/\{cachedContent\}
 
 - **structuredOutputs** _boolean_
 
-  Optional. Enable structured output. Default is true.
+  可选。启用结构化输出。默认为 true。
 
-  This is useful when the JSON Schema contains elements that are
-  not supported by the OpenAPI schema version that
-  Google Vertex uses. You can use this to disable
-  structured outputs if you need to.
+  当 JSON Schema 包含
+  Google Vertex 所使用的 OpenAPI schema 版本
+  不支持的元素时，这会很有用。必要时可用其关闭
+  结构化输出。
 
-  See [Troubleshooting: Schema Limitations](#schema-limitations) for more details.
+  更多说明见[故障排除：Schema 限制](#schema-limitations)。
 
 - **safetySettings** _Array\<\{ category: string; threshold: string \}\>_
 
-  Optional. Safety settings for the model.
+  可选。模型的安全设置。
   - **category** _string_
 
-    The category of the safety setting. Can be one of the following:
+    安全设置类别。可为以下之一：
     - `HARM_CATEGORY_UNSPECIFIED`
     - `HARM_CATEGORY_HATE_SPEECH`
     - `HARM_CATEGORY_DANGEROUS_CONTENT`
@@ -318,7 +317,7 @@ The following optional provider options are available for Google Vertex models:
 
   - **threshold** _string_
 
-    The threshold of the safety setting. Can be one of the following:
+    安全阈值。可为以下之一：
     - `HARM_BLOCK_THRESHOLD_UNSPECIFIED`
     - `BLOCK_LOW_AND_ABOVE`
     - `BLOCK_MEDIUM_AND_ABOVE`
@@ -327,27 +326,26 @@ The following optional provider options are available for Google Vertex models:
 
 - **audioTimestamp** _boolean_
 
-  Optional. Enables timestamp understanding for audio files. Defaults to false.
+  可选。为音频文件启用时间戳理解。默认为 false。
 
-  This is useful for generating transcripts with accurate timestamps.
-  Consult [Google's Documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/audio-understanding) for usage details.
+  适用于需要带准确时间戳的转写场景。
+  用法见 [Google 文档](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/audio-understanding)。
 
 - **labels** _object_
 
-  Optional. Defines labels used in billing reports.
+  可选。在账单报表中使用的标签。
 
-  Consult [Google's Documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/add-labels-to-api-calls) for usage details.
+  用法见 [Google 文档](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/add-labels-to-api-calls)。
 
 - **streamFunctionCallArguments** _boolean_
 
-  Optional. When set to true, function call arguments will be streamed
-  incrementally in streaming responses. This enables `tool-input-delta` events
-  to arrive as the model generates function call arguments, reducing perceived
-  latency for tool calls. Defaults to `false`. Only supported on the Vertex AI API (not the Gemini API) with Gemini 3+ models.
+  可选。设为 true 时，函数调用参数会在流式响应中
+  逐步输出。这样在模型生成函数参数时可更早收到 `tool-input-delta` 事件，
+  降低工具调用的感知延迟。默认为 `false`。仅 Vertex AI API（非 Gemini API）在 Gemini 3+ 模型上支持。
 
-  Consult [Google's Documentation](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#streaming-fc) for details.
+  详情见 [Google 文档](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#streaming-fc)。
 
-You can use Google Vertex language models to generate text with the `generateText` function:
+可使用 Google Vertex 语言模型配合 `generateText` 生成文本：
 
 ```ts highlight="1,4"
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -359,14 +357,14 @@ const { text } = await generateText({
 });
 ```
 
-Google Vertex language models can also be used in the `streamText` function
-(see [AI SDK Core](/docs/ai-sdk-core)).
+Google Vertex 语言模型也可用于 `streamText`
+（见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-#### Code Execution
+#### 代码执行
 
-With [Code Execution](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/code-execution), certain Gemini models on Vertex AI can generate and execute Python code. This allows the model to perform calculations, data manipulation, and other programmatic tasks to enhance its responses.
+借助[代码执行](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/code-execution)，Vertex AI 上的部分 Gemini 模型可生成并执行 Python 代码，从而进行计算、数据处理等程序化任务以丰富回答。
 
-You can enable code execution by adding the `code_execution` tool to your request.
+在请求中加入 `code_execution` 工具即可启用代码执行。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -380,11 +378,11 @@ const result = await generateText({
 });
 ```
 
-The response will contain `tool-call` and `tool-result` parts for the executed code.
+响应中会包含已执行代码对应的 `tool-call` 与 `tool-result` 片段。
 
 #### URL Context
 
-URL Context allows Gemini models to retrieve and analyze content from URLs. Supported models: Gemini 2.5 Flash-Lite, 2.5 Pro, 2.5 Flash, 2.0 Flash.
+URL Context 让 Gemini 模型可从 URL 获取并分析内容。支持模型：Gemini 2.5 Flash-Lite、2.5 Pro、2.5 Flash、2.0 Flash。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -399,7 +397,7 @@ const result = await generateText({
 
 #### Google Search
 
-Google Search enables Gemini models to access real-time web information. Supported models: Gemini 2.5 Flash-Lite, 2.5 Flash, 2.0 Flash, 2.5 Pro.
+Google Search 让 Gemini 模型可访问实时网页信息。支持模型：Gemini 2.5 Flash-Lite、2.5 Flash、2.0 Flash、2.5 Pro。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -412,9 +410,9 @@ const result = await generateText({
 });
 ```
 
-#### Enterprise Web Search
+#### 企业级网页搜索
 
-[Enterprise Web Search](https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/web-grounding-enterprise) provides grounding using a compliance-focused web index designed for highly-regulated industries such as finance, healthcare, and the public sector. Unlike standard Google Search grounding, Enterprise Web Search does not log customer data and supports VPC service controls. Supported models: Gemini 2.0 and newer.
+[企业级网页搜索](https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/web-grounding-enterprise)使用面向合规的网页索引进行 grounding，适用于金融、医疗、公共部门等强监管行业。与标准 Google Search grounding 不同，企业级网页搜索不会记录客户数据，并支持 VPC 服务控制。支持模型：Gemini 2.0 及更新版本。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -431,7 +429,7 @@ const result = await generateText({
 
 #### Google Maps
 
-Google Maps grounding enables Gemini models to access Google Maps data for location-aware responses. Supported models: Gemini 2.5 Flash-Lite, 2.5 Flash, 2.0 Flash, 2.5 Pro, 3.0 Pro.
+Google Maps grounding 让 Gemini 模型可访问 Google Maps 数据，用于位置相关的回答。支持模型：Gemini 2.5 Flash-Lite、2.5 Flash、2.0 Flash、2.5 Pro、3.0 Pro。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -454,15 +452,15 @@ const result = await generateText({
 });
 ```
 
-The optional `retrievalConfig.latLng` provider option provides location context for queries about nearby places. This configuration applies to any grounding tools that support location context.
+可选的 `retrievalConfig.latLng` 提供商选项为“附近地点”类查询提供位置上下文。该配置适用于所有支持位置上下文的 grounding 工具。
 
-#### Streaming Function Call Arguments
+#### 流式函数调用参数
 
-For Gemini 3 Pro and later models on Vertex AI, you can stream function call
-arguments as they are generated by setting `streamFunctionCallArguments` to
-`true`. This reduces perceived latency when functions need to be called, as
-`tool-input-delta` events arrive incrementally instead of waiting for the
-complete arguments. This option defaults to `false`.
+在 Vertex AI 上为 Gemini 3 Pro 及更新模型使用时，可将 `streamFunctionCallArguments` 设为
+`true`，在模型生成过程中流式输出函数调用
+参数。这样在需要调用函数时可降低感知延迟，因为
+`tool-input-delta` 会增量到达，而无需等待
+完整参数。该选项默认为 `false`。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -504,16 +502,14 @@ for await (const part of result.fullStream) {
 ```
 
 <Note>
-  This feature is only available on the Vertex AI API. It is not supported on
-  the Gemini API. When used with the Google provider, a warning will be emitted
-  and the option will be ignored.
+  该功能仅在 Vertex AI API 上可用，Gemini API 不支持。与 Google 提供商一起使用时，会发出警告并忽略该选项。
 </Note>
 
-#### Reasoning (Thinking Tokens)
+#### 推理（思考令牌）
 
-Google Vertex AI, through its support for Gemini models, can also emit "thinking" tokens, representing the model's reasoning process. The AI SDK exposes these as reasoning information.
+Google Vertex AI 通过 Gemini 模型支持输出代表推理过程的「思考」令牌。AI SDK 将其作为推理信息对外暴露。
 
-To enable thinking tokens for compatible Gemini models via Vertex, set `includeThoughts: true` in the `thinkingConfig` provider option. These options are passed through `providerOptions.vertex`:
+要为兼容的 Gemini 模型（经 Vertex）启用思考令牌，可在 `thinkingConfig` 提供商选项中设置 `includeThoughts: true`。这些选项通过 `providerOptions.vertex` 传入：
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -561,20 +557,19 @@ for await (const part of result.fullStream) {
 }
 ```
 
-When `includeThoughts` is true, parts of the API response marked with `thought: true` will be processed as reasoning.
+当 `includeThoughts` 为 true 时，API 响应中标记为 `thought: true` 的部分会作为推理处理。
 
-- In `generateText`, these contribute to the `reasoningText` (string) and `reasoning` (array) fields.
-- In `streamText`, these are emitted as `reasoning` stream parts.
+- 在 `generateText` 中，这些内容会汇总到 `reasoningText`（字符串）与 `reasoning`（数组）字段。
+- 在 `streamText` 中，这些内容以 `reasoning` 流式片段发出。
 
 <Note>
-  Refer to the [Google Vertex AI documentation on
-  "thinking"](https://cloud.google.com/vertex-ai/generative-ai/docs/thinking)
-  for model compatibility and further details.
+  模型兼容性与更多说明见 [Google Vertex AI 关于
+  「thinking」的文档](https://cloud.google.com/vertex-ai/generative-ai/docs/thinking)。
 </Note>
 
-#### File Inputs
+#### 文件输入
 
-The Google Vertex provider supports file inputs, e.g. PDF files.
+Google Vertex 提供商支持文件输入，例如 PDF。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -602,18 +597,18 @@ const { text } = await generateText({
 ```
 
 <Note>
-  The AI SDK will automatically download URLs if you pass them as data, except
-  for `gs://` URLs. You can use the Google Cloud Storage API to upload larger
-  files to that location.
+  若将 URL 作为 `data` 传入，AI SDK 会自动下载，但
+  `gs://` URL 除外。可使用 Google Cloud Storage API 将更大的
+  文件上传到该位置。
 </Note>
 
-See [File Parts](/docs/foundations/prompts#file-parts) for details on how to use files in prompts.
+在提示词中使用文件的详情见 [File Parts](/docs/foundations/prompts#file-parts)。
 
-### Cached Content
+### 缓存内容
 
-Google Vertex AI supports both explicit and implicit caching to help reduce costs on repetitive content.
+Google Vertex AI 同时支持显式与隐式缓存，有助于降低重复内容的成本。
 
-#### Implicit Caching
+#### 隐式缓存
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -650,11 +645,11 @@ console.log('Cached tokens:', providerMetadata.vertex);
 // }
 ```
 
-#### Explicit Caching
+#### 显式缓存
 
-You can use explicit caching with Gemini models. See the [Vertex AI context caching documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/context-cache/context-cache-overview) to check if caching is supported for your model.
+可将显式缓存用于 Gemini 模型。你的模型是否支持缓存，请参阅 [Vertex AI 上下文缓存文档](https://cloud.google.com/vertex-ai/generative-ai/docs/context-cache/context-cache-overview)。
 
-First, create a cache using the Google GenAI SDK with Vertex mode enabled:
+首先，使用启用 Vertex 模式的 Google GenAI SDK 创建缓存：
 
 ```ts
 import { GoogleGenAI } from '@google/genai';
@@ -685,7 +680,7 @@ console.log('Cache created:', cache.name);
 // e.g. projects/my-project/locations/us-central1/cachedContents/abc123
 ```
 
-Then use the cache with the AI SDK:
+随后在 AI SDK 中使用该缓存：
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -713,12 +708,12 @@ const { text: meatLasagnaRecipe } = await generateText({
 });
 ```
 
-### Safety Ratings
+### 安全评级
 
-The safety ratings provide insight into the safety of the model's response.
-See [Google Vertex AI documentation on configuring safety filters](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters).
+安全评级可帮助了解模型回复的安全性。
+参阅 [Google Vertex AI 关于配置安全过滤器的文档](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/configure-safety-filters)。
 
-Example response excerpt:
+响应示例片段：
 
 ```json
 {
@@ -756,20 +751,22 @@ Example response excerpt:
 }
 ```
 
-For more details, see the [Google Vertex AI documentation on grounding with Google Search](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/ground-gemini#ground-to-search).
+更多说明见 [Google Vertex AI 关于使用 Google Search 进行 grounding 的文档](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/ground-gemini#ground-to-search)。
 
-### Troubleshooting
+### 故障排除
 
-#### Schema Limitations
+<a id="schema-limitations"></a>
 
-The Google Vertex API uses a subset of the OpenAPI 3.0 schema,
-which does not support features such as unions.
-The errors that you get in this case look like this:
+#### Schema 限制
+
+Google Vertex API 使用 OpenAPI 3.0 schema 的子集，
+不支持诸如联合类型（unions）等特性。
+此类错误的形态通常如下：
 
 `GenerateContentRequest.generation_config.response_schema.properties[occupation].type: must be specified`
 
-By default, structured outputs are enabled (and for tool calling they are required).
-You can disable structured outputs for object generation as a workaround:
+默认会启用结构化输出（工具调用场景下为必需）。
+生成对象时可将结构化输出关闭作为变通方案：
 
 ```ts highlight="7,12"
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -803,14 +800,14 @@ const result = await generateText({
 });
 ```
 
-The following Zod features are known to not work with Google Vertex:
+以下 Zod 特性已知与 Google Vertex 不兼容：
 
 - `z.union`
 - `z.record`
 
-### Model Capabilities
+### 模型能力
 
-| Model                  | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
+| 模型                  | 图像输入         | 对象生成   | 工具使用   | 工具流式   |
 | ---------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `gemini-3-pro-preview` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `gemini-2.5-pro`       | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
@@ -818,21 +815,19 @@ The following Zod features are known to not work with Google Vertex:
 | `gemini-2.0-flash-001` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  The table above lists popular models. Please see the [Google Vertex AI
-  docs](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported-models)
-  for a full list of available models. The table above lists popular models. You
-  can also pass any available provider model ID as a string if needed.
+  上表列出常用模型。完整可用模型列表见 [Google Vertex AI
+  文档](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported-models)。如有需要，也可直接传入任意可用的提供商模型 ID 字符串。
 </Note>
 
-### Embedding Models
+### 嵌入模型
 
-You can create models that call the Google Vertex AI embeddings API using the `.embeddingModel()` factory method:
+可使用 `.embeddingModel()` 工厂方法创建调用 Google Vertex AI 嵌入 API 的模型：
 
 ```ts
 const model = googleVertex.embeddingModel('text-embedding-005');
 ```
 
-Google Vertex AI embedding models support additional settings. You can pass them as an options argument:
+Google Vertex AI 嵌入模型支持额外设置，可通过 options 参数传入：
 
 ```ts
 import {
@@ -856,51 +851,50 @@ const { embedding } = await embed({
 });
 ```
 
-The following optional provider options are available for Google Vertex AI embedding models:
+Google Vertex AI 嵌入模型可使用以下可选提供商选项：
 
-- **outputDimensionality**: _number_
+- **outputDimensionality**：_number_
 
-  Optional reduced dimension for the output embedding. If set, excessive values in the output embedding are truncated from the end.
+  可选。输出向量的缩减维度。设置后，输出向量末尾多余维度会被截断。
 
-- **taskType**: _string_
+- **taskType**：_string_
 
-  Optional. Specifies the task type for generating embeddings. Supported task types include:
-  - `SEMANTIC_SIMILARITY`: Optimized for text similarity.
-  - `CLASSIFICATION`: Optimized for text classification.
-  - `CLUSTERING`: Optimized for clustering texts based on similarity.
-  - `RETRIEVAL_DOCUMENT`: Optimized for document retrieval.
-  - `RETRIEVAL_QUERY`: Optimized for query-based retrieval.
-  - `QUESTION_ANSWERING`: Optimized for answering questions.
-  - `FACT_VERIFICATION`: Optimized for verifying factual information.
-  - `CODE_RETRIEVAL_QUERY`: Optimized for retrieving code blocks based on natural language queries.
+  可选。指定生成嵌入的任务类型。支持的任务类型包括：
+  - `SEMANTIC_SIMILARITY`：面向文本相似度优化。
+  - `CLASSIFICATION`：面向文本分类优化。
+  - `CLUSTERING`：面向基于相似度的文本聚类优化。
+  - `RETRIEVAL_DOCUMENT`：面向文档检索优化。
+  - `RETRIEVAL_QUERY`：面向查询检索优化。
+  - `QUESTION_ANSWERING`：面向问答优化。
+  - `FACT_VERIFICATION`：面向事实核验优化。
+  - `CODE_RETRIEVAL_QUERY`：面向基于自然语言查询检索代码块优化。
 
-- **title**: _string_
+- **title**：_string_
 
-  Optional. The title of the document being embedded. This helps the model produce better embeddings by providing additional context. Only valid when `taskType` is set to `'RETRIEVAL_DOCUMENT'`.
+  可选。被嵌入文档的标题。通过额外上下文帮助模型生成更佳嵌入。仅在 `taskType` 为 `'RETRIEVAL_DOCUMENT'` 时有效。
 
-- **autoTruncate**: _boolean_
+- **autoTruncate**：_boolean_
 
-  Optional. When set to `true`, input text will be truncated if it exceeds the maximum length. When set to `false`, an error is returned if the input text is too long. Defaults to `true`.
+  可选。为 `true` 时，若输入文本超过最大长度会被截断。为 `false` 时，过长会返回错误。默认为 `true`。
 
-#### Model Capabilities
+#### 模型能力
 
-| Model                        | Max Values Per Call | Parallel Calls      | Multimodal          |
+| 模型                        | 单次调用最大条数 | 并行调用      | 多模态          |
 | ---------------------------- | ------------------- | ------------------- | ------------------- |
 | `text-embedding-005`         | 2048                | <Check size={18} /> | <Cross size={18} /> |
 | `gemini-embedding-2-preview` | 2048                | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  The table above lists popular models. You can also pass any available provider
-  model ID as a string if needed.
+  上表列出常用模型。如有需要，也可直接传入任意可用的提供商模型 ID 字符串。
 </Note>
 
-### Image Models
+### 图像模型
 
-You can create image models using the `.image()` factory method. The Google Vertex provider supports both [Imagen](https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview) and [Gemini image models](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash-image). For more on image generation with the AI SDK see [generateImage()](/docs/reference/ai-sdk-core/generate-image).
+可使用 `.image()` 工厂方法创建图像模型。Google Vertex 提供商同时支持 [Imagen](https://cloud.google.com/vertex-ai/generative-ai/docs/image/overview) 与 [Gemini 图像模型](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash-image)。关于使用 AI SDK 生成图像，见 [generateImage()](/docs/reference/ai-sdk-core/generate-image)。
 
-#### Imagen Models
+#### Imagen 模型
 
-[Imagen models](https://cloud.google.com/vertex-ai/generative-ai/docs/image/generate-images) generate images using the Imagen on Vertex AI API.
+[Imagen 模型](https://cloud.google.com/vertex-ai/generative-ai/docs/image/generate-images)使用 Vertex AI 上的 Imagen API 生成图像。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -913,7 +907,7 @@ const { image } = await generateImage({
 });
 ```
 
-Further configuration can be done using Google Vertex provider options. You can validate the provider options using the `GoogleVertexImageModelOptions` type.
+还可通过 Google Vertex 提供商选项进一步配置。可使用 `GoogleVertexImageModelOptions` 类型校验提供商选项。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -931,29 +925,29 @@ const { image } = await generateImage({
 });
 ```
 
-The following provider options are available:
+可用提供商选项如下：
 
 - **negativePrompt** _string_
-  A description of what to discourage in the generated images.
+  描述希望在生成图像中避免出现的内容。
 
 - **personGeneration** `allow_adult` | `allow_all` | `dont_allow`
-  Whether to allow person generation. Defaults to `allow_adult`.
+  是否允许生成人物。默认为 `allow_adult`。
 
 - **safetySetting** `block_low_and_above` | `block_medium_and_above` | `block_only_high` | `block_none`
-  Whether to block unsafe content. Defaults to `block_medium_and_above`.
+  是否拦截不安全内容。默认为 `block_medium_and_above`。
 
 - **addWatermark** _boolean_
-  Whether to add an invisible watermark to the generated images. Defaults to `true`.
+  是否为生成图像添加不可见水印。默认为 `true`。
 
 - **storageUri** _string_
-  Cloud Storage URI to store the generated images.
+  用于存储生成图像的 Cloud Storage URI。
 
 <Note>
-  Imagen models do not support the `size` parameter. Use the `aspectRatio`
-  parameter instead.
+  Imagen 模型不支持 `size` 参数。请改用 `aspectRatio`
+  参数。
 </Note>
 
-Additional information about the images can be retrieved using Google Vertex meta data.
+可使用 Google Vertex 元数据获取关于图像的额外信息。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -971,18 +965,18 @@ console.log(
 );
 ```
 
-##### Image Editing
+##### 图像编辑
 
-Google Vertex Imagen models support image editing through inpainting, outpainting, and other edit modes. Pass input images via `prompt.images` and optionally a mask via `prompt.mask`.
+Google Vertex Imagen 模型支持通过 inpainting、outpainting 等编辑模式处理图像。可通过 `prompt.images` 传入输入图像，并可选通过 `prompt.mask` 传入蒙版。
 
 <Note>
-  Image editing is supported by `imagen-3.0-capability-001`. The
-  `imagen-4.0-generate-001` model does not currently support editing operations.
+  `imagen-3.0-capability-001` 支持图像编辑。
+  `imagen-4.0-generate-001` 目前不支持编辑操作。
 </Note>
 
-###### Inpainting (Insert Objects)
+###### 内补（插入对象）
 
-Insert or replace objects in specific areas using a mask:
+使用蒙版在指定区域插入或替换对象：
 
 ```ts
 import {
@@ -1015,9 +1009,9 @@ const { images } = await generateImage({
 });
 ```
 
-###### Outpainting (Extend Image)
+###### 外扩（扩展图像）
 
-Extend an image beyond its original boundaries:
+将图像扩展到原始边界之外：
 
 ```ts
 import {
@@ -1049,38 +1043,38 @@ const { images } = await generateImage({
 });
 ```
 
-###### Edit Provider Options
+###### 编辑提供商选项
 
-The following options are available under `providerOptions.vertex.edit`:
+`providerOptions.vertex.edit` 下可用选项：
 
-- **mode** - The edit mode to use:
-  - `EDIT_MODE_INPAINT_INSERTION` - Insert objects into masked areas
-  - `EDIT_MODE_INPAINT_REMOVAL` - Remove objects from masked areas
-  - `EDIT_MODE_OUTPAINT` - Extend image beyond boundaries
-  - `EDIT_MODE_CONTROLLED_EDITING` - Controlled editing
-  - `EDIT_MODE_PRODUCT_IMAGE` - Product image editing
-  - `EDIT_MODE_BGSWAP` - Background swap
+- **mode** - 使用的编辑模式：
+  - `EDIT_MODE_INPAINT_INSERTION` - 向蒙版区域插入对象
+  - `EDIT_MODE_INPAINT_REMOVAL` - 从蒙版区域移除对象
+  - `EDIT_MODE_OUTPAINT` - 向外扩展图像边界
+  - `EDIT_MODE_CONTROLLED_EDITING` - 受控编辑
+  - `EDIT_MODE_PRODUCT_IMAGE` - 商品图编辑
+  - `EDIT_MODE_BGSWAP` - 背景替换
 
-- **baseSteps** _number_ - Number of sampling steps (35-75). Higher values = better quality but slower.
+- **baseSteps** _number_ - 采样步数（35-75）。数值越高质量越好但越慢。
 
-- **maskMode** - How to interpret the mask:
-  - `MASK_MODE_USER_PROVIDED` - Use the provided mask directly
-  - `MASK_MODE_DEFAULT` - Default mask mode
-  - `MASK_MODE_DETECTION_BOX` - Mask from detected bounding boxes
-  - `MASK_MODE_CLOTHING_AREA` - Mask from clothing segmentation
-  - `MASK_MODE_PARSED_PERSON` - Mask from person parsing
+- **maskMode** - 蒙版解释方式：
+  - `MASK_MODE_USER_PROVIDED` - 直接使用提供的蒙版
+  - `MASK_MODE_DEFAULT` - 默认蒙版模式
+  - `MASK_MODE_DETECTION_BOX` - 基于检测框的蒙版
+  - `MASK_MODE_CLOTHING_AREA` - 基于服装分割的蒙版
+  - `MASK_MODE_PARSED_PERSON` - 基于人体解析的蒙版
 
-- **maskDilation** _number_ - Percentage (0-1) to grow the mask. Recommended: 0.01.
+- **maskDilation** _number_ - 扩展蒙版的百分比（0-1）。建议：0.01。
 
 <Note>
-  Input images must be provided as `Buffer`, `ArrayBuffer`, `Uint8Array`, or
-  base64-encoded strings. URL-based images are not supported for Google Vertex
-  image editing.
+  输入图像需以 `Buffer`、`ArrayBuffer`、`Uint8Array` 或
+  base64 字符串提供。Google Vertex
+  图像编辑不支持基于 URL 的图像。
 </Note>
 
-##### Imagen Model Capabilities
+##### Imagen 模型能力
 
-| Model                           | Aspect Ratios             |
+| 模型                           | 宽高比             |
 | ------------------------------- | ------------------------- |
 | `imagen-3.0-generate-001`       | 1:1, 3:4, 4:3, 9:16, 16:9 |
 | `imagen-3.0-generate-002`       | 1:1, 3:4, 4:3, 9:16, 16:9 |
@@ -1089,9 +1083,9 @@ The following options are available under `providerOptions.vertex.edit`:
 | `imagen-4.0-fast-generate-001`  | 1:1, 3:4, 4:3, 9:16, 16:9 |
 | `imagen-4.0-ultra-generate-001` | 1:1, 3:4, 4:3, 9:16, 16:9 |
 
-#### Gemini Image Models
+#### Gemini 图像模型
 
-[Gemini image models](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash-image) (e.g. `gemini-2.5-flash-image`) are multimodal output language models that can be used with `generateImage()` for a simpler image generation experience. Internally, the provider calls the language model API with `responseModalities: ['IMAGE']`.
+[Gemini 图像模型](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash-image)（例如 `gemini-2.5-flash-image`）是可多模态输出的语言模型，可与 `generateImage()` 搭配以获得更简单的图像生成体验。在内部，提供商会以 `responseModalities: ['IMAGE']` 调用语言模型 API。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -1104,7 +1098,7 @@ const { image } = await generateImage({
 });
 ```
 
-Gemini image models also support image editing by providing input images:
+Gemini 图像模型也可通过提供输入图像进行图像编辑：
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -1122,7 +1116,7 @@ const { image } = await generateImage({
 });
 ```
 
-You can also use URLs (including `gs://` Cloud Storage URIs) for input images:
+输入图像也可使用 URL（包括 `gs://` Cloud Storage URI）：
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -1138,36 +1132,35 @@ const { image } = await generateImage({
 ```
 
 <Note>
-  Gemini image models do not support the `size` or `n` parameters. Use
-  `aspectRatio` instead of `size`. Mask-based inpainting is also not supported.
+  Gemini 图像模型不支持 `size` 或 `n` 参数。请使用
+  `aspectRatio` 代替 `size`。也不支持基于蒙版的外补。
 </Note>
 
 <Note>
-  Gemini image models are multimodal output models that can generate both text
-  and images. For more advanced use cases where you need both text and image
-  outputs, or want more control over the generation process, you can use them
-  directly with `generateText()`.
+  Gemini 图像模型为多模态输出模型，可同时生成文本
+  与图像。若需要同时获得文本与图像
+  输出，或希望对生成过程有更细粒度控制，可直接使用
+  `generateText()`。
 </Note>
 
-##### Gemini Image Model Capabilities
+##### Gemini 图像模型能力
 
-| Model                            | Image Generation    | Image Editing       | Aspect Ratios                                       |
+| 模型                            | 图像生成    | 图像编辑    | 宽高比                                       |
 | -------------------------------- | ------------------- | ------------------- | --------------------------------------------------- |
 | `gemini-3.1-flash-image-preview` | <Check size={18} /> | <Check size={18} /> | 1:1, 2:3, 3:2, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9 |
 | `gemini-3-pro-image-preview`     | <Check size={18} /> | <Check size={18} /> | 1:1, 2:3, 3:2, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9 |
 | `gemini-2.5-flash-image`         | <Check size={18} /> | <Check size={18} /> | 1:1, 2:3, 3:2, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9 |
 
 <Note>
-  `gemini-3-pro-image-preview` supports additional features including up to 14
-  reference images for editing (6 objects, 5 humans), resolution options (1K,
-  2K, 4K via `providerOptions.vertex.imageConfig.imageSize`), and Google Search
-  grounding.
+  `gemini-3-pro-image-preview` 还支持更多能力，包括编辑时最多 14
+  张参考图（6 个物体、5 个人）、分辨率选项（1K、
+  2K、4K，通过 `providerOptions.vertex.imageConfig.imageSize`），以及 Google Search
+  grounding。
 </Note>
 
-### Video Models
+### 视频模型
 
-You can create [Veo](https://cloud.google.com/vertex-ai/generative-ai/docs/video/overview) video models that call the Vertex AI API
-using the `.video()` factory method. For more on video generation with the AI SDK see [generateVideo()](/docs/reference/ai-sdk-core/generate-video).
+可使用 `.video()` 工厂方法创建调用 Vertex AI API 的 [Veo](https://cloud.google.com/vertex-ai/generative-ai/docs/video/overview) 视频模型。关于使用 AI SDK 生成视频，见 [generateVideo()](/docs/reference/ai-sdk-core/generate-video)。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -1181,7 +1174,7 @@ const { video } = await generateVideo({
 });
 ```
 
-You can configure resolution and duration:
+可配置分辨率与时长：
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -1196,9 +1189,9 @@ const { video } = await generateVideo({
 });
 ```
 
-#### Provider Options
+#### 提供商选项
 
-Further configuration can be done using Google Vertex provider options. You can validate the provider options using the `GoogleVertexVideoModelOptions` type.
+还可通过 Google Vertex 提供商选项进一步配置。可使用 `GoogleVertexVideoModelOptions` 类型校验提供商选项。
 
 ```ts
 import { googleVertex } from '@ai-sdk/google-vertex';
@@ -1218,70 +1211,70 @@ const { video } = await generateVideo({
 });
 ```
 
-The following provider options are available:
+可用提供商选项如下：
 
 - **generateAudio** _boolean_
 
-  Whether to generate audio along with the video.
+  是否同时生成音频。
 
 - **personGeneration** `'dont_allow'` | `'allow_adult'` | `'allow_all'`
 
-  Whether to allow person generation in the video.
+  是否允许视频中生成人物。
 
 - **negativePrompt** _string_
 
-  A description of what to discourage in the generated video.
+  描述希望在生成视频中避免出现的内容。
 
 - **gcsOutputDirectory** _string_
 
-  Cloud Storage URI to store the generated videos.
+  用于存储生成视频的 Cloud Storage URI。
 
 - **referenceImages** _Array\<\{ bytesBase64Encoded?: string; gcsUri?: string \}\>_
 
-  Reference images for style or asset guidance.
+  用于风格或素材引导的参考图。
 
 - **pollIntervalMs** _number_
 
-  Polling interval in milliseconds for checking task status.
+  轮询任务状态的间隔（毫秒）。
 
 - **pollTimeoutMs** _number_
 
-  Maximum wait time in milliseconds for video generation.
+  视频生成的最长等待时间（毫秒）。
 
 <Note>
-  Video generation is an asynchronous process that can take several minutes. For
-  longer videos or higher resolutions, consider setting `pollTimeoutMs` to at
-  least 10 minutes (600000ms).
+  视频生成是异步流程，可能需要数分钟。对于更长视频或更高分辨率，建议将 `pollTimeoutMs` 至少设为
+  10 分钟（600000ms）。
 </Note>
 
-#### Model Capabilities
+#### 模型能力
 
-| Model                       | Audio Support |
+| 模型                       | 音频支持 |
 | --------------------------- | ------------- |
-| `veo-3.1-generate-001`      | Yes           |
-| `veo-3.1-fast-generate-001` | Yes           |
-| `veo-3.0-generate-001`      | Yes           |
-| `veo-3.0-fast-generate-001` | Yes           |
-| `veo-2.0-generate-001`      | No            |
+| `veo-3.1-generate-001`      | 是           |
+| `veo-3.1-fast-generate-001` | 是           |
+| `veo-3.0-generate-001`      | 是           |
+| `veo-3.0-fast-generate-001` | 是           |
+| `veo-2.0-generate-001`      | 否            |
 
 <Note>
-  The table above lists popular models. You can also pass any available provider
-  model ID as a string if needed.
+  上表列出常用模型。如有需要，也可直接传入任意可用的提供商模型 ID 字符串。
 </Note>
 
-## Google Vertex Anthropic Provider Usage
+<a id="google-vertex-anthropic-provider-usage"></a>
 
-The Google Vertex Anthropic provider for the [AI SDK](/docs) offers support for Anthropic's Claude models through the Google Vertex AI APIs. This section provides details on how to set up and use the Google Vertex Anthropic provider.
+## Google Vertex Anthropic 提供商用法
 
-### Provider Instance
+面向 [AI SDK](/docs) 的 Google Vertex Anthropic 提供商通过 Google Vertex AI API 支持 Anthropic 的 Claude 模型。本节说明如何配置与使用该提供商。
 
-You can import the default provider instance `vertexAnthropic` from `@ai-sdk/google-vertex/anthropic`:
+### 提供商实例
+
+可从 `@ai-sdk/google-vertex/anthropic` 导入默认提供商实例 `vertexAnthropic`：
 
 ```typescript
 import { vertexAnthropic } from '@ai-sdk/google-vertex/anthropic';
 ```
 
-If you need a customized setup, you can import `createVertexAnthropic` from `@ai-sdk/google-vertex/anthropic` and create a provider instance with your settings:
+若需自定义配置，可从 `@ai-sdk/google-vertex/anthropic` 导入 `createVertexAnthropic`，并按你的设置创建提供商实例：
 
 ```typescript
 import { createVertexAnthropic } from '@ai-sdk/google-vertex/anthropic';
@@ -1292,9 +1285,9 @@ const vertexAnthropic = createVertexAnthropic({
 });
 ```
 
-#### Node.js Runtime
+#### Node.js 运行时
 
-For Node.js environments, the Google Vertex Anthropic provider supports all standard Google Cloud authentication options through the `google-auth-library`. You can customize the authentication options by passing them to the `createVertexAnthropic` function:
+在 Node.js 环境中，Google Vertex Anthropic 提供商通过 `google-auth-library` 支持所有标准 Google Cloud 身份验证选项。可将身份验证选项传给 `createVertexAnthropic` 进行自定义：
 
 ```typescript
 import { createVertexAnthropic } from '@ai-sdk/google-vertex/anthropic';
@@ -1309,79 +1302,79 @@ const vertexAnthropic = createVertexAnthropic({
 });
 ```
 
-##### Optional Provider Settings
+##### 可选提供商设置
 
-You can use the following optional settings to customize the Google Vertex Anthropic provider instance:
+可使用以下可选设置自定义 Google Vertex Anthropic 提供商实例：
 
 - **project** _string_
 
-  The Google Cloud project ID that you want to use for the API calls.
-  It uses the `GOOGLE_VERTEX_PROJECT` environment variable by default.
+  用于发起 API 调用的 Google Cloud 项目 ID。
+  默认读取 `GOOGLE_VERTEX_PROJECT` 环境变量。
 
 - **location** _string_
 
-  The Google Cloud location that you want to use for the API calls, e.g. `us-central1`.
-  It uses the `GOOGLE_VERTEX_LOCATION` environment variable by default.
+  用于发起 API 调用的 Google Cloud 区域，例如 `us-central1`。
+  默认读取 `GOOGLE_VERTEX_LOCATION` 环境变量。
 
 - **googleAuthOptions** _object_
 
-  Optional. The Authentication options used by the [Google Auth Library](https://github.com/googleapis/google-auth-library-nodejs/). See also the [GoogleAuthOptions](https://github.com/googleapis/google-auth-library-nodejs/blob/08978822e1b7b5961f0e355df51d738e012be392/src/auth/googleauth.ts#L87C18-L87C35) interface.
+  可选。供 [Google Auth Library](https://github.com/googleapis/google-auth-library-nodejs/) 使用的身份验证选项。另请参阅 [GoogleAuthOptions](https://github.com/googleapis/google-auth-library-nodejs/blob/08978822e1b7b5961f0e355df51d738e012be392/src/auth/googleauth.ts#L87C18-L87C35) 接口。
   - **authClient** _object_
-    An `AuthClient` to use.
+    要使用的 `AuthClient`。
 
   - **keyFilename** _string_
-    Path to a .json, .pem, or .p12 key file.
+    指向 .json、.pem 或 .p12 密钥文件的路径。
 
   - **keyFile** _string_
-    Path to a .json, .pem, or .p12 key file.
+    指向 .json、.pem 或 .p12 密钥文件的路径。
 
   - **credentials** _object_
-    Object containing client_email and private_key properties, or the external account client options.
+    包含 client_email 与 private_key 字段的对象，或外部账号客户端选项。
 
   - **clientOptions** _object_
-    Options object passed to the constructor of the client.
+    传给客户端构造函数的选项对象。
 
   - **scopes** _string | string[]_
-    Required scopes for the desired API request.
+    目标 API 请求所需的权限范围。
 
   - **projectId** _string_
-    Your project ID.
+    你的项目 ID。
 
   - **universeDomain** _string_
-    The default service domain for a given Cloud universe.
+    给定 Cloud 宇宙的默认服务域名。
 
 - **headers** _Resolvable&lt;Record&lt;string, string | undefined&gt;&gt;_
 
-  Headers to include in the requests. Can be provided in multiple formats:
-  - A record of header key-value pairs: `Record<string, string | undefined>`
-  - A function that returns headers: `() => Record<string, string | undefined>`
-  - An async function that returns headers: `async () => Record<string, string | undefined>`
-  - A promise that resolves to headers: `Promise<Record<string, string | undefined>>`
+  要包含在请求中的标头。可用多种形式提供：
+  - 标头键值对对象：`Record<string, string | undefined>`
+  - 返回标头的函数：`() => Record<string, string | undefined>`
+  - 异步返回标头的函数：`async () => Record<string, string | undefined>`
+  - 解析为标头的 Promise：`Promise<Record<string, string | undefined>>`
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认使用全局 `fetch`。
+  可用作中间件拦截请求，
+  或在测试等场景提供自定义 fetch。
 
 <a id="google-vertex-anthropic-edge-runtime"></a>
-#### Edge Runtime
+#### Edge 运行时
 
-Edge runtimes (like Vercel Edge Functions and Cloudflare Workers) are lightweight JavaScript environments that run closer to users at the network edge.
-They only provide a subset of the standard Node.js APIs.
-For example, direct file system access is not available, and many Node.js-specific libraries
-(including the standard Google Auth library) are not compatible.
+Edge 运行时（如 Vercel Edge Functions 与 Cloudflare Workers）是更贴近用户的轻量 JavaScript 环境。
+仅提供标准 Node.js API 的子集。
+例如无法直接访问文件系统，许多 Node.js 专用库
+（包括标准 Google Auth 库）也不兼容。
 
-The Edge runtime version of the Google Vertex Anthropic provider supports Google's [Application Default Credentials](https://github.com/googleapis/google-auth-library-nodejs?tab=readme-ov-file#application-default-credentials) through environment variables. The values can be obtained from a json credentials file from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+Google Vertex Anthropic 提供商的 Edge 版本可通过环境变量使用 Google 的[应用程序默认凭据](https://github.com/googleapis/google-auth-library-nodejs?tab=readme-ov-file#application-default-credentials)。相关取值可从 [Google Cloud 控制台](https://console.cloud.google.com/apis/credentials) 的 JSON 凭据文件获取。
 
-For Edge runtimes, you can import the provider instance from `@ai-sdk/google-vertex/anthropic/edge`:
+在 Edge 运行时中，可从 `@ai-sdk/google-vertex/anthropic/edge` 导入提供商实例：
 
 ```typescript
 import { vertexAnthropic } from '@ai-sdk/google-vertex/anthropic/edge';
 ```
 
-To customize the setup, use `createVertexAnthropic` from the same module:
+要自定义配置，请从同一模块导入 `createVertexAnthropic`：
 
 ```typescript
 import { createVertexAnthropic } from '@ai-sdk/google-vertex/anthropic/edge';
@@ -1392,64 +1385,64 @@ const vertexAnthropic = createVertexAnthropic({
 });
 ```
 
-For Edge runtime authentication, set these environment variables from your Google Default Application Credentials JSON file:
+在 Edge 运行时中完成身份验证时，需根据 Google 应用程序默认凭据 JSON 文件设置以下环境变量：
 
 - `GOOGLE_CLIENT_EMAIL`
 - `GOOGLE_PRIVATE_KEY`
-- `GOOGLE_PRIVATE_KEY_ID` (optional)
+- `GOOGLE_PRIVATE_KEY_ID`（可选）
 
-##### Optional Provider Settings
+##### 可选提供商设置
 
-You can use the following optional settings to customize the provider instance:
+可使用以下可选设置自定义提供商实例：
 
 - **project** _string_
 
-  The Google Cloud project ID that you want to use for the API calls.
-  It uses the `GOOGLE_VERTEX_PROJECT` environment variable by default.
+  用于发起 API 调用的 Google Cloud 项目 ID。
+  默认读取 `GOOGLE_VERTEX_PROJECT` 环境变量。
 
 - **location** _string_
 
-  The Google Cloud location that you want to use for the API calls, e.g. `us-central1`.
-  It uses the `GOOGLE_VERTEX_LOCATION` environment variable by default.
+  用于发起 API 调用的 Google Cloud 区域，例如 `us-central1`。
+  默认读取 `GOOGLE_VERTEX_LOCATION` 环境变量。
 
 - **googleCredentials** _object_
 
-  Optional. The credentials used by the Edge provider for authentication. These credentials are typically set through environment variables and are derived from a service account JSON file.
+  可选。Edge 提供商用于身份验证的凭据。这些凭据通常通过环境变量设置，并源自服务账号 JSON 文件。
   - **clientEmail** _string_
-    The client email from the service account JSON file. Defaults to the contents of the `GOOGLE_CLIENT_EMAIL` environment variable.
+    服务账号 JSON 文件中的客户端邮箱。默认读取 `GOOGLE_CLIENT_EMAIL` 环境变量。
 
   - **privateKey** _string_
-    The private key from the service account JSON file. Defaults to the contents of the `GOOGLE_PRIVATE_KEY` environment variable.
+    服务账号 JSON 文件中的私钥。默认读取 `GOOGLE_PRIVATE_KEY` 环境变量。
 
   - **privateKeyId** _string_
-    The private key ID from the service account JSON file (optional). Defaults to the contents of the `GOOGLE_PRIVATE_KEY_ID` environment variable.
+    服务账号 JSON 文件中的私钥 ID（可选）。默认读取 `GOOGLE_PRIVATE_KEY_ID` 环境变量。
 
 - **headers** _Resolvable&lt;Record&lt;string, string | undefined&gt;&gt;_
 
-  Headers to include in the requests. Can be provided in multiple formats:
-  - A record of header key-value pairs: `Record<string, string | undefined>`
-  - A function that returns headers: `() => Record<string, string | undefined>`
-  - An async function that returns headers: `async () => Record<string, string | undefined>`
-  - A promise that resolves to headers: `Promise<Record<string, string | undefined>>`
+  要包含在请求中的标头。可用多种形式提供：
+  - 标头键值对对象：`Record<string, string | undefined>`
+  - 返回标头的函数：`() => Record<string, string | undefined>`
+  - 异步返回标头的函数：`async () => Record<string, string | undefined>`
+  - 解析为标头的 Promise：`Promise<Record<string, string | undefined>>`
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认使用全局 `fetch`。
+  可用作中间件拦截请求，
+  或在测试等场景提供自定义 fetch。
 
-### Language Models
+### 语言模型
 
-You can create models that call the [Anthropic Messages API](https://docs.anthropic.com/claude/reference/messages_post) using the provider instance.
-The first argument is the model id, e.g. `claude-3-haiku-20240307`.
-Some models have multi-modal capabilities.
+使用提供商实例可创建调用 [Anthropic Messages API](https://docs.anthropic.com/claude/reference/messages_post) 的模型。
+第一个参数为模型 ID，例如 `claude-3-haiku-20240307`。
+部分模型具备多模态能力。
 
 ```ts
 const model = anthropic('claude-3-haiku-20240307');
 ```
 
-You can use Anthropic language models to generate text with the `generateText` function:
+可使用 Anthropic 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { vertexAnthropic } from '@ai-sdk/google-vertex/anthropic';
@@ -1461,40 +1454,42 @@ const { text } = await generateText({
 });
 ```
 
-Anthropic language models can also be used in the `streamText` function
-and support structured data generation with [`Output`](/docs/reference/ai-sdk-core/output)
-(see [AI SDK Core](/docs/ai-sdk-core)).
+Anthropic 语言模型也可用于 `streamText`，
+并支持配合 [`Output`](/docs/reference/ai-sdk-core/output) 进行结构化数据生成
+（见 [AI SDK Core](/docs/ai-sdk-core)）。
 
 <Note>
-  The Anthropic API returns streaming tool calls all at once after a delay. This
-  causes structured output generation to complete fully after a delay instead of
-  streaming incrementally.
+  Anthropic API 会在延迟后一次性返回流式工具调用。这会导致
+  结构化输出在一段时间后整体完成，而不是
+  逐步流式输出。
 </Note>
 
-The following optional provider options are available for Anthropic models:
+Anthropic 模型还可使用以下可选提供商选项：
 
 - `sendReasoning` _boolean_
 
-  Optional. Include reasoning content in requests sent to the model. Defaults to `true`.
+  可选。是否在发给模型的请求中包含推理内容。默认为 `true`。
 
-  If you are experiencing issues with the model handling requests involving
-  reasoning content, you can set this to `false` to omit them from the request.
+  若处理包含推理内容的请求时遇到问题，
+  可将其设为 `false` 以从请求中省略推理内容。
 
 - `thinking` _object_
 
-  Optional. See [Reasoning section](#reasoning) for more details.
+  可选。更多说明见[推理](#reasoning)一节。
 
 - `metadata` _object_
 
-  Optional. Metadata to include with the request. See the [Anthropic API documentation](https://platform.claude.com/docs/en/api/messages/create) for details.
-  - `userId` _string_ - An external identifier for the end-user.
+  可选。随请求发送的元数据。详情见 [Anthropic API 文档](https://platform.claude.com/docs/en/api/messages/create)。
+  - `userId` _string_ - 终端用户的外部标识符。
 
-### Reasoning
+<a id="reasoning"></a>
 
-Anthropic has reasoning support for the `claude-3-7-sonnet@20250219` model.
+### 推理
 
-You can enable it using the `thinking` provider option
-and specifying a thinking budget in tokens.
+`claude-3-7-sonnet@20250219` 模型支持 Anthropic 的推理能力。
+
+可使用 `thinking` 提供商选项启用，
+并指定以 token 计的思考预算。
 
 ```ts
 import { vertexAnthropic } from '@ai-sdk/google-vertex/anthropic';
@@ -1515,24 +1510,22 @@ console.log(reasoning); // reasoning details including redacted reasoning
 console.log(text); // text response
 ```
 
-See [AI SDK UI: Chatbot](/docs/ai-sdk-ui/chatbot#reasoning) for more details
-on how to integrate reasoning into your chatbot.
+将推理能力集成到聊天机器人的更多说明，见 [AI SDK UI：Chatbot](/docs/ai-sdk-ui/chatbot#reasoning)。
 
-#### Cache Control
+#### 缓存控制
 
 <Note>
-  Anthropic cache control is in a Pre-Generally Available (GA) state on Google
-  Vertex. For more see [Google Vertex Anthropic cache control
-  documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/claude-prompt-caching).
+  在 Google
+  Vertex 上，Anthropic 的缓存控制处于预正式发布（Pre-GA）状态。更多见 [Google Vertex Anthropic 缓存控制
+  文档](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/claude-prompt-caching)。
 </Note>
 
-In the messages and message parts, you can use the `providerOptions` property to set cache control breakpoints.
-You need to set the `anthropic` property in the `providerOptions` object to `{ cacheControl: { type: 'ephemeral' } }` to set a cache control breakpoint.
+在消息与消息片段中，可使用 `providerOptions` 设置缓存控制断点。
+需要在 `providerOptions` 上将 `anthropic` 设为 `{ cacheControl: { type: 'ephemeral' } }` 来创建缓存断点。
 
-Cache read and cache write (creation) token counts are returned on the standard
-`usage` object for both `generateText` and `streamText`. You can access them at
-`result.usage.inputTokenDetails.cacheReadTokens` and
-`result.usage.inputTokenDetails.cacheWriteTokens`.
+`generateText` 与 `streamText` 均会在标准 `usage` 对象上返回缓存读取与缓存写入（创建）的 token 计数。可通过
+`result.usage.inputTokenDetails.cacheReadTokens` 与
+`result.usage.inputTokenDetails.cacheWriteTokens` 访问。
 
 ```ts highlight="8,16-18,27-31"
 import { vertexAnthropic } from '@ai-sdk/google-vertex/anthropic';
@@ -1571,7 +1564,7 @@ console.log(
 );
 ```
 
-You can also use cache control on system messages by providing multiple system messages at the head of your messages array:
+也可在系统消息上使用缓存控制：在 `messages` 数组开头提供多条系统消息即可。
 
 ```ts highlight="3,7-9"
 const result = await generateText({
@@ -1596,34 +1589,32 @@ const result = await generateText({
 });
 ```
 
-For more on prompt caching with Anthropic, see [Google Vertex AI's Claude prompt caching documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/claude-prompt-caching) and [Anthropic's Cache Control documentation](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching).
+关于 Anthropic 的提示缓存，更多见 [Google Vertex AI 的 Claude 提示缓存文档](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/claude-prompt-caching) 与 [Anthropic 的缓存控制文档](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)。
 
-### Tools
+### 工具
 
-Google Vertex Anthropic supports a subset of Anthropic's built-in tools. The following tools are available via the `tools` property of the provider instance:
+Google Vertex Anthropic 支持部分 Anthropic 内置工具。可通过提供商实例的 `tools` 属性使用以下工具：
 
-1. **Bash Tool**: Allows running bash commands.
-2. **Text Editor Tool**: Provides functionality for viewing and editing text files.
-3. **Computer Tool**: Enables control of keyboard and mouse actions on a computer.
-4. **Web Search Tool**: Provides access to real-time web content.
+1. **Bash 工具**：允许运行 bash 命令。
+2. **文本编辑器工具**：查看与编辑文本文件。
+3. **Computer 工具**：控制计算机的键盘与鼠标操作。
+4. **网页搜索工具**：访问实时网页内容。
 
 <Note>
-  Only a subset of Anthropic tools are supported on Google Vertex. Tools like
-  Code Execution, Memory, and Web Fetch are not available. Use the regular
-  `@ai-sdk/anthropic` provider if you need access to all Anthropic tools.
+  Google Vertex 上仅支持 Anthropic 工具的子集。代码执行、Memory、Web Fetch 等工具不可用。若需要全部 Anthropic 工具，请使用常规
+  `@ai-sdk/anthropic` 提供商。
 </Note>
 
 <Note>
-  Google Vertex Anthropic does not support strict mode on tool definitions.
-  Setting `strict: true` on a tool will be ignored and a warning will be
-  emitted.
+  Google Vertex Anthropic 不支持工具定义的严格模式（strict）。
+  在工具上设置 `strict: true` 会被忽略并发出警告。
 </Note>
 
-For more background on Anthropic tools, see [Anthropic's documentation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview).
+Anthropic 工具的背景说明见 [Anthropic 文档](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)。
 
-#### Bash Tool
+#### Bash 工具
 
-The Bash Tool allows running bash commands. Here's how to create and use it:
+Bash 工具用于运行 bash 命令。创建与用法如下：
 
 ```ts
 const bashTool = vertexAnthropic.tools.bash_20250124({
@@ -1634,14 +1625,14 @@ const bashTool = vertexAnthropic.tools.bash_20250124({
 });
 ```
 
-Parameters:
+参数：
 
-- `command` (string): The bash command to run. Required unless the tool is being restarted.
-- `restart` (boolean, optional): Specifying true will restart this tool.
+- `command` (string)：要运行的 bash 命令。除非正在重启工具，否则为必填。
+- `restart` (boolean，可选)：为 true 时将重启该工具。
 
-#### Text Editor Tool
+#### 文本编辑器工具
 
-The Text Editor Tool provides functionality for viewing and editing text files:
+文本编辑器工具用于查看与编辑文本文件：
 
 ```ts
 const textEditorTool = vertexAnthropic.tools.textEditor_20250124({
@@ -1661,21 +1652,21 @@ const textEditorTool = vertexAnthropic.tools.textEditor_20250124({
 });
 ```
 
-Parameters:
+参数：
 
-- `command` ('view' | 'create' | 'str_replace' | 'insert' | 'undo_edit'): The command to run. Note: `undo_edit` is not supported in `textEditor_20250429` and `textEditor_20250728`.
-- `path` (string): Absolute path to file or directory, e.g. `/repo/file.py` or `/repo`.
-- `file_text` (string, optional): Required for `create` command, with the content of the file to be created.
-- `insert_line` (number, optional): Required for `insert` command. The line number after which to insert the new string.
-- `new_str` (string, optional): New string for `str_replace` command.
-- `insert_text` (string, optional): Required for `insert` command, containing the text to insert.
-- `old_str` (string, optional): Required for `str_replace` command, containing the string to replace.
-- `view_range` (number[], optional): Optional for `view` command to specify line range to show.
-- `max_characters` (number, optional): Optional maximum number of characters to view in the file (only available in `textEditor_20250728`).
+- `command` ('view' | 'create' | 'str_replace' | 'insert' | 'undo_edit')：要执行的命令。注意：`textEditor_20250429` 与 `textEditor_20250728` 不支持 `undo_edit`。
+- `path` (string)：文件或目录的绝对路径，例如 `/repo/file.py` 或 `/repo`。
+- `file_text` (string，可选)：`create` 命令必填，为要创建文件的内容。
+- `insert_line` (number，可选)：`insert` 命令必填，表示在其后插入新字符串的行号。
+- `new_str` (string，可选)：`str_replace` 命令的新字符串。
+- `insert_text` (string，可选)：`insert` 命令必填，为要插入的文本。
+- `old_str` (string，可选)：`str_replace` 命令必填，为要被替换的字符串。
+- `view_range` (number[]，可选)：`view` 命令可选，指定要显示的行范围。
+- `max_characters` (number，可选)：查看文件时可显示的最大字符数（仅在 `textEditor_20250728` 中可用）。
 
-#### Computer Tool
+#### Computer 工具
 
-The Computer Tool enables control of keyboard and mouse actions on a computer:
+Computer 工具用于控制计算机的键盘与鼠标操作：
 
 ```ts
 const computerTool = vertexAnthropic.tools.computer_20241022({
@@ -1716,15 +1707,15 @@ const computerTool = vertexAnthropic.tools.computer_20241022({
 });
 ```
 
-Parameters:
+参数：
 
-- `action` ('key' | 'type' | 'mouse_move' | 'left_click' | 'left_click_drag' | 'right_click' | 'middle_click' | 'double_click' | 'screenshot' | 'cursor_position'): The action to perform.
-- `coordinate` (number[], optional): Required for `mouse_move` and `left_click_drag` actions. Specifies the (x, y) coordinates.
-- `text` (string, optional): Required for `type` and `key` actions.
+- `action` ('key' | 'type' | 'mouse_move' | 'left_click' | 'left_click_drag' | 'right_click' | 'middle_click' | 'double_click' | 'screenshot' | 'cursor_position')：要执行的动作。
+- `coordinate` (number[]，可选)：`mouse_move` 与 `left_click_drag` 动作必填，指定 (x, y) 坐标。
+- `text` (string，可选)：`type` 与 `key` 动作必填。
 
-#### Web Search Tool
+#### 网页搜索工具
 
-The Web Search Tool provides Claude with direct access to real-time web content:
+网页搜索工具让 Claude 可直接访问实时网页内容：
 
 ```ts
 const webSearchTool = vertexAnthropic.tools.webSearch_20250305({
@@ -1742,26 +1733,26 @@ const webSearchTool = vertexAnthropic.tools.webSearch_20250305({
 });
 ```
 
-Parameters:
+参数：
 
-- `maxUses` (number, optional): Maximum number of web searches Claude can perform during the conversation.
-- `allowedDomains` (string[], optional): Optional list of domains that Claude is allowed to search.
-- `blockedDomains` (string[], optional): Optional list of domains that Claude should avoid when searching.
-- `userLocation` (object, optional): Optional user location information to provide geographically relevant search results.
-  - `type` ('approximate'): The type of location (must be approximate).
-  - `city` (string, optional): The city name.
-  - `region` (string, optional): The region or state.
-  - `country` (string, optional): The country.
-  - `timezone` (string, optional): The IANA timezone ID.
+- `maxUses` (number，可选)：对话期间 Claude 可执行的网页搜索次数上限。
+- `allowedDomains` (string[]，可选)：允许 Claude 搜索的域名列表。
+- `blockedDomains` (string[]，可选)：搜索时应避免的域名列表。
+- `userLocation` (object，可选)：用户位置信息，用于提供地理位置相关的搜索结果。
+  - `type` ('approximate')：位置类型（必须为 approximate）。
+  - `city` (string，可选)：城市名称。
+  - `region` (string，可选)：地区或州。
+  - `country` (string，可选)：国家。
+  - `timezone` (string，可选)：IANA 时区 ID。
 
-These tools can be used in conjunction with supported Claude models to enable more complex interactions and tasks.
+这些工具可与受支持的 Claude 模型配合，完成更复杂的交互与任务。
 
-### Model Capabilities
+### 模型能力
 
-The latest Anthropic model list on Vertex AI is available [here](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude#model-list).
-See also [Anthropic Model Comparison](https://docs.anthropic.com/en/docs/about-claude/models#model-comparison).
+Vertex AI 上最新的 Anthropic 模型列表见[此处](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude#model-list)。
+另见 [Anthropic 模型对比](https://docs.anthropic.com/en/docs/about-claude/models#model-comparison)。
 
-| Model                           | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      | Computer Use        |
+| 模型                           | 图像输入         | 对象生成   | 工具使用   | 工具流式   | Computer Use        |
 | ------------------------------- | ------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `claude-3-7-sonnet@20250219`    | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `claude-3-5-sonnet-v2@20241022` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
@@ -1772,25 +1763,24 @@ See also [Anthropic Model Comparison](https://docs.anthropic.com/en/docs/about-c
 | `claude-3-opus@20240229`        | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
 
 <Note>
-  The table above lists popular models. You can also pass any available provider
-  model ID as a string if needed.
+  上表列出常用模型。如有需要，也可直接传入任意可用的提供商模型 ID 字符串。
 </Note>
 
-## Google Vertex xAI Provider Usage
+## Google Vertex xAI 提供商用法
 
-The Google Vertex xAI provider offers support for xAI's Grok partner models through the Google Vertex AI OpenAI-compatible Chat Completions API.
+Google Vertex xAI 提供商通过 Google Vertex AI 兼容 OpenAI 的 Chat Completions API，支持 xAI 的 Grok 合作模型。
 
-For more information, see the [Vertex AI Grok documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/grok).
+更多信息见 [Vertex AI Grok 文档](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/grok)。
 
-### Provider Instance
+### 提供商实例
 
-You can import the default provider instance `googleVertexXai` from `@ai-sdk/google-vertex/xai`:
+可从 `@ai-sdk/google-vertex/xai` 导入默认提供商实例 `googleVertexXai`：
 
 ```typescript
 import { googleVertexXai } from '@ai-sdk/google-vertex/xai';
 ```
 
-If you need a customized setup, you can import `createGoogleVertexXai` from `@ai-sdk/google-vertex/xai` and create a provider instance with your settings:
+若需自定义配置，可从 `@ai-sdk/google-vertex/xai` 导入 `createGoogleVertexXai`，并按你的设置创建提供商实例：
 
 ```typescript
 import { createGoogleVertexXai } from '@ai-sdk/google-vertex/xai';
@@ -1801,9 +1791,9 @@ const googleVertexXai = createGoogleVertexXai({
 });
 ```
 
-#### Node.js Runtime
+#### Node.js 运行时
 
-For Node.js environments, the Google Vertex xAI provider supports all standard Google Cloud authentication options through the `google-auth-library`:
+在 Node.js 环境中，Google Vertex xAI 提供商通过 `google-auth-library` 支持所有标准 Google Cloud 身份验证选项：
 
 ```typescript
 import { createGoogleVertexXai } from '@ai-sdk/google-vertex/xai';
@@ -1818,33 +1808,33 @@ const googleVertexXai = createGoogleVertexXai({
 });
 ```
 
-##### Optional Provider Settings
+##### 可选提供商设置
 
 - **project** _string_
 
-  The Google Cloud project ID. Defaults to the `GOOGLE_VERTEX_PROJECT` environment variable.
+  Google Cloud 项目 ID。默认读取 `GOOGLE_VERTEX_PROJECT` 环境变量。
 
 - **location** _string_
 
-  The Google Cloud location. Grok models are available on the global endpoint. Defaults to the `GOOGLE_VERTEX_LOCATION` environment variable. If not set, defaults to `global`.
+  Google Cloud 区域。Grok 模型使用全局端点。默认读取 `GOOGLE_VERTEX_LOCATION` 环境变量。若未设置，默认为 `global`。
 
 - **googleAuthOptions** _object_
 
-  Optional. The Authentication options used by the [Google Auth Library](https://github.com/googleapis/google-auth-library-nodejs/).
+  可选。供 [Google Auth Library](https://github.com/googleapis/google-auth-library-nodejs/) 使用的身份验证选项。
 
 - **headers** _Resolvable&lt;Record&lt;string, string | undefined&gt;&gt;_
 
-  Headers to include in requests.
+  要包含在请求中的标头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
 
 <a id="google-vertex-xai-edge-runtime"></a>
 
-#### Edge Runtime
+#### Edge 运行时
 
-For Edge runtimes, import from `@ai-sdk/google-vertex/xai/edge`:
+在 Edge 运行时中，请从 `@ai-sdk/google-vertex/xai/edge` 导入：
 
 ```typescript
 import { googleVertexXai } from '@ai-sdk/google-vertex/xai/edge';
@@ -1859,15 +1849,15 @@ const googleVertexXai = createGoogleVertexXai({
 });
 ```
 
-For Edge runtime authentication, set these environment variables:
+在 Edge 运行时中完成身份验证时，需设置以下环境变量：
 
 - `GOOGLE_CLIENT_EMAIL`
 - `GOOGLE_PRIVATE_KEY`
-- `GOOGLE_PRIVATE_KEY_ID` (optional)
+- `GOOGLE_PRIVATE_KEY_ID`（可选）
 
-### Language Models
+### 语言模型
 
-You can create models using the provider instance. The first argument is the model ID:
+使用提供商实例创建模型。第一个参数为模型 ID：
 
 ```ts
 import { googleVertexXai } from '@ai-sdk/google-vertex/xai';
@@ -1879,7 +1869,7 @@ const { text } = await generateText({
 });
 ```
 
-Streaming is also supported:
+也支持流式输出：
 
 ```ts
 import { googleVertexXai } from '@ai-sdk/google-vertex/xai';
@@ -1895,9 +1885,9 @@ for await (const textPart of result.textStream) {
 }
 ```
 
-### Function Calling
+### 函数调用
 
-Grok models on Vertex support OpenAI-compatible function calling. You can use AI SDK tools as usual:
+Vertex 上的 Grok 模型支持兼容 OpenAI 的函数调用。可按常见方式使用 AI SDK 工具：
 
 ```ts
 import { googleVertexXai } from '@ai-sdk/google-vertex/xai';
@@ -1917,9 +1907,9 @@ const result = await generateText({
 });
 ```
 
-### Structured Outputs
+### 结构化输出
 
-Grok models on Vertex support JSON mode and schema-backed structured outputs:
+Vertex 上的 Grok 模型支持 JSON mode 与基于 schema 的结构化输出：
 
 ```ts
 import { googleVertexXai } from '@ai-sdk/google-vertex/xai';
@@ -1939,37 +1929,37 @@ const result = await generateText({
 });
 ```
 
-### Available Models
+### 可用模型
 
-The following models are available through the Google Vertex xAI provider. You can also pass any valid model ID as a string.
+以下模型可通过 Google Vertex xAI 提供商使用。也可传入任意有效的模型 ID 字符串。
 
-| Model ID                          | Reasoning |
+| 模型 ID                          | 推理 |
 | --------------------------------- | --------- |
-| `xai/grok-4.20-reasoning`         | Yes       |
-| `xai/grok-4.20-non-reasoning`     | No        |
-| `xai/grok-4.1-fast-reasoning`     | Yes       |
-| `xai/grok-4.1-fast-non-reasoning` | No        |
+| `xai/grok-4.20-reasoning`         | 是       |
+| `xai/grok-4.20-non-reasoning`     | 否        |
+| `xai/grok-4.1-fast-reasoning`     | 是       |
+| `xai/grok-4.1-fast-non-reasoning` | 否        |
 
 <Note>
-  Grok reasoning models on Vertex report reasoning token counts in usage
-  metadata. They do not support the `reasoning_effort` request parameter.
+  Vertex 上的 Grok 推理模型会在用量
+  元数据中报告推理 token 计数。不支持 `reasoning_effort` 请求参数。
 </Note>
 
-## Google Vertex MaaS Provider Usage
+## Google Vertex MaaS 提供商用法
 
-The Google Vertex MaaS (Model as a Service) provider offers access to partner and open models hosted on Vertex AI through an OpenAI-compatible Chat Completions API. This includes models from DeepSeek, Qwen, Meta, MiniMax, Moonshot, and OpenAI.
+Google Vertex MaaS（Model as a Service，模型即服务）提供商通过兼容 OpenAI 的 Chat Completions API，访问托管在 Vertex AI 上的合作与开放模型，其中包括 DeepSeek、Qwen、Meta、MiniMax、Moonshot 与 OpenAI 等模型。
 
-For more information, see the [Vertex AI MaaS documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/maas/use-open-models).
+更多信息见 [Vertex AI MaaS 文档](https://cloud.google.com/vertex-ai/generative-ai/docs/maas/use-open-models)。
 
-### Provider Instance
+### 提供商实例
 
-You can import the default provider instance `vertexMaas` from `@ai-sdk/google-vertex/maas`:
+可从 `@ai-sdk/google-vertex/maas` 导入默认提供商实例 `vertexMaas`：
 
 ```typescript
 import { vertexMaas } from '@ai-sdk/google-vertex/maas';
 ```
 
-If you need a customized setup, you can import `createVertexMaas` from `@ai-sdk/google-vertex/maas` and create a provider instance with your settings:
+若需自定义配置，可从 `@ai-sdk/google-vertex/maas` 导入 `createVertexMaas`，并按你的设置创建提供商实例：
 
 ```typescript
 import { createVertexMaas } from '@ai-sdk/google-vertex/maas';
@@ -1980,9 +1970,9 @@ const vertexMaas = createVertexMaas({
 });
 ```
 
-#### Node.js Runtime
+#### Node.js 运行时
 
-For Node.js environments, the Google Vertex MaaS provider supports all standard Google Cloud authentication options through the `google-auth-library`:
+在 Node.js 环境中，Google Vertex MaaS 提供商通过 `google-auth-library` 支持所有标准 Google Cloud 身份验证选项：
 
 ```typescript
 import { createVertexMaas } from '@ai-sdk/google-vertex/maas';
@@ -1997,33 +1987,33 @@ const vertexMaas = createVertexMaas({
 });
 ```
 
-##### Optional Provider Settings
+##### 可选提供商设置
 
 - **project** _string_
 
-  The Google Cloud project ID. Defaults to the `GOOGLE_VERTEX_PROJECT` environment variable.
+  Google Cloud 项目 ID。默认读取 `GOOGLE_VERTEX_PROJECT` 环境变量。
 
 - **location** _string_
 
-  The Google Cloud location, e.g. `us-east5` or `global`. Defaults to the `GOOGLE_VERTEX_LOCATION` environment variable. If not set, defaults to `global`.
+  Google Cloud 区域，例如 `us-east5` 或 `global`。默认读取 `GOOGLE_VERTEX_LOCATION` 环境变量。若未设置，默认为 `global`。
 
 - **googleAuthOptions** _object_
 
-  Optional. The Authentication options used by the [Google Auth Library](https://github.com/googleapis/google-auth-library-nodejs/).
+  可选。供 [Google Auth Library](https://github.com/googleapis/google-auth-library-nodejs/) 使用的身份验证选项。
 
 - **headers** _Resolvable&lt;Record&lt;string, string | undefined&gt;&gt;_
 
-  Headers to include in requests.
+  要包含在请求中的标头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
 
 <a id="google-vertex-maas-edge-runtime"></a>
 
-#### Edge Runtime
+#### Edge 运行时
 
-For Edge runtimes, import from `@ai-sdk/google-vertex/maas/edge`:
+在 Edge 运行时中，请从 `@ai-sdk/google-vertex/maas/edge` 导入：
 
 ```typescript
 import { vertexMaas } from '@ai-sdk/google-vertex/maas/edge';
@@ -2038,15 +2028,15 @@ const vertexMaas = createVertexMaas({
 });
 ```
 
-For Edge runtime authentication, set these environment variables:
+在 Edge 运行时中完成身份验证时，需设置以下环境变量：
 
 - `GOOGLE_CLIENT_EMAIL`
 - `GOOGLE_PRIVATE_KEY`
-- `GOOGLE_PRIVATE_KEY_ID` (optional)
+- `GOOGLE_PRIVATE_KEY_ID`（可选）
 
-### Language Models
+### 语言模型
 
-You can create models using the provider instance. The first argument is the model ID:
+使用提供商实例创建模型。第一个参数为模型 ID：
 
 ```ts
 import { vertexMaas } from '@ai-sdk/google-vertex/maas';
@@ -2058,7 +2048,7 @@ const { text } = await generateText({
 });
 ```
 
-Streaming is also supported:
+也支持流式输出：
 
 ```ts
 import { vertexMaas } from '@ai-sdk/google-vertex/maas';
@@ -2074,11 +2064,11 @@ for await (const textPart of result.textStream) {
 }
 ```
 
-### Available Models
+### 可用模型
 
-The following models are available through the MaaS provider. You can also pass any valid model ID as a string.
+以下模型可通过 MaaS 提供商使用。也可传入任意有效的模型 ID 字符串。
 
-| Model ID                                       | Provider |
+| 模型 ID                                       | 提供商 |
 | ---------------------------------------------- | -------- |
 | `deepseek-ai/deepseek-r1-0528-maas`            | DeepSeek |
 | `deepseek-ai/deepseek-v3.1-maas`               | DeepSeek |
@@ -2094,8 +2084,7 @@ The following models are available through the MaaS provider. You can also pass 
 | `moonshotai/kimi-k2-thinking-maas`             | Moonshot |
 
 <Note>
-  Model availability depends on your Google Cloud project and region. Check the
+  模型可用性取决于 Google Cloud 项目与区域。最新可用模型见
   [Vertex AI Model
-  Garden](https://console.cloud.google.com/vertex-ai/model-garden) for the
-  latest available models.
+  Garden](https://console.cloud.google.com/vertex-ai/model-garden)。
 </Note>

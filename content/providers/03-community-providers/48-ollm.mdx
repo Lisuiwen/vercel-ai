@@ -1,23 +1,23 @@
 ---
 title: OLLM
-description: OLLM Provider for the AI SDK
+description: 适用于 AI SDK 的 OLLM 提供商
 ---
 
 # OLLM
 
-[OLLM](https://ollm.com/) is the world's first enterprise router aggregating high-security, zero-knowledge LLM providers. It provides a unified API gateway to access AI models with guaranteed military-grade encryption at every layer. The OLLM provider for the AI SDK enables seamless integration with all these models while offering unique advantages:
+[OLLM](https://ollm.com/) 是企业级路由器，聚合高安全性、零知识 LLM 提供商，并提供统一 API 网关访问 AI 模型，在各层保证军工级加密。面向 AI SDK 的 OLLM 提供商可无缝接入这些模型，并具有独特优势：
 
-- **Verifiable Privacy**: All models run with confidential computing for maximum security
-- **Universal Model Access**: One API key for models from multiple providers
-- **Confidential Computing**: Hardware-level encryption with TEE (Trusted Execution Environment) on all models
-- **Military-Grade Security**: End-to-end encryption at every layer of the stack
-- **Simple Integration**: OpenAI-compatible API across all models
+- **可验证隐私**：所有模型在机密计算环境中运行，安全性更高
+- **通用模型访问**：一把密钥访问多家提供商的模型
+- **机密计算**：全部模型在 TEE（可信执行环境）下进行硬件级加密
+- **军工级安全**：栈各层端到端加密
+- **简单集成**：跨模型 OpenAI 兼容 API
 
-Learn more about OLLM's capabilities in the [OLLM Website](https://ollm.com).
+更多说明见 [OLLM 网站](https://ollm.com)。
 
-## Setup
+## 安装与配置
 
-The OLLM provider is available in the `@ofoundation/ollm` module. You can install it with:
+OLLM 提供商位于 `@ofoundation/ollm` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -34,9 +34,9 @@ The OLLM provider is available in the `@ofoundation/ollm` module. You can instal
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-To create an OLLM provider instance, use the `createOLLM` function:
+使用 `createOLLM` 创建 OLLM 提供商实例：
 
 ```typescript
 import { createOLLM } from '@ofoundation/ollm';
@@ -46,22 +46,22 @@ const ollm = createOLLM({
 });
 ```
 
-You can obtain your OLLM API key from the [OLLM Dashboard](https://console.ollm.com/dashboard/api-keys).
+可在 [OLLM 控制台](https://console.ollm.com/dashboard/api-keys) 获取 API 密钥。
 
-## Language Models
+## 语言模型
 
-All OLLM models run with confidential computing by default. Use `ollm.chatModel()` for chat models:
+默认情况下，所有 OLLM 模型均在机密计算环境中运行。聊天模型使用 `ollm.chatModel()`：
 
 ```typescript
 // Confidential computing chat models
 const confidentialModel = ollm.chatModel('near/GLM-4.7');
 ```
 
-You can find the full list of available models in the [OLLM Models](https://ollm.com/models).
+完整模型列表见 [OLLM Models](https://ollm.com/models)。
 
-## Examples
+## 示例
 
-Here are examples of using OLLM with the AI SDK:
+以下示例展示如何将 OLLM 与 AI SDK 配合使用：
 
 ### `generateText`
 
@@ -101,7 +101,7 @@ for await (const chunk of result.textStream) {
 }
 ```
 
-### Using System Messages
+### 使用系统消息
 
 ```typescript
 import { createOLLM } from '@ofoundation/ollm';
@@ -120,23 +120,23 @@ const { text } = await generateText({
 console.log(text);
 ```
 
-## Advanced Features
+## 高级功能
 
-OLLM offers several advanced features to enhance your AI applications with enterprise-grade security:
+OLLM 提供多项面向企业级安全的高级能力：
 
-1. **Zero Data Retention (ZDR)**: Your prompts and completions are never stored or logged by providers.
+1. **零数据留存（ZDR）**：提供商不会存储或记录你的提示与补全。
 
-2. **Confidential Computing**: Hardware-level encryption using TEE technology ensures your data is protected even during processing.
+2. **机密计算**：基于 TEE 的硬件级加密，处理过程中仍保护数据。
 
-3. **Verifiable Privacy**: Cryptographic proofs that your data was processed securely.
+3. **可验证隐私**：密码学证明数据在安全环境中处理。
 
-4. **Model Flexibility**: Switch between hundreds of models without changing your code or managing multiple API keys.
+4. **模型灵活**：无需改代码或管理多把密钥即可切换数百种模型。
 
-5. **Cost Management**: Track usage and costs per model in real-time through the dashboard.
+5. **成本管理**：在控制台实时按模型查看用量与费用。
 
-6. **Enterprise Support**: Available for high-volume users with custom SLAs and dedicated support.
+6. **企业支持**：面向高用量用户提供自定义 SLA 与专属支持。
 
-7. **Tool Integrations**: Seamlessly works with popular AI development tools including:
+7. **工具集成**：可与常用 AI 开发工具配合使用，包括：
    - Cursor
    - Windsurf
    - VS Code
@@ -144,10 +144,10 @@ OLLM offers several advanced features to enhance your AI applications with enter
    - Roo Code
    - Replit
 
-For more information about these features and advanced configuration options, visit the [OLLM Documentation](https://ollm.com/docs).
+更多信息与高级配置见 [OLLM 文档](https://ollm.com/docs)。
 
-## Additional Resources
+## 更多资源
 
-- [OLLM Documentation](https://ollm.com/)
-- [OLLM Dashboard](https://console.ollm.com/dashboard)
-- [OLLM Models](https://console.ollm.com/explorer/models)
+- [OLLM 文档](https://ollm.com/)
+- [OLLM 控制台](https://console.ollm.com/dashboard)
+- [OLLM 模型](https://console.ollm.com/explorer/models)

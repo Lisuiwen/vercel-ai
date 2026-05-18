@@ -16,8 +16,8 @@ export type CollectedToolApprovals<TOOLS extends ToolSet> = {
 };
 
 /**
- * If the last message is a tool message, this function collects all tool approvals
- * from that message.
+ * 如果最后一条消息是工具消息，则此功能收集所有工具批准
+ * 从那条消息。
  */
 export function collectToolApprovals<TOOLS extends ToolSet>({
   messages,
@@ -36,7 +36,7 @@ export function collectToolApprovals<TOOLS extends ToolSet>({
     };
   }
 
-  // gather tool calls and prepare lookup
+  // 收集工具调用并准备查找
   const toolCallsByToolCallId: Record<string, TypedToolCall<TOOLS>> = {};
   for (const message of messages) {
     if (message.role === 'assistant' && typeof message.content !== 'string') {
@@ -49,7 +49,7 @@ export function collectToolApprovals<TOOLS extends ToolSet>({
     }
   }
 
-  // gather approval responses and prepare lookup
+  // 收集批准回复并准备查找
   const toolApprovalRequestsByApprovalId: Record<string, ToolApprovalRequest> =
     {};
   for (const message of messages) {
@@ -63,7 +63,7 @@ export function collectToolApprovals<TOOLS extends ToolSet>({
     }
   }
 
-  // gather tool results from the last tool message
+  // 从最后一个工具消息中收集工具结果
   const toolResults: Record<string, TypedToolResult<TOOLS>> = {};
   for (const part of lastMessage.content) {
     if (part.type === 'tool-result') {

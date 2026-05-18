@@ -13,7 +13,7 @@ export function asProviderV3(provider: ProviderV2 | ProviderV3): ProviderV3 {
     return provider;
   }
 
-  // v3 providers have already been returned
+  // v3 提供程序已返回
   const v2Provider: ProviderV2 = provider as ProviderV2;
 
   return {
@@ -31,6 +31,6 @@ export function asProviderV3(provider: ProviderV2 | ProviderV3): ProviderV3 {
     speechModel: v2Provider.speechModel
       ? (modelId: string) => asSpeechModelV3(v2Provider.speechModel!(modelId))
       : undefined,
-    rerankingModel: undefined, // v2 providers don't have reranking models
+    rerankingModel: undefined, // v2 提供商没有重新排名模型
   };
 }

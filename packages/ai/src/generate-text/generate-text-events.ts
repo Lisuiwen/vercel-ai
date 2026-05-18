@@ -16,124 +16,124 @@ import type { ResponseMessage } from './response-message';
 import type { StepResult } from './step-result';
 
 /**
- * Event passed to the `onStart` callback.
+ * 事件传递给“onStart”回调。
  *
- * Called when the generation operation begins, before any LLM calls.
+ * 在生成操作开始时、在任何 LLM 调用之前调用。
  */
 export type GenerateTextStartEvent<
   TOOLS extends ToolSet = ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
   OUTPUT extends Output = Output,
 > = {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Identifies the operation type (e.g. 'ai.generateText' or 'ai.streamText'). */
-  // move to the telemetry dispatcher
+  /* * 标识操作类型（例如“ai.generateText”或“ai.streamText”）。 */
+  // 移至遥测调度员
   readonly operationId: string;
 
-  /** The provider identifier (e.g., 'openai', 'anthropic'). */
+  /* * 提供者标识符（例如“openai”、“anthropic”）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'gpt-4o'). */
+  /* * 特定型号标识符（例如“gpt-4o”）。 */
   readonly modelId: string;
 
-  /** The tools available for this generation. */
+  /* * 本代可用的工具。 */
   readonly tools: TOOLS | undefined;
 
-  /** The tool choice strategy for this generation. */
+  /* * 本世代的工具选择策略。 */
   readonly toolChoice: ToolChoice<NoInfer<TOOLS>> | undefined;
 
-  /** Limits which tools are available for the model to call. */
+  /* * 限制模型可以调用哪些工具。 */
   readonly activeTools: ActiveTools<TOOLS>;
 
-  /** Maximum number of retries for failed requests. */
+  /* * 失败请求的最大重试次数。 */
   readonly maxRetries: number;
 
   /**
-   * Timeout configuration for the generation.
-   * Can be a number (milliseconds) or an object with totalMs, stepMs, chunkMs, toolMs, and per-tool overrides via tools.
+   * 生成的超时配置。
+   * 可以是数字（毫秒）或具有totalMs、stepMs、chunkMs、toolMs 和通过工具覆盖的每个工具的对象。
    */
   readonly timeout: TimeoutConfiguration<TOOLS> | undefined;
 
-  /** Additional HTTP headers sent with the request. */
+  /* * 随请求一起发送的附加 HTTP 标头。 */
   readonly headers: Record<string, string | undefined> | undefined;
 
-  /** Additional provider-specific options. */
+  /* * 其他特定于提供商的选项。 */
   readonly providerOptions: ProviderOptions | undefined;
 
-  /** The output specification for structured outputs, if configured. */
+  /* * 结构化输出的输出规范（如果已配置）。 */
   readonly output: OUTPUT | undefined;
 
   /**
-   * Tool context.
+   * 工具上下文。
    */
   readonly toolsContext: InferToolSetContext<TOOLS>;
 
   /**
-   * User-defined runtime context.
+   * 用户定义的运行时上下文。
    */
   readonly runtimeContext: RUNTIME_CONTEXT;
 } & LanguageModelCallOptions &
   StandardizedPrompt;
 
 /**
- * Event passed to the `onStepStart` callback.
+ * 事件传递给“onStepStart”回调。
  *
- * Called when a step (LLM call) begins, before the provider is called.
- * Each step represents a single LLM invocation.
+ * 在调用提供者之前，在步骤（LLM 调用）开始时调用。
+ * 每个步骤代表一次 LLM 调用。
  */
 export type GenerateTextStepStartEvent<
   TOOLS extends ToolSet = ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
   OUTPUT extends Output = Output,
 > = {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** The provider identifier (e.g., 'openai', 'anthropic'). */
+  /* * 提供者标识符（例如“openai”、“anthropic”）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'gpt-4o'). */
+  /* * 特定型号标识符（例如“gpt-4o”）。 */
   readonly modelId: string;
 
-  /** Zero-based index of the current step. */
+  /* * 当前步骤的从零开始的索引。 */
   readonly stepNumber: number;
 
-  /** The tools available for this generation. */
+  /* * 本代可用的工具。 */
   readonly tools: TOOLS | undefined;
 
-  /** The tool choice configuration for this step. */
+  /* * 此步骤的工具选择配置。 */
   readonly toolChoice: ToolChoice<NoInfer<TOOLS>> | undefined;
 
-  /** Limits which tools are available for this step. */
+  /* * 限制可用于此步骤的工具。 */
   readonly activeTools: ActiveTools<TOOLS>;
 
-  /** Array of results from previous steps (empty for first step). */
+  /* * 先前步骤的结果数组（第一步为空）。 */
   readonly steps: ReadonlyArray<StepResult<TOOLS, RUNTIME_CONTEXT>>;
 
-  /** Additional provider-specific options for this step. */
+  /* * 此步骤的其他特定于提供商的选项。 */
   readonly providerOptions: ProviderOptions | undefined;
 
-  /** The output specification for structured outputs, if configured. */
+  /* * 结构化输出的输出规范（如果已配置）。 */
   readonly output: OUTPUT | undefined;
 
   /**
-   * Runtime context. May be updated from `prepareStep` between steps.
+   * 运行时上下文。可以在步骤之间从“prepareStep”进行更新。
    */
   readonly runtimeContext: RUNTIME_CONTEXT;
 
   /**
-   * Tool context. May be updated from `prepareStep` between steps.
+   * 工具上下文。可以在步骤之间从“prepareStep”进行更新。
    */
   readonly toolsContext: InferToolSetContext<TOOLS>;
 } & StandardizedPrompt;
 
 /**
- * Event passed to the `onStepFinish` callback.
+ * 事件传递给“onStepFinish”回调。
  *
- * Called when a step (LLM call) completes.
- * Includes the StepResult for that step along with the call identifier.
+ * 当步骤（LLM 调用）完成时调用。
+ * 包括该步骤的 StepResult 以及调用标识符。
  */
 export type GenerateTextStepEndEvent<
   TOOLS extends ToolSet = ToolSet,
@@ -141,57 +141,57 @@ export type GenerateTextStepEndEvent<
 > = StepResult<TOOLS, RUNTIME_CONTEXT>;
 
 /**
- * Event passed to the `onFinish` callback.
+ * 事件传递给“onFinish”回调。
  *
- * Called when the entire generation completes (all steps finished).
- * Includes the final step's result along with aggregated data from all steps.
+ * 当整个生成完成时调用（所有步骤完成）。
+ * 包括最后一步的结果以及所有步骤的汇总数据。
  */
 export type GenerateTextEndEvent<
   TOOLS extends ToolSet = ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
 > = Omit<StepResult<TOOLS, RUNTIME_CONTEXT>, 'performance'> & {
-  /** The response messages that were generated during the call. */
+  /* * 通话期间生成的响应消息。 */
   readonly responseMessages: ResponseMessage[];
 
-  /** Array containing results from all steps in the generation. */
+  /* * 包含生成中所有步骤的结果的数组。 */
   readonly steps: StepResult<TOOLS, RUNTIME_CONTEXT>[];
 
-  /** Aggregated token usage across all steps. */
+  /* * 所有步骤中令牌使用情况的汇总。 */
   readonly totalUsage: LanguageModelUsage;
 };
 
-/** @deprecated Use `GenerateTextStartEvent` instead. */
+/* * @deprecated 使用 `GenerateTextStartEvent` 代替。 */
 export type OnStartEvent<
   TOOLS extends ToolSet = ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
   OUTPUT extends Output = Output,
 > = GenerateTextStartEvent<TOOLS, RUNTIME_CONTEXT, OUTPUT>;
 
-/** @deprecated Use `GenerateTextStepStartEvent` instead. */
+/* * @deprecated 使用 `GenerateTextStepStartEvent` 代替。 */
 export type OnStepStartEvent<
   TOOLS extends ToolSet = ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
   OUTPUT extends Output = Output,
 > = GenerateTextStepStartEvent<TOOLS, RUNTIME_CONTEXT, OUTPUT>;
 
-/** @deprecated Use `GenerateTextStepEndEvent` instead. */
+/* * @deprecated 使用 `GenerateTextStepEndEvent` 代替。 */
 export type OnStepFinishEvent<
   TOOLS extends ToolSet = ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
 > = GenerateTextStepEndEvent<TOOLS, RUNTIME_CONTEXT>;
 
-/** @deprecated Use `GenerateTextEndEvent` instead. */
+/* * @deprecated 使用 `GenerateTextEndEvent` 代替。 */
 export type OnFinishEvent<
   TOOLS extends ToolSet = ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
 > = GenerateTextEndEvent<TOOLS, RUNTIME_CONTEXT>;
 
 /**
- * Callback that is set using the `experimental_onStart` option.
+ * 使用“experimental_onStart”选项设置的回调。
  *
- * Called when the generateText operation begins, before any LLM calls.
- * Use this callback for logging, analytics, or initializing state at the
- * start of a generation.
+ * 在generateText 操作开始时、在任何LLM 调用之前调用。
+ * 使用此回调进行日志记录、分析或初始化状态
+ * 一代人的开始。
  *
  * @param event - The event object containing generation configuration.
  */
@@ -202,11 +202,11 @@ export type GenerateTextOnStartCallback<
 > = Callback<GenerateTextStartEvent<TOOLS, RUNTIME_CONTEXT, OUTPUT>>;
 
 /**
- * Callback that is set using the `experimental_onStepStart` option.
+ * 使用“experimental_onStepStart”选项设置的回调。
  *
- * Called when a step (LLM call) begins, before the provider is called.
- * Each step represents a single LLM invocation. Multiple steps occur when
- * using tool calls (the model may be called multiple times in a loop).
+ * 在调用提供者之前，在步骤（LLM 调用）开始时调用。
+ * 每个步骤代表一次 LLM 调用。当发生多个步骤时
+ * 使用工具调用（模型可以在循环中多次调用）。
  *
  * @param event - The event object containing step configuration.
  */
@@ -217,10 +217,10 @@ export type GenerateTextOnStepStartCallback<
 > = Callback<GenerateTextStepStartEvent<TOOLS, RUNTIME_CONTEXT, OUTPUT>>;
 
 /**
- * Callback that is set using the `onStepFinish` option.
+ * 使用“onStepFinish”选项设置的回调。
  *
- * Called when a step (LLM call) completes. The event includes all step result
- * properties (text, tool calls, usage, etc.) along with additional metadata.
+ * 当步骤（LLM 调用）完成时调用。该事件包括所有步骤结果
+ * 属性（文本、工具调用、用法等）以及其他元数据。
  *
  * @param stepResult - The result of the step.
  */
@@ -230,11 +230,11 @@ export type GenerateTextOnStepFinishCallback<
 > = Callback<GenerateTextStepEndEvent<TOOLS, RUNTIME_CONTEXT>>;
 
 /**
- * Callback that is set using the `onFinish` option.
+ * 使用“onFinish”选项设置的回调。
  *
- * Called when the entire generation completes (all steps finished).
- * The event includes the final step's result properties along with
- * aggregated data from all steps.
+ * 当整个生成完成时调用（所有步骤完成）。
+ * 该事件包括最后一步的结果属性以及
+ * 所有步骤的汇总数据。
  *
  * @param event - The final result along with aggregated step data.
  */

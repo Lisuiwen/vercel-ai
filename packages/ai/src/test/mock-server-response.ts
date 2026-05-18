@@ -34,12 +34,12 @@ class MockServerResponse extends EventEmitter {
   }
 
   get body() {
-    // Combine all written chunks into a single string
+    // 将所有写入的块组合成一个字符串
     return this.writtenChunks.join('');
   }
 
   /**
-   * Get the decoded chunks as strings.
+   * 获取解码后的块作为字符串。
    */
   getDecodedChunks() {
     const decoder = new TextDecoder();
@@ -47,7 +47,7 @@ class MockServerResponse extends EventEmitter {
   }
 
   /**
-   * Wait for the stream to finish writing to the mock response.
+   * 等待流完成写入模拟响应。
    */
   async waitForEnd() {
     await new Promise(resolve => {

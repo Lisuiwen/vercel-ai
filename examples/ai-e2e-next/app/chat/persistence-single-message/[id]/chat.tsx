@@ -13,7 +13,7 @@ export default function Chat({
     messages: initialMessages,
     transport: new DefaultChatTransport({
       api: '/api/chat/persistence-single-message',
-      // only send the last message to the server:
+      // 仅将最后一条消息发送到服务器：
       prepareSendMessagesRequest({ messages, id }) {
         return { body: { message: messages[messages.length - 1], id } };
       },

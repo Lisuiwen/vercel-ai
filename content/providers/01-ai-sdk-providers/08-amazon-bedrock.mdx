@@ -1,15 +1,15 @@
 ---
 title: Amazon Bedrock
-description: Learn how to use the Amazon Bedrock provider.
+description: 了解如何使用 Amazon Bedrock 提供程序。
 ---
 
-# Amazon Bedrock Provider
+# Amazon Bedrock 提供程序
 
-The Amazon Bedrock provider for the [AI SDK](/docs) contains language model support for the [Amazon Bedrock](https://aws.amazon.com/bedrock) APIs.
+面向 [AI SDK](/docs) 的 Amazon Bedrock 提供程序可为 [Amazon Bedrock](https://aws.amazon.com/bedrock) API 提供语言模型支持。
 
-## Setup
+## 设置
 
-The Bedrock provider is available in the `@ai-sdk/amazon-bedrock` module. You can install it with
+Bedrock 提供程序位于 `@ai-sdk/amazon-bedrock` 模块中。可按以下方式安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -27,27 +27,27 @@ The Bedrock provider is available in the `@ai-sdk/amazon-bedrock` module. You ca
   </Tab>
 </Tabs>
 
-### Prerequisites
+### 先决条件
 
-Access to Amazon Bedrock foundation models isn't granted by default. In order to gain access to a foundation model, an IAM user with sufficient permissions needs to request access to it through the console. Once access is provided to a model, it is available for all users in the account.
+默认情况下并不会授予 Amazon Bedrock 基础模型的访问权限。要使用某个基础模型，具有足够权限的 IAM 用户需通过控制台申请访问权限。模型的访问获批后，该账户中的所有用户都可使用该模型。
 
-See the [Model Access Docs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for more information.
+更多信息请参阅 [模型访问文档](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html)。
 
-### Authentication
+### 身份验证
 
-The Amazon Bedrock provider supports two authentication methods with automatic fallback: API key authentication (recommended) and AWS SigV4 authentication using IAM credentials or the AWS SDK credentials chain.
+Amazon Bedrock 提供程序支持两种可自动降级身份验证的方法：API 密钥身份验证（推荐），以及使用 IAM 凭证或 AWS SDK 凭证链进行的 AWS SigV4 身份验证。
 
-#### Using an API Key (Recommended)
+#### 使用 API 密钥（推荐）
 
-API key authentication provides a simpler setup compared to AWS SigV4 authentication. When an API key is supplied, it takes precedence over any SigV4 credentials.
+相比 AWS SigV4 身份验证，API 密钥方式配置更简单。提供 API 密钥时，它将优先于任何 SigV4 凭证生效。
 
-Generate a bedrock API key from the [AWS console](https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html), then either set it as the `AWS_BEARER_TOKEN_BEDROCK` environment variable:
+请在 [AWS 控制台](https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html)生成 Bedrock API 密钥，然后将其设为环境变量 `AWS_BEARER_TOKEN_BEDROCK`：
 
 ```bash
 AWS_BEARER_TOKEN_BEDROCK=your-api-key-here
 ```
 
-or pass it directly to `createAmazonBedrock`:
+或直接传给 `createAmazonBedrock`：
 
 ```ts
 import { createAmazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -58,34 +58,34 @@ const amazonBedrock = createAmazonBedrock({
 });
 ```
 
-When `apiKey` is omitted, the provider falls back to `AWS_BEARER_TOKEN_BEDROCK`, and then to SigV4 authentication if neither is set.
+当省略 `apiKey` 时，提供程序会回退使用 `AWS_BEARER_TOKEN_BEDROCK`；若两者都未配置，则会回退到 SigV4 身份验证。
 
-#### Using IAM Access Key and Secret Key
+#### 使用 IAM 访问密钥与秘密访问密钥
 
-**Step 1: Creating AWS Access Key and Secret Key**
+**步骤 1：创建 AWS 访问密钥与秘密访问密钥**
 
-To get started, you'll need to create an AWS access key and secret key. Here's how:
+开始使用前，需要先创建 AWS 访问密钥与秘密访问密钥：
 
-**Login to AWS Management Console**
+**登录 AWS 管理控制台**
 
-- Go to the [AWS Management Console](https://console.aws.amazon.com/) and log in with your AWS account credentials.
+- 打开 [AWS 管理控制台](https://console.aws.amazon.com/)，并使用你的 AWS 账户凭据登录。
 
-**Create an IAM User**
+**创建 IAM 用户**
 
-- Navigate to the [IAM dashboard](https://console.aws.amazon.com/iam/home) and click on "Users" in the left-hand navigation menu.
-- Click on "Create user" and fill in the required details to create a new IAM user.
-- Make sure to select "Programmatic access" as the access type.
-- The user account needs the `AmazonBedrockFullAccess` policy attached to it.
+- 打开 [IAM 控制台](https://console.aws.amazon.com/iam/home)，在左侧导航中点击「Users（用户）」。
+- 点击「Create user（创建用户）」，填写必填信息完成创建。
+- 确保访问类型选择「程序化访问（Programmatic access）」。
+- 为该用户挂载 `AmazonBedrockFullAccess` 策略。
 
-**Create Access Key**
+**创建访问密钥**
 
-- Click on the "Security credentials" tab and then click on "Create access key".
-- Click "Create access key" to generate a new access key pair.
-- Download the `.csv` file containing the access key ID and secret access key.
+- 打开「Security credentials（安全凭证）」标签页，点击「Create access key（创建访问密钥）」。
+- 确认创建后可生成一组新的访问密钥。
+- 下载包含访问密钥 ID 与秘密访问密钥的 `.csv` 文件。
 
-**Step 2: Configuring the Access Key and Secret Key**
+**步骤 2：配置访问密钥与秘密访问密钥**
 
-Within your project add a `.env` file if you don't already have one. This file will be used to set the access key and secret key as environment variables. Add the following lines to the `.env` file:
+若项目中还没有 `.env` 文件，请新增一个；该文件用来将密钥配置为环境变量。在 `.env` 中添加如下内容：
 
 ```makefile
 AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
@@ -94,21 +94,20 @@ AWS_REGION=YOUR_REGION
 ```
 
 <Note>
-  Many frameworks such as [Next.js](https://nextjs.org/) load the `.env` file
-  automatically. If you're using a different framework, you may need to load the
-  `.env` file manually using a package like
-  [`dotenv`](https://github.com/motdotla/dotenv).
+  许多框架（例如 [Next.js](https://nextjs.org/)）会自动加载 `.env` 文件。
+  若使用其他框架，可能需要借助
+  [`dotenv`](https://github.com/motdotla/dotenv) 等包手动加载 `.env`。
 </Note>
 
-Remember to replace `YOUR_ACCESS_KEY_ID`, `YOUR_SECRET_ACCESS_KEY`, and `YOUR_REGION` with the actual values from your AWS account.
+请记得将 `YOUR_ACCESS_KEY_ID`、`YOUR_SECRET_ACCESS_KEY` 与 `YOUR_REGION` 替换为你 AWS 账户中的实际值。
 
-#### Using AWS SDK Credentials Chain (instance profiles, instance roles, ECS roles, EKS Service Accounts, etc.)
+#### 使用 AWS SDK 凭证链（实例配置文件、实例角色、ECS 角色、EKS Service Account 等）
 
-When using AWS SDK, the SDK will automatically use the credentials chain to determine the credentials to use. This includes instance profiles, instance roles, ECS roles, EKS Service Accounts, etc. A similar behavior is possible using the AI SDK by not specifying the `accessKeyId` and `secretAccessKey`, `sessionToken` properties in the provider settings and instead passing a `credentialProvider` property.
+使用 AWS SDK 时，SDK 会自动通过凭证链解析要使用的凭证，包括实例配置文件、实例角色、ECS 角色、EKS Service Account 等。在 AI SDK 中也可实现类似行为：不在提供程序设置中指定 `accessKeyId`、`secretAccessKey` 与 `sessionToken`，而是传入 `credentialProvider`。
 
-_Usage:_
+_用法：_
 
-`@aws-sdk/credential-providers` package provides a set of credential providers that can be used to create a credential provider chain.
+`@aws-sdk/credential-providers` 包提供一组凭证提供程序，可用于构建凭证提供程序链。
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -136,15 +135,15 @@ const amazonBedrock = createAmazonBedrock({
 });
 ```
 
-## Provider Instance
+## 提供程序实例
 
-You can import the default provider instance `amazonBedrock` from `@ai-sdk/amazon-bedrock`:
+可从 `@ai-sdk/amazon-bedrock` 导入默认提供程序实例 `amazonBedrock`：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
 ```
 
-If you need a customized setup, you can import `createAmazonBedrock` from `@ai-sdk/amazon-bedrock` and create a provider instance with your settings:
+若需要自定义配置，可从 `@ai-sdk/amazon-bedrock` 导入 `createAmazonBedrock`，并用你的设置创建提供程序实例：
 
 ```ts
 import { createAmazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -158,73 +157,69 @@ const amazonBedrock = createAmazonBedrock({
 ```
 
 <Note>
-  Omitted options use the environment variables below. When **both**
-  `accessKeyId` and `secretAccessKey` are strings, SigV4 uses a **`sessionToken`
-  only if you pass one** - not `AWS_SESSION_TOKEN` from the environment - so
-  static keys are not mixed with workload tokens (e.g. EKS IRSA).
+  省略的选项会使用下方环境变量。当 **同时** 以字符串形式提供 `accessKeyId` 与 `secretAccessKey` 时，SigV4 **仅在你显式传入 `sessionToken` 时使用该 token**——不会读取环境中的 `AWS_SESSION_TOKEN`——从而避免将静态密钥与工作负载 token（例如 EKS IRSA）混用。
 </Note>
 
-You can use the following optional settings to customize the Amazon Bedrock provider instance:
+可使用以下可选设置自定义 Amazon Bedrock 提供程序实例：
 
 - **region** _string_
 
-  The AWS region that you want to use for the API calls.
-  It uses the `AWS_REGION` environment variable by default.
+  API 调用要使用的 AWS 区域。
+  默认读取 `AWS_REGION` 环境变量。
 
 - **accessKeyId** _string_
 
-  The AWS access key ID that you want to use for the API calls.
-  It uses the `AWS_ACCESS_KEY_ID` environment variable by default.
+  API 调用要使用的 AWS 访问密钥 ID。
+  默认读取 `AWS_ACCESS_KEY_ID` 环境变量。
 
 - **secretAccessKey** _string_
 
-  The AWS secret access key that you want to use for the API calls.
-  It uses the `AWS_SECRET_ACCESS_KEY` environment variable by default.
+  API 调用要使用的 AWS 秘密访问密钥。
+  默认读取 `AWS_SECRET_ACCESS_KEY` 环境变量。
 
 - **sessionToken** _string_
 
-  Optional. For temporary credentials. With **both** access keys set as strings,
-  pass the token here if needed; `AWS_SESSION_TOKEN` from the environment is not
-  used. If either key is taken from the environment, omitting `sessionToken`
-  allows `AWS_SESSION_TOKEN`.
+  可选。用于临时凭证。当 **两份** 访问密钥均以字符串传入时，
+  需要的话在此传入 token；不会使用环境中的 `AWS_SESSION_TOKEN`。若任一密钥来源于环境，
+  省略 `sessionToken` 时才会使用环境中的 `AWS_SESSION_TOKEN`。
 
 - **credentialProvider** _() =&gt; Promise&lt;&#123; accessKeyId: string; secretAccessKey: string; sessionToken?: string; &#125;&gt;_
 
-  Optional. The AWS credential provider chain that you want to use for the API calls.
-  It uses the specified credentials by default.
+  可选。API 调用要使用的 AWS 凭证提供程序链。
+  默认使用所指定的凭证。
 
 - **apiKey** _string_
 
-  Optional. API key for authenticating requests using Bearer token authentication.
-  When provided, this will be used instead of AWS SigV4 authentication.
-  It uses the `AWS_BEARER_TOKEN_BEDROCK` environment variable by default.
+  可选。用于 Bearer Token 认证的 API 密钥。
+  传入后将替代 AWS SigV4 认证。
+  默认读取 `AWS_BEARER_TOKEN_BEDROCK` 环境变量。
 
 - **baseURL** _string_
 
-  Optional. Base URL for the Bedrock API calls.
-  Useful for custom endpoints or proxy configurations.
+  可选。Bedrock API 调用的基础 URL。
+  可用于自定义终端节点或代理。
 
 - **headers** _Record&lt;string, string&gt;_
 
-  Optional. Custom headers to include in the requests.
+  可选。请求中要包含的自定义头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) =&gt; Promise&lt;Response&gt;_
 
-  Optional. Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  可选。自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  可用作中间件拦截请求，
+  或在测试中提供自定义 fetch。
 
-## Language Models
+## 语言模型
 
-You can create models that call the Bedrock API using the provider instance.
-The first argument is the model id, e.g. `meta.llama3-70b-instruct-v1:0`.
+可使用提供程序实例创建调用 Bedrock API 的模型；
+第一个参数是模型 ID，例如 `meta.llama3-70b-instruct-v1:0`。
 
 ```ts
 const model = amazonBedrock('meta.llama3-70b-instruct-v1:0');
 ```
 
-Amazon Bedrock models also support some model specific provider options that are not part of the [standard call settings](/docs/ai-sdk-core/settings).
-You can pass them in the `providerOptions` argument:
+Amazon Bedrock 模型还支持若干模型特定的提供程序选项；它们不包含在[通用调用设置](/docs/ai-sdk-core/settings)中。
+可通过 `providerOptions` 传入：
 
 ```ts
 const model = amazonBedrock('anthropic.claude-3-sonnet-20240229-v1:0');
@@ -239,9 +234,9 @@ await generateText({
 });
 ```
 
-Documentation for additional settings based on the selected model can be found within the [Amazon Bedrock Inference Parameter Documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+根据所选模型的更多设置请参阅 [Amazon Bedrock 推理参数文档](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html)。
 
-You can use Amazon Bedrock language models to generate text with the `generateText` function:
+可使用 Amazon Bedrock 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -253,17 +248,17 @@ const { text } = await generateText({
 });
 ```
 
-Amazon Bedrock language models can also be used in the `streamText` function
-(see [AI SDK Core](/docs/ai-sdk-core)).
+也可以在 `streamText` 中使用 Amazon Bedrock 语言模型
+（参见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-### File Inputs
+### 文件输入
 
 <Note type="warning">
-  Amazon Bedrock supports file inputs in combination with specific models, e.g.
-  `anthropic.claude-3-haiku-20240307-v1:0`.
+  Amazon Bedrock 仅在部分模型组合下支持文件输入，例如
+  `anthropic.claude-3-haiku-20240307-v1:0`。
 </Note>
 
-The Amazon Bedrock provider supports file inputs, e.g. PDF files.
+Amazon Bedrock 提供程序支持文件输入，例如 PDF。
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -287,9 +282,9 @@ const result = await generateText({
 });
 ```
 
-### Guardrails
+### 护栏（Guardrails）
 
-You can use the `bedrock` provider options to utilize [Amazon Bedrock Guardrails](https://aws.amazon.com/bedrock/guardrails/):
+可通过 `bedrock` 提供程序选项使用 [Amazon Bedrock Guardrails](https://aws.amazon.com/bedrock/guardrails/)：
 
 ```ts
 import { type AmazonBedrockLanguageModelChatOptions } from '@ai-sdk/amazon-bedrock';
@@ -310,7 +305,7 @@ const result = await generateText({
 });
 ```
 
-Tracing information will be returned in the provider metadata if you have tracing enabled.
+若启用追踪（trace），追踪信息会通过提供程序元数据返回。
 
 ```ts
 if (result.providerMetadata?.bedrock.trace) {
@@ -318,14 +313,14 @@ if (result.providerMetadata?.bedrock.trace) {
 }
 ```
 
-See the [Amazon Bedrock Guardrails documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html) for more information.
+更多说明请参阅 [Amazon Bedrock Guardrails 文档](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)。
 
-### Citations
+### 引用（Citations）
 
-Amazon Bedrock supports citations for document-based inputs across compatible models. When enabled:
+对于兼容模型的基于文档输入，Amazon Bedrock 支持 citations。启用后：
 
-- Some models can read documents with visual understanding, not just extracting text
-- Models can cite specific parts of documents you provide, making it easier to trace information back to its source (Not Supported Yet)
+- 部分模型可进行视觉层面的文档理解，而不仅是抽取文本
+- 模型可以引用你所提供文档的特定片段，便于追溯信息来源（尚不支持）
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -367,17 +362,15 @@ const result = await generateText({
 console.log('Response:', result.output);
 ```
 
-### Cache Points
+### 缓存点（Cache Points）
 
 <Note>
-  Amazon Bedrock prompt caching is currently in preview release. To request
-  access, visit the [Amazon Bedrock prompt caching
-  page](https://aws.amazon.com/bedrock/prompt-caching/).
+  Amazon Bedrock 提示词缓存当前为预览版本。若要申请权限，请访问 [Amazon Bedrock 提示缓存页面](https://aws.amazon.com/bedrock/prompt-caching/)。
 </Note>
 
-In messages, you can use the `providerOptions` property to set cache points. Set the `bedrock` property in the `providerOptions` object to `{ cachePoint: { type: 'default' } }` to create a cache point.
+在消息中可使用 `providerOptions` 配置缓存点。将 `providerOptions` 对象中的 `bedrock` 设为 `{ cachePoint: { type: 'default' } }` 即可创建缓存点。
 
-You can also specify a TTL (time-to-live) for cache points using the `ttl` property. Supported values are `'5m'` (5 minutes, default) and `'1h'` (1 hour). The 1-hour TTL is only supported by Claude Opus 4.5, Claude Haiku 4.5, and Claude Sonnet 4.5.
+也可通过 `ttl` 为缓存点指定存活时间（TTL）。支持 `'5m'`（5 分钟，默认）与 `'1h'`（1 小时）。其中 1 小时 TTL 仅 Claude Opus 4.5、Claude Haiku 4.5 与 Claude Sonnet 4.5 支持。
 
 ```ts
 providerOptions: {
@@ -386,19 +379,14 @@ providerOptions: {
 ```
 
 <Note>
-  When using multiple cache points with different TTLs, cache entries with
-  longer TTL must appear before shorter TTLs (i.e., 1-hour cache entries must
-  come before 5-minute cache entries).
+  使用多个不同 TTL 的缓存点时，较长 TTL 的缓存条目必须出现在较短 TTL 之前（即：1 小时缓存应在 5 分钟缓存之前）。
 </Note>
 
-Cache usage information is returned in the `providerMetadata` object. See examples below.
+缓存使用量信息会通过 `providerMetadata` 返回。示例如下。
 
 <Note>
-  Cache points have model-specific token minimums and limits. For example,
-  Claude 3.5 Sonnet v2 requires at least 1,024 tokens for a cache point and
-  allows up to 4 cache points. See the [Amazon Bedrock prompt caching
-  documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html)
-  for details on supported models, regions, and limits.
+  缓存点对不同模型有不同 token 下限与上限。例如
+  Claude 3.5 Sonnet v2 要求缓存点至少需要 1,024 个 token，且最多可有 4 个缓存点。详见 [Amazon Bedrock 提示缓存文档](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html)中支持的模型、区域与限额。
 </Note>
 
 ```ts
@@ -435,7 +423,7 @@ console.log(result.providerMetadata?.bedrock?.usage);
 // }
 ```
 
-Cache points also work with streaming responses:
+缓存点同样适用于流式响应：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -478,27 +466,27 @@ console.log(
 // }
 ```
 
-### Provider Metadata
+### 提供程序元数据
 
-The following Bedrock-specific metadata may be returned in `providerMetadata.bedrock`:
+以下为可能出现在 `providerMetadata.bedrock` 中的 Bedrock 专属元数据：
 
 - **trace** _(optional)_
-  Guardrail tracing information (when tracing is enabled).
+  Guardrail 追踪信息（启用追踪时）。
 - **performanceConfig** _(optional)_
-  Performance configuration, e.g. `{ latency: 'optimized' }`.
+  性能配置，例如 `{ latency: 'optimized' }`。
 - **serviceTier** _(optional)_
-  Service tier information, e.g. `{ type: 'on-demand' }`.
+  服务层级信息，例如 `{ type: 'on-demand' }`。
 - **usage** _(optional)_
-  Cache token usage details including `cacheWriteInputTokens` and `cacheDetails`.
+  缓存 token 用量详情，包含 `cacheWriteInputTokens` 与 `cacheDetails`。
 - **stopSequence** _string | null_
-  The stop sequence that triggered the stop, if any.
+  触发停止时使用的停止序列（如有）。
 
-## Reasoning
+## 推理（Reasoning）
 
-Amazon Bedrock supports model creator-specific reasoning features:
+Amazon Bedrock 支持模型创建方专属的推理能力：
 
-- Anthropic (e.g. `claude-sonnet-4-5-20250929`): enable via the `reasoningConfig` provider option and specifying a thinking budget in tokens (minimum: `1024`, maximum: `64000`).
-- Amazon (e.g. `us.amazon.nova-2-lite-v1:0`): enable via the `reasoningConfig` provider option and specifying a maximum reasoning effort level (`'low' | 'medium' | 'high'`).
+- Anthropic（例如 `claude-sonnet-4-5-20250929`）：通过 `reasoningConfig` 提供程序选项启用，并以 token 指定思考预算（最小：`1024`，最大：`64000`）。
+- Amazon（例如 `us.amazon.nova-2-lite-v1:0`）：通过 `reasoningConfig` 启用，并指定最大推理力度（`'low' | 'medium' | 'high'`）。
 
 ```ts
 import {
@@ -536,12 +524,11 @@ console.log(amazonResult.reasoningText); // reasoning text
 console.log(amazonResult.text); // text response
 ```
 
-See [AI SDK UI: Chatbot](/docs/ai-sdk-ui/chatbot#reasoning) for more details
-on how to integrate reasoning into your chatbot.
+关于如何将推理能力集成到聊天机器人中，详见 [AI SDK UI：Chatbot](/docs/ai-sdk-ui/chatbot#reasoning)。
 
-## Service Tiers
+## 服务层级（Service Tiers）
 
-Amazon Bedrock supports selecting an inference service tier per request via the `serviceTier` provider option.
+Amazon Bedrock 支持在每个请求上通过 `serviceTier` 提供程序选项选择推理服务层级。
 
 ```ts
 import {
@@ -561,18 +548,18 @@ const result = await generateText({
 });
 ```
 
-Supported values are:
+可取值为：
 
 - `reserved`
 - `priority`
 - `default`
 - `flex`
 
-See the [Amazon Bedrock service tiers documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/service-tiers-inference.html) for model availability and behavior.
+模型支持与行为请参阅 [Amazon Bedrock 服务层级文档](https://docs.aws.amazon.com/bedrock/latest/userguide/service-tiers-inference.html)。
 
-## Extended Context Window
+## 扩展上下文窗口
 
-Claude Sonnet 4 models on Amazon Bedrock support an extended context window of up to 1 million tokens when using the `context-1m-2025-08-07` beta feature.
+在使用 `context-1m-2025-08-07` Beta 特性时，Amazon Bedrock 上的 Claude Sonnet 4 模型支持最长约 100 万个 token 的上下文窗口。
 
 ```ts
 import {
@@ -592,24 +579,24 @@ const result = await generateText({
 });
 ```
 
-## Computer Use
+## Computer Use（计算机操控）
 
-Via Anthropic, Amazon Bedrock provides three provider-defined tools that can be used to interact with external systems:
+借助 Anthropic，Amazon Bedrock 提供三种由提供程序定义的工具，可与外部系统交互：
 
-1. **Bash Tool**: Allows running bash commands.
-2. **Text Editor Tool**: Provides functionality for viewing and editing text files.
-3. **Computer Tool**: Enables control of keyboard and mouse actions on a computer.
+1. **Bash Tool**：允许执行 bash 命令。
+2. **Text Editor Tool**：查看与编辑文本文件的能力。
+3. **Computer Tool**：模拟键盘与鼠标操控计算机。
 
-They are available via the `tools` property of the provider instance.
+这些工具可通过提供程序实例的 `tools` 访问。
 
 <Note>
-  Amazon Bedrock does not support strict mode on tool definitions. Setting
-  `strict: true` on a tool will be ignored and a warning will be emitted.
+  Amazon Bedrock 不支持工具定义上的 strict mode。设置
+  `strict: true` 将被忽略并产生警告。
 </Note>
 
-### Bash Tool
+### Bash 工具（Bash Tool）
 
-The Bash Tool allows running bash commands. Here's how to create and use it:
+Bash Tool 可用于运行 bash 命令；创建与使用方式如下：
 
 ```ts
 const bashTool = amazonBedrock.tools.bash_20241022({
@@ -620,16 +607,16 @@ const bashTool = amazonBedrock.tools.bash_20241022({
 });
 ```
 
-Parameters:
+参数：
 
-- `command` (string): The bash command to run. Required unless the tool is being restarted.
-- `restart` (boolean, optional): Specifying true will restart this tool.
+- `command`（string）：要执行的 bash 命令；除非正在重启工具，否则必填。
+- `restart`（boolean，可选）：为 `true` 时会重启该工具。
 
-### Text Editor Tool
+### Text Editor 工具（Text Editor Tool）
 
-The Text Editor Tool provides functionality for viewing and editing text files.
+Text Editor Tool 可用于查看并编辑文本文件。
 
-**For Claude 4 models (Opus & Sonnet):**
+**适用于 Claude 4 模型（Opus 与 Sonnet）：**
 
 ```ts
 const textEditorTool = amazonBedrock.tools.textEditor_20250429({
@@ -649,7 +636,7 @@ const textEditorTool = amazonBedrock.tools.textEditor_20250429({
 });
 ```
 
-**For Claude 3.5 Sonnet and earlier models:**
+**适用于 Claude 3.5 Sonnet 及更早模型：**
 
 ```ts
 const textEditorTool = amazonBedrock.tools.textEditor_20241022({
@@ -669,24 +656,24 @@ const textEditorTool = amazonBedrock.tools.textEditor_20241022({
 });
 ```
 
-Parameters:
+参数：
 
-- `command` ('view' | 'create' | 'str_replace' | 'insert' | 'undo_edit'): The command to run. Note: `undo_edit` is only available in Claude 3.5 Sonnet and earlier models.
-- `path` (string): Absolute path to file or directory, e.g. `/repo/file.py` or `/repo`.
-- `file_text` (string, optional): Required for `create` command, with the content of the file to be created.
-- `insert_line` (number, optional): Required for `insert` command. The line number after which to insert the new string.
-- `new_str` (string, optional): New string for `str_replace` command.
-- `insert_text` (string, optional): Required for `insert` command, containing the text to insert.
-- `old_str` (string, optional): Required for `str_replace` command, containing the string to replace.
-- `view_range` (number[], optional): Optional for `view` command to specify line range to show.
+- `command`（`'view' | 'create' | 'str_replace' | 'insert' | 'undo_edit'`）：要执行的命令。说明：`undo_edit` 仅在 Claude 3.5 Sonnet 及更早模型可用。
+- `path`（string）：文件或目录的绝对路径，例如 `/repo/file.py` 或 `/repo`。
+- `file_text`（string，可选）：用于 `create` 命令时为必填；为要创建的文件内容。
+- `insert_line`（number，可选）：用于 `insert` 命令时为必填；为新字符串插入位置之后的行号。
+- `new_str`（string，可选）：`str_replace` 命令的新字符串。
+- `insert_text`（string，可选）：用于 `insert` 命令时为必填；为要插入的文本。
+- `old_str`（string，可选）：用于 `str_replace` 命令时为必填；为要被替换的字符串。
+- `view_range`（number[]，可选）：用于 `view` 命令时可选；指定要显示的行范围。
 
-When using the Text Editor Tool, make sure to name the key in the tools object correctly:
+使用 Text Editor Tool 时，请确保 `tools` 对象中的键名正确：
 
-- **Claude 4 models**: Use `str_replace_based_edit_tool`
-- **Claude 3.5 Sonnet and earlier**: Use `str_replace_editor`
+- **Claude 4 模型**：使用 `str_replace_based_edit_tool`
+- **Claude 3.5 Sonnet 及更早**：使用 `str_replace_editor`
 
 ```ts
-// For Claude 4 models
+// Claude 4 模型
 const response = await generateText({
   model: amazonBedrock('us.anthropic.claude-sonnet-4-20250514-v1:0'),
   prompt:
@@ -696,7 +683,7 @@ const response = await generateText({
   },
 });
 
-// For Claude 3.5 Sonnet and earlier
+// Claude 3.5 Sonnet 及更早模型
 const response = await generateText({
   model: amazonBedrock('anthropic.claude-3-5-sonnet-20241022-v2:0'),
   prompt:
@@ -707,9 +694,9 @@ const response = await generateText({
 });
 ```
 
-### Computer Tool
+### Computer 工具（Computer Tool）
 
-The Computer Tool enables control of keyboard and mouse actions on a computer:
+Computer Tool 可对计算机的键盘与鼠标操作进行模拟控制：
 
 ```ts
 const computerTool = amazonBedrock.tools.computer_20241022({
@@ -750,17 +737,17 @@ const computerTool = amazonBedrock.tools.computer_20241022({
 });
 ```
 
-Parameters:
+参数：
 
-- `action` ('key' | 'type' | 'mouse_move' | 'left_click' | 'left_click_drag' | 'right_click' | 'middle_click' | 'double_click' | 'screenshot' | 'cursor_position'): The action to perform.
-- `coordinate` (number[], optional): Required for `mouse_move` and `left_click_drag` actions. Specifies the (x, y) coordinates.
-- `text` (string, optional): Required for `type` and `key` actions.
+- `action`（`'key' | 'type' | 'mouse_move' | 'left_click' | 'left_click_drag' | 'right_click' | 'middle_click' | 'double_click' | 'screenshot' | 'cursor_position'`）：要执行的动作。
+- `coordinate`（number[]，可选）：`mouse_move` 与 `left_click_drag` 动作需要；`(x, y)` 坐标。
+- `text`（string，可选）：`type` 与 `key` 动作需要。
 
-These tools can be used in conjunction with the `anthropic.claude-3-5-sonnet-20240620-v1:0` model to enable more complex interactions and tasks.
+这些工具可与 `anthropic.claude-3-5-sonnet-20240620-v1:0` 模型配合，实现更复杂的交互与任务。
 
-### Model Capabilities
+### 模型能力
 
-| Model                                          | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
+| 模型                                             | 图像输入            | 对象生成           | 工具使用           | 工具流式输出       |
 | ---------------------------------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `amazon.titan-tg1-large`                       | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
 | `amazon.titan-text-express-v1`                 | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
@@ -823,23 +810,19 @@ These tools can be used in conjunction with the `anthropic.claude-3-5-sonnet-202
 | `openai.gpt-oss-20b-1:0`                       | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  The table above lists popular models. Please see the [Amazon Bedrock
-  docs](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html)
-  for a full list of available models. You can also pass any available provider
-  model ID as a string if needed.
+  上表列出常用模型。完整列表请参阅 [Amazon Bedrock 文档](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html)。如有需要也可将可用的提供程序模型 ID 以字符串传入。
 </Note>
 
-## Embedding Models
+## 嵌入模型
 
-You can create models that call the Bedrock API [Bedrock API](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html)
-using the `.embedding()` factory method.
+可通过 `.embedding()` 工厂方法创建调用 Bedrock [嵌入模型 API](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html)的模型实例。
 
 ```ts
 const model = amazonBedrock.embedding('amazon.titan-embed-text-v1');
 ```
 
-Bedrock Titan embedding model amazon.titan-embed-text-v2:0 supports several additional settings.
-You can pass them as an options argument:
+Bedrock Titan 嵌入模型 `amazon.titan-embed-text-v2:0` 还支持若干额外设置；
+可作为选项参数传入：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -860,19 +843,19 @@ const { embedding } = await embed({
 });
 ```
 
-The following optional provider options are available for Bedrock Titan embedding models:
+以下为 Bedrock Titan 嵌入模型可用的可选提供程序选项：
 
-- **dimensions**: _number_
+- **dimensions**：_number_
 
-  The number of dimensions the output embeddings should have. The following values are accepted: 1024 (default), 512, 256.
+  输出向量应有的维度。可取：1024（默认）、512、256。
 
 - **normalize** _boolean_
 
-  Flag indicating whether or not to normalize the output embeddings. Defaults to true.
+  是否对输出向量进行归一化；默认 `true`。
 
-### Nova Embedding Models
+### Nova 嵌入模型
 
-Amazon Nova embedding models support additional provider options:
+Amazon Nova 嵌入模型还支持额外提供程序选项：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -892,23 +875,23 @@ const { embedding } = await embed({
 });
 ```
 
-The following optional provider options are available for Nova embedding models:
+Nova 嵌入模型还支持以下可选提供程序选项：
 
 - **embeddingDimension** _number_
 
-  The number of dimensions for the output embeddings. Supported values: 256, 384, 1024 (default), 3072.
+  输出向量的维度；支持 256、384、1024（默认）、3072。
 
 - **embeddingPurpose** _string_
 
-  The purpose of the embedding. Accepts: `GENERIC_INDEX` (default), `TEXT_RETRIEVAL`, `IMAGE_RETRIEVAL`, `VIDEO_RETRIEVAL`, `DOCUMENT_RETRIEVAL`, `AUDIO_RETRIEVAL`, `GENERIC_RETRIEVAL`, `CLASSIFICATION`, `CLUSTERING`.
+  嵌入用途；接受：`GENERIC_INDEX`（默认）、`TEXT_RETRIEVAL`、`IMAGE_RETRIEVAL`、`VIDEO_RETRIEVAL`、`DOCUMENT_RETRIEVAL`、`AUDIO_RETRIEVAL`、`GENERIC_RETRIEVAL`、`CLASSIFICATION`、`CLUSTERING`。
 
 - **truncate** _string_
 
-  Truncation behavior when input exceeds the model's context length. Accepts: `NONE`, `START`, `END` (default).
+  输入超过模型上下文长度时的截断策略；接受：`NONE`、`START`、`END`（默认）。
 
-### Cohere Embedding Models
+### Cohere 嵌入模型
 
-Cohere embedding models on Bedrock require an `inputType` and support truncation:
+在 Bedrock 上使用 Cohere 嵌入模型需要提供 `inputType`，并支持截断：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -927,36 +910,35 @@ const { embedding } = await embed({
 });
 ```
 
-The following provider options are available for Cohere embedding models:
+Cohere 嵌入模型支持下列提供程序选项：
 
 - **inputType** _string_
 
-  Input type for Cohere embedding models. Accepts: `search_document`, `search_query` (default), `classification`, `clustering`.
+  Cohere 嵌入的输入类型；接受：`search_document`、`search_query`（默认）、`classification`、`clustering`。
 
 - **truncate** _string_
 
-  Truncation behavior when input exceeds the model's context length. Accepts: `NONE`, `START`, `END`.
+  输入超过模型上下文长度时的截断策略；接受：`NONE`、`START`、`END`。
 
-### Model Capabilities
+### 模型能力
 
-| Model                          | Default Dimensions | Custom Dimensions   |
-| ------------------------------ | ------------------ | ------------------- |
+| 模型                             | 默认维度 | 自定义维度            |
+| ------------------------------ | ------- | ------------------- |
 | `amazon.titan-embed-text-v1`   | 1536               | <Cross size={18} /> |
 | `amazon.titan-embed-text-v2:0` | 1024               | <Check size={18} /> |
 | `amazon.nova-embed-text-v2:0`  | 1024               | <Check size={18} /> |
 | `cohere.embed-english-v3`      | 1024               | <Cross size={18} /> |
 | `cohere.embed-multilingual-v3` | 1024               | <Cross size={18} /> |
 
-## Reranking Models
+## 重排序模型
 
-You can create models that call the [Bedrock Rerank API](https://docs.aws.amazon.com/bedrock/latest/userguide/rerank-api.html)
-using the `.reranking()` factory method.
+可通过 `.reranking()` 工厂方法创建调用 [Bedrock Rerank API](https://docs.aws.amazon.com/bedrock/latest/userguide/rerank-api.html)的模型实例。
 
 ```ts
 const model = amazonBedrock.reranking('cohere.rerank-v3-5:0');
 ```
 
-You can use Amazon Bedrock reranking models to rerank documents with the `rerank` function:
+可使用 Amazon Bedrock 重排序模型配合 `rerank` 函数对文档重排序：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -982,7 +964,7 @@ console.log(ranking);
 // ]
 ```
 
-Amazon Bedrock reranking models support additional provider options that can be passed via `providerOptions.bedrock`:
+Amazon Bedrock 重排序模型还支持通过 `providerOptions.bedrock` 传入额外选项：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -1000,41 +982,39 @@ const { ranking } = await rerank({
 });
 ```
 
-The following provider options are available:
+可用提供程序选项如下：
 
 - **nextToken** _string_
 
-  Token for pagination of results.
+  结果分页 token。
 
 - **additionalModelRequestFields** _Record&lt;string, unknown&gt;_
 
-  Additional model-specific request fields.
+  其他模型专属请求字段。
 
-### Model Capabilities
+### 模型能力
 
-| Model                  |
+| 模型                   |
 | ---------------------- |
 | `amazon.rerank-v1:0`   |
 | `cohere.rerank-v3-5:0` |
 
-## Image Models
+## 图像模型
 
-You can create models that call the Bedrock API [Bedrock API](https://docs.aws.amazon.com/nova/latest/userguide/image-generation.html)
-using the `.image()` factory method.
+可通过 `.image()` 工厂方法创建调用 Bedrock [图像生成 API](https://docs.aws.amazon.com/nova/latest/userguide/image-generation.html)的模型实例。
 
-For more on the Amazon Nova Canvas image model, see the [Nova Canvas
-Overview](https://docs.aws.amazon.com/ai/responsible-ai/nova-canvas/overview.html).
+关于 Amazon Nova Canvas 图像模型，请参阅 [Nova Canvas 概览](https://docs.aws.amazon.com/ai/responsible-ai/nova-canvas/overview.html)。
 
 <Note>
-  The `amazon.nova-canvas-v1:0` model is available in the `us-east-1`,
-  `eu-west-1`, and `ap-northeast-1` regions.
+  `amazon.nova-canvas-v1:0` 模型在 `us-east-1`、`eu-west-1`、`ap-northeast-1`
+  区域可用。
 </Note>
 
 ```ts
 const model = amazonBedrock.image('amazon.nova-canvas-v1:0');
 ```
 
-You can then generate images with the `generateImage` function:
+随后可使用 `generateImage` 生成图像：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -1048,7 +1028,7 @@ const { image } = await generateImage({
 });
 ```
 
-You can also pass the `providerOptions` object to the `generateImage` function to customize the generation behavior:
+也可向 `generateImage` 传入 `providerOptions`，定制生成行为：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -1070,39 +1050,37 @@ const { image } = await generateImage({
 });
 ```
 
-The following optional provider options are available for Amazon Nova Canvas:
+Amazon Nova Canvas 支持的可选提供程序选项如下：
 
 - **quality** _string_
 
-  The quality level for image generation. Accepts `'standard'` or `'premium'`.
+  图像生成质量档位；接受 `'standard'` 或 `'premium'`。
 
 - **negativeText** _string_
 
-  Text describing what you don't want in the generated image.
+  描述你不希望出现在图像中的元素。
 
 - **cfgScale** _number_
 
-  Controls how closely the generated image adheres to the prompt. Higher values result in images that are more closely aligned to the prompt.
+  控制生成图像与提示词的贴合程度；数值越高越贴近提示。
 
 - **style** _string_
 
-  Predefined visual style for image generation.
-  Accepts one of:
+  预定义的图像视觉风格；
+  可从以下任选其一：
   `3D_ANIMATED_FAMILY_FILM` · `DESIGN_SKETCH` · `FLAT_VECTOR_ILLUSTRATION` ·
   `GRAPHIC_NOVEL_ILLUSTRATION` · `MAXIMALISM` · `MIDCENTURY_RETRO` ·
-  `PHOTOREALISM` · `SOFT_DIGITAL_PAINTING`.
+  `PHOTOREALISM` · `SOFT_DIGITAL_PAINTING`。
 
-Documentation for additional settings can be found within the [Amazon Bedrock
-User Guide for Amazon Nova
-Documentation](https://docs.aws.amazon.com/nova/latest/userguide/image-gen-req-resp-structure.html).
+更多信息见 [Amazon Bedrock 面向 Amazon Nova 的用户指南——请求/响应结构](https://docs.aws.amazon.com/nova/latest/userguide/image-gen-req-resp-structure.html)。
 
-### Image Editing
+### 图像编辑
 
-Amazon Nova Canvas supports several image editing task types. When you provide input images via `prompt.images`, the model automatically detects the appropriate editing mode, or you can explicitly specify the `taskType` in provider options.
+Amazon Nova Canvas 支持多种图像编辑任务类型。当你通过 `prompt.images` 提供输入图像时，模型会自动选择合适的编辑模式，也可在提供程序选项中显式指定 `taskType`。
 
-#### Image Variation
+#### 图像变体（Image Variation）
 
-Create variations of an existing image while maintaining its core characteristics:
+在保留核心视觉特征的前提下，对现有图像生成变体：
 
 ```ts
 const imageBuffer = readFileSync('./input-image.png');
@@ -1125,13 +1103,13 @@ const { images } = await generateImage({
 
 - **similarityStrength** _number_
 
-  Controls how similar the output is to the input image. Values range from 0 to 1, where higher values produce results closer to the original.
+  控制输出与输入图的相似程度；取值 `0`-`1`，越大越贴近原图。
 
-#### Inpainting
+#### 涂抹修复（Inpainting）
 
-Edit specific parts of an image. You can define the area to modify using either a mask image or a text prompt:
+可对图像特定区域编辑；可使用蒙版图像或文本提示来描述要修改的范围：
 
-**Using a mask prompt (text-based selection):**
+**使用掩码提示（文本选择）：**
 
 ```ts
 const imageBuffer = readFileSync('./input-image.png');
@@ -1151,7 +1129,7 @@ const { images } = await generateImage({
 });
 ```
 
-**Using a mask image:**
+**使用蒙版图像：**
 
 ```ts
 const image = readFileSync('./input-image.png');
@@ -1169,11 +1147,11 @@ const { images } = await generateImage({
 
 - **maskPrompt** _string_
 
-  A text description of the area to modify. The model will automatically identify and mask the described region.
+  用文字描述待修改区域的文本；模型会自动定位并遮盖对应区域。
 
-#### Outpainting
+#### 外延绘制（Outpainting）
 
-Extend an image beyond its original boundaries:
+在原图边界之外扩展画布：
 
 ```ts
 const imageBuffer = readFileSync('./input-image.png');
@@ -1196,11 +1174,11 @@ const { images } = await generateImage({
 
 - **outPaintingMode** _string_
 
-  Controls how the outpainting is performed. Accepts `'DEFAULT'` or `'PRECISE'`.
+  外延绘制的渲染方式；接受 `'DEFAULT'` 或 `'PRECISE'`。
 
-#### Background Removal
+#### 背景移除
 
-Remove the background from an image:
+移除图像背景：
 
 ```ts
 const imageBuffer = readFileSync('./input-image.png');
@@ -1219,33 +1197,32 @@ const { images } = await generateImage({
 ```
 
 <Note>
-  Background removal does not require a text prompt - only the input image is
-  needed.
+  背景移除无需文本提示，仅需提供输入图像。
 </Note>
 
-#### Image Editing Provider Options
+#### 图像编辑的提供程序选项
 
-The following additional provider options are available for image editing:
+图像编辑还可使用以下额外提供程序选项：
 
 - **taskType** _string_
 
-  Explicitly set the editing task type. Accepts `'TEXT_IMAGE'` (default for text-only), `'IMAGE_VARIATION'`, `'INPAINTING'`, `'OUTPAINTING'`, or `'BACKGROUND_REMOVAL'`. When images are provided without an explicit taskType, the model defaults to `'IMAGE_VARIATION'` (or `'INPAINTING'` if a mask is provided).
+  显式指定编辑任务类型；接受 `'TEXT_IMAGE'`（仅文本时为默认）、`'IMAGE_VARIATION'`、`'INPAINTING'`、`'OUTPAINTING'`、`'BACKGROUND_REMOVAL'`。提供图像但未指定 `taskType` 时，模型默认 `'IMAGE_VARIATION'`（若提供蒙版则为 `'INPAINTING'`）。
 
 - **maskPrompt** _string_
 
-  Text description of the area to modify (for inpainting/outpainting). Alternative to providing a mask image.
+  用文字描述修改区域（用于 inpainting/outpainting）；可提供蒙版图像的替代写法。
 
 - **similarityStrength** _number_
 
-  For `IMAGE_VARIATION`: Controls similarity to the original (0-1).
+  适用于 `IMAGE_VARIATION`：控制与原图的相似程度（`0`-`1`）。
 
 - **outPaintingMode** _string_
 
-  For `OUTPAINTING`: Controls the outpainting behavior (`'DEFAULT'` or `'PRECISE'`).
+  适用于 `OUTPAINTING`：外延绘制行为（`'DEFAULT'` 或 `'PRECISE'`）。
 
-### Image Model Settings
+### 图像模型的通用设置
 
-You can customize the generation behavior with optional options:
+可通过可选选项进一步定制生成行为：
 
 ```ts
 await generateImage({
@@ -1259,29 +1236,26 @@ await generateImage({
 
 - **maxImagesPerCall** _number_
 
-  Override the maximum number of images generated per API call. Default can vary
-  by model, with 5 as a common default.
+  覆盖单次 API 调用生成的最大图像数；默认值因模型而异，常见默认值为 5。
 
-### Model Capabilities
+### 模型能力与尺寸约束
 
-The Amazon Nova Canvas model supports custom sizes with constraints as follows:
+Amazon Nova Canvas 模型的自定义尺寸需满足以下条件：
 
-- Each side must be between 320-4096 pixels, inclusive.
-- Each side must be evenly divisible by 16.
-- The aspect ratio must be between 1:4 and 4:1. That is, one side can't be more than 4 times longer than the other side.
-- The total pixel count must be less than 4,194,304.
+- 每条边长度在 **320–4096** 像素（含端点）。
+- 每条边必须是 **16** 的倍数。
+- 宽高比须在 **1:4** 到 **4:1** 之间（任一边不能超过另一边的 4 倍）。
+- 总像素须小于 **4,194,304**。
 
-For more, see [Image generation access and
-usage](https://docs.aws.amazon.com/nova/latest/userguide/image-gen-access.html).
+更多请参阅 [图像生成访问与配额](https://docs.aws.amazon.com/nova/latest/userguide/image-gen-access.html)。
 
-| Model                     | Sizes                                                                                                 |
+| 模型                         | 尺寸                                                                                                  |
 | ------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `amazon.nova-canvas-v1:0` | Custom sizes: 320-4096px per side (must be divisible by 16), aspect ratio 1:4 to 4:1, max 4.2M pixels |
+| `amazon.nova-canvas-v1:0` | 自定义尺寸：边长 320–4096px（须整除 16），宽高比 1:4 至 4:1，像素上限约 4.2M |
 
-## Response Headers
+## 响应头
 
-The Amazon Bedrock provider will return the response headers associated with
-network requests made of the Bedrock servers.
+Amazon Bedrock 提供程序会返回发往 Bedrock 的网络请求对应的响应头。
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -1295,8 +1269,7 @@ const { text } = await generateText({
 console.log(result.response.headers);
 ```
 
-Below is sample output where you can see the `x-amzn-requestid` header. This can
-be useful for correlating Bedrock API calls with requests made by the AI SDK:
+下方示例展示了 `x-amzn-requestid` 响应头，可用于将 Bedrock API 调用与 AI SDK 发出的请求关联：
 
 ```js highlight="6"
 {
@@ -1308,7 +1281,7 @@ be useful for correlating Bedrock API calls with requests made by the AI SDK:
 }
 ```
 
-This information is also available with `streamText`:
+使用 `streamText` 时同样可获取这些信息：
 
 ```ts
 import { amazonBedrock } from '@ai-sdk/amazon-bedrock';
@@ -1324,7 +1297,7 @@ for await (const textPart of result.textStream) {
 console.log('Response headers:', (await result.response).headers);
 ```
 
-With sample output as:
+流式请求的示例输出如下：
 
 ```js highlight="6"
 {
@@ -1336,21 +1309,21 @@ With sample output as:
 }
 ```
 
-## Bedrock Anthropic Provider Usage
+## Bedrock Anthropic 提供程序
 
-The Bedrock Anthropic provider offers support for Anthropic's Claude models through Amazon Bedrock's native InvokeModel API. This provides full feature parity with the [Anthropic API](https://platform.claude.com/docs/en/build-with-claude/overview), including features that may not be available through the Converse API (such as `stop_sequence` in streaming responses).
+Bedrock Anthropic 提供程序通过 Amazon Bedrock 原生 InvokeModel API 支持 Anthropic Claude 模型，功能与 [Anthropic API](https://platform.claude.com/docs/en/build-with-claude/overview)对等，包含 Converse API 未必提供的特性（例如流式响应中的 `stop_sequence`）。
 
-For more information on Claude models available on Amazon Bedrock, see [Claude on Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock).
+如需了解 Amazon Bedrock 上可用的 Claude 模型，请参阅 [Claude on Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock)。
 
-### Provider Instance
+### 提供程序实例
 
-You can import the default provider instance `bedrockAnthropic` from `@ai-sdk/amazon-bedrock/anthropic`:
+可从 `@ai-sdk/amazon-bedrock/anthropic` 导入默认提供程序实例 `bedrockAnthropic`：
 
 ```typescript
 import { bedrockAnthropic } from '@ai-sdk/amazon-bedrock/anthropic';
 ```
 
-If you need a customized setup, you can import `createBedrockAnthropic` from `@ai-sdk/amazon-bedrock/anthropic` and create a provider instance with your settings:
+如需自定义配置，可从 `@ai-sdk/amazon-bedrock/anthropic` 导入 `createBedrockAnthropic`，并用你的设置创建提供程序实例：
 
 ```typescript
 import { createBedrockAnthropic } from '@ai-sdk/amazon-bedrock/anthropic';
@@ -1363,70 +1336,66 @@ const bedrockAnthropic = createBedrockAnthropic({
 });
 ```
 
-#### Provider Settings
+#### 提供程序设置
 
-You can use the following optional settings to customize the Bedrock Anthropic provider instance:
+可使用下列可选配置自定义 Bedrock Anthropic 提供程序实例：
 
 - **region** _string_
 
-  The AWS region that you want to use for the API calls.
-  It uses the `AWS_REGION` environment variable by default.
+  API 调用使用的 AWS 区域；
+  默认读取 `AWS_REGION`。
 
 - **accessKeyId** _string_
 
-  The AWS access key ID that you want to use for the API calls.
-  It uses the `AWS_ACCESS_KEY_ID` environment variable by default.
+  API 调用使用的 AWS 访问密钥 ID；
+  默认读取 `AWS_ACCESS_KEY_ID`。
 
 - **secretAccessKey** _string_
 
-  The AWS secret access key that you want to use for the API calls.
-  It uses the `AWS_SECRET_ACCESS_KEY` environment variable by default.
+  API 调用使用的 AWS 秘密访问密钥；
+  默认读取 `AWS_SECRET_ACCESS_KEY`。
 
 - **sessionToken** _string_
 
-  Optional. For temporary credentials. With **both** access keys set as strings,
-  pass the token here if needed; `AWS_SESSION_TOKEN` from the environment is not
-  used. If either key is taken from the environment, omitting `sessionToken`
-  allows `AWS_SESSION_TOKEN`.
+  可选。临时凭证。**两份**访问密钥均以字符串传入时，
+  需要的话在此传入 token；不会读取环境中的 `AWS_SESSION_TOKEN`。若任一密钥来源于环境，
+  省略 `sessionToken` 时才会使用 `AWS_SESSION_TOKEN`。
 
 - **apiKey** _string_
 
-  API key for authenticating requests using Bearer token authentication.
-  When provided, this will be used instead of AWS SigV4 authentication.
-  It uses the `AWS_BEARER_TOKEN_BEDROCK` environment variable by default.
+  Bearer Token 认证的 API 密钥；
+  传入后将替代 SigV4；
+  默认读取 `AWS_BEARER_TOKEN_BEDROCK`。
 
 - **baseURL** _string_
 
-  Base URL for the Bedrock API calls.
-  Useful for custom endpoints or proxy configurations.
+  Bedrock API 的基础 URL；
+  可用于自定义终端节点或代理。
 
 - **headers** _Resolvable&lt;Record&lt;string, string | undefined&gt;&gt;_
 
-  Headers to include in the requests.
+  请求中要包含的头字段。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch)实现；
+  可作为请求中间件，
+  或用于测试等场景的自定义 fetch。
 
 - **credentialProvider** _() => PromiseLike&lt;BedrockCredentials&gt;_
 
-  The AWS credential provider to use for the Bedrock provider to get dynamic
-  credentials similar to the AWS SDK. Setting a provider here will cause its
-  credential values to be used instead of the `accessKeyId`, `secretAccessKey`,
-  and `sessionToken` settings.
+  类似于 AWS SDK 的动态凭证来源；设置后，
+  其返回值将替代 `accessKeyId`、`secretAccessKey` 与 `sessionToken`。
 
-### Language Models
+### 语言模型
 
-You can create models that call the [Anthropic Messages API](https://docs.anthropic.com/claude/reference/messages_post) using the provider instance.
-The first argument is the model id, e.g. `us.anthropic.claude-3-5-sonnet-20241022-v2:0`.
+可使用提供程序实例调用 [Anthropic Messages API](https://docs.anthropic.com/claude/reference/messages_post)；第一个参数为模型 ID，例如 `us.anthropic.claude-3-5-sonnet-20241022-v2:0`。
 
 ```ts
 const model = bedrockAnthropic('us.anthropic.claude-3-5-sonnet-20241022-v2:0');
 ```
 
-You can use Bedrock Anthropic language models to generate text with the `generateText` function:
+也可以使用 Bedrock Anthropic 模型配合 `generateText` 生成文本：
 
 ```ts
 import { bedrockAnthropic } from '@ai-sdk/amazon-bedrock/anthropic';
@@ -1438,19 +1407,19 @@ const { text } = await generateText({
 });
 ```
 
-### Provider Options
+### 提供程序选项
 
-The following optional provider options are available for Bedrock Anthropic models:
+Bedrock Anthropic 模型支持下列可选提供程序选项：
 
 - `metadata` _object_
 
-  Optional. Metadata to include with the request. See the [Anthropic API documentation](https://platform.claude.com/docs/en/api/messages/create) for details.
-  - `userId` _string_ - An external identifier for the end-user.
+  可选。随请求发送的元数据；详见 [Anthropic API 文档](https://platform.claude.com/docs/en/api/messages/create)。
+  - `userId` _string_：终端用户的外部标识符。
 
-### Cache Control
+### 缓存控制（Cache Control）
 
-In the messages and message parts, you can use the `providerOptions` property to set cache control breakpoints.
-You need to set the `anthropic` property in the `providerOptions` object to `{ cacheControl: { type: 'ephemeral' } }` to set a cache control breakpoint.
+在消息与消息片段中，可通过 `providerOptions` 设置缓存断点。
+将 `providerOptions` 中的 `anthropic` 设为 `{ cacheControl: { type: 'ephemeral' } }` 即可添加缓存断点。
 
 ```ts
 import { bedrockAnthropic } from '@ai-sdk/amazon-bedrock/anthropic';
@@ -1475,28 +1444,24 @@ const result = await generateText({
 ```
 
 <Note>
-  Cache control requires a minimum of 1024 tokens before the cache checkpoint.
-  See the [Amazon Bedrock prompt caching
-  documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html)
-  for details on supported models and limits.
+  缓存控制要求断点前至少 1,024 个 token。支持的模型与限制详见 [Amazon Bedrock 提示缓存文档](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html)。
 </Note>
 
-### Computer Use
+### Computer Use（计算机操控）
 
-The Bedrock Anthropic provider supports Anthropic's computer use tools:
+Bedrock Anthropic 提供程序支持 Anthropic 的 computer use 工具：
 
-1. **Bash Tool**: Allows running bash commands.
-2. **Text Editor Tool**: Provides functionality for viewing and editing text files.
-3. **Computer Tool**: Enables control of keyboard and mouse actions on a computer.
+1. **Bash Tool**：执行 bash 命令。
+2. **Text Editor Tool**：查看与编辑文本文件。
+3. **Computer Tool**：模拟键盘与鼠标操作。
 
-They are available via the `tools` property of the provider instance.
+通过提供程序实例的 `tools` 访问。
 
 <Note>
-  Computer use tools require Claude 3.7 Sonnet or newer models. Claude 3.5
-  Sonnet v2 does not support these tools.
+  Computer use 工具需要 Claude 3.7 Sonnet 或更新模型。Claude 3.5 Sonnet v2 不支持这些工具。
 </Note>
 
-#### Bash Tool
+#### Bash 工具（Bash Tool）
 
 ```ts
 import { bedrockAnthropic } from '@ai-sdk/amazon-bedrock/anthropic';
@@ -1517,7 +1482,7 @@ const result = await generateText({
 });
 ```
 
-#### Text Editor Tool
+#### Text Editor 工具（Text Editor Tool）
 
 ```ts
 import { bedrockAnthropic } from '@ai-sdk/amazon-bedrock/anthropic';
@@ -1538,7 +1503,7 @@ const result = await generateText({
 });
 ```
 
-#### Computer Tool
+#### Computer 工具（Computer Tool）
 
 ```ts
 import { bedrockAnthropic } from '@ai-sdk/amazon-bedrock/anthropic';
@@ -1581,9 +1546,9 @@ const result = await generateText({
 });
 ```
 
-### Reasoning
+### 推理（Reasoning）
 
-Anthropic has reasoning support for Claude 3.7 and Claude 4 models on Bedrock, including:
+Bedrock 上的 Claude 3.7 与 Claude 4 等模型支持推理，包括：
 
 - `us.anthropic.claude-opus-4-7`
 - `us.anthropic.claude-opus-4-6-v1`
@@ -1594,7 +1559,7 @@ Anthropic has reasoning support for Claude 3.7 and Claude 4 models on Bedrock, i
 - `us.anthropic.claude-opus-4-1-20250805-v1:0`
 - `us.anthropic.claude-haiku-4-5-20251001-v1:0`
 
-You can enable it using the `thinking` provider option and specifying a thinking budget in tokens.
+可通过 `thinking` 提供程序选项开启，并用 token 指定思考预算。
 
 ```ts
 import { bedrockAnthropic } from '@ai-sdk/amazon-bedrock/anthropic';
@@ -1615,12 +1580,11 @@ console.log(reasoning); // reasoning details including redacted reasoning
 console.log(text); // text response
 ```
 
-See [AI SDK UI: Chatbot](/docs/ai-sdk-ui/chatbot#reasoning) for more details
-on how to integrate reasoning into your chatbot.
+关于如何将推理能力集成到聊天机器人中，详见 [AI SDK UI：Chatbot](/docs/ai-sdk-ui/chatbot#reasoning)。
 
-### Model Capabilities
+### 模型能力
 
-| Model                                          | Image Input         | Object Generation   | Tool Usage          | Computer Use        | Reasoning           |
+| 模型                                             | 图像输入            | 对象生成           | 工具使用           | Computer Use        | 推理                |
 | ---------------------------------------------- | ------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `us.anthropic.claude-opus-4-7`                 | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `us.anthropic.claude-opus-4-6-v1`              | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
@@ -1633,24 +1597,23 @@ on how to integrate reasoning into your chatbot.
 | `us.anthropic.claude-3-5-sonnet-20241022-v2:0` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
 
 <Note>
-  The Bedrock Anthropic provider uses the native InvokeModel API and supports
-  all features available in the Anthropic API, except for the Files API and MCP
-  Connector which are not supported on Bedrock.
+  Bedrock Anthropic 提供程序基于原生 InvokeModel API，支持 Anthropic API 的大部分能力，
+  但 Files API 与 MCP Connector 在 Bedrock 上不可用。
 </Note>
 
-## Bedrock Mantle Provider Usage
+## Bedrock Mantle 提供程序
 
-The Bedrock Mantle provider offers access to OpenAI-compatible models through Amazon Bedrock's Mantle API at `https://bedrock-mantle.{region}.api.aws/v1`. This endpoint supports the Chat Completions API and the Responses API, and provides access to models that may only be available through the Mantle endpoint (such as `openai.gpt-oss-120b`).
+Bedrock Mantle 提供程序通过 Amazon Bedrock 的 Mantle API（地址 `https://bedrock-mantle.{region}.api.aws/v1`）访问与 OpenAI 兼容的模型。该端点支持 Chat Completions API 与 Responses API，并覆盖可能仅在 Mantle 提供的模型（例如 `openai.gpt-oss-120b`）。
 
-### Provider Instance
+### 提供程序实例
 
-You can import the default provider instance `bedrockMantle` from `@ai-sdk/amazon-bedrock/mantle`:
+可从 `@ai-sdk/amazon-bedrock/mantle` 导入默认提供程序实例 `bedrockMantle`：
 
 ```typescript
 import { bedrockMantle } from '@ai-sdk/amazon-bedrock/mantle';
 ```
 
-If you need a customized setup, you can import `createBedrockMantle` from `@ai-sdk/amazon-bedrock/mantle` and create a provider instance with your settings:
+如需自定义配置，可从 `@ai-sdk/amazon-bedrock/mantle` 导入 `createBedrockMantle`，并用你的设置创建提供程序实例：
 
 ```typescript
 import { createBedrockMantle } from '@ai-sdk/amazon-bedrock/mantle';
@@ -1663,76 +1626,74 @@ const bedrockMantle = createBedrockMantle({
 });
 ```
 
-#### Provider Settings
+#### 提供程序设置
 
-You can use the following optional settings to customize the Bedrock Mantle provider instance:
+可使用下列可选配置自定义 Bedrock Mantle 提供程序实例：
 
 - **region** _string_
 
-  The AWS region that you want to use for the API calls.
-  It uses the `AWS_REGION` environment variable by default.
+  API 调用使用的 AWS 区域；
+  默认读取 `AWS_REGION`。
 
 - **accessKeyId** _string_
 
-  The AWS access key ID that you want to use for the API calls.
-  It uses the `AWS_ACCESS_KEY_ID` environment variable by default.
+  API 调用使用的 AWS 访问密钥 ID；
+  默认读取 `AWS_ACCESS_KEY_ID`。
 
 - **secretAccessKey** _string_
 
-  The AWS secret access key that you want to use for the API calls.
-  It uses the `AWS_SECRET_ACCESS_KEY` environment variable by default.
+  API 调用使用的 AWS 秘密访问密钥；
+  默认读取 `AWS_SECRET_ACCESS_KEY`。
 
 - **sessionToken** _string_
 
-  Optional. The AWS session token that you want to use for the API calls.
-  It uses the `AWS_SESSION_TOKEN` environment variable by default.
+  可选。API 调用使用的 AWS 会话令牌；
+  默认读取 `AWS_SESSION_TOKEN`。
 
 - **apiKey** _string_
 
-  API key for authenticating requests using Bearer token authentication.
-  When provided, this will be used instead of AWS SigV4 authentication.
-  It uses the `AWS_BEARER_TOKEN_BEDROCK` environment variable by default.
+  Bearer Token 认证的 API 密钥；
+  传入后将替代 SigV4；
+  默认读取 `AWS_BEARER_TOKEN_BEDROCK`。
 
 - **baseURL** _string_
 
-  Base URL for the Bedrock Mantle API calls.
-  Defaults to `https://bedrock-mantle.{region}.api.aws/v1`.
+  Bedrock Mantle API 的基础 URL；
+  默认为 `https://bedrock-mantle.{region}.api.aws/v1`。
 
 - **headers** _Record&lt;string, string | undefined&gt;_
 
-  Headers to include in the requests.
+  请求中要包含的头字段。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch)实现；
+  可作为请求中间件，
+  或用于测试等场景的自定义 fetch。
 
 - **credentialProvider** _() => PromiseLike&lt;BedrockCredentials&gt;_
 
-  The AWS credential provider to use for the Bedrock provider to get dynamic
-  credentials similar to the AWS SDK. Setting a provider here will cause its
-  credential values to be used instead of the `accessKeyId`, `secretAccessKey`,
-  and `sessionToken` settings.
+  类似于 AWS SDK 的动态凭证来源；设置后，
+  其返回值将替代 `accessKeyId`、`secretAccessKey` 与 `sessionToken`。
 
-### Language Models
+### 语言模型
 
-You can create models using the Mantle provider instance. By default, the provider creates models using the Chat Completions API, which has the broadest model support on Mantle:
+使用 Mantle 提供程序实例创建模型；默认会使用 Chat Completions API，从而在 Mantle 上获得最广的模型支持：
 
 ```ts
 const model = bedrockMantle('openai.gpt-oss-120b');
 ```
 
-You can also explicitly select the Chat Completions API or the Responses API:
+也可显式选择 Chat Completions API 或 Responses API：
 
 ```ts
 const chatModel = bedrockMantle.chat('openai.gpt-oss-120b');
 const responsesModel = bedrockMantle.responses('openai.gpt-oss-120b');
 ```
 
-Note that not all Mantle models support the Responses API. See the model capabilities table below.
+并非所有 Mantle 模型都支持 Responses API；详见下文模型能力表。
 
-You can use Bedrock Mantle language models to generate text with the `generateText` function:
+可使用 Bedrock Mantle 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { bedrockMantle } from '@ai-sdk/amazon-bedrock/mantle';
@@ -1744,7 +1705,7 @@ const { text } = await generateText({
 });
 ```
 
-Or stream text with the `streamText` function:
+或使用 `streamText` 流式输出文本：
 
 ```ts
 import { bedrockMantle } from '@ai-sdk/amazon-bedrock/mantle';
@@ -1760,9 +1721,9 @@ for await (const textPart of result.textStream) {
 }
 ```
 
-### Provider Options
+### 提供程序选项
 
-Since the Mantle API is OpenAI-compatible, provider options are passed under the `openai` namespace:
+Mantle API 与 OpenAI 兼容；提供程序选项放在 `openai` 命名空间下：
 
 ```ts
 import { bedrockMantle } from '@ai-sdk/amazon-bedrock/mantle';
@@ -1779,9 +1740,9 @@ const { text } = await generateText({
 });
 ```
 
-### Model Capabilities
+### 模型能力
 
-| Model                           | Chat Completions    | Responses API       |
+| 模型                             | Chat Completions    | Responses API       |
 | ------------------------------- | ------------------- | ------------------- |
 | `openai.gpt-oss-20b`            | <Check size={18} /> | <Check size={18} /> |
 | `openai.gpt-oss-120b`           | <Check size={18} /> | <Check size={18} /> |
@@ -1789,19 +1750,15 @@ const { text } = await generateText({
 | `openai.gpt-oss-safeguard-120b` | <Check size={18} /> | <Cross size={18} /> |
 
 <Note>
-  The Bedrock Mantle provider uses the OpenAI-compatible API format. Models
-  available through the Mantle endpoint may differ from those available through
-  the Bedrock Converse API. Use the Mantle endpoint's model listing API to
-  discover all available models.
+  Bedrock Mantle 提供程序使用 OpenAI 兼容格式的 API。
+  Mantle 端点上架的模型可能与 Bedrock Converse API 不同。
+  请使用 Mantle 端点的模型列表 API 枚举全部可用模型。
 </Note>
 
-## Migrating to `@ai-sdk/amazon-bedrock` 2.x
+## 迁移到 `@ai-sdk/amazon-bedrock` 2.x
 
-The Amazon Bedrock provider was rewritten in version 2.x to remove the
-dependency on the `@aws-sdk/client-bedrock-runtime` package.
+Amazon Bedrock 提供程序在 2.x 版本重写，移除对 `@aws-sdk/client-bedrock-runtime` 的依赖。
 
-The `bedrockOptions` provider setting previously available has been removed. If
-you were using the `bedrockOptions` object, you should now use the `region`,
-`accessKeyId`, `secretAccessKey`, and `sessionToken` settings directly instead.
+原先可用的 `bedrockOptions` 提供程序设置已被删除。若先前使用 `bedrockOptions`，请改用顶层的 `region`、`accessKeyId`、`secretAccessKey` 与 `sessionToken`。
 
-Static IAM user keys do not require `sessionToken`.
+静态 IAM 用户密钥不需要 `sessionToken`。

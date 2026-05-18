@@ -1,6 +1,6 @@
 /**
- * A simple terminal spinner for long-running operations.
- * Uses built-in Node.js functionality - no external dependencies needed.
+ * 一个简单的终端旋转器，用于长时间运行的操作。
+ * 使用内置 Node.js 功能 - 无需外部依赖项。
  */
 export class Spinner {
   private frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
@@ -18,7 +18,7 @@ export class Spinner {
     if (this.interval) return this;
     this.startTime = performance.now();
 
-    // Hide cursor
+    // 隐藏光标
     this.stream.write('\x1B[?25l');
 
     this.interval = setInterval(() => {
@@ -36,7 +36,7 @@ export class Spinner {
       this.interval = null;
     }
 
-    // Clear the line and show cursor
+    // 清除线条并显示光标
     this.stream.write('\r\x1B[K');
     this.stream.write('\x1B[?25h');
 
@@ -70,7 +70,7 @@ export class Spinner {
 }
 
 /**
- * Wraps an async operation with a spinner.
+ * 用微调器包装异步操作。
  * @param message - The message to display while the operation is running.
  * @param fn - The async function to execute.
  * @returns The result of the async function.

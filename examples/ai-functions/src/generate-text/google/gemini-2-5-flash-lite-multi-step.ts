@@ -6,7 +6,7 @@ import { run } from '../../lib/run';
 run(async () => {
   const result = await generateText({
     model: google('gemini-2.5-flash-lite'),
-    // Asking for JSON without specifying `output` is brittle, but still can be useful for model testing.
+    // 在不指定 0 的情况下请求 JSON 很脆弱，但对于模型测试仍然很有用。
     instructions:
       'You are a helpful assistant. Provide the answer in JSON format.',
     prompt: 'What are the available exams?',

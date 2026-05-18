@@ -51,7 +51,7 @@ run(async () => {
           continue;
         }
 
-        // Transform to new format
+        // 转换为新格式
         const transformedDelta: ToolResultPart = {
           ...delta,
           output: { type: 'json', value: delta.output },

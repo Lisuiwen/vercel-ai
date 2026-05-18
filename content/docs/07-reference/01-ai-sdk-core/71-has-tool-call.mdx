@@ -1,13 +1,13 @@
 ---
 title: hasToolCall
-description: API Reference for hasToolCall.
+description: hasToolCall 的 API 参考。
 ---
 
 # `hasToolCall()`
 
-Creates a stop condition that stops when any specified tool is called in the most recent step.
+创建在最近一步中调用了任一指定工具时触发的停止条件。
 
-This function is used with `stopWhen` in `generateText` and `streamText` to control when a tool-calling loop should stop based on whether one of the specified tools has been invoked.
+该函数与 `generateText`、`streamText` 中的 `stopWhen` 配合使用，按是否调用指定工具控制工具调用循环何时停止。
 
 ```ts
 import { generateText, hasToolCall } from 'ai';
@@ -19,18 +19,18 @@ const result = await generateText({
     weather: weatherTool,
     finalAnswer: finalAnswerTool,
   },
-  // Stop when the finalAnswer tool is called
+  // 调用 finalAnswer 工具时停止
   stopWhen: hasToolCall('finalAnswer'),
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { hasToolCall } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -38,20 +38,20 @@ const result = await generateText({
       name: '...toolNames',
       type: 'string[]',
       description:
-        'One or more tool names. The stop condition triggers when any of them is called in the most recent step.',
+        '一个或多个工具名。最近一步中调用其中任一时触发停止条件。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A `StopCondition` function that returns `true` when any of the specified tools is called in the most recent step. The function can be used with the `stopWhen` parameter in `generateText` and `streamText`.
+`StopCondition` 函数：当最近一步中调用了任一指定工具时返回 `true`。可与 `generateText`、`streamText` 的 `stopWhen` 参数一起使用。
 
-## Examples
+## 示例
 
-### Basic Usage
+### 基本用法
 
-Stop when a specific tool is called:
+在调用特定工具时停止：
 
 ```ts
 import { generateText, hasToolCall } from 'ai';
@@ -66,9 +66,9 @@ const result = await generateText({
 });
 ```
 
-### Match Multiple Tools
+### 匹配多个工具
 
-Stop when any of several tools is called in the most recent step:
+最近一步中调用以下任一时停止：
 
 ```ts
 import { generateText, hasToolCall } from 'ai';
@@ -84,9 +84,9 @@ const result = await generateText({
 });
 ```
 
-### Combining with Other Conditions
+### 与其他条件组合
 
-You can combine multiple stop conditions in an array:
+可将多个停止条件放入数组：
 
 ```ts
 import { generateText, hasToolCall, isStepCount } from 'ai';
@@ -98,7 +98,7 @@ const result = await generateText({
     search: searchTool,
     finalAnswer: finalAnswerTool,
   },
-  // Stop when weather tool is called OR finalAnswer is called OR after 5 steps
+  // 调用 weather、调用 finalAnswer 或满 5 步时停止
   stopWhen: [
     hasToolCall('weather'),
     hasToolCall('finalAnswer'),
@@ -107,9 +107,9 @@ const result = await generateText({
 });
 ```
 
-### Agent Pattern
+### 智能体模式
 
-Common pattern for agents that run until they provide a final answer:
+常见模式：运行直至给出最终答案：
 
 ```ts
 import { generateText, hasToolCall } from 'ai';
@@ -131,7 +131,7 @@ const result = await generateText({
 });
 ```
 
-## See also
+## 另请参阅
 
 - [`isStepCount()`](/docs/reference/ai-sdk-core/is-step-count)
 - [`generateText()`](/docs/reference/ai-sdk-core/generate-text)

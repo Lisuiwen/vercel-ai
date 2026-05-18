@@ -1,16 +1,16 @@
 ---
 title: Groq
-description: Learn how to use Groq.
+description: 了解如何使用 Groq。
 ---
 
-# Groq Provider
+# Groq 提供商
 
-The [Groq](https://groq.com/) provider contains language model support for the Groq API.
+[Groq](https://groq.com/) 提供商为 Groq API 提供语言模型支持。
 
-## Setup
+## 安装
 
-The Groq provider is available via the `@ai-sdk/groq` module.
-You can install it with
+Groq provider 通过 `@ai-sdk/groq` 模块提供。
+你可以使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -28,62 +28,61 @@ You can install it with
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `groq` from `@ai-sdk/groq`:
+你可以从 `@ai-sdk/groq` 导入默认的 provider 实例 `groq`：
 
 ```ts
 import { groq } from '@ai-sdk/groq';
 ```
 
-If you need a customized setup, you can import `createGroq` from `@ai-sdk/groq`
-and create a provider instance with your settings:
+如需自定义配置，可从 `@ai-sdk/groq` 导入 `createGroq`，并用你的设置创建 provider 实例：
 
 ```ts
 import { createGroq } from '@ai-sdk/groq';
 
 const groq = createGroq({
-  // custom settings
+  // 自定义设置
 });
 ```
 
-You can use the following optional settings to customize the Groq provider instance:
+你可以使用以下可选设置来自定义 Groq provider 实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `https://api.groq.com/openai/v1`.
+  为 API 调用使用不同的 URL 前缀，例如用于代理服务器。
+  默认前缀为 `https://api.groq.com/openai/v1`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
-  It defaults to the `GROQ_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API 密钥。
+  默认读取环境变量 `GROQ_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  要在请求中包含的自定义请求头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch` 函数。
+  可用作中间件拦截请求，
+  或在测试等场景提供自定义 fetch 实现。
 
-## Language Models
+## 语言模型
 
-You can create [Groq models](https://console.groq.com/docs/models) using a provider instance.
-The first argument is the model id, e.g. `gemma2-9b-it`.
+你可以使用 provider 实例创建 [Groq 模型](https://console.groq.com/docs/models)。
+第一个参数为模型 id，例如 `gemma2-9b-it`。
 
 ```ts
 const model = groq('gemma2-9b-it');
 ```
 
-### Reasoning Models
+### 推理模型
 
-Groq offers several reasoning models such as `qwen-qwq-32b` and `deepseek-r1-distill-llama-70b`.
-You can configure how the reasoning is exposed in the generated text by using the `reasoningFormat` option.
-It supports the options `parsed`, `hidden`, and `raw`.
+Groq 提供多种推理模型，例如 `qwen-qwq-32b` 和 `deepseek-r1-distill-llama-70b`。
+可通过 `reasoningFormat` 选项配置推理内容在生成文本中的呈现方式。
+支持 `parsed`、`hidden` 和 `raw`。
 
 ```ts
 import { groq, type GroqLanguageModelChatOptions } from '@ai-sdk/groq';
@@ -95,78 +94,78 @@ const result = await generateText({
     groq: {
       reasoningFormat: 'parsed',
       reasoningEffort: 'default',
-      parallelToolCalls: true, // Enable parallel function calling (default: true)
-      user: 'user-123', // Unique identifier for end-user (optional)
-      serviceTier: 'flex', // Use flex tier for higher throughput (optional)
+      parallelToolCalls: true, // 启用并行函数调用（默认：true）
+      user: 'user-123', // 终端用户唯一标识（可选）
+      serviceTier: 'flex', // 使用 flex 层级以获得更高吞吐（可选）
     } satisfies GroqLanguageModelChatOptions,
   },
-  prompt: 'How many "r"s are in the word "strawberry"?',
+  prompt: '"strawberry" 这个词里有多少个字母 "r"？',
 });
 ```
 
-The following optional provider options are available for Groq language models:
+Groq 语言模型还支持以下可选 provider 选项：
 
 - **reasoningFormat** _'parsed' | 'raw' | 'hidden'_
 
-  Controls how reasoning is exposed in the generated text. Only supported by reasoning models like `qwen-qwq-32b` and `deepseek-r1-distill-*` models.
+  控制推理内容在生成文本中的暴露方式。仅 reasoning 类模型（如 `qwen-qwq-32b` 与 `deepseek-r1-distill-*`）支持。
 
-  For a complete list of reasoning models and their capabilities, see [Groq's reasoning models documentation](https://console.groq.com/docs/reasoning).
+  推理模型及其能力的完整列表见 [Groq reasoning 模型文档](https://console.groq.com/docs/reasoning)。
 
 - **reasoningEffort** _'low' | 'medium' | 'high' | 'none' | 'default'_
 
-  Controls the level of effort the model will put into reasoning.
+  控制模型投入推理的程度。
   - `qwen/qwen3-32b`
-    - Supported values:
-      - `none`: Disable reasoning. The model will not use any reasoning tokens.
-      - `default`: Enable reasoning.
+    - 可选值：
+      - `none`：关闭推理，模型不使用任何推理 token。
+      - `default`：开启推理。
   - `gpt-oss20b/gpt-oss120b`
-    - Supported values:
-      - `low`: Use a low level of reasoning effort.
-      - `medium`: Use a medium level of reasoning effort.
-      - `high`: Use a high level of reasoning effort.
+    - 可选值：
+      - `low`：较低推理强度。
+      - `medium`：中等推理强度。
+      - `high`：较高推理强度。
 
-  Defaults to `default` for `qwen/qwen3-32b.`
+  对 `qwen/qwen3-32b` 默认为 `default`。
 
 - **structuredOutputs** _boolean_
 
-  Whether to use structured outputs.
+  是否使用结构化输出。
 
-  Defaults to `true`.
+  默认为 `true`。
 
-  When enabled, object generation will use the `json_schema` format instead of `json_object` format, providing more reliable structured outputs.
+  启用后，对象生成会使用 `json_schema` 格式而非 `json_object`，从而获得更可靠的结构化输出。
 
 - **strictJsonSchema** _boolean_
 
-  Whether to use strict JSON schema validation. When `true`, the model uses constrained decoding to guarantee schema compliance.
+  是否启用严格的 JSON Schema 校验。为 `true` 时，模型使用约束解码以确保符合 schema。
 
-  Defaults to `true`.
+  默认为 `true`。
 
-  Only used when `structuredOutputs` is enabled and a schema is provided. See [Groq's Structured Outputs documentation](https://console.groq.com/docs/structured-outputs) for details on strict mode limitations.
+  仅在启用 `structuredOutputs` 且提供 schema 时使用。严格模式的限制详见 [Groq Structured Outputs 文档](https://console.groq.com/docs/structured-outputs)。
 
 - **parallelToolCalls** _boolean_
 
-  Whether to enable parallel function calling during tool use. Defaults to `true`.
+  是否在工具使用过程中启用并行函数调用。默认为 `true`。
 
 - **user** _string_
 
-  A unique identifier representing your end-user, which can help with monitoring and abuse detection.
+  表示终端用户的唯一标识，有助于监控与滥用检测。
 
 - **serviceTier** _'on_demand' | 'performance' | 'flex' | 'auto'_
 
-  Service tier for the request. Defaults to `'on_demand'`.
-  - `'on_demand'`: Default tier with consistent performance and fairness
-  - `'performance'`: Prioritized tier for latency-sensitive workloads
-  - `'flex'`: Higher throughput tier (10x rate limits) optimized for workloads that can handle occasional request failures
-  - `'auto'`: Uses on_demand rate limits first, then falls back to flex tier if exceeded
+  请求所用服务层级。默认为 `'on_demand'`。
+  - `'on_demand'`：默认层级，性能稳定且公平调度
+  - `'performance'`：面向延迟敏感场景的优先层级
+  - `'flex'`：更高吞吐层级（速率限制约 10 倍），适合可容忍偶发失败的工作负载
+  - `'auto'`：先按 on_demand 限速，超出后回退到 flex
 
-  For more details about service tiers and their benefits, see [Groq's service tiers documentation](https://console.groq.com/docs/service-tiers).
+  更多层级说明见 [Groq 服务层级文档](https://console.groq.com/docs/service-tiers)。
 
-<Note>Only Groq reasoning models support the `reasoningFormat` option.</Note>
+<Note>仅 Groq reasoning 模型支持 `reasoningFormat` 选项。</Note>
 
-#### Structured Outputs
+#### 结构化输出
 
-Structured outputs are enabled by default for Groq models.
-You can disable them by setting the `structuredOutputs` option to `false`.
+Groq 模型默认启用结构化输出。
+可将 `structuredOutputs` 设为 `false` 来关闭。
 
 ```ts
 import { groq } from '@ai-sdk/groq';
@@ -184,13 +183,13 @@ const result = await generateText({
       }),
     }),
   }),
-  prompt: 'Generate a simple pasta recipe.',
+  prompt: '生成一份简单的意面食谱。',
 });
 
 console.log(JSON.stringify(result.output, null, 2));
 ```
 
-You can disable structured outputs for models that don't support them:
+对不支持该能力的模型，可以关闭结构化输出：
 
 ```ts highlight="9"
 import { groq, type GroqLanguageModelChatOptions } from '@ai-sdk/groq';
@@ -213,23 +212,23 @@ const result = await generateText({
       }),
     }),
   }),
-  prompt: 'Generate a simple pasta recipe in JSON format.',
+  prompt: '以 JSON 格式生成一份简单的意面食谱。',
 });
 
 console.log(JSON.stringify(result.output, null, 2));
 ```
 
 <Note type="warning">
-  Structured outputs are only supported by newer Groq models like
-  `moonshotai/kimi-k2-instruct-0905`. For unsupported models, you can disable
-  structured outputs by setting `structuredOutputs: false`. When disabled, Groq
-  uses the `json_object` format which requires the word "JSON" to be included in
-  your messages.
+  结构化输出仅较新的 Groq 模型支持，例如
+  `moonshotai/kimi-k2-instruct-0905`。不支持的模型可将
+  `structuredOutputs` 设为 `false` 关闭。关闭后 Groq
+  使用 `json_object` 格式，此时需要在消息中包含单词
+  「JSON」。
 </Note>
 
-### Example
+### 示例
 
-You can use Groq language models to generate text with the `generateText` function:
+可使用 Groq 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { groq } from '@ai-sdk/groq';
@@ -237,13 +236,13 @@ import { generateText } from 'ai';
 
 const { text } = await generateText({
   model: groq('gemma2-9b-it'),
-  prompt: 'Write a vegetarian lasagna recipe for 4 people.',
+  prompt: '写一份供 4 人食用的素食千层面食谱。',
 });
 ```
 
-### Image Input
+### 图像输入
 
-Groq's multi-modal models like `meta-llama/llama-4-scout-17b-16e-instruct` support image inputs. You can include images in your messages using either URLs or base64-encoded data:
+`meta-llama/llama-4-scout-17b-16e-instruct` 等多模态模型支持图像输入。可在消息中通过 URL 或 base64 编码数据包含图像：
 
 ```ts
 import { groq } from '@ai-sdk/groq';
@@ -255,7 +254,7 @@ const { text } = await generateText({
     {
       role: 'user',
       content: [
-        { type: 'text', text: 'What do you see in this image?' },
+        { type: 'text', text: '这张图片里有什么？' },
         {
           type: 'file',
           mediaType: 'image',
@@ -267,7 +266,7 @@ const { text } = await generateText({
 });
 ```
 
-You can also use base64-encoded images:
+也可以使用 base64 编码的图像：
 
 ```ts
 import { groq } from '@ai-sdk/groq';
@@ -282,7 +281,7 @@ const { text } = await generateText({
     {
       role: 'user',
       content: [
-        { type: 'text', text: 'Describe this image in detail.' },
+        { type: 'text', text: '详细描述这张图像。' },
         {
           type: 'file',
           mediaType: 'image',
@@ -294,9 +293,9 @@ const { text } = await generateText({
 });
 ```
 
-## Model Capabilities
+## 模型能力
 
-| Model                                           | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
+| 模型                                             | 图像输入            | 对象生成            | 工具使用            | 工具流式            |
 | ----------------------------------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `gemma2-9b-it`                                  | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `llama-3.1-8b-instant`                          | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
@@ -320,48 +319,46 @@ const { text } = await generateText({
 | `openai/gpt-oss-120b`                           | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  The tables above list the most commonly used models. Please see the [Groq
-  docs](https://console.groq.com/docs/models) for a complete list of available
-  models. You can also pass any available provider model ID as a string if
-  needed.
+  上表列出最常用的模型。完整可用模型列表请查看 [Groq
+  文档](https://console.groq.com/docs/models)。如有需要，也可以直接传入任意可用的
+  provider 模型 ID 字符串。
 </Note>
 
-## Browser Search Tool
+## 浏览器搜索工具
 
-Groq provides a browser search tool that offers interactive web browsing capabilities. Unlike traditional web search, browser search navigates websites interactively, providing more detailed and comprehensive results.
+Groq 提供浏览器搜索工具，具备交互式网页浏览能力。与传统网页搜索不同，浏览器搜索会交互式访问网站，从而提供更详尽、更全面的结果。
 
-### Supported Models
+### 支持的模型
 
-Browser search is only available for these specific models:
+浏览器搜索仅适用于以下模型：
 
 - `openai/gpt-oss-20b`
 - `openai/gpt-oss-120b`
 
 <Note type="warning">
-  Browser search will only work with the supported models listed above. Using it
-  with other models will generate a warning and the tool will be ignored.
+  浏览器搜索仅适用于上述支持的模型。与其他模型一起使用时会发出警告，且该工具会被忽略。
 </Note>
 
-### Basic Usage
+### 基本用法
 
 ```ts
 import { groq } from '@ai-sdk/groq';
 import { generateText } from 'ai';
 
 const result = await generateText({
-  model: groq('openai/gpt-oss-120b'), // Must use supported model
+  model: groq('openai/gpt-oss-120b'), // 必须使用支持的模型
   prompt:
-    'What are the latest developments in AI? Please search for recent news.',
+    '人工智能领域有哪些最新进展？请搜索近期新闻。',
   tools: {
     browser_search: groq.tools.browserSearch({}),
   },
-  toolChoice: 'required', // Ensure the tool is used
+  toolChoice: 'required', // 确保会调用该工具
 });
 
 console.log(result.text);
 ```
 
-### Streaming Example
+### 流式示例
 
 ```ts
 import { groq } from '@ai-sdk/groq';
@@ -369,7 +366,7 @@ import { streamText } from 'ai';
 
 const result = streamText({
   model: groq('openai/gpt-oss-120b'),
-  prompt: 'Search for the latest tech news and summarize it.',
+  prompt: '搜索最新科技新闻并总结。',
   tools: {
     browser_search: groq.tools.browserSearch({}),
   },
@@ -383,58 +380,56 @@ for await (const delta of result.fullStream) {
 }
 ```
 
-### Key Features
+### 主要特性
 
-- **Interactive Browsing**: Navigates websites like a human user
-- **Comprehensive Results**: More detailed than traditional search snippets
-- **Server-side Execution**: Runs on Groq's infrastructure, no setup required
-- **Powered by Exa**: Uses Exa search engine for optimal results
-- **Currently Free**: Available at no additional charge during beta
+- **交互式浏览**：像真人用户一样访问网站
+- **结果更全面**：比传统搜索摘要更详细
+- **服务端执行**：在 Groq 基础设施上运行，无需额外搭建
+- **由 Exa 驱动**：使用 Exa 搜索引擎以获得更好结果
+- **当前免费**：测试期间不另行收费
 
-### Best Practices
+### 最佳实践
 
-- Use `toolChoice: 'required'` to ensure the browser search is activated
-- Only supported on `openai/gpt-oss-20b` and `openai/gpt-oss-120b` models
-- The tool works automatically - no configuration parameters needed
-- Server-side execution means no additional API keys or setup required
+- 使用 `toolChoice: 'required'` 以确保启用浏览器搜索
+- 仅 `openai/gpt-oss-20b` 与 `openai/gpt-oss-120b` 支持
+- 工具开箱即用，无需配置参数
+- 服务端执行意味着不需要额外的 API 密钥或环境搭建
 
-### Model Validation
+### 模型校验
 
-The provider automatically validates model compatibility:
+Provider 会自动校验模型兼容性：
 
 ```ts
-// ✅ Supported - will work
+// ✅ 支持 —— 可用
 const result = await generateText({
   model: groq('openai/gpt-oss-120b'),
   tools: { browser_search: groq.tools.browserSearch({}) },
 });
 
-// ❌ Unsupported - will show warning and ignore tool
+// ❌ 不支持 —— 将显示警告并忽略工具
 const result = await generateText({
   model: groq('gemma2-9b-it'),
   tools: { browser_search: groq.tools.browserSearch({}) },
 });
-// Warning: "Browser search is only supported on models: openai/gpt-oss-20b, openai/gpt-oss-120b"
+// 警告："Browser search is only supported on models: openai/gpt-oss-20b, openai/gpt-oss-120b"
 ```
 
 <Note>
-  For more details about browser search capabilities and limitations, see the
-  [Groq Browser Search
-  Documentation](https://console.groq.com/docs/browser-search).
+  浏览器搜索能力与限制的更多说明见 [Groq Browser Search
+  文档](https://console.groq.com/docs/browser-search)。
 </Note>
 
-## Transcription Models
+## 语音转写模型
 
-You can create models that call the [Groq transcription API](https://console.groq.com/docs/speech-to-text)
-using the `.transcription()` factory method.
+可使用 `.transcription()` 工厂方法创建调用 [Groq 语音转写 API](https://console.groq.com/docs/speech-to-text) 的模型。
 
-The first argument is the model id e.g. `whisper-large-v3`.
+第一个参数为模型 id，例如 `whisper-large-v3`。
 
 ```ts
 const model = groq.transcription('whisper-large-v3');
 ```
 
-You can also pass additional provider-specific options using the `providerOptions` argument. For example, supplying the input language in ISO-639-1 (e.g. `en`) format will improve accuracy and latency.
+还可以通过 `providerOptions` 传入更多 provider 特有选项。例如按 ISO-639-1（如 `en`）指定输入语言可提升准确度并降低延迟。
 
 ```ts highlight="6"
 import { experimental_transcribe as transcribe } from 'ai';
@@ -450,36 +445,36 @@ const result = await transcribe({
 });
 ```
 
-The following provider options are available:
+可用选项如下：
 
 - **timestampGranularities** _string[]_
-  The granularity of the timestamps in the transcription.
-  Defaults to `['segment']`.
-  Possible values are `['word']`, `['segment']`, and `['word', 'segment']`.
-  Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.
-  **Important:** Requires `responseFormat` to be set to `'verbose_json'`.
+  转写中时间戳的粒度。
+  默认为 `['segment']`。
+  可取 `['word']`、`['segment']`、`['word', 'segment']`。
+  说明：分段时间戳不会带来额外延迟，但生成词级时间戳会增加延迟。
+  **重要：**需要同时将 `responseFormat` 设为 `'verbose_json'`。
 
 - **responseFormat** _string_
-  The format of the response. Set to `'verbose_json'` to receive timestamps for audio segments and enable `timestampGranularities`.
-  Set to `'text'` to return only the transcribed text.
-  Optional.
+  响应格式。设为 `'verbose_json'` 可接收音频分段的时间戳并启用 `timestampGranularities`。
+  设为 `'text'` 则仅返回转写文本。
+  可选。
 
 - **language** _string_
-  The language of the input audio. Supplying the input language in ISO-639-1 format (e.g. 'en') will improve accuracy and latency.
-  Optional.
+  输入音频的语言。按 ISO-639-1（如 `'en'`）指定可提升准确度并降低延迟。
+  可选。
 
 - **prompt** _string_
-  An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language.
-  Optional.
+  可选文本，用于引导模型风格或接续上一段音频。prompt 应与音频语言一致。
+  可选。
 
 - **temperature** _number_
-  The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
-  Defaults to 0.
-  Optional.
+  采样温度，介于 0 与 1。较高值（如 0.8）使输出更随机，较低值（如 0.2）更聚焦、确定。若为 0，模型会使用对数概率自动调高温度直至达到特定阈值。
+  默认为 0。
+  可选。
 
-### Model Capabilities
+### 模型能力
 
-| Model                    | Transcription       | Duration            | Segments            | Language            |
+| 模型                     | 转写                | 时长                | 分段                | 语言                |
 | ------------------------ | ------------------- | ------------------- | ------------------- | ------------------- |
 | `whisper-large-v3`       | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `whisper-large-v3-turbo` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |

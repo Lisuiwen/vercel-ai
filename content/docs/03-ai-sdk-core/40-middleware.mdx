@@ -1,22 +1,20 @@
 ---
-title: Language Model Middleware
-description: Learn how to use middleware to enhance the behavior of language models
+title: 语言模型中间件
+description: 了解如何使用中间件增强语言模型行为
 ---
 
-# Language Model Middleware
+# 语言模型中间件
 
-Language model middleware is a way to enhance the behavior of language models
-by intercepting and modifying the calls to the language model.
+语言模型中间件通过拦截并修改对语言模型的调用，
+以增强语言模型行为。
 
-It can be used to add features like guardrails, RAG, caching, and logging
-in a language model agnostic way. Such middleware can be developed and
-distributed independently from the language models that they are applied to.
+可用于以与语言模型无关的方式添加护栏、RAG、缓存和日志等功能。
+此类中间件可独立于其所应用的语言模型进行开发与分发。
 
-## Using Language Model Middleware
+## 使用语言模型中间件
 
-You can use language model middleware with the `wrapLanguageModel` function.
-It takes a language model and a language model middleware and returns a new
-language model that incorporates the middleware.
+可使用 `wrapLanguageModel` 函数配合语言模型中间件。
+它接收语言模型与语言模型中间件，返回融合了中间件的新语言模型。
 
 ```ts
 import { wrapLanguageModel, streamText } from 'ai';
@@ -27,7 +25,7 @@ const wrappedLanguageModel = wrapLanguageModel({
 });
 ```
 
-The wrapped language model can be used just like any other language model, e.g. in `streamText`:
+包装后的语言模型可像其他语言模型一样使用，例如在 `streamText` 中：
 
 ```ts highlight="2"
 const result = streamText({
@@ -36,10 +34,10 @@ const result = streamText({
 });
 ```
 
-## Multiple middlewares
+## 多个中间件
 
-You can provide multiple middlewares to the `wrapLanguageModel` function.
-The middlewares will be applied in the order they are provided.
+可向 `wrapLanguageModel` 传入多个中间件。
+中间件按提供顺序依次应用。
 
 ```ts
 const wrappedLanguageModel = wrapLanguageModel({
@@ -50,22 +48,22 @@ const wrappedLanguageModel = wrapLanguageModel({
 // applied as: firstMiddleware(secondMiddleware(yourModel))
 ```
 
-## Built-in Middleware
+## 内置中间件
 
-The AI SDK comes with several built-in middlewares that you can use to configure language models:
+AI SDK 提供多种内置中间件，用于配置语言模型：
 
-- `extractReasoningMiddleware`: Extracts reasoning information from the generated text and exposes it as a `reasoning` property on the result.
-- `extractJsonMiddleware`: Extracts JSON from text content by stripping markdown code fences. Useful when using `Output.object()` with models that wrap JSON responses in code blocks.
-- `simulateStreamingMiddleware`: Simulates streaming behavior with responses from non-streaming language models.
-- `defaultSettingsMiddleware`: Applies default settings to a language model.
-- `addToolInputExamplesMiddleware`: Adds tool input examples to tool descriptions for providers that don't natively support the `inputExamples` property.
+- `extractReasoningMiddleware`：从生成文本中提取推理信息，并在结果上暴露为 `reasoning` 属性。
+- `extractJsonMiddleware`：通过剥离 markdown 代码围栏从文本内容中提取 JSON。适用于将 JSON 响应包在代码块中的模型配合 `Output.object()` 使用。
+- `simulateStreamingMiddleware`：用非流式语言模型的响应模拟流式行为。
+- `defaultSettingsMiddleware`：为语言模型应用默认设置。
+- `addToolInputExamplesMiddleware`：为不支持原生 `inputExamples` 属性的 provider 将 tool 输入示例加入 tool 描述。
 
-### Extract Reasoning
+### 提取推理
 
-Some providers and models expose reasoning information in the generated text using special tags,
-e.g. &lt;think&gt; and &lt;/think&gt;.
+部分 provider 与模型在生成文本中使用特殊标签暴露推理信息，
+例如 &lt;think&gt; 与 &lt;/think&gt;。
 
-The `extractReasoningMiddleware` function can be used to extract this reasoning information and expose it as a `reasoning` property on the result.
+可使用 `extractReasoningMiddleware` 提取该推理信息，并在结果上暴露为 `reasoning` 属性。
 
 ```ts
 import { wrapLanguageModel, extractReasoningMiddleware } from 'ai';
@@ -76,18 +74,18 @@ const model = wrapLanguageModel({
 });
 ```
 
-You can then use that enhanced model in functions like `generateText` and `streamText`.
+随后可在 `generateText`、`streamText` 等函数中使用增强后的模型。
 
-The `extractReasoningMiddleware` function also includes a `startWithReasoning` option.
-When set to `true`, the reasoning tag will be prepended to the generated text.
-This is useful for models that do not include the reasoning tag at the beginning of the response.
-For more details, see the [DeepSeek R1 guide](/cookbook/guides/r1#deepseek-r1-middleware).
+`extractReasoningMiddleware` 还提供 `startWithReasoning` 选项。
+设为 `true` 时，推理标签会前置到生成文本。
+适用于响应开头不包含推理标签的模型。
+更多细节见 [DeepSeek R1 指南](/cookbook/guides/r1#deepseek-r1-middleware)。
 
-### Extract JSON
+### 提取 JSON
 
-Some models wrap JSON responses in markdown code fences (e.g., ` ```json ... ``` `) even when you request structured output.
+部分模型即使用户请求结构化输出，仍会用 markdown 代码围栏包裹 JSON（例如 ` ```json ... ``` `）。
 
-The `extractJsonMiddleware` function strips these code fences from the response, making it compatible with `Output.object()`.
+`extractJsonMiddleware` 会剥离这些围栏，使响应与 `Output.object()` 兼容。
 
 ```ts
 import {
@@ -115,7 +113,7 @@ const result = await generateText({
 });
 ```
 
-You can also provide a custom transform function for models that use different formatting:
+也可为使用不同格式的模型提供自定义 transform 函数：
 
 ```ts
 const model = wrapLanguageModel({
@@ -126,10 +124,10 @@ const model = wrapLanguageModel({
 });
 ```
 
-### Simulate Streaming
+### 模拟流式
 
-The `simulateStreamingMiddleware` function can be used to simulate streaming behavior with responses from non-streaming language models.
-This is useful when you want to maintain a consistent streaming interface even when using models that only provide complete responses.
+`simulateStreamingMiddleware` 可用非流式语言模型的响应模拟流式行为。
+适用于希望保持统一流式接口、但模型仅返回完整响应的场景。
 
 ```ts
 import { wrapLanguageModel, simulateStreamingMiddleware } from 'ai';
@@ -140,9 +138,9 @@ const model = wrapLanguageModel({
 });
 ```
 
-### Default Settings
+### 默认设置
 
-The `defaultSettingsMiddleware` function can be used to apply default settings to a language model.
+`defaultSettingsMiddleware` 可为语言模型应用默认设置。
 
 ```ts
 import { wrapLanguageModel, defaultSettingsMiddleware } from 'ai';
@@ -159,11 +157,11 @@ const model = wrapLanguageModel({
 });
 ```
 
-### Add Tool Input Examples
+### 添加 Tool 输入示例
 
-The `addToolInputExamplesMiddleware` function adds tool input examples to tool descriptions.
-This is useful for providers that don't natively support the `inputExamples` property on tools.
-The middleware serializes the examples into the tool's description text so models can still benefit from seeing example inputs.
+`addToolInputExamplesMiddleware` 将 tool 输入示例加入 tool 描述。
+适用于 tool 上不支持原生 `inputExamples` 的 provider。
+中间件将示例序列化进 tool 描述文本，使模型仍能参考示例输入。
 
 ```ts
 import { wrapLanguageModel, addToolInputExamplesMiddleware } from 'ai';
@@ -176,7 +174,7 @@ const model = wrapLanguageModel({
 });
 ```
 
-When you define a tool with `inputExamples`, the middleware will append them to the tool's description:
+定义带 `inputExamples` 的 tool 时，中间件会把示例追加到 tool 描述：
 
 ```ts
 import { generateText, tool } from 'ai';
@@ -200,7 +198,7 @@ const result = await generateText({
 });
 ```
 
-The tool description will be transformed to:
+tool 描述将变为：
 
 ```
 Get the weather in a location
@@ -210,11 +208,11 @@ Input Examples:
 {"location":"London"}
 ```
 
-#### Options
+#### 选项
 
-- `prefix` (optional): A prefix text to prepend before the examples. Default: `'Input Examples:'`.
-- `format` (optional): A custom formatter function for each example. Receives the example object and its index. Default: `JSON.stringify(example.input)`.
-- `remove` (optional): Whether to remove the `inputExamples` property from the tool after adding them to the description. Default: `true`.
+- `prefix`（可选）：示例前的前缀文本。默认：`'Input Examples:'`。
+- `format`（可选）：每个示例的自定义格式化函数，接收示例对象与索引。默认：`JSON.stringify(example.input)`。
+- `remove`（可选）：加入描述后是否从 tool 移除 `inputExamples`。默认：`true`。
 
 ```ts
 const model = wrapLanguageModel({
@@ -228,31 +226,29 @@ const model = wrapLanguageModel({
 });
 ```
 
-## Community Middleware
+## 社区中间件
 
-The AI SDK provides a Language Model Middleware specification. Community members can develop middleware that adheres to this specification, making it compatible with the AI SDK ecosystem.
+AI SDK 提供语言模型中间件规范。社区可开发符合该规范的中间件，与 AI SDK 生态兼容。
 
-Here are some community middlewares that you can explore:
+可探索的社区中间件示例：
 
-### Custom tool call parser
+### 自定义 tool 调用解析器
 
-The [Custom tool call parser](https://github.com/minpeter/ai-sdk-tool-call-middleware) middleware extends tool call capabilities to models that don't natively support the OpenAI-style `tools` parameter. This includes many self-hosted and third-party models that lack native function calling features.
+[Custom tool call parser](https://github.com/minpeter/ai-sdk-tool-call-middleware) 中间件为不支持 OpenAI 风格 `tools` 参数的模型扩展 tool 调用能力，包括许多缺少原生函数调用能力的自托管与第三方模型。
 
 <Note>
-  Using this middleware on models that support native function calls may result
-  in unintended performance degradation, so check whether your model supports
-  native function calls before deciding to use it.
+  在支持原生函数调用的模型上使用此中间件可能导致意外性能下降，使用前请确认模型是否支持原生函数调用。
 </Note>
 
-This middleware enables function calling capabilities by converting function schemas into prompt instructions and parsing the model's responses into structured function calls. It works by transforming the JSON function definitions into natural language instructions the model can understand, then analyzing the generated text to extract function call attempts. This approach allows developers to use the same function calling API across different model providers, even with models that don't natively support the OpenAI-style function calling format, providing a consistent function calling experience regardless of the underlying model implementation.
+该中间件将函数 schema 转为提示指令，并把模型响应解析为结构化函数调用：把 JSON 函数定义转为模型可理解的自然语言指令，再分析生成文本提取函数调用尝试。开发者可在不同 provider 上使用同一函数调用 API，即使模型不支持 OpenAI 风格函数调用格式，也能获得一致的调用体验。
 
-The `@ai-sdk-tool/parser` package offers three middleware variants:
+`@ai-sdk-tool/parser` 提供三种中间件变体：
 
-- `createToolMiddleware`: A flexible function for creating custom tool call middleware tailored to specific models
-- `hermesToolMiddleware`: Ready-to-use middleware for Hermes & Qwen format function calls
-- `gemmaToolMiddleware`: Pre-configured middleware for Gemma 3 model series function call format
+- `createToolMiddleware`：为特定模型创建自定义 tool 调用中间件的灵活函数
+- `hermesToolMiddleware`：适用于 Hermes 与 Qwen 格式函数调用的即用中间件
+- `gemmaToolMiddleware`：为 Gemma 3 系列函数调用格式预配置的中间件
 
-Here's how you can enable function calls with Gemma models that don't support them natively:
+以下展示如何为原生不支持函数调用的 Gemma 模型启用函数调用：
 
 ```ts
 import { wrapLanguageModel } from 'ai';
@@ -264,36 +260,31 @@ const model = wrapLanguageModel({
 });
 ```
 
-Find more examples at this [link](https://github.com/minpeter/ai-sdk-tool-call-middleware/tree/main/examples/core/src).
+更多示例见此[链接](https://github.com/minpeter/ai-sdk-tool-call-middleware/tree/main/examples/core/src)。
 
-## Implementing Language Model Middleware
-
-<Note>
-  Implementing language model middleware is advanced functionality and requires
-  a solid understanding of the [language model
-  specification](https://github.com/vercel/ai/blob/v5/packages/provider/src/language-model/v2/language-model-v2.ts).
-</Note>
-
-You can implement any of the following three function to modify the behavior of the language model:
-
-1. `transformParams`: Transforms the parameters before they are passed to the language model, for both `doGenerate` and `doStream`.
-2. `wrapGenerate`: Wraps the `doGenerate` method of the [language model](https://github.com/vercel/ai/blob/v5/packages/provider/src/language-model/v2/language-model-v2.ts).
-   You can modify the parameters, call the language model, and modify the result.
-3. `wrapStream`: Wraps the `doStream` method of the [language model](https://github.com/vercel/ai/blob/v5/packages/provider/src/language-model/v2/language-model-v2.ts).
-   You can modify the parameters, call the language model, and modify the result.
-
-Here are some examples of how to implement language model middleware:
-
-## Examples
+## 实现语言模型中间件
 
 <Note>
-  These examples are not meant to be used in production. They are just to show
-  how you can use middleware to enhance the behavior of language models.
+  实现语言模型中间件属于高级功能，需要深入理解[语言模型规范](https://github.com/vercel/ai/blob/v5/packages/provider/src/language-model/v2/language-model-v2.ts)。
 </Note>
 
-### Logging
+可实现以下三种函数之一以修改语言模型行为：
 
-This example shows how to log the parameters and generated text of a language model call.
+1. `transformParams`：在传给语言模型前转换参数，适用于 `doGenerate` 与 `doStream`。
+2. `wrapGenerate`：包装[语言模型](https://github.com/vercel/ai/blob/v5/packages/provider/src/language-model/v2/language-model-v2.ts)的 `doGenerate` 方法。可修改参数、调用语言模型并修改结果。
+3. `wrapStream`：包装[语言模型](https://github.com/vercel/ai/blob/v5/packages/provider/src/language-model/v2/language-model-v2.ts)的 `doStream` 方法。可修改参数、调用语言模型并修改结果。
+
+以下是实现语言模型中间件的示例：
+
+## 示例
+
+<Note>
+  这些示例并非用于生产，仅演示如何用中间件增强语言模型行为。
+</Note>
+
+### 日志
+
+本示例展示如何记录语言模型调用的参数与生成文本。
 
 ```ts
 import type {
@@ -365,9 +356,9 @@ export const yourLogMiddleware: LanguageModelV4Middleware = {
 };
 ```
 
-### Caching
+### 缓存
 
-This example shows how to build a simple cache for the generated text of a language model call.
+本示例展示如何为语言模型调用的生成文本构建简单缓存。
 
 ```ts
 import type { LanguageModelV4Middleware } from '@ai-sdk/provider';
@@ -393,14 +384,12 @@ export const yourCacheMiddleware: LanguageModelV4Middleware = {
 };
 ```
 
-### Retrieval Augmented Generation (RAG)
+### 检索增强生成（RAG）
 
-This example shows how to use RAG as middleware.
+本示例展示如何将 RAG 用作中间件。
 
 <Note>
-  Helper functions like `getLastUserMessageText` and `findSources` are not part
-  of the AI SDK. They are just used in this example to illustrate the concept of
-  RAG.
+  `getLastUserMessageText`、`findSources` 等辅助函数不属于 AI SDK，仅用于说明 RAG 概念。
 </Note>
 
 ```ts
@@ -427,10 +416,9 @@ export const yourRagMiddleware: LanguageModelV4Middleware = {
 };
 ```
 
-### Guardrails
+### 护栏
 
-Guard rails are a way to ensure that the generated text of a language model call
-is safe and appropriate. This example shows how to use guardrails as middleware.
+护栏用于确保语言模型调用的生成文本安全、恰当。本示例展示如何将护栏用作中间件。
 
 ```ts
 import type { LanguageModelV4Middleware } from '@ai-sdk/provider';
@@ -451,9 +439,9 @@ export const yourGuardrailMiddleware: LanguageModelV4Middleware = {
 };
 ```
 
-## Configuring Per Request Custom Metadata
+## 配置每次请求的自定义元数据
 
-To send and access custom metadata in Middleware, you can use `providerOptions`. This is useful when building logging middleware where you want to pass additional context like user IDs, timestamps, or other contextual data that can help with tracking and debugging.
+在中间件中发送与访问自定义元数据可使用 `providerOptions`。构建日志中间件时，可传入用户 ID、时间戳等有助于追踪与调试的上下文。
 
 ```ts
 import { generateText, wrapLanguageModel } from 'ai';

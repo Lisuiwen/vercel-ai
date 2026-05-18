@@ -3,12 +3,12 @@ import Chat from './chat';
 import type { UIMessage } from 'ai';
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
-  // get the chat ID from the URL:
+  // 从 URL 获取 chat ID：
   const { id } = await props.params;
 
-  // load the chat messages:
+  // 加载聊天消息：
   const messages = (await loadChat(id)) as UIMessage<{ createdAt: string }>[];
 
-  // display the chat:
+  // 展示聊天：
   return <Chat id={id} initialMessages={messages} />;
 }

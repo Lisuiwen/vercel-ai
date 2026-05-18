@@ -7,10 +7,10 @@ import * as path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { createApplyPatchExecutor } from '@/lib/apply-patch-file-editor';
 
-// Create workspace directory
+// 创建工作区目录
 const workspaceRoot = path.join(process.cwd(), 'workspace');
 
-// Ensure workspace directory exists
+// 确保工作区目录存在
 async function ensureWorkspaceExists() {
   try {
     await fs.mkdir(workspaceRoot, { recursive: true });

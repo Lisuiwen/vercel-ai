@@ -5,7 +5,7 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 export class ToolCallNotFoundForApprovalError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly toolCallId: string;
   readonly approvalId: string;

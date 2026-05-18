@@ -170,14 +170,14 @@ describe('ToolApprovalConfiguration', () => {
   describe('negative cases', () => {
     it('rejects approval configuration for unknown tool keys', () => {
       const _config: ToolApprovalConfiguration<Tools, Context> = {
-        // @ts-expect-error tool approval only accepts keys from the provided tool set
+        // @ts-expect-error 工具批准仅接受提供的工具集中的密钥
         search: 'approved',
       };
     });
 
     it('rejects per-tool callbacks with the wrong input type for a tool', () => {
       const _config: ToolApprovalConfiguration<Tools, Context> = {
-        // @ts-expect-error weather approval callbacks must receive the weather tool input
+        // @ts-expect-error 天气批准回调必须接收天气工具输入
         weather: (input: { expression: string }) =>
           input.expression.length > 0 ? 'approved' : 'denied',
       };
@@ -185,13 +185,13 @@ describe('ToolApprovalConfiguration', () => {
 
     it('rejects per-tool callbacks with the wrong return type', () => {
       const _config: ToolApprovalConfiguration<Tools, Context> = {
-        // @ts-expect-error approval callbacks must return a valid approval state
+        // @ts-expect-error 批准回调必须返回有效的批准状态
         calculator: () => true,
       };
     });
 
     it('rejects a generic function with the wrong return type', () => {
-      // @ts-expect-error approval function must return a valid approval state
+      // @ts-expect-error 批准函数必须返回有效的批准状态
       const _invalidGeneric: ToolApprovalConfiguration<Tools> = () => true;
     });
   });

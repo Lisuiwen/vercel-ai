@@ -23,10 +23,10 @@ const agent = new ToolLoopAgent({
       inputSchema: z.object({
         answer: z.string().describe('The answer to the problem'),
       }),
-      // no execute function, will stop the agent when called
+      // 无 execute 函数，调用时会停止 agent
     }),
   },
-  toolChoice: 'required', // force tool calls
+  toolChoice: 'required', // 强制工具调用
 });
 
 run(async () => {
@@ -38,8 +38,8 @@ run(async () => {
       'If the other two friends ran the same amount, how much did each of the other friend run?',
   });
 
-  // extract answer from done tool call
-  const toolCall = result.staticToolCalls[0]; // tool call from final step
+  // 从完成的工具调用中提取答案
+  const toolCall = result.staticToolCalls[0]; // 最后一步的工具调用
   if (toolCall?.toolName === 'done') {
     console.log(toolCall.input.answer);
   }

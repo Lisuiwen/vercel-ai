@@ -1,15 +1,15 @@
 ---
 title: safeValidateUIMessages
-description: API Reference for safeValidateUIMessages
+description: safeValidateUIMessages 的 API 参考
 ---
 
 # `safeValidateUIMessages`
 
-`safeValidateUIMessages` is an async function that validates UI messages like [`validateUIMessages`](https://ai-sdk.dev/docs/reference/ai-sdk-core/validate-ui-messages), but instead of throwing it returns an object with a `success` key and either `data` or `error`.
+`safeValidateUIMessages` 为异步函数，与 [`validateUIMessages`](https://ai-sdk.dev/docs/reference/ai-sdk-core/validate-ui-messages) 一样校验 UI 消息，但不抛出异常，而是返回带 `success` 键的对象及 `data` 或 `error`。
 
-## Basic Usage
+## 基本用法
 
-Simple validation without custom schemas:
+无自定义 schema 的简单校验：
 
 ```typescript
 import { safeValidateUIMessages } from 'ai';
@@ -33,9 +33,9 @@ if (!result.success) {
 }
 ```
 
-## Advanced Usage
+## 进阶用法
 
-Comprehensive validation with custom metadata, data parts, and tools:
+含自定义元数据、数据分片与工具的全面校验：
 
 ```typescript
 import { safeValidateUIMessages, tool } from 'ai';

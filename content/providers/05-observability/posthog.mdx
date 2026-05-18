@@ -1,32 +1,32 @@
 ---
 title: PostHog
-description: Monitor and analyze LLM usage with PostHog
+description: 使用 PostHog 监控并分析 LLM 用量
 ---
 
 # PostHog LLM Analytics
 
-[PostHog](https://posthog.com/) is an open source product analytics platform. With the PostHog LLM Analytics integration, you can track LLM usage alongside your product analytics to understand how AI features impact user behavior. PostHog provides:
+[PostHog](https://posthog.com/) 是开源的产品分析平台。借助 PostHog LLM Analytics 集成，你可以在统一的产品分析视角下追踪 LLM 用量，理解 AI 功能如何影响用户行为。PostHog 提供：
 
-- [LLM analytics](https://posthog.com/docs/llm-analytics/start-here) — cost, latency, and token usage per model and user
-- [Product analytics](https://posthog.com/docs/product-analytics) — connect AI usage to user behavior and business metrics
-- [Experiments](https://posthog.com/docs/experiments) — A/B test prompts, models, and AI features
+- [LLM analytics](https://posthog.com/docs/llm-analytics/start-here) —— 按模型与用户的成本、延迟与 token 用量
+- [Product analytics](https://posthog.com/docs/product-analytics) —— 将 AI 用量与用户行为及业务指标关联
+- [Experiments](https://posthog.com/docs/experiments) —— 对 prompts、模型与 AI 功能做 A/B 测试
 
-## Setup
+## 设置
 
-PostHog supports [AI SDK telemetry data](/docs/ai-sdk-core/telemetry) through [OpenTelemetry](https://opentelemetry.io/docs/). The `PostHogTraceExporter` from the `@posthog/ai` package sends `gen_ai.*` spans to PostHog's OTLP ingestion endpoint, where they are automatically converted into `$ai_generation` events.
+PostHog 通过 [OpenTelemetry](https://opentelemetry.io/docs/) 支持 [AI SDK telemetry data](/docs/ai-sdk-core/telemetry)。`@posthog/ai` 包中的 `PostHogTraceExporter` 将 `gen_ai.*` span 发往 PostHog 的 OTLP 接入端点，并自动转换为 `$ai_generation` 事件。
 
 <Tabs items={["Next.js", "Node.js"]}>
 <Tab>
 
-Next.js has built-in support for OpenTelemetry instrumentation via the [instrumentation hook](https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry).
+Next.js 通过 [instrumentation hook](https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry) 内置支持 OpenTelemetry instrumentation。
 
-**Step 1.** Install dependencies
+**步骤 1。** 安装依赖
 
 ```bash
 npm install @posthog/ai @opentelemetry/sdk-node @opentelemetry/resources @ai-sdk/otel
 ```
 
-**Step 2.** Create an `instrumentation.ts` file in your project root and register the AI SDK telemetry integration alongside your OTel setup:
+**步骤 2。** 在项目根目录创建 `instrumentation.ts`，在 OTel 设置旁注册 AI SDK 遥测集成：
 
 ```ts filename="instrumentation.ts"
 import { registerTelemetry } from 'ai';
@@ -51,7 +51,7 @@ export function register() {
 }
 ```
 
-**Step 3.** Use the AI SDK with telemetry enabled in your route handlers or server actions
+**步骤 3。** 在路由处理函数或 Server Actions 中使用 AI SDK 并启用 telemetry
 
 ```ts highlight="6-11"
 import { generateText } from 'ai';
@@ -72,13 +72,13 @@ const result = await generateText({
 </Tab>
 <Tab>
 
-**Step 1.** Install dependencies
+**步骤 1。** 安装依赖
 
 ```bash
 npm install @posthog/ai @opentelemetry/sdk-node @opentelemetry/resources @ai-sdk/otel
 ```
 
-**Step 2.** Initialize the OpenTelemetry SDK with PostHog's trace exporter
+**步骤 2。** 使用 PostHog 的 trace exporter 初始化 OpenTelemetry SDK
 
 ```ts filename="tracing.ts"
 import { NodeSDK } from '@opentelemetry/sdk-node';
@@ -100,7 +100,7 @@ sdk.start();
 registerTelemetry(new LegacyOpenTelemetry());
 ```
 
-**Step 3.** Use the AI SDK. Telemetry is captured automatically once the integration is registered:
+**步骤 3。** 使用 AI SDK。注册集成后会自动采集 telemetry：
 
 ```ts highlight="6-12"
 import { generateText } from 'ai';
@@ -126,15 +126,14 @@ await sdk.shutdown();
 </Tabs>
 
 <Note>
-  The integration supports streaming functions like `streamText`. Each streamed
-  call will produce `ai.streamText` spans that are captured by PostHog.
+  该集成支持 `streamText` 等流式函数。每次流式调用会产生 `ai.streamText` span，由 PostHog 采集。
 </Note>
 
-## Configuration
+## 配置
 
-### Linking events to PostHog users
+### 将事件关联到 PostHog 用户
 
-Pass `posthog_distinct_id` in the `metadata` field to associate LLM events with a specific user in PostHog. If omitted, events are captured anonymously.
+在 `metadata` 中传入 `posthog_distinct_id`，将 LLM 事件与 PostHog 中的特定用户关联。若省略，事件将匿名采集。
 
 ```ts highlight="6"
 const result = await generateText({
@@ -148,9 +147,9 @@ const result = await generateText({
 });
 ```
 
-### Privacy controls
+### 隐私控制
 
-You can disable recording of inputs and outputs by setting `recordInputs` and `recordOutputs` to `false`:
+将 `recordInputs` 与 `recordOutputs` 设为 `false` 可禁用输入与输出记录：
 
 ```ts highlight="5-6"
 const result = await generateText({
@@ -163,7 +162,7 @@ const result = await generateText({
 });
 ```
 
-## Resources
+## 资源
 
 - [PostHog LLM analytics docs](https://posthog.com/docs/llm-analytics/start-here)
 - [PostHog AI SDK package](https://www.npmjs.com/package/@posthog/ai)

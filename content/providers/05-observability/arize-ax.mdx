@@ -1,42 +1,40 @@
 ---
 title: Arize AX
-description: Trace, monitor, and evaluate LLM applications with Arize AX
+description: 使用 Arize AX 追踪、监控与评估 LLM 应用
 ---
 
-# Arize AX Observability
+# Arize AX 可观测性
 
-[Arize AX](https://arize.com/docs/ax) is an enterprise-grade observability, evaluation, and experimentation platform purpose-built for agents and complex AI systems. It empowers teams to rigorously develop and improve real-world AI applications.
+[Arize AX](https://arize.com/docs/ax) 是面向智能体与复杂 AI 系统的企业级可观测、评估与实验平台，帮助团队严谨地开发与改进真实场景中的 AI 应用。
 
 <Note>
-  You can also find this guide in the [Arize AX
-  docs](https://arize.com/docs/ax/integrations/ts-js-agent-frameworks/vercel).
+  本指南也可在 [Arize AX 文档](https://arize.com/docs/ax/integrations/ts-js-agent-frameworks/vercel) 中找到。
 </Note>
 
-## Setup
+## 设置
 
-Arize AX offers first-class OpenTelemetry integration and works directly with the AI SDK in both Next.js and Node.js environments.
+Arize AX 提供一流的 OpenTelemetry 集成，可在 Next.js 与 Node.js 环境中直接与 AI SDK 配合使用。
 
 <Note>
-  Arize AX has an
+  Arize AX 提供
   [OpenInferenceSimpleSpanProcessor](https://github.com/Arize-ai/openinference/blob/main/js/packages/openinference-vercel/src/OpenInferenceSpanProcessor.ts#L32)
-  and an
-  [OpenInferenceBatchSpanProcessor](https://github.com/Arize-ai/openinference/blob/main/js/packages/openinference-vercel/src/OpenInferenceSpanProcessor.ts#L86).
-  All of the examples below can be used with either the simple or the batch
-  processor. For more information on simple / batch span processors see our
-  [documentation](https://arize.com/docs/ax/observe/tracing/configure/batch-vs-simple-span-processor#batch-vs-simple-span-processor).
+  与
+  [OpenInferenceBatchSpanProcessor](https://github.com/Arize-ai/openinference/blob/main/js/packages/openinference-vercel/src/OpenInferenceSpanProcessor.ts#L86)。
+  下文所有示例均可搭配 simple 或 batch 处理器使用。关于 simple / batch span processor 的更多信息，请参阅
+  [文档](https://arize.com/docs/ax/observe/tracing/configure/batch-vs-simple-span-processor#batch-vs-simple-span-processor)。
 </Note>
 
 ### Next.js
 
-In Next.js applications, use one of the OpenInference span processors with `registerOtel` from `@vercel/otel`.
+在 Next.js 应用中，将 OpenInference span 处理器之一与 `@vercel/otel` 的 `registerOtel` 配合使用。
 
-First, install the required dependencies for the AI SDK, OpenTelemetry and OpenInference.
+首先，安装 AI SDK、OpenTelemetry 与 OpenInference 所需依赖：
 
 ```bash
 npm install ai @ai-sdk/openai @ai-sdk/otel @vercel/otel @arizeai/openinference-vercel @opentelemetry/exporter-trace-otlp-proto
 ```
 
-Then, in your `instrumentation.ts` file add the following, including the AI SDK telemetry integration registration:
+然后，在 `instrumentation.ts` 中加入以下内容，包含 AI SDK 遥测集成注册：
 
 ```typescript filename="instrumentation"
 import { registerTelemetry } from 'ai';
@@ -73,9 +71,9 @@ export function register() {
 }
 ```
 
-Spans will show up in Arize AX under the project specified in the `model_id` field above.
+Span 将出现在 Arize AX 中，对应上面 `model_id` 字段指定的项目。
 
-Once the integration is registered, telemetry is emitted automatically for all AI SDK calls:
+注册集成后，所有 AI SDK 调用会自动发出遥测：
 
 ```typescript
 import { generateText } from 'ai';
@@ -89,17 +87,17 @@ const result = await generateText({
 
 ### Node.js
 
-In Node.js you can use the `NodeSDK` or the `NodeTraceProvider`.
+在 Node.js 中可以使用 `NodeSDK` 或 `NodeTraceProvider`。
 
 #### NodeSDK
 
-First, install the required dependencies for the AI SDK, OpenTelemetry and OpenInference.
+首先，安装 AI SDK、OpenTelemetry 与 OpenInference 所需依赖：
 
 ```bash
 npm install ai @ai-sdk/openai @ai-sdk/otel @opentelemetry/sdk-node @arizeai/openinference-vercel @opentelemetry/exporter-trace-otlp-proto @opentelemetry/resources
 ```
 
-Then, in your instrumentation.ts file add the following:
+然后，在 instrumentation.ts 中加入以下内容：
 
 ```typescript
 import { registerTelemetry } from 'ai';
@@ -135,9 +133,9 @@ sdk.start();
 registerTelemetry(new LegacyOpenTelemetry());
 ```
 
-Spans will show up in Arize AX under the project specified in the `model_id` field above.
+Span 将出现在 Arize AX 中，对应上面 `model_id` 字段指定的项目。
 
-Once the integration is registered, telemetry is emitted automatically for all AI SDK calls:
+注册集成后，所有 AI SDK 调用会自动发出遥测：
 
 ```typescript
 const result = await generateText({
@@ -148,13 +146,13 @@ const result = await generateText({
 
 #### NodeTraceProvider
 
-First, install the required dependencies for the AI SDK, OpenTelemetry and OpenInference.
+首先，安装 AI SDK、OpenTelemetry 与 OpenInference 所需依赖：
 
 ```bash
 npm install ai @ai-sdk/openai @ai-sdk/otel @opentelemetry/sdk-trace-node @arizeai/openinference-vercel @opentelemetry/exporter-trace-otlp-proto @opentelemetry/resources
 ```
 
-Then, in your instrumentation.ts file add the following:
+然后，在 instrumentation.ts 中加入以下内容：
 
 ```typescript
 import { registerTelemetry } from 'ai';
@@ -189,9 +187,9 @@ provider.register();
 registerTelemetry(new LegacyOpenTelemetry());
 ```
 
-Spans will show up in Arize AX under the project specified in the `model_id` field above.
+Span 将出现在 Arize AX 中，对应上面 `model_id` 字段指定的项目。
 
-Once the integration is registered, telemetry is emitted automatically for all AI SDK calls:
+注册集成后，所有 AI SDK 调用会自动发出遥测：
 
 ```typescript
 const result = await generateText({
@@ -200,12 +198,12 @@ const result = await generateText({
 });
 ```
 
-## Resources
+## 资源
 
-After sending spans to your Arize AX project check out other features:
+将 span 发送到 Arize AX 项目后，可进一步了解其他功能：
 
-- Rerunning spans in the [prompt playground](https://arize.com/docs/ax/prompts/prompt-playground) to iterate and compare prompts and parameters
-- Add spans to [datasets](https://arize.com/docs/ax/develop/datasets) for evaluation and development workflows
-- Continuously run [online evaluations](https://arize.com/docs/ax/evaluate/online-evals) on your incoming spans to understand application performance
+- 在 [prompt playground](https://arize.com/docs/ax/prompts/prompt-playground) 中重跑 span，迭代并比较提示词与参数
+- 将 span 加入 [datasets](https://arize.com/docs/ax/develop/datasets)，用于评估与开发工作流
+- 对入库 span 持续运行 [online evaluations](https://arize.com/docs/ax/evaluate/online-evals)，了解应用表现
 
-AX has a [TypeScript client](https://www.npmjs.com/package/@arizeai/ax-client) for managing your datasets and evaluations.
+AX 提供用于管理数据集与评估的 [TypeScript client](https://www.npmjs.com/package/@arizeai/ax-client)。

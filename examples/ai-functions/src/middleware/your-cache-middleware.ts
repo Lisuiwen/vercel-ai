@@ -17,5 +17,5 @@ export const yourCacheMiddleware: LanguageModelMiddleware = {
     return result;
   },
 
-  // here you would implement the caching logic for streaming
+  // 在这里您将实现流式传输的缓存逻辑
 };

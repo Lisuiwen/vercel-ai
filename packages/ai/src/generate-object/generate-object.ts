@@ -45,75 +45,75 @@ import { validateObjectGenerationInput } from './validate-object-generation-inpu
 const originalGenerateId = createIdGenerator({ prefix: 'aiobj', size: 24 });
 
 /**
- * Generate a structured, typed object for a given prompt and schema using a language model.
+ * 使用语言模型为给定的提示和模式生成结构化、类型化的对象。
  *
- * This function does not stream the output. If you want to stream the output, use `streamObject` instead.
+ * 此函数不是流式输出。如果您想流式传输输出，请改用`streamObject`。
  *
- * @param model - The language model to use.
+ * @param model - 要使用的语言模型。
  *
- * @param system - A system message that will be part of the prompt.
- * @param prompt - A simple text prompt. You can either use `prompt` or `messages` but not both.
- * @param messages - A list of messages. You can either use `prompt` or `messages` but not both.
- * @param allowSystemInMessages - Whether system messages are allowed in the `prompt` or `messages` fields. Default: false.
+ * @param system - 将作为提示的一部分的系统消息。
+ * @param prompt - 一个简单的文字提示。您可以使用`提示`或`消息`，但不能同时使用两者。
+ * @param messages - 消息列表。您可以使用`提示`或`消息`，但不能同时使用两者。
+ * @param allowSystemInMessages - `提示`或`消息`字段中是否允许系统消息。默认值：假。
  *
- * @param maxOutputTokens - Maximum number of tokens to generate.
- * @param temperature - Temperature setting.
- * The value is passed through to the provider. The range depends on the provider and model.
- * It is recommended to set either `temperature` or `topP`, but not both.
- * @param topP - Nucleus sampling.
- * The value is passed through to the provider. The range depends on the provider and model.
- * It is recommended to set either `temperature` or `topP`, but not both.
- * @param topK - Only sample from the top K options for each subsequent token.
- * Used to remove "long tail" low probability responses.
- * Recommended for advanced use cases only. You usually only need to use temperature.
- * @param presencePenalty - Presence penalty setting.
- * It affects the likelihood of the model to repeat information that is already in the prompt.
- * The value is passed through to the provider. The range depends on the provider and model.
- * @param frequencyPenalty - Frequency penalty setting.
- * It affects the likelihood of the model to repeatedly use the same words or phrases.
- * The value is passed through to the provider. The range depends on the provider and model.
- * @param stopSequences - Stop sequences.
- * If set, the model will stop generating text when one of the stop sequences is generated.
- * @param seed - The seed (integer) to use for random sampling.
- * If set and supported by the model, calls will generate deterministic results.
+ * @param maxOutputTokens - 生成的最大令牌数。
+ * @param temperature - 温度设定。
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * 建议设置`温度`或`topP`，但不能同时设置两者。
+ * @param topP - 细胞核取样。
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * 建议设置`温度`或`topP`，但不能同时设置两者。
+ * @param topK - 对于每个后续标记，仅从前 K 个选项中进行采样。
+ * 用于删除“长尾”低概率响应。
+ * 仅推荐用于高级用例。通常您只需要使用温度。
+ * @param presencePenalty - 存在惩罚设置。
+ * 它会影响模型重复提示中已有信息的可能性。
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * @param frequencyPenalty - 频率惩罚设置。
+ * 它影响模型重复使用相同单词或短语的可能性。
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * @param stopSequences - 停止序列。
+ * 如果设置，模型将在生成停止序列之一时停止生成文本。
+ * @param seed - 用于随机采样的种子（整数）。
+ * 如果模型设置并支持，调用将生成确定性结果。
  *
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
  *
- * @param schema - The schema of the object that the model should generate.
- * @param schemaName - Optional name of the output that should be generated.
- * Used by some providers for additional LLM guidance, e.g.
- * via tool or schema name.
- * @param schemaDescription - Optional description of the output that should be generated.
- * Used by some providers for additional LLM guidance, e.g.
- * via tool or schema description.
+ * @param schema - 模型应生成的对象的架构。
+ * @param schemaName - 应生成的输出的可选名称。
+ * 一些提供者使用额外的法学硕士指导，例如
+ * 通过工具或模式名称。
+ * @param schemaDescription - 应生成的输出的可选描述。
+ * 一些提供者使用额外的法学硕士指导，例如
+ * 通过工具或模式描述。
  *
- * @param output - The type of the output.
+ * @param output - 输出的类型。
  *
- * - 'object': The output is an object.
- * - 'array': The output is an array.
- * - 'enum': The output is an enum.
- * - 'no-schema': The output is not a schema.
+ * - 'object'：输出是一个对象。
+ * - 'array'：输出是一个阵列。
+ * - 'enum'：输出是一个枚举。
+ * -“无模式”：输出不是模式。
  *
- * @param experimental_repairText - A function that attempts to repair the raw output of the model
- * to enable JSON parsing.
+ * @param experimental_repairText - 尝试修复模型原始输出的函数
+ * 启用JSON解析。
  *
- * @param telemetry - Optional telemetry configuration.
+ * @param telemetry - 可选遥测配置。
  *
- * @param providerOptions - Additional provider-specific options. They are passed through
- * to the provider from the AI SDK and enable provider-specific
- * functionality that can be fully encapsulated in the provider.
+ * @param providerOptions - 其他特定于提供商的选项。他们通过
+ * 从AI SDK发送给成功并实现特定的成功
+ * 可以完全封装在提供者中的功能。
  *
- * @param experimental_onStart - Callback invoked when generation begins, before the LLM call.
- * @param experimental_onStepStart - Callback invoked when the model call begins.
- * @param onStepFinish - Callback invoked when the model call completes with the raw result.
- * @param onFinish - Callback invoked when the entire operation completes with the parsed object.
+ * @param experimental_onStart - 生成开始时、LLM 调用之前调用的回调。
+ * @param experimental_onStepStart - 模型调用开始时调用回调。
+ * @param onStepFinish - 当模型调用完成并显示原始结果时调用回调。
+ * @param onFinish - 当解析对象的整个操作完成时调用回调。
  *
- * @returns
- * A result object that contains the generated object, the finish reason, the token usage, and additional information.
+ * @返回
+ * 一个结果对象，包含生成的对象、完成原因、令牌使用情况和其他信息。
  *
- * @deprecated Use `generateText` with an `output` setting instead.
+ * @deprecated 请使用带标记的`output`设置的`generateText`。
  */
 export async function generateObject<
   SCHEMA extends FlexibleSchema<unknown> = FlexibleSchema<JSONValue>,
@@ -129,7 +129,7 @@ export async function generateObject<
     (OUTPUT extends 'enum'
       ? {
           /**
-           * The enum values that the model should use.
+           * 模型应使用的枚举值。
            */
           enum: Array<RESULT>;
           output: 'enum';
@@ -138,88 +138,88 @@ export async function generateObject<
         ? {}
         : {
             /**
-             * The schema of the object that the model should generate.
+             * 模型应生成的对象的架构。
              */
             schema: SCHEMA;
 
             /**
-             * Optional name of the output that should be generated.
-             * Used by some providers for additional LLM guidance, e.g.
-             * via tool or schema name.
+             * 应生成的输出的可选名称。
+             * 一些提供者使用额外的法学硕士指导，例如
+             * 通过工具或模式名称。
              */
             schemaName?: string;
 
             /**
-             * Optional description of the output that should be generated.
-             * Used by some providers for additional LLM guidance, e.g.
-             * via tool or schema description.
+             * 应生成的输出的可选描述。
+             * 一些提供者使用额外的法学硕士指导，例如
+             * 通过工具或模式描述。
              */
             schemaDescription?: string;
           }) & {
       output?: OUTPUT;
 
       /**
-       * The language model to use.
+       * 要使用的语言模型。
        */
       model: LanguageModel;
       /**
-       * A function that attempts to repair the raw output of the model
-       * to enable JSON parsing.
+       * 尝试修复模型原始输出的函数
+       * 启用JSON解析。
        */
       experimental_repairText?: RepairTextFunction;
 
       /**
-       * Optional telemetry configuration.
+       * 可选遥测配置。
        */
       telemetry?: TelemetryOptions;
 
       /**
-       * Optional telemetry configuration.
+       * 可选遥测配置。
        *
-       * @deprecated Use `telemetry` instead. This alias will be removed in a future major release.
+       * @deprecated 请改用`遥测`。该别名将在未来的主要版本中删除。
        */
       experimental_telemetry?: TelemetryOptions;
 
       /**
-       * Custom download function to use for URLs.
+       * 使用URL的自定义下载功能。
        *
-       * By default, files are downloaded if the model does not support the URL for the given media type.
+       * 默认情况下，如果模型不支持给定媒体类型的URL，则下载文件。
        */
       experimental_download?: DownloadFunction | undefined;
 
       /**
-       * Additional provider-specific options. They are passed through
-       * to the provider from the AI SDK and enable provider-specific
-       * functionality that can be fully encapsulated in the provider.
+       * 其他特定于提供商的选项。他们通过
+       * 从AI SDK发送给成功并实现特定的成功
+       * 可以完全封装在提供者中的功能。
        */
       providerOptions?: ProviderOptions;
 
       /**
-       * Callback that is called when the generateObject operation begins,
-       * before the LLM call is made.
+       * 当generateObject操作开始时调用的回调，
+       * 在拨打LLM电话之前。
        */
       experimental_onStart?: Callback<GenerateObjectStartEvent>;
 
       /**
-       * Callback that is called when the model call (step) begins,
-       * before the provider is called.
+       * 模型调用（步骤）开始时调用的回调，
+       * 在调用提供者之前。
        */
       experimental_onStepStart?: Callback<GenerateObjectStepStartEvent>;
 
       /**
-       * Callback that is called when the model call (step) completes,
-       * with the raw result before JSON parsing.
+       * 模型调用（步骤）完成时调用的回调，
+       * 与JSON解析之前的原始结果。
        */
       onStepFinish?: Callback<GenerateObjectStepEndEvent>;
 
       /**
-       * Callback that is called when the entire operation completes
-       * with the final parsed and validated object.
+       * 整个操作完成时调用的回调
+       * 以及最终解析和验证的对象。
        */
       onFinish?: Callback<GenerateObjectEndEvent<RESULT>>;
 
       /**
-       * Internal. For test use only. May change without notice.
+       * 内部的。仅供测试使用。可能会更改，恕不另行通知。
        */
       _internal?: {
         generateId?: () => string;

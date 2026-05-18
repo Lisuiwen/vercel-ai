@@ -4,16 +4,16 @@ import { generateImage } from './generate-image';
 export { generateImage } from './generate-image';
 export type { GenerateImageResult } from './generate-image-result';
 
-// deprecated exports
+// 已弃用的导出
 
 /**
- * @deprecated Use `generateImage` instead.
+ * @deprecated 请改用`generateImage`。
  */
 const experimental_generateImage = generateImage;
 export { experimental_generateImage };
 
 /**
- * @deprecated Use `GenerateImageResult` instead.
+ * @deprecated 请改用`GenerateImageResult`。
  */
 type Experimental_GenerateImageResult = GenerateImageResult;
 export type { Experimental_GenerateImageResult };

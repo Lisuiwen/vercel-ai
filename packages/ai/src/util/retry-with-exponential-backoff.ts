@@ -24,7 +24,7 @@ function getRetryDelayInMs({
 
   let ms: number | undefined;
 
-  // retry-ms is more precise than retry-after and used by e.g. OpenAI
+  // retry-ms 比 retry-after 更精确，例如被使用开放人工智能
   const retryAfterMs = headers['retry-after-ms'];
   if (retryAfterMs) {
     const timeoutMs = parseFloat(retryAfterMs);
@@ -33,7 +33,7 @@ function getRetryDelayInMs({
     }
   }
 
-  // About the Retry-After header: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
+  // 关于 Retry-After 标头：https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
   const retryAfter = headers['retry-after'];
   if (retryAfter && ms === undefined) {
     const timeoutSeconds = parseFloat(retryAfter);
@@ -44,7 +44,7 @@ function getRetryDelayInMs({
     }
   }
 
-  // check that the delay is reasonable:
+  // 检查延迟是否合理：
   if (
     ms != null &&
     !Number.isNaN(ms) &&
@@ -58,9 +58,9 @@ function getRetryDelayInMs({
 }
 
 /**
- * The `retryWithExponentialBackoffRespectingRetryHeaders` strategy retries a failed API call with an exponential backoff,
- * while respecting rate limit headers (retry-after-ms and retry-after) if they are provided and reasonable (0-60 seconds).
- * You can configure the maximum number of retries, the initial delay, and the backoff factor.
+ * `retryWithExponentialBackoffRespectingRetryHeaders` 策略使用指数退避重试失败的 API 调用，
+ * 同时尊重速率限制标头（retry-after-ms 和 retry-after）（如果提供且合理）（0-60 秒）。
+ * 您可以配置最大重试次数、初始延迟和退避因子。
  */
 export const retryWithExponentialBackoffRespectingRetryHeaders =
   ({
@@ -101,11 +101,11 @@ async function _retryWithExponentialBackoff<OUTPUT>(
     return await f();
   } catch (error) {
     if (isAbortError(error)) {
-      throw error; // don't retry when the request was aborted
+      throw error; // 请求被中止时不要重试
     }
 
     if (maxRetries === 0) {
-      throw error; // don't wrap the error when retries are disabled
+      throw error; // 禁用重试时不包装错误
     }
 
     const errorMessage = getErrorMessage(error);
@@ -147,7 +147,7 @@ async function _retryWithExponentialBackoff<OUTPUT>(
     }
 
     if (tryNumber === 1) {
-      throw error; // don't wrap the error when a non-retryable error occurs on the first try
+      throw error; // 当第一次尝试发生不可重试的错误时，不要包装错误
     }
 
     throw new RetryError({

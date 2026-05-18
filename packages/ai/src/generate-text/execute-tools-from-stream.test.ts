@@ -20,7 +20,7 @@ import type {
   ToolExecutionStartEvent,
 } from './tool-execution-events';
 
-// mock now function
+// 立即模拟功能
 vi.mock('../util/now', () => ({
   now: vi.fn(),
 }));

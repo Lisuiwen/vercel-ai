@@ -1,24 +1,21 @@
 ---
 title: Crosshatch
-description: Learn how to use the Crosshatch provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 Crosshatch 提供商。
 ---
 
-# Crosshatch Provider
+# Crosshatch 提供商
 
 <Note type="warning">
-  This community provider is not yet compatible with AI SDK 5. Please wait for
-  the provider to be updated or consider using an [AI SDK 5 compatible
-  provider](/providers/ai-sdk-providers).
+  该社区提供商尚未兼容 AI SDK 5。请等待提供商更新，或改用 [兼容 AI SDK 5 的提供商](/providers/ai-sdk-providers)。
 </Note>
 
-The [Crosshatch](https://crosshatch.io) provider supports secure inference from popular language models with permissioned access to data users share, giving responses personalized with complete user context.
+[Crosshatch](https://crosshatch.io) 提供商支持在主流语言模型上进行安全推理，并对用户授权的共享数据进行权限访问，从而在完整用户上下文中给出个性化响应。
 
-It creates language model objects that can be used with the `generateText` and `streamText` functions, and supports structured data generation with [`Output`](/docs/reference/ai-sdk-core/output).
+生成的语言模型对象可与 `generateText`、`streamText` 配合使用，并支持借助 [`Output`](/docs/reference/ai-sdk-core/output) 的结构化数据生成。
 
-## Setup
+## 安装
 
-The Crosshatch provider is available via the `@crosshatch/ai-provider` module.
-You can install it with:
+Crosshatch 提供商通过 `@crosshatch/ai-provider` 模块提供：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -36,39 +33,39 @@ You can install it with:
   </Tab>
 </Tabs>
 
-The [Crosshatch](https://crosshatch.io/) provider supports all of their available models such as OpenAI's GPT and Anthropic's Claude. This provider also supports the querying interface for controlling Crosshatch's custom data integration behaviors. This provider wraps the existing underlying providers ([@ai-sdk/openai](/providers/ai-sdk-providers/openai), [@ai-sdk/anthropic](/providers/ai-sdk-providers/openai).
+[Crosshatch](https://crosshatch.io/) 提供商支持其全部可用模型，例如 OpenAI GPT 与 Anthropic Claude。还支持用于控制 Crosshatch 自定义数据集成行为的查询接口。本提供商封装底层提供者（[@ai-sdk/openai](/providers/ai-sdk-providers/openai)、[@ai-sdk/anthropic](/providers/ai-sdk-providers/openai)）。
 
-### Credentials
+### 凭证
 
-The Crosshatch provider is authenticated by user-specific tokens, enabling permissioned access to personalized inference.
+Crosshatch 使用用户专属 token 认证，从而获得对个性化推理的权限访问。
 
-You can obtain synthetic and test user tokens from the [your Crosshatch developer dashboard](https://platform.crosshatch.io/).
+可在 [Crosshatch 开发者控制台](https://platform.crosshatch.io/) 获取合成与测试用户 token。
 
-Production user tokens are provisioned and accessed with the [Link SDK](https://www.npmjs.com/package/@crosshatch/link) using your Crosshatch developer client id.
+生产环境用户 token 需通过 [Link SDK](https://www.npmjs.com/package/@crosshatch/link) 与 Crosshatch 开发者 client id 进行发放与访问。
 
-## Provider Instance
+## 提供商实例
 
-To create a Crosshatch provider instance, use the `createCrosshatch` function:
+使用 `createCrosshatch` 创建 Crosshatch 提供商实例：
 
 ```ts
 import createCrosshatch from '@crosshatch/ai-provider';
 ```
 
-## Language Models
+## 语言模型
 
-You can create [Crosshatch models](https://docs.crosshatch.io/endpoints/ai#supported-model-providers) using a provider instance.
+可使用提供商实例创建 [Crosshatch 模型](https://docs.crosshatch.io/endpoints/ai#supported-model-providers)。
 
 ```ts
 import { createCrosshatch } from '@crosshatch/ai-provider';
 const crosshatch = createCrosshatch();
 ```
 
-To create a model instance, call the provider instance and specify the model you would like to use in the first argument. In the second argument, specify the user auth token, desired context, and model arguments.
-You can use Crosshatch to get generated text based on permissioned user context and your favorite language model.
+第一个参数为目标模型 ID；第二个参数指定用户认证 token、所需上下文与模型参数。
+Crosshatch 可基于授权用户上下文与你偏好的语言模型生成文本。
 
-### Example: Generate Text with Context
+### 示例：带上下文的文本生成
 
-This example uses `gpt-4o-mini` to generate text.
+本示例使用 `gpt-4o-mini` 生成文本。
 
 ```ts
 import { generateText } from 'ai';
@@ -97,9 +94,9 @@ const { text } = await generateText({
 });
 ```
 
-### Example: Recommend Items based on Context
+### 示例：基于上下文的条目推荐
 
-Use crosshatch to re-rank items based on recent user purchases.
+使用 Crosshatch 根据近期购买对条目重新排序。
 
 ```ts
 import { streamText, Output } from 'ai';

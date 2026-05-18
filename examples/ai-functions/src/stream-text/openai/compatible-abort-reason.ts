@@ -26,7 +26,7 @@ run(async () => {
       abortSignal: finalSignal,
     });
 
-    // Abort manually after the timeout to show timeout reason first.
+    // 超时后手动中止以首先显示超时原因。
     setTimeout(() => {
       abortController.abort('user cancelled');
     }, manualCancelTimeout);

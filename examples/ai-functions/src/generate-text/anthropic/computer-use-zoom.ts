@@ -16,7 +16,7 @@ run(async () => {
           console.log('args', { action, coordinate, text, region });
           switch (action) {
             case 'screenshot': {
-              // multipart result:
+              // 多部分结果：
               return {
                 type: 'file',
                 mediaType: 'image',

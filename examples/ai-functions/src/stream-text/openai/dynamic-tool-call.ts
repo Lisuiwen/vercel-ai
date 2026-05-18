@@ -46,7 +46,7 @@ run(async () => {
         switch (chunk.toolName) {
           case 'weather': {
             console.log('STATIC CALL', JSON.stringify(chunk, null, 2));
-            chunk.input.location; // string
+            chunk.input.location; // 字符串
             break;
           }
         }
@@ -63,9 +63,9 @@ run(async () => {
         switch (chunk.toolName) {
           case 'weather': {
             console.log('STATIC RESULT', JSON.stringify(chunk, null, 2));
-            chunk.input.location; // string
-            chunk.output.location; // string
-            chunk.output.temperature; // number
+            chunk.input.location; // 字符串
+            chunk.output.location; // 字符串
+            chunk.output.temperature; // 数字
             break;
           }
         }

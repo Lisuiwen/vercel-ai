@@ -1,25 +1,25 @@
 ---
-title: Intercepting Fetch Requests
-description: Learn how to intercept fetch requests using the AI SDK and Node
+title: 拦截 Fetch 请求
+description: 学习如何使用 AI SDK 和 Node 拦截 fetch 请求
 tags: ['node']
 ---
 
-# Intercepting Fetch Requests
+# 拦截 Fetch 请求
 
-Many providers support setting a custom `fetch` function using the `fetch` argument in their factory function.
+许多 provider 支持在工厂函数中通过 `fetch` 参数设置自定义 `fetch` 函数。
 
-A custom `fetch` function can be used to intercept and modify requests before they are sent to the provider's API,
-and to intercept and modify responses before they are returned to the caller.
+自定义 `fetch` 可在请求发往 provider API 前拦截并修改请求，
+并在响应返回调用方前拦截并修改响应。
 
-Use cases for intercepting requests include:
+拦截请求的常见用例包括：
 
-- Logging requests and responses
-- Adding authentication headers
-- Modifying request bodies
-- Caching responses
-- Using a custom HTTP client
+- 记录请求与响应
+- 添加认证头
+- 修改请求体
+- 缓存响应
+- 使用自定义 HTTP 客户端
 
-## Example
+## 示例
 
 ```ts file='index.ts' highlight="5-13"
 import { generateText, createGateway } from 'ai';

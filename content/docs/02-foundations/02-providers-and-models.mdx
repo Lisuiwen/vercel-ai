@@ -1,17 +1,17 @@
 ---
-title: Providers and Models
-description: Learn about the providers and models available in the AI SDK.
+title: 提供商与模型
+description: 了解 AI SDK 中可用的提供商与模型。
 ---
 
-# Providers and Models
+# 提供商与模型
 
-Companies such as OpenAI and Anthropic (providers) offer access to a range of large language models (LLMs) with differing strengths and capabilities through their own APIs.
+OpenAI、Anthropic 等公司（提供商）通过各自的 API 提供多种具有不同优势与能力的大语言模型（LLM）访问。
 
-Each provider typically has its own unique method for interfacing with their models, complicating the process of switching providers and increasing the risk of vendor lock-in.
+各提供商通常有各自独特的模型接入方式，这使切换提供商的过程变得复杂，并增加了供应商锁定的风险。
 
-To solve these challenges, AI SDK Core offers a standardized approach to interacting with LLMs through a [language model specification](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v3) that abstracts differences between providers. This unified interface allows you to switch between providers with ease while using the same API for all providers.
+为解决这些挑战，AI SDK Core 通过[语言模型规范](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v3)提供与 LLM 交互的标准化方式，抽象了提供商之间的差异。这一统一接口让你可以在所有提供商上使用相同 API 的同时轻松切换提供商。
 
-Here is an overview of the AI SDK Provider Architecture:
+以下是 AI SDK 提供商架构概览：
 
 <MDXImage
   srcLight="/images/ai-sdk-diagram.png"
@@ -20,9 +20,9 @@ Here is an overview of the AI SDK Provider Architecture:
   height={800}
 />
 
-## AI SDK Providers
+## AI SDK 提供商
 
-The AI SDK comes with a wide range of providers that you can use to interact with different language models:
+AI SDK 内置多种提供商，可用于与不同的语言模型交互：
 
 - [xAI Grok Provider](/providers/ai-sdk-providers/xai) (`@ai-sdk/xai`)
 - [OpenAI Provider](/providers/ai-sdk-providers/openai) (`@ai-sdk/openai`)
@@ -49,14 +49,14 @@ The AI SDK comes with a wide range of providers that you can use to interact wit
 - [AssemblyAI Provider](/providers/ai-sdk-providers/assemblyai) (`@ai-sdk/assemblyai`)
 - [Baseten Provider](/providers/ai-sdk-providers/baseten) (`@ai-sdk/baseten`)
 
-You can also use the [OpenAI Compatible provider](/providers/openai-compatible-providers) with OpenAI-compatible APIs:
+你也可将 [OpenAI Compatible provider](/providers/openai-compatible-providers) 用于兼容 OpenAI 的 API：
 
 - [LM Studio](/providers/openai-compatible-providers/lmstudio)
 - [Heroku](/providers/openai-compatible-providers/heroku)
 
-Our [language model specification](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v3) is published as an open-source package, which you can use to create [custom providers](/providers/community-providers/custom-providers).
+我们的[语言模型规范](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v3)以开源包的形式发布，你可据此创建[自定义提供商](/providers/community-providers/custom-providers)。
 
-The open-source community has created the following providers:
+开源社区已创建以下提供商：
 
 - [Ollama Provider](/providers/community-providers/ollama) (`ollama-ai-provider`)
 - [FriendliAI Provider](/providers/community-providers/friendliai) (`@friendliai/ai-provider`)
@@ -93,23 +93,23 @@ The open-source community has created the following providers:
 - [OLLM Provider](/providers/community-providers/ollm) (`@ofoundation/ollm`)
 - [ZeroEntropy Provider](/providers/community-providers/zeroentropy) (`zeroentropy-ai-provider`)
 
-## Self-Hosted Models
+## 自托管模型
 
-You can access self-hosted models with the following providers:
+可通过以下提供商访问自托管模型：
 
 - [Ollama Provider](/providers/community-providers/ollama)
 - [LM Studio](/providers/openai-compatible-providers/lmstudio)
 - [Baseten](/providers/ai-sdk-providers/baseten)
 - [Browser AI](/providers/community-providers/browser-ai)
 
-Additionally, any self-hosted provider that supports the OpenAI specification can be used with the [OpenAI Compatible Provider](/providers/openai-compatible-providers).
+此外，任何支持 OpenAI 规范的自托管提供商均可与 [OpenAI Compatible Provider](/providers/openai-compatible-providers) 一起使用。
 
-## Model Capabilities
+## 模型能力
 
-The AI providers support different language models with various capabilities.
-Here are the capabilities of popular models:
+AI 提供商支持具有不同能力的多种语言模型。
+以下是热门模型的能力概览：
 
-| Provider                                           | Model                                       | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
+| 提供商                                             | 模型                                        | 图像输入            | 对象生成            | 工具使用            | 工具流式            |
 | -------------------------------------------------- | ------------------------------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-4`                                    | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | [xAI Grok](/providers/ai-sdk-providers/xai)        | `grok-3`                                    | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
@@ -160,6 +160,5 @@ Here are the capabilities of popular models:
 | [Groq](/providers/ai-sdk-providers/groq)           | `gemma2-9b-it`                              | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  This table is not exhaustive. Additional models can be found in the provider
-  documentation pages and on the provider websites.
+  本表并非详尽列表。更多模型可在各提供商文档页面及提供商官网上找到。
 </Note>

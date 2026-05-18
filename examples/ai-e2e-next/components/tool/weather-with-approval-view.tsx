@@ -11,7 +11,7 @@ export default function WeatherWithApprovalView({
   switch (invocation.state) {
     case 'approval-requested':
       if (invocation.approval.isAutomatic) {
-        return <></>; // will be immediately replaced by the approval response
+        return <></>; // 将立即被审批响应替换
       }
 
       return (

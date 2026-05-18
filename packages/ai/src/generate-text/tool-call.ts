@@ -12,8 +12,8 @@ type BaseToolCall = {
 };
 
 /**
- * A tool call whose `toolName` maps to a tool in the declared tool set,
- * with an `input` type inferred from that tool's input schema.
+ * 一个工具调用，其`toolName`映射到声明的工具集中的一个工具，
+ * 具有从该工具的输入模式推断出的“输入”类型。
  */
 export type StaticToolCall<TOOLS extends ToolSet> = ValueOf<{
   [NAME in keyof TOOLS]: BaseToolCall & {
@@ -27,8 +27,8 @@ export type StaticToolCall<TOOLS extends ToolSet> = ValueOf<{
 }>;
 
 /**
- * A tool call whose `toolName` is only known at runtime, such as an invalid
- * or otherwise untyped call that cannot be matched to the declared tool set.
+ * 其`toolName`仅在运行时才知道的工具调用，例如无效
+ * 或其他无法与声明的工具集匹配的无类型调用。
  */
 export type DynamicToolCall = BaseToolCall & {
   toolName: string;
@@ -37,23 +37,23 @@ export type DynamicToolCall = BaseToolCall & {
   title?: string;
 
   /**
-   * True if this is caused by an unparsable tool call or
-   * a tool that does not exist.
+   * 如果这是由无法解析的工具调用引起的，则为 true 或
+   * 一个不存在的工具。
    */
-  // Added into DynamicToolCall to avoid breaking changes.
-  // TODO AI SDK 6: separate into a new InvalidToolCall type
+  // 添加到 DynamicToolCall 以避免重大更改。
+  // TODO AI SDK 6：分离成新的InvalidToolCall类型
   invalid?: boolean;
 
   /**
-   * The error that caused the tool call to be invalid.
+   * 导致工具调用无效的错误。
    */
-  // TODO AI SDK 6: separate into a new InvalidToolCall type
+  // TODO AI SDK 6：分离成新的InvalidToolCall类型
   error?: unknown;
 };
 
 /**
- * A tool call returned by text generation, either statically typed from the
- * declared tool set or dynamically typed when the tool cannot be inferred.
+ * 文本生成返回的工具调用，可以从静态类型
+ * 当无法推断工具时，声明工具集或动态类型化。
  */
 export type TypedToolCall<TOOLS extends ToolSet> =
   | StaticToolCall<TOOLS>

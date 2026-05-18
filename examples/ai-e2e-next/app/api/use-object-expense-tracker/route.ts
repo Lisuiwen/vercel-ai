@@ -2,7 +2,7 @@ import { openai } from '@ai-sdk/openai';
 import { Output, streamText } from 'ai';
 import { expenseSchema } from './schema';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     instructions:
       'You categorize expenses into one of the following categories: ' +
       'TRAVEL, MEALS, ENTERTAINMENT, OFFICE SUPPLIES, OTHER.' +
-      // provide date (including day of week) for reference:
+      // 提供日期（含星期）供参考：
       'The current date is: ' +
       new Date()
         .toLocaleDateString('en-US', {

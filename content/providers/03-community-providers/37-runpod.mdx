@@ -1,15 +1,15 @@
 ---
 title: Runpod
-description: Runpod Provider for the AI SDK
+description: 适用于 AI SDK 的 Runpod 提供商
 ---
 
 # Runpod
 
-The official [Runpod](https://runpod.io) provider contains language model and image generation support for public & private endpoints.
+官方 [Runpod](https://runpod.io) 提供商为公有与私有端点提供语言模型与图像生成支持。
 
-## Setup
+## 安装与配置
 
-The Runpod provider is available in the `@runpod/ai-sdk-provider` module. You can install it with:
+Runpod 提供商位于 `@runpod/ai-sdk-provider` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -26,15 +26,15 @@ The Runpod provider is available in the `@runpod/ai-sdk-provider` module. You ca
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `runpod` from `@runpod/ai-sdk-provider`:
+可从 `@runpod/ai-sdk-provider` 导入默认提供商实例 `runpod`：
 
 ```ts
 import { runpod } from '@runpod/ai-sdk-provider';
 ```
 
-If you need a customized setup, you can import `createRunpod` and create a provider instance with your settings:
+如需自定义配置，可导入 `createRunpod` 并创建实例：
 
 ```ts
 import { createRunpod } from '@runpod/ai-sdk-provider';
@@ -48,33 +48,33 @@ const runpod = createRunpod({
 });
 ```
 
-You can use the following optional settings to customize the Runpod provider instance:
+可使用以下可选设置自定义 Runpod 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers or custom endpoints.
-  Supports vLLM deployments, SGLang servers, and any OpenAI-compatible API.
-  The default prefix is `https://api.runpod.ai/v2`.
+  为 API 调用使用不同的 URL 前缀，例如代理或自定义端点。
+  支持 vLLM 部署、SGLang 服务器及任意 OpenAI 兼容 API。
+  默认前缀为 `https://api.runpod.ai/v2`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
-  It defaults to the `RUNPOD_API_KEY` environment variable.
-  You can obtain your api key from the [Runpod Console](https://console.runpod.io/user/settings) under "API Keys".
+  通过 `Authorization` 请求头发送的 API 密钥。
+  默认读取 `RUNPOD_API_KEY` 环境变量。
+  可在 [Runpod 控制台](https://console.runpod.io/user/settings) 的「API Keys」下获取。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义标头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  可用作中间件拦截请求，
+  或为测试等场景提供自定义 fetch。
 
-## Language Models
+## 语言模型
 
-You can create language models using the provider instance. The first argument is the model ID:
+使用提供商实例创建语言模型。第一个参数为模型 ID：
 
 ```ts
 import { runpod } from '@runpod/ai-sdk-provider';
@@ -86,13 +86,13 @@ const { text } = await generateText({
 });
 ```
 
-**Returns:**
+**返回值：**
 
-- `text` - Generated text string
-- `finishReason` - Why generation stopped ('stop', 'length', etc.)
-- `usage` - Token usage information (prompt, completion, total tokens)
+- `text` — 生成的文本字符串
+- `finishReason` — 生成停止原因（`'stop'`、`'length'` 等）
+- `usage` — Token 用量（提示、补全、合计）
 
-### Streaming
+### 流式输出
 
 ```ts
 import { runpod } from '@runpod/ai-sdk-provider';
@@ -110,16 +110,16 @@ for await (const delta of textStream) {
 }
 ```
 
-### Model Capabilities
+### 模型能力
 
-| Model ID              | Description                                                         | Streaming           | Object Generation   | Tool Usage          | Reasoning Notes           |
-| --------------------- | ------------------------------------------------------------------- | ------------------- | ------------------- | ------------------- | ------------------------- |
-| `qwen/qwen3-32b-awq`  | 32B parameter multilingual model with strong reasoning capabilities | <Check size={18} /> | <Cross size={18} /> | <Check size={18} /> | Standard reasoning events |
-| `openai/gpt-oss-120b` | 120B parameter open-source GPT model                                | <Check size={18} /> | <Cross size={18} /> | <Check size={18} /> | Standard reasoning events |
+| 模型 ID               | 说明                                                         | 流式                | 结构化对象生成      | 工具使用            | 推理说明           |
+| --------------------- | ------------------------------------------------------------ | ------------------- | ------------------- | ------------------- | ------------------ |
+| `qwen/qwen3-32b-awq`  | 320 亿多语种模型，推理能力强                               | <Check size={18} /> | <Cross size={18} /> | <Check size={18} /> | 标准推理事件       |
+| `openai/gpt-oss-120b` | 1200 亿参数开源 GPT 模型                                     | <Check size={18} /> | <Cross size={18} /> | <Check size={18} /> | 标准推理事件       |
 
-**Note:** An up-to-date list of all available models can be found in the [Runpod Public Endpoint Reference](https://docs.runpod.io/hub/public-endpoint-reference).
+**说明：** 最新完整模型列表见 [Runpod 公有端点参考](https://docs.runpod.io/hub/public-endpoint-reference)。
 
-### Chat Conversations
+### 聊天对话
 
 ```ts
 const { text } = await generateText({
@@ -131,7 +131,7 @@ const { text } = await generateText({
 });
 ```
 
-### Tool Calling
+### 工具调用
 
 ```ts
 import { generateText, tool } from 'ai';
@@ -154,16 +154,16 @@ const { text, toolCalls } = await generateText({
 });
 ```
 
-**Additional Returns:**
+**额外返回值：**
 
-- `toolCalls` - Array of tool calls made by the model
-- `toolResults` - Results from executed tools
+- `toolCalls` — 模型发起的工具调用数组
+- `toolResults` — 已执行工具的结果
 
-### Structured output
+### 结构化输出
 
-Using [`Output`](/docs/reference/ai-sdk-core/output) to enforce structured output is not supported by two models that are part of this provider.
+本提供商所包含的两个模型不支持使用 [`Output`](/docs/reference/ai-sdk-core/output) 强制结构化输出。
 
-You can still return structured data by instructing the model to return JSON and validating it yourself.
+仍可通过指示模型返回 JSON 并自行校验的方式获得结构化数据。
 
 ```ts
 import { runpod } from '@runpod/ai-sdk-provider';
@@ -199,11 +199,11 @@ if (!result.success) {
 console.log(result.success ? result.data : parsed);
 ```
 
-## Image Models
+## 图像模型
 
-You can create Runpod image models using the `.imageModel()` factory method.
+使用 `.imageModel()` 工厂方法创建 Runpod 图像模型。
 
-### Basic Usage
+### 基础用法
 
 ```ts
 import { runpod } from '@runpod/ai-sdk-provider';
@@ -220,31 +220,31 @@ import { writeFileSync } from 'fs';
 writeFileSync('landscape.jpg', image.uint8Array);
 ```
 
-**Returns:**
+**返回值：**
 
-- `image.uint8Array` - Binary image data (efficient for processing/saving)
-- `image.base64` - Base64 encoded string (for web display)
-- `image.mediaType` - MIME type ('image/jpeg' or 'image/png')
-- `warnings` - Array of any warnings about unsupported parameters
+- `image.uint8Array` — 图像二进制（便于处理与保存）
+- `image.base64` — Base64 字符串（便于 Web 展示）
+- `image.mediaType` — MIME 类型（`'image/jpeg'` 或 `'image/png'`）
+- `warnings` — 与不支持参数相关的警告数组
 
-### Model Capabilities
+### 模型能力
 
-| Model ID                               | Description                     | Supported Aspect Ratios               |
-| -------------------------------------- | ------------------------------- | ------------------------------------- |
-| `bytedance/seedream-3.0`               | Advanced text-to-image model    | 1:1, 4:3, 3:4                         |
-| `bytedance/seedream-4.0`               | Text-to-image (v4)              | 1:1 (supports 1024, 2048, 4096)       |
-| `bytedance/seedream-4.0-edit`          | Image editing (v4, multi-image) | 1:1 (supports 1024, 1536, 2048, 4096) |
-| `black-forest-labs/flux-1-schnell`     | Fast image generation (4 steps) | 1:1, 4:3, 3:4                         |
-| `black-forest-labs/flux-1-dev`         | High-quality image generation   | 1:1, 4:3, 3:4                         |
-| `black-forest-labs/flux-1-kontext-dev` | Context-aware image generation  | 1:1, 4:3, 3:4                         |
-| `qwen/qwen-image`                      | Text-to-image generation        | 1:1, 4:3, 3:4                         |
-| `qwen/qwen-image-edit`                 | Image editing (prompt-guided)   | 1:1, 4:3, 3:4                         |
+| 模型 ID                                | 说明                     | 支持的宽高比                         |
+| -------------------------------------- | ------------------------ | ------------------------------------ |
+| `bytedance/seedream-3.0`               | 高级文生图模型           | 1:1, 4:3, 3:4                       |
+| `bytedance/seedream-4.0`               | 文生图（v4）             | 1:1（支持 1024、2048、4096）         |
+| `bytedance/seedream-4.0-edit`         | 图像编辑（v4，多图）     | 1:1（支持 1024、1536、2048、4096）   |
+| `black-forest-labs/flux-1-schnell`     | 快速出图（4 步）         | 1:1, 4:3, 3:4                       |
+| `black-forest-labs/flux-1-dev`         | 高质量文生图             | 1:1, 4:3, 3:4                       |
+| `black-forest-labs/flux-1-kontext-dev` | 上下文感知文生图        | 1:1, 4:3, 3:4                       |
+| `qwen/qwen-image`                      | 文生图                   | 1:1, 4:3, 3:4                       |
+| `qwen/qwen-image-edit`                 | 图像编辑（提示引导）     | 1:1, 4:3, 3:4                       |
 
-**Note**: The provider uses strict validation for image parameters. Unsupported aspect ratios (like `16:9`, `9:16`, `3:2`, `2:3`) will throw an `InvalidArgumentError` with a clear message about supported alternatives.
+**说明**：提供商对图像参数采用严格校验。不支持的宽高比（如 `16:9`、`9:16`、`3:2`、`2:3`）将抛出 `InvalidArgumentError`，并提示可用的替代方案。
 
-An up-to-date list of all available image models can be found in the [Runpod Public Endpoint Reference](https://docs.runpod.io/hub/public-endpoint-reference).
+最新图像模型列表见 [Runpod 公有端点参考](https://docs.runpod.io/hub/public-endpoint-reference)。
 
-### Advanced Parameters
+### 高级参数
 
 ```ts
 const { image } = await generateImage({
@@ -261,9 +261,9 @@ const { image } = await generateImage({
 });
 ```
 
-#### Modify Image
+#### 修改图像
 
-Transform existing images using text prompts.
+使用文本提示变换已有图像。
 
 ```ts
 // Example: Transform existing image
@@ -290,7 +290,7 @@ const { image } = await generateImage({
 });
 ```
 
-### Advanced Configuration
+### 高级配置
 
 ```ts
 // Full control over generation parameters
@@ -328,17 +328,17 @@ const { image } = await generateImage({
 });
 ```
 
-### Provider Options
+### 提供商选项
 
-Runpod image models support flexible provider options through the `providerOptions.runpod` object:
+Runpod 图像模型通过 `providerOptions.runpod` 支持灵活的提供商选项：
 
-| Option                  | Type      | Default | Description                                                             |
-| ----------------------- | --------- | ------- | ----------------------------------------------------------------------- |
-| `negative_prompt`       | `string`  | `""`    | Text describing what you don't want in the image                        |
-| `enable_safety_checker` | `boolean` | `true`  | Enable content safety filtering                                         |
-| `image`                 | `string`  | -       | Input image: URL or base64 data URI (required for Flux Kontext models)  |
-| `num_inference_steps`   | `number`  | Auto    | Number of denoising steps (Flux: 4 for schnell, 28 for others)          |
-| `guidance`              | `number`  | Auto    | Guidance scale for prompt adherence (Flux: 7 for schnell, 2 for others) |
-| `output_format`         | `string`  | `"png"` | Output image format ("png" or "jpg")                                    |
-| `maxPollAttempts`       | `number`  | `60`    | Maximum polling attempts for async generation                           |
-| `pollIntervalMillis`    | `number`  | `5000`  | Polling interval in milliseconds (5 seconds)                            |
+| 选项                    | 类型      | 默认值  | 说明                                                         |
+| ----------------------- | --------- | ------- | ------------------------------------------------------------ |
+| `negative_prompt`       | `string`  | `""`    | 描述图像中不希望出现的内容                                   |
+| `enable_safety_checker` | `boolean` | `true`  | 是否启用内容安全过滤                                         |
+| `image`                 | `string`  | -       | 输入图像：URL 或 base64 data URI（Flux Kontext 模型必填）      |
+| `num_inference_steps`   | `number`  | Auto    | 去噪步数（Flux：schnell 为 4，其余默认为 28）                |
+| `guidance`              | `number`  | Auto    | 提示遵循强度（Flux：schnell 为 7，其余默认为 2）             |
+| `output_format`         | `string`  | `"png"` | 输出格式（`"png"` 或 `"jpg"`）                               |
+| `maxPollAttempts`       | `number`  | `60`    | 异步生成的最大轮询次数                                       |
+| `pollIntervalMillis`    | `number`  | `5000`  | 轮询间隔（毫秒，默认 5 秒）                                  |

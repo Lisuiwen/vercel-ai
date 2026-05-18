@@ -1,7 +1,7 @@
 import type { Output } from './output';
 
 /**
- * Infers the complete output type from the output specification.
+ * 从输出规范推断完整的输出类型。
  */
 export type InferCompleteOutput<OUTPUT extends Output> =
   OUTPUT extends Output<infer COMPLETE_OUTPUT, any, any>
@@ -9,7 +9,7 @@ export type InferCompleteOutput<OUTPUT extends Output> =
     : never;
 
 /**
- * Infers the partial output type from the output specification.
+ * 从输出规范推断部分输出类型。
  */
 export type InferPartialOutput<OUTPUT extends Output> =
   OUTPUT extends Output<any, infer PARTIAL_OUTPUT, any>
@@ -17,7 +17,7 @@ export type InferPartialOutput<OUTPUT extends Output> =
     : never;
 
 /**
- * Infers the element type from an array output specification.
+ * 从数组输出规范推断元素类型。
  */
 export type InferElementOutput<OUTPUT extends Output> =
   OUTPUT extends Output<any, any, infer ELEMENT> ? ELEMENT : never;

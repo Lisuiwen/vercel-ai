@@ -1,6 +1,6 @@
-# AI SDK: Vue.js provider
+# AI SDK：Vue.js 提供商
 
-[Vue.js](https://vuejs.org/) UI components for the [AI SDK](https://ai-sdk.dev/docs):
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 [Vue.js](https://vuejs.org/) UI 组件：
 
 - [`useChat`](https://ai-sdk.dev/docs/reference/ai-sdk-ui/use-chat) composable
 - [`useCompletion`](https://ai-sdk.dev/docs/reference/ai-sdk-ui/use-completion) composable

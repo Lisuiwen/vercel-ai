@@ -1,11 +1,11 @@
 ---
-title: Provider Options
-description: Learn how to use provider-specific options to control reasoning, caching, and other advanced features.
+title: 提供商选项
+description: 了解如何使用提供商特定选项控制推理、缓存及其他高级功能。
 ---
 
-# Provider Options
+# 提供商选项
 
-Provider options let you pass provider-specific configuration that goes beyond the [standard settings](/docs/ai-sdk-core/settings) shared by all providers. They are set via the `providerOptions` property on functions like `generateText` and `streamText`.
+提供商选项让你传递超出所有提供商共享的[标准设置](/docs/ai-sdk-core/settings)的提供商特定配置。它们通过 `generateText`、`streamText` 等函数上的 `providerOptions` 属性设置。
 
 ```ts
 const result = await generateText({
@@ -19,30 +19,29 @@ const result = await generateText({
 });
 ```
 
-Provider options are namespaced by the provider name (e.g. `openai`, `anthropic`) so you can even include options for multiple providers in the same call — only the options matching the active provider are used. See [Prompts: Provider Options](/docs/foundations/prompts#provider-options) for details on applying options at the message and message-part level.
+提供商选项按提供商名称（如 `openai`、`anthropic`）命名空间化，因此你甚至可在同一次调用中包含多个提供商的选项——仅使用与当前活动提供商匹配的选项。有关在消息与消息部分级别应用选项，请参阅[提示词：提供商选项](/docs/foundations/prompts#provider-options)。
 
 <Note>
-  For controlling reasoning effort, consider using the top-level [`reasoning`
-  parameter](/docs/ai-sdk-core/reasoning) instead of provider-specific options.
-  It provides a portable setting that works across all providers that support
-  reasoning. Use provider-specific options only when you need features like
-  exact token budgets.
+  若要控制推理力度，建议使用顶层 [`reasoning`
+  参数](/docs/ai-sdk-core/reasoning)，而非提供商特定选项。
+  它提供适用于所有支持推理的提供商的可移植设置。
+  仅在需要精确 token 预算等功能时使用提供商特定选项。
 </Note>
 
-## Common Provider Options
+## 常用提供商选项
 
-The sections below cover the most frequently used provider options, focusing on reasoning and output control for OpenAI and Anthropic. For a complete reference, see the individual provider pages:
+以下各节涵盖最常用的提供商选项，侧重 OpenAI 与 Anthropic 的推理与输出控制。完整参考请参阅各提供商页面：
 
-- [OpenAI provider options](/providers/ai-sdk-providers/openai)
-- [Anthropic provider options](/providers/ai-sdk-providers/anthropic)
+- [OpenAI 提供商选项](/providers/ai-sdk-providers/openai)
+- [Anthropic 提供商选项](/providers/ai-sdk-providers/anthropic)
 
 ---
 
 ## OpenAI
 
-### Reasoning Effort
+### 推理力度
 
-For reasoning models (e.g. `o3`, `o4-mini`, `gpt-5.2`), `reasoningEffort` controls how much internal reasoning the model performs before responding. Lower values are faster and cheaper; higher values produce more thorough answers.
+对于推理模型（如 `o3`、`o4-mini`、`gpt-5.2`），`reasoningEffort` 控制模型在响应前进行多少内部推理。较低值更快、更便宜；较高值产生更详尽答案。
 
 ```ts
 import {
@@ -69,25 +68,24 @@ console.log(
 );
 ```
 
-| Value       | Behavior                                   |
+| 值       | 行为                                   |
 | ----------- | ------------------------------------------ |
-| `'none'`    | No reasoning (GPT-5.1 models only)         |
-| `'minimal'` | Bare-minimum reasoning                     |
-| `'low'`     | Fast, concise reasoning                    |
-| `'medium'`  | Balanced (default)                         |
-| `'high'`    | Thorough reasoning                         |
-| `'xhigh'`   | Maximum reasoning (GPT-5.1-Codex-Max only) |
+| `'none'`    | 无推理（仅 GPT-5.1 模型）         |
+| `'minimal'` | 最少推理                     |
+| `'low'`     | 快速、简洁推理                    |
+| `'medium'`  | 平衡（默认）                         |
+| `'high'`    | 深入推理                         |
+| `'xhigh'`   | 最大推理（仅 GPT-5.1-Codex-Max） |
 
 <Note>
-  `'none'` and `'xhigh'` are only supported on specific models. Using them with
-  unsupported models will result in an error.
+  `'none'` 与 `'xhigh'` 仅部分模型支持。在不支持的模型上使用将导致错误。
 </Note>
 
-### Reasoning Summary
+### 推理摘要
 
-When working with reasoning models, you may want to see _how_ the model arrived at its answer. The `reasoningSummary` option surfaces the model's thought process.
+使用推理模型时，你可能希望了解模型**如何**得出答案。`reasoningSummary` 选项可展示模型的思考过程。
 
-#### Streaming
+#### 流式
 
 ```ts
 import {
@@ -115,7 +113,7 @@ for await (const part of result.fullStream) {
 }
 ```
 
-#### Non-streaming
+#### 非流式
 
 ```ts
 import {
@@ -137,14 +135,14 @@ const result = await generateText({
 console.log('Reasoning:', result.finalStep.reasoning);
 ```
 
-| Value        | Behavior                       |
+| 值        | 行为                       |
 | ------------ | ------------------------------ |
-| `'auto'`     | Condensed summary of reasoning |
-| `'detailed'` | Comprehensive reasoning output |
+| `'auto'`     | 推理的精简摘要 |
+| `'detailed'` | 完整推理输出 |
 
-### Text Verbosity
+### 文本详细程度
 
-Control the length and detail of the model's text response independently of reasoning:
+独立于推理控制模型文本响应的长度与细节：
 
 ```ts
 import {
@@ -164,19 +162,19 @@ const result = await generateText({
 });
 ```
 
-| Value      | Behavior                         |
+| 值      | 行为                         |
 | ---------- | -------------------------------- |
-| `'low'`    | Terse, minimal responses         |
-| `'medium'` | Balanced detail (default)        |
-| `'high'`   | Verbose, comprehensive responses |
+| `'low'`    | 简短、极简响应         |
+| `'medium'` | 平衡细节（默认）        |
+| `'high'`   | 详尽、全面响应 |
 
 ---
 
 ## Anthropic
 
-### Thinking (Extended Reasoning)
+### Thinking（扩展推理）
 
-Anthropic's thinking feature gives Claude models a dedicated "thinking" phase before they respond. You enable it by providing a `thinking` object with a token budget.
+Anthropic 的 thinking 功能为 Claude 模型提供专用的「思考」阶段后再响应。通过提供带 token 预算的 `thinking` 对象启用。
 
 ```ts
 import { anthropic, AnthropicLanguageModelOptions } from '@ai-sdk/anthropic';
@@ -196,16 +194,16 @@ console.log('Reasoning:', reasoningText);
 console.log('Answer:', text);
 ```
 
-The `budgetTokens` value sets the upper limit on how many tokens the model can use for its internal reasoning. Higher budgets allow deeper reasoning but increase latency and cost.
+`budgetTokens` 设置模型可用于内部推理的 token 上限。更高预算允许更深推理，但会增加延迟与成本。
 
 <Note>
-  Thinking is supported on `claude-opus-4-20250514`, `claude-sonnet-4-20250514`,
-  and `claude-sonnet-4-5-20250929` models.
+  thinking 支持 `claude-opus-4-20250514`、`claude-sonnet-4-20250514`
+  与 `claude-sonnet-4-5-20250929` 模型。
 </Note>
 
 ### Effort
 
-The `effort` option provides a simpler way to control reasoning depth without specifying a token budget. It affects thinking, text responses, and function calls.
+`effort` 选项提供更简单的方式控制推理深度，无需指定 token 预算。它影响 thinking、文本响应与函数调用。
 
 ```ts
 import { anthropic, AnthropicLanguageModelOptions } from '@ai-sdk/anthropic';
@@ -222,15 +220,15 @@ const { text, usage } = await generateText({
 });
 ```
 
-| Value      | Behavior                             |
+| 值      | 行为                             |
 | ---------- | ------------------------------------ |
-| `'low'`    | Minimal reasoning, fastest responses |
-| `'medium'` | Balanced reasoning                   |
-| `'high'`   | Thorough reasoning (default)         |
+| `'low'`    | 最少推理，最快响应 |
+| `'medium'` | 平衡推理                   |
+| `'high'`   | 深入推理（默认）         |
 
-### Fast Mode
+### 快速模式
 
-For `claude-opus-4-6`, the `speed` option enables approximately 2.5x faster output token speeds:
+对于 `claude-opus-4-6`，`speed` 选项可将输出 token 速度提升约 2.5 倍：
 
 ```ts
 import { anthropic, AnthropicLanguageModelOptions } from '@ai-sdk/anthropic';
@@ -249,9 +247,9 @@ const { text } = await generateText({
 
 ---
 
-## Combining Options
+## 组合选项
 
-You can combine multiple provider options in a single call. For example, using both reasoning effort and reasoning summaries with OpenAI:
+你可在单次调用中组合多个提供商选项。例如，在 OpenAI 上同时使用推理力度与推理摘要：
 
 ```ts
 import {
@@ -272,7 +270,7 @@ const result = await generateText({
 });
 ```
 
-Or enabling thinking with a low effort level for Anthropic:
+或为 Anthropic 启用 thinking 并设置较低 effort：
 
 ```ts
 import { anthropic, AnthropicLanguageModelOptions } from '@ai-sdk/anthropic';
@@ -290,9 +288,9 @@ const result = await generateText({
 });
 ```
 
-## Using Provider Options with the AI Gateway
+## 在 AI Gateway 中使用提供商选项
 
-Provider options work the same way when using the [Vercel AI Gateway](/providers/ai-sdk-providers/ai-gateway). Use the underlying provider name (e.g. `openai`, `anthropic`) as the key — not `gateway`. The AI Gateway forwards these options to the target provider automatically.
+使用 [Vercel AI Gateway](/providers/ai-sdk-providers/ai-gateway) 时，提供商选项用法相同。使用底层提供商名称（如 `openai`、`anthropic`）作为键——而非 `gateway`。AI Gateway 会自动将这些选项转发给目标提供商。
 
 ```ts
 import type { OpenAILanguageModelResponsesOptions } from '@ai-sdk/openai';
@@ -310,7 +308,7 @@ const result = await generateText({
 });
 ```
 
-You can also combine gateway-specific options (like routing and fallbacks) with provider-specific options in the same call:
+你也可在同一次调用中组合网关特定选项（如路由与回退）与提供商特定选项：
 
 ```ts
 import type { AnthropicLanguageModelOptions } from '@ai-sdk/anthropic';
@@ -333,18 +331,18 @@ const result = await generateText({
 });
 ```
 
-For more on gateway routing, fallbacks, and other gateway-specific options, see the [AI Gateway provider documentation](/providers/ai-sdk-providers/ai-gateway#provider-options).
+有关网关路由、回退及其他网关特定选项，请参阅 [AI Gateway 提供商文档](/providers/ai-sdk-providers/ai-gateway#provider-options)。
 
-## Type Safety
+## 类型安全
 
-Each provider exports a type for its options, which you can use with `satisfies` to get autocomplete and catch typos at build time:
+各提供商导出其选项类型，可与 `satisfies` 配合使用以获得自动补全并在构建时发现拼写错误：
 
 ```ts
 import { type OpenAILanguageModelResponsesOptions } from '@ai-sdk/openai';
 import { type AnthropicLanguageModelOptions } from '@ai-sdk/anthropic';
 ```
 
-For a full list of available options, see the provider-specific documentation:
+完整可用选项列表请参阅提供商文档：
 
 - [OpenAI Provider](/providers/ai-sdk-providers/openai)
 - [Anthropic Provider](/providers/ai-sdk-providers/anthropic)

@@ -1,13 +1,13 @@
 ---
-title: Migrating from RSC to UI
-description: Learn how to migrate from AI SDK RSC to AI SDK UI.
+title: 从 RSC 迁移到 UI
+description: 学习如何从 AI SDK RSC 迁移到 AI SDK UI。
 ---
 
-# Migrating from RSC to UI
+# 从 RSC 迁移到 UI
 
 This guide helps you migrate from AI SDK RSC to AI SDK UI.
 
-## Background
+## 背景
 
 The AI SDK has two packages that help you build the frontend for your applications – [AI SDK UI](/docs/ai-sdk-ui) and [AI SDK RSC](/docs/ai-sdk-rsc).
 
@@ -27,9 +27,9 @@ As a result, we strongly recommend migrating to AI SDK UI, which has undergone e
 
 In building [v0](https://v0.dev), we have invested considerable time exploring how to create the best chat experience on the web. AI SDK UI ships with many of these best practices and commonly used patterns like [language model middleware](/docs/ai-sdk-core/middleware), [multi-step tool calls](/docs/ai-sdk-core/tools-and-tool-calling#multi-step-calls), [attachments](/docs/ai-sdk-ui/chatbot#attachments-experimental), [telemetry](/docs/ai-sdk-core/telemetry), [provider registry](/docs/ai-sdk-core/provider-management#provider-registry), and many more. These features have been considerately designed into a neat abstraction that you can use to reliably integrate AI into your applications.
 
-## Streaming Chat Completions
+## 流式聊天补全
 
-### Basic Setup
+### 基本设置
 
 The `streamUI` function executes as part of a server action as illustrated below.
 
@@ -155,19 +155,19 @@ export default function Page() {
 }
 ```
 
-### Parallel Tool Calls
+### 并行工具调用
 
 In AI SDK RSC, `streamUI` does not support parallel tool calls. You will have to use a combination of `streamText`, `createStreamableUI` and `createStreamableValue`.
 
 With AI SDK UI, `useChat` comes with built-in support for parallel tool calls. You can define multiple tools in the `streamText` and have them called them in parallel. The `useChat` hook will then handle the parallel tool calls for you automatically.
 
-### Multi-Step Tool Calls
+### 多步工具调用
 
 In AI SDK RSC, `streamUI` does not support multi-step tool calls. You will have to use a combination of `streamText`, `createStreamableUI` and `createStreamableValue`.
 
 With AI SDK UI, `useChat` comes with built-in support for multi-step tool calls. You can set `stopWhen` in the `streamText` function to define when the model should stop making tool calls. The `useChat` hook will then handle the multi-step tool calls for you automatically.
 
-### Generative User Interfaces
+### 生成式用户界面
 
 The `streamUI` function uses `tools` as a way to execute functions based on user input and renders React components based on the function output to go beyond text in the chat interface.
 
@@ -305,7 +305,7 @@ export default function Page() {
 }
 ```
 
-### Handling Client Interactions
+### 处理客户端交互
 
 With AI SDK RSC, components streamed to the client can trigger subsequent generations by calling the relevant server action using the `useActions` hooks. This is possible as long as the component is a descendant of the `<AI/>` context provider.
 
@@ -376,7 +376,7 @@ export function ListFlights({ chatId, flights }) {
 }
 ```
 
-### Loading Indicators
+### 加载指示器
 
 In AI SDK RSC, you can use the `initial` parameter of `streamUI` to define the component to display while the generation is in progress.
 
@@ -449,7 +449,7 @@ export function Message({ role, content, toolInvocations }) {
 }
 ```
 
-### Saving Chats
+### 保存聊天
 
 Before implementing `streamUI` as a server action, you should create an `<AI/>` provider and wrap your application at the root layout to sync the AI and UI states. During initialization, you typically use the `onSetAIState` callback function to track updates to the AI state and save it to the database when `done(...)` is called.
 
@@ -509,7 +509,7 @@ export async function POST(request) {
 }
 ```
 
-### Restoring Chats
+### 恢复聊天
 
 When using AI SDK RSC, the `useUIState` hook contains the UI state of the chat. When restoring a previously saved chat, the UI state needs to be loaded with messages.
 
@@ -595,7 +595,7 @@ export function Chat({
 }
 ```
 
-## Streaming Object Generation
+## 流式对象生成
 
 The `createStreamableValue` function streams any serializable data from the server to the client. As a result, this function allows you to stream object generations from the server to the client when paired with `streamText` and `Output`.
 

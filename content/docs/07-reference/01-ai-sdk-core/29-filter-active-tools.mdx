@@ -1,17 +1,17 @@
 ---
 title: filterActiveTools
-description: Filter a tool set to the currently active tools (API Reference)
+description: 将工具集过滤为当前激活的工具（API 参考）
 ---
 
 # `filterActiveTools()`
 
-<Note type="warning">`filterActiveTools` is an experimental feature.</Note>
+<Note type="warning">`filterActiveTools` 为实验性功能。</Note>
 
-`filterActiveTools` filters a tool set to only the string tool names listed in `activeTools`.
-If `activeTools` is `undefined`, it returns the original tool set.
-If `tools` is `undefined`, it returns `undefined`.
+`filterActiveTools` 将工具集过滤为仅包含 `activeTools` 中列出的字符串工具名。
+若 `activeTools` 为 `undefined`，返回原始工具集。
+若 `tools` 为 `undefined`，返回 `undefined`。
 
-`filterActiveTools` is useful for limiting which tools are sent to a model in a particular step.
+`filterActiveTools` 适用于在特定步骤限制发给模型的工具集合。
 
 ```ts
 import { experimental_filterActiveTools as filterActiveTools, tool } from 'ai';
@@ -36,41 +36,41 @@ const filteredTools = filterActiveTools({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { experimental_filterActiveTools as filterActiveTools } from "ai"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'tools',
       type: 'ToolSet | undefined',
-      description: 'The tool set to filter.',
+      description: '要过滤的工具集。',
     },
     {
       name: 'activeTools',
       type: 'ActiveTools<TOOLS>',
       description:
-        'The names of the tools that should remain active. When omitted, all tools are returned.',
+        '应保持激活的工具名称。省略时返回全部工具。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-The filtered tool set, or `undefined` when `tools` is `undefined`.
+过滤后的工具集；当 `tools` 为 `undefined` 时返回 `undefined`。
 
-When `activeTools` is provided as a literal array such as `["weather"] as const`,
-TypeScript narrows the return type to only that subset of tools.
+当 `activeTools` 为字面量数组（如 `["weather"] as const`）时，
+TypeScript 会将返回类型收窄为该工具子集。
 
-## Types
+## 类型
 
 ### `ActiveTools`
 
@@ -80,4 +80,4 @@ type ActiveTools<TOOLS extends ToolSet> =
   | undefined;
 ```
 
-`ActiveTools` only accepts string keys from the tool set because tool names are strings at runtime.
+`ActiveTools` 仅接受工具集中字符串形式的键，因为运行时工具名为字符串。

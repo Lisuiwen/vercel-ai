@@ -45,7 +45,7 @@ export default function Chat() {
 
             if (part.type === 'tool-web_search') {
               switch (part.state) {
-                // example of pre-rendering streaming tool calls:
+                // 流式 tool 调用预渲染示例：
                 case 'input-streaming':
                   return (
                     <pre key={part.toolCallId}>

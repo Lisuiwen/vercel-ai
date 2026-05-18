@@ -1,21 +1,20 @@
 ---
-title: Error Handling
-description: Learn how to handle errors with the AI SDK.
+title: 错误处理
+description: 学习如何使用 AI SDK 处理错误。
 ---
 
-# Error Handling
+# 错误处理
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。有关从 RSC 迁移到 UI 的指南，请参阅[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-Two categories of errors can occur when working with the RSC API: errors while streaming user interfaces and errors while streaming other values.
+使用 RSC API 时可能出现两类错误：流式传输用户界面时的错误，以及流式传输其他值时的错误。
 
-## Handling UI Errors
+## 处理 UI 错误
 
-To handle errors while generating UI, the [`streamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) object exposes an `error()` method.
+要在生成 UI 时处理错误，[`streamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) 对象提供 `error()` 方法。
 
 ```tsx filename='app/actions.tsx'
 'use server';
@@ -37,7 +36,7 @@ export async function getStreamedUI() {
 }
 ```
 
-With this method, you can catch any error with the stream, and return relevant UI. On the client, you can also use a [React Error Boundary](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) to wrap the streamed component and catch any additional errors.
+通过此方法，你可以捕获流中的任何错误并返回相关 UI。在客户端，你还可以使用 [React Error Boundary](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary) 包裹流式组件并捕获其他渲染错误。
 
 ```tsx filename='app/page.tsx'
 import { getStreamedUI } from '@/actions';
@@ -63,9 +62,9 @@ export default function Page() {
 }
 ```
 
-## Handling Other Errors
+## 处理其他错误
 
-To handle other errors while streaming, you can return an error object that the receiver can use to determine why the failure occurred.
+要在流式传输时处理其他错误，可以返回错误对象，供接收方用于判断失败原因。
 
 ```tsx filename='app/actions.tsx'
 'use server';

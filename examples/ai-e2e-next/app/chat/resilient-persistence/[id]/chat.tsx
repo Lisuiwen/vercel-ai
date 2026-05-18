@@ -14,7 +14,7 @@ export default function Chat({
     transport: new DefaultChatTransport({
       api: '/api/chat/resilient-persistence',
     }),
-    generateId: createIdGenerator({ prefix: 'msgc', size: 16 }), // id format for client-side messages
+    generateId: createIdGenerator({ prefix: 'msgc', size: 16 }), // 客户端消息的 id 格式
   });
 
   return (

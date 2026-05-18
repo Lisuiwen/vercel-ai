@@ -53,7 +53,7 @@ createFeatureTestSuite({
     languageModels: [
       createSearchGroundedModel('gemini-2.5-flash'),
       createChatModel('gemini-2.5-flash'),
-      // Gemini 2.0 and Pro models have low quota limits and may require billing enabled.
+      // Gemini 2.0 和 Pro 型号的配额限制较低，可能需要启用计费。
       // createChatModel('gemini-2.5-flash-image'),
       // createSearchGroundedModel('gemini-2.5-flash-image'),
       // createChatModel('gemini-2.5-pro'),

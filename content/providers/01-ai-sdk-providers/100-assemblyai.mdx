@@ -1,15 +1,15 @@
 ---
 title: AssemblyAI
-description: Learn how to use the AssemblyAI provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 AssemblyAI 提供商。
 ---
 
-# AssemblyAI Provider
+# AssemblyAI 提供商
 
-The [AssemblyAI](https://assemblyai.com/) provider contains language model support for the AssemblyAI transcription API.
+[AssemblyAI](https://assemblyai.com/) 提供商为 AssemblyAI 转写 API 提供语言模型支持。
 
-## Setup
+## 安装
 
-The AssemblyAI provider is available in the `@ai-sdk/assemblyai` module. You can install it with
+AssemblyAI 提供商位于 `@ai-sdk/assemblyai` 模块中，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -27,15 +27,15 @@ The AssemblyAI provider is available in the `@ai-sdk/assemblyai` module. You can
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `assemblyai` from `@ai-sdk/assemblyai`:
+可从 `@ai-sdk/assemblyai` 导入默认的 `assemblyai` 提供商实例：
 
 ```ts
 import { assemblyai } from '@ai-sdk/assemblyai';
 ```
 
-If you need a customized setup, you can import `createAssemblyAI` from `@ai-sdk/assemblyai` and create a provider instance with your settings:
+如需自定义配置，可导入 `createAssemblyAI` 并创建实例：
 
 ```ts
 import { createAssemblyAI } from '@ai-sdk/assemblyai';
@@ -46,36 +46,35 @@ const assemblyai = createAssemblyAI({
 });
 ```
 
-You can use the following optional settings to customize the AssemblyAI provider instance:
+可使用以下可选设置自定义 AssemblyAI 提供商实例：
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
-  It defaults to the `ASSEMBLYAI_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API Key。
+  默认为环境变量 `ASSEMBLYAI_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch`。
+  可用作拦截请求的中间件，
+  或在测试中提供自定义 `fetch`。
 
-## Transcription Models
+## 转写模型
 
-You can create models that call the [AssemblyAI transcription API](https://www.assemblyai.com/docs/getting-started/transcribe-an-audio-file/typescript)
-using the `.transcription()` factory method.
+可使用 `.transcription()` 工厂方法创建调用 [AssemblyAI transcription API](https://www.assemblyai.com/docs/getting-started/transcribe-an-audio-file/typescript) 的模型。
 
-The first argument is the model id e.g. `best`.
+首个参数为模型 ID，例如 `best`。
 
 ```ts
 const model = assemblyai.transcription('best');
 ```
 
-You can also pass additional provider-specific options using the `providerOptions` argument. For example, supplying the `contentSafety` option will enable content safety filtering.
+也可通过 `providerOptions` 传入额外选项；例如开启 `contentSafety` 可启用内容安全过滤。
 
 ```ts highlight="7"
 import { experimental_transcribe as transcribe } from 'ai';
@@ -94,189 +93,187 @@ const result = await transcribe({
 });
 ```
 
-The following provider options are available:
+可用的提供商选项：
 
 - **audioEndAt** _number_
 
-  End time of the audio in milliseconds.
-  Optional.
+  音频结束时间（毫秒）。
+  可选。
 
 - **audioStartFrom** _number_
 
-  Start time of the audio in milliseconds.
-  Optional.
+  音频起始时间（毫秒）。
+  可选。
 
 - **autoChapters** _boolean_
 
-  Whether to automatically generate chapters for the transcription.
-  Optional.
+  是否为转写自动生成章节。
+  可选。
 
 - **autoHighlights** _boolean_
 
-  Whether to automatically generate highlights for the transcription.
-  Optional.
+  是否自动生成亮点摘要。
+  可选。
 
 - **boostParam** _enum_
 
-  Boost parameter for the transcription.
-  Allowed values: `'low'`, `'default'`, `'high'`.
-  Optional.
+  转写 boost 参数。
+  允许：`'low'`、`'default'`、`'high'`。
+  可选。
 
 - **contentSafety** _boolean_
 
-  Whether to enable content safety filtering.
-  Optional.
+  是否启用内容安全过滤。
+  可选。
 
 - **contentSafetyConfidence** _number_
 
-  Confidence threshold for content safety filtering (25-100).
-  Optional.
+  内容安全阈值（25–100）。
+  可选。
 
 - **customSpelling** _array of objects_
 
-  Custom spelling rules for the transcription.
-  Each object has `from` (array of strings) and `to` (string) properties.
-  Optional.
+  自定义拼写规则：每项含 `from`（字符串数组）与 `to`（字符串）。
+  可选。
 
 - **disfluencies** _boolean_
 
-  Whether to include disfluencies (um, uh, etc.) in the transcription.
-  Optional.
+  是否保留语气词与不流畅片段（如 um、uh）。
+  可选。
 
 - **entityDetection** _boolean_
 
-  Whether to detect entities in the transcription.
-  Optional.
+  是否进行实体检测。
+  可选。
 
 - **filterProfanity** _boolean_
 
-  Whether to filter profanity in the transcription.
-  Optional.
+  是否过滤脏话。
+  可选。
 
 - **formatText** _boolean_
 
-  Whether to format the text in the transcription.
-  Optional.
+  是否对文本做格式化。
+  可选。
 
 - **iabCategories** _boolean_
 
-  Whether to include IAB categories in the transcription.
-  Optional.
+  是否包含 IAB 分类标签。
+  可选。
 
 - **languageCode** _string_
 
-  Language code for the audio.
-  Supports numerous ISO-639-1 and ISO-639-3 language codes.
-  Optional.
+  音频语言代码。
+  支持多种 ISO 639-1 / ISO 639-3。
+  可选。
 
 - **languageConfidenceThreshold** _number_
 
-  Confidence threshold for language detection.
-  Optional.
+  语言检测置信度阈值。
+  可选。
 
 - **languageDetection** _boolean_
 
-  Whether to enable language detection.
-  Optional.
+  是否启用语言检测。
+  可选。
 
 - **multichannel** _boolean_
 
-  Whether to process multiple audio channels separately.
-  Optional.
+  是否分声道处理多声道音频。
+  可选。
 
 - **punctuate** _boolean_
 
-  Whether to add punctuation to the transcription.
-  Optional.
+  是否添加标点。
+  可选。
 
 - **redactPii** _boolean_
 
-  Whether to redact personally identifiable information.
-  Optional.
+  是否对个人信息（PII）做脱敏。
+  可选。
 
 - **redactPiiAudio** _boolean_
 
-  Whether to redact PII in the audio file.
-  Optional.
+  是否在音频文件中遮盖 PII。
+  可选。
 
 - **redactPiiAudioQuality** _enum_
 
-  Quality of the redacted audio file.
-  Allowed values: `'mp3'`, `'wav'`.
-  Optional.
+  脱敏音频质量。
+  允许：`'mp3'`、`'wav'`。
+  可选。
 
 - **redactPiiPolicies** _array of enums_
 
-  Policies for PII redaction, specifying which types of information to redact.
-  Supports numerous types like `'person_name'`, `'phone_number'`, etc.
-  Optional.
+  PII 脱敏策略类型（如 `'person_name'`、`'phone_number'` 等）。
+  可选。
 
 - **redactPiiSub** _enum_
 
-  Substitution method for redacted PII.
-  Allowed values: `'entity_name'`, `'hash'`.
-  Optional.
+  PII 替换方式。
+  允许：`'entity_name'`、`'hash'`。
+  可选。
 
 - **sentimentAnalysis** _boolean_
 
-  Whether to perform sentiment analysis on the transcription.
-  Optional.
+  是否进行情感分析。
+  可选。
 
 - **speakerLabels** _boolean_
 
-  Whether to label different speakers in the transcription.
-  Optional.
+  是否为不同说话人打标签。
+  可选。
 
 - **speakersExpected** _number_
 
-  Expected number of speakers in the audio.
-  Optional.
+  预期说话人数量。
+  可选。
 
 - **speechThreshold** _number_
 
-  Threshold for speech detection (0-1).
-  Optional.
+  语音检测阈值（0–1）。
+  可选。
 
 - **summarization** _boolean_
 
-  Whether to generate a summary of the transcription.
-  Optional.
+  是否生成转写摘要。
+  可选。
 
 - **summaryModel** _enum_
 
-  Model to use for summarization.
-  Allowed values: `'informative'`, `'conversational'`, `'catchy'`.
-  Optional.
+  摘要所用模型。
+  允许：`'informative'`、`'conversational'`、`'catchy'`。
+  可选。
 
 - **summaryType** _enum_
 
-  Type of summary to generate.
-  Allowed values: `'bullets'`, `'bullets_verbose'`, `'gist'`, `'headline'`, `'paragraph'`.
-  Optional.
+  摘要类型。
+  允许：`'bullets'`、`'bullets_verbose'`、`'gist'`、`'headline'`、`'paragraph'`。
+  可选。
 
 - **webhookAuthHeaderName** _string_
 
-  Name of the authentication header for webhook requests.
-  Optional.
+  Webhook 认证头名称。
+  可选。
 
 - **webhookAuthHeaderValue** _string_
 
-  Value of the authentication header for webhook requests.
-  Optional.
+  Webhook 认证头取值。
+  可选。
 
 - **webhookUrl** _string_
 
-  URL to send webhook notifications to.
-  Optional.
+  Webhook 通知 URL。
+  可选。
 
 - **wordBoost** _array of strings_
 
-  List of words to boost in the transcription.
-  Optional.
+  需要在转写中「加权」的词表。
+  可选。
 
-### Model Capabilities
+### 模型能力
 
-| Model  | Transcription       | Duration            | Segments            | Language            |
-| ------ | ------------------- | ------------------- | ------------------- | ------------------- |
+| Model  | 转写               | 时长               | 分段               | 语言               |
+| ------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | `best` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `nano` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |

@@ -5,7 +5,7 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 export class NoSuchProviderError extends NoSuchModelError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly providerId: string;
   readonly availableProviders: string[];

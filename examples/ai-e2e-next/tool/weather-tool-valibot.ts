@@ -13,7 +13,7 @@ export const weatherToolValibot = tool({
   async *execute() {
     yield { state: 'loading' as const };
 
-    // Add randomized delay of 1 and 5 seconds (to mix up tool result ordering)
+    // 随机 1 到 5 秒延迟（用于打乱 tool 结果顺序）
     await new Promise(resolve =>
       setTimeout(resolve, 1000 + Math.floor(Math.random() * 4000)),
     );

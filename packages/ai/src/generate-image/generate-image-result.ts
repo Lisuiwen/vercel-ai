@@ -5,38 +5,38 @@ import type { ImageModelUsage } from '../types/usage';
 import type { Warning } from '../types/warning';
 
 /**
- * The result of a `generateImage` call.
- * It contains the images and additional information.
+ * `generateImage` 调用的结果。
+ * 它包含图像和附加信息。
  */
 export interface GenerateImageResult {
   /**
-   * The first image that was generated.
+   * 生成的第一张图像。
    */
   readonly image: GeneratedFile;
 
   /**
-   * The images that were generated.
+   * 生成的图像。
    */
   readonly images: Array<GeneratedFile>;
 
   /**
-   * Warnings for the call, e.g. unsupported settings.
+   * 通话警告，例如不支持的设置。
    */
   readonly warnings: Array<Warning>;
 
   /**
-   * Response metadata from the provider. There may be multiple responses if we made multiple calls to the model.
+   * 来自提供商的响应元数据。如果我们多次调用模型，可能会有多个响应。
    */
   readonly responses: Array<ImageModelResponseMetadata>;
 
   /**
-   * Provider-specific metadata. They are passed through from the provider to the AI SDK and enable provider-specific
-   * results that can be fully encapsulated in the provider.
+   * 实现特定的元数据。它们从交付到AI SDK，并实现特定的元数据
+   * 可以完全封装在提供者中的结果。
    */
   readonly providerMetadata: ImageModelProviderMetadata;
 
   /**
-   * Combined token usage across all underlying provider calls for this image generation.
+   * 所有底层提供商调用此图像生成的组合令牌使用情况。
    */
   readonly usage: ImageModelUsage;
 }

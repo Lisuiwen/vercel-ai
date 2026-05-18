@@ -1,48 +1,46 @@
 ---
-title: Migrate AI SDK 4.1 to 4.2
-description: Learn how to upgrade AI SDK 4.1 to 4.2.
+title: 将 AI SDK 4.1 迁移到 4.2
+description: 了解如何将 AI SDK 4.1 升级到 4.2。
 ---
 
-# Migrate AI SDK 4.1 to 4.2
+# 将 AI SDK 4.1 迁移到 4.2
 
 <Note>
-  Check out the [AI SDK 4.2 release blog
-  post](https://vercel.com/blog/ai-sdk-4-2) for more information about the
-  release.
+  更多信息请参阅 [AI SDK 4.2 发布公告](https://vercel.com/blog/ai-sdk-4-2)。
 </Note>
 
-This guide will help you upgrade to AI SDK 4.2:
+本指南帮助你升级到 AI SDK 4.2：
 
-## Stable APIs
+## 稳定 API
 
-The following APIs have been moved to stable and no longer have the `experimental_` prefix:
+下列 API 已晋升为稳定 API，不再使用 `experimental_` 前缀：
 
 - `customProvider`
-- `providerOptions` (renamed from `providerMetadata` for provider-specific inputs)
-- `providerMetadata` (for provider-specific outputs)
-- `toolCallStreaming` option for `streamText`
+- `providerOptions`（由面向提供商特定输入的 `providerMetadata` 重命名而来）
+- `providerMetadata`（面向提供商特定输出）
+- `streamText` 的 `toolCallStreaming` 选项
 
-## Dependency Versions
+## 依赖版本
 
-AI SDK requires a non-optional `zod` dependency with version `^3.23.8`.
+AI SDK 需要 **非可选** 的 `zod` 依赖，版本为 `^3.23.8`。
 
-## UI Message Parts
+## UI 消息部件（Parts）
 
-In AI SDK 4.2, we've redesigned how `useChat` handles model outputs with message parts and multiple steps.
-This is a significant improvement that simplifies rendering complex, multi-modal AI responses in your UI.
+在 AI SDK 4.2 中，我们重新设计了 `useChat` 如何通过消息部件与多步流程呈现模型输出。
+这是一次重大改进，让你在 UI 中更简单地渲染复杂的多模态 AI 响应。
 
-### What's Changed
+### 变更内容
 
-Assistant messages with tool calling now get combined into a single message with multiple parts, rather than creating separate messages for each step.
-This change addresses two key developments in AI applications:
+带有工具调用的助手消息现在会合并为单条包含多个部件的消息，而不是为每一步单独创建消息。
+这一调整回应了 AI 应用中的两个关键趋势：
 
-1. **Diverse Output Types**: Models now generate more than just text; they produce reasoning steps, sources, and tool calls.
-2. **Interleaved Outputs**: In multi-step agent use-cases, these different output types are frequently interleaved.
+1. **多样化的输出类型**：模型不再只生成文本，还会产生推理步骤、来源信息与工具调用。
+2. **交错输出**：在多步 agent 场景中，这些不同类型的输出常常交错出现。
 
-### Benefits of the New Approach
+### 新方案的优势
 
-Previously, `useChat` stored different output types separately, which made it challenging to maintain the correct sequence in your UI when these elements were interleaved in a response,
-and led to multiple consecutive assistant messages when there were tool calls. For example:
+以前，`useChat` 将不同类型的输出分别存储，这使得在 UI 中保持正确顺序变得困难，
+并且在存在工具调用时会出现多条连续的助手消息。例如：
 
 ```javascript
 message.content = "Final answer: 42";
@@ -50,7 +48,7 @@ message.reasoning = "First I'll calculate X, then Y...";
 message.toolInvocations = [{toolName: "calculator", args: {...}}];
 ```
 
-This structure was limiting. The new message parts approach replaces separate properties with an ordered array that preserves the exact sequence:
+这种结构存在局限。新的消息部件方案用有序数组取代分散字段，从而精确保留顺序：
 
 ```javascript
 message.parts = [
@@ -60,12 +58,12 @@ message.parts = [
 ];
 ```
 
-### Migration
+### 迁移
 
-Existing applications using the previous message format will need to update their UI components to handle the new `parts` array.
-The fields from the previous format are still available for backward compatibility, but we recommend migrating to the new format for better support of multi-modal and multi-step interactions.
+仍在使用旧消息格式的应用需要更新 UI 组件以支持新的 `parts` 数组。
+旧字段仍为向后兼容而保留，但我们建议迁移到新格式，以获得更好的多模态与多步交互支持。
 
-You can use the `useChat` hook with the new message parts as follows:
+你可以像下面这样在新消息部件上使用 `useChat`：
 
 ```javascript
 function Chat() {

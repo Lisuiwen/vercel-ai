@@ -12,7 +12,7 @@ run(async () => {
     },
     onStepFinish: async ({ request, response }) => {
       console.log('Request:', JSON.stringify(request, null, 2));
-      console.log('Response:', JSON.stringify(response, null, 2)); // an error message will be observer here in the 'tool' role message part; won't stop execution though
+      console.log('Response:', JSON.stringify(response, null, 2)); // 错误消息会在 'tool' 角色消息部分中观察到；但不会停止执行
       console.log();
     },
   });

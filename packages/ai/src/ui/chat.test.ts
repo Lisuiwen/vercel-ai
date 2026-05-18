@@ -486,7 +486,7 @@ describe('Chat', () => {
         formatChunk({ type: 'text-delta', id: 'text-1', delta: 'Hello' }),
       );
 
-      // wait until the stream is consumed before sending the error
+      // 等到流被消耗后再发送错误
       while ((chat.messages[1]?.parts[1] as any)?.text !== 'Hello') {
         await vi.advanceTimersByTimeAsync(0);
       }
@@ -718,7 +718,7 @@ describe('Chat', () => {
         text: 'Hello, world!',
       });
 
-      // wait until the stream is consumed before sending the error
+      // 等到流被消耗后再发送错误
       while ((chat.messages[1]?.parts[1] as any)?.text !== 'Hello') {
         await vi.advanceTimersByTimeAsync(0);
       }
@@ -1505,11 +1505,11 @@ describe('Chat', () => {
           submitMessagePromise.resolve();
         });
 
-      // start stream
+      // 开始直播
       controller1.write(formatChunk({ type: 'start' }));
       controller1.write(formatChunk({ type: 'start-step' }));
 
-      // tool call
+      // 工具调用
       controller1.write(
         formatChunk({
           type: 'tool-input-available',
@@ -1521,14 +1521,14 @@ describe('Chat', () => {
 
       await toolCallPromise.promise;
 
-      // user submits the tool output
+      // 用户提交工具输出
       await chat.addToolOutput({
         tool: 'test-tool',
         toolCallId: 'tool-call-0',
         output: 'test-output',
       });
 
-      // UI should show the tool output
+      // UI 应显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -1569,10 +1569,10 @@ describe('Chat', () => {
         ]
       `);
 
-      // should not have called the API yet
+      // 应该还没有调用 API
       expect(server.calls.length).toBe(1);
 
-      // finish stream
+      // 完成流
       controller1.write(formatChunk({ type: 'finish-step' }));
       controller1.write(
         formatChunk({
@@ -1585,10 +1585,10 @@ describe('Chat', () => {
 
       await submitMessagePromise.promise;
 
-      // 2nd call should happen after the stream is finished
+      // 第二次调用应该在流完成后发生
       expect(server.calls.length).toBe(2);
 
-      // check details of the 2nd call
+      // 查看第二次通话的详细信息
       expect(await server.calls[1].requestBodyJson).toMatchInlineSnapshot(`
         {
           "id": "123",
@@ -1678,14 +1678,14 @@ describe('Chat', () => {
         text: 'Hello, world!',
       });
 
-      // user submits the tool output
+      // 用户提交工具输出
       await chat.addToolOutput({
         tool: 'test-tool',
         toolCallId: 'tool-call-0',
         output: 'test-output',
       });
 
-      // UI should show the tool output
+      // UI 应显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -1728,10 +1728,10 @@ describe('Chat', () => {
 
       await onFinishPromise.promise;
 
-      // 2nd call should happen after the stream is finished
+      // 第二次调用应该在流完成后发生
       expect(server.calls.length).toBe(2);
 
-      // check details of the 2nd call
+      // 查看第二次通话的详细信息
       expect(await server.calls[1].requestBodyJson).toMatchInlineSnapshot(`
         {
           "id": "123",
@@ -1821,7 +1821,7 @@ describe('Chat', () => {
         text: 'Hello, world!',
       });
 
-      // user submits the tool output
+      // 用户提交工具输出
       await chat.addToolOutput({
         state: 'output-error',
         tool: 'test-tool',
@@ -1829,7 +1829,7 @@ describe('Chat', () => {
         errorText: 'test-error',
       });
 
-      // UI should show the tool output
+      // UI 应显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -1872,10 +1872,10 @@ describe('Chat', () => {
 
       await onFinishPromise.promise;
 
-      // 2nd call should happen after the stream is finished
+      // 第二次调用应该在流完成后发生
       expect(server.calls.length).toBe(2);
 
-      // check details of the 2nd call
+      // 查看第二次通话的详细信息
       expect(await server.calls[1].requestBodyJson).toMatchInlineSnapshot(`
         {
           "id": "123",
@@ -1976,7 +1976,7 @@ describe('Chat', () => {
         text: 'Hello, world!',
       });
 
-      // user submits the tool output
+      // 用户提交工具输出
       await chat.addToolOutput({
         state: 'output-available',
         tool: 'test-tool',
@@ -1984,7 +1984,7 @@ describe('Chat', () => {
         output: 'test-output',
       });
 
-      // UI should show the tool output
+      // UI 应显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2027,10 +2027,10 @@ describe('Chat', () => {
 
       await onFinishPromise.promise;
 
-      // 2nd call should happen after the stream is finished
+      // 第二次调用应该在流完成后发生
       expect(server.calls.length).toBe(2);
 
-      // check details of the 2nd call
+      // 查看第二次通话的详细信息
       expect(await server.calls[1].requestBodyJson).toMatchInlineSnapshot(`
         {
           "id": "123",
@@ -2168,7 +2168,7 @@ describe('Chat', () => {
         text: 'Hello, world!',
       });
 
-      // user submits the tool output
+      // 用户提交工具输出
       await chat.addToolOutput({
         state: 'output-available',
         tool: 'test-tool',
@@ -2176,7 +2176,7 @@ describe('Chat', () => {
         output: 'test-output',
       });
 
-      // UI should show the tool output
+      // UI 应显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2219,10 +2219,10 @@ describe('Chat', () => {
 
       await onFinishPromise.promise;
 
-      // 2nd call should happen after the stream is finished
+      // 第二次调用应该在流完成后发生
       expect(server.calls.length).toBe(2);
 
-      // check details of the 2nd call
+      // 查看第二次通话的详细信息
       expect(await server.calls[1].requestBodyJson).toMatchInlineSnapshot(`
         {
           "id": "123",
@@ -2303,7 +2303,7 @@ describe('Chat', () => {
         ]
       `);
 
-      // UI should be in error state
+      // UI 应处于错误状态
       expect(chat.status).toBe('error');
       expect(chat.error).toMatchInlineSnapshot(
         `[Error: Internal Server Error]`,
@@ -2349,14 +2349,14 @@ describe('Chat', () => {
 
       await onFinishPromise.promise;
 
-      // user submits the tool output
+      // 用户提交工具输出
       await chat.addToolOutput({
         tool: 'test-tool',
         toolCallId: 'tool-call-0',
         output: 'test-output',
       });
 
-      // UI should show the tool output
+      // UI 应显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2397,7 +2397,7 @@ describe('Chat', () => {
         ]
       `);
 
-      // should not have made a 2nd call since sendAutomaticallyWhen returns false
+      // 不应该进行第二次调用，因为 sendAutomaticallyWhen 返回 false
       expect(server.calls.length).toBe(1);
     });
   });
@@ -2859,14 +2859,14 @@ describe('Chat', () => {
         text: 'Hello, world!',
       });
 
-      // user submits the tool output
+      // 用户提交工具输出
       await chat.addToolResult({
         tool: 'test-tool',
         toolCallId: 'tool-call-0',
         output: 'test-output',
       });
 
-      // UI should show the tool output
+      // UI 应显示工具输出
       expect(chat.messages).toMatchInlineSnapshot(`
         [
           {
@@ -2909,10 +2909,10 @@ describe('Chat', () => {
 
       await onFinishPromise.promise;
 
-      // 2nd call should happen after the stream is finished
+      // 第二次调用应该在流完成后发生
       expect(server.calls.length).toBe(2);
 
-      // check details of the 2nd call
+      // 查看第二次通话的详细信息
       expect(await server.calls[1].requestBodyJson).toMatchInlineSnapshot(`
         {
           "id": "123",

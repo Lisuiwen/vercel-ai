@@ -65,7 +65,7 @@ export function executeToolsFromStream<
 }): ReadableStream<ExecuteToolsStreamPart<TOOLS>> {
   const toolCallsToExecute: Array<TypedToolCall<TOOLS>> = [];
 
-  // forward stream
+  // 转发流
   return stream.pipeThrough(
     new TransformStream<
       LanguageModelStreamPart<TOOLS>,
@@ -77,7 +77,7 @@ export function executeToolsFromStream<
           ExecuteToolsStreamPart<TOOLS>
         >,
       ) {
-        // immediately forward all chunks
+        // 立即转发所有块
         controller.enqueue(chunk);
 
         const chunkType = chunk.type;
@@ -91,8 +91,8 @@ export function executeToolsFromStream<
             const tool = tools?.[chunk.toolName];
 
             if (tool == null) {
-              // ignore tool calls for tools that are not available,
-              // e.g. provider-executed dynamic tools
+              // 忽略对不可用工具的工具调用，
+              // 例如提供商执行的动态工具
               return;
             }
 
@@ -113,7 +113,7 @@ export function executeToolsFromStream<
                   toolCall: chunk,
                 });
 
-                return; // don't execute tool
+                return; // 不执行工具
               }
 
               case 'denied': {
@@ -134,7 +134,7 @@ export function executeToolsFromStream<
                   providerExecuted: chunk.providerExecuted,
                 });
 
-                return; // don't execute tool
+                return; // 不执行工具
               }
 
               case 'approved': {
@@ -155,14 +155,14 @@ export function executeToolsFromStream<
                   providerExecuted: chunk.providerExecuted,
                 });
 
-                break; // continue with tool execution
+                break; // 继续执行工具
               }
 
               case 'not-applicable':
-                break; // continue with tool execution
+                break; // 继续执行工具
             }
 
-            // Only execute tools that are not provider-executed:
+            // 仅执行非提供者执行的工具：
             if (tool.execute != null && chunk.providerExecuted !== true) {
               toolCallsToExecute.push(chunk);
             }
@@ -174,9 +174,9 @@ export function executeToolsFromStream<
             await Promise.all(
               toolCallsToExecute.map(async toolCall => {
                 try {
-                  // Note: we don't await the tool execution here (by leaving out 'await' on recordSpan),
-                  // because we want to process the next chunk as soon as possible.
-                  // This is important for the case where the tool execution takes a long time.
+                  // 注意：我们不在这里等待工具执行（通过在 recordSpan 上省略“await”），
+                  // 因为我们想尽快处理下一个块。
+                  // 这对于工具执行时间较长的情况很重要。
                   const result = await executeToolCall({
                     toolCall,
                     tools,

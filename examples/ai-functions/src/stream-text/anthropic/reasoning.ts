@@ -6,7 +6,7 @@ run(async () => {
   const result = streamText({
     model: anthropic('claude-sonnet-4-6'),
     prompt: 'How many "r"s are in the word "strawberry"?',
-    temperature: 0.5, // should get ignored (warning)
+    temperature: 0.5, // 应该被忽略（警告）
     onError: error => {
       console.error(error);
     },

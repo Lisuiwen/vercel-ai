@@ -2,8 +2,8 @@ import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
 import { NextResponse } from 'next/server';
 
 /*
- * This route is used to upload files to Vercel's Blob Storage.
- * Example from https://vercel.com/docs/storage/vercel-blob/client-upload#create-a-client-upload-route
+ * 此路由用于将文件上传到 Vercel Blob Storage。
+ * 示例来自 https://vercel.com/docs/storage/vercel-blob/client-upload#create-a-client-upload-route
  */
 export async function POST(request: Request): Promise<NextResponse> {
   const body = (await request.json()) as HandleUploadBody;
@@ -16,9 +16,9 @@ export async function POST(request: Request): Promise<NextResponse> {
         pathname,
         /* clientPayload */
       ) => {
-        // Generate a client token for the browser to upload the file
-        // ⚠️ Authenticate and authorize users before generating the token.
-        // Otherwise, you're allowing anonymous uploads.
+        // 生成供浏览器上传文件的客户端 token
+        // ⚠️ 在生成 token 之前请对用户进行认证与授权。
+        // 否则将允许匿名上传。
 
         return {
           allowedContentTypes: [
@@ -29,20 +29,20 @@ export async function POST(request: Request): Promise<NextResponse> {
             'text/plain',
           ],
           tokenPayload: JSON.stringify({
-            // optional, sent to your server on upload completion
-            // you could pass a user id from auth, or a value from clientPayload
+            // 可选，上传完成时发送到你的服务器
+            // 可传入来自 auth 的 user id，或来自 clientPayload 的值
           }),
         };
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
-        // Get notified of client upload completion
-        // ⚠️ This will not work on `localhost` websites,
-        // Use ngrok or similar to get the full upload flow
+        // 在客户端上传完成时收到通知
+        // ⚠️ 这在 `localhost` 网站上无法工作，
+        // 使用 ngrok 或类似工具以完成完整上传流程
 
         console.log('file upload completed', blob, tokenPayload);
 
         try {
-          // Run any logic after the file upload completed
+          // 文件上传完成后运行任意逻辑
           // const { userId } = JSON.parse(tokenPayload);
           // await db.update({ avatar: blob.url, userId });
         } catch (error) {
@@ -55,7 +55,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },
-      { status: 400 }, // The webhook will retry 5 times waiting for a 200
+      { status: 400 }, // Webhook 将重试 5 次，等待 200 响应
     );
   }
 }

@@ -1,13 +1,13 @@
 ---
-title: Call Tools
-description: Learn how to call tools using the AI SDK and Node
+title: 调用工具
+description: 学习如何使用 AI SDK 和 Node 调用工具
 tags: ['node', 'tool use']
 ---
 
-# Call Tools
+# 调用工具
 
-Some models allow developers to provide a list of tools that can be called at any time during a generation.
-This is useful for extending the capabilities of a language model to either use logic or data to interact with systems external to the model.
+部分模型允许开发者在生成过程中随时提供可调用工具列表。
+这有助于扩展语言模型能力，使其通过逻辑或数据与模型外部系统交互。
 
 ```ts
 import { generateText, tool } from 'ai';
@@ -35,9 +35,9 @@ const result = await generateText({
 });
 ```
 
-## Accessing Tool Calls and Tool Results
+## 访问工具调用与工具结果
 
-If the model decides to call a tool, it will generate a tool call. You can access the tool call by checking the `toolCalls` property on the result.
+若模型决定调用工具，将生成 tool call。可通过结果上的 `toolCalls` 属性访问。
 
 ```ts highlight="31-44"
 import { generateText, tool } from 'ai';
@@ -94,9 +94,9 @@ async function main() {
 main().catch(console.error);
 ```
 
-## Accessing Tool Results
+## 访问工具结果
 
-You can access the result of a tool call by checking the `toolResults` property on the result.
+可通过结果上的 `toolResults` 属性访问工具调用结果。
 
 ```ts highlight="31-41"
 import { generateText, tool } from 'ai';
@@ -151,13 +151,13 @@ main().catch(console.error);
 ```
 
 <Note>
-  `toolResults` will only be available if the tool has an `execute` function.
+  仅当工具定义了 `execute` 函数时，`toolResults` 才可用。
 </Note>
 
-## Model Response
+## 模型响应
 
-When using tools, it's important to note that the model won't respond with the tool call results by default.
-This is because the model has technically already generated its response to the prompt: the tool call.
-Many use cases will require the model to summarize the results of the tool call within the context of the original prompt automatically.
-You can achieve this by [using `stopWhen`](/cookbook/node/call-tools-multiple-steps)
-which will automatically send toolResults to the model to trigger another generation.
+使用工具时需注意：默认情况下模型不会用工具调用结果作为回复。
+因为从技术上讲，模型已对提示完成响应：即工具调用。
+许多场景需要在原始提示上下文中自动让模型总结工具调用结果。
+可通过[使用 `stopWhen`](/cookbook/node/call-tools-multiple-steps)实现：
+它会自动将 `toolResults` 发回模型以触发新一轮生成。

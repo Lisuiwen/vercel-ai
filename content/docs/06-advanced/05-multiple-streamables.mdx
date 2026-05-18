@@ -1,13 +1,13 @@
 ---
-title: Multiple Streamables
-description: Learn to handle multiple streamables in your application.
+title: 多个可流式传输对象
+description: 学习在应用中处理多个可流式传输对象。
 ---
 
-# Multiple Streams
+# 多个流
 
-## Multiple Streamable UIs
+## 多个可流式传输 UI
 
-The AI SDK RSC APIs allow you to compose and return any number of streamable UIs, along with other data, in a single request. This can be useful when you want to decouple the UI into smaller components and stream them separately.
+AI SDK RSC API 允许你在单次请求中组合并返回任意数量的可流式传输 UI，以及其他数据。当你希望将 UI 拆分为更小的组件并分别流式传输时，这会很有用。
 
 ```tsx file='app/actions.tsx'
 'use server';
@@ -38,11 +38,11 @@ export async function getWeather() {
 }
 ```
 
-The client side code is similar to the previous example, but the [tool call](/docs/ai-sdk-core/tools-and-tool-calling) will return the new data structure with the weather and forecast UIs. Depending on the speed of getting weather and forecast data, these two components might be updated independently.
+客户端代码与之前的示例类似，但[工具调用](/docs/ai-sdk-core/tools-and-tool-calling)会返回包含天气和预报 UI 的新数据结构。根据获取天气和预报数据的速度，这两个组件可能会独立更新。
 
-## Nested Streamable UIs
+## 嵌套可流式传输 UI
 
-You can stream UI components within other UI components. This allows you to create complex UIs that are built up from smaller, reusable components. In the example below, we pass a `historyChart` streamable as a prop to a `StockCard` component. The StockCard can render the `historyChart` streamable, and it will automatically update as the server responds with new data.
+你可以在其它 UI 组件内流式传输 UI 组件。这使你能够用更小、可复用的组件构建复杂 UI。在下面的示例中，我们将 `historyChart` 可流式传输对象作为 prop 传给 `StockCard` 组件。`StockCard` 可以渲染 `historyChart` 可流式传输对象，当服务端返回新数据时会自动更新。
 
 ```tsx file='app/actions.tsx'
 async function getStockHistoryChart({ symbol: string }) {

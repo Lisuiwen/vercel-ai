@@ -1,31 +1,31 @@
 ---
-title: Migrate AI SDK 6.x to 7.0
-description: Learn how to upgrade AI SDK 6.x to 7.0.
+title: 将 AI SDK 6.x 迁移到 7.0
+description: 了解如何将 AI SDK 6.x 升级到 7.0。
 ---
 
-# Migrate AI SDK 6.x to 7.0
+# 将 AI SDK 6.x 迁移到 7.0
 
-## Recommended Migration Process
+## 建议的迁移流程
 
-1. Backup your project. If you use a versioning control system, make sure all previous versions are committed.
-1. Upgrade to AI SDK 7.0.
-1. Follow the breaking changes guide below.
-1. Verify your project is working as expected.
-1. Commit your changes.
+1. 备份项目。若使用版本控制系统，请确保历史版本均已提交。
+1. 升级到 AI SDK 7.0。
+1. 遵循下方的破坏性变更指南。
+1. 验证项目按预期工作。
+1. 提交你的更改。
 
-An example upgrade command would be:
+示例升级命令：
 
 ```
 pnpm install ai@latest @ai-sdk/react@latest @ai-sdk/openai@latest @ai-sdk/otel@latest
 ```
 
-## All Packages
+## 所有包
 
-### ESM Only — CommonJS Support Removed
+### 仅 ESM — 已移除 CommonJS 支持
 
-All AI SDK packages are now ESM-only. The `require()` function is no longer supported.
+所有 AI SDK 包现在仅为 ESM。不再支持 `require()`。
 
-If your project uses CommonJS (`require()`), switch to ESM `import` syntax:
+若项目使用 CommonJS（`require()`），请改用 ESM `import` 语法：
 
 ```tsx filename="Before (CommonJS)"
 const { generateText } = require('ai');
@@ -37,13 +37,13 @@ import { generateText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 ```
 
-If your `package.json` does not already include `"type": "module"`, add it or rename your files to use the `.mjs` extension.
+若 `package.json` 尚未包含 `"type": "module"`，请添加该项或将文件改为 `.mjs` 扩展名。
 
 ## AI SDK Core
 
-### Provider Management: Remove Deprecated `experimental_customProvider`
+### Provider 管理：移除已弃用的 `experimental_customProvider`
 
-The deprecated `experimental_customProvider` export has been removed in AI SDK 7. Replace it with `customProvider`.
+AI SDK 7 已移除已弃用的 `experimental_customProvider` 导出。请改用 `customProvider`。
 
 ```tsx filename="AI SDK 6"
 import { experimental_customProvider } from 'ai';
@@ -65,13 +65,11 @@ export const myProvider = customProvider({
 });
 ```
 
-This is only an import and symbol rename. The `customProvider` options and
-behavior are unchanged.
+这只是 import 与符号重命名。`customProvider` 的选项与行为不变。
 
-### Prompt Instructions: `system` Renamed to `instructions`
+### 提示指令：`system` 重命名为 `instructions`
 
-The top-level prompt option for system instructions has been renamed from
-`system` to `instructions`.
+用于系统指令的顶层提示选项已由 `system` 重命名为 `instructions`。
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -89,11 +87,10 @@ const result = await generateText({
 });
 ```
 
-This applies to AI SDK functions that accept `prompt` or `messages`, including
-`generateText`, `streamText`, `generateObject`, `streamObject`, and `streamUI`.
+适用于接受 `prompt` 或 `messages` 的 AI SDK 函数，包括
+`generateText`、`streamText`、`generateObject`、`streamObject` 与 `streamUI`。
 
-The same rename applies to `prepareStep` results for `generateText` and
-`streamText`, and to the options passed into `experimental_repairToolCall`:
+同样的重命名也适用于 `generateText` 与 `streamText` 的 `prepareStep` 返回值，以及传入 `experimental_repairToolCall` 的选项：
 
 ```tsx filename="AI SDK 6"
 const result = streamText({
@@ -115,21 +112,19 @@ const result = streamText({
 });
 ```
 
-The `system` option is still accepted as a deprecated fallback. When both
-`instructions` and `system` are provided, `instructions` takes precedence.
+`system` 选项仍可作为已弃用的回退项接受。当同时提供 `instructions` 与 `system` 时，`instructions` 优先。
 
-#### `prepareStep` Instructions Carry Forward
+#### `prepareStep` 指令会延续到后续步骤
 
-In AI SDK 7, instructions returned from `prepareStep` are used in future steps
-until `prepareStep` returns another `instructions` or `system` override. This
-matches how `messages` returned from `prepareStep` carry forward.
+在 AI SDK 7 中，从 `prepareStep` 返回的指令会继续用于后续步骤，
+直到 `prepareStep` 再次返回不同的 `instructions` 或 `system` 覆盖。
+这与 `prepareStep` 返回的 `messages` 如何延续一致。
 
-In AI SDK 6, `prepareStep` instruction overrides only applied to the current
-step. Later steps fell back to the top-level `system` instructions unless they
-returned their own override.
+在 AI SDK 6 中，`prepareStep` 的指令覆盖仅作用于当前步骤。
+后续步骤会回退到顶层 `system` 指令，除非再次返回覆盖。
 
-If your `prepareStep` logic depends on one-step-only instruction overrides,
-return the desired instructions for each step explicitly:
+若你的 `prepareStep` 逻辑依赖「仅一步」的指令覆盖，
+请为每一步显式返回所需指令：
 
 ```tsx filename="AI SDK 7"
 const result = streamText({
@@ -145,12 +140,10 @@ const result = streamText({
 });
 ```
 
-The `prepareStep` callback receives both `instructions`, which is the current
-instruction state for the step, and `initialInstructions`, which is the
-top-level instruction value from the original call.
+`prepareStep` 回调会收到 `instructions`（当前步骤的指令状态）与 `initialInstructions`（最初调用时的顶层指令值）。
 
-If your tool call repair function forwards the current system instructions to
-another model call, read and pass `instructions` instead of `system`:
+若工具调用修复函数会将当前系统指令转发给另一次模型调用，
+请读取并传递 `instructions`，而不是 `system`：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -174,8 +167,7 @@ const result = await generateText({
 });
 ```
 
-Lifecycle callback events for `generateText`, `streamText`, and agents also use
-`instructions` instead of `system`:
+`generateText`、`streamText` 以及 agents 的生命周期回调事件也同样使用 `instructions` 代替 `system`：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -197,11 +189,12 @@ const result = await generateText({
 });
 ```
 
-### Prompt Messages: System Messages in `prompt` or `messages` Are Rejected by Default
+### 提示消息：默认拒绝 `prompt` 或 `messages` 中的系统消息
 
-AI SDK 7 rejects system messages in the `prompt` or `messages` fields by default. System instructions should usually be passed with the top-level `instructions` option.
+AI SDK 7 默认会拒绝出现在 `prompt` 或 `messages` 字段中的系统消息。
+系统指令通常应通过顶层 `instructions` 选项传入。
 
-This can break older persisted chats or custom prompt arrays that include `{ role: 'system' }` messages:
+这可能破坏包含 `{ role: 'system' }` 的旧持久化会话或自定义提示数组：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -213,7 +206,7 @@ const result = await generateText({
 });
 ```
 
-Move system instructions to the `instructions` option when possible:
+若可能，请将系统指令移到 `instructions` 选项：
 
 ```tsx filename="AI SDK 7"
 const result = await generateText({
@@ -223,13 +216,11 @@ const result = await generateText({
 });
 ```
 
-If you need to keep existing chat histories that already contain system messages, opt in to the previous behavior with `allowSystemInMessages: true`:
+若需要保留已包含系统消息的既有会话历史，可通过 `allowSystemInMessages: true` 选择恢复旧行为：
 
 <Note type="warning">
-  Only use `allowSystemInMessages` for trusted messages. If users can submit or
-  edit these messages, they could inject a system message that overrides or sets
-  the system prompt. In most cases, system instructions should only be set by
-  trusted server-side code through the `instructions` property.
+  仅在消息可信时使用 `allowSystemInMessages`。若用户可以提交或编辑这些消息，
+  他们可能注入系统消息来覆盖或设置系统提示。大多数情况下，系统指令应仅由可信的服务端代码通过 `instructions` 属性设置。
 </Note>
 
 ```tsx filename="AI SDK 7"
@@ -240,13 +231,13 @@ const result = await generateText({
 });
 ```
 
-This applies to AI SDK functions that accept `prompt` or `messages`, including `generateText`, `streamText`, `generateObject`, `streamObject`, and `streamUI`.
+适用于接受 `prompt` 或 `messages` 的 AI SDK 函数，包括 `generateText`、`streamText`、`generateObject`、`streamObject` 与 `streamUI`。
 
-### `cachedInputTokens` and `reasoningTokens` Removed from `LanguageModelUsage`
+### 从 `LanguageModelUsage` 移除 `cachedInputTokens` 与 `reasoningTokens`
 
-The deprecated top-level `cachedInputTokens` and `reasoningTokens` fields have been removed from `LanguageModelUsage`.
+已弃用的顶层字段 `cachedInputTokens` 与 `reasoningTokens` 已从 `LanguageModelUsage` 移除。
 
-Use `inputTokenDetails.cacheReadTokens` and `outputTokenDetails.reasoningTokens` instead:
+请改用 `inputTokenDetails.cacheReadTokens` 与 `outputTokenDetails.reasoningTokens`：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -268,15 +259,15 @@ console.log(result.usage.inputTokenDetails.cacheReadTokens);
 console.log(result.usage.outputTokenDetails.reasoningTokens);
 ```
 
-### Telemetry: OpenTelemetry Moved to `@ai-sdk/otel` — Explicit Registration Required
+### Telemetry：`OpenTelemetry` 迁至 `@ai-sdk/otel` — 需要显式注册
 
-OpenTelemetry span collection is no longer built into the `ai` package. To continue receiving OpenTelemetry traces, you must install the new `@ai-sdk/otel` package and register the `OpenTelemetry` instance globally.
+OpenTelemetry span 收集不再内置于 `ai` 包。要继续接收 OpenTelemetry trace，你必须安装新的 `@ai-sdk/otel` 包并在全局注册 `OpenTelemetry` 实例。
 
 ```bash
 pnpm install @ai-sdk/otel
 ```
 
-Previously, OpenTelemetry spans were emitted automatically when `experimental_telemetry` was enabled:
+此前，当启用 `experimental_telemetry` 时会自动发出 OpenTelemetry span：
 
 ```tsx filename="AI SDK 6"
 import { generateText } from 'ai';
@@ -288,7 +279,7 @@ const result = await generateText({
 });
 ```
 
-Now, you must install `@ai-sdk/otel` and register the `OpenTelemetry` instance once at application startup. For Next.js, place this in your `instrumentation.ts` file alongside your OpenTelemetry provider setup:
+现在，你必须安装 `@ai-sdk/otel` 并在应用启动时注册一次 `OpenTelemetry` 实例。对于 Next.js，请将其放在 `instrumentation.ts` 中，与 OpenTelemetry provider 设置并列：
 
 ```tsx filename="instrumentation"
 import { registerTelemetry } from 'ai';
@@ -299,13 +290,14 @@ registerTelemetry(new OpenTelemetry());
 // ... your OpenTelemetry provider setup (e.g. registerOTel, NodeTracerProvider)
 ```
 
-For Node.js applications (without Next.js), register the integration at the top level of your entry file.
+对于不使用 Next.js 的 Node.js 应用，请在入口文件顶层注册集成。
 
-This applies to all AI SDK functions that accept `experimental_telemetry`, including `generateText`, `streamText`, `ToolLoopAgent`, `embed`, `embedMany`, and `rerank`.
+适用于所有接受 `experimental_telemetry` 的 AI SDK 函数，包括 `generateText`、`streamText`、`ToolLoopAgent`、`embed`、`embedMany` 与 `rerank`。
 
-### Telemetry: Enabled by Default When an Integration Is Registered
+### Telemetry：注册集成后默认启用
 
-In AI SDK 6, telemetry was opt-in — you had to set `experimental_telemetry: { isEnabled: true }` on every call to emit events. In AI SDK 7, telemetry is opt-out: once you register a telemetry integration (for example `OpenTelemetry` or `DevToolsTelemetry`), all AI SDK calls emit telemetry events by default.
+在 AI SDK 6 中，telemetry 需要手动开启——你必须在每次调用时设置 `experimental_telemetry: { isEnabled: true }` 才会发出事件。
+在 AI SDK 7 中，telemetry 改为默认开启后的可关闭模式：一旦你注册了 telemetry 集成（例如 `OpenTelemetry` 或 `DevToolsTelemetry`），所有 AI SDK 调用默认都会发出 telemetry 事件。
 
 ```tsx filename="AI SDK 6"
 import { generateText } from 'ai';
@@ -330,7 +322,7 @@ const result = await generateText({
 });
 ```
 
-You can safely remove `experimental_telemetry: { isEnabled: true }` from all of your calls. If you are already passing other fields like `functionId` or `integrations`, keep them — only `isEnabled: true` is redundant:
+你可以安全地从所有调用中移除 `experimental_telemetry: { isEnabled: true }`。若已在传入 `functionId`、`integrations` 等字段，请保留它们——只有 `isEnabled: true` 是多余的：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -353,7 +345,7 @@ const result = await generateText({
 });
 ```
 
-To opt out of telemetry for a specific call, set `isEnabled: false`:
+若要在单次调用中关闭 telemetry，请设置 `isEnabled: false`：
 
 ```tsx
 const result = await generateText({
@@ -363,13 +355,13 @@ const result = await generateText({
 });
 ```
 
-To disable telemetry globally, do not register any telemetry integrations.
+若要全局禁用 telemetry，请不要注册任何 telemetry 集成。
 
-This applies to all AI SDK functions that accept `experimental_telemetry`, including `generateText`, `streamText`, `ToolLoopAgent`, `embed`, `embedMany`, and `rerank`.
+适用于所有接受 `experimental_telemetry` 的 AI SDK 函数，包括 `generateText`、`streamText`、`ToolLoopAgent`、`embed`、`embedMany` 与 `rerank`。
 
-### Telemetry: `tracer` Property Removed from `experimental_telemetry`
+### Telemetry：已从 `experimental_telemetry` 移除 `tracer` 属性
 
-The `tracer` property on `experimental_telemetry` has been removed. If you were passing a custom OpenTelemetry `Tracer`, pass it to the `OpenTelemetry` constructor instead:
+`experimental_telemetry` 上的 `tracer` 属性已移除。若你此前传入自定义 OpenTelemetry `Tracer`，请改传给 `OpenTelemetry` 构造函数：
 
 ```tsx filename="AI SDK 6"
 import { generateText } from 'ai';
@@ -397,13 +389,13 @@ registerTelemetry(
 );
 ```
 
-This applies to all AI SDK functions that accept `experimental_telemetry`, including `streamText`, `generateObject`, `streamObject`, `embed`, and `embedMany`.
+适用于所有接受 `experimental_telemetry` 的 AI SDK 函数，包括 `streamText`、`generateObject`、`streamObject`、`embed` 与 `embedMany`。
 
-If you were not passing a custom `tracer` (relying on the default global tracer), no changes are needed — the `OpenTelemetry` is registered globally by default and uses `trace.getTracer('ai')` when no custom tracer is provided.
+若你未传入自定义 `tracer`（依赖默认全局 tracer），则无需改动——`OpenTelemetry` 默认全局注册，且在未提供自定义 tracer 时使用 `trace.getTracer('ai')`。
 
-### Telemetry: `experimental_telemetry` Renamed to `telemetry`
+### Telemetry：`experimental_telemetry` 重命名为 `telemetry`
 
-The telemetry option has graduated out of experimental status and has been renamed to `telemetry`. The old name `experimental_telemetry` continues to work as a deprecated alias in AI SDK 7 and will be removed in a future major release.
+telemetry 选项已脱离实验状态，并改名为 `telemetry`。旧名称 `experimental_telemetry` 在 AI SDK 7 中仍可作为已弃用别名使用，并将在未来的主版本中移除。
 
 ```tsx filename="AI SDK 6"
 import { generateText } from 'ai';
@@ -429,18 +421,18 @@ const result = await generateText({
 });
 ```
 
-This applies to all AI SDK functions and agents that accept telemetry configuration, including `generateText`, `streamText`, `generateObject`, `streamObject`, `embed`, `embedMany`, `rerank`, `ToolLoopAgent`, and `WorkflowAgent`.
+适用于所有接受 telemetry 配置的 AI SDK 函数与 agents，包括 `generateText`、`streamText`、`generateObject`、`streamObject`、`embed`、`embedMany`、`rerank`、`ToolLoopAgent` 与 `WorkflowAgent`。
 
-No behavior changes beyond the rename. You can migrate incrementally — mixed usage of `telemetry` and `experimental_telemetry` in the same codebase is supported during the deprecation window.
+除重命名外行为不变。你可以渐进迁移——在弃用窗口期内，同一代码库中混用 `telemetry` 与 `experimental_telemetry` 是受支持的。
 
-### Tool Execution Callbacks: `experimental_onToolCallStart` and `experimental_onToolCallFinish` Renamed
+### 工具执行回调：`experimental_onToolCallStart` 与 `experimental_onToolCallFinish` 重命名
 
-The tool execution callback options for `generateText` and `streamText` have been renamed:
+`generateText` 与 `streamText` 的工具执行回调选项已重命名：
 
-- `experimental_onToolCallStart` is now `onToolExecutionStart`
-- `experimental_onToolCallFinish` is now `onToolExecutionEnd`
+- `experimental_onToolCallStart` 现为 `onToolExecutionStart`
+- `experimental_onToolCallFinish` 现为 `onToolExecutionEnd`
 
-The old names continue to work as deprecated aliases in AI SDK 7 and will be removed in a future major release. They are only used as fallbacks when the new callback names are not provided.
+旧名称在 AI SDK 7 中仍可作为已弃用别名使用，并将在未来的主版本中移除。它们仅在新回调名未提供时作为回退。
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -470,13 +462,13 @@ const result = await generateText({
 });
 ```
 
-### Telemetry Rerank Callback: `onRerankFinish` Renamed to `onRerankEnd`
+### Telemetry Rerank 回调：`onRerankFinish` 重命名为 `onRerankEnd`
 
-The telemetry integration callback for individual reranking model calls has been renamed from `onRerankFinish` to `onRerankEnd`.
+单次 rerank 模型调用的 telemetry 集成回调已由 `onRerankFinish` 重命名为 `onRerankEnd`。
 
-This also applies to the `type` field published on `AI_SDK_TELEMETRY_DIAGNOSTIC_CHANNEL`: diagnostic-channel subscribers now receive `onRerankEnd` instead of `onRerankFinish`.
+这同样适用于发布在 `AI_SDK_TELEMETRY_DIAGNOSTIC_CHANNEL` 上的 `type` 字段：diagnostic-channel 订阅者现在会收到 `onRerankEnd` 而非 `onRerankFinish`。
 
-Update telemetry integrations and diagnostic-channel subscribers to use `onRerankEnd`.
+请将 telemetry 集成与 diagnostic-channel 订阅者更新为使用 `onRerankEnd`。
 
 ```tsx filename="AI SDK 6"
 import type { Telemetry } from 'ai';
@@ -498,13 +490,13 @@ const telemetry: Telemetry = {
 };
 ```
 
-### Telemetry Embed Callback: `onEmbedFinish` Renamed to `onEmbedEnd`
+### Telemetry Embed 回调：`onEmbedFinish` 重命名为 `onEmbedEnd`
 
-The telemetry integration callback for individual embedding model calls has been renamed from `onEmbedFinish` to `onEmbedEnd`.
+单次 embedding 模型调用的 telemetry 集成回调已由 `onEmbedFinish` 重命名为 `onEmbedEnd`。
 
-This also applies to the `type` field published on `AI_SDK_TELEMETRY_DIAGNOSTIC_CHANNEL`: diagnostic-channel subscribers now receive `onEmbedEnd` instead of `onEmbedFinish`.
+这同样适用于发布在 `AI_SDK_TELEMETRY_DIAGNOSTIC_CHANNEL` 上的 `type` 字段：diagnostic-channel 订阅者现在会收到 `onEmbedEnd` 而非 `onEmbedFinish`。
 
-Update telemetry integrations and diagnostic-channel subscribers to use `onEmbedEnd`.
+请将 telemetry 集成与 diagnostic-channel 订阅者更新为使用 `onEmbedEnd`。
 
 ```tsx filename="AI SDK 6"
 import type { Telemetry } from 'ai';
@@ -526,9 +518,9 @@ const telemetry: Telemetry = {
 };
 ```
 
-### Embed Callbacks: `experimental_onFinish` Renamed to `experimental_onEnd`
+### Embed 回调：`experimental_onFinish` 重命名为 `experimental_onEnd`
 
-The per-call callback option for completed `embed` and `embedMany` operations has been renamed from `experimental_onFinish` to `experimental_onEnd`.
+已完成 `embed` 与 `embedMany` 调用的逐调用回调选项已由 `experimental_onFinish` 重命名为 `experimental_onEnd`。
 
 ```tsx filename="AI SDK 6"
 const result = await embed({
@@ -550,9 +542,9 @@ const result = await embed({
 });
 ```
 
-### Rerank Callback: `experimental_onFinish` Renamed to `experimental_onEnd`
+### Rerank 回调：`experimental_onFinish` 重命名为 `experimental_onEnd`
 
-The per-call callback option for completed `rerank` operations has been renamed from `experimental_onFinish` to `experimental_onEnd`.
+已完成 `rerank` 调用的逐调用回调选项已由 `experimental_onFinish` 重命名为 `experimental_onEnd`。
 
 ```tsx filename="AI SDK 6"
 const result = await rerank({
@@ -576,9 +568,9 @@ const result = await rerank({
 });
 ```
 
-### Streaming: Move `includeRawChunks` to `include.rawChunks`
+### 流式：`includeRawChunks` 迁至 `include.rawChunks`
 
-The top-level `includeRawChunks` option on `streamText` is deprecated in AI SDK 7. Move it into the `include` options object as `rawChunks`.
+AI SDK 7 中 `streamText` 的顶层 `includeRawChunks` 选项已弃用。请将其移到 `include` 选项对象中，字段名为 `rawChunks`。
 
 ```tsx filename="AI SDK 6"
 const result = streamText({
@@ -598,12 +590,11 @@ const result = streamText({
 });
 ```
 
-The deprecated top-level option continues to work in AI SDK 7, so you can migrate incrementally.
+顶层弃用选项在 AI SDK 7 中仍可用，因此你可以渐进迁移。
 
-### Rename `experimental_include` to `include`
+### 将 `experimental_include` 重命名为 `include`
 
-The `experimental_include` option for `generateText`, `streamText`, and
-`ToolLoopAgent` is now stable and has been renamed to `include`.
+面向 `generateText`、`streamText` 与 `ToolLoopAgent` 的 `experimental_include` 选项现已稳定，并重命名为 `include`。
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -625,19 +616,14 @@ const result = await generateText({
 });
 ```
 
-The deprecated `experimental_include` name continues to work for backwards
-compatibility. If both `include` and `experimental_include` are provided,
-`include` takes precedence.
+已弃用的 `experimental_include` 名称仍可向后兼容使用。若同时提供 `include` 与 `experimental_include`，则 `include` 优先。
 
-### Request and Response Bodies Are Excluded by Default
+### 默认不包含请求与响应体
 
-In AI SDK 7, `generateText` and `streamText` no longer include request bodies in
-step results by default. `generateText` also no longer includes response bodies
-by default. This reduces memory usage, especially when prompts or provider
-responses contain large payloads such as images or files.
+在 AI SDK 7 中，`generateText` 与 `streamText` 默认不再在 step 结果中包含请求体；`generateText` 默认也不再包含响应体。
+这可降低内存占用，尤其在提示词或提供商响应包含图片或文件等大载荷时。
 
-If your application reads `result.request.body`, `step.request.body`,
-`result.response.body`, or `step.response.body`, opt in with `include`.
+若应用读取 `result.request.body`、`step.request.body`、`result.response.body` 或 `step.response.body`，请通过 `include` 主动开启。
 
 ```tsx filename="AI SDK 7"
 const result = await generateText({
@@ -650,7 +636,7 @@ const result = await generateText({
 });
 ```
 
-For `streamText`, only `requestBody` is available:
+对 `streamText` 而言，仅支持 `requestBody`：
 
 ```tsx filename="AI SDK 7"
 const result = streamText({
@@ -662,15 +648,12 @@ const result = streamText({
 });
 ```
 
-### Step Response Messages Are No Longer Accumulated
+### Step 响应消息不再累积
 
-In AI SDK 7, `step.response.messages` on each `StepResult` only contains the
-response messages produced by that particular step.
+在 AI SDK 7 中，每个 `StepResult` 上的 `step.response.messages` **仅包含该步骤产生的**响应消息。
 
-In AI SDK 6, `step.response.messages` accumulated response messages from all
-previous steps. If your application reads `step.response.messages` from an
-intermediate or final step and expects the full assistant/tool message history,
-use the top-level `result.responseMessages` instead.
+在 AI SDK 6 中，`step.response.messages` 会累积此前所有步骤的响应消息。若你的应用从中途或最终步骤读取 `step.response.messages`，并期望拿到完整的助手/工具消息历史，
+请改用顶层 `result.responseMessages`。
 
 ```tsx filename="AI SDK 7"
 const result = await generateText({
@@ -687,31 +670,30 @@ const responseMessages = result.responseMessages;
 const stepMessages = result.steps.map(step => step.response.messages);
 ```
 
-If you specifically need to reconstruct response messages from step results,
-flatten the per-step messages:
+若你确实需要从 step 结果重建响应消息，
+可将各步骤消息扁平化：
 
 ```tsx filename="AI SDK 7"
 const responseMessages = result.steps.flatMap(step => step.response.messages);
 ```
 
-Prefer `result.responseMessages` when you want the full response message history.
-It also includes response messages produced before the first model step, such as
-tool results from approved tool calls in the input messages.
+当你需要完整响应消息历史时，优先使用 `result.responseMessages`。
+它还会包含第一个模型步骤之前产生的响应消息，例如输入消息里已批准工具调用对应的工具结果。
 
-### Context: `experimental_context` Became Tool `context`, and Shared Runtime Data Moved to `runtimeContext`
+### Context：`experimental_context` 变为工具 `context`，共享运行时数据迁至 `runtimeContext`
 
-In AI SDK 7, the tool callback option previously exposed as `experimental_context` has been renamed to `context` and is now stable.
+在 AI SDK 7 中，此前以 `experimental_context` 暴露的工具回调选项已重命名为 `context`，并已稳定。
 
-The bigger behavioral change is that AI SDK now separates:
+更重要的行为变化是 AI SDK 现在区分两类数据：
 
-- tool-specific `context`, which is passed to tool callbacks from `toolsContext`
-- shared generation/agent runtime data, which flows through `runtimeContext`
+- 工具专属的 `context`，通过 `toolsContext` 传入工具回调
+- 共享的生成/agent 运行时数据，通过 `runtimeContext` 流转
 
-In AI SDK 6, tools often read from one generic runtime context object. In AI SDK 7, each tool gets its own scoped `context`, and you provide those values through `toolsContext`, keyed by tool name.
+在 AI SDK 6 中，工具常常从同一个通用运行时上下文对象读取数据。在 AI SDK 7 中，每个工具拥有各自作用域的 `context`，你需要按工具名将值传入 `toolsContext`。
 
-`tool()` infers the type of a tool's `context` from its `contextSchema`, so each tool only sees the fields declared for that specific tool.
+`tool()` 会根据 `contextSchema` 推断工具的 `context` 类型，因此每个工具只能看到为该工具声明的字段。
 
-In AI SDK 6, tool code often accessed `experimental_context` and had to cast it manually:
+在 AI SDK 6 中，工具代码经常访问 `experimental_context` 并需要手动断言：
 
 ```tsx filename="AI SDK 6"
 const weather = tool({
@@ -728,7 +710,7 @@ const weather = tool({
 });
 ```
 
-In AI SDK 7, rename `experimental_context` to `context`, declare the tool-specific context with `contextSchema`, and pass the per-tool values through `toolsContext`. The `execute` callback, approval callback, and tool input lifecycle hooks then receive a typed `context` automatically:
+在 AI SDK 7 中，将 `experimental_context` 重命名为 `context`，用 `contextSchema` 声明工具专属上下文，并通过 `toolsContext` 传入每个工具的值。随后 `execute` 回调、审批回调以及工具输入生命周期钩子会自动收到类型化的 `context`：
 
 ```tsx filename="AI SDK 7"
 const weather = tool({
@@ -763,27 +745,27 @@ const result = await generateText({
 });
 ```
 
-Use `runtimeContext` for shared generation or agent state that should be visible in `prepareStep`, events, and step results. Tool callbacks no longer read from that shared object. A tool's `context` now comes from its own entry in `toolsContext`, so it is limited to the fields that tool declared in `contextSchema`.
+对需要在 `prepareStep`、事件与 step 结果中可见的共享生成或 agent 状态，请使用 `runtimeContext`。工具回调不再从该共享对象读取数据。工具的 `context` 现在来自 `toolsContext` 中对应工具的条目，因此只会包含该工具在 `contextSchema` 中声明的字段。
 
-Potential breaking issues:
+可能的破坏性影响：
 
-- If you still destructure `experimental_context` in tool callbacks, rename it to `context`.
-- If you were previously passing one shared runtime object for both orchestration and tools, split it into `runtimeContext` and `toolsContext`.
-- Move tool-specific values into `toolsContext` under the matching tool name.
-- Rename shared top-level `context` usage to `runtimeContext` in `generateText`, `streamText`, and `ToolLoopAgent`.
-- Rename `prepareStep` usage from `context` to `runtimeContext`.
-- If a tool callback accesses fields that are not declared in its `contextSchema`, TypeScript will now report errors. Add those fields to that tool's schema.
-- If you have helper types or wrappers that assumed `experimental_context` or `context` was `unknown`, update them to accept a generic `CONTEXT` type.
-- If at least one tool declares `contextSchema`, `toolsContext` becomes required and only includes the tools that actually declare contextual data.
-- If you were relying on every tool callback seeing the same full runtime object, move shared step data to `runtimeContext`, or explicitly provide the needed per-tool data in each tool's `toolsContext` entry.
+- 若仍在工具回调中解构 `experimental_context`，请改名为 `context`。
+- 若此前把同一个共享运行时对象既用于编排又用于工具，请拆分为 `runtimeContext` 与 `toolsContext`。
+- 将工具专属值放到匹配工具名下的 `toolsContext` 中。
+- 将 `generateText`、`streamText`、`ToolLoopAgent` 中共享的顶层 `context` 用法改名为 `runtimeContext`。
+- 将 `prepareStep` 中的 `context` 改名为 `runtimeContext`。
+- 若工具回调访问了未在其 `contextSchema` 中声明的字段，TypeScript 现在会报错。请把这些字段加入该工具的 schema。
+- 若有辅助类型或包装器假定 `experimental_context` 或 `context` 为 `unknown`，请更新为接受泛型 `CONTEXT`。
+- 若至少一个工具声明了 `contextSchema`，则 `toolsContext` 变为必填，且仅包含实际声明上下文数据的工具。
+- 若你依赖每个工具回调都能看到同一个完整运行时对象，请将共享步骤数据搬到 `runtimeContext`，或在每个工具的 `toolsContext` 条目中显式提供所需的按工具数据。
 
-### Structured Outputs: Remove Deprecated `experimental_output` Option and Result
+### 结构化输出：移除已弃用的 `experimental_output` 选项与结果字段
 
-The deprecated `experimental_output` option has been removed in AI SDK 7. Replace all remaining usages with `output`.
+AI SDK 7 已移除已弃用的 `experimental_output` 选项。请将剩余用法全部替换为 `output`。
 
-The deprecated `generateText()` result property `experimental_output` has also been removed. Read `result.output` instead.
+已弃用的 `generateText()` 结果属性 `experimental_output` 也已移除。请改为读取 `result.output`。
 
-This name was deprecated in AI SDK 6, so if you already migrated to `output`, no changes are needed. Otherwise, update both the call options and any result access:
+该名称在 AI SDK 6 中已弃用，若你已迁移到 `output`，则无需改动。否则请同时更新调用选项与结果读取：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -809,14 +791,12 @@ const result = await generateText({
 console.log(result.output);
 ```
 
-### Tools: Migrate Deprecated `needsApproval` to `toolApproval`
+### 工具：将已弃用的 `needsApproval` 迁移到 `toolApproval`
 
-The `needsApproval` property on `tool()` and `dynamicTool()` is deprecated in
-AI SDK 7 for `generateText`, `streamText`, and `ToolLoopAgent`.
+在 AI SDK 7 中，面向 `generateText`、`streamText` 与 `ToolLoopAgent`，`tool()` 与 `dynamicTool()` 上的 `needsApproval` 属性已弃用。
 
-Move approval logic to the `toolApproval` setting on the call or agent instead.
-This keeps approval policy close to the generation or agent configuration and
-lets you vary it by request.
+请将审批逻辑移到调用或 agent 上的 `toolApproval` 设置。
+这样可以把审批策略保持在生成或 agent 配置附近，并按请求灵活调整。
 
 ```tsx filename="AI SDK 6"
 const deleteFile = tool({
@@ -857,17 +837,14 @@ await streamText({
 });
 ```
 
-If you were using `needsApproval: true`, migrate it to
-`toolApproval: { myTool: 'user-approval' }`. If you were using a
-`needsApproval` function, move that logic into a per-tool
-`SingleToolApprovalFunction` or a generic `toolApproval` callback. This
-guidance applies to `generateText`, `streamText`, and `ToolLoopAgent`.
+若你曾使用 `needsApproval: true`，请迁移为 `toolApproval: { myTool: 'user-approval' }`。若使用 `needsApproval` 函数，请把逻辑移到按工具的 `SingleToolApprovalFunction`，或通用 `toolApproval` 回调。
+该指引适用于 `generateText`、`streamText` 与 `ToolLoopAgent`。
 
-### Tools: Remove Deprecated `experimental_activeTools` Option
+### 工具：移除已弃用的 `experimental_activeTools` 选项
 
-The deprecated `experimental_activeTools` option has been removed in AI SDK 7. Replace all remaining usages with `activeTools`.
+AI SDK 7 已移除已弃用的 `experimental_activeTools` 选项。请将剩余用法全部替换为 `activeTools`。
 
-This option was deprecated in AI SDK 5, so if you already migrated to `activeTools`, no changes are needed. Otherwise, update both `generateText` and `streamText` calls:
+该选项在 AI SDK 5 已弃用，若你已迁移到 `activeTools`，则无需改动。否则请同时更新 `generateText` 与 `streamText` 调用：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -885,11 +862,11 @@ const result = await generateText({
 });
 ```
 
-### Core: Remove Deprecated `experimental_prepareStep` Option
+### Core：移除已弃用的 `experimental_prepareStep` 选项
 
-The deprecated `experimental_prepareStep` option has been removed in AI SDK 7. Replace all remaining usages with `prepareStep`.
+AI SDK 7 已移除已弃用的 `experimental_prepareStep` 选项。请将剩余用法全部替换为 `prepareStep`。
 
-This option was deprecated in AI SDK 5, so if you already migrated to `prepareStep`, no changes are needed. Otherwise, update `generateText` calls:
+该选项在 AI SDK 5 已弃用，若你已迁移到 `prepareStep`，则无需改动。否则请更新 `generateText` 调用：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -917,11 +894,11 @@ const result = await generateText({
 });
 ```
 
-### Core: `prepareStep` Message Overrides Carry Forward
+### Core：`prepareStep` 的消息覆盖会延续到后续步骤
 
-When `prepareStep` returns `messages`, those messages are now used as the base for subsequent steps. The next step receives those messages plus the response messages from the previous step.
+当 `prepareStep` 返回 `messages` 时，这些消息会成为后续步骤的基础。下一步会收到这些消息加上前一步的响应消息。
 
-In AI SDK 6, a `messages` override only applied to the current step. To keep that behavior, rebuild the current step's messages from `initialMessages` and `responseMessages` inside `prepareStep`:
+在 AI SDK 6 中，`messages` 覆盖仅作用于当前步骤。若要保留该行为，请在 `prepareStep` 内用 `initialMessages` 与 `responseMessages` 重建当前步骤的消息：
 
 ```tsx filename="AI SDK 7"
 const result = await generateText({
@@ -939,11 +916,11 @@ const result = await generateText({
 });
 ```
 
-### Tools: Remove Deprecated `ToolCallOptions` Type
+### 工具：移除已弃用的 `ToolCallOptions` 类型
 
-The deprecated `ToolCallOptions` type has been removed in AI SDK 7. Replace all remaining usages with `ToolExecutionOptions`.
+AI SDK 7 已移除已弃用的 `ToolCallOptions` 类型。请将剩余用法全部替换为 `ToolExecutionOptions`。
 
-If you already migrated away from the deprecated name in AI SDK 6, no changes are needed. Otherwise, update imports and type references:
+若你在 AI SDK 6 已迁移离开弃用名称，则无需改动。否则请更新 import 与类型引用：
 
 ```tsx filename="AI SDK 6"
 import { ToolCallOptions } from 'ai';
@@ -961,11 +938,11 @@ function executeWithOptions(options: ToolExecutionOptions) {
 }
 ```
 
-### UI Messages: Remove Deprecated `isToolOrDynamicToolUIPart` Function
+### UI Messages：移除已弃用的 `isToolOrDynamicToolUIPart` 函数
 
-The deprecated `isToolOrDynamicToolUIPart` function has been removed in AI SDK 7. Replace all remaining usages with `isToolUIPart`.
+AI SDK 7 已移除已弃用的 `isToolOrDynamicToolUIPart` 函数。请将剩余用法全部替换为 `isToolUIPart`。
 
-If you already migrated away from the deprecated name in AI SDK 6, no changes are needed. Otherwise, update imports and calls:
+若你在 AI SDK 6 已迁移离开弃用名称，则无需改动。否则请更新 import 与调用：
 
 ```tsx filename="AI SDK 6"
 import { isToolOrDynamicToolUIPart } from 'ai';
@@ -983,38 +960,38 @@ if (isToolUIPart(part)) {
 }
 ```
 
-### Tools: Remove Deprecated `media` Content Part Type
+### 工具：移除已弃用的 `media` 内容部件类型
 
-The deprecated tool result content part of `{ type: 'media' }` has been removed in AI SDK 7.
+AI SDK 7 已移除已弃用的工具结果内容部件 `{ type: 'media' }`。
 
-Use `{ type: 'file-data' }` for all inline file content, including images.
+对所有内联文件内容（包括图片）请使用 `{ type: 'file-data' }`。
 
-### Tool Result Content: Migrate Away From `image-*` and `file-*` variants to `file`
+### 工具结果内容：从 `image-*` 与 `file-*` 变体迁移到 `file`
 
-All `image-*` and legacy `file-*` content part types for `toModelOutput` results are deprecated in AI SDK 7 in favor of a single canonical `file` variant that mirrors the top-level `FilePart` shape. Auto-migration is applied at runtime, so existing tool outputs continue to work without code changes. However, updating to the new shape is recommended.
+面向 `toModelOutput` 结果的所有 `image-*` 与旧版 `file-*` 内容部件类型在 AI SDK 7 中已弃用，推荐使用单一规范的 `file` 变体，其形状与顶层 `FilePart` 对齐。运行时会自动迁移，因此既有工具输出无需改代码仍可工作；但仍建议更新到新形状。
 
-The new shape carries a tagged `data` discriminated union, and it always has `mediaType`:
+新形状带有带标签的 `data` 判别联合，并且始终包含 `mediaType`：
 
 - `{ type: 'file-data', data, mediaType, filename? }` → `{ type: 'file', mediaType, filename, data: { type: 'data', data } }`
 - `{ type: 'file-url', url, mediaType }` → `{ type: 'file', mediaType, data: { type: 'url', url: new URL(url) } }`
 - `{ type: 'file-reference', providerReference }` → `{ type: 'file', mediaType, data: { type: 'reference', reference: providerReference } }`
 
-Images are just files with an image media type, so the `image-*` aliases collapse into the same shape — pass `mediaType: 'image'` (or a more specific `image/*` subtype) instead:
+图片只是带有图片媒体类型的文件，因此 `image-*` 别名会合并到同一形状——请改用 `mediaType: 'image'`（或更具体的 `image/*` 子类型）：
 
 - `{ type: 'image-data', data, mediaType }` → `{ type: 'file', mediaType, data: { type: 'data', data } }`
 - `{ type: 'image-url', url }` → `{ type: 'file', mediaType: 'image', data: { type: 'url', url: new URL(url) } }`
 - `{ type: 'image-file-reference', providerReference }` → `{ type: 'file', mediaType: 'image', data: { type: 'reference', reference: providerReference } }`
 
-The `-id` content part types (`file-id` and `image-file-id`) are also generally deprecated in favor of the `reference` data shape, which carries a full `ProviderReference` (a provider-to-file-ID map like `{ openai: 'file_123', anthropic: 'file_abc' }`) that lets the same logical file be reused across providers. The single-ID `-id` variants required the runtime to know which provider the ID belonged to; the explicit reference shape removes that ambiguity:
+`-id` 内容部件类型（`file-id` 与 `image-file-id`）通常也已弃用，建议使用携带完整 `ProviderReference`（提供商到文件 ID 的映射，例如 `{ openai: 'file_123', anthropic: 'file_abc' }`）的 `reference` data 形状，从而让同一逻辑文件可跨提供商复用。单一 ID 的 `-id` 变体要求运行时知道 ID 属于哪个提供商；显式的 reference 形状消除了这种不确定性：
 
 - `{ type: 'file-id', fileId }` → `{ type: 'file', mediaType, data: { type: 'reference', reference: { [provider]: fileId } } }`
 - `{ type: 'image-file-id', fileId }` → `{ type: 'file', mediaType: 'image', data: { type: 'reference', reference: { [provider]: fileId } } }`
 
-`mediaType` on the new `file` variant accepts either a full IANA type (e.g. `'image/png'`) or just a top-level segment (e.g. `'image'`, `'audio'`, `'video'`, `'text'`). When only a top-level segment is provided, the subtype is auto-detected from inline bytes where possible. Update parsing/validation and discriminated unions to handle the single canonical `file` variant.
+新版 `file` 变体上的 `mediaType` 既可接受完整 IANA 类型（例如 `'image/png'`），也可仅接受顶层分段（例如 `'image'`、`'audio'`、`'video'`、`'text'`）。仅提供顶层分段时，会在可行情况下从内联字节自动检测子类型。请更新解析/校验与判别联合，以处理这一单一规范的 `file` 变体。
 
-### Message Parts: Migrate Away From Deprecated `image` Part
+### 消息部件：弃用的 `image` 部件迁移
 
-The `{ type: 'image', image, mediaType? }` user-message content part is deprecated. Use `{ type: 'file', data, mediaType }` with an image `mediaType` instead.
+用户消息内容部件 `{ type: 'image', image, mediaType? }` 已弃用。请改用 `{ type: 'file', data, mediaType }`，并提供图片类 `mediaType`。
 
 ```tsx filename="AI SDK 6"
 { type: 'image', image: bytes }
@@ -1024,38 +1001,38 @@ The `{ type: 'image', image, mediaType? }` user-message content part is deprecat
 { type: 'file', mediaType: 'image', data: bytes }
 ```
 
-`mediaType` on `FilePart` now accepts either a full IANA type (e.g. `'image/png'`) or just a top-level segment (e.g. `'image'`). When only a top-level segment is provided, the subtype is auto-detected from inline bytes where possible.
+`FilePart` 上的 `mediaType` 现在既可接受完整 IANA 类型（例如 `'image/png'`），也可仅接受顶层分段（例如 `'image'`）。仅提供顶层分段时，会在可行情况下从内联字节自动检测子类型。
 
-### Message Parts: Handle New `reasoning-file` Content Type
+### 消息部件：处理新的 `reasoning-file` 内容类型
 
-Some models can now return files as part of their reasoning trace, separate from regular output files. These files, which would have previously were using the `file` type, are now in a distinct `reasoning-file` type.
+部分模型现在可以将文件作为推理轨迹的一部分返回，并与常规输出文件区分开。这些此前会使用 `file` 类型的文件，现在属于独立的 `reasoning-file` 类型。
 
-Update all exhaustive part handling (TypeScript unions, `switch` statements, runtime validators, renderers, serializers) to support `type: 'reasoning-file'`.
+请更新所有穷尽的部件处理逻辑（TypeScript 联合类型、`switch`、运行时校验器、渲染器、序列化器）以支持 `type: 'reasoning-file'`。
 
-Also audit any code that reads generated files from `result.files` or `step.files`: files referenced in reasoning are now represented as `reasoning-file` parts in `content` / `reasoning`. In practice, this should rarely require an update because models usually reference the same file in their reasoning that they later output as regular content. Prior to supporting `reasoning-file` as a distinct type, this would result in the same files appearing in `result.files` or `step.files` as a duplicate.
+同时审查从 `result.files` 或 `step.files` 读取生成文件的代码：推理中引用的文件现在在 `content` / `reasoning` 中以 `reasoning-file` 部件表示。实践中很少需要改动，因为模型在推理中引用的文件通常也会随后作为常规内容输出。在支持独立的 `reasoning-file` 类型之前，这可能导致同一文件在 `result.files` 或 `step.files` 中重复出现。
 
-### Reasoning Configuration: Remove Overlapping Settings
+### Reasoning 配置：移除重叠设置
 
-The new top-level `reasoning` option is the provider-agnostic way to control reasoning effort.
+新的顶层 `reasoning` 选项是以提供商无关的方式控制推理强度的推荐做法。
 
-When migrating to the top-level `reasoning` option, remove overlapping reasoning settings from `providerOptions`.
+迁移到顶层 `reasoning` 时，请从 `providerOptions` 中移除与之重叠的 reasoning 设置。
 
-If both are present, provider-specific reasoning settings in `providerOptions` take precedence, which can silently bypass your new top-level `reasoning` configuration.
+若两者同时存在，`providerOptions` 中的提供商专属 reasoning 设置会优先生效，从而可能在无形中绕过你新的顶层 `reasoning` 配置。
 
-### Settings: `CallSettings` Renamed to `LanguageModelCallOptions` and `RequestOptions`
+### 设置：`CallSettings` 重命名为 `LanguageModelCallOptions` 与 `RequestOptions`
 
-`CallSettings` has been split into `LanguageModelCallOptions` (model-facing options) and `RequestOptions` (transport options). Replace usages in custom wrappers or helpers:
+`CallSettings` 已拆分为 `LanguageModelCallOptions`（面向模型的选项）与 `RequestOptions`（传输选项）。请在自定义封装或辅助函数中替换用法：
 
-- `CallSettings` → `LanguageModelCallOptions & Omit<RequestOptions, 'timeout'>` (note: `CallSettings` never included `timeout`)
+- `CallSettings` → `LanguageModelCallOptions & Omit<RequestOptions, 'timeout'>`（注意：`CallSettings` 从不包含 `timeout`）
 - `prepareCallSettings` → `prepareLanguageModelCallOptions`
 
-Both deprecated names remain available in AI SDK 7.
+这两个弃用名称在 AI SDK 7 中仍可用。
 
-### `generateText` and `streamText` `usage` Now Includes All Steps
+### `generateText` 与 `streamText` 的 `usage` 现包含所有步骤
 
-The `usage` property on `generateText` and `streamText` results now returns the total token usage across all steps. This matches what `totalUsage` previously represented.
+`generateText` 与 `streamText` 结果上的 `usage` 属性现在返回跨所有步骤的总 token 用量。这与此前 `totalUsage` 的含义一致。
 
-Use `finalStep.usage` to read the previous `usage` behavior, which only returned token usage from the final step:
+若要读取旧版 `usage` 行为（仅最终步骤的 token 用量），请使用 `finalStep.usage`：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -1079,17 +1056,13 @@ console.log(result.finalStep.usage); // final step only
 console.log(result.usage); // all steps
 ```
 
-`totalUsage` is deprecated. Replace `result.totalUsage` with `result.usage`.
+`totalUsage` 已弃用。请将 `result.totalUsage` 替换为 `result.usage`。
 
-### `generateText` and `streamText` Result Properties Now Include All Steps
+### `generateText` 与 `streamText` 的结果属性现汇总所有步骤
 
-The top-level `content`, `toolCalls`, `staticToolCalls`, `dynamicToolCalls`,
-`toolResults`, `staticToolResults`, `dynamicToolResults`, `files`, `sources`,
-and `warnings` properties on `generateText` and `streamText` results now return
-values accumulated across every step.
+`generateText` 与 `streamText` 结果顶层的 `content`、`toolCalls`、`staticToolCalls`、`dynamicToolCalls`、`toolResults`、`staticToolResults`、`dynamicToolResults`、`files`、`sources` 与 `warnings` 属性现在返回跨所有步骤累积的值。
 
-In AI SDK 6, these properties only returned values from the final step. Use
-`finalStep` to read the previous behavior:
+在 AI SDK 6 中，这些属性仅返回最终步骤的值。若要读取旧行为，请使用 `finalStep`：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -1127,7 +1100,7 @@ console.log(result.warnings); // all steps
 console.log(result.content); // all steps
 ```
 
-For `streamText`, await `finalStep` first when you need final-step-only values:
+对 `streamText`，若只需要最终步骤的值，请先 `await finalStep`：
 
 ```tsx filename="AI SDK 7"
 const result = streamText({
@@ -1152,11 +1125,11 @@ console.log(await result.warnings); // all steps
 console.log(await result.content); // all steps
 ```
 
-### Final-Step Result Properties Moved to `finalStep`
+### 最终结果属性迁至 `finalStep`
 
-The top-level `reasoning`, `reasoningText`, `request`, `response`, and `providerMetadata` result properties on `generateText` and `streamText` are deprecated in AI SDK 7.
+AI SDK 7 中，`generateText` 与 `streamText` 结果顶层的 `reasoning`、`reasoningText`、`request`、`response` 与 `providerMetadata` 已弃用。
 
-Use `result.finalStep` when you need final-step reasoning or final-step metadata:
+若你需要最终步骤的 reasoning 或元数据，请使用 `result.finalStep`：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -1184,7 +1157,7 @@ console.log(result.finalStep.response.headers);
 console.log(result.finalStep.providerMetadata?.anthropic);
 ```
 
-For `streamText`, await `finalStep` first:
+对 `streamText`，请先 `await finalStep`：
 
 ```tsx filename="AI SDK 7"
 const result = streamText({
@@ -1200,11 +1173,11 @@ console.log(finalStep.request.body);
 console.log(finalStep.response.headers);
 ```
 
-The deprecated top-level aliases continue to work in AI SDK 7 so you can migrate incrementally.
+顶层弃用别名在 AI SDK 7 中仍可用，便于渐进迁移。
 
-### Stop Condition Helper Rename: `stepCountIs` -> `isStepCount`
+### 停止条件辅助函数重命名：`stepCountIs` → `isStepCount`
 
-Rename imports and usage in tool-loop stop conditions:
+请在工具循环停止条件中重命名 import 与用法：
 
 ```tsx filename="Before"
 import { stepCountIs } from 'ai';
@@ -1218,13 +1191,13 @@ import { isStepCount } from 'ai';
 stopWhen: isStepCount(3);
 ```
 
-## MCP Package
+## MCP 包
 
-### MCP Transport: `redirect` Default Changed from `'follow'` to `'error'`
+### MCP 传输：`redirect` 默认值由 `'follow'` 改为 `'error'`
 
-The `redirect` option on `MCPTransportConfig` (used by both HTTP and SSE transports) now defaults to `'error'` instead of `'follow'`. This means HTTP redirects are rejected by default to prevent server-side request forgery (SSRF) attacks where an MCP server could redirect requests to unintended hosts.
+`MCPTransportConfig`（HTTP 与 SSE 传输共用）上的 `redirect` 选项现在默认为 `'error'` 而非 `'follow'`。这意味着默认会拒绝 HTTP 重定向，以防止 MCP 服务器将请求重定向到意外主机而导致的 SSRF。
 
-If your MCP server relies on HTTP redirects, explicitly set `redirect: 'follow'` in your transport configuration:
+若你的 MCP 服务器依赖 HTTP 重定向，请在传输配置中显式设置 `redirect: 'follow'`：
 
 ```tsx filename="AI SDK 6"
 const mcpClient = await createMCPClient({
@@ -1245,15 +1218,15 @@ const mcpClient = await createMCPClient({
 });
 ```
 
-If the MCP server you use does not issue redirects, no changes are needed — the new default is more secure.
+若你使用的 MCP 服务器不会发起重定向，则无需改动——新默认值更安全。
 
 ## Anthropic Provider
 
-### `providerMetadata.anthropic.cacheCreationInputTokens` Removed
+### 移除 `providerMetadata.anthropic.cacheCreationInputTokens`
 
-The Anthropic-specific `cacheCreationInputTokens` field on `providerMetadata.anthropic` has been removed from the responses of `generateText` and `streamText` (as well as the `@ai-sdk/google-vertex/anthropic` sub-provider). This duplicated information that is already available on the standard, provider-agnostic `usage` object.
+Anthropic 专属的 `providerMetadata.anthropic.cacheCreationInputTokens` 字段已从 `generateText` 与 `streamText`（以及 `@ai-sdk/google-vertex/anthropic` 子提供商）的响应中移除。该字段重复了标准、与提供商无关的 `usage` 对象中已有的信息。
 
-Use `result.usage.inputTokenDetails.cacheWriteTokens` to read the number of tokens written to the cache, and `result.usage.inputTokenDetails.cacheReadTokens` to read the number of tokens served from the cache:
+使用 `result.usage.inputTokenDetails.cacheWriteTokens` 读取写入缓存的 token 数，使用 `result.usage.inputTokenDetails.cacheReadTokens` 读取从缓存读取的 token 数：
 
 ```tsx filename="AI SDK 6"
 const result = await generateText({
@@ -1277,14 +1250,14 @@ const result = await generateText({
 console.log(result.usage.inputTokenDetails.cacheWriteTokens);
 ```
 
-If you need the raw Anthropic-shaped usage payload (including `cache_creation_input_tokens`, `cache_read_input_tokens`, `cache_creation`, `service_tier`, etc.), it is still available unchanged at `result.finalStep.providerMetadata?.anthropic?.usage`.
+若你需要 Anthropic 原始的 usage 载荷（包含 `cache_creation_input_tokens`、`cache_read_input_tokens`、`cache_creation`、`service_tier` 等），它仍以不变形式存在于 `result.finalStep.providerMetadata?.anthropic?.usage`。
 
 ## Google Provider
 
-### Renamed Types, Classes, and Functions: `GenerativeAI` Affix Removed
+### 类型、类与函数重命名：移除 `GenerativeAI` 后缀
 
-Every type, class, and function in `@ai-sdk/google` that contained `GoogleGenerativeAI` has been renamed to use simply `Google` — for example, `createGoogleGenerativeAI` → `createGoogle` and `GoogleGenerativeAIProvider` → `GoogleProvider`.
+`@ai-sdk/google` 中所有包含 `GoogleGenerativeAI` 的类型、类与函数已重命名，仅保留 `Google` ——例如 `createGoogleGenerativeAI` → `createGoogle`，`GoogleGenerativeAIProvider` → `GoogleProvider`。
 
-The old names still work as deprecated aliases, but you should migrate to the new names, if you currently reference them.
+旧名称仍可作为弃用别名使用，但若代码中直接引用它们，建议迁移到新名称。
 
-The main entry point the `google` constant, remains unchanged, so if that's all you use from the provider, no changes are required.
+主入口 `google` 常量保持不变，因此若你只使用该常量，则无需改动。

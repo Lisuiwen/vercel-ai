@@ -1,11 +1,11 @@
 ---
-title: Choosing a Provider
-description: Learn how to configure and authenticate with AI providers in the AI SDK.
+title: 选择 Provider
+description: 了解如何在 AI SDK 中配置并认证 AI provider。
 ---
 
-# Choosing a Provider
+# 选择 Provider
 
-The AI SDK supports dozens of model providers through [first-party](/providers/ai-sdk-providers), [OpenAI-compatible](/providers/openai-compatible-providers), and [community](/providers/community-providers) packages.
+AI SDK 通过[官方](/providers/ai-sdk-providers)、[OpenAI 兼容](/providers/openai-compatible-providers)和[社区](/providers/community-providers)包支持数十家模型 provider。
 
 ```ts
 import { generateText } from 'ai';
@@ -19,7 +19,7 @@ const { text } = await generateText({
 
 ## AI Gateway
 
-The [Vercel AI Gateway](/providers/ai-sdk-providers/ai-gateway) is the fastest way to get started with the AI SDK. Access models from OpenAI, Anthropic, Google, and other providers. Authenticate with [OIDC](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway#oidc-authentication-vercel-deployments) or an AI Gateway API key
+[Vercel AI Gateway](/providers/ai-sdk-providers/ai-gateway) 是快速上手 AI SDK 的最快方式。可访问来自 OpenAI、Anthropic、Google 等 provider 的模型。使用 [OIDC](https://ai-sdk.dev/providers/ai-sdk-providers/ai-gateway#oidc-authentication-vercel-deployments) 或 AI Gateway API key 进行认证。
 
 <div className="max-w-[40%] mx-auto">
   <ButtonLink
@@ -33,13 +33,13 @@ The [Vercel AI Gateway](/providers/ai-sdk-providers/ai-gateway) is the fastest w
   </ButtonLink>
 </div>
 
-Add your API key to your environment:
+将 API key 添加到环境变量：
 
 ```env filename=".env.local"
 AI_GATEWAY_API_KEY=your_api_key_here
 ```
 
-The AI Gateway is the default [global provider](/docs/ai-sdk-core/provider-management#global-provider-configuration), so you can access models using a simple string:
+AI Gateway 是默认的[全局 provider](/docs/ai-sdk-core/provider-management#global-provider-configuration)，因此你可以使用简单字符串访问模型：
 
 ```ts
 import { generateText } from 'ai';
@@ -50,7 +50,7 @@ const { text } = await generateText({
 });
 ```
 
-You can also explicitly import and use the gateway provider:
+你也可以显式导入并使用 gateway provider：
 
 ```ts
 // Option 1: Import from 'ai' package (included by default)
@@ -62,9 +62,9 @@ import { gateway } from '@ai-sdk/gateway';
 model: gateway('anthropic/claude-sonnet-4.5');
 ```
 
-## Using Dedicated Providers
+## 使用专用 Provider
 
-You can also use [first-party](/providers/ai-sdk-providers), [OpenAI-compatible](/providers/openai-compatible-providers), and [community](/providers/community-providers) provider packages directly. Install the package and create a provider instance. For example, to use Anthropic:
+你也可以直接使用[官方](/providers/ai-sdk-providers)、[OpenAI 兼容](/providers/openai-compatible-providers)和[社区](/providers/community-providers) provider 包。安装包并创建 provider 实例。例如，使用 Anthropic：
 
 <div className="my-4">
   <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
@@ -89,13 +89,13 @@ import { anthropic } from '@ai-sdk/anthropic';
 model: anthropic('claude-sonnet-4-5');
 ```
 
-You can change the default global provider so string model references use your preferred provider everywhere in your application. Learn more about [provider management](/docs/ai-sdk-core/provider-management#global-provider-configuration).
+你可以更改默认全局 provider，使字符串形式的模型引用在整个应用中使用你偏好的 provider。了解更多关于 [provider 管理](/docs/ai-sdk-core/provider-management#global-provider-configuration) 的信息。
 
-See [available providers](/providers/ai-sdk-providers) for setup instructions for each provider.
+各 provider 的设置说明请参见[可用 provider](/providers/ai-sdk-providers)。
 
-## Custom Providers
+## 自定义 Provider
 
-You can build your own provider to integrate any service with the AI SDK. The AI SDK provides a [Language Model Specification](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v3) that ensures compatibility across providers.
+你可以构建自己的 provider，将任意服务与 AI SDK 集成。AI SDK 提供了 [Language Model Specification](https://github.com/vercel/ai/tree/main/packages/provider/src/language-model/v3)，确保各 provider 之间的兼容性。
 
 ```ts
 import { generateText } from 'ai';
@@ -107,4 +107,4 @@ const { text } = await generateText({
 });
 ```
 
-See [Writing a Custom Provider](/providers/community-providers/custom-providers) for a complete guide.
+完整指南请参见[编写自定义 Provider](/providers/community-providers/custom-providers)。

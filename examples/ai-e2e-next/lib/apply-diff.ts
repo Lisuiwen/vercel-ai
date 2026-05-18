@@ -1,10 +1,9 @@
 /**
- * Applies a headerless V4A diff to the provided file content.
- * - mode "default": patch an existing file using V4A sections ("@@" + +/-/space lines).
- * - mode "create": create-file syntax that requires every line to start with "+".
+ * 将无头部的 V4A diff 应用到提供的文件内容。
+ * - mode "default"：使用 V4A 区块（"@@" + +/-/空格行）修补现有文件。
+ * - mode "create"：创建文件语法，要求每一行以 "+" 开头。
  *
- * The function preserves trailing newlines from the original file and throws when
- * the diff cannot be applied cleanly.
+ * 该函数保留原文件末尾换行；当 diff 无法干净应用时会抛出错误。
  */
 export function applyDiff(
   input: string,
@@ -356,8 +355,7 @@ function applyChunks(input: string, chunks: Chunk[]): string {
 }
 
 /**
- * Parses a diff string and returns information about added and removed lines
- * for visualization purposes. Returns lines in order with their type.
+ * 解析 diff 字符串，返回新增与删除行的信息，供可视化使用。按顺序返回各行及其类型。
  */
 export function parseDiffForVisualization(diff: string): {
   lines: Array<{

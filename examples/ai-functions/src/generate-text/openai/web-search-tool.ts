@@ -14,7 +14,7 @@ run(async () => {
     },
   });
 
-  // Output as valid JSON that can be copy-pasted into a JSON file
+  // 输出为有效 JSON，可以复制粘贴到 JSON 文件中
   console.log(JSON.stringify(result.response.body, null, 2));
   console.log(JSON.stringify(result.toolCalls, null, 2));
   console.log(JSON.stringify(result.toolResults, null, 2));

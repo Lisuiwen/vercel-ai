@@ -3,7 +3,7 @@ import { createUIMessageStream, JsonToSseTransformStream } from 'ai';
 import { after } from 'next/server';
 import { createResumableStreamContext } from 'resumable-stream';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export async function GET(

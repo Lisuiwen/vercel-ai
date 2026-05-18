@@ -1,9 +1,9 @@
 /**
- * Consumes a ReadableStream until it's fully read.
+ * 消耗 ReadableStream 直至完全读取。
  *
- * This function reads the stream chunk by chunk until the stream is exhausted.
- * It doesn't process or return the data from the stream; it simply ensures
- * that the entire stream is read.
+ * 该函数逐块读取流，直到流耗尽。
+ * 它不处理或返回流中的数据；它只是确保
+ * 读取整个流。
  *
  * @param options - The options for consuming the stream.
  * @param options.stream - The ReadableStream to be consumed.

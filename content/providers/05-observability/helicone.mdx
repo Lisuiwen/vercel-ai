@@ -1,15 +1,15 @@
 ---
 title: Helicone
-description: Monitor and optimize your AI SDK applications with minimal configuration using Helicone
+description: 以最少配置使用 Helicone 监控并优化 AI SDK 应用
 ---
 
-# Helicone Observability
+# Helicone 可观测性
 
-[Helicone](https://helicone.ai) is an open-source LLM observability platform that helps you monitor, analyze, and optimize your AI applications. Built-in observability tracks every request automatically, providing comprehensive insights into performance, costs, user behavior, and model usage without requiring additional instrumentation.
+[Helicone](https://helicone.ai) 是开源 LLM 可观测平台，帮助你监控、分析与优化 AI 应用。内置可观测能力会自动追踪每次请求，无需额外埋点即可全面了解性能、成本、用户行为与模型使用情况。
 
-## Setup
+## 设置
 
-The Helicone provider is available in the `@helicone/ai-sdk-provider` package. Install it with:
+Helicone provider 位于 `@helicone/ai-sdk-provider` 包中，安装方式：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -26,15 +26,15 @@ The Helicone provider is available in the `@helicone/ai-sdk-provider` package. I
   </Tab>
 </Tabs>
 
-Setting up Helicone:
+接入 Helicone：
 
-1. Create a Helicone account at [helicone.ai](https://helicone.ai)
-2. Get your API key from the [Helicone Dashboard](https://us.helicone.ai/settings/api-keys)
-3. Set your API key as an environment variable:
+1. 在 [helicone.ai](https://helicone.ai) 创建账户
+2. 在 [Helicone Dashboard](https://us.helicone.ai/settings/api-keys) 获取 API key
+3. 将 API key 设为环境变量：
    ```bash filename=".env"
    HELICONE_API_KEY=your-helicone-api-key
    ```
-4. Use Helicone in your application:
+4. 在应用中使用 Helicone：
 
    ```javascript
    import { createHelicone } from '@helicone/ai-sdk-provider';
@@ -53,51 +53,51 @@ Setting up Helicone:
    console.log(result.text);
    ```
 
-That's it! Your requests are now being logged and monitored through Helicone with automatic observability.
+完成！请求已通过 Helicone 记录与监控，可观测能力自动生效。
 
-[→ Learn more about Helicone AI Gateway](https://docs.helicone.ai)
+[→ 进一步了解 Helicone AI Gateway](https://docs.helicone.ai)
 
-## Key Observability Features
+## 核心可观测能力
 
-Helicone provides comprehensive observability for your AI applications with zero additional instrumentation:
+Helicone 无需额外埋点即可为 AI 应用提供全面可观测：
 
-**Automatic Request Tracking**
+**自动请求追踪**
 
-- Every request is logged automatically with full request/response data
-- Track latency, tokens, costs, and model performance in real-time
-- No OpenTelemetry setup or additional configuration required
+- 每次请求自动记录，含完整请求/响应数据
+- 实时追踪延迟、token、成本与模型表现
+- 无需 OpenTelemetry 或额外配置
 
-**Analytics Dashboard**
+**分析面板**
 
-- View metrics across all your AI requests: costs, latency, token usage, and error rates
-- Filter by user, session, model, or custom properties
-- Identify performance bottlenecks and optimize model selection
+- 汇总所有 AI 请求的指标：成本、延迟、token 用量与错误率
+- 按用户、会话、模型或自定义属性筛选
+- 发现瓶颈并优化模型选择
 
-**User & Session Analytics**
+**用户与会话分析**
 
-- Track individual user behavior and usage patterns
-- Monitor conversation flows with session tracking
-- Analyze user engagement and feature adoption
+- 追踪单用户行为与使用模式
+- 通过会话追踪监控对话流
+- 分析参与度与功能采用情况
 
-**Cost Monitoring**
+**成本监控**
 
-- Real-time cost tracking per request, user, feature, or model
-- Budget alerts and cost optimization insights
-- Compare costs across different models and providers
+- 按请求、用户、功能或模型实时统计成本
+- 预算告警与成本优化洞察
+- 对比不同模型与提供商的成本
 
-**Debugging & Troubleshooting**
+**调试与排障**
 
-- Full request/response logging for every call
-- Error tracking with detailed context
-- Search and filter requests to identify issues quickly
+- 每次调用记录完整请求/响应
+- 带上下文的错误追踪
+- 快速检索与筛选以定位问题
 
-[→ Learn more about Helicone Observability](https://docs.helicone.ai)
+[→ 进一步了解 Helicone 可观测能力](https://docs.helicone.ai)
 
-## Observability Configuration
+## 可观测配置
 
-### User Tracking
+### 用户追踪
 
-Track individual user behavior and analyze usage patterns across your application. This helps you understand which users are most active, identify power users, and monitor per-user costs:
+追踪单个用户行为并分析跨应用的使用模式，有助于识别活跃用户、观察每用户成本等：
 
 ```javascript
 import { createHelicone } from '@helicone/ai-sdk-provider';
@@ -119,18 +119,18 @@ const result = await generateText({
 });
 ```
 
-**What you can track:**
+**可追踪内容：**
 
-- Total requests per user
-- Cost per user
-- Average latency per user
-- Most common use cases by user segment
+- 每用户总请求数
+- 每用户成本
+- 每用户平均延迟
+- 按用户分段的最常见场景
 
-[→ Learn more about User Metrics](https://docs.helicone.ai/features/advanced-usage/user-metrics)
+[→ 进一步了解 User Metrics](https://docs.helicone.ai/features/advanced-usage/user-metrics)
 
-### Custom Properties
+### 自定义属性
 
-Add structured metadata to segment and analyze requests by feature, environment, or any custom dimension. This enables powerful filtering and insights in your analytics dashboard:
+添加结构化元数据，按功能、环境或任意自定义维度拆分与分析请求，在分析面板中获得更强筛选与洞察：
 
 ```javascript
 import { createHelicone } from '@helicone/ai-sdk-provider';
@@ -157,18 +157,18 @@ const result = await generateText({
 });
 ```
 
-**Use cases for custom properties:**
+**自定义属性适用场景：**
 
-- Compare performance across different features or environments
-- Track costs by product area or customer tier
-- Identify which features drive the most AI usage
-- A/B test different prompts or models by tagging experiments
+- 跨功能或环境对比表现
+- 按产品区域或客户等级追踪成本
+- 识别驱动 AI 用量的功能
+- 通过标签区分实验以做 A/B 测试
 
-[→ Learn more about Custom Properties](https://docs.helicone.ai/features/advanced-usage/custom-properties)
+[→ 进一步了解 Custom Properties](https://docs.helicone.ai/features/advanced-usage/custom-properties)
 
-### Session Tracking
+### 会话追踪
 
-Group related requests into sessions to analyze conversation flows and multi-turn interactions. This is essential for understanding user journeys and debugging complex conversations:
+将相关请求归组为会话，分析对话流与多轮交互，有助于理解用户路径并调试复杂会话：
 
 ```javascript
 import { createHelicone } from '@helicone/ai-sdk-provider';
@@ -192,21 +192,21 @@ const result = await generateText({
 });
 ```
 
-**Session tracking benefits:**
+**会话追踪的收益：**
 
-- View complete conversation history in a single timeline
-- Calculate total cost per session/conversation
-- Measure session duration and message counts
-- Identify where users drop off in multi-turn conversations
-- Debug issues by replaying entire conversation flows
+- 在单一时间线查看完整对话历史
+- 计算单会话/对话总成本
+- 度量会话时长与消息数量
+- 发现多轮对话中的流失节点
+- 通过回放整条对话排查问题
 
-[→ Learn more about Sessions](https://docs.helicone.ai/features/sessions)
+[→ 进一步了解 Sessions](https://docs.helicone.ai/features/sessions)
 
-## Advanced Observability Features
+## 高级可观测能力
 
-### Tags and Organization
+### 标签与组织
 
-Add tags to organize and filter requests in your analytics dashboard:
+为分析面板中的请求添加标签以便组织与筛选：
 
 ```javascript
 import { createHelicone } from '@helicone/ai-sdk-provider';
@@ -233,18 +233,18 @@ const result = await generateText({
 });
 ```
 
-**Tags insights:**
+**标签带来的洞察：**
 
-- Filter and group requests by tags
-- Track performance across different categories
-- Identify patterns in tagged requests
-- Build custom dashboards around specific tags
+- 按标签筛选与分组请求
+- 跨类别追踪表现
+- 发现带标签请求中的模式
+- 围绕特定标签构建自定义面板
 
-[→ Learn more about Helicone Features](https://docs.helicone.ai)
+[→ 进一步了解 Helicone Features](https://docs.helicone.ai)
 
-### Streaming Response Tracking
+### 流式响应追踪
 
-Monitor streaming responses with full observability, including time-to-first-token and total streaming duration:
+对流式响应进行完整可观测，含首 token 时间与总流式耗时：
 
 ```javascript
 import { createHelicone } from '@helicone/ai-sdk-provider';
@@ -272,16 +272,16 @@ for await (const chunk of result.textStream) {
 }
 ```
 
-**Streaming metrics tracked:**
+**流式场景追踪的指标：**
 
-- Time to first token (TTFT)
-- Total streaming duration
+- Time to first token（TTFT）
+- 总流式时长
 - Tokens per second
-- Complete request/response logging even for streams
-- User experience metrics for real-time applications
-- All metadata (sessions, users, tags) tracked for streamed responses
+- 对流仍记录完整请求/响应
+- 实时应用的用户体验指标
+- 对流式响应同样附带会话、用户、标签等元数据
 
-## Resources
+## 资源
 
 - [Helicone Documentation](https://docs.helicone.ai)
 - [AI SDK Provider Package](https://github.com/Helicone/ai-sdk-provider)

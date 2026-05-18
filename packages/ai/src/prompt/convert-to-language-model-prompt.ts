@@ -36,8 +36,8 @@ export async function convertToLanguageModelPrompt({
   prompt,
   supportedUrls,
   download = createDefaultDownloadFunction(),
-  // `provider` is only needed here to convert legacy tool output types via `mapToolResultOutput`.
-  // TODO: remove in v8 when "file-id" and "image-file-id" types are removed
+  // 这里仅需要“provider”来通过“mapToolResultOutput”转换旧工具输出类型。
+  // TODO：在 v8 中删除“file-id”和“image-file-id”类型时删除
   provider,
 }: {
   prompt: StandardizedPrompt;
@@ -98,7 +98,7 @@ export async function convertToLanguageModelPrompt({
     ),
   ];
 
-  // combine consecutive tool messages into a single tool message
+  // 将连续的工具消息合并为单个工具消息
   const combinedMessages = [];
   for (const message of messages) {
     if (message.role !== 'tool') {
@@ -136,7 +136,7 @@ export async function convertToLanguageModelPrompt({
       }
       case 'user':
       case 'system':
-        // remove approved tool calls from the set before checking:
+        // 在检查之前从集合中删除批准的工具调用：
         for (const id of approvedToolCallIds) {
           toolCallIds.delete(id);
         }
@@ -150,7 +150,7 @@ export async function convertToLanguageModelPrompt({
     }
   }
 
-  // remove approved tool calls from the set before checking:
+  // 在检查之前从集合中删除批准的工具调用：
   for (const id of approvedToolCallIds) {
     toolCallIds.delete(id);
   }
@@ -160,26 +160,26 @@ export async function convertToLanguageModelPrompt({
   }
 
   return combinedMessages.filter(
-    // Filter out empty tool messages (e.g. if they only contained
-    // tool-approval-response parts that were removed).
-    // This prevents sending invalid empty messages to the provider.
-    // Note: provider-executed tool-approval-response parts are preserved.
+    // 过滤掉空工具消息（例如，如果它们仅包含
+    // 已删除的工具批准响应部分）。
+    // 这可以防止向提供者发送无效的空消息。
+    // 注意：提供商执行的工具批准响应部分将被保留。
     message => message.role !== 'tool' || message.content.length > 0,
   );
 }
 
 /**
- * Convert a ModelMessage to a LanguageModelV4Message.
+ * 将 ModelMessage 转换为 LanguageModelV4Message。
  *
  * @param message - The ModelMessage to convert.
  * @param downloadedAssets - A map of URLs to their downloaded data. Only
- * available if the model does not support URLs, null otherwise.
+ * 如果模型不支持 URL，则可用，否则为 null。
  */
 export function convertToLanguageModelMessage({
   message,
   downloadedAssets,
-  // `provider` is only needed here to convert legacy tool output types via `mapToolResultOutput`.
-  // TODO: remove in v8 when "file-id" and "image-file-id" types are removed
+  // 这里仅需要“provider”来通过“mapToolResultOutput”转换旧工具输出类型。
+  // TODO：在 v8 中删除“file-id”和“image-file-id”类型时删除
   provider,
 }: {
   message: ModelMessage;
@@ -224,7 +224,7 @@ export function convertToLanguageModelMessage({
             return convertImagePartToFilePart(part);
           })
           .map(part => convertPartToLanguageModelPart(part, downloadedAssets))
-          // remove empty text parts:
+          // 删除空文本部分：
           .filter(part => part.type !== 'text' || part.text !== ''),
         providerOptions: message.providerOptions,
       };
@@ -247,7 +247,7 @@ export function convertToLanguageModelMessage({
         role: 'assistant' as const,
         content: message.content
           .filter(
-            // remove empty text parts (no text, and no provider options):
+            // 删除空文本部分（没有文本，也没有提供程序选项）：
             part =>
               part.type !== 'text' ||
               part.text !== '' ||
@@ -357,7 +357,7 @@ export function convertToLanguageModelMessage({
         role: 'tool' as const,
         content: message.content
           .filter(
-            // Only include tool-approval-response for provider-executed tools
+            // 仅包含提供商执行的工具的工具批准响应
             part =>
               part.type !== 'tool-approval-response' || part.providerExecuted,
           )
@@ -403,11 +403,11 @@ export function convertToLanguageModelMessage({
 }
 
 /*
- * Rewrites a legacy `ImagePart` into an equivalent `FilePart`. The default
- * `mediaType` for a bare `ImagePart` (no `mediaType`) is `"image"` (top-level
- * segment); an explicit `mediaType` is carried through verbatim. After this
- * pre-pass, only `TextPart` and `FilePart` ever reach the provider-facing
- * conversion logic.
+ * 将旧版“ImagePart”重写为等效的“FilePart”。默认
+ * 裸露的“ImagePart”（无“mediaType”）的“mediaType”是“image”（顶级
+ * 段）；显式的“mediaType”是逐字传递的。在此之后
+ * 预传递，只有“TextPart”和“FilePart”到达面向提供者的
+ * 转换逻辑。
  */
 function convertImagePartToFilePart(
   part: TextPart | ImagePart | FilePart,
@@ -424,7 +424,7 @@ function convertImagePartToFilePart(
 }
 
 /**
- * Downloads files from URLs in the user messages.
+ * 从用户消息中的 URL 下载文件。
  */
 async function downloadAssets(
   messages: ModelMessage[],
@@ -507,7 +507,7 @@ async function downloadAssets(
           supportedUrls,
         }),
     }));
-  // download in parallel:
+  // 并行下载：
   const downloadedFiles = await download(plannedDownloads);
 
   return Object.fromEntries(
@@ -525,11 +525,11 @@ async function downloadAssets(
 }
 
 /**
- * Convert part of a user message to a LanguageModelV4Part.
+ * 将部分用户消息转换为 LanguageModelV4Part。
  *
  * @param part - The part to convert.
  * @param downloadedAssets - A map of URLs to their downloaded data. Only
- * available if the model does not support URLs, null otherwise.
+ * 如果模型不支持 URL，则可用，否则为 null。
  * @returns The converted part.
  */
 function convertPartToLanguageModelPart(
@@ -594,8 +594,8 @@ function convertPartToLanguageModelPart(
 
 function mapToolResultOutput({
   output,
-  // `provider` is only needed here to convert legacy "file-id" and "image-file-id" types to provider references, in case they are using string ID values.
-  // TODO: remove in v8 when "file-id" and "image-file-id" types are removed
+  // 此处仅需要“provider”将旧的“file-id”和“image-file-id”类型转换为提供程序引用（以防它们使用字符串 ID 值）。
+  // TODO：在 v8 中删除“file-id”和“image-file-id”类型时删除
   provider,
   warnings = [],
   downloadedAssets,
@@ -701,8 +701,8 @@ function mapToolResultOutput({
             providerOptions: item.providerOptions,
           };
         }
-        // The "image-*" types are legacy and deprecated.
-        // TODO: remove migration in v8 in combination with the removal of these types from the provider utils.
+        // “image-*”类型是旧的且已弃用。
+        // TODO：删除 v8 中的迁移并结合从提供程序实用程序中删除这些类型。
         case 'image-data': {
           warnings.push({
             type: 'deprecated',
@@ -792,7 +792,7 @@ function convertFileIdToProviderReference({
   return { [provider]: fileId };
 }
 
-// Temporary private helper (see below).
+// 临时私人帮手（见下文）。
 const URL_EXTENSION_TO_MEDIA_TYPE: Record<string, string> = {
   jpg: 'image/jpeg',
   jpeg: 'image/jpeg',
@@ -814,11 +814,11 @@ const URL_EXTENSION_TO_MEDIA_TYPE: Record<string, string> = {
 };
 
 /*
- * Attempts to infer an IANA media type from the file extension in a URL's
- * pathname. Returns `fallbackMediaType` when the extension is absent,
- * unrecognized, or the URL cannot be parsed.
+ * 尝试从 URL 中的文件扩展名推断 IANA 媒体类型
+ * 路径名。当扩展不存在时返回“fallbackMediaType”，
+ * 无法识别，或者无法解析 URL。
  *
- * Temporary private helper as a best-effort solution for missing media types on "file-url" content parts.
+ * 临时私人助手作为“file-url”内容部分上缺少媒体类型的最佳解决方案。
  */
 function getMediaTypeFromUrl(
   url: string,
@@ -831,7 +831,7 @@ function getMediaTypeFromUrl(
       return URL_EXTENSION_TO_MEDIA_TYPE[ext];
     }
   } catch {
-    // ignore URL parse errors
+    // 忽略 URL 解析错误
   }
   return fallbackMediaType;
 }

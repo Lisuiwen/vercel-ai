@@ -17,7 +17,7 @@ export function asProviderV4(
     return provider;
   }
 
-  // first ensure we have at least a v3 provider:
+  // 首先确保我们至少有一个 v3 提供程序：
   const v3Provider: ProviderV3 =
     !('specificationVersion' in provider) ||
     provider.specificationVersion !== 'v3'

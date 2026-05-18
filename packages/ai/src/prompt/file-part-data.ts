@@ -64,11 +64,11 @@ function convertInlineDataToFilePartData(content: DataContent): ConvertResult {
 }
 
 /**
- * Converts any legacy-or-tagged top-level `FilePart.data` /
- * `ReasoningFilePart.data` value into the tagged v4 provider prompt shape.
+ * 转换任何遗留或标记的顶级“FilePart.data”/
+ * 将“ReasoningFilePart.data”值放入标记的 v4 提供程序提示形状中。
  *
- * Returns the tagged `data` together with the resolved mediaType (extracted
- * from a `data:` URL when applicable).
+ * 返回标记的“data”以及解析的媒体类型（提取的
+ * 来自“data:” URL（如果适用）。
  */
 export function convertToLanguageModelV4FilePart(
   content: FilePart['data'],

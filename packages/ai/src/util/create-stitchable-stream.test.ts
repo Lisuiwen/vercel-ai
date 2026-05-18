@@ -64,20 +64,20 @@ describe('createStitchableStream', () => {
     it('should handle reading a single value before it is added', async () => {
       const { stream, addStream, close } = createStitchableStream<number>();
 
-      // Start reading before any values are added
+      // 在添加任何值之前开始读取
       const reader = stream.getReader();
       const readPromise = reader.read();
 
-      // Add value with delay after starting read
+      // 开始读取后延迟添加值
       Promise.resolve().then(() => {
         addStream(convertArrayToReadableStream([42]));
         close();
       });
 
-      // Value should be returned once available
+      // 值一旦可用就应该返回
       expect(await readPromise).toEqual({ done: false, value: 42 });
 
-      // Stream should complete after value is read
+      // 读取值后流应完成
       expect(await reader.read()).toEqual({ done: true, value: undefined });
     });
   });
@@ -86,8 +86,8 @@ describe('createStitchableStream', () => {
     it('should return all values from 2 inner streams', async () => {
       const { stream, addStream, close } = createStitchableStream<number>();
 
-      // read 5 values from the stream before they are added
-      // (added asynchronously)
+      // 在添加之前从流中读取 5 个值
+      // （异步添加）
       const reader = stream.getReader();
       const results: Array<{ done: boolean; value?: number }> = [];
       for (let i = 0; i < 5; i++) {
@@ -100,7 +100,7 @@ describe('createStitchableStream', () => {
       addStream(convertArrayToReadableStream([4, 5]));
       close();
 
-      // wait for the stream to finish via await:
+      // 通过await等待流完成：
       expect(await reader.read()).toEqual({ done: true, value: undefined });
 
       expect(results).toEqual([
@@ -211,13 +211,13 @@ describe('createStitchableStream', () => {
       addStream(mockStream1);
       addStream(mockStream2);
 
-      // Start reading from the stream
+      // 开始从流中读取
       const reader = stream.getReader();
       const firstRead = await reader.read();
 
       terminate();
 
-      // Should immediately close without reading remaining values
+      // 应立即关闭而不读取剩余值
       const finalRead = await reader.read();
 
       expect(firstRead).toEqual({ done: false, value: 1 });

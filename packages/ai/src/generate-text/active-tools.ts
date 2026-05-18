@@ -1,11 +1,11 @@
 import type { ToolSet } from '@ai-sdk/provider-utils';
 
 /**
- * Tool names that are enabled for a generation step.
+ * 为生成步骤启用的工具名称。
  *
- * `undefined` means no tool restriction is applied. Tool names are object keys
- * at runtime, so the type is restricted to the string keys of the configured
- * tool set.
+ * “未定义”意味着没有应用工具限制。工具名称是对象键
+ * 在运行时，因此类型仅限于配置的字符串键
+ * 工具集。
  */
 export type ActiveTools<TOOLS extends ToolSet> =
   | ReadonlyArray<keyof TOOLS & string>

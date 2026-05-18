@@ -1,34 +1,34 @@
 ---
-title: Missing Tool Results Error
-description: How to fix the "Tool results are missing for tool calls" error when using the AI SDK.
+title: 缺少工具结果错误
+description: 如何修复 AI SDK 中的「Tool results are missing for tool calls」错误。
 ---
 
-# Missing Tool Results Error
+# 缺少工具结果错误
 
-## Issue
+## 问题
 
-You encounter the error `AI_MissingToolResultsError` with a message like:
+可能遇到 `AI_MissingToolResultsError`，提示类似：
 
 > Tool results are missing for tool calls: ...
 
-## Cause
+## 原因
 
-This error occurs when you attempt to send a new message to the Large Language Model (LLM) while there are pending tool calls from a previous turn that have not yet been resolved.
+当你在有上一轮尚未解决的待处理工具调用时，又向大语言模型（LLM）发送新消息，就会触发该错误。
 
-The AI SDK core logic validates that all `tool-call` parts in the conversation history are resolved before proceeding. "Resolved" typically means:
+AI SDK 核心逻辑会校验对话历史中所有 `tool-call` 片段在继续前都已解决。「已解决」通常指：
 
-1. The tool has been executed and a `tool-result` has been added to the history.
-2. Or, the tool call has triggered a `tool-approval-response` (if using tool approvals).
+1. 工具已执行并向历史加入 `tool-result`。
+2. 或工具调用触发了 `tool-approval-response`（若使用工具审批流程）。
 
-If a tool call is found without a corresponding result or approval response, this error is thrown to prevent sending an invalid conversation history to the model.
+若存在没有对应结果或审批响应的工具调用，会抛出该错误，避免将无效历史发给模型。
 
-## Solution
+## 解决方案
 
-Ensure that every tool call in your conversation history is properly handled.
+确保对话历史中的每次工具调用都得到妥善处理。
 
-### 1. Provide Tool Results
+### 1. 提供工具结果
 
-For standard tool calls, ensure that you provide the output of the tool execution.
+对常规工具调用，确保写入工具执行输出。
 
 ```typescript
 const messages = [
@@ -61,9 +61,9 @@ const messages = [
 ];
 ```
 
-### 2. Handle Tool Approvals
+### 2. 处理工具审批
 
-If you are using the tool approval workflow, ensure that you include the `tool-approval-response`.
+若使用工具审批流程，确保包含 `tool-approval-response`。
 
 ```typescript
 const messages = [

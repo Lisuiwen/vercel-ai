@@ -25,24 +25,24 @@ export async function POST(req: Request) {
               city: z.string(),
             }),
             execute: async ({ city }, { toolCallId }) => {
-              // update display
+              // 更新显示
               writer.write({
                 type: 'data-weather',
                 id: toolCallId,
                 data: { city, status: 'loading' },
               });
 
-              await delay(2000); // fake delay
+              await delay(2000); // 模拟延迟
               const weather = 'sunny';
 
-              // update display
+              // 更新显示
               writer.write({
                 type: 'data-weather',
                 id: toolCallId,
                 data: { city, weather, status: 'success' },
               });
 
-              // for LLM roundtrip
+              // 用于 LLM 往返
               return { city, weather };
             },
           },

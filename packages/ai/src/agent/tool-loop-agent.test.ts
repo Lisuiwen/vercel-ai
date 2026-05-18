@@ -22,7 +22,7 @@ import { MockLanguageModelV4 } from '../test/mock-language-model-v4';
 import { now } from '../util/now';
 import { ToolLoopAgent } from './tool-loop-agent';
 
-// mock now function
+// 立即模拟功能
 vi.mock('../util/now', () => ({
   now: vi.fn(),
 }));
@@ -150,7 +150,7 @@ describe('ToolLoopAgent', () => {
         timeout: 5000,
       });
 
-      // timeout is merged into abortSignal, so we check that an abort signal was created
+      // 超时合并到abortSignal中因此，我们检查是否创建了中止信号
       expect(doGenerateOptions?.abortSignal).toBeDefined();
     });
 
@@ -744,7 +744,7 @@ describe('ToolLoopAgent', () => {
 
       await result.consumeStream();
 
-      // timeout is merged into abortSignal, so we check that an abort signal was created
+      // 超时合并到abortSignal中因此，我们检查是否创建了中止信号
       expect(doStreamOptions?.abortSignal).toBeDefined();
     });
 
@@ -3885,7 +3885,7 @@ describe('ToolLoopAgent', () => {
       await expect(
         agent.generate({
           prompt: 'hi',
-          // intentionally outside the enum to exercise schema enforcement
+          // 故意在枚举之外执行模式强制
           options: { topic: 'evil' as 'legal' },
         }),
       ).rejects.toThrow(/Type validation failed for options/);

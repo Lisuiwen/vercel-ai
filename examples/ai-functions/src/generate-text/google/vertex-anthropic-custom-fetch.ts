@@ -3,7 +3,7 @@ import { generateText } from 'ai';
 import { run } from '../../lib/run';
 
 const vertexAnthropic = createVertexAnthropic({
-  // example fetch wrapper that logs the URL:
+  // 记录 URL 的 fetch 包装器示例：
   fetch: async (url, options) => {
     console.log(`Fetching ${url}`);
     const result = await fetch(url, options);

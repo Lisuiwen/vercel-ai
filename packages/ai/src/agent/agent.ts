@@ -22,7 +22,7 @@ import type {
 import type { TimeoutConfiguration } from '../prompt/request-options';
 
 /**
- * Parameters for calling an agent.
+ * 呼叫座席参数。
  */
 export type AgentCallParameters<
   CALL_OPTIONS,
@@ -34,52 +34,52 @@ export type AgentCallParameters<
   (
     | {
         /**
-         * A prompt. It can be either a text prompt or a list of messages.
+         * 一个提示。它可以是文本提示或消息列表。
          *
-         * You can either use `prompt` or `messages` but not both.
+         * 您可以使用“提示”或“消息”，但不能同时使用两者。
          */
         prompt: string | Array<ModelMessage>;
 
         /**
-         * A list of messages.
+         * 消息列表。
          *
-         * You can either use `prompt` or `messages` but not both.
+         * 您可以使用“提示”或“消息”，但不能同时使用两者。
          */
         messages?: never;
       }
     | {
         /**
-         * A list of messages.
+         * 消息列表。
          *
-         * You can either use `prompt` or `messages` but not both.
+         * 您可以使用“提示”或“消息”，但不能同时使用两者。
          */
         messages: Array<ModelMessage>;
 
         /**
-         * A prompt. It can be either a text prompt or a list of messages.
+         * 一个提示。它可以是文本提示或消息列表。
          *
-         * You can either use `prompt` or `messages` but not both.
+         * 您可以使用“提示”或“消息”，但不能同时使用两者。
          */
         prompt?: never;
       }
   ) & {
     /**
-     * Abort signal.
+     * 中止信号。
      */
     abortSignal?: AbortSignal;
 
     /**
-     * Timeout in milliseconds. Can be specified as a number or as an object with `totalMs`.
+     * 超时（以毫秒为单位）。可以用`totalMs`指定为数字或对象。
      */
     timeout?: TimeoutConfiguration<TOOLS>;
 
     /**
-     * Callback that is called when the agent operation begins, before any LLM calls.
+     * 代理操作开始时、任何LLM调用之前调用的回调。
      */
     experimental_onStart?: GenerateTextOnStartCallback<TOOLS, RUNTIME_CONTEXT>;
 
     /**
-     * Callback that is called when a step (LLM call) begins, before the provider is called.
+     * 在调用提供程序之前，步骤（LLM调用）开始时调用的回调。
      */
     experimental_onStepStart?: GenerateTextOnStepStartCallback<
       TOOLS,
@@ -87,33 +87,33 @@ export type AgentCallParameters<
     >;
 
     /**
-     * Callback that is called before each tool execution begins.
+     * 在每个工具执行开始之前调用的回调。
      */
     onToolExecutionStart?: OnToolExecutionStartCallback<TOOLS>;
 
     /**
-     * Callback that is called after each tool execution completes.
+     * 每个工具执行完成后调用的回调。
      */
     onToolExecutionEnd?: OnToolExecutionEndCallback<TOOLS>;
 
     /**
-     * Callback that is called when each step (LLM call) is finished, including intermediate steps.
+     * 每个步骤（LLM调用）完成时调用的回调，包括中间步骤。
      */
     onStepFinish?: GenerateTextOnStepFinishCallback<TOOLS, RUNTIME_CONTEXT>;
 
     /**
-     * Callback that is called when all steps are finished and the response is complete.
+     * 当所有步骤完成并且响应完成时调用的回调。
      */
     onFinish?: GenerateTextOnFinishCallback<TOOLS, RUNTIME_CONTEXT>;
 
     /**
-     * The sandbox environment that is passed through to tool execution.
+     * 传递到工具执行的沙箱环境。
      */
     experimental_sandbox?: Sandbox;
   };
 
 /**
- * Parameters for streaming an output from an agent.
+ * 用于流式传输代理输出的参数。
  */
 export type AgentStreamParameters<
   CALL_OPTIONS,
@@ -121,19 +121,19 @@ export type AgentStreamParameters<
   RUNTIME_CONTEXT extends Context = Context,
 > = AgentCallParameters<CALL_OPTIONS, TOOLS, RUNTIME_CONTEXT> & {
   /**
-   * Optional stream transformations.
-   * They are applied in the order they are provided.
-   * The stream transformations must maintain the stream structure for streamText to work correctly.
+   * 可选的流转换。
+   * 它们按照提供的顺序应用。
+   * 流转换必须维护流结构，streamText才能正常工作。
    */
   experimental_transform?: Arrayable<StreamTextTransform<TOOLS>>;
 };
 
 /**
- * An Agent receives a prompt (text or messages) and generates or streams an output
- * that consists of steps, tool calls, data parts, etc.
+ * 代理接收提示（文本或消息）并生成或流式传输输出
+ * 由步骤、工具调用、数据部分等组成。
  *
- * You can implement your own Agent by implementing the `Agent` interface,
- * or use the `ToolLoopAgent` class.
+ * 您可以通过实现`Agent`接口来实现您自己的Agent，
+ * 或使用`ToolLoopAgent`类。
  */
 export interface Agent<
   CALL_OPTIONS = never,
@@ -142,30 +142,30 @@ export interface Agent<
   OUTPUT extends Output = never,
 > {
   /**
-   * The specification version of the agent interface. This will enable
-   * us to evolve the agent interface and retain backwards compatibility.
+   * 代理接口的规范版本。这将使
+   * 我们改进代理接口并保持向后兼容性。
    */
   readonly version: 'agent-v1';
 
   /**
-   * The id of the agent.
+   * 代理的ID。
    */
   readonly id: string | undefined;
 
   /**
-   * The tools that the agent can use.
+   * 代理可以使用的工具。
    */
   readonly tools: TOOLS;
 
   /**
-   * Generates an output from the agent (non-streaming).
+   * 从代理生成输出（非流式传输）。
    */
   generate(
     options: AgentCallParameters<CALL_OPTIONS, TOOLS, RUNTIME_CONTEXT>,
   ): PromiseLike<GenerateTextResult<TOOLS, RUNTIME_CONTEXT, OUTPUT>>;
 
   /**
-   * Streams an output from the agent (streaming).
+   * 对代理的输出进行流式传输（流式传输）。
    */
   stream(
     options: AgentStreamParameters<CALL_OPTIONS, TOOLS, RUNTIME_CONTEXT>,

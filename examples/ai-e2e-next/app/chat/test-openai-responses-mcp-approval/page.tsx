@@ -43,8 +43,8 @@ export default function TestOpenAIResponsesMCPApproval() {
                   </div>
                 );
               case 'dynamic-tool':
-                // MCP tools from OpenAI are dynamic tools - check if it's an MCP tool
-                // by looking at the toolName (starts with 'mcp.')
+                // OpenAI 的 MCP tools 是动态 tools — 检查是否为 MCP tool
+                // 通过 toolName 判断（以 'mcp.' 开头）
                 if (
                   part.toolName.startsWith('mcp.') ||
                   part.toolName === 'mcp'

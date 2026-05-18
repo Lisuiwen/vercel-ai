@@ -12,7 +12,7 @@ run(async () => {
             type: 'tool-call',
             toolCallType: 'function',
             toolCallId: 'call-1',
-            toolName: 'attractions', // wrong tool name
+            toolName: 'attractions', // 工具名称错误
             input: `{ "city": "San Francisco" }`,
           },
           {

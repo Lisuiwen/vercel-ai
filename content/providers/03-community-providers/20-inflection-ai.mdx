@@ -1,35 +1,33 @@
 ---
 title: Inflection AI
-description: Learn how to use the unofficial Inflection AI provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用非官方 Inflection AI 提供商。
 ---
 
-# Unofficial Community Provider for AI SDK - Inflection AI
+# AI SDK 非官方社区提供商 - Inflection AI
 
 <Note type="warning">
-  This community provider is not yet compatible with AI SDK 5. Please wait for
-  the provider to be updated or consider using an [AI SDK 5 compatible
-  provider](/providers/ai-sdk-providers).
+  该社区提供商尚未兼容 AI SDK 5。请等待提供商更新，或改用 [兼容 AI SDK 5 的提供商](/providers/ai-sdk-providers)。
 </Note>
 
-The **[unofficial Inflection AI provider](https://www.npmjs.com/package/inflection-ai-sdk-provider)** for the [AI SDK](/docs) contains language model support for the [Inflection AI API](https://developers.inflection.ai/).
+面向 [AI SDK](/docs) 的 **[非官方 Inflection AI 提供商](https://www.npmjs.com/package/inflection-ai-sdk-provider)** 为 [Inflection AI API](https://developers.inflection.ai/) 提供语言模型支持。
 
-## Setup
+## 安装
 
-The Inflection AI provider is available in the [`inflection-ai-sdk-provider`](https://www.npmjs.com/package/inflection-ai-sdk-provider) module on npm. You can install it with
+位于 npm 的 [`inflection-ai-sdk-provider`](https://www.npmjs.com/package/inflection-ai-sdk-provider) 模块：
 
 ```bash
 npm i inflection-ai-sdk-provider
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `inflection` from `inflection-ai-sdk-provider`:
+从 `inflection-ai-sdk-provider` 导入默认实例 `inflection`：
 
 ```ts
 import { inflection } from 'inflection-ai-sdk-provider';
 ```
 
-## Example
+## 示例
 
 ```ts
 import { inflection } from 'inflection-ai-sdk-provider';
@@ -41,13 +39,13 @@ const { text } = await generateText({
 });
 ```
 
-## Models
+## 模型
 
-The following models are supported:
+支持的模型：
 
-- `inflection_3_pi` - "the model powering our Pi experience, including a backstory, emotional intelligence, productivity, and safety. It excels in scenarios such as customer support chatbots."
-- `inflection_3_productivity`- "the model optimized for following instructions. It is better for tasks requiring JSON output or precise adherence to provided guidelines."
-- `inflection_3_with_tools` - This model seems to be in preview and it lacks an official description as of the writing of this README in 1.0.0.
+- `inflection_3_pi` — “为我们 Pi 体验提供动力的模型，包含背景叙事、情商、生产力与安全。在客户服务聊天机器人等场景中表现突出。”
+- `inflection_3_productivity` — “针对遵循指令优化的模型，更适合需要 JSON 输出或严格遵照给定规则的任务。”
+- `inflection_3_with_tools` — 该模型看似处于预览阶段，README 撰写时（1.0.0）尚无官方描述。
 
 | Model                       | Text Generation | Streaming | Image Input | Object Generation | Tool Usage | Tool Streaming |
 | --------------------------- | --------------- | --------- | ----------- | ----------------- | ---------- | -------------- |
@@ -55,10 +53,10 @@ The following models are supported:
 | `inflection_3_productivity` | ✓               | ✓         | ✗           | ✗                 | ✗          | ✗              |
 | `inflection_3_with_tools`   | ✓               | ✓         | ✗           | ✗                 | ✗          | ✗              |
 
-There is limited API support for features other than text generation and streaming text at this time. Should that change, the table above will be updated and support will be added to this unofficial provider.
+目前 API 除文本生成与流式文本外，其他能力支持有限。若后续有变，上表将更新，本非官方提供商也会跟进。
 
-## Documentation
+## 文档
 
-Please check out Inflection AI's [API Documentation](https://developers.inflection.ai/docs/api-reference) for more information.
+详见 Inflection AI 的 [API Documentation](https://developers.inflection.ai/docs/api-reference)。
 
-You can find the source code for this provider [here on GitHub](https://github.com/Umbrage-Studios/inflection-ai-sdk-provider).
+提供商源码见 [GitHub](https://github.com/Umbrage-Studios/inflection-ai-sdk-provider)。

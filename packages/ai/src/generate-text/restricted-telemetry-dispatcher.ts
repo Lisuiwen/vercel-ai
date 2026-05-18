@@ -25,8 +25,8 @@ import type {
 } from './tool-execution-events';
 
 /**
- * Telemetry dispatcher for text generation with callbacks typed to the
- * operation-specific tool set, runtime context, and output shape.
+ * 用于生成文本的遥测调度程序，并带有键入的回调
+ * 特定于操作的工具集、运行时上下文和输出形状。
  */
 export type RestrictedTelemetryDispatcher<
   TOOLS extends ToolSet,
@@ -50,8 +50,8 @@ export type RestrictedTelemetryDispatcher<
 };
 
 /**
- * Returns a shallow copy of the runtime context with only top-level
- * properties marked for telemetry inclusion.
+ * 返回仅包含顶层的运行时上下文的浅表副本
+ * 标记为遥测包含的属性。
  */
 function filterIncludedContext<CONTEXT extends Context>({
   context,
@@ -72,8 +72,8 @@ function filterIncludedContext<CONTEXT extends Context>({
 }
 
 /**
- * Creates a copy of a step result whose runtime context only contains
- * top-level properties marked for telemetry inclusion.
+ * 创建步骤结果的副本，其运行时上下文仅包含
+ * 标记为遥测包含的顶级属性。
  */
 function restrictStepResult<
   TOOLS extends ToolSet,
@@ -113,8 +113,8 @@ function restrictStepResult<
 }
 
 /**
- * Returns a shallow copy of the tools context with only top-level properties
- * marked for telemetry inclusion for each tool.
+ * 返回仅包含顶级属性的工具上下文的浅表副本
+ * 标记为每个工具的遥测包含。
  */
 function filterToolsContext<TOOLS extends ToolSet>({
   toolsContext,
@@ -164,8 +164,8 @@ function filterToolContext<TOOLS extends ToolSet>({
 }
 
 /**
- * Creates a telemetry dispatcher that only includes configured runtime context
- * properties in text-generation lifecycle events before dispatching them.
+ * 创建仅包含配置的运行时上下文的遥测调度程序
+ * 文本生成生命周期事件中的属性，然后再分派它们。
  */
 export function createRestrictedTelemetryDispatcher<
   TOOLS extends ToolSet,

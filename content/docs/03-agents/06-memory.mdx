@@ -1,29 +1,29 @@
 ---
-title: Memory
-description: Add persistent memory to your agent using provider-defined tools, memory providers, or a custom tool.
+title: 记忆
+description: 使用提供商定义的工具、记忆提供商或自定义工具为 Agent 添加持久记忆。
 ---
 
-# Memory
+# 记忆
 
-Memory lets your agent save information and recall it later. Without memory, every conversation starts fresh. With memory, your agent builds context over time, recalls previous interactions, and adapts to the user.
+Memory 让你的 Agent 能够保存信息并在之后回忆。没有 memory 时，每次对话都从零开始。有了 memory，Agent 可以随时间构建上下文、回忆先前的交互并适应用户。
 
-## Three Approaches
+## 三种方式
 
-You can add memory to your agent with the AI SDK in three ways, each with different tradeoffs:
+你可以通过 AI SDK 以三种方式为 Agent 添加 memory，各有不同的权衡：
 
-| Approach                                          | Effort | Flexibility | Provider Lock-in           |
-| ------------------------------------------------- | ------ | ----------- | -------------------------- |
-| [Provider-Defined Tools](#provider-defined-tools) | Low    | Medium      | Yes                        |
-| [Memory Providers](#memory-providers)             | Low    | Low         | Depends on memory provider |
-| [Custom Tool](#custom-tool)                       | High   | High        | No                         |
+| 方式                                          | 工作量 | 灵活性 | 提供商锁定           |
+| --------------------------------------------- | ------ | ----------- | -------------------------- |
+| [提供商定义的工具](#provider-defined-tools) | 低    | 中等      | 是                        |
+| [记忆提供商](#memory-providers)             | 低    | 低         | 取决于记忆提供商 |
+| [自定义工具](#custom-tool)                       | 高   | 高        | 否                         |
 
-## Provider-Defined Tools
+## 提供商定义的工具
 
-[Provider-defined tools](/docs/foundations/tools#types-of-tools) are tools where the provider specifies the tool's `inputSchema` and `description`, but you provide the `execute` function. The model has been trained to use these tools, which can result in better performance compared to custom tools.
+[提供商定义的工具](/docs/foundations/tools#types-of-tools) 是提供商指定工具的 `inputSchema` 和 `description`，但你提供 `execute` 函数的工具。模型经过训练以使用这些工具，与自定义工具相比可能获得更好的性能。
 
 ### Anthropic Memory Tool
 
-The [Anthropic Memory Tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool) gives Claude a structured interface for managing a `/memories` directory. Claude reads its memory before starting tasks, creates and updates files as it works, and references them in future conversations.
+[Anthropic Memory Tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool) 为 Claude 提供管理 `/memories` 目录的结构化接口。Claude 在开始任务前读取记忆，在工作时创建和更新文件，并在未来对话中引用它们。
 
 ```ts
 import { anthropic } from '@ai-sdk/anthropic';
@@ -49,17 +49,17 @@ const result = await agent.generate({
 });
 ```
 
-The tool receives structured commands (`view`, `create`, `str_replace`, `insert`, `delete`, `rename`), each with a `path` scoped to `/memories`. Your `execute` function maps these to your storage backend (the filesystem, a database, or any other persistence layer).
+该工具接收结构化命令（`view`、`create`、`str_replace`、`insert`、`delete`、`rename`），每个命令的 `path` 限定在 `/memories` 范围内。你的 `execute` 函数将这些映射到你的存储后端（文件系统、数据库或任何其他持久层）。
 
-**When to use this**: you want memory with minimal implementation effort and are already using Anthropic models. The tradeoff is provider lock-in, since this tool only works with Claude.
+**何时使用**：你希望以最少实现工作量获得 memory，并且已在使用 Anthropic 模型。权衡是提供商锁定，因为此工具仅适用于 Claude。
 
-## Memory Providers
+## 记忆提供商
 
-Another approach is to use a provider that has memory built in. These providers wrap an external memory service and expose it through the AI SDK's standard interface. Memory storage, retrieval, and injection happen transparently, and you do not define any tools yourself.
+另一种方式是使用内置 memory 的提供商。这些提供商包装外部记忆服务，并通过 AI SDK 的标准接口暴露。记忆存储、检索和注入透明进行，你无需自己定义任何工具。
 
 ### Letta
 
-[Letta](https://letta.com) provides agents with persistent long-term memory. You create an agent on Letta's platform (cloud or self-hosted), configure its memory there, and use the AI SDK provider to interact with it. Letta's agent runtime handles memory management (core memory, archival memory, recall).
+[Letta](https://letta.com) 为 Agent 提供持久长期记忆。你在 Letta 平台（云或自托管）上创建 Agent，在那里配置其 memory，并使用 AI SDK 提供商与之交互。Letta 的 Agent 运行时处理 memory 管理（核心记忆、归档记忆、回忆）。
 
 ```bash
 pnpm add @letta-ai/vercel-ai-sdk-provider
@@ -83,7 +83,7 @@ const result = await agent.generate({
 });
 ```
 
-You can also use Letta's built-in memory tools alongside custom tools:
+你也可以将 Letta 的内置 memory 工具与自定义工具一起使用：
 
 ```ts
 import { lettaCloud } from '@letta-ai/vercel-ai-sdk-provider';
@@ -108,11 +108,11 @@ const stream = agent.stream({
 });
 ```
 
-See the [Letta provider documentation](/providers/community-providers/letta) for full setup and configuration.
+完整设置与配置请参阅 [Letta 提供商文档](/providers/community-providers/letta)。
 
 ### Mem0
 
-[Mem0](https://mem0.ai) adds a memory layer on top of any supported LLM provider. It automatically extracts memories from conversations, stores them, and retrieves relevant ones for future prompts.
+[Mem0](https://mem0.ai) 在任何支持的 LLM 提供商之上添加记忆层。它自动从对话中提取记忆、存储它们，并为未来提示检索相关记忆。
 
 ```bash
 pnpm add @mem0/vercel-ai-provider
@@ -137,7 +137,7 @@ const { text } = await agent.generate({
 });
 ```
 
-Mem0 works across multiple LLM providers (OpenAI, Anthropic, Google, Groq, Cohere). You can also manage memories explicitly:
+Mem0 支持多个 LLM 提供商（OpenAI、Anthropic、Google、Groq、Cohere）。你也可以显式管理记忆：
 
 ```ts
 import { addMemories, retrieveMemories } from '@mem0/vercel-ai-provider';
@@ -146,11 +146,11 @@ await addMemories(messages, { user_id: 'user-123' });
 const context = await retrieveMemories(prompt, { user_id: 'user-123' });
 ```
 
-See the [Mem0 provider documentation](/providers/community-providers/mem0) for full setup and configuration.
+完整设置与配置请参阅 [Mem0 提供商文档](/providers/community-providers/mem0)。
 
 ### Supermemory
 
-[Supermemory](https://supermemory.ai) is a long-term memory platform that adds persistent, self-growing memory to your AI applications. It provides tools that handle saving and retrieving memories automatically through semantic search.
+[Supermemory](https://supermemory.ai) 是一个长期记忆平台，为你的 AI 应用添加持久、自增长的 memory。它提供通过语义搜索自动处理记忆保存和检索的工具。
 
 ```bash
 pnpm add @supermemory/tools
@@ -171,13 +171,13 @@ const result = await agent.generate({
 });
 ```
 
-Supermemory works with any AI SDK provider. The tools give the model `addMemory` and `searchMemories` operations that handle storage and retrieval.
+Supermemory 可与任何 AI SDK 提供商配合使用。这些工具为模型提供 `addMemory` 和 `searchMemories` 操作以处理存储和检索。
 
-See the [Supermemory provider documentation](/providers/community-providers/supermemory) for full setup and configuration.
+完整设置与配置请参阅 [Supermemory 提供商文档](/providers/community-providers/supermemory)。
 
 ### Hindsight
 
-[Hindsight](/providers/community-providers/hindsight) provides agents with persistent memory through five tools: `retain`, `recall`, `reflect`, `getMentalModel`, and `getDocument`. It can be self-hosted with Docker or used as a cloud service.
+[Hindsight](/providers/community-providers/hindsight) 通过五个工具为 Agent 提供持久记忆：`retain`、`recall`、`reflect`、`getMentalModel` 和 `getDocument`。可使用 Docker 自托管或作为云服务使用。
 
 ```bash
 pnpm add @vectorize-io/hindsight-ai-sdk @vectorize-io/hindsight-client
@@ -203,19 +203,19 @@ const result = await agent.generate({
 });
 ```
 
-The `bankId` identifies the memory store and is typically a user ID. In multi-user apps, call `createHindsightTools` inside your request handler so each request gets the right bank. Hindsight works with any AI SDK provider.
+`bankId` 标识记忆存储，通常为用户 ID。在多用户应用中，在请求处理程序内调用 `createHindsightTools`，以便每个请求获得正确的 bank。Hindsight 可与任何 AI SDK 提供商配合使用。
 
-See the [Hindsight provider documentation](/providers/community-providers/hindsight) for full setup and configuration.
+完整设置与配置请参阅 [Hindsight 提供商文档](/providers/community-providers/hindsight)。
 
-**When to use memory providers**: these providers are a good fit when you want memory without building any storage infrastructure. The tradeoff is that the provider controls memory behavior, so you have less visibility into what gets stored and how it is retrieved. You also take on a dependency on an external service.
+**何时使用记忆提供商**：当你希望获得 memory 而无需构建任何存储基础设施时，这些提供商很合适。权衡是提供商控制 memory 行为，因此你对存储内容和检索方式的可见性较低。你还会依赖外部服务。
 
-## Custom Tool
+## 自定义工具
 
-Building your own memory tool from scratch is the most flexible approach. You control the storage format, the interface, and the retrieval logic. This requires the most upfront work but gives you full ownership of how memory works, with no provider lock-in and no external dependencies.
+从头构建自己的 memory 工具是最灵活的方式。你控制存储格式、接口和检索逻辑。这需要最多的前期工作，但让你完全掌控 memory 的工作方式，无提供商锁定且无外部依赖。
 
-There are two common patterns:
+有两种常见模式：
 
-- **Structured actions**: you define explicit operations (`view`, `create`, `update`, `search`) and handle structured input yourself. Safe by design since you control every operation.
-- **Bash-backed**: you give the model a sandboxed bash environment to compose shell commands (`cat`, `grep`, `sed`, `echo`) for flexible memory access. More powerful but requires command validation for safety.
+- **结构化操作**：你定义显式操作（`view`、`create`、`update`、`search`）并自行处理结构化输入。由于你控制每个操作，设计上更安全。
+- **Bash 支持**：你为模型提供沙箱化的 bash 环境，通过组合 shell 命令（`cat`、`grep`、`sed`、`echo`）灵活访问 memory。更强大，但需要命令验证以确保安全。
 
-For a full walkthrough of implementing a custom memory tool with a bash-backed interface, AST-based command validation, and filesystem persistence, see the **[Build a Custom Memory Tool](/cookbook/guides/custom-memory-tool)** recipe.
+关于实现带有 bash 支持接口、基于 AST 的命令验证和文件系统持久化的自定义 memory 工具的完整演练，请参阅 **[构建自定义 Memory 工具](/cookbook/guides/custom-memory-tool)** 食谱。

@@ -16,40 +16,40 @@ function unwrapReasoningFileData(
 }
 
 /**
- * Reasoning output of a text generation. It contains a reasoning.
+ * 文本生成的推理输出。其中包含一个推理。
  */
 export interface ReasoningOutput {
   type: 'reasoning';
 
   /**
-   * The reasoning text.
+   * 推理文本。
    */
   text: string;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerMetadata?: ProviderMetadata;
 }
 
 /**
- * Reasoning file output of a text generation.
- * It contains a file generated as part of reasoning.
+ * 文本生成的推理文件输出。
+ * 它包含作为推理的一部分生成的文件。
  */
 export interface ReasoningFileOutput {
   type: 'reasoning-file';
 
   /**
-   * The generated file.
+   * 生成的文件。
    */
   file: GeneratedFile;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerMetadata?: ProviderMetadata;
 }

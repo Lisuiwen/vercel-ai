@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       onFinish: async () => {
         await client.close();
       },
-      // Optional, enables immediate clean up of resources but connection will not be retained for retries:
+      // 可选，可立即清理资源但连接不会保留以供重试：
       // onError: async error => {
       //   await client.close();
       // },

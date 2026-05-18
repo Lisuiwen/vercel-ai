@@ -11,198 +11,198 @@ import type {
 import type { LanguageModelUsage } from '../types/usage';
 
 /**
- * Event passed to the `experimental_onStart` callback of
- * `generateObject` and `streamObject`.
+ * 事件传递给`experimental_onStart`回调
+ * `generateObject` 和 `streamObject`。
  *
- * Called when the operation begins, before any LLM call.
+ * 在操作开始时、任何LLM调用之前调用。
  *
- * @deprecated
+ * @已弃用
  */
 export interface GenerateObjectStartEvent {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Identifies the operation type (e.g. `'ai.generateObject'` or `'ai.streamObject'`). */
+  /* * 操作标识类型（例如`ai.generateObject`或`ai.streamObject`）。 */
   readonly operationId: string;
 
-  /** The provider identifier (e.g., 'openai', 'anthropic'). */
+  /* * 提供者标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'gpt-4o'). */
+  /* * 特定型号标识符（例如`gpt-4o`）。 */
   readonly modelId: string;
 
-  /** The system message(s) provided to the model. */
+  /* * 提供给模型的系统消息。 */
   readonly system: Instructions | undefined;
 
-  /** The prompt string or array of messages if using the prompt option. */
+  /* * 如果使用提示选项，则为提示字符串或消息数组。 */
   readonly prompt: string | Array<ModelMessage> | undefined;
 
-  /** The messages array if using the messages option. */
+  /* * 如果使用消息选项，则为消息数组。 */
   readonly messages: Array<ModelMessage> | undefined;
 
-  /** Maximum number of tokens to generate. */
+  /* * 生成的最大代币数量。 */
   readonly maxOutputTokens: number | undefined;
-  /** Sampling temperature for generation. */
+  /* * 生成的采样温度。 */
   readonly temperature: number | undefined;
-  /** Top-p (nucleus) sampling parameter. */
+  /* * Top-p（核）采样参数。 */
   readonly topP: number | undefined;
-  /** Top-k sampling parameter. */
+  /* * Top-k采样参数。 */
   readonly topK: number | undefined;
-  /** Presence penalty for generation. */
+  /* * 生成的存在惩罚。 */
   readonly presencePenalty: number | undefined;
-  /** Frequency penalty for generation. */
+  /* * 发电频率损失。 */
   readonly frequencyPenalty: number | undefined;
-  /** Random seed for reproducible generation. */
+  /* * 可重复生成的随机种子。 */
   readonly seed: number | undefined;
-  /** Maximum number of retries for failed requests. */
+  /* * 失败请求的最大重试次数。 */
   readonly maxRetries: number;
 
-  /** Additional HTTP headers sent with the request. */
+  /* * 随请求一起发送的附加 HTTP 标头。 */
   readonly headers: Record<string, string | undefined> | undefined;
 
-  /** Additional provider-specific options. */
+  /* * 其他特定于提供商的选项。 */
   readonly providerOptions: ProviderOptions | undefined;
 
-  /** The output strategy type. */
+  /* * 输出策略类型。 */
   readonly output: 'object' | 'array' | 'enum' | 'no-schema';
 
-  /** The JSON Schema used for object generation, if any. */
+  /* * 用于生成对象的JSON模式（如果有）。 */
   readonly schema: Record<string, unknown> | undefined;
 
-  /** Optional name of the schema. */
+  /* * 模式的可选名称。 */
   readonly schemaName: string | undefined;
 
-  /** Optional description of the schema. */
+  /* * 模式的可选描述。 */
   readonly schemaDescription: string | undefined;
 }
 
 /**
- * Event passed to the `experimental_onStepStart` callback of
- * `generateObject` and `streamObject`.
+ * 事件提交给`experimental_onStepStart`回调
+ * `generateObject` 和 `streamObject`。
  *
- * Called when the model call (step) begins, before the provider is called.
- * For object generation, there is always exactly one step (step 0).
+ * 在模型调用（步骤）开始时、调用提供程序之前调用。
+ * 对于对象生成，总是只有一个步骤（步骤 0）。
  *
- * @deprecated
+ * @已弃用
  */
 export interface GenerateObjectStepStartEvent {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Zero-based index of the current step. Always `0` for object generation. */
+  /* * 当前步骤的从零开始的索引。对于对象生成始终为“0”。 */
   readonly stepNumber: 0;
 
-  /** The provider identifier (e.g., 'openai', 'anthropic'). */
+  /* * 提供者标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'gpt-4o'). */
+  /* * 特定型号标识符（例如`gpt-4o`）。 */
   readonly modelId: string;
 
-  /** Additional provider-specific options. */
+  /* * 其他特定于提供商的选项。 */
   readonly providerOptions: ProviderOptions | undefined;
 
-  /** Additional HTTP headers sent with the request. */
+  /* * 随请求一起发送的附加 HTTP 标头。 */
   readonly headers: Record<string, string | undefined> | undefined;
 
-  /** The prompt messages in provider format (for telemetry). */
+  /* * 提供者格式的提示消息（用于遥测）。 */
   readonly promptMessages?: LanguageModelV4Prompt;
 }
 
 /**
- * Event passed to the `onStepFinish` callback of
- * `generateObject` and `streamObject`.
+ * 事件提交给`onStepFinish`回调
+ * `generateObject` 和 `streamObject`。
  *
- * Called when the model call (step) completes, with the raw result
- * before JSON parsing and schema validation.
+ * 当模型调用（步骤）完成时调用，并带有原始结果
+ * 在JSON解析和模式验证之前。
  *
- * @deprecated
+ * @已弃用
  */
 export interface GenerateObjectStepEndEvent {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Zero-based index of the current step. Always `0` for object generation. */
+  /* * 当前步骤的从零开始的索引。对于对象生成始终为“0”。 */
   readonly stepNumber: 0;
 
-  /** The provider identifier (e.g., 'openai', 'anthropic'). */
+  /* * 提供者标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'gpt-4o'). */
+  /* * 特定型号标识符（例如`gpt-4o`）。 */
   readonly modelId: string;
 
-  /** The unified reason why the generation finished. */
+  /* * 生成结束的统一原因。 */
   readonly finishReason: FinishReason;
 
-  /** The token usage of the generated response. */
+  /* * 生成的响应的令牌使用情况。 */
   readonly usage: LanguageModelUsage;
 
-  /** The raw text output from the model (before JSON parsing). */
+  /* * 模型的原始文本输出（JSON解析）。 */
   readonly objectText: string;
 
-  /** The reasoning generated by the model, if any. */
+  /* * 模型生成的推理（如果有）。 */
   readonly reasoning: string | undefined;
 
-  /** Warnings from the model provider (e.g. unsupported settings). */
+  /* * 来自模型提供商的警告（例如不支持的设置）。 */
   readonly warnings: CallWarning[] | undefined;
 
-  /** Additional request information. */
+  /* * 附加请求信息。 */
   readonly request: Omit<LanguageModelRequestMetadata, 'messages'>;
 
-  /** Additional response information. */
+  /* * 附加响应信息。 */
   readonly response: Omit<LanguageModelResponseMetadata, 'messages'>;
 
-  /** Additional provider-specific metadata. */
+  /* * 额外的特定于提供商的元数据。 */
   readonly providerMetadata: ProviderMetadata | undefined;
 
-  /** Milliseconds from the start of the stream to the first chunk (streaming only). */
+  /* * 从流开始到第一个块的毫秒数（仅限流）。 */
   readonly msToFirstChunk: number | undefined;
 }
 
 /**
- * Event passed to the `onFinish` callback of
- * `generateObject` and `streamObject`.
+ * 事件提交给`onFinish`回调
+ * `generateObject` 和 `streamObject`。
  *
- * Called when the entire operation completes, including JSON parsing
- * and schema validation. For `streamObject`, the object may be undefined
- * if validation failed (the error is provided in that case).
+ * 整个操作完成时调用，包括JSON解析
+ * 和模式验证。对于`streamObject`，该对象可能是未定义的
+ * 如果验证失败（在这种情况下会提供错误）。
  *
- * @deprecated
+ * @已弃用
  */
 export interface GenerateObjectEndEvent<RESULT> {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
   /**
-   * The generated object (typed according to the schema).
-   * Always defined for `generateObject`. May be `undefined` for `streamObject`
-   * when parsing or validation fails.
+   * 生成的对象（根据模式键入）。
+   * 始终为`generateObject`定义。对于`streamObject`可能是`未定义`
+   * 当解析或验证失败时。
    */
   readonly object: RESULT | undefined;
 
   /**
-   * Error from parsing or schema validation, if any.
-   * Always `undefined` for `generateObject` (which throws instead).
+   * 解析或模式验证错误（如果有）。
+   * `generateObject`始终为`undefined`（它会抛出异常）。
    */
   readonly error: unknown | undefined;
 
-  /** The reasoning generated by the model, if any. */
+  /* * 模型生成的推理（如果有）。 */
   readonly reasoning: string | undefined;
 
-  /** The unified reason why the generation finished. */
+  /* * 生成结束的统一原因。 */
   readonly finishReason: FinishReason;
 
-  /** The token usage of the generated response. */
+  /* * 生成的响应的令牌使用情况。 */
   readonly usage: LanguageModelUsage;
 
-  /** Warnings from the model provider (e.g. unsupported settings). */
+  /* * 来自模型提供商的警告（例如不支持的设置）。 */
   readonly warnings: CallWarning[] | undefined;
 
-  /** Additional request information. */
+  /* * 附加请求信息。 */
   readonly request: Omit<LanguageModelRequestMetadata, 'messages'>;
 
-  /** Additional response information. */
+  /* * 附加响应信息。 */
   readonly response: Omit<LanguageModelResponseMetadata, 'messages'>;
 
-  /** Additional provider-specific metadata. */
+  /* * 额外的特定于提供商的元数据。 */
   readonly providerMetadata: ProviderMetadata | undefined;
 }

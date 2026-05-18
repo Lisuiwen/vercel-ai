@@ -342,13 +342,13 @@ describe('createUIMessageStream', () => {
       result.push(value!);
     }
 
-    // function is finished
+    // 功能已完成
     expect(done).toBe(true);
 
     controller1!.enqueue({ type: 'text-delta', id: '1', delta: '1a' });
     await pull();
 
-    // controller1 is still open, create 2nd stream
+    // controller1 仍然打开，创建第二个流
     uiMessageStreamWriter!.merge(
       new ReadableStream({
         start(controllerArg) {
@@ -357,12 +357,12 @@ describe('createUIMessageStream', () => {
       }),
     );
 
-    // close controller1
+    // 关闭控制器1
     controller1!.close();
 
-    await vi.advanceTimersByTimeAsync(0); // relinquish control
+    await vi.advanceTimersByTimeAsync(0); // 放弃控制权
 
-    // it should still be able to write to controller2
+    // 它应该仍然能够写入controller2
     controller2!.enqueue({ type: 'text-delta', id: '2', delta: '2a' });
     controller2!.close();
 
@@ -530,11 +530,11 @@ describe('createUIMessageStream', () => {
 
     const stream = createUIMessageStream({
       execute: ({ writer }) => {
-        writer.write({ type: 'start' }); // no messageId
+        writer.write({ type: 'start' }); // 没有消息 ID
       },
       originalMessages: [
         { id: '0', role: 'user', parts: [{ type: 'text', text: '0a' }] },
-        // no assistant message
+        // 没有助理消息
       ],
       onFinish(options) {
         recordedOptions.push(options);
@@ -594,7 +594,7 @@ describe('createUIMessageStream', () => {
       },
       originalMessages: [
         { id: '0', role: 'user', parts: [{ type: 'text', text: '0a' }] },
-        // no assistant message
+        // 没有助理消息
       ],
       onFinish(options) {
         recordedOptions.push(options);

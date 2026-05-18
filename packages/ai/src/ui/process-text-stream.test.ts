@@ -4,25 +4,25 @@ import { describe, it, expect, vi } from 'vitest';
 
 describe('processTextStream', () => {
   it('should process stream chunks correctly', async () => {
-    // Mock data
+    // 模拟数据
     const testData = ['Hello', ' ', 'World'];
     const chunks: string[] = [];
 
-    // Create stream using utility
+    // 使用实用程序创建流
     const encoder = new TextEncoder();
     const stream = convertArrayToReadableStream(
       testData.map(chunk => encoder.encode(chunk)),
     );
 
-    // Mock callback function
+    // 模拟回调函数
     const onChunk = vi.fn((chunk: string) => {
       chunks.push(chunk);
     });
 
-    // Process the stream
+    // 处理流
     await processTextStream({ stream, onTextPart: onChunk });
 
-    // Verify the results
+    // 验证结果
     expect(onChunk).toHaveBeenCalledTimes(3);
     expect(chunks).toEqual(testData);
   });

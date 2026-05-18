@@ -41,8 +41,8 @@ run(async () => {
 
     const result = await generateText({
       model: openai('gpt-5.4-mini'),
-      // context engineering required to make sure the model does not retry
-      // the tool execution if it is not approved for a particular tool call:
+      // 需要上下文工程来确保模型不会重试
+      // 如果未批准特定工具调用，则执行工具：
       instructions:
         'When a tool call was not approved by the user, ' +
         'do not retry the tool call with the same input.' +

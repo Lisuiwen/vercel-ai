@@ -24,7 +24,7 @@ createFeatureTestSuite({
   models: {
     invalidModel: provider.chatModel('no-such-model'),
     languageModels: [
-      createChatModel('deepseek-ai/DeepSeek-V3'), // no tools, objects, or images
+      createChatModel('deepseek-ai/DeepSeek-V3'), // 没有工具、物体或图像
       createChatModel('meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'),
       createChatModel('mistralai/Mistral-7B-Instruct-v0.1'),
       createChatModel('google/gemma-2b-it'),

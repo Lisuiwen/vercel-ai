@@ -12,7 +12,7 @@ import { consumeStream } from '../util/consume-stream';
 import { processTextStream } from './process-text-stream';
 import { VERSION } from '../version';
 
-// use function to allow for mocking in tests:
+// 使用函数允许在测试中进行模拟：
 const getOriginalFetch = () => fetch;
 
 export async function callCompletionApi({
@@ -51,7 +51,7 @@ export async function callCompletionApi({
     const abortController = new AbortController();
     setAbortController(abortController);
 
-    // Empty the completion immediately.
+    // 立即清空完成。
     setCompletion('');
 
     const response = await fetch(api, {
@@ -138,7 +138,7 @@ export async function callCompletionApi({
     setAbortController(null);
     return result;
   } catch (err) {
-    // Ignore abort errors as they are expected.
+    // 忽略预期的中止错误。
     if ((err as any).name === 'AbortError') {
       setAbortController(null);
       return null;

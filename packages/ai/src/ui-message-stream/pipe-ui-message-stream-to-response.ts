@@ -7,8 +7,8 @@ import type { UIMessageChunk } from './ui-message-chunks';
 import type { UIMessageStreamResponseInit } from './ui-message-stream-response-init';
 
 /**
- * Pipes a UI message stream to a Node.js ServerResponse object.
- * The stream is transformed to Server-Sent Events (SSE) format.
+ * 将 UI 消息流通过管道传输到 Node.js ServerResponse 对象。
+ * 该流将转换为服务器发送事件 (SSE) 格式。
  *
  * @param options.response - The Node.js ServerResponse object to write to.
  * @param options.status - The HTTP status code for the response.
@@ -30,9 +30,9 @@ export function pipeUIMessageStreamToResponse({
 } & UIMessageStreamResponseInit): void {
   let sseStream = stream.pipeThrough(new JsonToSseTransformStream());
 
-  // when the consumeSseStream is provided, we need to tee the stream
-  // and send the second part to the consumeSseStream function
-  // so that it can be consumed by the client independently
+  // 当提供consumeSseStream时，我们需要对流进行tee处理
+  // 并将第二部分发送到consumSseStream函数
+  // 以便客户可以独立消费
   if (consumeSseStream) {
     const [stream1, stream2] = sseStream.tee();
     sseStream = stream1;

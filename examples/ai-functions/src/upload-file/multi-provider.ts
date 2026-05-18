@@ -32,9 +32,9 @@ run(async () => {
   console.log('Anthropic filename:', anthropicUpload.filename);
 
   /*
-   * The same message array is used for both providers. Because the merged
-   * reference contains entries for each provider, the SDK automatically
-   * resolves the correct file ID at request time.
+   * 两个提供程序使用相同的消息数组。因为合并了
+   * 参考包含每个提供商的条目，SDK 自动
+   * 在请求时解析正确的文件 ID。
    */
   const messages = [
     {

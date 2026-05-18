@@ -553,9 +553,9 @@ describe('pruneMessages', () => {
           toolCalls: 'before-last-2-messages',
         });
 
-        // there is backwards tracing from the included tool results to ensure
-        // that the tool calls are included and there are no unassociated tool
-        // result or approvals
+        // 从包含的工具结果进行向后追踪，以确保
+        // 包括工具调用并且没有不关联的工具
+        // 结果或批准
         expect(result).toMatchInlineSnapshot(`
           [
             {

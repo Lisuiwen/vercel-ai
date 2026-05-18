@@ -224,7 +224,7 @@ describe('generateObject', () => {
           doGenerate: async () => ({
             ...dummyResponseValues,
             content: [{ type: 'text', text: '{ "content": "Hello, world!" }' }],
-            warnings: [], // no warnings
+            warnings: [], // 没有警告
           }),
         }),
         schema: z.object({ content: z.string() }),
@@ -1025,7 +1025,7 @@ describe('generateObject', () => {
           super({
             supportedUrls: () => {
               supportedUrlsCalled = true;
-              // Reference 'this' to verify context
+              // 引用`this`来验证上下文
               return this.modelId === 'mock-model-id'
                 ? ({ 'image/*': [/^https:\/\/.*$/] } as Record<
                     string,

@@ -125,23 +125,23 @@ const originalGenerateCallId = createIdGenerator({
 
 export type GenerateTextInclude = {
   /**
-   * Whether to retain the request body in step results.
-   * The request body can be large when sending images or files.
+   * 是否在步骤结果中保留请求正文。
+   * 发送图像或文件时，请求正文可能很大。
    *
    * @default false
    */
   requestBody?: boolean;
 
   /**
-   * Whether to retain the request messages in step results.
-   * The request messages can be large when sending images or files.
+   * 是否保留步骤结果中的请求消息。
+   * 发送图像或文件时，请求消息可能很大。
    *
    * @default false
    */
   requestMessages?: boolean;
 
   /**
-   * Whether to retain the response body in step results.
+   * 是否在步骤结果中保留响应正文。
    *
    * @default false
    */
@@ -149,9 +149,9 @@ export type GenerateTextInclude = {
 };
 
 /**
- * Generate a text and call tools for a given prompt using a language model.
+ * 使用语言模型为给定提示生成文本并调用工具。
  *
- * This function does not stream the output. If you want to stream the output, use `streamText` instead.
+ * 此函数不流式输出。如果您想流式传输输出，请改用“streamText”。
  *
  * @param model - The language model to use.
  *
@@ -165,24 +165,24 @@ export type GenerateTextInclude = {
  *
  * @param maxOutputTokens - Maximum number of tokens to generate.
  * @param temperature - Temperature setting.
- * The value is passed through to the provider. The range depends on the provider and model.
- * It is recommended to set either `temperature` or `topP`, but not both.
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * 建议设置“温度”或“topP”，但不能同时设置两者。
  * @param topP - Nucleus sampling.
- * The value is passed through to the provider. The range depends on the provider and model.
- * It is recommended to set either `temperature` or `topP`, but not both.
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * 建议设置“温度”或“topP”，但不能同时设置两者。
  * @param topK - Only sample from the top K options for each subsequent token.
- * Used to remove "long tail" low probability responses.
- * Recommended for advanced use cases only. You usually only need to use temperature.
+ * 用于删除“长尾”低概率响应。
+ * 仅推荐用于高级用例。通常您只需要使用温度。
  * @param presencePenalty - Presence penalty setting.
- * It affects the likelihood of the model to repeat information that is already in the prompt.
- * The value is passed through to the provider. The range depends on the provider and model.
+ * 它会影响模型重复提示中已有信息的可能性。
+ * 该值被传递给提供者。范围取决于提供商和型号。
  * @param frequencyPenalty - Frequency penalty setting.
- * It affects the likelihood of the model to repeatedly use the same words or phrases.
- * The value is passed through to the provider. The range depends on the provider and model.
+ * 它影响模型重复使用相同单词或短语的可能性。
+ * 该值被传递给提供者。范围取决于提供商和型号。
  * @param stopSequences - Stop sequences.
- * If set, the model will stop generating text when one of the stop sequences is generated.
+ * 如果设置，模型将在生成停止序列之一时停止生成文本。
  * @param seed - The seed (integer) to use for random sampling.
- * If set and supported by the model, calls will generate deterministic results.
+ * 如果模型设置并支持，调用将生成确定性结果。
  *
  * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
  * @param abortSignal - An optional abort signal that can be used to cancel the call.
@@ -194,18 +194,18 @@ export type GenerateTextInclude = {
  * @param experimental_refineToolInput - Optional mapping of tool names to functions that refine parsed tool inputs before tools are executed and before outputs, callbacks, and telemetry are recorded.
  * @param experimental_onStart - Callback invoked when generation begins, before any LLM calls.
  * @param experimental_onStepStart - Callback invoked when each step begins, before the provider is called.
- * Receives step number, messages (in ModelMessage format), tools, and runtimeContext.
+ * 接收步骤号、消息（采用 ModelMessage 格式）、工具和运行时上下文。
  * @param onToolExecutionStart - Callback invoked before each tool execution begins.
- * Receives tool name, call ID, input, and context.
+ * 接收工具名称、调用 ID、输入和上下文。
  * @param experimental_onToolCallStart - Deprecated alias for `onToolExecutionStart`.
  * @param onToolExecutionEnd - Callback invoked after each tool execution completes.
- * Uses a discriminated union: check `success` to determine if `output` or `error` is present.
+ * 使用可区分联合：检查“成功”以确定是否存在“输出”或“错误”。
  * @param experimental_onToolCallFinish - Deprecated alias for `onToolExecutionEnd`.
  * @param onStepFinish - Callback that is called when each step (LLM call) is finished, including intermediate steps.
  * @param onFinish - Callback that is called when all steps are finished and the response is complete.
  *
  * @returns
- * A result object that contains the generated text, the results of the tool calls, and additional information.
+ * 一个结果对象，包含生成的文本、工具调用的结果以及附加信息。
  */
 export async function generateText<
   TOOLS extends ToolSet,
@@ -261,99 +261,99 @@ export async function generateText<
   Prompt &
   ToolsContextParameter<TOOLS> & {
     /**
-     * The language model to use.
+     * 要使用的语言模型。
      */
     model: LanguageModel;
 
     /**
-     * The tool choice strategy. Default: 'auto'.
+     * 工具选择策略。默认值：“自动”。
      */
     toolChoice?: ToolChoice<NoInfer<TOOLS>>;
 
     /**
-     * Condition for stopping the generation when there are tool results in the last step.
-     * When the condition is an array, any of the conditions can be met to stop the generation.
+     * 最后一步有工具结果时停止生成的条件。
+     * 当条件是数组时，满足任何一个条件都可以停止生成。
      *
      * @default isStepCount(1)
      */
     stopWhen?: Arrayable<StopCondition<NoInfer<TOOLS>, RUNTIME_CONTEXT>>;
 
     /**
-     * Optional telemetry configuration.
+     * 可选遥测配置。
      */
     telemetry?: TelemetryOptions<RUNTIME_CONTEXT, NoInfer<TOOLS>>;
 
     /**
-     * Optional telemetry configuration.
+     * 可选遥测配置。
      *
-     * @deprecated Use `telemetry` instead. This alias will be removed in a future major release.
+     * @deprecated 请改用“遥测”。该别名将在未来的主要版本中删除。
      */
     experimental_telemetry?: TelemetryOptions<RUNTIME_CONTEXT, NoInfer<TOOLS>>;
 
     /**
-     * Additional provider-specific options. They are passed through
-     * to the provider from the AI SDK and enable provider-specific
-     * functionality that can be fully encapsulated in the provider.
+     * 其他特定于提供商的选项。他们通过
+     * 从 AI SDK 发送给提供商并启用特定于提供商的
+     * 可以完全封装在提供者中的功能。
      */
     providerOptions?: ProviderOptions;
 
     /**
-     * The sandbox environment that is passed through to tool execution.
+     * 传递到工具执行的沙箱环境。
      */
     experimental_sandbox?: Sandbox;
 
     /**
-     * Runtime context. Treat runtime context as immutable.
-     * If you need to mutate runtime context, update it in `prepareStep`.
+     * 运行时上下文。将运行时上下文视为不可变。
+     * 如果您需要改变运行时上下文，请在“prepareStep”中更新它。
      */
     runtimeContext?: RUNTIME_CONTEXT;
 
     /**
-     * Limits the tools that are available for the model to call without
-     * changing the tool call and result types in the result.
+     * 限制模型可以调用的工具，无需
+     * 更改结果中的工具调用和结果类型。
      */
     activeTools?: ActiveTools<NoInfer<TOOLS>>;
 
     /**
-     * Optional specification for parsing structured outputs from the LLM response.
+     * 用于解析 LLM 响应的结构化输出的可选规范。
      */
     output?: OUTPUT;
 
     /**
-     * Optional tool approval configuration.
+     * 可选工具审批配置。
      *
-     * This configuration takes precedence over tool-defined approval settings.
+     * 此配置优先于工具定义的批准设置。
      */
     toolApproval?: ToolApprovalConfiguration<TOOLS, RUNTIME_CONTEXT>;
 
     /**
-     * Custom download function to use for URLs.
+     * 用于 URL 的自定义下载功能。
      *
-     * By default, files are downloaded if the model does not support the URL for the given media type.
+     * 默认情况下，如果模型不支持给定媒体类型的 URL，则会下载文件。
      */
     experimental_download?: DownloadFunction | undefined;
 
     /**
-     * Optional function that you can use to provide different settings for a step.
+     * 您可以使用可选函数为步骤提供不同的设置。
      */
     prepareStep?: PrepareStepFunction<NoInfer<TOOLS>, RUNTIME_CONTEXT>;
 
     /**
-     * A function that attempts to repair a tool call that failed to parse.
+     * 尝试修复无法解析的工具调用的函数。
      */
     experimental_repairToolCall?: ToolCallRepairFunction<NoInfer<TOOLS>>;
 
     /**
-     * Optional mapping of tool names to functions that refine parsed tool inputs.
+     * 工具名称到优化已解析工具输入的函数的可选映射。
      *
-     * The refined input must have the same type shape as the tool input. Refined
-     * inputs are used for tool execution, outputs, callbacks, and telemetry.
+     * 精炼输入必须与工具输入具有相同的类型形状。精致
+     * 输入用于工具执行、输出、回调和遥测。
      */
     experimental_refineToolInput?: ToolInputRefinement<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called when the generateText operation begins,
-     * before any LLM calls are made.
+     * generateText 操作开始时调用的回调，
+     * 在拨打任何 LLM 电话之前。
      */
     experimental_onStart?: GenerateTextOnStartCallback<
       NoInfer<TOOLS>,
@@ -362,8 +362,8 @@ export async function generateText<
     >;
 
     /**
-     * Callback that is called when a step (LLM call) begins,
-     * before the provider is called.
+     * 步骤（LLM 调用）开始时调用的回调，
+     * 在调用提供者之前。
      */
     experimental_onStepStart?: GenerateTextOnStepStartCallback<
       NoInfer<TOOLS>,
@@ -372,44 +372,44 @@ export async function generateText<
     >;
 
     /**
-     * Callback that is called immediately before the provider model call begins.
+     * 在提供者模型调用开始之前立即调用的回调。
      */
     experimental_onLanguageModelCallStart?: OnLanguageModelCallStartCallback;
 
     /**
-     * Callback that is called after the model response has been normalized and parsed,
-     * but before any client-side tool execution begins.
+     * 模型响应标准化和解析后调用的回调，
+     * 但在任何客户端工具执行开始之前。
      */
     experimental_onLanguageModelCallEnd?: OnLanguageModelCallEndCallback<
       NoInfer<TOOLS>
     >;
 
     /**
-     * Callback that is called right before a tool's execute function runs.
+     * 在工具的执行函数运行之前调用的回调。
      */
     onToolExecutionStart?: OnToolExecutionStartCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called right before a tool's execute function runs.
+     * 在工具的执行函数运行之前调用的回调。
      *
-     * @deprecated Use `onToolExecutionStart` instead.
+     * @deprecated 请改用“onToolExecutionStart”。
      */
     experimental_onToolCallStart?: OnToolExecutionStartCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called right after a tool's execute function completes (or errors).
+     * 在工具的执行函数完成（或出错）后立即调用的回调。
      */
     onToolExecutionEnd?: OnToolExecutionEndCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called right after a tool's execute function completes (or errors).
+     * 在工具的执行函数完成（或出错）后立即调用的回调。
      *
-     * @deprecated Use `onToolExecutionEnd` instead.
+     * @deprecated 请改用“onToolExecutionEnd”。
      */
     experimental_onToolCallFinish?: OnToolExecutionEndCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called when each step (LLM call) is finished, including intermediate steps.
+     * 每个步骤（LLM 调用）完成时调用的回调，包括中间步骤。
      */
     onStepFinish?: GenerateTextOnStepFinishCallback<
       NoInfer<TOOLS>,
@@ -417,7 +417,7 @@ export async function generateText<
     >;
 
     /**
-     * Callback that is called when all steps are finished and the response is complete.
+     * 当所有步骤完成并且响应完成时调用的回调。
      */
     onFinish?: GenerateTextOnFinishCallback<
       NoInfer<TOOLS>,
@@ -425,24 +425,24 @@ export async function generateText<
     >;
 
     /**
-     * Settings for controlling what data is included in step results.
-     * Disabling inclusion can help reduce memory usage when processing
-     * large payloads like images.
+     * 用于控制步骤结果中包含哪些数据的设置。
+     * 禁用包含可以帮助减少处理时的内存使用量
+     * 图像等大型有效负载。
      *
-     * By default, request bodies, request messages, and response bodies are
-     * excluded.
+     * 默认情况下，请求正文、请求消息和响应正文是
+     * 排除。
      */
     include?: GenerateTextInclude;
 
     /**
-     * Settings for controlling what data is included in step results.
+     * 用于控制步骤结果中包含哪些数据的设置。
      *
-     * @deprecated Use `include` instead.
+     * @deprecated 请改用“include”。
      */
     experimental_include?: GenerateTextInclude;
 
     /**
-     * Internal. For test use only. May change without notice.
+     * 内部的。仅供测试使用。可能会更改，恕不另行通知。
      */
     _internal?: {
       generateId?: IdGenerator;
@@ -450,7 +450,7 @@ export async function generateText<
       now?: () => number;
     };
   }): Promise<GenerateTextResult<TOOLS, RUNTIME_CONTEXT, OUTPUT>> {
-  // assign default values to include:
+  // 分配默认值以包括：
   include = {
     requestBody: include?.requestBody ?? false,
     requestMessages: include?.requestMessages ?? false,
@@ -584,7 +584,7 @@ export async function generateText<
 
       const toolContent: Array<any> = [];
 
-      // add regular tool results for approved tool calls:
+      // 为批准的工具调用添加常规工具结果：
       for (const result of toolResults) {
         const output = result.output;
         const modelOutput = await createToolModelOutput({
@@ -603,7 +603,7 @@ export async function generateText<
         });
       }
 
-      // add execution denied tool results for all denied tool approvals:
+      // 为所有被拒绝的工具批准添加执行被拒绝的工具结果：
       for (const toolApproval of deniedToolApprovals) {
         toolContent.push({
           type: 'tool-result' as const,
@@ -612,7 +612,7 @@ export async function generateText<
           output: {
             type: 'execution-denied' as const,
             reason: toolApproval.approvalResponse.reason,
-            // For provider-executed tools, include approvalId so provider can correlate
+            // 对于提供商执行的工具，请包含approvalId，以便提供商可以关联
             ...(toolApproval.toolCall.providerExecuted && {
               providerOptions: {
                 openai: {
@@ -645,13 +645,13 @@ export async function generateText<
     let instructionsForNextStep = initialPrompt.instructions;
     let messagesForNextStep = [...initialMessages, ...initialResponseMessages];
 
-    // Track provider-executed tool calls that support deferred results
-    // (e.g., code_execution in programmatic tool calling scenarios).
-    // These tools may not return their results in the same turn as their call.
+    // 跟踪提供者执行的支持延迟结果的工具调用
+    // （例如，编程工具调用场景中的 code_execution）。
+    // 这些工具可能不会在调用的同时返回结果。
     const pendingDeferredToolCalls = new Map<string, { toolName: string }>();
 
     do {
-      // Set up step timeout if configured
+      // 如果已配置，请设置步骤超时
       const stepTimeoutId = setAbortTimeout({
         abortController: stepAbortController,
         label: 'Step',
@@ -710,7 +710,7 @@ export async function generateText<
 
         const stepTools = await prepareTools({
           tools: stepActiveTools,
-          // active tools context is a subset of the tools context, so we can cast to the unknown type
+          // 活动工具上下文是工具上下文的子集，因此我们可以转换为未知类型
           toolsContext: toolsContext as unknown as InferToolSetContext<
             ActiveToolSubset<TOOLS, ActiveTools<NoInfer<TOOLS>>>
           >,
@@ -797,7 +797,7 @@ export async function generateText<
         const responseTimeMs = now() - stepStartTimestampMs;
         const stepUsage = asLanguageModelUsage(currentModelResponse.usage);
 
-        // parse tool calls:
+        // 解析工具调用：
         const stepToolCalls: TypedToolCall<TOOLS>[] = await Promise.all(
           currentModelResponse.content
             .filter(
@@ -869,17 +869,17 @@ export async function generateText<
           ],
         });
 
-        // notify the tools that the tool calls are available:
+        // 通知工具该工具调用可用：
         for (const toolCall of stepToolCalls) {
           if (toolCall.invalid) {
-            continue; // ignore invalid tool calls
+            continue; // 忽略无效的工具调用
           }
 
           const tool = tools?.[toolCall.toolName];
 
           if (tool == null) {
-            // ignore tool calls for tools that are not available,
-            // e.g. provider-executed dynamic tools
+            // 忽略对不可用工具的工具调用，
+            // 例如提供商执行的动态工具
             continue;
           }
 
@@ -956,8 +956,8 @@ export async function generateText<
           }
         }
 
-        // insert error tool outputs for invalid tool calls:
-        // TODO AI SDK 6: invalid inputs should not require output parts
+        // 插入无效工具调用的错误工具输出：
+        // TODO AI SDK 6：无效输入不应需要输出部分
         const invalidToolCalls = stepToolCalls.filter(
           toolCall => toolCall.invalid && toolCall.dynamic,
         );
@@ -975,7 +975,7 @@ export async function generateText<
           });
         }
 
-        // execute client tool calls:
+        // 执行客户端工具调用：
         clientToolCalls = stepToolCalls.filter(
           toolCall => !toolCall.providerExecuted,
         );
@@ -1045,15 +1045,15 @@ export async function generateText<
           timeToFirstOutputTokenMs: undefined,
         };
 
-        // Track provider-executed tool calls that support deferred results.
-        // In programmatic tool calling, a server tool (e.g., code_execution) may
-        // trigger a client tool, and the server tool's result is deferred until
-        // the client tool's result is sent back.
+        // 跟踪提供者执行的支持延迟结果的工具调用。
+        // 在编程工具调用中，服务器工具（例如，code_execution）可以
+        // 触发客户端工具，并且服务器工具的结果被推迟到
+        // 客户端工具的结果被发回。
         for (const toolCall of stepToolCalls) {
           if (!toolCall.providerExecuted) continue;
           const tool = tools?.[toolCall.toolName];
           if (tool?.type === 'provider' && tool.supportsDeferredResults) {
-            // Check if this tool call already has a result in the current response
+            // 检查此工具调用在当前响应中是否已有结果
             const hasResultInResponse = currentModelResponse.content.some(
               part =>
                 part.type === 'tool-result' &&
@@ -1067,14 +1067,14 @@ export async function generateText<
           }
         }
 
-        // Mark deferred tool calls as resolved when we receive their results
+        // 当我们收到结果时，将延迟的工具调用标记为已解决
         for (const part of currentModelResponse.content) {
           if (part.type === 'tool-result') {
             pendingDeferredToolCalls.delete(part.toolCallId);
           }
         }
 
-        // content:
+        // 内容：
         const stepContent = asContent({
           content: currentModelResponse.content,
           toolCalls: stepToolCalls,
@@ -1089,9 +1089,9 @@ export async function generateText<
           tools,
         });
 
-        // Add step information (after response messages are updated):
-        // Conditionally include request.body and response.body based on include settings.
-        // Large payloads (e.g., base64-encoded images) can cause memory issues.
+        // 添加步骤信息（响应消息更新后）：
+        // 根据包含设置有条件地包含 request.body 和 response.body。
+        // 大负载（例如，base64 编码的图像）可能会导致内存问题。
         const stepRequest: LanguageModelRequestMetadata = {
           ...currentModelResponse.request,
           body: include.requestBody
@@ -1104,9 +1104,9 @@ export async function generateText<
 
         const stepResponse = {
           ...currentModelResponse.response,
-          // deep clone msgs to avoid mutating step results in multi-step:
+          // 深度克隆消息以避免在多步骤中改变步骤结果：
           messages: cloneModelMessages(stepResponseMessages),
-          // Conditionally include response body:
+          // 有条件地包含响应正文：
           body: include.responseBody
             ? currentModelResponse.response?.body
             : undefined,
@@ -1151,14 +1151,14 @@ export async function generateText<
         }
       }
     } while (
-      // Continue if:
-      // 1. There are client tool calls that have all been executed or denied, OR
-      // 2. There are pending deferred results from provider-executed tools
+      // 如果出现以下情况，请继续：
+      // 1. 存在已全部执行或拒绝的客户端工具调用，或者
+      // 2. 提供商执行的工具有待确定的延迟结果
       ((clientToolCalls.length > 0 &&
         clientToolOutputs.length + deniedToolApprovalResponses.length ===
           clientToolCalls.length) ||
         pendingDeferredToolCalls.size > 0) &&
-      // continue until a stop condition is met:
+      // 继续直到满足停止条件：
       !(await isStopConditionMet({ stopConditions, steps }))
     );
 
@@ -1225,7 +1225,7 @@ export async function generateText<
       callbacks: [onFinish, telemetryDispatcher.onEnd],
     });
 
-    // parse output only if the last step was finished with "stop":
+    // 仅当最后一步以“stop”完成时才解析输出：
     let resolvedOutput;
     if (lastStep.finishReason === 'stop') {
       const outputSpecification = output ?? text();
@@ -1487,10 +1487,10 @@ function asContent<TOOLS extends ToolSet>({
           toolCall => toolCall.toolCallId === part.toolCallId,
         );
 
-        // Handle deferred results for provider-executed tools (e.g., programmatic tool calling).
-        // When a server tool (like code_execution) triggers a client tool, the server tool's
-        // result may be deferred to a later turn. In this case, there's no matching tool-call
-        // in the current response.
+        // 处理提供者执行的工具的延迟结果（例如，编程工具调用）。
+        // 当服务器工具（如 code_execution）触发客户端工具时，服务器工具的
+        // 结果可能会推迟到稍后的回合。在这种情况下，没有匹配的工具调用
+        // 在当前的响应中。
         if (toolCall == null) {
           const tool = tools?.[part.toolName];
           const supportsDeferredResults =
@@ -1500,7 +1500,7 @@ function asContent<TOOLS extends ToolSet>({
             throw new Error(`Tool call ${part.toolCallId} not found.`);
           }
 
-          // Create tool result without tool call input (deferred result)
+          // 在没有工具调用输入的情况下创建工具结果（延迟结果）
           if (part.isError) {
             contentParts.push({
               type: 'tool-error' as const,

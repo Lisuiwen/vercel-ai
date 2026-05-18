@@ -1,50 +1,50 @@
 ---
-title: Unsupported model version error
-description: Troubleshooting the AI_UnsupportedModelVersionError when migrating to AI SDK 5
+title: 不支持的模型版本错误
+description: 迁移到 AI SDK 5 时排查 AI_UnsupportedModelVersionError
 ---
 
-# Unsupported model version error
+# 不支持的模型版本错误
 
-## Issue
+## 问题
 
-When migrating to AI SDK 5, you might encounter an error stating that your model uses an unsupported version:
+迁移到 AI SDK 5 后，可能看到模型使用了不支持的版本：
 
 ```
 AI_UnsupportedModelVersionError: Unsupported model version v1 for provider "ollama.chat" and model "gamma3:4b".
 AI SDK 5 only supports models that implement specification version "v2".
 ```
 
-This error occurs because the version of the provider package you're using implements the older (v1) model specification.
+这是因为当前使用的 provider 包版本仍实现较旧的（v1）模型规范。
 
-## Background
+## 背景
 
-AI SDK 5 requires all provider packages to implement specification version "v2". When you upgrade to AI SDK 5 but don't update your provider packages to compatible versions, they continue using the older "v1" specification, causing this error.
+AI SDK 5 要求所有 provider 包实现规范版本「v2」。只升级了 `ai` 而未将各 provider 升到兼容版本时，它们仍可能使用旧的「v1」规范，从而触发该错误。
 
-## Solution
+## 解决方案
 
-### Update provider packages to AI SDK 5 compatible versions
+### 将 provider 包升级到与 AI SDK 5 兼容的版本
 
-Update all your `@ai-sdk/*` provider packages to compatible version `2.0.0` or later. These versions implement the v2 specification required by AI SDK 5.
+将所有 `@ai-sdk/*` provider 包更新到 `2.0.0` 或更高，这些版本实现了 AI SDK 5 所需的 v2 规范。
 
 ```bash
 pnpm install ai@latest @ai-sdk/openai@latest @ai-sdk/anthropic@latest
 ```
 
-For AI SDK 5 compatibility, you need:
+AI SDK 5 兼容性要求大致为：
 
-- `ai` package: `5.0.0` or later
-- `@ai-sdk/*` packages: `2.0.0` or later (for example, `@ai-sdk/openai`, `@ai-sdk/anthropic`, `@ai-sdk/google`)
-- `@ai-sdk/provider` package: `2.0.0` or later
-- `zod` package: `4.1.8` or later
+- `ai`：`5.0.0` 或更高
+- `@ai-sdk/*`：`2.0.0` 或更高（例如 `@ai-sdk/openai`、`@ai-sdk/anthropic`、`@ai-sdk/google`）
+- `@ai-sdk/provider`：`2.0.0` 或更高
+- `zod`：`4.1.8` 或更高
 
-### Check provider compatibility
+### 核对 provider 兼容性
 
-If you're using a third-party or custom provider, verify that it has been updated to support AI SDK 5. Not all providers may have v2-compatible versions available yet.
+若使用第三方或自定义 provider，请确认其已支持 AI SDK 5。并非所有 provider 都已提供 v2 兼容版本。
 
-To check if a provider supports AI SDK 5:
+检查某 provider 是否支持 AI SDK 5 可：
 
-1. Check the provider's package.json for `@ai-sdk/provider` peer dependency version `2.0.0` or later
-2. Review the provider's changelog or migration guide
-3. Check the provider's repository for AI SDK 5 support
+1. 查看其 `package.json` 中 `@ai-sdk/provider` 的 peer 依赖是否为 `2.0.0` 或更高
+2. 阅读变更日志或迁移指南
+3. 在仓库中查找 AI SDK 5 支持说明
 
-For more information on migrating to AI SDK 5, see the [AI SDK 5.0 migration guide](/docs/migration-guides/migration-guide-5-0).
+更多迁移说明见 [AI SDK 5.0 迁移指南](/docs/migration-guides/migration-guide-5-0)。

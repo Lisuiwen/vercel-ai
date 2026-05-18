@@ -15,7 +15,7 @@ import {
 import { after } from 'next/server';
 import { createResumableStreamContext } from 'resumable-stream';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       saveChat({ chatId, messages });
     },
     async consumeSseStream({ stream }) {
-      // send the sse stream into a resumable stream sink as well:
+      // 同时将 SSE 流发送到可恢复流 sink：
       const streamContext = createResumableStreamContext({ waitUntil: after });
       await streamContext.createNewResumableStream(streamId, () => stream);
     },

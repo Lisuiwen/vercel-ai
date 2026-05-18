@@ -18,7 +18,7 @@ run(async () => {
         execute: async ({ location }, { abortSignal }) => {
           console.log('Starting tool call');
 
-          // simulate compute for 10 seconds, check abort signal every 50ms
+          // 模拟计算10秒，每50ms检查一次中止信号
           for (let i = 0; i < 10000 / 50; i++) {
             await new Promise(resolve => setTimeout(resolve, 50));
             abortSignal?.throwIfAborted();
@@ -37,7 +37,7 @@ run(async () => {
     abortSignal: abortController.signal,
   });
 
-  // delay for 3 seconds
+  // 延迟3秒
   await new Promise(resolve => setTimeout(resolve, 3000));
 
   abortController.abort();

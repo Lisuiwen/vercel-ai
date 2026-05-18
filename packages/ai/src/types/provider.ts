@@ -4,12 +4,12 @@ import type { ImageModel } from './image-model';
 import type { RerankingModel } from './reranking-model';
 
 /**
- * Provider for language, text embedding, and image models.
+ * 语言、文本嵌入和图像模型的提供者。
  */
 export type Provider = {
   /**
-   * Returns the language model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的语言模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -20,8 +20,8 @@ export type Provider = {
   languageModel(modelId: string): LanguageModel;
 
   /**
-   * Returns the text embedding model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的文本嵌入模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -32,8 +32,8 @@ export type Provider = {
   embeddingModel(modelId: string): EmbeddingModel;
 
   /**
-   * Returns the image model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的图像模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *
@@ -42,8 +42,8 @@ export type Provider = {
   imageModel(modelId: string): ImageModel;
 
   /**
-   * Returns the reranking model with the given id.
-   * The model id is then passed to the provider function to get the model.
+   * 返回具有给定 id 的重排序模型。
+   * 然后将模型 ID 传递给提供者函数以获取模型。
    *
    * @param {string} modelId - The id of the model to return.
    *

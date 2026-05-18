@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import { run } from '../../lib/run';
 
 run(async () => {
-  // Read the image file and create a proper data URL
+  // 读取图像文件并创建正确的数据 URL
   const imageData = fs.readFileSync('./data/comic-cat.png');
   const base64Data = imageData.toString('base64');
   const dataUrl = `data:image/png;base64,${base64Data}`;

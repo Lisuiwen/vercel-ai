@@ -28,13 +28,13 @@ import type { TypedToolResult } from './tool-result';
 import { validateToolContext } from './validate-tool-context';
 
 /**
- * Executes a single tool call and manages its lifecycle callbacks.
+ * 执行单个工具调用并管理其生命周期回调。
  *
- * This function handles the complete tool execution flow:
- * 1. Invokes `onToolExecutionStart` callback before execution
- * 2. Executes the tool's `execute` function with proper context
- * 3. Handles streaming outputs via `onPreliminaryToolResult`
- * 4. Invokes `onToolExecutionEnd` callback with success or error result
+ * 该函数处理完整的工具执行流程：
+ * 1.执行前调用`onToolExecutionStart`回调
+ * 2. 在适当的上下文中执行工具的“execute”函数
+ * 3.通过`onPreliminaryToolResult`处理流输出
+ * 4. 调用`onToolExecutionEnd`回调并返回成功或错误结果
  *
  * @returns The tool output with performance metrics, or undefined if the tool has no execute function.
  */
@@ -107,11 +107,11 @@ export async function executeToolCall<TOOLS extends ToolSet>({
 
   let toolExecutionMs = 0;
   try {
-    // In order to correctly nest telemetry spans within tool calls spans, telemetry integrations need
-    // to be able to execute the tool call in a telemetry-integration-specific context.
+    // 为了在工具调用范围内正确嵌套遥测范围，遥测集成需要
+    // 能够在遥测集成特定的上下文中执行工具调用。
     //
-    // The call id and the tool call id are provided to the telemetry integration so that it can correctly
-    // identify the parent span.
+    // 调用 ID 和工具调用 ID 提供给遥测集成，以便它能够正确地
+    // 识别父跨度。
     await executeToolInTelemetryContext({
       callId,
       toolCallId,

@@ -2,69 +2,69 @@ import type { FetchFunction } from '@ai-sdk/provider-utils';
 
 export type CompletionRequestOptions = {
   /**
-   * An optional object of headers to be passed to the API endpoint.
+   * 要传递到 API 端点的可选标头对象。
    */
   headers?: Record<string, string> | Headers;
 
   /**
-   * An optional object to be passed to the API endpoint.
+   * 要传递到 API 端点的可选对象。
    */
   body?: object;
 };
 
 export type UseCompletionOptions = {
   /**
-   * The API endpoint that accepts a `{ prompt: string }` object and returns
-   * a stream of tokens of the AI completion response. Defaults to `/api/completion`.
+   * 接受“{提示：字符串}”对象并返回的API端点
+   * AI 完成响应的令牌流。默认为“/api/completion”。
    */
   api?: string;
   /**
-   * A unique identifier for the completion. If not provided, a random one will be
-   * generated. When provided, the `useCompletion` hook with the same `id` will
-   * have shared states across components.
+   * 完成的唯一标识符。如果没有提供，将随机提供一个
+   * 生成的。提供后，具有相同“id”的“useCompletion”钩子将
+   * 跨组件共享状态。
    */
   id?: string;
 
   /**
-   * Initial prompt input of the completion.
+   * 初始提示输入完成。
    */
   initialInput?: string;
 
   /**
-   * Initial completion result. Useful to load an existing history.
+   * 初步完成结果。用于加载现有历史记录。
    */
   initialCompletion?: string;
 
   /**
-   * Callback function to be called when the completion is finished streaming.
+   * 当流式传输完成时要调用的回调函数。
    */
   onFinish?: (prompt: string, completion: string) => void;
 
   /**
-   * Callback function to be called when an error is encountered.
+   * 遇到错误时调用的回调函数。
    */
   onError?: (error: Error) => void;
 
   /**
-   * The credentials mode to be used for the fetch request.
-   * Possible values are: 'omit', 'same-origin', 'include'.
-   * Defaults to 'same-origin'.
+   * 用于获取请求的凭据模式。
+   * 可能的值为：“省略”、“同源”、“包含”。
+   * 默认为“同源”。
    */
   credentials?: RequestCredentials;
 
   /**
-   * HTTP headers to be sent with the API request.
+   * 与 API 请求一起发送的 HTTP 标头。
    */
   headers?: Record<string, string> | Headers;
 
   /**
-   * Extra body object to be sent with the API request.
+   * 与 API 请求一起发送的额外主体对象。
    * @example
-   * Send a `sessionId` to the API along with the prompt.
-   * ```js
-   * useCompletion({
-   *   body: {
-   *     sessionId: '123',
+   * 将“sessionId”与提示一起发送到 API。
+   * ````js
+   * 使用完成（{
+   *   正文：{
+   *     会话 ID: '123',
    *   }
    * })
    * ```
@@ -72,13 +72,13 @@ export type UseCompletionOptions = {
   body?: object;
 
   /**
-   * Streaming protocol that is used. Defaults to `data`.
+   * 使用的流协议。默认为“数据”。
    */
   streamProtocol?: 'data' | 'text';
 
   /**
-   * Custom fetch implementation. You can use it as a middleware to intercept requests,
-   * or to provide a custom fetch implementation for e.g. testing.
+   * 自定义获取实现。您可以将其用作拦截请求的中间件，
+   * 或者提供自定义的获取实现，例如测试。
    */
   fetch?: FetchFunction;
 };

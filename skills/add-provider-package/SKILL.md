@@ -1,37 +1,37 @@
 ---
 name: add-provider-package
-description: Guide for adding new AI provider packages to the AI SDK. Use when creating a new @ai-sdk/<provider> package to integrate an AI service into the SDK.
+description: 向 AI SDK 添加新 AI provider 包的指南。在创建新的 @ai-sdk/<provider> 包以将 AI 服务集成到 SDK 时使用。
 metadata:
   internal: true
 ---
 
-## Adding a New Provider Package
+## 添加新 Provider 包
 
-This guide covers the process of creating a new `@ai-sdk/<provider>` package to integrate an AI service into the AI SDK.
+本指南涵盖创建新的 `@ai-sdk/<provider>` 包以将 AI 服务集成到 AI SDK 的流程。
 
-## First-Party vs Third-Party Providers
+## 官方包与第三方包
 
-- **Third-party packages**: Any provider can create a third-party package. We're happy to link to it from our documentation.
-- **First-party `@ai-sdk/<provider>` packages**: If you prefer a first-party package, please create an issue first to discuss.
+- **第三方包**：任何 provider 都可创建第三方包。我们乐意在文档中链接。
+- **官方 `@ai-sdk/<provider>` 包**：若你希望官方包，请先创建 issue 讨论。
 
-## Reference Example
+## 参考示例
 
-See https://github.com/vercel/ai/pull/8136/files for a complete example of adding a new provider.
+添加新 provider 的完整示例见 https://github.com/vercel/ai/pull/8136/files。
 
-## Provider Architecture
+## Provider 架构
 
-The AI SDK uses a layered provider architecture following the adapter pattern:
+AI SDK 采用分层 provider 架构，遵循适配器模式：
 
-1. **Specifications** (`@ai-sdk/provider`): Defines interfaces like `LanguageModelV4`, `EmbeddingModelV4`, etc.
-2. **Utilities** (`@ai-sdk/provider-utils`): Shared code for implementing providers
-3. **Providers** (`@ai-sdk/<provider>`): Concrete implementations for each AI service
-4. **Core** (`ai`): High-level functions like `generateText`, `streamText`, `generateObject`
+1. **Specifications**（`@ai-sdk/provider`）：定义如 `LanguageModelV4`、`EmbeddingModelV4` 等接口
+2. **Utilities**（`@ai-sdk/provider-utils`）：实现 provider 的共享代码
+3. **Providers**（`@ai-sdk/<provider>`）：各 AI 服务的具体实现
+4. **Core**（`ai`）：如 `generateText`、`streamText`、`generateObject` 等高层函数
 
-## Step-by-Step Guide
+## 分步指南
 
-### 1. Create Package Structure
+### 1. 创建包结构
 
-Create a new folder `packages/<provider>` with the following structure:
+在 `packages/<provider>` 创建新文件夹，结构如下：
 
 ```
 packages/<provider>/
@@ -52,22 +52,22 @@ packages/<provider>/
 └── README.md
 ```
 
-Do not create a `CHANGELOG.md` file. It will be auto-generated.
+不要创建 `CHANGELOG.md` 文件。它将自动生成。
 
-### 2. Configure package.json
+### 2. 配置 package.json
 
-Set up your `package.json` with:
+设置 `package.json`：
 
 - `"name": "@ai-sdk/<provider>"`
-- `"version": "0.0.0"` (initial version, will be updated by changeset)
+- `"version": "0.0.0"`（初始版本，由 changeset 更新）
 - `"license": "Apache-2.0"`
 - `"sideEffects": false`
-- Dependencies on `@ai-sdk/provider` and `@ai-sdk/provider-utils` (use `workspace:*`)
-- Dev dependencies: `@ai-sdk/test-server`, `@types/node`, `@vercel/ai-tsconfig`, `tsup`, `typescript`, `zod`
+- 依赖 `@ai-sdk/provider` 与 `@ai-sdk/provider-utils`（使用 `workspace:*`）
+- 开发依赖：`@ai-sdk/test-server`、`@types/node`、`@vercel/ai-tsconfig`、`tsup`、`typescript`、`zod`
 - `"engines": { "node": ">=18" }`
-- Peer dependency on `zod` (both v3 and v4): `"zod": "^3.25.76 || ^4.1.8"`
+- `zod` 的 peer dependency（v3 与 v4）：`"zod": "^3.25.76 || ^4.1.8"`
 
-Example exports configuration:
+exports 配置示例：
 
 ```json
 {
@@ -82,7 +82,7 @@ Example exports configuration:
 }
 ```
 
-### 3. Create TypeScript Configurations
+### 3. 创建 TypeScript 配置
 
 **tsconfig.json**:
 
@@ -108,9 +108,9 @@ Example exports configuration:
 }
 ```
 
-### 4. Configure Build Tool (tsup)
+### 4. 配置构建工具（tsup）
 
-Create `tsup.config.ts`:
+创建 `tsup.config.ts`：
 
 ```typescript
 import { defineConfig } from 'tsup';
@@ -124,13 +124,13 @@ export default defineConfig({
 });
 ```
 
-### 5. Configure Test Runners
+### 5. 配置测试运行器
 
-Create both `vitest.node.config.js` and `vitest.edge.config.js` (copy from existing provider like `anthropic`).
+创建 `vitest.node.config.js` 与 `vitest.edge.config.js`（从现有 provider 如 `anthropic` 复制）。
 
-### 6. Implement Provider
+### 6. 实现 Provider
 
-**Provider implementation pattern**:
+**Provider 实现模式**：
 
 ```typescript
 // <provider>-provider.ts
@@ -178,85 +178,85 @@ export class ProviderInstance {
 export const providerName = new ProviderInstance();
 ```
 
-### 7. Implement Model Classes
+### 7. 实现 Model 类
 
-Each model type (language, embedding, image, etc.) should implement the appropriate interface from `@ai-sdk/provider`:
+每种 model 类型（language、embedding、image 等）应实现 `@ai-sdk/provider` 中的相应接口：
 
-- `LanguageModelV4` for text generation models
-- `EmbeddingModelV4` for embedding models
-- `ImageModelV4` for image generation models
-- etc.
+- 文本生成 model 使用 `LanguageModelV4`
+- 嵌入 model 使用 `EmbeddingModelV4`
+- 图像生成 model 使用 `ImageModelV4`
+- 等
 
-**Schema guidelines**:
+**Schema 指南**：
 
-**Provider Options** (user-facing):
+**Provider Options**（面向用户）：
 
-- Use `.optional()` unless `null` is meaningful
-- Be as restrictive as possible for future flexibility
+- 除非 `null` 有明确语义，否则使用 `.optional()`
+- 尽量严格以保留未来灵活性
 
-**Response Schemas** (API responses):
+**Response Schemas**（API 响应）：
 
-- Use `.nullish()` instead of `.optional()`
-- Keep minimal - only include properties you need
-- Allow flexibility for provider API changes
+- 使用 `.nullish()` 而非 `.optional()`
+- 保持精简——只包含所需属性
+- 为 provider API 变更留出余地
 
-### 8. Create README.md
+### 8. 创建 README.md
 
-Include:
+包含：
 
-- Brief description linking to documentation
-- Installation instructions
-- Basic usage example
-- Link to full documentation
+- 链接到文档的简要描述
+- 安装说明
+- 基础用法示例
+- 完整文档链接
 
-### 9. Write Tests
+### 9. 编写测试
 
-- Unit tests for provider logic
-- API response parsing tests using fixtures in `__fixtures__` subdirectory
-- Both Node.js and Edge runtime tests
+- Provider 逻辑的单元测试
+- 使用 `__fixtures__` 子目录中 fixture 的 API 响应解析测试
+- Node.js 与 Edge 运行时测试
 
-See `capture-api-response-test-fixture` skill for capturing real API responses for testing.
+捕获真实 API 响应用于测试见 `capture-api-response-test-fixture` skill。
 
-### 10. Add Examples
+### 10. 添加示例
 
-Create examples in `examples/ai-functions/src/` for each model type the provider supports:
+在 `examples/ai-functions/src/` 为 provider 支持的每种 model 类型创建示例：
 
-- `generate-text/<provider>.ts` - Basic text generation
-- `stream-text/<provider>.ts` - Streaming text
-- `generate-object/<provider>.ts` - Structured output (if supported)
-- `stream-object/<provider>.ts` - Streaming structured output (if supported)
-- `embed/<provider>.ts` - Embeddings (if supported)
-- `generate-image/<provider>.ts` - Image generation (if supported)
-- etc.
+- `generate-text/<provider>.ts` - 基础文本生成
+- `stream-text/<provider>.ts` - 流式文本
+- `generate-object/<provider>.ts` - 结构化输出（若支持）
+- `stream-object/<provider>.ts` - 流式结构化输出（若支持）
+- `embed/<provider>.ts` - 嵌入（若支持）
+- `generate-image/<provider>.ts` - 图像生成（若支持）
+- 等
 
-Add feature-specific examples as needed (e.g., `<provider>-tool-call.ts`, `<provider>-cache-control.ts`).
+按需添加功能专用示例（例如 `<provider>-tool-call.ts`、`<provider>-cache-control.ts`）。
 
-### 11. Add Documentation
+### 11. 添加文档
 
-Create documentation in `content/providers/01-ai-sdk-providers/<last number + 10>-<provider>.mdx`
+在 `content/providers/01-ai-sdk-providers/<last number + 10>-<provider>.mdx` 创建文档
 
-Include:
+包含：
 
-- Setup instructions
-- Available models
-- Model capabilities
-- Provider-specific options
-- Usage examples
-- API configuration
+- 设置说明
+- 可用 model
+- Model 能力
+- Provider 专用 options
+- 用法示例
+- API 配置
 
-### 12. Create Changeset
+### 12. 创建 Changeset
 
-Run `pnpm changeset` and:
+运行 `pnpm changeset` 并：
 
-- Select the new provider package
-- Choose `major` version (for new packages starting at 0.0.0)
-- Describe what the package provides
+- 选择新 provider 包
+- 选择 `major` 版本（新包从 0.0.0 开始）
+- 描述包提供的功能
 
-### 13. Update References
+### 13. 更新 References
 
-Run `pnpm update-references` from the workspace root to update tsconfig references.
+在 workspace 根目录运行 `pnpm update-references` 以更新 tsconfig references。
 
-### 14. Build and Test
+### 14. 构建与测试
 
 ```bash
 # From workspace root
@@ -273,9 +273,9 @@ pnpm type-check        # Type checking
 pnpm type-check:full   # Full type check including examples
 ```
 
-### 15. Run Examples
+### 15. 运行示例
 
-Test your examples:
+测试你的示例：
 
 ```bash
 cd examples/ai-functions
@@ -283,27 +283,27 @@ pnpm tsx src/generate-text/<provider>.ts
 pnpm tsx src/stream-text/<provider>.ts
 ```
 
-## Provider Method Naming
+## Provider 方法命名
 
-- **Full names**: `languageModel(id)`, `imageModel(id)`, `embeddingModel(id)` (required)
-- **Short aliases**: `.chat(id)`, `.image(id)`, `.embedding(id)` (for DX)
+- **完整名称**：`languageModel(id)`、`imageModel(id)`、`embeddingModel(id)`（必需）
+- **短别名**：`.chat(id)`、`.image(id)`、`.embedding(id)`（提升 DX）
 
-## File Naming Conventions
+## 文件命名约定
 
-- Source files: `kebab-case.ts`
-- Test files: `kebab-case.test.ts`
-- Type test files: `kebab-case.test-d.ts`
-- Provider classes: `<Provider>Provider`, `<Provider>LanguageModel`, etc.
+- 源文件：`kebab-case.ts`
+- 测试文件：`kebab-case.test.ts`
+- 类型测试文件：`kebab-case.test-d.ts`
+- Provider 类：`<Provider>Provider`、`<Provider>LanguageModel` 等
 
-## Security Best Practices
+## 安全最佳实践
 
-- Never use `JSON.parse` directly - use `parseJSON` or `safeParseJSON` from `@ai-sdk/provider-utils`
-- Load API keys securely using `loadApiKey` from `@ai-sdk/provider-utils`
-- Validate all API responses against schemas
+- 切勿直接使用 `JSON.parse`——使用 `@ai-sdk/provider-utils` 的 `parseJSON` 或 `safeParseJSON`
+- 使用 `@ai-sdk/provider-utils` 的 `loadApiKey` 安全加载 API key
+- 根据 schema 验证所有 API 响应
 
-## Error Handling
+## 错误处理
 
-Errors should extend `AISDKError` from `@ai-sdk/provider` and use a marker pattern:
+错误应继承 `@ai-sdk/provider` 的 `AISDKError` 并使用 marker 模式：
 
 ```typescript
 import { AISDKError } from '@ai-sdk/provider';
@@ -325,38 +325,38 @@ export class ProviderError extends AISDKError {
 }
 ```
 
-## Pre-release Mode
+## 预发布模式
 
-If `main` is set up to publish `beta` releases, no further action is necessary. Just make sure not to backport it to the `vX.Y` stable branch since it will result in an npm version conflict once we exit pre-release mode on `main`.
+若 `main` 已配置为发布 `beta` 版本，无需额外操作。仅注意不要将其 backport 到 `vX.Y` 稳定分支，否则在 `main` 退出预发布模式后会导致 npm 版本冲突。
 
-## Checklist
+## 检查清单
 
-- [ ] Package structure created in `packages/<provider>`
-- [ ] `package.json` configured with correct dependencies
-- [ ] TypeScript configs set up (`tsconfig.json`, `tsconfig.build.json`)
-- [ ] Build configuration (`tsup.config.ts`)
-- [ ] Test configurations (`vitest.node.config.js`, `vitest.edge.config.js`)
-- [ ] Provider implementation complete
-- [ ] Model classes implement appropriate interfaces
-- [ ] Unit tests written and passing
-- [ ] API response test fixtures captured
-- [ ] Examples created in `examples/ai-functions/src/`
-- [ ] Documentation added in `content/providers/01-ai-sdk-providers/`
-- [ ] README.md written
-- [ ] Major changeset created
-- [ ] `pnpm update-references` run
-- [ ] All tests passing (`pnpm test` from package)
-- [ ] Type checking passing (`pnpm type-check:full` from root)
-- [ ] Examples run successfully
+- [ ] 在 `packages/<provider>` 创建包结构
+- [ ] `package.json` 配置正确依赖
+- [ ] 设置 TypeScript 配置（`tsconfig.json`、`tsconfig.build.json`）
+- [ ] 构建配置（`tsup.config.ts`）
+- [ ] 测试配置（`vitest.node.config.js`、`vitest.edge.config.js`）
+- [ ] Provider 实现完成
+- [ ] Model 类实现相应接口
+- [ ] 单元测试编写并通过
+- [ ] 捕获 API 响应测试 fixture
+- [ ] 在 `examples/ai-functions/src/` 创建示例
+- [ ] 在 `content/providers/01-ai-sdk-providers/` 添加文档
+- [ ] 编写 README.md
+- [ ] 创建 major changeset
+- [ ] 运行 `pnpm update-references`
+- [ ] 全部测试通过（在包目录运行 `pnpm test`）
+- [ ] 类型检查通过（在根目录运行 `pnpm type-check:full`）
+- [ ] 示例运行成功
 
-## Common Issues
+## 常见问题
 
-- **Missing tsconfig references**: Run `pnpm update-references` from workspace root
-- **Type errors in examples**: Run `pnpm type-check:full` to catch issues early
-- **Test failures**: Ensure both Node and Edge tests pass
-- **Build errors**: Check that `tsup.config.ts` is configured correctly
+- **缺少 tsconfig references**：在 workspace 根目录运行 `pnpm update-references`
+- **示例中的类型错误**：运行 `pnpm type-check:full` 尽早发现
+- **测试失败**：确保 Node 与 Edge 测试均通过
+- **构建错误**：检查 `tsup.config.ts` 配置是否正确
 
-## Related Documentation
+## 相关文档
 
 - [Provider Architecture](../../contributing/provider-architecture.md)
 - [Provider Development Notes](../../contributing/providers.md)

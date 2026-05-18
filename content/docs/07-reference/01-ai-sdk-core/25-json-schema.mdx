@@ -1,17 +1,16 @@
 ---
 title: jsonSchema
-description: Helper function for creating JSON schemas
+description: 用于创建 JSON schema 的辅助函数
 ---
 
 # `jsonSchema()`
 
-`jsonSchema` is a helper function that creates a JSON schema object that is compatible with the AI SDK.
-It takes the JSON schema and an optional validation function as inputs, and can be typed.
+`jsonSchema` 用于创建与 AI SDK 兼容的 JSON schema 对象。
+接受 JSON schema 与可选的校验函数，并可标注类型。
 
-You can use it to [generate structured data](/docs/ai-sdk-core/generating-structured-data) and in [tools](/docs/ai-sdk-core/tools-and-tool-calling).
+可用于[生成结构化数据](/docs/ai-sdk-core/generating-structured-data)与[工具](/docs/ai-sdk-core/tools-and-tool-calling)。
 
-`jsonSchema` is an alternative to using Zod schemas that provides you with flexibility in dynamic situations
-(e.g. when using OpenAPI definitions) or for using other validation libraries.
+`jsonSchema` 是在需要动态场景（例如使用 OpenAPI 定义）或使用其他校验库时，相对 Zod schema 的另一种选择。
 
 ```ts
 import { jsonSchema } from 'ai';
@@ -52,25 +51,25 @@ const mySchema = jsonSchema<{
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { jsonSchema } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'schema',
       type: 'JSONSchema7',
-      description: 'The JSON schema definition.',
+      description: 'JSON schema 定义。',
     },
     {
       name: 'options',
       type: 'SchemaOptions',
-      description: 'Additional options for the JSON schema.',
+      description: 'JSON schema 的附加选项。',
       properties: [
         {
           type: 'SchemaOptions',
@@ -80,7 +79,7 @@ const mySchema = jsonSchema<{
               isOptional: true,
               type: '(value: unknown) => { success: true; value: OBJECT } | { success: false; error: Error };',
               description:
-                'A function that validates the value against the JSON schema. If the value is valid, the function should return an object with a `success` property set to `true` and a `value` property set to the validated value. If the value is invalid, the function should return an object with a `success` property set to `false` and an `error` property set to the error.',
+                '根据 JSON schema 校验值的函数。有效时应返回 `success: true` 与 `value`；无效时应返回 `success: false` 与 `error`。',
             },
           ],
         },
@@ -89,6 +88,6 @@ const mySchema = jsonSchema<{
   ]}
 />
 
-### Returns
+### 返回值
 
-A JSON schema object that is compatible with the AI SDK.
+与 AI SDK 兼容的 JSON schema 对象。

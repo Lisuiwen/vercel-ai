@@ -1,48 +1,51 @@
-# AI SDK - Groq Provider
+# AI SDK - Groq 提供商
 
-The **[Groq provider](https://ai-sdk.dev/providers/ai-sdk-providers/groq)** for the [AI SDK](https://ai-sdk.dev/docs)
-contains language model support for the Groq chat and completion APIs, transcription support, and browser search tool.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Groq 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/groq)** 提供 Groq chat 与 completion API、转写支持及浏览器搜索工具的语言模型支持。
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Groq (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Groq（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Groq provider is available in the `@ai-sdk/groq` module. You can install it with
+Groq 提供商位于 `@ai-sdk/groq` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/groq
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `groq` from `@ai-sdk/groq`:
+可从 `@ai-sdk/groq` 导入默认提供商实例 `groq`：
+
+
 
 ```ts
 import { groq } from '@ai-sdk/groq';
 ```
 
-## Browser Search Tool
+## 浏览器搜索工具
 
-The Groq provider includes a browser search tool that provides interactive web browsing capabilities. Unlike traditional web search, browser search navigates websites interactively, providing more detailed and comprehensive results.
+Groq 提供商包含浏览器搜索工具，支持交互式网页浏览。与传统网页搜索不同，浏览器搜索以交互方式浏览网站，结果更详尽。
 
-### Supported Models
+### 支持的模型
 
-Browser search is only available for these models:
+浏览器搜索仅适用于以下模型：
 
 - `openai/gpt-oss-20b`
 - `openai/gpt-oss-120b`
 
-⚠️ **Important**: Using browser search with other models will generate a warning and the tool will be ignored.
+⚠️ **重要**：在其他模型上使用浏览器搜索会触发警告，且工具将被忽略。
 
-### Basic Usage
+### 基础用法
 
 ```ts
 import { groq } from '@ai-sdk/groq';
@@ -61,7 +64,7 @@ const result = await generateText({
 console.log(result.text);
 ```
 
-### Streaming Example
+### 流式示例
 
 ```ts
 import { groq } from '@ai-sdk/groq';
@@ -83,24 +86,24 @@ for await (const delta of result.fullStream) {
 }
 ```
 
-### Key Features
+### 主要特性
 
-- **Interactive Browsing**: Navigates websites like a human user
-- **Comprehensive Results**: More detailed than traditional search snippets
-- **Server-side Execution**: Runs on Groq's infrastructure, no setup required
-- **Powered by Exa**: Uses Exa search engine for optimal results
-- **Currently Free**: Available at no additional charge during beta
+- **交互式浏览**：像用户一样浏览网站
+- **结果更全面**：比传统搜索摘要更详细
+- **服务端执行**：在 Groq 基础设施上运行，无需额外配置
+- **由 Exa 驱动**：使用 Exa 搜索引擎获得更佳结果
+- **当前免费**：测试期间无额外费用
 
-### Best Practices
+### 最佳实践
 
-- Use `toolChoice: 'required'` to ensure the browser search is activated
-- Supported models only: `openai/gpt-oss-20b` and `openai/gpt-oss-120b`
-- The tool works automatically - no configuration parameters needed
-- Server-side execution means no additional API keys or setup required
+- 使用 `toolChoice: 'required'` 确保启用浏览器搜索
+- 仅支持模型：`openai/gpt-oss-20b` 与 `openai/gpt-oss-120b`
+- 工具自动工作，无需配置参数
+- 服务端执行意味着无需额外 API Key 或设置
 
-### Model Validation
+### 模型校验
 
-The provider automatically validates model compatibility:
+提供商会自动校验模型兼容性：
 
 ```ts
 // ✅ Supported - will work
@@ -117,7 +120,7 @@ const result = await generateText({
 // Warning: "Browser search is only supported on models: openai/gpt-oss-20b, openai/gpt-oss-120b"
 ```
 
-## Basic Text Generation
+## 基础文本生成
 
 ```ts
 import { groq } from '@ai-sdk/groq';
@@ -129,8 +132,8 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[Groq provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/groq)** for more information.
+更多信息请参阅 **[Groq 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/groq)**。
 
-For browser search details, see the **[Groq Browser Search Documentation](https://console.groq.com/docs/browser-search)**.
+浏览器搜索详情见 **[Groq Browser Search 文档](https://console.groq.com/docs/browser-search)**。

@@ -7,7 +7,7 @@ run(async () => {
   const result = await generateSpeech({
     model: lmnt.speech('aurora'),
     text: 'Hola desde el AI SDK!',
-    language: 'es', // Spanish using standardized parameter
+    language: 'es', // 西班牙语使用标准化参数
   });
 
   console.log('Audio:', result.audio);

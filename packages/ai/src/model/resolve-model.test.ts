@@ -238,7 +238,7 @@ describe('resolveImageModel', () => {
         }),
       );
 
-      // gateway.imageModel returns V3 types; cast needed until gateway is updated to V4
+      // gateway.imageModel 返回 V3 类型；在网关更新到 V4 之前需要强制转换
       const imageModelSpy = vi
         .spyOn(gateway, 'imageModel')
         .mockReturnValue(resolvedModel as any);
@@ -317,7 +317,7 @@ describe('resolveVideoModel', () => {
         modelId: 'test-model-id',
       });
 
-      // gateway.videoModel returns V3 types; cast needed until gateway is updated to V4
+      // gateway.videoModel 返回 V3 类型；在网关更新到 V4 之前需要强制转换
       const videoModelSpy = vi
         .spyOn(gateway, 'videoModel')
         .mockReturnValue(mockModel as any);

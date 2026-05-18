@@ -1,29 +1,29 @@
-# AI SDK Tools Registry - Contributing a Tool
+# AI SDK Tools Registry - 贡献 Tool
 
-You can add your tool to the [registry](https://ai-sdk.dev/tools-registry) by submitting a pull request that updates the `content/tools-registry/registry.ts` file.
+可通过提交更新 `content/tools-registry/registry.ts` 的 pull request，将你的 tool 添加到 [registry](https://ai-sdk.dev/tools-registry)。
 
-### Prerequisites
+### 前提条件
 
-Before submitting your tool, ensure you have:
+提交前请确保：
 
-- Published your tool package to npm
-- Documented your tool with clear usage instructions
-- Tested your tool with the AI SDK
+- 已将 tool 包发布到 npm
+- 已用清晰的使用说明文档化你的 tool
+- 已用 AI SDK 测试你的 tool
 
-### Adding Your Tool
+### 添加你的 Tool
 
-1. **Fork and clone the repository**
+1. **Fork 并 clone 仓库**
 
-   Follow the setup instructions in the main [CONTRIBUTING.md](../../CONTRIBUTING.md)
+   遵循主 [CONTRIBUTING.md](../../CONTRIBUTING.md) 中的设置说明
 
-2. **Add your tool entry**
+2. **添加 tool 条目**
 
    ```bash
    # Navigate to the tools registry directory
    cd content/tools-registry
    ```
 
-   Open `registry.ts` in your editor and add a new tool object to the `tools` array following this structure:
+   在编辑器中打开 `registry.ts`，按以下结构向 `tools` 数组添加新 tool 对象：
 
    ```typescript
    {
@@ -59,16 +59,17 @@ Before submitting your tool, ensure you have:
    }
    ```
 
-3. **Provide a working code example**
+3. **提供可运行的代码示例**
 
-   Your `codeExample` should:
-   - Be a complete, working example
-   - Show realistic usage of your tool
-   - Use the latest AI SDK patterns
-   - Include necessary imports
-   - Be tested to ensure it works
+   你的 `codeExample` 应：
 
-4. **Submit your pull request**
+   - 是完整、可运行的示例
+   - 展示 tool 的真实用法
+   - 使用最新的 AI SDK 模式
+   - 包含必要的 import
+   - 经测试确保可用
+
+4. **提交 pull request**
 
    ```bash
    # Create a new branch
@@ -82,12 +83,12 @@ Before submitting your tool, ensure you have:
    git push origin feat/add-tool-your-tool-name
    ```
 
-   Use the PR title format: `feat(tools-registry): add your-tool-name`
+   PR 标题格式：`feat(tools-registry): add your-tool-name`
 
-## Questions?
+## 有问题？
 
-If you have questions about adding your tool to the registry:
+若对将 tool 添加到 registry 有疑问：
 
-- Check the main [CONTRIBUTING.md](../../CONTRIBUTING.md) guide
-- Review existing tool entries in `registry.ts` for examples
-- Open an issue on [GitHub](https://github.com/vercel/ai/issues)
+- 查看主 [CONTRIBUTING.md](../../CONTRIBUTING.md) 指南
+- 参考 `registry.ts` 中现有 tool 条目作为示例
+- 在 [GitHub](https://github.com/vercel/ai/issues) 上开 issue

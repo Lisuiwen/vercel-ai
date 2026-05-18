@@ -5,18 +5,18 @@ import { isStepCount, streamText, tool } from 'ai';
 import { z } from 'zod';
 
 /**
- * Verification for https://github.com/vercel/ai/issues/11413
+ * 验证 https://github.com/vercel/ai/issues/11413
  *
- * Simulates gateway cross-provider failover scenarios between Google AI Studio
- * and Vertex AI. Both providers share the same GoogleLanguageModel
+ * 模拟 Google AI Studio 之间的网关跨提供商故障转移场景
+ * 和顶点人工智能。两个提供商共享相同的 GoogleLanguageModel
  * but store thoughtSignature under different providerOptions keys ("google"
  * vs "vertex").
  *
- * The fix makes convertToGoogleMessages check both namespaces:
- *   - Primary: providerOptions[providerOptionsName]
+ * 该修复使 ConvertToGoogleMessages 检查两个命名空间：
+ * - 主要：providerOptions[providerOptionsName]
  *   - Fallback: the other namespace ("vertex" or "google")
  *
- * We test three scenarios:
+ * 我们测试三种场景：
  *   A) Normal: thoughtSignature under "google" key, Google provider (baseline)
  *   B) Vertex → Google failover: thoughtSignature under "vertex" key, Google provider
  *   C) Google → Vertex failover: thoughtSignature under "google" key, Vertex provider
@@ -38,7 +38,7 @@ async function main() {
     }),
   });
 
-  // --- Turn 1: Get a real response with thoughtSignature ---
+  // --- 第 1 回合：通过thoughtSignature 获得真实的回应 ---
   console.log('=== Turn 1: Get response with thoughtSignature ===\n');
 
   const turn1 = streamText({
@@ -108,7 +108,7 @@ async function main() {
     console.error('\n✗ Scenario A FAILED (unexpected):', error.message);
   }
 
-  // --- Scenario B: Vertex → Google failover ---
+  // --- 场景 B：Vertex → Google 故障转移 ---
   console.log(
     '=== Scenario B: Vertex → Google failover — thoughtSignature under "vertex" key ===\n',
   );
@@ -167,7 +167,7 @@ async function main() {
     console.log();
   }
 
-  // --- Scenario C: Google → Vertex failover ---
+  // --- 场景 C：Google → Vertex 故障转移 ---
   console.log(
     '=== Scenario C: Google → Vertex failover — thoughtSignature under "google" key ===\n',
   );

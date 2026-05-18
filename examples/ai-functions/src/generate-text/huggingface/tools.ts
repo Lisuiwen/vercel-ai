@@ -16,9 +16,9 @@ run(async () => {
             .describe('The city name, e.g., New York, London, Tokyo'),
         }),
         execute: async ({ location }) => {
-          // Simulate weather API call
+          // 模拟天气 API 调用
           const conditions = ['sunny', 'cloudy', 'rainy', 'snowy'];
-          const temperature = Math.floor(Math.random() * 30) + 50; // 50-80F
+          const temperature = Math.floor(Math.random() * 30) + 50; // 50-80华氏度
           const humidity = Math.floor(Math.random() * 50) + 30; // 30-80%
 
           return {

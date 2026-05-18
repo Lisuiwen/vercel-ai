@@ -32,7 +32,7 @@ import type { TranscriptionModel } from '../types/transcription-model';
 import type { VideoModel } from '../types/video-model';
 
 /**
- * Creates a custom provider with specified language models, text embedding models, image models, transcription models, speech models, file APIs, skill APIs, and an optional fallback provider.
+ * 使用指定的语言模型、文本嵌入模型、图像模型、转录模型、语音模型、文件 API、技能 API 和可选的后备提供程序创建自定义提供程序。
  *
  * @param {Object} options - The options for creating the custom provider.
  * @param {Record<string, LanguageModel>} [options.languageModels] - A record of language models, where keys are model IDs and values are language model instances.
@@ -211,7 +211,7 @@ export function customProvider<
       }
 
       // TODO AI SDK v7
-      // @ts-expect-error - videoModel support is experimental
+      // @ts-expect-error - videoModel 支持是实验性的
       const videoModel = fallbackProvider?.videoModel;
       if (videoModel) {
         return videoModel(modelId);

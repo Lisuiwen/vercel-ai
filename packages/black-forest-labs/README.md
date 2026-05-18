@@ -1,34 +1,38 @@
-# AI SDK - Black Forest Labs Provider
+# AI SDK - Black Forest Labs 提供商
 
-The **[Black Forest Labs provider](https://ai-sdk.dev/providers/ai-sdk-providers/black-forest-labs)** for the [AI SDK](https://ai-sdk.dev/docs) adds image model support for the [Black Forest Labs API](https://docs.bfl.ai/).
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Black Forest Labs provider](https://ai-sdk.dev/providers/ai-sdk-providers/black-forest-labs)** 为 [Black Forest Labs API](https://docs.bfl.ai/) 增加图像模型支持。
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Black Forest Labs (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Black Forest Labs（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Black Forest Labs provider is available in the `@ai-sdk/black-forest-labs` module. You can install it with
+Black Forest Labs 提供商位于 `@ai-sdk/black-forest-labs` 模块，安装方式：
+
+
 
 ```bash
 pnpm add @ai-sdk/black-forest-labs
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `blackForestLabs` from `@ai-sdk/black-forest-labs`:
+可从 `@ai-sdk/black-forest-labs` 导入默认提供商实例 `blackForestLabs`：
+
+
 
 ```ts
 import { blackForestLabs } from '@ai-sdk/black-forest-labs';
 ```
 
-## Image Generation Example
+## 图像生成示例
 
 ```ts
 import fs from 'node:fs';
@@ -45,7 +49,7 @@ fs.writeFileSync(filename, image.uint8Array);
 console.log(`Image saved to ${filename}`);
 ```
 
-## Additional Options
+## 其他选项
 
 If you want to pass additional inputs to the model besides the prompt, use the `providerOptions.blackForestLabs` property:
 
@@ -68,9 +72,9 @@ const { image } = await generateImage({
 });
 ```
 
-## Configuring Base URL
+## 配置 Base URL
 
-By default, the provider uses `https://api.bfl.ai/v1`. You can override this to use regional or legacy endpoints:
+默认使用 `https://api.bfl.ai/v1`，可按需覆盖为区域或旧版端点：
 
 ```ts
 import { createBlackForestLabs } from '@ai-sdk/black-forest-labs';
@@ -83,7 +87,7 @@ const blackForestLabs = createBlackForestLabs({
 
 ## Configuring Polling
 
-You can customize how often the client polls for image completion and how long it waits before timing out:
+可自定义客户端轮询图像完成状态的频率与超时时间：
 
 ```ts
 import { createBlackForestLabs } from '@ai-sdk/black-forest-labs';
@@ -96,7 +100,7 @@ const blackForestLabs = createBlackForestLabs({
 });
 ```
 
-You can also override these polling settings per request via `providerOptions.blackForestLabs`:
+也可通过 `providerOptions.blackForestLabs` 按请求覆盖轮询设置：
 
 ```ts
 import { blackForestLabs } from '@ai-sdk/black-forest-labs';
@@ -114,6 +118,6 @@ const { image } = await generateImage({
 });
 ```
 
-## Documentation
+## 文档
 
-See the [Black Forest Labs provider](https://ai-sdk.dev/providers/ai-sdk-providers/black-forest-labs) for more information.
+更多信息见 [Black Forest Labs 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/black-forest-labs)。

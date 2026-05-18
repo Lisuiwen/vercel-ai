@@ -4,7 +4,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   // Stateless multi-turn: pass `store: false` and re-send the full conversation
-  // history every turn. Nothing is persisted on Google's side; the wire body
+  // 历史每一个转折点。谷歌方面没有任何保留；线体
   // contains the entire history and `store: false`, with no
   // `previous_interaction_id`.
   const messages: Array<ModelMessage> = [
@@ -33,10 +33,10 @@ run(async () => {
   );
   console.log();
 
-  // Append the assistant turn from turn 1 onto the local message history, then
+  // 将第 1 回合的助理回合追加到本地消息历史记录中，然后
   // send a follow-up that depends on turn 1's context. With `store: false`, the
-  // server has no prior state to fall back on — the model must reconstruct the
-  // context from the messages we re-send.
+  // 服务器没有先前的状态可供依赖——模型必须重建
+  // 我们重新发送的消息中的上下文。
   messages.push(...(await turn1.response).messages);
   messages.push({
     role: 'user',

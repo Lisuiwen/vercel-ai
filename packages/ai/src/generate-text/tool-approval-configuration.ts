@@ -11,16 +11,16 @@ import type {
 import type { TypedToolCall } from './tool-call';
 
 /**
- * The approval status of a tool configuration. This can be one of the following:
+ * 工具配置的批准状态。这可以是以下之一：
  *
- * - 'not-applicable': The tool does not require approval.
- * - 'approved': The tool is automatically approved.
- * - 'denied': The tool is automatically denied.
- * - 'user-approval': The tool requires user approval.
+ * -“不适用”：该工具不需要批准。
+ * -“已批准”：该工具自动获得批准。
+ * -“拒绝”：该工具被自动拒绝。
+ * -“用户批准”：该工具需要用户批准。
  *
- * In addition to the string statuses, you can also use object statuses with a reason property.
+ * 除了字符串状态之外，您还可以使用带有原因属性的对象状态。
  *
- * `undefined` is treated as the `not-applicable` status.
+ * “未定义”被视为“不适用”状态。
  */
 export type ToolApprovalStatus =
   | undefined
@@ -34,11 +34,11 @@ export type ToolApprovalStatus =
   | { type: 'user-approval'; reason?: never };
 
 /**
- * Function that is called to determine if the tool needs approval before it can be executed.
+ * 调用该函数以确定工具在执行之前是否需要批准。
  *
- * Return `undefined` for the same effect as the `not-applicable` status.
+ * 返回“未定义”与“不适用”状态具有相同的效果。
  */
-// Parameters are similar to ToolExecuteFunction (except for the abort signal)
+// 参数与 ToolExecuteFunction 类似（除了中止信号）
 export type SingleToolApprovalFunction<
   INPUT,
   TOOL_CONTEXT extends Context | unknown | never,
@@ -55,9 +55,9 @@ export type SingleToolApprovalFunction<
 ) => MaybePromiseLike<ToolApprovalStatus>;
 
 /**
- * Function that is called to determine if a tool call needs approval before it can be executed.
+ * 调用该函数以确定工具调用在执行之前是否需要批准。
  *
- * Return `undefined` for the same effect as the `not-applicable` status.
+ * 返回“未定义”与“不适用”状态具有相同的效果。
  */
 export type GenericToolApprovalFunction<
   TOOLS extends ToolSet,
@@ -65,48 +65,48 @@ export type GenericToolApprovalFunction<
   RUNTIME_CONTEXT extends Context | unknown | never,
 > = (options: {
   /**
-   * The tool call that needs approval.
+   * 需要批准的工具调用。
    */
   toolCall: TypedToolCall<TOOLS>;
 
   /**
-   * All tools that are available for the model to call.
+   * 可供模型调用的所有工具。
    */
   tools: TOOLS | undefined;
 
   /**
-   * Tool context for all tools that are available for the model to call.
+   * 可供模型调用的所有工具的工具上下文。
    */
   toolsContext: TOOLS_CONTEXT;
 
   /**
-   * Runtime context.
+   * 运行时上下文。
    */
   runtimeContext: RUNTIME_CONTEXT;
 
   /**
-   * Messages that were sent to the language model to initiate the response that contained the tool call.
-   * The messages **do not** include the system prompt nor the assistant response that contained the tool call.
+   * 发送到语言模型以启动包含工具调用的响应的消息。
+   * 这些消息**不**包括系统提示或包含工具调用的助手响应。
    */
   messages: ModelMessage[];
 }) => MaybePromiseLike<ToolApprovalStatus>;
 
 /**
- * Configure whether individual tools require approval before they can run.
+ * 配置单个工具是否需要批准才能运行。
  *
- * You can either use a generic function that is called for all tool calls,
- * or you can use a per-tool function.
+ * 您可以使用为所有工具调用调用的通用函数，
+ * 或者您可以使用每个工具的功能。
  *
- * For the per-tool functions, each tool can be assigned either an approval status
- * or a function that produces an approval status at runtime.
+ * 对于每个工具的功能，每个工具都可以分配一个批准状态
+ * 或在运行时生成批准状态的函数。
  *
- * The approval status can be one of the following:
- * - 'not-applicable': The tool does not require approval.
- * - 'approved': The tool is automatically approved.
- * - 'denied': The tool is automatically denied.
- * - 'user-approval': The tool requires user approval.
+ * 批准状态可以是以下之一：
+ * -“不适用”：该工具不需要批准。
+ * -“已批准”：该工具自动获得批准。
+ * -“拒绝”：该工具被自动拒绝。
+ * -“用户批准”：该工具需要用户批准。
  *
- * In addition to the string statuses, you can also use object statuses with a reason property.
+ * 除了字符串状态之外，您还可以使用带有原因属性的对象状态。
  */
 export type ToolApprovalConfiguration<
   TOOLS extends ToolSet,

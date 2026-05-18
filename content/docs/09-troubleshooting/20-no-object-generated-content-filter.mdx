@@ -1,13 +1,13 @@
 ---
-title: Object generation failed with OpenAI
-description: Troubleshooting NoObjectGeneratedError with finish-reason content-filter caused by incompatible Zod schema types when using OpenAI structured outputs
+title: 使用 OpenAI 时对象生成失败
+description: 排查 OpenAI 结构化输出因 Zod 类型不兼容导致 NoObjectGeneratedError（finish-reason content-filter）的问题
 ---
 
-# Object generation failed with OpenAI
+# 使用 OpenAI 时对象生成失败
 
-## Issue
+## 问题
 
-When using structured output generation with OpenAI, you may encounter a `NoObjectGeneratedError` with the finish reason `content-filter`. This error occurs when your Zod schema contains incompatible types that OpenAI's structured output feature cannot process.
+配合 OpenAI 使用结构化输出生成时，可能出现 `NoObjectGeneratedError`，`finish reason` 为 `content-filter`。常见原因是 Zod 模式中包含 OpenAI 结构化输出无法处理的类型。
 
 ```typescript
 // Problematic code - incompatible schema types
@@ -31,13 +31,13 @@ const result = await generateText({
 // Finish reason: content-filter
 ```
 
-## Background
+## 背景
 
-OpenAI's structured output generation uses JSON Schema under the hood and has specific requirements for schema compatibility. The Zod methods `.nullish()` and `.optional()` generate JSON Schema patterns that are incompatible with OpenAI's implementation, causing the model to reject the schema and return a content-filter finish reason.
+OpenAI 的结构化输出生成底层使用 JSON Schema，对模式兼容性有明确要求。`.nullish()` 与 `.optional()` 生成的 JSON Schema 形态与 OpenAI 实现不兼容，可能导致模型拒绝模式并以 `content-filter` 作为结束原因。
 
-## Solution
+## 解决方案
 
-Replace `.nullish()` and `.optional()` with `.nullable()` in your Zod schemas when using structured output generation with OpenAI models.
+配合 OpenAI 模型做结构化输出时，将 `.nullish()` 与 `.optional()` 改为 `.nullable()`。
 
 ```typescript
 import { generateText, Output } from 'ai';
@@ -62,15 +62,15 @@ console.log(result.output);
 // or { name: null, email: null, age: 25 }
 ```
 
-### Schema Type Comparison
+### 模式类型对照
 
-| Zod Type      | Compatible | JSON Schema Behavior                                   |
-| ------------- | ---------- | ------------------------------------------------------ |
-| `.nullable()` | ✅ Yes     | Allows `null` or the specified type                    |
-| `.optional()` | ❌ No      | Field can be omitted (not supported)                   |
-| `.nullish()`  | ❌ No      | Allows `null`, `undefined`, or omitted (not supported) |
+| Zod 类型      | 兼容 | JSON Schema 行为                                   |
+| ------------- | -- | ------------------------------------------------ |
+| `.nullable()` | ✅  | 允许 `null` 或指定类型                               |
+| `.optional()` | ❌  | 字段可省略（不支持）                                  |
+| `.nullish()`  | ❌  | 允许 `null`、`undefined` 或省略（不支持）                 |
 
-## Related Information
+## 延伸阅读
 
-- For more details on structured output generation, see [Generating Structured Data](/docs/ai-sdk-core/generating-structured-data)
-- For OpenAI-specific structured output configuration, see [OpenAI Provider - Structured Outputs](/providers/ai-sdk-providers/openai#structured-outputs)
+- 结构化输出生成详情见 [生成结构化数据](/docs/ai-sdk-core/generating-structured-data)
+- OpenAI 专项配置见 [OpenAI Provider - Structured Outputs](/providers/ai-sdk-providers/openai#structured-outputs)

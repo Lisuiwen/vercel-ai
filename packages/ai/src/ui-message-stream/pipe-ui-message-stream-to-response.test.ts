@@ -21,14 +21,14 @@ describe('pipeUIMessageStreamToResponse', () => {
       ]),
     });
 
-    // Wait for the stream to finish writing
+    // 等待流完成写入
     await mockResponse.waitForEnd();
 
-    // Verify response properties
+    // 验证响应属性
     expect(mockResponse.statusCode).toBe(200);
     expect(mockResponse.statusMessage).toBe('OK');
 
-    // Verify headers
+    // 验证标头
     expect(mockResponse.headers).toMatchInlineSnapshot(`
       {
         "cache-control": "no-cache",
@@ -40,7 +40,7 @@ describe('pipeUIMessageStreamToResponse', () => {
       }
     `);
 
-    // Verify written data using decoded chunks
+    // 使用解码的块验证写入的数据
     const decodedChunks = mockResponse.getDecodedChunks();
     expect(decodedChunks).toMatchInlineSnapshot(`
       [
@@ -71,10 +71,10 @@ describe('pipeUIMessageStreamToResponse', () => {
       ]),
     });
 
-    // Wait for the stream to finish writing
+    // 等待流完成写入
     await mockResponse.waitForEnd();
 
-    // Verify error handling using decoded chunks
+    // 使用解码块验证错误处理
     const decodedChunks = mockResponse.getDecodedChunks();
     expect(decodedChunks).toMatchInlineSnapshot(`
       [

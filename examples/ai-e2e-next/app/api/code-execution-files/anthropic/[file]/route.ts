@@ -71,7 +71,7 @@ const execute = async (
     downloadable?: boolean;
   } = await infoResponse.json();
 
-  // get as binary data
+  // 以二进制数据获取
   const arrayBuffer = await downloadResponse.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
 

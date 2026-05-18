@@ -1,47 +1,47 @@
 ---
-title: Error Handling
-description: Learn how to handle errors in the AI SDK UI
+title: 错误处理
+description: 学习如何在 AI SDK UI 中处理错误
 ---
 
-# Error Handling and warnings
+# 错误处理与警告
 
-## Warnings
+## 警告
 
-The AI SDK shows warnings when something might not work as expected.
-These warnings help you fix problems before they cause errors.
+当某些功能可能无法按预期工作时，AI SDK 会显示警告。
+这些警告帮助你在问题引发错误之前加以修复。
 
-### When Warnings Appear
+### 警告出现时机
 
-Warnings are shown in the browser console when:
+在以下情况下，警告会显示在浏览器控制台中：
 
-- **Unsupported features**: You use a feature or setting that is not supported by the AI model (e.g., certain options or parameters).
-- **Compatibility warnings**: A feature is used in a compatibility mode, which might work differently or less optimally than intended.
-- **Other warnings**: The AI model reports another type of issue, such as general problems or advisory messages.
+- **不支持的功能**：你使用了 AI 模型不支持的功能或设置（例如某些选项或参数）。
+- **兼容性警告**：某功能以兼容模式使用，其行为可能与预期不同或不够理想。
+- **其他警告**：AI 模型报告其他类型的问题，例如一般性问题或建议性消息。
 
-### Warning Messages
+### 警告消息
 
-All warnings start with "AI SDK Warning:" so you can easily find them. For example:
+所有警告均以「AI SDK Warning:」开头，便于识别。例如：
 
 ```
 AI SDK Warning: The feature "temperature" is not supported by this model
 ```
 
-### Turning Off Warnings
+### 关闭警告
 
-By default, warnings are shown in the console. You can control this behavior:
+默认情况下，警告会显示在控制台中。你可以控制此行为：
 
-#### Turn Off All Warnings
+#### 关闭所有警告
 
-Set a global variable to turn off warnings completely:
+设置全局变量以完全关闭警告：
 
 ```ts
 globalThis.AI_SDK_LOG_WARNINGS = false;
 ```
 
-#### Custom Warning Handler
+#### 自定义警告处理器
 
-You can also provide your own function to handle warnings.
-It receives provider id, model id, and a list of warnings.
+你也可以提供自己的函数来处理警告。
+该函数接收 provider id、model id 和警告列表。
 
 ```ts
 globalThis.AI_SDK_LOG_WARNINGS = ({ warnings, provider, model }) => {
@@ -49,17 +49,15 @@ globalThis.AI_SDK_LOG_WARNINGS = ({ warnings, provider, model }) => {
 };
 ```
 
-## Error Handling
+## 错误处理
 
-### Error Helper Object
+### 错误辅助对象
 
-Each AI SDK UI hook also returns an [error](/docs/reference/ai-sdk-ui/use-chat#error) object that you can use to render the error in your UI.
-You can use the error object to show an error message, disable the submit button, or show a retry button.
+每个 AI SDK UI hook 还会返回一个 [error](/docs/reference/ai-sdk-ui/use-chat#error) 对象，可用于在 UI 中渲染错误。
+你可以使用该错误对象显示错误消息、禁用提交按钮或显示重试按钮。
 
 <Note>
-  We recommend showing a generic error message to the user, such as "Something
-  went wrong." This is a good practice to avoid leaking information from the
-  server.
+  我们建议向用户显示通用错误消息，例如「出了点问题。」这是避免泄露服务器信息的好习惯。
 </Note>
 
 ```tsx file="app/page.tsx" highlight="7,18-25,31"
@@ -111,9 +109,9 @@ export default function Chat() {
 }
 ```
 
-#### Alternative: replace last message
+#### 替代方案：替换最后一条消息
 
-Alternatively you can write a custom submit handler that replaces the last message when an error is present.
+你也可以编写自定义提交处理程序，在存在错误时替换最后一条消息。
 
 ```tsx file="app/page.tsx" highlight="17-23,35"
 'use client';
@@ -158,10 +156,10 @@ export default function Chat() {
 }
 ```
 
-### Error Handling Callback
+### 错误处理回调
 
-Errors can be processed by passing an [`onError`](/docs/reference/ai-sdk-ui/use-chat#on-error) callback function as an option to the [`useChat`](/docs/reference/ai-sdk-ui/use-chat) or [`useCompletion`](/docs/reference/ai-sdk-ui/use-completion) hooks.
-The callback function receives an error object as an argument.
+可以通过向 [`useChat`](/docs/reference/ai-sdk-ui/use-chat) 或 [`useCompletion`](/docs/reference/ai-sdk-ui/use-completion) hook 传递 [`onError`](/docs/reference/ai-sdk-ui/use-chat#on-error) 回调函数来处理错误。
+该回调函数接收一个 error 对象作为参数。
 
 ```tsx file="app/page.tsx" highlight="6-9"
 import { useChat } from '@ai-sdk/react';
@@ -178,10 +176,10 @@ export default function Page() {
 }
 ```
 
-### Injecting Errors for Testing
+### 注入错误用于测试
 
-You might want to create errors for testing.
-You can easily do so by throwing an error in your route handler:
+你可能希望创建错误用于测试。
+可以在路由处理程序中抛出错误来轻松实现：
 
 ```ts file="app/api/chat/route.ts"
 export async function POST(req: Request) {

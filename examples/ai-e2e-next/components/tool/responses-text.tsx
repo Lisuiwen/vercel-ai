@@ -41,7 +41,7 @@ export function ResponsesText({ part }: { part: TextUIPart }) {
   if (!providerMetadata) return <Response>{part.text}</Response>;
 
   const {
-    provider, // 'openai' or 'azure'
+    provider, // 'openai' 或 'azure'
     itemId: _,
     annotations,
   } = extractProviderAndAnnotations(providerMetadata);
@@ -50,8 +50,8 @@ export function ResponsesText({ part }: { part: TextUIPart }) {
 
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
-  // Sort annotations by start_index in descending order to process from end to start.
-  // This ensures that string modifications don't invalidate indices of earlier annotations.
+  // 按 start_index 降序排序 annotations，从末尾向开头处理。
+  // 确保字符串修改不会使较早 annotation 的索引失效。
   const sortedAnnotations = [...annotations].sort((a, b) => {
     const aStart = 'start_index' in a ? a.start_index : -1;
     const bStart = 'start_index' in b ? b.start_index : -1;
@@ -62,14 +62,14 @@ export function ResponsesText({ part }: { part: TextUIPart }) {
     const text = (() => {
       switch (cur.type) {
         case 'url_citation': {
-          // For Markdown conversion, there is generally no need to replace the strings.
+          // Markdown 转换时通常无需替换这些字符串。
           return acc;
         }
         case 'file_citation': {
           return acc;
         }
         case 'container_file_citation': {
-          // Replace with a file-downloadable URL.
+          // 替换为可下载文件的 URL。
           if (cur.start_index === 0 && cur.end_index === 0) return acc;
           return (
             acc.slice(0, cur.start_index) +

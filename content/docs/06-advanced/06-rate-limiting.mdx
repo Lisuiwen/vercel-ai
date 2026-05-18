@@ -1,20 +1,15 @@
 ---
-title: Rate Limiting
-description: Learn how to rate limit your application.
+title: 速率限制
+description: 学习如何为应用设置速率限制。
 ---
 
-# Rate Limiting
+# 速率限制
 
-Rate limiting helps you protect your APIs from abuse. It involves setting a
-maximum threshold on the number of requests a client can make within a
-specified timeframe. This simple technique acts as a gatekeeper,
-preventing excessive usage that can degrade service performance and incur
-unnecessary costs.
+速率限制有助于保护 API 免受滥用。它通过在指定时间窗口内限制客户端可发起的最大请求数来实现。这一简单技术充当「守门人」，防止过度使用导致服务性能下降和不必要的成本。
 
-## Rate Limiting with Vercel KV and Upstash Ratelimit
+## 使用 Vercel KV 和 Upstash Ratelimit 进行速率限制
 
-In this example, you will protect an API endpoint using [Vercel KV](https://vercel.com/storage/kv)
-and [Upstash Ratelimit](https://github.com/upstash/ratelimit).
+本示例将使用 [Vercel KV](https://vercel.com/storage/kv) 和 [Upstash Ratelimit](https://github.com/upstash/ratelimit) 保护 API 端点。
 
 ```tsx filename='app/api/generate/route.ts'
 import kv from '@vercel/kv';
@@ -53,8 +48,6 @@ export async function POST(req: NextRequest) {
 }
 ```
 
-## Simplify API Protection
+## 简化 API 保护
 
-With Vercel KV and Upstash Ratelimit, it is possible to protect your APIs
-from such attacks with ease. To learn more about how Ratelimit works and
-how it can be configured to your needs, see [Ratelimit Documentation](https://upstash.com/docs/oss/sdks/ts/ratelimit/overview).
+借助 Vercel KV 和 Upstash Ratelimit，可以轻松保护 API 免受此类攻击。要了解 Ratelimit 的工作原理以及如何按需配置，请参阅 [Ratelimit 文档](https://upstash.com/docs/oss/sdks/ts/ratelimit/overview)。

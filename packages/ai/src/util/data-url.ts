@@ -1,5 +1,5 @@
 /**
- * Converts a data URL of type text/* to a text string.
+ * 将 text/* 类型的数据 URL 转换为文本字符串。
  */
 export function getTextFromDataUrl(dataUrl: string): string {
   const [header, base64Content] = dataUrl.split(',');

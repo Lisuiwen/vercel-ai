@@ -1,5 +1,5 @@
 /**
- * Splits an array into chunks of a specified size.
+ * 将数组拆分为指定大小的块。
  *
  * @template T - The type of elements in the array.
  * @param {T[]} array - The array to split.

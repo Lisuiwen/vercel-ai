@@ -5,7 +5,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   const { image } = await generateImage({
-    model: azure.imageModel('gpt-image-1'), // Use your own deployment
+    model: azure.imageModel('gpt-image-1'), // 使用您自己的部署
     prompt: 'Santa Claus driving a Cadillac',
   });
 

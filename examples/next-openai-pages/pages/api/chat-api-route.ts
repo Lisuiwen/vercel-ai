@@ -13,7 +13,7 @@ export default async function handler(
     messages,
   });
 
-  // write the data stream to the response
-  // Note: this is sent as a single response, not a stream
+  // 将数据流写入响应
+  // 注意：这会作为单个响应发送，而不是流
   result.pipeUIMessageStreamToResponse(response);
 }

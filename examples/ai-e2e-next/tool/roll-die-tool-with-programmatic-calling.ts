@@ -13,7 +13,7 @@ export const rollDieToolWithProgrammaticCalling = tool({
   },
   execute: async ({ player }) => {
     if (player === 'player1') {
-      // Simulate a loaded die that slightly skews towards 6
+      // 模拟略偏向 6 的有偏骰子
       const r = Math.random();
       if (r < 0.13) return { roll: 1 };
       if (r < 0.26) return { roll: 2 };

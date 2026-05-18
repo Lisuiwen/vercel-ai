@@ -1,34 +1,38 @@
-# AI SDK - fal Provider
+# AI SDK - fal 提供商
 
-The **[fal provider](https://ai-sdk.dev/providers/ai-sdk-providers/fal)** for the [AI SDK](https://ai-sdk.dev/docs) contains image model support for the [fal.ai API](https://fal.ai/).
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[fal provider](https://ai-sdk.dev/providers/ai-sdk-providers/fal)** contains image model support for the [fal.ai API](https://fal.ai/).
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access fal (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 fal（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The fal provider is available in the `@ai-sdk/fal` module. You can install it with
+fal 提供商位于 `@ai-sdk/fal` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/fal
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `fal` from `@ai-sdk/fal`:
+可从 `@ai-sdk/fal` 导入默认提供商实例 `fal`：
+
+
 
 ```ts
 import { fal } from '@ai-sdk/fal';
 ```
 
-## Image Generation Example
+## 图像生成示例
 
 ```ts
 import { fal } from '@ai-sdk/fal';
@@ -44,7 +48,7 @@ fs.writeFileSync(filename, image.uint8Array);
 console.log(`Image saved to ${filename}`);
 ```
 
-## Additional Options
+## 其他选项
 
 If you want to pass additional inputs to the model besides the prompt, use the `providerOptions.fal` property:
 
@@ -61,6 +65,6 @@ const { image } = await generateImage({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[fal provider](https://ai-sdk.dev/providers/ai-sdk-providers/fal)** for more information.
+更多信息请参阅 **[fal 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/fal)**。

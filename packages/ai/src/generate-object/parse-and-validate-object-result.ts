@@ -10,13 +10,13 @@ import type { OutputStrategy } from './output-strategy';
 import type { RepairTextFunction } from './repair-text';
 
 /**
- * Parses and validates a result string by parsing it as JSON and validating against the output strategy.
+ * 通过将结果字符串解析为JSON并根据输出策略进行验证来解析和验证结果字符串。
  *
- * @param result - The result string to parse and validate
- * @param outputStrategy - The output strategy containing validation logic
- * @param context - Additional context for error reporting
- * @returns The validated result
- * @throws NoObjectGeneratedError if parsing or validation fails
+ * @param result - 要解析和验证的结果字符串
+ * @param outputStrategy - 包含验证逻辑的输出策略
+ * @param context - 错误报告的附加上下文
+ * @returns 验证结果
+ * 如果解析或验证失败，则@抛出NoObjectGenerateError
  */
 async function parseAndValidateObjectResult<RESULT>(
   result: string,
@@ -64,15 +64,15 @@ async function parseAndValidateObjectResult<RESULT>(
 }
 
 /**
- * Parses and validates a result string by parsing it as JSON and validating against the output strategy.
- * If the result cannot be parsed, it attempts to repair the result using the repairText function.
+ * 通过将结果字符串解析为JSON并根据输出策略进行验证来解析和验证结果字符串。
+ * 如果无法解析结果，将尝试使用 RepairText 函数修复结果。
  *
- * @param result - The result string to parse and validate
- * @param outputStrategy - The output strategy containing validation logic
- * @param repairText - A function that attempts to repair the result string
- * @param context - Additional context for error reporting
- * @returns The validated result
- * @throws NoObjectGeneratedError if parsing or validation fails
+ * @param result - 要解析和验证的结果字符串
+ * @param outputStrategy - 包含验证逻辑的输出策略
+ * @param repairText - 尝试修复结果字符串的函数
+ * @param context - 错误报告的附加上下文
+ * @returns 验证结果
+ * 如果解析或验证失败，则@抛出NoObjectGenerateError
  */
 export async function parseAndValidateObjectResultWithRepair<RESULT>(
   result: string,

@@ -6,19 +6,19 @@ export interface UIMessageStreamWriter<
   UI_MESSAGE extends UIMessage = UIMessage,
 > {
   /**
-   * Appends a data stream part to the stream.
+   * 将数据流部分附加到流中。
    */
   write(part: InferUIMessageChunk<UI_MESSAGE>): void;
 
   /**
-   * Merges the contents of another stream to this stream.
+   * 将另一个流的内容合并到此流。
    */
   merge(stream: ReadableStream<InferUIMessageChunk<UI_MESSAGE>>): void;
 
   /**
-   * Error handler that is used by the data stream writer.
-   * This is intended for forwarding when merging streams
-   * to prevent duplicated error masking.
+   * 数据流编写器使用的错误处理程序。
+   * 这是为了合并流时转发
+   * 以防止重复错误屏蔽。
    */
   onError: ErrorHandler | undefined;
 }

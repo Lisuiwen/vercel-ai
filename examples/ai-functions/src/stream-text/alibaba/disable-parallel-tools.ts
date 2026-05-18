@@ -21,7 +21,7 @@ run(async () => {
         }),
         execute: async ({ location }) => {
           console.log(`[Executing] getWeather for ${location}...`);
-          // Simulate API delay
+          // 模拟API延迟
           await new Promise(resolve => setTimeout(resolve, 500));
           const temps = { Paris: 18, Tokyo: 24, London: 15 };
           const temp = temps[location as keyof typeof temps] ?? 20;

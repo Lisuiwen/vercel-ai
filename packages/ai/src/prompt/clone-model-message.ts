@@ -1,8 +1,8 @@
 import type { ModelMessage } from '@ai-sdk/provider-utils';
 
 /**
- * Clone model messages while preserving URL instances. Node's structuredClone
- * currently rejects URL objects, which are valid file/image prompt payloads.
+ * 克隆模型消息，同时保留 URL 实例。 Node 的结构化克隆
+ * 目前拒绝 URL 对象，这些对象是有效的文件/图像提示负载。
  */
 export function cloneModelMessages<T extends ModelMessage>(
   messages: Array<T>,

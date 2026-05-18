@@ -1,8 +1,8 @@
-# Provider Architecture
+# Provider 架构
 
-The AI SDK uses a layered provider architecture that follows the adapter pattern, enabling support for multiple AI providers through a unified interface.
+AI SDK 采用分层 provider 架构，遵循适配器模式，通过统一接口支持多种 AI provider。
 
-## Architecture Overview
+## 架构概览
 
 ```mermaid
 graph LR
@@ -26,4 +26,4 @@ graph LR
     class OPENAI_API external
 ```
 
-See the [provider abstraction architecture doc](../architecture/provider-abstraction.md) for a more in-depth guide.
+更深入的说明见 [provider abstraction architecture doc](../architecture/provider-abstraction.md)。

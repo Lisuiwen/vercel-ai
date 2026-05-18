@@ -86,7 +86,7 @@ async function downloadFile(file: string) {
       );
     }
 
-    // get as binary data
+    // 获取二进制数据
     const arrayBuffer = await downloadResponse.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 

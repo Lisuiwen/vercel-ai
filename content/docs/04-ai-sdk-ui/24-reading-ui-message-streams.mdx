@@ -1,15 +1,15 @@
 ---
-title: Reading UIMessage Streams
-description: Learn how to read UIMessage streams.
+title: 读取 UI 消息流
+description: 学习如何读取 UIMessage 流。
 ---
 
-# Reading UI Message Streams
+# 读取 UI 消息流
 
-`UIMessage` streams are useful outside of traditional chat use cases. You can consume them for terminal UIs, custom stream processing on the client, or React Server Components (RSC).
+`UIMessage` 流在传统聊天场景之外也很有用。你可以为终端 UI、客户端自定义流处理或 React Server Components（RSC）消费它们。
 
-The `readUIMessageStream` helper transforms a stream of `UIMessageChunk` objects into an `AsyncIterableStream` of `UIMessage` objects, allowing you to process messages as they're being constructed.
+`readUIMessageStream` 辅助函数将 `UIMessageChunk` 对象流转换为 `UIMessage` 对象的 `AsyncIterableStream`，使你能在消息构建过程中处理它们。
 
-## Basic Usage
+## 基本用法
 
 ```tsx
 import { readUIMessageStream, streamText } from 'ai';
@@ -29,9 +29,9 @@ async function main() {
 }
 ```
 
-## Tool Calls Integration
+## 工具调用集成
 
-Handle streaming responses that include tool calls:
+处理包含工具调用的流式响应：
 
 ```tsx
 import { readUIMessageStream, streamText, tool } from 'ai';
@@ -77,9 +77,9 @@ async function handleToolCalls() {
 }
 ```
 
-## Resuming Conversations
+## 恢复对话
 
-Resume streaming from a previous message state:
+从先前的消息状态恢复流式传输：
 
 ```tsx
 import { readUIMessageStream, streamText } from 'ai';

@@ -10,10 +10,10 @@ import { Message, BotMessage } from './message';
 import { z } from 'zod';
 
 type AIProviderNoActions = ReturnType<typeof createAI<AIState, UIState>>;
-// typed wrapper *without* actions defined to avoid circular dependencies
+// 未定义 actions 的类型化包装器，以避免循环依赖
 const getMutableAIState = $getMutableAIState<AIProviderNoActions>;
 
-// mock function to fetch weather data
+// 获取天气数据的模拟函数
 const fetchWeatherData = async (location: string) => {
   await new Promise(resolve => setTimeout(resolve, 1000));
   return { temperature: '72°F' };
@@ -87,7 +87,7 @@ export async function submitUserMessage(content: string) {
       },
     },
     onFinish: event => {
-      // your own logic, e.g. for saving the chat history or recording usage
+      // 你自己的逻辑，例如保存聊天历史或记录用量
       console.log(`[onFinish]: ${JSON.stringify(event, null, 2)}`);
     },
   });

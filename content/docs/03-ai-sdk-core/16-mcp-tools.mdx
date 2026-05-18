@@ -1,33 +1,32 @@
 ---
 title: Model Context Protocol (MCP)
-description: Learn how to connect to Model Context Protocol (MCP) servers and use their tools with AI SDK Core.
+description: 了解如何连接 Model Context Protocol (MCP) 服务器并在 AI SDK Core 中使用其 tool。
 ---
 
 # Model Context Protocol (MCP)
 
-The AI SDK supports connecting to [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) servers to access their tools, resources, and prompts.
-This enables your AI applications to discover and use capabilities across various services through a standardized interface.
+AI SDK 支持连接 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) 服务器，以访问其 tool、resource 与 prompt。
+这使你的 AI 应用可通过标准化接口发现并调用各服务的能力。
 
 <Note>
-  If you're using OpenAI's Responses API, you can also use the built-in
-  `openai.tools.mcp` tool, which provides direct MCP server integration without
-  needing to convert tools. See the [OpenAI provider
-  documentation](/providers/ai-sdk-providers/openai#mcp-tool) for details.
+  若使用 OpenAI 的 Responses API，也可使用内置的
+  `openai.tools.mcp` tool，无需转换 tool 即可直接集成 MCP 服务器。详见 [OpenAI provider
+  文档](/providers/ai-sdk-providers/openai#mcp-tool)。
 </Note>
 
-## Initializing an MCP Client
+## 初始化 MCP 客户端
 
-We recommend using HTTP transport (like `StreamableHTTPClientTransport`) for production deployments. The stdio transport should only be used for connecting to local servers as it cannot be deployed to production environments.
+生产环境建议使用 HTTP 传输（如 `StreamableHTTPClientTransport`）。stdio 传输仅应用于连接本地服务器，无法部署到生产环境。
 
-Create an MCP client using one of the following transport options:
+可使用以下传输选项创建 MCP 客户端：
 
-- **HTTP transport (Recommended)**: Either configure HTTP directly via the client using `transport: { type: 'http', ... }`, or use MCP's official TypeScript SDK `StreamableHTTPClientTransport`
-- SSE (Server-Sent Events): An alternative HTTP-based transport
-- `stdio`: For local development only. Uses standard input/output streams for local MCP servers
+- **HTTP 传输（推荐）**：在客户端上通过 `transport: { type: 'http', ... }` 直接配置 HTTP，或使用 MCP 官方 TypeScript SDK 的 `StreamableHTTPClientTransport`
+- SSE（Server-Sent Events）：另一种基于 HTTP 的传输
+- `stdio`：仅用于本地开发，通过标准输入/输出流连接本地 MCP 服务器
 
-### HTTP Transport (Recommended)
+### HTTP 传输（推荐）
 
-For production deployments, we recommend using the HTTP transport. You can configure it directly on the client:
+生产部署建议使用 HTTP 传输。可在客户端上直接配置：
 
 ```typescript
 import { createMCPClient } from '@ai-sdk/mcp';
@@ -49,7 +48,7 @@ const mcpClient = await createMCPClient({
 });
 ```
 
-Alternatively, you can use `StreamableHTTPClientTransport` from MCP's official TypeScript SDK:
+也可使用 MCP 官方 TypeScript SDK 的 `StreamableHTTPClientTransport`：
 
 ```typescript
 import { createMCPClient } from '@ai-sdk/mcp';
@@ -63,9 +62,9 @@ const mcpClient = await createMCPClient({
 });
 ```
 
-### SSE Transport
+### SSE 传输
 
-SSE provides an alternative HTTP-based transport option. Configure it with a `type` and `url` property. You can also provide an `authProvider` for OAuth:
+SSE 提供另一种基于 HTTP 的传输，通过 `type` 与 `url` 配置。也可提供 `authProvider` 以支持 OAuth：
 
 ```typescript
 import { createMCPClient } from '@ai-sdk/mcp';
@@ -87,13 +86,13 @@ const mcpClient = await createMCPClient({
 });
 ```
 
-### Stdio Transport (Local Servers)
+### Stdio 传输（本地服务器）
 
 <Note type="warning">
-  The stdio transport should only be used for local servers.
+  stdio 传输仅应用于本地服务器。
 </Note>
 
-The Stdio transport can be imported from either the MCP SDK or the AI SDK:
+Stdio 传输可从 MCP SDK 或 AI SDK 导入：
 
 ```typescript
 import { createMCPClient } from '@ai-sdk/mcp';
@@ -109,29 +108,26 @@ const mcpClient = await createMCPClient({
 });
 ```
 
-### Custom Transport
+### 自定义传输
 
-You can also bring your own transport by implementing the `MCPTransport` interface for specific requirements not covered by the standard transports.
+也可通过实现 `MCPTransport` 接口提供自定义传输，以满足标准传输未覆盖的需求。
 
 <Note>
-  The client returned by the `createMCPClient` function is a
-  lightweight client intended for use in tool conversion. It currently does not
-  support all features of the full MCP client, such as: session
-  management, resumable streams, and receiving notifications.
+  `createMCPClient` 返回的客户端为用于 tool 转换的轻量客户端，目前不支持完整 MCP 客户端的全部能力，例如：session
+  管理、可恢复流、接收通知。
 
-Authorization via OAuth is supported when using the AI SDK MCP HTTP or SSE
-transports by providing an `authProvider`.
+使用 AI SDK MCP 的 HTTP 或 SSE 传输并提供 `authProvider` 时，支持通过 OAuth 进行授权。
 
 </Note>
 
-### Closing the MCP Client
+### 关闭 MCP 客户端
 
-After initialization, you should close the MCP client based on your usage pattern:
+初始化后，应根据使用模式关闭 MCP 客户端：
 
-- For short-lived usage (e.g., single requests), close the client when the response is finished
-- For long-running clients (e.g., command line apps), keep the client open but ensure it's closed when the application terminates
+- 短生命周期（如单次请求）：在响应结束后关闭客户端
+- 长生命周期（如命令行应用）：保持客户端打开，但在应用退出时确保关闭
 
-When streaming responses, you can close the client when the LLM response has finished. For example, when using `streamText`, you should use the `onFinish` callback:
+流式响应时，可在 LLM 响应结束后关闭客户端。例如使用 `streamText` 时，应使用 `onFinish` 回调：
 
 ```typescript
 const mcpClient = await createMCPClient({
@@ -150,7 +146,7 @@ const result = await streamText({
 });
 ```
 
-When generating responses without streaming, you can use try/finally or cleanup functions in your framework:
+非流式生成时，可在框架中使用 try/finally 或清理函数：
 
 ```typescript
 import { createMCPClient, type MCPClient } from '@ai-sdk/mcp';
@@ -166,23 +162,23 @@ try {
 }
 ```
 
-## Using MCP Tools
+## 使用 MCP Tool
 
-The client's `tools` method acts as an adapter between MCP tools and AI SDK tools. It supports two approaches for working with tool schemas:
+客户端的 `tools` 方法在 MCP tool 与 AI SDK tool 之间充当适配器，支持两种处理 tool schema 的方式：
 
-### Schema Discovery
+### Schema 发现
 
-With schema discovery, all tools offered by the server are automatically listed, and input parameter types are inferred based on the schemas provided by the server:
+通过 schema 发现，自动列出服务器提供的全部 tool，并根据服务器提供的 schema 推断输入参数类型：
 
 ```typescript
 const tools = await mcpClient.tools();
 ```
 
-This approach is simpler to implement and automatically stays in sync with server changes. However, you won't have TypeScript type safety during development, and all tools from the server will be loaded
+实现简单，并随服务器变更自动同步。但开发时无 TypeScript 类型安全，且会加载服务器上的全部 tool。
 
-### Schema Definition
+### Schema 定义
 
-For better type safety and control, you can define the tools and their input schemas explicitly in your client code:
+为获得更好的类型安全与控制，可在客户端代码中显式定义 tool 及其输入 schema：
 
 ```typescript
 import { z } from 'zod';
@@ -203,11 +199,11 @@ const tools = await mcpClient.tools({
 });
 ```
 
-This approach provides full TypeScript type safety and IDE autocompletion, letting you catch parameter mismatches during development. When you define `schemas`, the client only pulls the explicitly defined tools, keeping your application focused on the tools it needs
+可提供完整 TypeScript 类型安全与 IDE 自动补全，在开发阶段发现参数不匹配。定义 `schemas` 时，客户端仅拉取显式定义的 tool，使应用聚焦于所需 tool。
 
-### Typed Tool Outputs
+### 类型化的 Tool 输出
 
-When MCP servers return `structuredContent` (per the [MCP specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#structured-content)), you can define an `outputSchema` to get typed tool results:
+当 MCP 服务器返回 `structuredContent`（见 [MCP 规范](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#structured-content)）时，可定义 `outputSchema` 以获得类型化的 tool 结果：
 
 ```typescript
 import { z } from 'zod';
@@ -236,36 +232,36 @@ const result = await tools['get-weather'].execute(
 console.log(`Temperature: ${result.temperature}°C`);
 ```
 
-When `outputSchema` is provided:
+提供 `outputSchema` 时：
 
-- The client extracts `structuredContent` from the tool result
-- The output is validated against your schema at runtime
-- You get full TypeScript type safety for the result
+- 客户端从 tool 结果中提取 `structuredContent`
+- 输出在运行时按 schema 校验
+- 获得完整的 TypeScript 类型安全
 
-If the server doesn't return `structuredContent`, the client falls back to parsing JSON from the text content. If neither is available or validation fails, an error is thrown.
+若服务器未返回 `structuredContent`，客户端会回退到解析文本内容中的 JSON。若两者皆无或校验失败，则抛出错误。
 
 <Note>
-  Without `outputSchema`, the tool returns the raw `CallToolResult` object
-  containing `content` and optional `isError` fields.
+  未提供 `outputSchema` 时，tool 返回原始 `CallToolResult` 对象，
+  包含 `content` 及可选的 `isError` 字段。
 </Note>
 
-## Using MCP Resources
+## 使用 MCP Resource
 
-According to the [MCP specification](https://modelcontextprotocol.io/docs/learn/server-concepts#resources), resources are **application-driven** data sources that provide context to the model. Unlike tools (which are model-controlled), your application decides when to fetch and pass resources as context.
+根据 [MCP 规范](https://modelcontextprotocol.io/docs/learn/server-concepts#resources)，resource 是由**应用驱动**的数据源，为模型提供上下文。与 tool（由模型控制）不同，由应用决定何时获取并将 resource 作为上下文传入。
 
-The MCP client provides three methods for working with resources:
+MCP 客户端提供三个与 resource 相关的方法：
 
-### Listing Resources
+### 列出 Resource
 
-List all available resources from the MCP server:
+列出 MCP 服务器上的全部可用 resource：
 
 ```typescript
 const resources = await mcpClient.listResources();
 ```
 
-### Reading Resource Contents
+### 读取 Resource 内容
 
-Read the contents of a specific resource by its URI:
+按 URI 读取指定 resource 的内容：
 
 ```typescript
 const resourceData = await mcpClient.readResource({
@@ -273,31 +269,31 @@ const resourceData = await mcpClient.readResource({
 });
 ```
 
-### Listing Resource Templates
+### 列出 Resource 模板
 
-Resource templates are dynamic URI patterns that allow flexible queries. List all available templates:
+Resource 模板为动态 URI 模式，支持灵活查询。列出全部可用模板：
 
 ```typescript
 const templates = await mcpClient.listResourceTemplates();
 ```
 
-## Using MCP Prompts
+## 使用 MCP Prompt
 
 <Note type="warning">
-  MCP Prompts is an experimental feature and may change in the future.
+  MCP Prompt 为实验性功能，未来可能变更。
 </Note>
 
-According to the MCP specification, prompts are user-controlled templates that servers expose for clients to list and retrieve with optional arguments.
+根据 MCP 规范，prompt 是服务器暴露的、由用户控制的模板，客户端可列出并按可选参数获取。
 
-### Listing Prompts
+### 列出 Prompt
 
 ```typescript
 const prompts = await mcpClient.experimental_listPrompts();
 ```
 
-### Getting a Prompt
+### 获取 Prompt
 
-Retrieve prompt messages, optionally passing arguments defined by the server:
+获取 prompt 消息，可按服务器定义的参数传入：
 
 ```typescript
 const prompt = await mcpClient.experimental_getPrompt({
@@ -306,19 +302,18 @@ const prompt = await mcpClient.experimental_getPrompt({
 });
 ```
 
-## Handling Elicitation Requests
+## 处理征询请求（Elicitation）
 
-Elicitation is a mechanism where MCP servers can request additional information from the client during tool execution. For example, a server might need user input to complete a registration form or confirmation for a sensitive operation.
+征询是 MCP 服务器在 tool 执行期间向客户端请求额外信息的机制。例如服务器可能需要用户输入以完成注册表单，或对敏感操作进行确认。
 
 <Note type="warning">
-  It is up to the client application to handle elicitation requests properly.
-  The MCP client simply surfaces these requests from the server to your
-  application code.
+  由客户端应用负责正确处理征询请求。
+  MCP 客户端仅将服务器的这些请求转交给你的应用代码处理。
 </Note>
 
-### Enabling Elicitation Support
+### 启用征询支持
 
-To enable elicitation, you need to advertise the capability when creating the MCP client:
+创建 MCP 客户端时需声明支持征询的能力：
 
 ```typescript
 const mcpClient = await createMCPClient({
@@ -332,9 +327,9 @@ const mcpClient = await createMCPClient({
 });
 ```
 
-### Registering an Elicitation Handler
+### 注册征询处理器
 
-Use the `onElicitationRequest` method to register a handler that will be called when the server requests input:
+使用 `onElicitationRequest` 注册处理器，在服务器请求输入时调用：
 
 ```typescript
 import { ElicitationRequestSchema } from '@ai-sdk/mcp';
@@ -357,30 +352,30 @@ mcpClient.onElicitationRequest(ElicitationRequestSchema, async request => {
 });
 ```
 
-### Elicitation Response Actions
+### 征询响应操作
 
-Your handler must return an object with an `action` field that can be one of:
+处理器必须返回包含 `action` 字段的对象，可为：
 
-- `'accept'`: User provided the requested information. Must include `content` with the data.
-- `'decline'`: User chose not to provide the information.
-- `'cancel'`: User cancelled the operation entirely.
+- `'accept'`：用户提供了请求的信息。`action` 为 `'accept'` 时必须包含 `content`。
+- `'decline'`：用户选择不提供信息。
+- `'cancel'`：用户取消了整个操作。
 
-## Examples
+## 示例
 
-You can see MCP in action in the following examples:
+以下示例展示 MCP 的用法：
 
 <ExampleLinks
   examples={[
     {
-      title: 'Learn to use MCP tools in Node.js',
+      title: '在 Node.js 中使用 MCP tool',
       link: '/cookbook/node/mcp-tools',
     },
     {
-      title: 'Learn to handle MCP elicitation requests in Node.js',
+      title: '在 Node.js 中处理 MCP 征询请求',
       link: '/cookbook/node/mcp-elicitation',
     },
     {
-      title: 'Learn to render MCP Apps',
+      title: '渲染 MCP Apps',
       link: '/docs/ai-sdk-core/mcp-apps',
     },
   ]}

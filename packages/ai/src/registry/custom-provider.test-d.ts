@@ -36,8 +36,8 @@ import { MockVideoModelV3 } from '../test/mock-video-model-v3';
 import { MockVideoModelV4 } from '../test/mock-video-model-v4';
 
 /**
- * Type-level tests for `customProvider`. Literal model identifiers follow the private
- * `ExtractModelId` helper in `custom-provider.ts` (string keys of each model record).
+ * `customProvider` 的类型级测试。文字模型标识符遵循私有
+ * “custom-provider.ts”中的“ExtractModelId”帮助器（每个模型记录的字符串键）。
  */
 
 describe('customProvider autocomplete / literal model identifiers', () => {
@@ -424,11 +424,11 @@ describe('customProvider negative typing', () => {
 
     expectTypeOf<ConfiguredLanguageModelIdentifier>().toEqualTypeOf<'haiku'>();
 
-    // `customProvider` returns `ProviderV4 & { ... narrow methods ... }`. Method parameters
-    // in intersections are checked bivariantly for direct calls, so invalid literals may
-    // still type-check on `narrowProvider.languageModel('opus')`. Assigning to the
-    // parameter type catches the intended rejection.
-    // @ts-expect-error opus is not a key in languageModels
+    // `customProvider` 返回 `ProviderV4 & { ... 窄方法 ... }`。方法参数
+    // 在交叉点中对直接调用进行双变量检查，因此无效的文字可能
+    // 仍然对 `narrowProvider.languageModel('opus')` 进行类型检查。分配给
+    // 参数类型捕获预期的拒绝。
+    // @ts-expect-error opus 不是 languageModels 中的键
     const _wrongLanguageIdentifier: ConfiguredLanguageModelIdentifier = 'opus';
   });
 
@@ -458,9 +458,9 @@ describe('customProvider negative typing', () => {
       (typeof configuredProvider)['imageModel']
     >[0];
 
-    // @ts-expect-error typo is not a configured embedding model id
+    // @ts-expect-error 拼写错误不是配置的嵌入模型 ID
     const _wrongEmbeddingIdentifier: EmbeddingIdentifier = 'typo';
-    // @ts-expect-error typo is not a configured image model id
+    // @ts-expect-error 拼写错误不是配置的图像模型 ID
     const _wrongImageIdentifier: ImageIdentifier = 'typo';
   });
 });
@@ -487,7 +487,7 @@ describe('customProvider with fallback provider typing', () => {
 
     provider.languageModel('alias');
 
-    // @ts-expect-error identifiers resolved only via fallback are not part of ExtractModelId
+    // 仅通过后备解决的 @ts-expect-error 标识符不是 ExtractModelId 的一部分
     const _fallbackOnlyIdentifier: LanguageIdentifiers = 'fallback-language';
   });
 

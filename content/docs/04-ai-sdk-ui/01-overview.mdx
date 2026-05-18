@@ -1,26 +1,26 @@
 ---
-title: Overview
-description: An overview of AI SDK UI.
+title: 概述
+description: AI SDK UI 概述。
 ---
 
 # AI SDK UI
 
-AI SDK UI is designed to help you build interactive chat, completion, and assistant applications with ease. It is a **framework-agnostic toolkit**, streamlining the integration of advanced AI functionalities into your applications.
+AI SDK UI 旨在帮助你轻松构建交互式聊天、补全和助手应用。它是一个**与框架无关的工具包**，可简化将高级 AI 功能集成到应用中的流程。
 
-AI SDK UI provides robust abstractions that simplify the complex tasks of managing chat streams and UI updates on the frontend, enabling you to develop dynamic AI-driven interfaces more efficiently. With three main hooks — **`useChat`**, **`useCompletion`**, and **`useObject`** — you can incorporate real-time chat capabilities, text completions, streamed JSON, and interactive assistant features into your app.
+AI SDK UI 提供强大的抽象，简化前端管理聊天流和 UI 更新的复杂任务，使你能够更高效地开发由 AI 驱动的动态界面。通过三个主要 hook — **`useChat`**、**`useCompletion`** 和 **`useObject`** — 你可以将实时聊天能力、文本补全、流式 JSON 和交互式助手功能融入应用。
 
-- **[`useChat`](/docs/ai-sdk-ui/chatbot)** offers real-time streaming of chat messages, abstracting state management for inputs, messages, loading, and errors, allowing for seamless integration into any UI design.
-- **[`useCompletion`](/docs/ai-sdk-ui/completion)** enables you to handle text completions in your applications, managing the prompt input and automatically updating the UI as new completions are streamed.
-- **[`useObject`](/docs/ai-sdk-ui/object-generation)** is a hook that allows you to consume streamed JSON objects, providing a simple way to handle and display structured data in your application.
+- **[`useChat`](/docs/ai-sdk-ui/chatbot)** 提供聊天消息的实时流式传输，抽象了输入、消息、加载和错误等状态管理，可无缝集成到任何 UI 设计中。
+- **[`useCompletion`](/docs/ai-sdk-ui/completion)** 使你可以在应用中处理文本补全，管理提示输入，并在新补全流式返回时自动更新 UI。
+- **[`useObject`](/docs/ai-sdk-ui/object-generation)** 是一个允许你消费流式 JSON 对象的 hook，为在应用中处理和显示结构化数据提供简单方式。
 
-These hooks are designed to reduce the complexity and time required to implement AI interactions, letting you focus on creating exceptional user experiences.
+这些 hook 旨在降低实现 AI 交互的复杂度和所需时间，让你专注于创造出色的用户体验。
 
-## UI Framework Support
+## UI 框架支持
 
-AI SDK UI supports the following frameworks: [React](https://react.dev/), [Svelte](https://svelte.dev/), [Vue.js](https://vuejs.org/),
-[Angular](https://angular.dev/), and [SolidJS](https://www.solidjs.com/).
+AI SDK UI 支持以下框架：[React](https://react.dev/)、[Svelte](https://svelte.dev/)、[Vue.js](https://vuejs.org/)、
+[Angular](https://angular.dev/) 和 [SolidJS](https://www.solidjs.com/)。
 
-Here is a comparison of the supported functions across these frameworks:
+以下是各框架所支持功能的对比：
 
 |                                                                 | [useChat](/docs/reference/ai-sdk-ui/use-chat) | [useCompletion](/docs/reference/ai-sdk-ui/use-completion) | [useObject](/docs/reference/ai-sdk-ui/use-object) | [MCP Apps](/docs/ai-sdk-core/mcp-apps) |
 | --------------------------------------------------------------- | --------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------- | -------------------------------------- |
@@ -28,17 +28,17 @@ Here is a comparison of the supported functions across these frameworks:
 | Vue.js `@ai-sdk/vue`                                            | <Check size={18} />                           | <Check size={18} />                                       | <Check size={18} />                               | <Cross size={18} />                    |
 | Svelte `@ai-sdk/svelte`                                         | <Check size={18} /> Chat                      | <Check size={18} /> Completion                            | <Check size={18} /> StructuredObject              | <Cross size={18} />                    |
 | Angular `@ai-sdk/angular`                                       | <Check size={18} /> Chat                      | <Check size={18} /> Completion                            | <Check size={18} /> StructuredObject              | <Cross size={18} />                    |
-| [SolidJS](https://github.com/kodehort/ai-sdk-solid) (community) | <Check size={18} />                           | <Check size={18} />                                       | <Check size={18} />                               | <Cross size={18} />                    |
+| [SolidJS](https://github.com/kodehort/ai-sdk-solid)（社区） | <Check size={18} />                           | <Check size={18} />                                       | <Check size={18} />                               | <Cross size={18} />                    |
 
-## Framework Examples
+## 框架示例
 
-Explore these example implementations for different frameworks:
+探索不同框架的示例实现：
 
 - [**Next.js**](https://github.com/vercel/ai/tree/main/examples/next-openai)
 - [**Nuxt**](https://github.com/vercel/ai/tree/main/examples/nuxt-openai)
 - [**SvelteKit**](https://github.com/vercel/ai/tree/main/examples/sveltekit-openai)
 - [**Angular**](https://github.com/vercel/ai/tree/main/examples/angular)
 
-## API Reference
+## API 参考
 
-Please check out the [AI SDK UI API Reference](/docs/reference/ai-sdk-ui) for more details on each function.
+请查看 [AI SDK UI API 参考](/docs/reference/ai-sdk-ui) 以了解每个函数的更多详情。

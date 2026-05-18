@@ -1,41 +1,40 @@
 ---
 title: useActions
-description: Reference for the useActions function from the AI SDK RSC
+description: AI SDK RSC 中 useActions 函数的参考
 ---
 
 # `useActions`
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境中使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。关于从 RSC 迁移到 UI 的指导，请参阅我们的[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-It is a hook to help you access your Server Actions from the client. This is particularly useful for building interfaces that require user interactions with the server.
+这是一个 hook，可帮助你从客户端访问 Server Actions。它对于构建需要用户与服务器交互的界面尤其有用。
 
-It is required to access these server actions via this hook because they are patched when passed through the context. Accessing them directly may result in a [Cannot find Client Component error](/docs/troubleshooting/server-actions-in-client-components).
+必须通过此 hook 访问这些 server actions，因为它们在通过 context 传递时会被修补。直接访问它们可能会导致 [Cannot find Client Component 错误](/docs/troubleshooting/server-actions-in-client-components)。
 
-## Import
+## 导入
 
 <Snippet text={`import { useActions } from "@ai-sdk/rsc"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Returns
+### 返回值
 
-`Record<string, Action>`, a dictionary of server actions.
+`Record<string, Action>`，server actions 的字典。
 
-## Examples
+## 示例
 
 <ExampleLinks
   examples={[
     {
-      title: 'Learn to manage AI and UI states in Next.js',
+      title: '学习如何在 Next.js 中管理 AI 和 UI 状态',
       link: '/examples/next-app/state-management/ai-ui-states',
     },
     {
       title:
-        'Learn to route React components using a language model in Next.js',
+        '学习如何在 Next.js 中使用语言模型路由 React 组件',
       link: '/examples/next-app/interface/route-components',
     },
   ]}

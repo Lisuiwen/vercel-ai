@@ -13,7 +13,7 @@ run(async () => {
         inputSchema: z.object({ city: z.string() }),
       }),
     },
-    activeTools: [], // disable all tools
+    activeTools: [], // 禁用所有工具
     stopWhen: isStepCount(5),
     prompt:
       'What is the weather in San Francisco and what attractions should I visit?',

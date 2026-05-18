@@ -9,7 +9,7 @@ export const yourRagMiddleware: LanguageModelMiddleware = {
     });
 
     if (lastUserMessageText == null) {
-      return params; // do not use RAG (send unmodified parameters)
+      return params; // 不使用RAG（发送未修改的参数）
     }
 
     const instruction =
@@ -22,7 +22,7 @@ export const yourRagMiddleware: LanguageModelMiddleware = {
   },
 };
 
-// example, could implement anything here:
+// 例如，可以在这里实现任何东西：
 function findSources({ text }: { text: string }): Array<{
   title: string;
   previewText: string | undefined;

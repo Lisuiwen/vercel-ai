@@ -1,7 +1,7 @@
 import { download as internalDownload } from './download';
 
 /**
- * Creates a download function with configurable options.
+ * 创建具有可配置选项的下载功能。
  *
  * @param options - Configuration options for the download function.
  * @param options.maxBytes - Maximum allowed download size in bytes. Default: 2 GiB.

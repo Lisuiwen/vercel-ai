@@ -2,34 +2,34 @@ import type { TypedToolCall } from './tool-call';
 import type { ToolSet } from '@ai-sdk/provider-utils';
 
 /**
- * Output part that indicates that a tool approval response is available.
+ * 指示工具批准响应可用的输出部分。
  */
 export type ToolApprovalResponseOutput<TOOLS extends ToolSet> = {
   type: 'tool-approval-response';
 
   /**
-   * ID of the tool approval.
+   * 工具批准的ID。
    */
   approvalId: string;
 
   /**
-   * Tool call that the approval response is for.
+   * 批准响应所针对的工具调用。
    */
   toolCall: TypedToolCall<TOOLS>;
 
   /**
-   * Flag indicating whether the approval was granted or denied.
+   * 指示批准是被授予还是被拒绝的标志。
    */
   approved: boolean;
 
   /**
-   * Optional reason for the approval or denial.
+   * 批准或拒绝的可选原因。
    */
   reason?: string;
 
   /**
-   * Flag indicating whether the tool call is provider-executed.
-   * Only provider-executed tool approval responses should be sent to the model.
+   * 指示工具调用是否由提供者执行的标志。
+   * 仅应将提供者执行的工具批准响应发送到模型。
    */
   providerExecuted?: boolean;
 };

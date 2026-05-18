@@ -1,14 +1,14 @@
 ---
-title: Generate Object
-description: Learn how to generate structured data using the AI SDK and Node
+title: 生成对象
+description: 学习如何使用 AI SDK 和 Node 生成结构化数据
 tags: ['node', 'structured data']
 ---
 
-# Generate Object
+# 生成对象
 
-Earlier functions like `generateText` and `streamText` gave us the ability to generate unstructured text. However, if you want to generate structured data like JSON, you can provide an `Output` that describes the structure of your desired object to `generateText`.
+此前的 `generateText` 和 `streamText` 等函数可生成非结构化文本。若需生成 JSON 等结构化数据，可向 `generateText` 提供描述目标对象结构的 `Output`。
 
-The `Output.object` function requires you to provide a schema using [zod](https://zod.dev), a library for defining schemas for JavaScript objects. By using zod, you can also use it to validate the generated object and ensure that it conforms to the specified structure.
+`Output.object` 要求使用 [zod](https://zod.dev) 提供 schema，zod 是用于定义 JavaScript 对象 schema 的库。借助 zod，还可校验生成对象是否符合指定结构。
 
 ```ts file='index.ts'
 import { generateText, Output } from 'ai';

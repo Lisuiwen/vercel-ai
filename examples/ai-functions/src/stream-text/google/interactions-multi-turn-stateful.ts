@@ -26,9 +26,9 @@ run(async () => {
     throw new Error('Turn 1 did not return an interaction id.');
   }
 
-  // Turn 2: send ONLY the new user message + previousInteractionId. The server
-  // pulls the prior context from its own state — no message history needed on
-  // the wire.
+  // 第 2 回合：仅发送新用户消息 + previousInteractionId。服务器
+  // 从它自己的状态中提取先前的上下文 - 不需要消息历史记录
+  // 电线。
   console.log('--- Turn 2 ---');
   const turn2 = streamText({
     model: google.interactions('gemini-2.5-flash'),

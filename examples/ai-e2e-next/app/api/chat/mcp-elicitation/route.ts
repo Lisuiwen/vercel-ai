@@ -10,7 +10,7 @@ import { createMCPClient, ElicitationRequestSchema } from '@ai-sdk/mcp';
 import type { MCPElicitationUIMessage } from './types';
 import { createPendingElicitation } from './elicitation-store';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
@@ -31,7 +31,7 @@ async function processMessages(
   messages: MCPElicitationUIMessage[],
   writer: any,
 ) {
-  // Create MCP client with elicitation capabilities
+  // 创建支持征询能力的 MCP 客户端
   const mcpClient = await createMCPClient({
     transport: {
       type: 'sse',
@@ -42,14 +42,14 @@ async function processMessages(
     },
   });
 
-  // Handle elicitation requests from the MCP server
+  // 处理来自 MCP 服务器的征询请求
   mcpClient.onElicitationRequest(ElicitationRequestSchema, async request => {
     const elicitationId = `elicit-${Date.now()}-${Math.random()
       .toString(36)
       .slice(2)}`;
 
     try {
-      // Send elicitation request to the frontend
+      // 向前端发送征询请求
       writer.write({
         type: 'data-elicitation-request',
         id: elicitationId,
@@ -60,17 +60,17 @@ async function processMessages(
         },
       });
 
-      // Wait for the user's response (will be resolved via the /respond endpoint)
+      // 等待用户响应（将通过 /respond 端点 resolve）
       const userResponse = await createPendingElicitation(elicitationId);
 
-      // Return the response in the format expected by the MCP server
+      // 以 MCP 服务器期望的格式返回响应
       return {
         action: userResponse.action,
         content:
           userResponse.action === 'accept' ? userResponse.content : undefined,
       };
     } catch (error) {
-      // Return a declined response on error
+      // 出错时返回拒绝响应
       return {
         action: 'decline' as const,
       };

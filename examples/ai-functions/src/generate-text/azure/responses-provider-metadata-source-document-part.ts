@@ -13,7 +13,7 @@ run(async () => {
     tools: {
       code_interpreter: azure.tools.codeInterpreter(),
       web_search_preview: azure.tools.webSearchPreview({}),
-      file_search: azure.tools.fileSearch({ vectorStoreIds: ['vs_1234'] }), // requires a configured vector store
+      file_search: azure.tools.fileSearch({ vectorStoreIds: ['vs_1234'] }), // 需要一个已配置的向量存储
     },
   });
 
@@ -27,18 +27,18 @@ run(async () => {
         const annotation = providerMetadata.azure;
         switch (annotation.type) {
           case 'file_citation':
-            // file_citation is returned from file_search and provides:
-            // properties: type, fileId and index
-            // The filename can be accessed via part.filename.
+            // file_引用从 file_search 返回并提供：
+            // 属性：类型、文件 ID 和索引
+            // 文件名可以通过part.filename 访问。
             break;
           case 'container_file_citation':
-            // container_file_citation is returned from code_interpreter and provides:
-            // properties: type, containerId and fileId
-            // The filename can be accessed via part.filename.
+            // container_file_引用从 code_interpreter 返回并提供：
+            // 属性：类型、containerId 和 fileId
+            // 文件名可以通过part.filename 访问。
             break;
           case 'file_path':
-            // file_path provides:
-            // properties: type, fileId and index
+            // file_path 提供：
+            // 属性：类型、文件 ID 和索引
             break;
           default: {
             const _exhaustiveCheck: never = annotation;

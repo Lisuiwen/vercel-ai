@@ -3,9 +3,9 @@ import { existsSync, mkdirSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
 
-// example implementation for demo purposes
-// in a real app, you would save the chat to a database
-// and use the id from the database entry
+// 演示用的示例实现
+// 在实际应用中，应将聊天保存到数据库
+// 并使用数据库记录中的 id
 
 export async function createChat(): Promise<string> {
   const id = generateId();

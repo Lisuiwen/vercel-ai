@@ -1,28 +1,32 @@
-# AI SDK - ByteDance Provider
+# AI SDK - ByteDance 提供商
 
-The **ByteDance provider** for the [AI SDK](https://ai-sdk.dev/docs) contains video model support for ByteDance's Seedance family of video generation models through the [BytePlus ModelArk](https://docs.byteplus.com/en/docs/ModelArk/Video_Generation_API) platform.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **ByteDance 提供商** contains video model support for ByteDance's Seedance family of video generation models through the [BytePlus ModelArk](https://docs.byteplus.com/en/docs/ModelArk/Video_Generation_API) platform.
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access ByteDance (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 ByteDance（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The ByteDance provider is available in the `@ai-sdk/bytedance` module. You can install it with:
+ByteDance 提供商位于 `@ai-sdk/bytedance` 模块，安装方式：
+
+:
 
 ```bash
 npm i @ai-sdk/bytedance
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `byteDance` from `@ai-sdk/bytedance`:
+可从 `@ai-sdk/bytedance` 导入默认提供商实例 `byteDance`：
+
+
 
 ```ts
 import { byteDance } from '@ai-sdk/bytedance';
@@ -30,7 +34,7 @@ import { byteDance } from '@ai-sdk/bytedance';
 
 ## Video Models
 
-This provider supports text-to-video, image-to-video, audio-video sync, first-and-last frame control, and multi-reference image generation.
+本提供商支持文生视频、图生视频、音视频同步、首尾帧控制与多参考图生成。
 
 ### Text-to-Video
 
@@ -84,7 +88,7 @@ const { video } = await generateVideo({
 
 ### Image-to-Video with Audio
 
-Seedance 1.5 Pro supports generating synchronized audio alongside the video.
+Seedance 1.5 Pro 支持在生成视频的同时生成同步音频。
 
 ```ts
 import { byteDance } from '@ai-sdk/bytedance';
@@ -179,7 +183,7 @@ Use `providerOptions.bytedance` to configure video generation:
 
 Supported aspect ratios: `16:9`, `4:3`, `1:1`, `3:4`, `9:16`, `21:9`, `adaptive` (image-to-video only).
 
-## Authentication
+## 身份验证
 
 Set the `ARK_API_KEY` environment variable:
 
@@ -197,8 +201,8 @@ const byteDance = createByteDance({
 });
 ```
 
-You can [obtain an API key](https://console.byteplus.com/ark/apiKey) from the BytePlus console.
+可在 BytePlus 控制台[获取 API Key](https://console.byteplus.com/ark/apiKey)。
 
-## Documentation
+## 文档
 
-Please check out the **[ByteDance provider](https://ai-sdk.dev/providers/ai-sdk-providers/bytedance)** for more information.
+更多信息请参阅 **[ByteDance 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/bytedance)**。

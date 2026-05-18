@@ -46,7 +46,7 @@ run(async () => {
       if (tokenCount > COMPACTION_THRESHOLD) {
         console.log('Compacting messages...');
         return {
-          // message changes persist over steps now
+          // 消息更改现在在步骤中持续存在
           messages: pruneMessages({
             messages,
             reasoning: 'all',

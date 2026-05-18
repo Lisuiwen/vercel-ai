@@ -1,43 +1,43 @@
 ---
-title: Workflow Patterns
-description: Learn workflow patterns for building reliable agents with the AI SDK.
+title: 工作流模式
+description: 学习使用 AI SDK 构建可靠 Agent 的工作流模式。
 ---
 
-# Workflow Patterns
+# 工作流模式
 
-Combine the building blocks from the [overview](/docs/agents/overview) with these patterns to add structure and reliability to your agents:
+将[概览](/docs/agents/overview)中的构建块与以下模式结合，为你的 Agent 增加结构与可靠性：
 
-- [Sequential Processing](#sequential-processing-chains) - Steps executed in order
-- [Parallel Processing](#parallel-processing) - Independent tasks run simultaneously
-- [Evaluation/Feedback Loops](#evaluator-optimizer) - Results checked and improved iteratively
-- [Orchestration](#orchestrator-worker) - Coordinating multiple components
-- [Routing](#routing) - Directing work based on context
+- [顺序处理](#sequential-processing-chains) - 按顺序执行步骤
+- [并行处理](#parallel-processing) - 同时运行独立任务
+- [评估/反馈循环](#evaluator-optimizer) - 检查结果并迭代改进
+- [编排](#orchestrator-worker) - 协调多个组件
+- [路由](#routing) - 根据上下文定向工作
 
-## Choose Your Approach
+## 选择你的方法
 
-Consider these key factors:
+考虑以下关键因素：
 
-- **Flexibility vs Control** - How much freedom does the LLM need vs how tightly you must constrain its actions?
-- **Error Tolerance** - What are the consequences of mistakes in your use case?
-- **Cost Considerations** - More complex systems typically mean more LLM calls and higher costs
-- **Maintenance** - Simpler architectures are easier to debug and modify
+- **灵活性 vs 控制** - LLM 需要多少自由度，你又需要多严格地约束其行为？
+- **错误容忍度** - 在你的用例中，错误的后果是什么？
+- **成本考量** - 更复杂的系统通常意味着更多 LLM 调用和更高成本
+- **可维护性** - 更简单的架构更易于调试和修改
 
-**Start with the simplest approach that meets your needs**. Add complexity only when required by:
+**从满足需求的最简单方法开始**。仅在以下情况需要时再增加复杂度：
 
-1. Breaking down tasks into clear steps
-2. Adding tools for specific capabilities
-3. Implementing feedback loops for quality control
-4. Introducing multiple agents for complex workflows
+1. 将任务分解为清晰的步骤
+2. 为特定能力添加工具
+3. 实现反馈循环以进行质量控制
+4. 为复杂工作流引入多个 Agent
 
-Let's look at examples of these patterns in action.
+下面通过示例展示这些模式的实际应用。
 
-## Patterns with Examples
+## 带示例的模式
 
-These patterns, adapted from [Anthropic's guide on building effective agents](https://www.anthropic.com/research/building-effective-agents), serve as building blocks you can combine to create comprehensive workflows. Each pattern addresses specific aspects of task execution. Combine them thoughtfully to build reliable solutions for complex problems.
+这些模式改编自 [Anthropic 关于构建有效 Agent 的指南](https://www.anthropic.com/research/building-effective-agents)，可作为构建块组合以创建完整工作流。每种模式解决任务执行的特定方面。请有意识地组合它们，为复杂问题构建可靠的解决方案。
 
-## Sequential Processing (Chains)
+## 顺序处理（链）
 
-The simplest workflow pattern executes steps in a predefined order. Each step's output becomes input for the next step, creating a clear chain of operations. Use this pattern for tasks with well-defined sequences, like content generation pipelines or data transformation processes.
+最简单的工作流模式按预定义顺序执行步骤。每一步的输出成为下一步的输入，形成清晰的操作链。当任务具有明确定义的序列时使用此模式，例如内容生成流水线或数据转换流程。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -93,9 +93,9 @@ async function generateMarketingCopy(input: string) {
 }
 ```
 
-## Routing
+## 路由
 
-This pattern lets the model decide which path to take through a workflow based on context and intermediate results. The model acts as an intelligent router, directing the flow of execution between different branches of your workflow. Use this when handling varied inputs that require different processing approaches. In the example below, the first LLM call's results determine the second call's model size and system prompt.
+此模式让模型根据上下文和中间结果决定工作流走哪条路径。模型充当智能路由器，在工作流的不同分支之间定向执行流。当处理需要不同处理方式的多样化输入时使用。在下面的示例中，第一次 LLM 调用的结果决定第二次调用的模型大小和系统提示词。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -146,9 +146,9 @@ async function handleCustomerQuery(query: string) {
 }
 ```
 
-## Parallel Processing
+## 并行处理
 
-Break down tasks into independent subtasks that execute simultaneously. This pattern uses parallel execution to improve efficiency while maintaining the benefits of structured workflows. For example, analyze multiple documents or process different aspects of a single input concurrently (like code review).
+将任务分解为可同时执行的独立子任务。此模式使用并行执行提高效率，同时保持结构化工作流的优势。例如，分析多个文档或并发处理单个输入的不同方面（如代码审查）。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -226,9 +226,9 @@ async function parallelCodeReview(code: string) {
 }
 ```
 
-## Orchestrator-Worker
+## 编排器-工作者
 
-A primary model (orchestrator) coordinates the execution of specialized workers. Each worker optimizes for a specific subtask, while the orchestrator maintains overall context and ensures coherent results. This pattern excels at complex tasks requiring different types of expertise or processing.
+主模型（编排器）协调专用工作者的执行。每个工作者针对特定子任务进行优化，而编排器维护整体上下文并确保结果连贯。此模式擅长需要不同类型专业知识或处理的复杂任务。
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -300,9 +300,9 @@ async function implementFeature(featureRequest: string) {
 }
 ```
 
-## Evaluator-Optimizer
+## 评估器-优化器
 
-Add quality control to workflows with dedicated evaluation steps that assess intermediate results. Based on the evaluation, the workflow proceeds, retries with adjusted parameters, or takes corrective action. This creates robust workflows capable of self-improvement and error recovery.
+通过专用评估步骤检查中间结果，为工作流添加质量控制。根据评估结果，工作流继续、使用调整后的参数重试或采取纠正措施。这创建了能够自我改进和错误恢复的健壮工作流。
 
 ```ts
 import { generateText, Output } from 'ai';

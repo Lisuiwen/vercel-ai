@@ -51,6 +51,6 @@ run(async () => {
     ?.finishMessage;
 
   console.log();
-  console.log('Finish Reason:', await result.rawFinishReason); // expect MALFORMED_FUNCTION_CALL; no response will be generated
+  console.log('Finish Reason:', await result.rawFinishReason); // 期待 MALFORMED_FUNCTION_CALL；不会产生任何响应
   console.log('Finish Message:', finishMessage);
 });

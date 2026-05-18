@@ -1,23 +1,23 @@
 ---
-title: Generating Text
-description: Learn how to generate text with the AI SDK.
+title: 生成文本
+description: 了解如何使用 AI SDK 生成文本。
 ---
 
-# Generating and Streaming Text
+# 生成与流式输出文本
 
-Large language models (LLMs) can generate text in response to a prompt, which can contain instructions and information to process.
-For example, you can ask a model to come up with a recipe, draft an email, or summarize a document.
+大语言模型（LLM）可根据提示生成文本，提示可包含待处理的指令与信息。
+例如，可让模型撰写食谱、起草邮件或摘要文档。
 
-The AI SDK Core provides two functions to generate text and stream it from LLMs:
+AI SDK Core 提供两个函数，用于从 LLM 生成并流式输出文本：
 
-- [`generateText`](#generatetext): Generates text for a given prompt and model.
-- [`streamText`](#streamtext): Streams text from a given prompt and model.
+- [`generateText`](#generatetext)：根据给定提示与模型生成文本。
+- [`streamText`](#streamtext)：根据给定提示与模型流式输出文本。
 
-Advanced LLM features such as [tool calling](./tools-and-tool-calling) and [structured data generation](./generating-structured-data) are built on top of text generation.
+[tool 调用](./tools-and-tool-calling)与[结构化数据生成](./generating-structured-data)等高级 LLM 能力均构建在文本生成之上。
 
 ## `generateText`
 
-You can generate text using the [`generateText`](/docs/reference/ai-sdk-core/generate-text) function. This function is ideal for non-interactive use cases where you need to write text (e.g. drafting email or summarizing web pages) and for agents that use tools.
+你可以使用 [`generateText`](/docs/reference/ai-sdk-core/generate-text) 函数生成文本。该函数适用于需要撰写文本的非交互式场景（例如起草邮件或汇总网页），以及使用工具的 agent。
 
 ```tsx
 import { generateText } from 'ai';
@@ -29,7 +29,7 @@ const { text } = await generateText({
 });
 ```
 
-You can use more [advanced prompts](./prompts) to generate text with more complex instructions and content:
+你也可以使用更[高级的提示](./prompts)，通过更复杂的指令与内容生成文本：
 
 ```tsx
 import { generateText } from 'ai';
@@ -44,39 +44,39 @@ const { text } = await generateText({
 });
 ```
 
-The result object of `generateText` contains the generated output and metadata:
+`generateText` 的返回对象包含生成的输出与元数据：
 
-- `result.content`: The content that was generated in all steps.
-- `result.text`: The generated text from the final step.
-- `result.files`: The files that were generated in all steps.
-- `result.sources`: Sources that have been used as references in all steps (only available for some models).
-- `result.toolCalls`: The tool calls that were made in all steps.
-- `result.toolResults`: The results of the tool calls from all steps.
-- `result.finishReason`: The reason the model finished generating text.
-- `result.rawFinishReason`: The raw reason why the generation finished (from the provider).
-- `result.usage`: The total usage across all steps (for multi-step generations).
-- `result.warnings`: Warnings from the model provider in all steps (e.g. unsupported settings).
-- `result.steps`: Details for all steps, useful for getting information about intermediate steps, including per-step `performance`.
-- `result.finalStep`: Details for the final step, including `performance`.
-- `result.output`: The generated structured output using the `output` specification.
+- `result.content`：所有步骤中生成的内容。
+- `result.text`：最后一步生成的文本。
+- `result.files`：所有步骤中生成的文件。
+- `result.sources`：所有步骤中用作参考的来源（仅部分模型可用）。
+- `result.toolCalls`：所有步骤中进行的 tool 调用。
+- `result.toolResults`：所有步骤中 tool 调用的结果。
+- `result.finishReason`：模型结束生成文本的原因。
+- `result.rawFinishReason`：生成结束时的原始原因（来自提供商）。
+- `result.usage`：所有步骤的总用量（适用于多步生成）。
+- `result.warnings`：所有步骤中来自模型提供商的警告（例如不支持的设置）。
+- `result.steps`：所有步骤的详细信息，可用于获取中间步骤相关信息，包含每步的 `performance`。
+- `result.finalStep`：最后一步的详细信息，包含 `performance`。
+- `result.output`：使用 `output` 规范生成的结构化输出。
 
-Each step includes `performance` with timing and throughput information:
+每一步都包含带有耗时与吞吐量信息的 `performance`：
 
-- `effectiveOutputTokensPerSecond`: Effective output tokens per second, calculated as `outputTokens / requestSeconds`.
-- `outputTokensPerSecond`: For streaming steps, output tokens per second after the first output token, calculated as `outputTokens / outputStreamSeconds`. For `generateText`, this is `undefined`.
-- `inputTokensPerSecond`: For streaming steps, input tokens per second before the first output token, calculated as `inputTokens / ttftSeconds`. For `generateText`, this is `undefined`.
-- `effectiveTotalTokensPerSecond`: Effective total tokens per second, calculated as `(inputTokens + outputTokens) / requestSeconds`.
-- `stepTimeMs`: Total time spent on the step, including language model response time and tool execution time, in milliseconds.
-- `responseTimeMs`: Time spent waiting for the language model response in milliseconds.
-- `toolExecutionMs`: Time spent executing each client-side tool call in the step in milliseconds, keyed by tool call ID.
-- `timeToFirstOutputTokenMs`: For streaming steps, the time until the first text, reasoning, or tool input delta was received in milliseconds. For `generateText`, this is `undefined`.
+- `effectiveOutputTokensPerSecond`：有效输出 token 吞吐（token/秒），按 `outputTokens / requestSeconds` 计算。
+- `outputTokensPerSecond`：对流式步骤，首个输出 token 之后的输出 token 吞吐（token/秒），按 `outputTokens / outputStreamSeconds` 计算。对 `generateText`，该值为 `undefined`。
+- `inputTokensPerSecond`：对流式步骤，首个输出 token 之前的输入 token 吞吐（token/秒），按 `inputTokens / ttftSeconds` 计算。对 `generateText`，该值为 `undefined`。
+- `effectiveTotalTokensPerSecond`：有效总 token 吞吐（token/秒），按 `(inputTokens + outputTokens) / requestSeconds` 计算。
+- `stepTimeMs`：该步骤花费的总时间（毫秒），包含语言模型响应时间与 tool 执行时间。
+- `responseTimeMs`：等待语言模型响应所花费的时间（毫秒）。
+- `toolExecutionMs`：该步骤中每个在客户端执行的 tool 调用所花费的时间（毫秒），以 tool 调用 ID 为键。
+- `timeToFirstOutputTokenMs`：对流式步骤，直到收到首个文本、推理或 tool 输入增量为止的时间（毫秒）。对 `generateText`，该值为 `undefined`。
 
-### Accessing response headers & body
+### 访问响应标头与正文
 
-Sometimes you need access to the full response from the model provider,
-e.g. to access some provider-specific headers or body content.
+有时你需要访问模型提供商的完整响应，
+例如读取某些提供商专属的标头或正文内容。
 
-You can access the raw response headers and body using the `finalStep.response` property:
+你可以通过 `finalStep.response` 访问原始响应标头与正文：
 
 ```ts
 import { generateText } from 'ai';
@@ -89,12 +89,10 @@ console.log(JSON.stringify(result.finalStep.response.headers, null, 2));
 console.log(JSON.stringify(result.finalStep.response.body, null, 2));
 ```
 
-### `onFinish` callback
+### `onFinish` 回调
 
-When using `generateText`, you can provide an `onFinish` callback that is triggered after the last step is finished (
-[API Reference](/docs/reference/ai-sdk-core/generate-text#on-finish)
-).
-It contains the text, usage information, finish reason, messages, steps, total usage, and more:
+使用 `generateText` 时，可以提供在最后一个步骤完成后触发的 `onFinish` 回调（参见 [API 参考](/docs/reference/ai-sdk-core/generate-text#on-finish)）。
+其中包含文本、用量信息、结束原因、消息、步骤、总用量等：
 
 ```tsx highlight="6-8"
 import { generateText } from 'ai';
@@ -111,16 +109,15 @@ const result = await generateText({
 });
 ```
 
-### Lifecycle callbacks (experimental)
+### 生命周期回调（实验性）
 
 <Note type="warning">
-  Experimental callbacks are subject to breaking changes in incremental package
-  releases.
+  实验性回调可能在增量发布的包中发生破坏性变更。
 </Note>
 
-`generateText` provides several experimental lifecycle callbacks that let you hook into different phases of the generation process.
-These are useful for logging, observability, debugging, and custom telemetry.
-Errors thrown inside these callbacks are silently caught and do not break the generation flow.
+`generateText` 提供若干实验性生命周期回调，让你可以接入生成流程的不同阶段。
+它们适用于记录日志、可观测性、调试以及自定义遥测。
+在这些回调中抛出的错误会被静默捕获，不会中断生成流程。
 
 ```tsx
 import { generateText } from 'ai';
@@ -181,21 +178,21 @@ const result = await generateText({
 });
 ```
 
-The available lifecycle callbacks are:
+可用的生命周期回调如下：
 
-- **`experimental_onStart`**: Called once when the `generateText` operation begins, before any LLM calls. Receives model info, messages, settings, and `runtimeContext`.
-- **`experimental_onStepStart`**: Called before each step (LLM call). Receives the step number, model, messages being sent, tools, and prior steps.
-- **`experimental_onLanguageModelCallStart`**: Called immediately before the provider model call begins. Useful when you want to observe the model invocation separately from later tool execution.
-- **`experimental_onLanguageModelCallEnd`**: Called after the model response has been normalized and parsed, but before any client-side tool execution begins. Receives the model-call content parts, usage, and finish reason.
-- **`onToolExecutionStart`**: Called right before a tool's `execute` function runs. Receives the tool call object, messages, and `toolContext`.
-- **`onToolExecutionEnd`**: Called right after a tool's `execute` function completes or errors. Receives the tool call object, `toolExecutionMs`, and a `toolOutput` discriminated union (`type: 'tool-result'` with `output`, or `type: 'tool-error'` with `error`).
-- **`onStepFinish`**: Called after each step finishes. Includes `stepNumber` (zero-based index of the completed step).
+- **`experimental_onStart`**：在 `generateText` 操作开始时调用一次，早于任何 LLM 调用。可接收模型信息、消息、设置与 `runtimeContext`。
+- **`experimental_onStepStart`**：在每一步（LLM 调用）之前调用。可接收步骤编号、模型、即将发送的消息、工具以及先前步骤。
+- **`experimental_onLanguageModelCallStart`**：在提供商模型调用即将开始前立即调用。若你希望将模型调用与后续的 tool 执行分开观察，这会很有用。
+- **`experimental_onLanguageModelCallEnd`**：在模型响应完成规范化与解析之后、任何客户端 tool 执行开始之前调用。可接收模型调用的内容分片、用量与结束原因。
+- **`onToolExecutionStart`**：在工具的 `execute` 函数即将运行前调用。可接收 tool 调用对象、消息与 `toolContext`。
+- **`onToolExecutionEnd`**：在工具的 `execute` 函数完成或出错后立即调用。可接收 tool 调用对象、`toolExecutionMs`，以及 `toolOutput` 判别联合（`type: 'tool-result'` 且包含 `output`，或 `type: 'tool-error'` 且包含 `error`）。
+- **`onStepFinish`**：在每一步完成后调用。包含 `stepNumber`（已完成步骤的从零开始索引）。
 
 ## `streamText`
 
-Depending on your model and prompt, it can take a large language model (LLM) up to a minute to finish generating its response. This delay can be unacceptable for interactive use cases such as chatbots or real-time applications, where users expect immediate responses.
+根据你的模型与提示不同，大语言模型（LLM）可能需要长达约一分钟才能完成响应生成。在聊天机器人或实时应用等交互式场景中，这种延迟往往难以接受，用户通常希望尽快看到输出。
 
-AI SDK Core provides the [`streamText`](/docs/reference/ai-sdk-core/stream-text) function which simplifies streaming text from LLMs:
+AI SDK Core 提供 [`streamText`](/docs/reference/ai-sdk-core/stream-text) 函数，用于简化从 LLM 流式输出文本：
 
 ```ts
 import { streamText } from 'ai';
@@ -213,53 +210,51 @@ for await (const textPart of result.textStream) {
 ```
 
 <Note>
-  `result.textStream` is both a `ReadableStream` and an `AsyncIterable`.
+  `result.textStream` 既是 `ReadableStream`，也是 `AsyncIterable`。
 </Note>
 
 <Note type="warning">
-  `streamText` immediately starts streaming and suppresses errors to prevent
-  server crashes. Use the `onError` callback to log errors.
+  `streamText` 会立即开始流式输出，并会抑制错误以防服务器崩溃。请使用 `onError` 回调记录错误。
 </Note>
 
-You can use `streamText` on its own or in combination with [AI SDK
-UI](/examples/next-pages/basics/streaming-text-generation) and [AI SDK
-RSC](/examples/next-app/basics/streaming-text-generation).
-The result object contains several helper functions to make the integration into [AI SDK UI](/docs/ai-sdk-ui) easier:
+你可以单独使用 `streamText`，也可以与 [AI SDK
+UI](/examples/next-pages/basics/streaming-text-generation) 及 [AI SDK
+RSC](/examples/next-app/basics/streaming-text-generation) 组合使用。
+返回对象包含多个辅助函数，便于接入 [AI SDK UI](/docs/ai-sdk-ui)：
 
-- `result.toUIMessageStreamResponse()`: Creates a UI Message stream HTTP response (with tool calls etc.) that can be used in a Next.js App Router API route.
-- `result.pipeUIMessageStreamToResponse()`: Writes UI Message stream delta output to a Node.js response-like object.
-- `result.toTextStreamResponse()`: Creates a simple text stream HTTP response.
-- `result.pipeTextStreamToResponse()`: Writes text delta output to a Node.js response-like object.
+- `result.toUIMessageStreamResponse()`：创建 UI Message 流的 HTTP 响应（包含 tool 调用等），可在 Next.js App Router API 路由中使用。
+- `result.pipeUIMessageStreamToResponse()`：将 UI Message 流的增量输出写入类 Node.js 的 response 对象。
+- `result.toTextStreamResponse()`：创建简单的文本流 HTTP 响应。
+- `result.pipeTextStreamToResponse()`：将文本增量输出写入类 Node.js 的 response 对象。
 
 <Note>
-  `streamText` is using backpressure and only generates tokens as they are
-  requested. You need to consume the stream in order for it to finish.
+  `streamText` 使用背压机制，仅在被请求时生成 token。你需要消费流，生成才会结束。
 </Note>
 
-It also provides several promises that resolve when the stream is finished:
+还提供多个在流结束时完成的 Promise：
 
-- `result.content`: The content that was generated in all steps.
-- `result.text`: The generated text from the final step.
-- `result.finalStep`: Details for the final step, including per-step `performance`.
-- `result.files`: Files that have been generated by the model in all steps.
-- `result.sources`: Sources that have been used as references in all steps (only available for some models).
-- `result.toolCalls`: The tool calls that have been executed in all steps.
-- `result.toolResults`: The tool results that have been generated in all steps.
-- `result.finishReason`: The reason the model finished generating text.
-- `result.rawFinishReason`: The raw reason why the generation finished (from the provider).
-- `result.usage`: The total usage across all steps (for multi-step generations).
-- `result.totalUsage`: Deprecated. Use `result.usage` instead.
-- `result.warnings`: Warnings from the model provider in all steps (e.g. unsupported settings).
-- `result.steps`: Details for all steps, useful for getting information about intermediate steps, including per-step `performance`.
+- `result.content`：所有步骤中生成的内容。
+- `result.text`：最后一步生成的文本。
+- `result.finalStep`：最后一步的详细信息，包含每步的 `performance`。
+- `result.files`：模型在所有步骤中生成的文件。
+- `result.sources`：所有步骤中用作参考的来源（仅部分模型可用）。
+- `result.toolCalls`：所有步骤中已执行的 tool 调用。
+- `result.toolResults`：所有步骤中生成的 tool 结果。
+- `result.finishReason`：模型结束生成文本的原因。
+- `result.rawFinishReason`：生成结束时的原始原因（来自提供商）。
+- `result.usage`：所有步骤的总用量（适用于多步生成）。
+- `result.totalUsage`：已弃用。请改用 `result.usage`。
+- `result.warnings`：所有步骤中来自模型提供商的警告（例如不支持的设置）。
+- `result.steps`：所有步骤的详细信息，可用于获取中间步骤相关信息，包含每步的 `performance`。
 
-For `streamText`, `timeToFirstOutputTokenMs` is set when the first text, reasoning, or tool input delta is received for a step.
+对 `streamText`，当某一步收到首个文本、推理或 tool 输入增量时，会设置 `timeToFirstOutputTokenMs`。
 
-### `onError` callback
+### `onError` 回调
 
-`streamText` immediately starts streaming to enable sending data without waiting for the model.
-Errors become part of the stream and are not thrown to prevent e.g. servers from crashing.
+`streamText` 会立即开始流式输出，以便在无需等待模型结束的情况下发送数据。
+错误会成为流的一部分而不会被抛出，从而避免例如服务器崩溃等问题。
 
-To log errors, you can provide an `onError` callback that is triggered when an error occurs.
+若要记录错误，可以提供在错误发生时触发的 `onError` 回调。
 
 ```tsx highlight="6-8"
 import { streamText } from 'ai';
@@ -274,11 +269,11 @@ const result = streamText({
 });
 ```
 
-### `onChunk` callback
+### `onChunk` 回调
 
-When using `streamText`, you can provide an `onChunk` callback that is triggered for each chunk of the stream.
+使用 `streamText` 时，可以提供在流的每个分片到达时触发的 `onChunk` 回调。
 
-It receives the following chunk types:
+它可接收以下分片类型：
 
 - `text`
 - `reasoning`
@@ -305,12 +300,10 @@ const result = streamText({
 });
 ```
 
-### `onFinish` callback
+### `onFinish` 回调
 
-When using `streamText`, you can provide an `onFinish` callback that is triggered when the stream is finished (
-[API Reference](/docs/reference/ai-sdk-core/stream-text#on-finish)
-).
-It contains the text, usage information, finish reason, messages, steps, total usage, and more:
+使用 `streamText` 时，可以在流结束时触发 `onFinish` 回调（参见 [API 参考](/docs/reference/ai-sdk-core/stream-text#on-finish)）。
+其中包含文本、用量信息、结束原因、消息、步骤、总用量等：
 
 ```tsx highlight="6-8"
 import { streamText } from 'ai';
@@ -327,16 +320,15 @@ const result = streamText({
 });
 ```
 
-### Lifecycle callbacks (experimental)
+### 生命周期回调（实验性）
 
 <Note type="warning">
-  Experimental callbacks are subject to breaking changes in incremental package
-  releases.
+  实验性回调可能在增量发布的包中发生破坏性变更。
 </Note>
 
-`streamText` provides several experimental lifecycle callbacks that let you hook into different phases of the streaming process.
-These are useful for logging, observability, debugging, and custom telemetry.
-Errors thrown inside these callbacks are silently caught and do not break the streaming flow.
+`streamText` 提供若干实验性生命周期回调，让你可以接入流式过程的不同阶段。
+它们适用于记录日志、可观测性、调试以及自定义遥测。
+在这些回调中抛出的错误会被静默捕获，不会中断流式流程。
 
 ```tsx
 import { streamText } from 'ai';
@@ -393,21 +385,21 @@ const result = streamText({
 });
 ```
 
-The available lifecycle callbacks are:
+可用的生命周期回调如下：
 
-- **`experimental_onStart`**: Called once when the `streamText` operation begins, before any LLM calls. Receives model info, messages, settings, and `runtimeContext`.
-- **`experimental_onStepStart`**: Called before each step (LLM call). Receives the step number, model, messages being sent, tools, and prior steps.
-- **`experimental_onLanguageModelCallStart`**: Called immediately before the provider model call begins. Useful when you want to observe the model invocation separately from later tool execution.
-- **`experimental_onLanguageModelCallEnd`**: Called after the model response has been normalized and parsed, but before any client-side tool execution begins. Receives the model-call content parts, usage, and finish reason.
-- **`onToolExecutionStart`**: Called right before a tool's `execute` function runs. Receives the tool call object, messages, and `toolContext`.
-- **`onToolExecutionEnd`**: Called right after a tool's `execute` function completes or errors. Receives the tool call object, `toolExecutionMs`, and a `toolOutput` discriminated union (`type: 'tool-result'` with `output`, or `type: 'tool-error'` with `error`).
-- **`onStepFinish`**: Called after each step finishes. Receives the finish reason, usage, and other step details.
+- **`experimental_onStart`**：在 `streamText` 操作开始时调用一次，早于任何 LLM 调用。可接收模型信息、消息、设置与 `runtimeContext`。
+- **`experimental_onStepStart`**：在每一步（LLM 调用）之前调用。可接收步骤编号、模型、即将发送的消息、工具以及先前步骤。
+- **`experimental_onLanguageModelCallStart`**：在提供商模型调用即将开始前立即调用。若你希望将模型调用与后续的 tool 执行分开观察，这会很有用。
+- **`experimental_onLanguageModelCallEnd`**：在模型响应完成规范化与解析之后、任何客户端 tool 执行开始之前调用。可接收模型调用的内容分片、用量与结束原因。
+- **`onToolExecutionStart`**：在工具的 `execute` 函数即将运行前调用。可接收 tool 调用对象、消息与 `toolContext`。
+- **`onToolExecutionEnd`**：在工具的 `execute` 函数完成或出错后立即调用。可接收 tool 调用对象、`toolExecutionMs`，以及 `toolOutput` 判别联合（`type: 'tool-result'` 且包含 `output`，或 `type: 'tool-error'` 且包含 `error`）。
+- **`onStepFinish`**：在每一步完成后调用。可接收结束原因、用量与其他步骤详情。
 
-### `fullStream` property
+### `fullStream` 属性
 
-You can read a stream with all events using the `fullStream` property.
-This can be useful if you want to implement your own UI or handle the stream in a different way.
-Here is an example of how to use the `fullStream` property:
+你可以通过 `fullStream` 读取包含全部事件的流。
+若你想实现自定义 UI 或以不同方式处理流，这会很有用。
+下面是一个使用 `fullStream` 的示例：
 
 ```tsx
 import { streamText } from 'ai';
@@ -523,18 +515,18 @@ for await (const part of result.fullStream) {
 }
 ```
 
-### Stream transformation
+### 流转换
 
-You can use the `experimental_transform` option to transform the stream.
-This is useful for e.g. filtering, changing, or smoothing the text stream.
+你可以使用 `experimental_transform` 选项转换流。
+这适用于例如过滤、修改或平滑文本流等场景。
 
-The transformations are applied before the callbacks are invoked and the promises are resolved.
-If you e.g. have a transformation that changes all text to uppercase, the `onFinish` callback will receive the transformed text.
+转换会在回调触发与 Promise 解析之前应用。
+例如，若你有一个将所有文本转为大写的转换，`onFinish` 回调将收到转换后的文本。
 
-#### Smoothing streams
+#### 平滑流
 
-The AI SDK Core provides a [`smoothStream` function](/docs/reference/ai-sdk-core/smooth-stream) that
-can be used to smooth out text and reasoning streaming.
+AI SDK Core 提供 [`smoothStream` 函数](/docs/reference/ai-sdk-core/smooth-stream)，
+可用于平滑文本与推理内容的流式输出。
 
 ```tsx highlight="6"
 import { smoothStream, streamText } from 'ai';
@@ -546,15 +538,14 @@ const result = streamText({
 });
 ```
 
-#### Custom transformations
+#### 自定义转换
 
-You can also implement your own custom transformations.
-The transformation function receives the tools that are available to the model,
-and returns a function that is used to transform the stream.
-Tools can either be generic or limited to the tools that you are using.
+你也可以实现自己的自定义转换。
+转换函数接收模型可用的工具，
+并返回用于转换流的函数。
+工具可以是泛型，也可以限定为你正在使用的工具集。
 
-Here is an example of how to implement a custom transformation that converts
-all text to uppercase:
+下面是一个将所有文本转为大写的自定义转换示例：
 
 ```ts
 import { streamText, type TextStreamPart, type ToolSet } from 'ai';
@@ -574,11 +565,11 @@ const upperCaseTransform =
     });
 ```
 
-You can also stop the stream using the `stopStream` function.
-This is e.g. useful if you want to stop the stream when model guardrails are violated, e.g. by generating inappropriate content.
+你也可以使用 `stopStream` 停止流。
+例如，若你想在违反模型护栏时停止流（例如生成了不当内容），这会很有用。
 
-When you invoke `stopStream`, it is important to simulate the `finish-step` and `finish` events to guarantee that a well-formed stream is returned
-and all callbacks are invoked.
+调用 `stopStream` 时，重要的是模拟 `finish-step` 与 `finish` 事件，以确保返回格式良好的流
+并触发所有回调。
 
 ```ts
 import { streamText, type TextStreamPart, type ToolSet } from 'ai';
@@ -667,9 +658,9 @@ const stopWordTransform =
     });
 ```
 
-#### Multiple transformations
+#### 多个转换
 
-You can also provide multiple transformations. They are applied in the order they are provided.
+你也可以提供多个转换。它们会按提供的顺序依次应用。
 
 ```tsx highlight="4"
 const result = streamText({
@@ -679,22 +670,22 @@ const result = streamText({
 });
 ```
 
-## Sources
+## 来源
 
-Some providers such as [Perplexity](/providers/ai-sdk-providers/perplexity#sources) and
-[Google](/providers/ai-sdk-providers/google#sources) include sources in the response.
+部分提供商（例如 [Perplexity](/providers/ai-sdk-providers/perplexity#sources) 与
+[Google](/providers/ai-sdk-providers/google#sources)）会在响应中包含来源。
 
-Currently sources are limited to web pages that ground the response.
-You can access them using the `sources` property of the result.
+目前来源仅限于用于支撑响应的网页。
+你可以通过结果的 `sources` 属性访问它们。
 
-Each `url` source contains the following properties:
+每个 `url` 来源包含以下属性：
 
-- `id`: The ID of the source.
-- `url`: The URL of the source.
-- `title`: The optional title of the source.
-- `providerMetadata`: Provider metadata for the source.
+- `id`：来源 ID。
+- `url`：来源 URL。
+- `title`：可选的来源标题。
+- `providerMetadata`：来源的提供商元数据。
 
-When you use `generateText`, you can access the sources using the `sources` property:
+使用 `generateText` 时，可通过 `sources` 属性访问来源：
 
 ```ts
 const result = await generateText({
@@ -716,7 +707,7 @@ for (const source of result.sources) {
 }
 ```
 
-When you use `streamText`, you can access the sources using the `fullStream` property:
+使用 `streamText` 时，可通过 `fullStream` 属性访问来源：
 
 ```tsx
 const result = streamText({
@@ -738,28 +729,28 @@ for await (const part of result.fullStream) {
 }
 ```
 
-The sources are also available in the `result.sources` promise.
+来源也可在 `result.sources` Promise 中获取。
 
-## Examples
+## 示例
 
-You can see `generateText` and `streamText` in action using various frameworks in the following examples:
+你可以在以下示例中看到不同框架下 `generateText` 与 `streamText` 的用法：
 
 ### `generateText`
 
 <ExampleLinks
   examples={[
     {
-      title: 'Learn to generate text in Node.js',
+      title: '在 Node.js 中学习生成文本',
       link: '/examples/node/generating-text/generate-text',
     },
     {
       title:
-        'Learn to generate text in Next.js with Route Handlers (AI SDK UI)',
+        '在 Next.js 中通过 Route Handlers 生成文本（AI SDK UI）',
       link: '/examples/next-pages/basics/generating-text',
     },
     {
       title:
-        'Learn to generate text in Next.js with Server Actions (AI SDK RSC)',
+        '在 Next.js 中通过 Server Actions 生成文本（AI SDK RSC）',
       link: '/examples/next-app/basics/generating-text',
     },
   ]}
@@ -770,15 +761,15 @@ You can see `generateText` and `streamText` in action using various frameworks i
 <ExampleLinks
   examples={[
     {
-      title: 'Learn to stream text in Node.js',
+      title: '在 Node.js 中学习流式输出文本',
       link: '/examples/node/generating-text/stream-text',
     },
     {
-      title: 'Learn to stream text in Next.js with Route Handlers (AI SDK UI)',
+      title: '在 Next.js 中通过 Route Handlers 流式输出文本（AI SDK UI）',
       link: '/examples/next-pages/basics/streaming-text-generation',
     },
     {
-      title: 'Learn to stream text in Next.js with Server Actions (AI SDK RSC)',
+      title: '在 Next.js 中通过 Server Actions 流式输出文本（AI SDK RSC）',
       link: '/examples/next-app/basics/streaming-text-generation',
     },
   ]}

@@ -24,11 +24,11 @@ run(async () => {
       console.log(`STEP ${stepNumber}`);
       console.log('='.repeat(60));
 
-      // Log request info
+      // 记录请求信息
       console.log('\n--- REQUEST ---');
       console.log('Request body:', JSON.stringify(step.request.body, null, 2));
 
-      // Log response body
+      // 记录响应正文
       console.log('\n--- RESPONSE BODY ---');
       console.log(JSON.stringify(step.response.body, null, 2));
     },

@@ -14,7 +14,7 @@ export default function Chat({
   initialMessages?: UIMessage<{ createdAt: string }>[];
 } = {}) {
   const { sendMessage, status, messages } = useChat({
-    id, // use the provided chatId
+    id, // 使用提供的 chatId
     messages: initialMessages,
     transport: new DefaultChatTransport({
       api: '/api/chat/persistence-metadata',

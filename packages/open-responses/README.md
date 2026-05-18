@@ -1,27 +1,29 @@
-# AI SDK - Open Responses Provider
+# AI SDK - Open Responses 提供商
 
-The **[Open Responses provider](https://ai-sdk.dev/providers/ai-sdk-providers/open-responses)** for the [AI SDK](https://ai-sdk.dev/docs)
-contains language model support for [Open Responses](https://www.openresponses.org/) compatible APIs.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Open Responses 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/open-responses)**
+提供 [Open Responses](https://www 的语言模型支持。openresponses.org/) compatible APIs.
 
-## Setup
+## 安装
 
-The Open Responses provider is available in the `@ai-sdk/open-responses` module. You can install it with
+Open Responses 提供商位于 `@ai-sdk/open-responses` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/open-responses
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-Create an Open Responses provider instance using `createOpenResponses`:
+使用 `createOpenResponses` 创建 Open Responses 提供商实例：
 
 ```ts
 import { createOpenResponses } from '@ai-sdk/open-responses';
@@ -32,9 +34,9 @@ const openResponses = createOpenResponses({
 });
 ```
 
-You can use this instance to access models served by any Open Responses compatible endpoint.
+可通过该实例访问任意 Open Responses 兼容端点提供的模型。
 
-## Example
+## 示例
 
 ```ts
 import { createOpenResponses } from '@ai-sdk/open-responses';
@@ -52,6 +54,6 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[Open Responses provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/open-responses)** for more information.
+更多信息请参阅 **[Open Responses 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/open-responses)**。

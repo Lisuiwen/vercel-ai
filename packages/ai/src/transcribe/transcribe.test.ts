@@ -19,7 +19,7 @@ vi.mock('../version', () => {
   };
 });
 
-const audioData = new Uint8Array([1, 2, 3, 4]); // Sample audio data
+const audioData = new Uint8Array([1, 2, 3, 4]); // 音频数据样本
 const testDate = new Date(2024, 0, 1);
 
 const sampleTranscript = {
@@ -183,7 +183,7 @@ describe('transcribe', () => {
         doGenerate: async () =>
           createMockResponse({
             ...sampleTranscript,
-            warnings: [], // no warnings
+            warnings: [], // 没有警告
           }),
       }),
       audio: audioData,

@@ -30,7 +30,7 @@ run(async () => {
             temperature: 72 + Math.floor(Math.random() * 21) - 10,
           }),
         }),
-        // Test tool with multiple types (tests the anyOf conversion fix)
+        // 具有多种类型的测试工具（测试anyOf转换修复）
         calculate: tool({
           description:
             'Perform a calculation with a value that can be string or number',

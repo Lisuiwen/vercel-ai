@@ -1,40 +1,40 @@
 ---
 title: DevTools
-description: Debug and inspect AI SDK applications with DevTools
+description: 使用 DevTools 调试与检查 AI SDK 应用
 ---
 
 # DevTools
 
 <Note type="warning">
-  AI SDK DevTools is experimental and intended for local development only. Do
-  not use in production environments.
+  AI SDK DevTools 为实验性功能，仅用于本地开发。
+  请勿在生产环境使用。
 </Note>
 
-AI SDK DevTools gives you full visibility over your AI SDK calls with [`generateText`](/docs/reference/ai-sdk-core/generate-text), [`streamText`](/docs/reference/ai-sdk-core/stream-text), and [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent). It helps you debug and inspect LLM requests, responses, tool calls, and multi-step interactions through a web-based UI.
+AI SDK DevTools 为通过 [`generateText`](/docs/reference/ai-sdk-core/generate-text)、[`streamText`](/docs/reference/ai-sdk-core/stream-text) 与 [`ToolLoopAgent`](/docs/reference/ai-sdk-core/tool-loop-agent) 发起的 AI SDK 调用提供完整可见性，帮助你通过 Web UI 调试并检查 LLM 请求、响应、tool 调用与多步交互。
 
-DevTools is composed of two parts:
+DevTools 由两部分组成：
 
-1. **Telemetry Integration**: Captures runs and steps from your AI SDK calls via the [telemetry](/docs/ai-sdk-core/telemetry) system
-2. **Viewer**: A web UI to inspect the captured data
+1. **遥测集成**：通过[遥测](/docs/ai-sdk-core/telemetry)系统捕获 AI SDK 调用中的 run 与 step
+2. **查看器**：用于检查已捕获数据的 Web UI
 
-## Installation
+## 安装
 
-Install the DevTools package:
+安装 DevTools 包：
 
 ```bash
 pnpm add @ai-sdk/devtools
 ```
 
-## Requirements
+## 要求
 
-- AI SDK v6 beta (`ai@^6.0.0-beta.0`)
-- Node.js compatible runtime
+- AI SDK v6 beta（`ai@^6.0.0-beta.0`）
+- 兼容 Node.js 的运行时
 
-## Using DevTools
+## 使用 DevTools
 
-### Register the integration
+### 注册集成
 
-Register `DevToolsTelemetry` globally so it captures all AI SDK calls:
+全局注册 `DevToolsTelemetry`，以捕获所有 AI SDK 调用：
 
 ```ts
 import { registerTelemetry } from 'ai';
@@ -43,7 +43,7 @@ import { DevToolsTelemetry } from '@ai-sdk/devtools';
 registerTelemetry(DevToolsTelemetry());
 ```
 
-Telemetry is enabled automatically once an integration is registered — no per-call configuration is needed:
+注册集成后，遥测会自动启用——无需为每次调用单独配置：
 
 ```ts
 import { generateText } from 'ai';
@@ -54,7 +54,7 @@ const result = await generateText({
 });
 ```
 
-You can also pass the integration to individual calls instead of registering it globally:
+也可将集成传入单次调用，而非全局注册：
 
 ```ts highlight="7-9"
 import { streamText } from 'ai';
@@ -69,62 +69,61 @@ const result = streamText({
 });
 ```
 
-### Launch the viewer
+### 启动查看器
 
-Start the DevTools viewer:
+启动 DevTools 查看器：
 
 ```bash
 npx @ai-sdk/devtools
 ```
 
-Open [http://localhost:4983](http://localhost:4983) to view your AI SDK interactions.
+在浏览器中打开 [http://localhost:4983](http://localhost:4983) 查看 AI SDK 交互。
 
-### Monorepo usage
+### Monorepo 用法
 
-If you are using a monorepo setup (e.g. Turborepo, Nx), start DevTools from the same workspace where your AI SDK code runs.
+若使用 monorepo（如 Turborepo、Nx），请在运行 AI SDK 代码的同一 workspace 中启动 DevTools。
 
-For example, if your API is in `apps/api`, run:
+例如 API 位于 `apps/api` 时：
 
 ```bash
 cd apps/api
 npx @ai-sdk/devtools
 ```
 
-## Captured data
+## 捕获的数据
 
-DevTools captures the following information from your AI SDK calls:
+DevTools 会从 AI SDK 调用中捕获以下信息：
 
-- **Input parameters and prompts**: View the complete input sent to your LLM
-- **Output content and tool calls**: Inspect generated text and tool invocations
-- **Token usage and timing**: Monitor resource consumption and performance
-- **Raw provider data**: Access complete request and response payloads
+- **输入参数与提示**：查看发送给 LLM 的完整输入
+- **输出内容与 tool 调用**：检查生成的文本与 tool 调用
+- **Token 用量与耗时**：监控资源消耗与性能
+- **原始 provider 数据**：访问完整请求与响应载荷
 
-### Runs and steps
+### Run 与 Step
 
-DevTools organizes captured data into runs and steps:
+DevTools 将捕获的数据组织为 run 与 step：
 
-- **Run**: A complete multi-step AI interaction, grouped by the initial prompt
-- **Step**: A single LLM call within a run (e.g., one `generateText` or `streamText` call)
+- **Run**：一次完整的多步 AI 交互，按初始提示分组
+- **Step**：run 内的单次 LLM 调用（例如一次 `generateText` 或 `streamText`）
 
-Multi-step interactions, such as those created by tool calling or agent loops, are grouped together as a single run with multiple steps. Nested sub-agent calls are linked to their parent run, making it easy to trace the full execution tree.
+由 tool 调用或 agent 循环产生的多步交互会作为单个 run、包含多个 step 进行分组。嵌套的子 agent 调用会关联到父 run，便于追踪完整执行树。
 
-## How it works
+## 工作原理
 
-The `DevToolsTelemetry` integration hooks into the AI SDK [telemetry](/docs/ai-sdk-core/telemetry) lifecycle to capture all `generateText`, `streamText`, `generateObject`, and `streamObject` calls. Captured data is stored locally in a JSON file (`.devtools/generations.json`) and served through a web UI built with Hono and React.
+`DevToolsTelemetry` 集成接入 AI SDK [遥测](/docs/ai-sdk-core/telemetry)生命周期，捕获所有 `generateText`、`streamText`、`generateObject` 与 `streamObject` 调用。数据本地存储在 JSON 文件（`.devtools/generations.json`）中，并通过基于 Hono 与 React 的 Web UI 展示。
 
 <Note type="warning">
-  The integration automatically adds `.devtools` to your `.gitignore` file.
-  Verify that `.devtools` is in your `.gitignore` to ensure you don't commit
-  sensitive AI interaction data to your repository.
+  集成会自动将 `.devtools` 加入 `.gitignore`。
+  请确认 `.gitignore` 中包含 `.devtools`，避免将敏感的 AI 交互数据提交到仓库。
 </Note>
 
-## Security considerations
+## 安全注意事项
 
-DevTools stores all AI interactions locally in plain text files, including:
+DevTools 以明文本地文件存储所有 AI 交互，包括：
 
-- User prompts and messages
-- LLM responses
-- Tool call arguments and results
-- API request and response data
+- 用户提示与消息
+- LLM 响应
+- Tool 调用参数与结果
+- API 请求与响应数据
 
-**Only use DevTools in local development environments.** Do not enable DevTools in production or when handling sensitive data.
+**仅在本地开发环境使用 DevTools。** 不要在生产环境启用，也不要在处理敏感数据时使用。

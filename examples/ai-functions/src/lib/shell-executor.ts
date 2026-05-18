@@ -11,7 +11,7 @@ export async function executeShellCommand(
   stderr: string;
   outcome: { type: 'timeout' } | { type: 'exit'; exitCode: number };
 }> {
-  const timeout = timeoutMs ?? 60_000; // Default 60 seconds
+  const timeout = timeoutMs ?? 60_000; // 默认 60 秒
 
   try {
     const { stdout, stderr } = await execAsync(command, {

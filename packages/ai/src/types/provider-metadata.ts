@@ -3,10 +3,10 @@ import { z } from 'zod/v4';
 import { jsonValueSchema } from './json-value';
 
 /**
- * Additional provider-specific metadata that is returned from the provider.
+ * 从提供者返回的其他特定于提供者的元数据。
  *
- * This is needed to enable provider-specific functionality that can be
- * fully encapsulated in the provider.
+ * 这是启用特定于提供商的功能所必需的
+ * 完全封装在提供者中。
  */
 export type ProviderMetadata = SharedV4ProviderMetadata;
 

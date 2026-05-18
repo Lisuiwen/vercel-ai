@@ -1,16 +1,16 @@
 ---
 title: Replicate
-description: Learn how to use Replicate models with the AI SDK.
+description: 了解如何在 AI SDK 中使用 Replicate 模型。
 ---
 
-# Replicate Provider
+# Replicate 提供商
 
-[Replicate](https://replicate.com/) is a platform for running open-source AI models.
-It is a popular choice for running image generation models.
+[Replicate](https://replicate.com/) 用于运行开源 AI 模型的平台，
+也是常用的图像生成模型托管服务。
 
-## Setup
+## 安装
 
-The Replicate provider is available via the `@ai-sdk/replicate` module. You can install it with
+Replicate 提供商位于 `@ai-sdk/replicate` 模块中，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -28,16 +28,15 @@ The Replicate provider is available via the `@ai-sdk/replicate` module. You can 
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `replicate` from `@ai-sdk/replicate`:
+可从 `@ai-sdk/replicate` 导入默认的 `replicate` 提供商实例：
 
 ```ts
 import { replicate } from '@ai-sdk/replicate';
 ```
 
-If you need a customized setup, you can import `createReplicate` from `@ai-sdk/replicate`
-and create a provider instance with your settings:
+如需自定义配置，可导入 `createReplicate` 并以你的设置创建提供商实例：
 
 ```ts
 import { createReplicate } from '@ai-sdk/replicate';
@@ -47,43 +46,41 @@ const replicate = createReplicate({
 });
 ```
 
-You can use the following optional settings to customize the Replicate provider instance:
+可使用以下可选设置自定义 Replicate 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `https://api.replicate.com/v1`.
+  为 API 调用使用不同的 URL 前缀（例如经由代理）。
+  默认前缀为 `https://api.replicate.com/v1`。
 
 - **apiToken** _string_
 
-  API token that is being sent using the `Authorization` header. It defaults to
-  the `REPLICATE_API_TOKEN` environment variable.
+  通过 `Authorization` 请求头发送的 API Token。
+  默认为环境变量 `REPLICATE_API_TOKEN`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义请求头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
 
-## Image Models
+## 图像模型
 
-You can create Replicate image models using the `.image()` factory method.
-For more on image generation with the AI SDK see [generateImage()](/docs/reference/ai-sdk-core/generate-image).
+可使用 `.image()` 工厂方法创建 Replicate 图像模型。
+详见 AI SDK 中的 [generateImage()](/docs/reference/ai-sdk-core/generate-image)。
 
 <Note>
-  Model support for `size` and other parameters varies by model. Check the
-  model's documentation on [Replicate](https://replicate.com/explore) for
-  supported options and additional parameters that can be passed via
-  `providerOptions.replicate`.
+  不同模型对 `size` 等参数的支持各不相同。请参阅
+  [Replicate](https://replicate.com/explore) 上对应模型的文档，确认支持的选项以及可通过 `providerOptions.replicate` 传入的附加参数。
 </Note>
 
-### Supported Image Models
+### 支持的图像模型
 
-The following image models are currently supported by the Replicate provider:
+Replicate 提供商当前支持以下图像模型：
 
-**Text-to-Image Models:**
+**文生图模型：**
 
 - [black-forest-labs/flux-1.1-pro-ultra](https://replicate.com/black-forest-labs/flux-1.1-pro-ultra)
 - [black-forest-labs/flux-1.1-pro](https://replicate.com/black-forest-labs/flux-1.1-pro)
@@ -113,27 +110,27 @@ The following image models are currently supported by the Replicate provider:
 - [stability-ai/stable-diffusion-3.5-medium](https://replicate.com/stability-ai/stable-diffusion-3.5-medium)
 - [tstramer/material-diffusion](https://replicate.com/tstramer/material-diffusion)
 
-**Inpainting and Image Editing Models:**
+**修复（Inpainting）与图像编辑模型：**
 
 - [black-forest-labs/flux-fill-pro](https://replicate.com/black-forest-labs/flux-fill-pro)
 - [black-forest-labs/flux-fill-dev](https://replicate.com/black-forest-labs/flux-fill-dev)
 
-**Flux-2 Models (Multi-Reference Image Generation):**
+**Flux-2 模型（多参考图生成）：**
 
-These models support up to 8 input reference images for style transfer and composition:
+这些模型最多支持 8 张输入参考图像，可用于风格迁移与构图：
 
 - [black-forest-labs/flux-2-pro](https://replicate.com/black-forest-labs/flux-2-pro)
 - [black-forest-labs/flux-2-dev](https://replicate.com/black-forest-labs/flux-2-dev)
 
-You can also use [versioned models](https://replicate.com/docs/topics/models/versions).
-The id for versioned models is the Replicate model id followed by a colon and the version ID (`$modelId:$versionId`), e.g.
-`bytedance/sdxl-lightning-4step:5599ed30703defd1d160a25a63321b4dec97101d98b4674bcc56e41f62f35637`.
+也可使用带版本号的模型，说明见 [versioned models](https://replicate.com/docs/topics/models/versions)。
+带版本模型的 ID 为 Replicate 模型 ID 后跟冒号与版本 ID（`$modelId:$versionId`），例如：
+`bytedance/sdxl-lightning-4step:5599ed30703defd1d160a25a63321b4dec97101d98b4674bcc56e41f62f35637`。
 
 <Note>
-  You can also pass any available Replicate model ID as a string if needed.
+  如需也可直接传入任意可用的 Replicate 模型 ID 字符串。
 </Note>
 
-### Basic Usage
+### 基本用法
 
 ```ts
 import { replicate } from '@ai-sdk/replicate';
@@ -151,7 +148,7 @@ await writeFile('image.webp', image.uint8Array);
 console.log('Image saved as image.webp');
 ```
 
-### Model-specific options
+### 模型专属选项
 
 ```ts highlight="9-11"
 import { replicate, type ReplicateImageModelOptions } from '@ai-sdk/replicate';
@@ -169,7 +166,7 @@ const { image } = await generateImage({
 });
 ```
 
-### Versioned Models
+### 带版本模型
 
 ```ts
 import { replicate } from '@ai-sdk/replicate';
@@ -183,13 +180,13 @@ const { image } = await generateImage({
 });
 ```
 
-### Image Editing
+### 图像编辑
 
-Replicate supports image editing through various models. Pass input images via `prompt.images` to transform or edit existing images.
+Replicate 通过多种模型支持图像编辑。通过 `prompt.images` 传入输入图像即可变换或编辑现有图像。
 
-#### Basic Image Editing
+#### 基本图像编辑
 
-Transform an existing image using text prompts:
+使用文本提示变换现有图像：
 
 ```ts
 const imageBuffer = readFileSync('./input-image.png');
@@ -209,9 +206,9 @@ const { images } = await generateImage({
 });
 ```
 
-#### Inpainting with Mask
+#### 使用遮罩修复
 
-Edit specific parts of an image using a mask. For FLUX Fill models, white areas in the mask indicate where the image should be edited:
+使用遮罩编辑图像的指定区域。对 FLUX Fill 模型，遮罩中的白色区域表示需要编辑的位置：
 
 ```ts
 const image = readFileSync('./input-image.png');
@@ -233,9 +230,9 @@ const { images } = await generateImage({
 });
 ```
 
-#### Multi-Reference Image Generation (Flux-2)
+#### 多参考图生成（Flux-2）
 
-Flux-2 models support up to 8 input reference images for style transfer, composition, and multi-subject generation:
+Flux-2 模型最多支持 8 张输入参考图像，可用于风格迁移、构图与多主体生成：
 
 ```ts
 import { replicate } from '@ai-sdk/replicate';
@@ -254,28 +251,24 @@ const { images } = await generateImage({
 ```
 
 <Note>
-  Flux-2 models use a different input format internally (`input_image`,
-  `input_image_2`, etc.) which is handled automatically. Note that Flux-2 models
-  do not support mask-based inpainting.
+  Flux-2 模型在内部使用不同的输入格式（`input_image`、`input_image_2` 等），由 SDK 自动处理。Flux-2 模型不支持基于遮罩的修复（mask-based inpainting）。
 </Note>
 
 <Note>
-  Input images can be provided as `Buffer`, `ArrayBuffer`, `Uint8Array`, or
-  base64-encoded strings. Different Replicate models have different parameter
-  names and capabilities — check the model's documentation on
-  [Replicate](https://replicate.com/explore) for details.
+  输入图像可为 `Buffer`、`ArrayBuffer`、`Uint8Array` 或 base64 字符串。不同 Replicate 模型的参数名与能力各异，详见
+  [Replicate](https://replicate.com/explore) 上的模型文档。
 </Note>
 
-### Provider Options
+### 提供商选项
 
-Common provider options for image generation:
+图像生成常用的提供商选项：
 
-- **maxWaitTimeInSeconds** _number_ - Maximum time in seconds to wait for the prediction to complete in sync mode. By default, Replicate uses [sync mode](https://replicate.com/docs/topics/predictions/create-a-prediction#timeout-duration) with a 60-second timeout. Set to a positive number to use a custom duration (e.g., `120` for 2 minutes). When not specified, uses the default 60-second wait.
-- **guidance_scale** _number_ - Guidance scale for classifier-free guidance. Higher values make the output more closely match the prompt.
-- **num_inference_steps** _number_ - Number of denoising steps. More steps = higher quality but slower.
-- **negative_prompt** _string_ - Negative prompt to guide what to avoid in the generation.
-- **output_format** _'png' | 'jpg' | 'webp'_ - Output image format.
-- **output_quality** _number (1-100)_ - Output image quality. Only applies to jpg and webp.
-- **strength** _number (0-1)_ - Strength of the transformation for img2img. Lower values keep more of the original image.
+- **maxWaitTimeInSeconds** _number_ — 同步模式下等待预测完成的最长时间（秒）。默认使用 [sync mode](https://replicate.com/docs/topics/predictions/create-a-prediction#timeout-duration)，超时 60 秒。设为正数可自定义时长（例如 `120` 表示 2 分钟）；未指定则使用默认 60 秒等待。
+- **guidance_scale** _number_ — 无分类器引导的强度；值越高，输出越贴近提示词。
+- **num_inference_steps** _number_ — 去噪步数；步数越多质量通常越高但越慢。
+- **negative_prompt** _string_ — 负向提示，约束生成中应避免的内容。
+- **output_format** _'png' | 'jpg' | 'webp'_ — 输出图像格式。
+- **output_quality** _number (1-100)_ — 输出画质；仅对 jpg、webp 有效。
+- **strength** _number (0-1)_ — 图生图变换强度；值越低越保留原图。
 
-For more details, see the [Replicate models page](https://replicate.com/explore).
+更多说明见 [Replicate models](https://replicate.com/explore)。

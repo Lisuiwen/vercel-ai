@@ -5,75 +5,75 @@ import type {
 } from '@ai-sdk/provider';
 
 /**
- * Represents the number of tokens used in a prompt and completion.
+ * 表示提示和完成中使用的标记数。
  */
 export type LanguageModelUsage = {
   /**
-   * The total number of input (prompt) tokens used.
+   * 使用的输入（提示）令牌总数。
    */
   inputTokens: number | undefined;
 
   /**
-   * Detailed information about the input tokens.
+   * 有关输入标记的详细信息。
    */
   inputTokenDetails: {
     /**
-     * The number of non-cached input (prompt) tokens used.
+     * 使用的非缓存输入（提示）令牌的数量。
      */
     noCacheTokens: number | undefined;
 
     /**
-     * The number of cached input (prompt) tokens read.
+     * 读取的缓存输入（提示）令牌的数量。
      */
     cacheReadTokens: number | undefined;
 
     /**
-     * The number of cached input (prompt) tokens written.
+     * 写入的缓存输入（提示）标记的数量。
      */
     cacheWriteTokens: number | undefined;
   };
 
   /**
-   * The number of total output (completion) tokens used.
+   * 使用的输出（完成）令牌总数。
    */
   outputTokens: number | undefined;
 
   /**
-   * Detailed information about the output tokens.
+   * 有关输出标记的详细信息。
    */
   outputTokenDetails: {
     /**
-     * The number of text tokens used.
+     * 使用的文本标记的数量。
      */
     textTokens: number | undefined;
 
     /**
-     * The number of reasoning tokens used.
+     * 使用的推理标记的数量。
      */
     reasoningTokens: number | undefined;
   };
 
   /**
-   * The total number of tokens used.
+   * 使用的代币总数。
    */
   totalTokens: number | undefined;
 
   /**
-   * Raw usage information from the provider.
+   * 来自提供商的原始使用信息。
    *
-   * This is the usage information in the shape that the provider returns.
-   * It can include additional information that is not part of the standard usage information.
+   * 这是提供者返回的形状的使用信息。
+   * 它可以包括不属于标准使用信息的附加信息。
    */
   raw?: JSONObject;
 };
 
 /**
- * Represents the number of tokens used in an embedding.
+ * 表示嵌入中使用的令牌数量。
  */
-// TODO replace with EmbeddingModelV4Usage once available in @ai-sdk/provider
+// TODO 在 @ai-sdk/provider 中可用后替换为 EmbeddingModelV4Usage
 export type EmbeddingModelUsage = {
   /**
-   * The number of tokens used in the embedding.
+   * 嵌入中使用的令牌数量。
    */
   tokens: number;
 };
@@ -164,7 +164,7 @@ function addTokenCounts(
 }
 
 /**
- * Usage information for an image model call.
+ * 图像模型调用的使用信息。
  */
 export type ImageModelUsage = ImageModelV4Usage;
 

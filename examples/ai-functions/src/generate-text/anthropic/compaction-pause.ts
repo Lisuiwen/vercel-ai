@@ -267,9 +267,9 @@ run(async () => {
   console.log('=== First Response ===');
   console.log('Finish reason:', result.finishReason);
 
-  // Check if compaction triggered a pause
+  // 检查压缩是否触发暂停
   if (result.finishReason === 'other') {
-    // Check if this is a compaction pause by looking at provider metadata
+    // 通过查看提供者元数据来检查这是否是压缩暂停
     const iterations = (
       result.finalStep.providerMetadata?.anthropic as {
         usage?: { iterations?: Array<{ type?: string }> };

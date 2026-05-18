@@ -1,43 +1,40 @@
 ---
-title: Overview
-description: An overview of foundational concepts critical to understanding the AI SDK
+title: 概述
+description: AI SDK 关键基础概念概览
 ---
 
-# Overview
+# 概述
 
 <Note>
-  This page is a beginner-friendly introduction to high-level artificial
-  intelligence (AI) concepts. To dive right into implementing the AI SDK, feel
-  free to skip ahead to our [quickstarts](/docs/getting-started) or learn about
-  our [supported models and providers](/docs/foundations/providers-and-models).
+  本页面向初学者，介绍高层人工智能（AI）概念。若要直接开始实现 AI SDK，可跳转到[快速入门](/docs/getting-started)，或了解我们[支持的模型与提供商](/docs/foundations/providers-and-models)。
 </Note>
 
-The AI SDK standardizes integrating artificial intelligence (AI) models across [supported providers](/docs/foundations/providers-and-models). This enables developers to focus on building great AI applications, not waste time on technical details.
+AI SDK 在[各受支持提供商](/docs/foundations/providers-and-models)之间标准化了人工智能（AI）模型的集成方式，让开发者可以专注于构建出色的 AI 应用，而不必在琐碎的技术细节上耗费时间。
 
-For example, here’s how you can generate text with various models using the AI SDK:
+例如，使用 AI SDK 可以通过多种模型生成文本：
 
 <PreviewSwitchProviders />
 
-To effectively leverage the AI SDK, it helps to familiarize yourself with the following concepts:
+要有效使用 AI SDK，建议先熟悉以下概念：
 
-## Generative Artificial Intelligence
+## 生成式人工智能
 
-**Generative artificial intelligence** refers to models that predict and generate various types of outputs (such as text, images, or audio) based on what’s statistically likely, pulling from patterns they’ve learned from their training data. For example:
+**生成式人工智能**指根据统计上最可能的结果，预测并生成各类输出（如文本、图像或音频）的模型，其依据来自训练数据中学到的模式。例如：
 
-- Given a photo, a generative model can generate a caption.
-- Given an audio file, a generative model can generate a transcription.
-- Given a text description, a generative model can generate an image.
+- 给定一张照片，生成式模型可生成标题。
+- 给定音频文件，生成式模型可生成转录文本。
+- 给定文本描述，生成式模型可生成图像。
 
-## Large Language Models
+## 大语言模型
 
-A **large language model (LLM)** is a subset of generative models focused primarily on **text**. An LLM takes a sequence of words as input and aims to predict the most likely sequence to follow. It assigns probabilities to potential next sequences and then selects one. The model continues to generate sequences until it meets a specified stopping criterion.
+**大语言模型（LLM）**是生成式模型的一个子集，主要面向**文本**。LLM 接收一系列词作为输入，并尝试预测最可能出现的后续序列。它为潜在的下一段序列分配概率，然后选择其一。模型会持续生成序列，直到满足指定的停止条件。
 
-LLMs learn by training on massive collections of written text, which means they will be better suited to some use cases than others. For example, a model trained on GitHub data would understand the probabilities of sequences in source code particularly well.
+LLM 通过在海量文本上训练来学习，这意味着它们对某些用例会比其他用例更合适。例如，在 GitHub 数据上训练的模型会特别擅长理解源代码中的序列概率。
 
-However, it's crucial to understand LLMs' limitations. When asked about less known or absent information, like the birthday of a personal relative, LLMs might "hallucinate" or make up information. It's essential to consider how well-represented the information you need is in the model.
+然而，理解 LLM 的局限性至关重要。当被问及较少见或训练数据中不存在的信息（例如某位亲属的生日）时，LLM 可能会「幻觉」或编造信息。你需要考虑所需信息在模型中的覆盖程度。
 
-## Embedding Models
+## 嵌入模型
 
-An **embedding model** is used to convert complex data (like words or images) into a dense vector (a list of numbers) representation, known as an embedding. Unlike generative models, embedding models do not generate new text or data. Instead, they provide representations of semantic and syntactic relationships between entities that can be used as input for other models or other natural language processing tasks.
+**嵌入模型**用于将复杂数据（如词语或图像）转换为稠密向量（数字列表）表示，即嵌入。与生成式模型不同，嵌入模型不会生成新的文本或数据，而是提供实体之间语义与句法关系的表示，可作为其他模型或其他自然语言处理任务的输入。
 
-In the next section, you will learn about the difference between models providers and models, and which ones are available in the AI SDK.
+下一节将介绍模型提供商与模型之间的区别，以及 AI SDK 中可用的选项。

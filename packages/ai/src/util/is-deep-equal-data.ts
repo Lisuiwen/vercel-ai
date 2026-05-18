@@ -1,48 +1,48 @@
 /**
- * Performs a deep-equal comparison of two parsed JSON objects.
+ * 对两个已解析的 JSON 对象执行深度相等比较。
  *
  * @param {any} obj1 - The first object to compare.
  * @param {any} obj2 - The second object to compare.
  * @returns {boolean} - Returns true if the two objects are deeply equal, false otherwise.
  */
 export function isDeepEqualData(obj1: any, obj2: any): boolean {
-  // Check for strict equality first
+  // 首先检查严格相等
   if (obj1 === obj2) return true;
 
-  // Check if either is null or undefined
+  // 检查是否为空或未定义
   if (obj1 == null || obj2 == null) return false;
 
-  // Check if both are objects
+  // 检查两者是否都是对象
   if (typeof obj1 !== 'object' && typeof obj2 !== 'object')
     return obj1 === obj2;
 
-  // If they are not strictly equal, they both need to be Objects
+  // 如果它们不严格相等，则它们都需要是对象
   if (obj1.constructor !== obj2.constructor) return false;
 
-  // Special handling for Date objects
+  // Date 对象的特殊处理
   if (obj1 instanceof Date && obj2 instanceof Date) {
     return obj1.getTime() === obj2.getTime();
   }
 
-  // Handle arrays: compare length and then perform a recursive deep comparison on each item
+  // 处理数组：比较长度，然后对每个项目执行递归深度比较
   if (Array.isArray(obj1)) {
     if (obj1.length !== obj2.length) return false;
     for (let i = 0; i < obj1.length; i++) {
       if (!isDeepEqualData(obj1[i], obj2[i])) return false;
     }
-    return true; // All array elements matched
+    return true; // 所有数组元素都匹配
   }
 
-  // Compare the set of keys in each object
+  // 比较每个对象中的键集
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
   if (keys1.length !== keys2.length) return false;
 
-  // Check each key-value pair recursively
+  // 递归检查每个键值对
   for (const key of keys1) {
     if (!keys2.includes(key)) return false;
     if (!isDeepEqualData(obj1[key], obj2[key])) return false;
   }
 
-  return true; // All keys and values matched
+  return true; // 所有键和值都匹配
 }

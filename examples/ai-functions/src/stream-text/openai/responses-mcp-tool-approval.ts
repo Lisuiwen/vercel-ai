@@ -59,14 +59,14 @@ run(async () => {
       stopWhen: isStepCount(10),
     });
 
-    // Stream text output
+    // 流文本输出
     process.stdout.write('\nAssistant: ');
     for await (const textPart of result.textStream) {
       process.stdout.write(textPart);
     }
     process.stdout.write('\n');
 
-    // Get final results
+    // 得到最终结果
     const content = await result.content;
 
     for (const part of content) {

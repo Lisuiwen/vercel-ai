@@ -5,9 +5,9 @@ import { run } from '../../lib/run';
 
 /**
  *
- * *** NOTICE ***
- * It has been reported that transcribe does not work as expected with the default version.
- * If you want to use a working version, try the source code below.
+ * *** 注意 ***
+ * 据报道，转录在默认版本中无法按预期工作。
+ * 如果您想使用工作版本，请尝试下面的源代码。
  *
  * ai\examples\ai-functions\src\transcribe\azure-deployment-based.ts
  *
@@ -15,7 +15,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   const result = await transcribe({
-    model: azure.transcription('whisper-1'), // use your own deployment
+    model: azure.transcription('whisper-1'), // 使用您自己的部署
     audio: await readFile('data/galileo.mp3'),
   });
 

@@ -20,7 +20,7 @@ const originalGenerateCallId = createIdGenerator({
 });
 
 /**
- * Rerank documents using a reranking model. The type of the value is defined by the reranking model.
+ * 使用重新排序模型对文档进行重新排序。值的类型由重新排序模型定义。
  *
  * @param model - The reranking model to use.
  * @param documents - The documents that should be reranked.
@@ -51,76 +51,76 @@ export async function rerank<VALUE extends JSONObject | string>({
   _internal: { generateCallId = originalGenerateCallId } = {},
 }: {
   /**
-   * The reranking model to use.
+   * 要使用的重新排序模型。
    */
   model: RerankingModel;
 
   /**
-   * The documents that should be reranked.
+   * 应重新排序的文档。
    */
   documents: Array<VALUE>;
 
   /**
-   * The query to rerank the documents against.
+   * 用于对文档重新排序的查询。
    */
   query: string;
 
   /**
-   * Number of top documents to return.
+   * 要返回的顶级文档数。
    */
   topN?: number;
 
   /**
-   * Maximum number of retries per reranking model call. Set to 0 to disable retries.
+   * 每次重新排序模型调用的最大重试次数。设置为 0 以禁用重试。
    *
    * @default 2
    */
   maxRetries?: number;
 
   /**
-   * Abort signal.
+   * 中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional headers to include in the request.
-   * Only applicable for HTTP-based providers.
+   * 要包含在请求中的附加标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string>;
 
   /**
-   * Optional telemetry configuration.
+   * 可选遥测配置。
    */
   telemetry?: TelemetryOptions;
 
   /**
-   * Optional telemetry configuration.
+   * 可选遥测配置。
    *
-   * @deprecated Use `telemetry` instead. This alias will be removed in a future major release.
+   * @deprecated 请改用“遥测”。该别名将在未来的主要版本中删除。
    */
   experimental_telemetry?: TelemetryOptions;
 
   /**
-   * Additional provider-specific options. They are passed through
-   * to the provider from the AI SDK and enable provider-specific
-   * functionality that can be fully encapsulated in the provider.
+   * 其他特定于提供商的选项。他们通过
+   * 从 AI SDK 发送给提供商并启用特定于提供商的
+   * 可以完全封装在提供者中的功能。
    */
   providerOptions?: ProviderOptions;
 
   /**
-   * Callback that is called when the rerank operation begins,
-   * before the reranking model is called.
+   * 重新排序操作开始时调用的回调，
+   * 在调用重新排序模型之前。
    */
   experimental_onStart?: Callback<RerankStartEvent>;
 
   /**
-   * Callback that is called when the rerank operation completes,
-   * after the reranking model returns.
+   * 重新排序操作完成时调用的回调，
+   * 重排序模型返回后。
    */
   experimental_onEnd?: Callback<RerankEndEvent>;
 
   /**
-   * Internal. For test use only. May change without notice.
+   * 内部的。仅供测试使用。可能会更改，恕不另行通知。
    */
   _internal?: {
     generateCallId?: () => string;

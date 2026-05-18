@@ -14,7 +14,7 @@ run(async () => {
       duration: 10,
       providerOptions: {
         replicate: {
-          pollTimeoutMs: 600000, // 10 minutes
+          pollTimeoutMs: 600000, // 10分钟
         } satisfies ReplicateVideoModelOptions,
       },
     }),

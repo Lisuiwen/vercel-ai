@@ -9,8 +9,8 @@ import type { ToolOutput } from './tool-output';
 import type { ValueOf } from '../util/value-of';
 
 /**
- * Resolves a single tool's context type, falling back to `undefined` when the
- * tool does not declare a `contextSchema`.
+ * 解析单个工具的上下文类型，当
+ * 工具未声明“contextSchema”。
  */
 type ToolContextFor<TOOL extends ToolSet[keyof ToolSet]> = [
   InferToolContext<TOOL>,
@@ -19,21 +19,21 @@ type ToolContextFor<TOOL extends ToolSet[keyof ToolSet]> = [
   : InferToolContext<TOOL>;
 
 type BaseToolExecutionStartFields = {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
   /**
-   * Messages that were sent to the language model to initiate the response that contained the tool call.
-   * The messages **do not** include the system prompt nor the assistant response that contained the tool call.
+   * 发送到语言模型以启动包含工具调用的响应的消息。
+   * 这些消息**不**包括系统提示或包含工具调用的助手响应。
    */
   readonly messages: ModelMessage[];
 };
 
 /**
- * Precise start event union for statically known tools.
+ * 静态已知工具的精确启动事件联合。
  *
- * Each union member ties a specific `toolCall.toolName` to that tool's
- * validated `toolContext` type.
+ * 每个联合成员将一个特定的“toolCall.toolName”与该工具的
+ * 已验证的“toolContext”类型。
  */
 type StaticToolExecutionStartEvent<TOOLS extends ToolSet> = ValueOf<{
   [NAME in keyof TOOLS]: BaseToolExecutionStartFields & {
@@ -43,7 +43,7 @@ type StaticToolExecutionStartEvent<TOOLS extends ToolSet> = ValueOf<{
 }>;
 
 /**
- * Start event shape for dynamic or untyped tool calls.
+ * 动态或无类型工具调用的启动事件形状。
  */
 type DynamicToolExecutionStartEvent = BaseToolExecutionStartFields & {
   readonly toolCall: DynamicToolCall;
@@ -51,10 +51,10 @@ type DynamicToolExecutionStartEvent = BaseToolExecutionStartFields & {
 };
 
 /**
- * Broad start event shape used for the default `ToolSet` specialization.
+ * 用于默认“ToolSet”专业化的广泛启动事件形状。
  *
- * This keeps generic collectors ergonomic when the caller is not working with
- * a concrete tool set and therefore cannot benefit from per-tool narrowing.
+ * 当调用者不使用时，这使得通用收集器符合人体工程学
+ * 一个具体的工具集，因此不能从每个工具的缩小中受益。
  */
 type WidenedToolExecutionStartEvent = BaseToolExecutionStartFields & {
   readonly toolCall: StaticToolCall<ToolSet> | DynamicToolCall;
@@ -62,9 +62,9 @@ type WidenedToolExecutionStartEvent = BaseToolExecutionStartFields & {
 };
 
 /**
- * Event passed to the `onToolExecutionStart` callback.
+ * 事件传递给“onToolExecutionStart”回调。
  *
- * Called when a tool execution begins, before the tool's `execute` function is invoked.
+ * 在工具执行开始时、调用工具的“execute”函数之前调用。
  */
 export type ToolExecutionStartEvent<TOOLS extends ToolSet = ToolSet> = [
   ToolSet,
@@ -73,24 +73,24 @@ export type ToolExecutionStartEvent<TOOLS extends ToolSet = ToolSet> = [
   : StaticToolExecutionStartEvent<TOOLS> | DynamicToolExecutionStartEvent;
 
 type BaseToolExecutionEndFields = {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Execution time of the tool call in milliseconds. */
+  /* * 工具调用的执行时间（以毫秒为单位）。 */
   readonly toolExecutionMs: number;
 
   /**
-   * Messages that were sent to the language model to initiate the response that contained the tool call.
-   * The messages **do not** include the system prompt nor the assistant response that contained the tool call.
+   * 发送到语言模型以启动包含工具调用的响应的消息。
+   * 这些消息**不**包括系统提示或包含工具调用的助手响应。
    */
   readonly messages: ModelMessage[];
 };
 
 /**
- * Precise end event union for statically known tools.
+ * 静态已知工具的精确结束事件联合。
  *
- * Each union member preserves the link between `toolCall.toolName`, the
- * corresponding validated `toolContext`, and the tool execution result.
+ * 每个联合成员都保留“toolCall.toolName”之间的链接，
+ * 对应已验证的“toolContext”，以及工具执行结果。
  */
 type StaticToolExecutionEndEvent<TOOLS extends ToolSet> = ValueOf<{
   [NAME in keyof TOOLS]: BaseToolExecutionEndFields & {
@@ -101,7 +101,7 @@ type StaticToolExecutionEndEvent<TOOLS extends ToolSet> = ValueOf<{
 }>;
 
 /**
- * End event shape for dynamic or untyped tool calls.
+ * 动态或无类型工具调用的结束事件形状。
  */
 type DynamicToolExecutionEndEvent<TOOLS extends ToolSet> =
   BaseToolExecutionEndFields & {
@@ -111,10 +111,10 @@ type DynamicToolExecutionEndEvent<TOOLS extends ToolSet> =
   };
 
 /**
- * Broad end event shape used for the default `ToolSet` specialization.
+ * 用于默认“ToolSet”专业化的广泛结束事件形状。
  *
- * This provides an assignable catch-all event type for generic consumers while
- * the concrete-tool specialization retains full per-tool narrowing.
+ * 这为通用消费者提供了一个可分配的包罗万象的事件类型，同时
+ * 具体工具专业化保留了每个工具的完整缩小范围。
  */
 type WidenedToolExecutionEndEvent = BaseToolExecutionEndFields & {
   readonly toolCall: StaticToolCall<ToolSet> | DynamicToolCall;
@@ -123,10 +123,10 @@ type WidenedToolExecutionEndEvent = BaseToolExecutionEndFields & {
 };
 
 /**
- * Event passed to the `onToolExecutionEnd` callback.
+ * 事件传递给“onToolExecutionEnd”回调。
  *
- * Called when a tool execution completes, either successfully or with an error.
- * Uses the `toolOutput.type` discriminator to distinguish success and error.
+ * 当工具执行成功或有错误完成时调用。
+ * 使用“toolOutput.type”鉴别器来区分成功和错误。
  */
 export type ToolExecutionEndEvent<TOOLS extends ToolSet = ToolSet> = [
   ToolSet,
@@ -135,10 +135,10 @@ export type ToolExecutionEndEvent<TOOLS extends ToolSet = ToolSet> = [
   : StaticToolExecutionEndEvent<TOOLS> | DynamicToolExecutionEndEvent<TOOLS>;
 
 /**
- * Callback that is set using the `onToolExecutionStart` option.
+ * 使用“onToolExecutionStart”选项设置的回调。
  *
- * Called when a tool execution begins, before the tool's `execute` function is invoked.
- * Use this for logging tool invocations, tracking tool usage, or pre-execution validation.
+ * 在工具执行开始时、调用工具的“execute”函数之前调用。
+ * 使用它来记录工具调用、跟踪工具使用情况或预执行验证。
  *
  * @param event - The event object containing tool call information.
  */
@@ -146,24 +146,24 @@ export type OnToolExecutionStartCallback<TOOLS extends ToolSet = ToolSet> =
   Callback<ToolExecutionStartEvent<TOOLS>>;
 
 /**
- * Callback that is set using the `onToolExecutionEnd` option.
+ * 使用“onToolExecutionEnd”选项设置的回调。
  *
- * Called when a tool execution completes, either successfully or with an error.
- * Use this for logging tool results, tracking execution time, or error handling.
+ * 当工具执行成功或有错误完成时调用。
+ * 使用它来记录工具结果、跟踪执行时间或错误处理。
  *
- * The event uses a discriminated union on `toolOutput.type`:
- * - When `toolOutput.type === 'tool-result'`: `toolOutput.output` contains the tool result.
- * - When `toolOutput.type === 'tool-error'`: `toolOutput.error` contains the error.
+ * 该事件在“toolOutput.type”上使用可区分联合：
+ * - 当`toolOutput.type === 'tool-result'`时：`toolOutput.output`包含工具结果。
+ * - 当 `t​​oolOutput.type === 'tool-error'` 时： `toolOutput.error` 包含错误。
  *
  * @param event - The event object containing tool call result information.
  */
 export type OnToolExecutionEndCallback<TOOLS extends ToolSet = ToolSet> =
   Callback<ToolExecutionEndEvent<TOOLS>>;
 
-/** @deprecated Use `ToolExecutionStartEvent` instead. */
+/* * @deprecated 使用 `ToolExecutionStartEvent` 代替。 */
 export type OnToolCallStartEvent<TOOLS extends ToolSet = ToolSet> =
   ToolExecutionStartEvent<TOOLS>;
 
-/** @deprecated Use `ToolExecutionEndEvent` instead. */
+/* * @deprecated 使用 `ToolExecutionEndEvent` 代替。 */
 export type OnToolCallFinishEvent<TOOLS extends ToolSet = ToolSet> =
   ToolExecutionEndEvent<TOOLS>;

@@ -5,7 +5,7 @@ import { run } from '../../lib/run';
 import { withSpinner } from '../../lib/spinner';
 
 run(async () => {
-  // Step 1: Apply first edit
+  // 第 1 步：应用第一次编辑
   const step1 = await withSpinner('Step 1: Making cat a princess...', () =>
     generateVideo({
       model: xai.video('grok-imagine-video'),
@@ -24,7 +24,7 @@ run(async () => {
   console.log('Step 1 done');
   await presentVideos(step1.videos);
 
-  // Use the xAI-hosted URL from step 1 as input for the next two edits
+  // 使用步骤 1 中的 xAI 托管 URL 作为接下来两次编辑的输入
   const step1VideoUrl = step1.providerMetadata?.xai?.videoUrl as
     | string
     | undefined;
@@ -32,7 +32,7 @@ run(async () => {
     throw new Error('xAI provider metadata did not include a step-1 videoUrl.');
   }
 
-  // Step 2: Apply two more edits concurrently, building on step 1
+  // 步骤 2：在步骤 1 的基础上同时应用另外两项编辑
   const edits = [
     'Add a sparkly pink collar with a heart-shaped pendant',
     'Surround the cat with floating butterflies and flower petals',

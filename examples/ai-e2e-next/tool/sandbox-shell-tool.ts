@@ -13,7 +13,7 @@ export function sandboxShellTool() {
       { command, workingDirectory },
       { abortSignal, experimental_sandbox: sandbox },
     ) => {
-      // TODO figure out type inference to turn the runtime error into a type error
+      // TODO：理清类型推断，将运行时错误转为类型错误
       if (!sandbox) {
         throw new Error('Sandbox is not available');
       }

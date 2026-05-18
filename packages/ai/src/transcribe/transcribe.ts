@@ -17,12 +17,12 @@ import { VERSION } from '../version';
 import { resolveTranscriptionModel } from '../model/resolve-model';
 import type { Warning } from '../types';
 /**
- * Generates transcripts using a transcription model.
+ * 使用转录模型生成转录本。
  *
  * @param model - The transcription model to use.
  * @param audio - The audio data to transcribe as DataContent (string | Uint8Array | ArrayBuffer | Buffer) or a URL.
  * @param providerOptions - Additional provider-specific options that are passed through to the provider
- * as body parameters.
+ * 作为身体参数。
  * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
  * @param abortSignal - An optional abort signal that can be used to cancel the call.
  * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
@@ -41,25 +41,25 @@ export async function transcribe({
   download: downloadFn = defaultDownload,
 }: {
   /**
-   * The transcription model to use.
+   * 要使用的转录模型。
    */
   model: TranscriptionModel;
 
   /**
-   * The audio data to transcribe.
+   * 要转录的音频数据。
    */
   audio: DataContent | URL;
 
   /**
-   * Additional provider-specific options that are passed through to the provider
-   * as body parameters.
+   * 传递给提供商的其他特定于提供商的选项
+   * 作为身体参数。
    *
-   * The outer record is keyed by the provider name, and the inner
-   * record is keyed by the provider-specific metadata key.
-   * ```ts
+   * 外部记录以提供者名称为键，内部记录以提供者名称为键
+   * 记录由特定于提供者的元数据密钥作为密钥。
+   * ````ts
    * {
-   *   "openai": {
-   *     "temperature": 0
+   *   “开放”：{
+   *     “温度”：0
    *   }
    * }
    * ```
@@ -67,26 +67,26 @@ export async function transcribe({
   providerOptions?: ProviderOptions;
 
   /**
-   * Maximum number of retries per transcript model call. Set to 0 to disable retries.
+   * 每个转录模型调用的最大重试次数。设置为 0 以禁用重试。
    *
    * @default 2
    */
   maxRetries?: number;
 
   /**
-   * Abort signal.
+   * 中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional headers to include in the request.
-   * Only applicable for HTTP-based providers.
+   * 要包含在请求中的附加标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string>;
 
   /**
-   * Custom download function for fetching audio from URLs.
-   * Use `createDownload()` from `ai` to create a download function with custom size limits.
+   * 用于从 URL 获取音频的自定义下载功能。
+   * 使用“ai”中的“createDownload()”创建具有自定义大小限制的下载函数。
    *
    * @default createDownload() (2 GiB limit)
    */

@@ -19,7 +19,7 @@ run(async () => {
       }),
     },
     prepareStep: async ({ stepNumber }) => {
-      // inject invalid tool call in first step:
+      // 在第一步中注入无效的工具调用：
       if (stepNumber === 0) {
         return {
           model: new MockLanguageModelV3({
@@ -45,7 +45,7 @@ run(async () => {
                   toolCallType: 'function',
                   toolCallId: 'call-1',
                   toolName: 'cityAttractions',
-                  // wrong tool call arguments (city vs cities):
+                  // 错误的工具调用参数（城市与城市）：
                   input: `{ "cities": "San Francisco" }`,
                 },
               ],

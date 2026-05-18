@@ -15,15 +15,15 @@ type State =
   | 'INSIDE_ARRAY_AFTER_VALUE'
   | 'INSIDE_ARRAY_AFTER_COMMA';
 
-// Implemented as a scanner with additional fixing
-// that performs a single linear time scan pass over the partial JSON.
+// 作为具有附加固定装置的扫描仪实现
+// 对部分 JSON 执行单个线性时间扫描。
 //
-// The states should ideally match relevant states from the JSON spec:
+// 理想情况下，这些状态应该与 JSON 规范中的相关状态匹配：
 // https://www.json.org/json-en.html
 //
-// Please note that invalid JSON is not considered/covered, because it
-// is assumed that the resulting JSON will be processed by a standard
-// JSON parser that will detect any invalid JSON.
+// 请注意，不考虑/覆盖无效的 JSON，因为它
+// 假设生成的 JSON 将由标准处理
+// JSON 解析器将检测任何无效的 JSON。
 export function fixJson(input: string): string {
   const stack: State[] = ['ROOT'];
   let lastValidIndex = -1;

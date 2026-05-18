@@ -1,14 +1,14 @@
 ---
 name: add-function-examples
-description: Guide for adding new AI function examples, for testing specific features against the actual provider APIs.
+description: 为针对真实 provider API 测试特定功能而添加新的 AI function 示例的指南。
 metadata:
   internal: true
 ---
 
-## Adding Function Examples
+## 添加 Function 示例
 
-Review the changes in the current branch, and identify new or modified features or bug fixes that would benefit from having an example in the `examples/ai-functions` directory. These examples are used for testing specific features against the actual provider APIs, and can also serve as documentation for users.
+审阅当前分支的变更，找出适合在 `examples/ai-functions` 目录中添加示例的新功能、修改或 bug 修复。这些示例用于针对真实 provider API 测试特定功能，也可作为用户文档。
 
-Determine for which kind of model and top-level function the example should be added. For a language model, the example should be added in two variants, one for `generateText` and one for `streamText`. For any other models kinds, add the example for the relevant top-level function (e.g. `generateImage`, `generateSpeech`).
+确定示例应针对的 model 类型与顶层 function。对于 language model，应添加两个变体：一个用于 `generateText`，一个用于 `streamText`。对于其他 model 类型，为相应的顶层 function 添加示例（例如 `generateImage`、`generateSpeech`）。
 
-After creating the example, run `pnpm type-check:full`; fix any errors encountered.
+创建示例后，运行 `pnpm type-check:full`；修复遇到的任何错误。

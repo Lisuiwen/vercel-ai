@@ -1,12 +1,11 @@
 ---
 title: wrapImageModel
-description: Function for wrapping an image model with middleware (API Reference)
+description: 使用中间件包装图像模型的函数（API 参考）
 ---
 
 # `wrapImageModel()`
 
-The `wrapImageModel` function provides a way to enhance the behavior of image models
-by wrapping them with middleware.
+`wrapImageModel` 通过中间件包装图像模型以增强其行为。
 
 ```ts
 import { generateImage, wrapImageModel } from 'ai';
@@ -23,42 +22,42 @@ const { image } = await generateImage({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { wrapImageModel } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'model',
       type: 'ImageModelV4',
-      description: 'The original ImageModelV4 instance to be wrapped.',
+      description: '要被包装的原始 ImageModelV4 实例。',
     },
     {
       name: 'middleware',
       type: 'ImageModelV4Middleware | ImageModelV4Middleware[]',
       description:
-        'The middleware to be applied to the image model. When multiple middlewares are provided, the first middleware will transform the input first, and the last middleware will be wrapped directly around the model.',
+        '应用于图像模型的中间件。传入多个时，第一个先处理输入，最后一个直接包在模型外围。',
     },
     {
       name: 'modelId',
       type: 'string',
       description:
-        "Optional custom model ID to override the original model's ID.",
+        '可选的自定义模型 ID，用于覆盖原始模型的 ID。',
     },
     {
       name: 'providerId',
       type: 'string',
       description:
-        "Optional custom provider ID to override the original model's provider.",
+        '可选的自定义提供商 ID，用于覆盖原始模型的提供商。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A new `ImageModelV4` instance with middleware applied.
+应用中间件后的新 `ImageModelV4` 实例。

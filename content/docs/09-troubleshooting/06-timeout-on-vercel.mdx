@@ -1,36 +1,36 @@
 ---
-title: Getting Timeouts When Deploying on Vercel
-description: Learn how to fix timeouts and cut off responses when deploying to Vercel.
+title: 在 Vercel 部署时出现超时
+description: 了解如何修复部署到 Vercel 时的超时与响应被截断问题。
 ---
 
-# Getting Timeouts When Deploying on Vercel
+# 在 Vercel 部署时出现超时
 
-## Issue
+## 问题
 
-Streaming with the AI SDK works in my local development environment.
-However, when I'm deploying to Vercel, longer responses get chopped off in the UI and I'm seeing timeouts in the Vercel logs or I'm seeing the error: `Uncaught (in promise) Error: Connection closed`.
+在本地开发环境中，使用 AI SDK 流式传输正常。
+但部署到 Vercel 后，较长响应在界面中被截断，Vercel 日志中出现超时，或看到错误：`Uncaught (in promise) Error: Connection closed`。
 
-## Solution
+## 解决方案
 
-With Vercel's [Fluid Compute](https://vercel.com/docs/fluid-compute), the default function duration is now **5 minutes (300 seconds)** across all plans. This should be sufficient for most streaming applications.
+借助 Vercel 的 [Fluid Compute](https://vercel.com/docs/fluid-compute)，所有套餐的默认函数执行时长现为 **5 分钟（300 秒）**，对多数流式应用已足够。
 
-If you need to extend the timeout for longer-running processes, you can increase the `maxDuration` setting:
+若需要更长时间运行的流程，可提高 `maxDuration` 设置：
 
-### Next.js (App Router)
+### Next.js（App Router）
 
-Add the following to your route file or the page you are calling your Server Action from:
+在对应路由文件或调用 Server Action 的页面中加入：
 
 ```tsx
 export const maxDuration = 600;
 ```
 
 <Note>
-  Setting `maxDuration` above 300 seconds requires a Pro or Enterprise plan.
+  将 `maxDuration` 设为超过 300 秒需要 Pro 或 Enterprise 套餐。
 </Note>
 
-### Other Frameworks
+### 其他框架
 
-For other frameworks, you can set timeouts in your `vercel.json` file:
+可在 `vercel.json` 中设置超时：
 
 ```json
 {
@@ -43,18 +43,18 @@ For other frameworks, you can set timeouts in your `vercel.json` file:
 ```
 
 <Note>
-  Setting `maxDuration` above 300 seconds requires a Pro or Enterprise plan.
+  将 `maxDuration` 设为超过 300 秒需要 Pro 或 Enterprise 套餐。
 </Note>
 
-### Maximum Duration Limits
+### 最大时长上限
 
-The maximum duration you can set depends on your Vercel plan:
+可设置的最大时长取决于 Vercel 套餐：
 
-- **Hobby**: Up to 300 seconds (5 minutes)
-- **Pro**: Up to 800 seconds (~13 minutes)
-- **Enterprise**: Up to 800 seconds (~13 minutes)
+- **Hobby**：最长 300 秒（5 分钟）
+- **Pro**：最长 800 秒（约 13 分钟）
+- **Enterprise**：最长 800 秒（约 13 分钟）
 
-## Learn more
+## 延伸阅读
 
-- [Fluid Compute Default Settings](https://vercel.com/docs/fluid-compute#default-settings-by-plan)
-- [Configuring Maximum Duration for Vercel Functions](https://vercel.com/docs/functions/configuring-functions/duration)
+- [Fluid Compute 默认设置](https://vercel.com/docs/fluid-compute#default-settings-by-plan)
+- [配置 Vercel Functions 的最大时长](https://vercel.com/docs/functions/configuring-functions/duration)

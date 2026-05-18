@@ -1,12 +1,14 @@
 # AI SDK - Anthropic Provider
 
-The **[Anthropic provider](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for the [Anthropic Messages API](https://docs.anthropic.com/claude/reference/messages_post).
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Anthropic provider](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic)** contains language model support for the [Anthropic Messages API](https://docs.anthropic.com/claude/reference/messages_post).
 
 > **Deploying to Vercel?** With Vercel's AI Gateway you can access Anthropic (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
 
-## Setup
+## 安装
 
-The Anthropic provider is available in the `@ai-sdk/anthropic` module. You can install it with
+Anthropic 提供商位于 `@ai-sdk/anthropic` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/anthropic
@@ -22,7 +24,9 @@ npx skills add vercel/ai
 
 ## Provider Instance
 
-You can import the default provider instance `anthropic` from `@ai-sdk/anthropic`:
+可从 `@ai-sdk/anthropic` 导入默认提供商实例 `anthropic`：
+
+
 
 ```ts
 import { anthropic } from '@ai-sdk/anthropic';
@@ -42,4 +46,4 @@ const { text } = await generateText({
 
 ## Documentation
 
-Please check out the **[Anthropic provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic)** for more information.
+更多信息请参阅 **[Anthropic 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/anthropic)**。

@@ -2,14 +2,14 @@ import { createAzure } from '@ai-sdk/azure';
 import { generateText } from 'ai';
 import { run } from '../../lib/run';
 
-// Initialize Azure OpenAI provider
+// 初始化 Azure OpenAI 提供程序
 const azure = createAzure({
   resourceName: process.env.AZURE_RESOURCE_NAME,
   apiKey: process.env.AZURE_API_KEY,
 });
 
 run(async () => {
-  // Basic text generation
+  // 基本文本生成
   const basicResult = await generateText({
     model: azure.responses('gpt-4.1-mini'),
     prompt: 'What is quantum computing?',

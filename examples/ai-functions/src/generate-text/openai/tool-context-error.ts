@@ -25,7 +25,7 @@ async function main() {
       type: 'tool',
       toolName: 'weather',
     },
-    // Intentionally bypass the static type so the runtime validator throws.
+    // 故意绕过静态类型，以便运行时验证器抛出异常。
     toolsContext: { weather: { apiKey: 123 } } as any,
     prompt: 'What is the weather in San Francisco?',
   });

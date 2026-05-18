@@ -1,23 +1,23 @@
 ---
 title: Cloudflare AI Gateway
-description: Learn how to use the Cloudflare AI Gateway provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 Cloudflare AI Gateway 提供商。
 ---
 
 # Cloudflare AI Gateway
 
-The Cloudflare AI Gateway Provider is a library that integrates Cloudflare's AI Gateway with the Vercel AI SDK. It enables seamless access to multiple AI models from various providers through a unified interface, with automatic fallback for high availability.
+Cloudflare AI Gateway 提供商用于将 Cloudflare AI Gateway 与 Vercel AI SDK 集成，通过统一接口访问多家提供商的模型，并支持失败时自动回退以提高可用性。
 
-## Features
+## 特性
 
-- **Runtime Agnostic**: Compatible with Node.js, Edge Runtime, and other JavaScript runtimes supported by the Vercel AI SDK.
-- **Automatic Fallback**: Automatically switches to the next available model if one fails, ensuring resilience.
-- **Multi-Provider Support**: Supports models from OpenAI, Anthropic, DeepSeek, Google AI Studio, Grok, Mistral, Perplexity AI, Replicate, and Groq.
-- **Cloudflare AI Gateway Integration**: Leverages Cloudflare's AI Gateway for request management, caching, and rate limiting.
-- **Simplified Configuration**: Easy setup with support for API key authentication or Cloudflare AI bindings.
+- **运行时无关**：可与 Node.js、Edge Runtime 及 AI SDK 支持的其他 JS 运行时配合。
+- **自动回退**：某个模型失败时自动尝试队列中的下一个，增强韧性。
+- **多提供商**：支持 OpenAI、Anthropic、DeepSeek、Google AI Studio、Grok、Mistral、Perplexity AI、Replicate、Groq 等来源的模型。
+- **网关集成**：利用 Cloudflare AI Gateway 的请求管理、缓存与限速能力。
+- **配置简化**：支持 API Key 或 Cloudflare AI binding 的简单配置。
 
-## Setup
+## 安装
 
-The Cloudflare AI Gateway Provider is available in the `ai-gateway-provider` module. Install it with:
+位于 `ai-gateway-provider` 模块：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -35,11 +35,11 @@ The Cloudflare AI Gateway Provider is available in the `ai-gateway-provider` mod
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-Create an `aigateway` provider instance using the `createAiGateway` function. You can authenticate using an API key or a Cloudflare AI binding.
+使用 `createAiGateway` 创建 `aigateway` 实例，可通过 API Key 或 Cloudflare AI binding 认证。
 
-### API Key Authentication
+### API Key 认证
 
 ```typescript
 import { createAiGateway } from 'ai-gateway-provider';
@@ -56,16 +56,16 @@ const aigateway = createAiGateway({
 
 ### Cloudflare AI Binding
 
-This method is only available inside Cloudflare Workers.
+仅适用于 Cloudflare Workers 内。
 
-Configure an AI binding in your `wrangler.toml`:
+在 `wrangler.toml` 中配置 AI binding：
 
 ```bash
 [AI]
 binding = "AI"
 ```
 
-In your worker, create a new instance using the binding:
+在 Worker 中使用 binding 创建实例：
 
 ```typescript
 import { createAiGateway } from 'ai-gateway-provider';
@@ -78,9 +78,9 @@ const aigateway = createAiGateway({
 });
 ```
 
-## Language Models
+## 语言模型
 
-Create a model instance by passing an array of models to the `aigateway` provider. The provider will attempt to use the models in order, falling back to the next if one fails.
+向 `aigateway` 传入模型数组；将按顺序尝试，失败则回退到下一个。
 
 ```typescript
 import { createAiGateway } from 'ai-gateway-provider';
@@ -102,23 +102,23 @@ const model = aigateway([
 ]);
 ```
 
-### Request Options
+### 请求选项
 
-Customize Cloudflare AI Gateway settings per request:
+可按请求调整 Cloudflare AI Gateway：
 
-- `cacheKey`: Custom cache key for the request.
-- `cacheTtl`: Cache time-to-live in seconds.
-- `skipCache`: Bypass caching.
-- `metadata`: Custom metadata for the request.
-- `collectLog`: Enable/disable log collection.
-- `eventId`: Custom event identifier.
-- `requestTimeoutMs`: Request timeout in milliseconds.
-- `retries`:
-  - `maxAttempts`: Number of retry attempts (1-5).
-  - `retryDelayMs`: Delay between retries.
-  - `backoff`: Retry strategy (`constant`, `linear`, `exponential`).
+- `cacheKey`：自定义缓存键。
+- `cacheTtl`：缓存 TTL（秒）。
+- `skipCache`：跳过缓存。
+- `metadata`：请求元数据。
+- `collectLog`：是否收集日志。
+- `eventId`：自定义事件 ID。
+- `requestTimeoutMs`：请求超时（毫秒）。
+- `retries`：
+  - `maxAttempts`：重试次数（1–5）。
+  - `retryDelayMs`：重试间隔。
+  - `backoff`：退避策略（`constant`、`linear`、`exponential`）。
 
-Example:
+示例：
 
 ```typescript
 const aigateway = createAiGateway({
@@ -137,11 +137,11 @@ const aigateway = createAiGateway({
 });
 ```
 
-## Examples
+## 示例
 
 ### `generateText`
 
-Generate non-streaming text using the Cloudflare AI Gateway Provider:
+使用 Cloudflare AI Gateway 提供商进行非流式生成：
 
 ```typescript
 import { createAiGateway } from 'ai-gateway-provider';
@@ -166,7 +166,7 @@ console.log(text); // Output: "Hello"
 
 ### `streamText`
 
-Stream text responses using the Cloudflare AI Gateway Provider:
+流式输出：
 
 ```typescript
 import { createAiGateway } from 'ai-gateway-provider';
@@ -194,7 +194,7 @@ for await (const chunk of result.textStream) {
 console.log(accumulatedText); // Output: "Hello world!"
 ```
 
-## Supported Providers
+## 支持的提供商
 
 - OpenAI
 - Anthropic
@@ -206,9 +206,9 @@ console.log(accumulatedText); // Output: "Hello world!"
 - Replicate
 - Groq
 
-## Error Handling
+## 错误处理
 
-The provider throws the following custom errors:
+提供商可能抛出：
 
-- `AiGatewayUnauthorizedError`: Invalid or missing API key when authentication is enabled.
-- `AiGatewayDoesNotExist`: Specified Cloudflare AI Gateway does not exist.
+- `AiGatewayUnauthorizedError`：启用认证时 API Key 无效或缺失。
+- `AiGatewayDoesNotExist`：指定的 Cloudflare AI Gateway 不存在。

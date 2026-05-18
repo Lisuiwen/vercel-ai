@@ -1,17 +1,17 @@
 ---
 title: Alibaba
-description: Learn how to use Alibaba Cloud Model Studio (Qwen) models with the AI SDK.
+description: 了解如何在 AI SDK 中使用阿里云百炼（通义千问）模型。
 ---
 
-# Alibaba Provider
+# Alibaba 提供商
 
-[Alibaba Cloud Model Studio](https://modelstudio.console.alibabacloud.com/) provides access to the Qwen model series, including advanced reasoning capabilities.
+[阿里云百炼](https://modelstudio.console.alibabacloud.com/) 提供通义千问（Qwen）系列模型，包括高级推理能力。
 
-API keys can be obtained from the [Console](https://modelstudio.console.alibabacloud.com/).
+可在 [控制台](https://modelstudio.console.alibabacloud.com/) 获取 API Key。
 
-## Setup
+## 安装
 
-The Alibaba provider is available via the `@ai-sdk/alibaba` module. You can install it with:
+Alibaba 提供商位于 `@ai-sdk/alibaba` 模块中，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -28,15 +28,15 @@ The Alibaba provider is available via the `@ai-sdk/alibaba` module. You can inst
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `alibaba` from `@ai-sdk/alibaba`:
+可从 `@ai-sdk/alibaba` 导入默认的 `alibaba` 提供商实例：
 
 ```ts
 import { alibaba } from '@ai-sdk/alibaba';
 ```
 
-For custom configuration, you can import `createAlibaba` and create a provider instance with your settings:
+自定义配置时可导入 `createAlibaba`，并按你的设置创建提供商实例：
 
 ```ts
 import { createAlibaba } from '@ai-sdk/alibaba';
@@ -46,40 +46,39 @@ const alibaba = createAlibaba({
 });
 ```
 
-You can use the following optional settings to customize the Alibaba provider instance:
+可使用以下可选设置自定义 Alibaba 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers or regional endpoints.
-  The default prefix is `https://dashscope-intl.aliyuncs.com/compatible-mode/v1`.
+  为 API 调用使用不同的 URL 前缀（例如代理或区域端点）。
+  默认前缀为 `https://dashscope-intl.aliyuncs.com/compatible-mode/v1`。
 
 - **videoBaseURL** _string_
 
-  Use a different URL prefix for video generation API calls. The video API uses the DashScope
-  native endpoint (not the OpenAI-compatible endpoint).
-  The default prefix is `https://dashscope-intl.aliyuncs.com`.
+  视频生成 API 使用的前缀；视频接口使用 DashScope 原生端点（非 OpenAI 兼容端点）。
+  默认前缀为 `https://dashscope-intl.aliyuncs.com`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header. It defaults to
-  the `ALIBABA_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API Key。
+  默认为环境变量 `ALIBABA_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义请求头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
 
 - **includeUsage** _boolean_
 
-  Include usage information in streaming responses. When enabled, token usage will be included in the final chunk.
-  Defaults to `true`.
+  是否在流式响应中包含用量信息。启用后，令牌用量包含在最后一个数据块中。
+  默认为 `true`。
 
-## Language Models
+## 语言模型
 
-You can create language models using a provider instance:
+可使用提供商实例创建语言模型：
 
 ```ts
 import { alibaba } from '@ai-sdk/alibaba';
@@ -91,7 +90,7 @@ const { text } = await generateText({
 });
 ```
 
-You can also use the `.chatModel()` or `.languageModel()` factory methods:
+也可使用 `.chatModel()` 或 `.languageModel()` 工厂方法：
 
 ```ts
 const model = alibaba.chatModel('qwen-plus');
@@ -99,28 +98,28 @@ const model = alibaba.chatModel('qwen-plus');
 const model = alibaba.languageModel('qwen-plus');
 ```
 
-Alibaba language models can be used in the `streamText` function
-(see [AI SDK Core](/docs/ai-sdk-core)).
+Alibaba 语言模型可用于 `streamText`
+（参见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-The following optional provider options are available for Alibaba models:
+面向 Alibaba 模型可使用以下可选提供商选项：
 
 - **enableThinking** _boolean_
 
-  Enable thinking/reasoning mode for supported models. When enabled, the model generates reasoning content before the response.
-  Defaults to `false`.
+  是否为支持的模型启用思考/推理模式。启用后模型会在回复前生成推理内容。
+  默认为 `false`。
 
 - **thinkingBudget** _number_
 
-  Maximum number of reasoning tokens to generate. Limits the length of thinking content.
+  可生成的推理 token 数量上限。
 
 - **parallelToolCalls** _boolean_
 
-  Whether to enable parallel function calling during tool use.
-  Defaults to `true`.
+  是否在工具使用过程中启用并行函数调用。
+  默认为 `true`。
 
-### Thinking Mode
+### Thinking 模式
 
-Alibaba's Qwen models support thinking/reasoning mode for complex problem-solving:
+阿里云 Qwen 模型支持面向复杂任务的思考/推理模式：
 
 ```ts
 import { alibaba, type AlibabaLanguageModelChatOptions } from '@ai-sdk/alibaba';
@@ -141,11 +140,11 @@ console.log('Reasoning:', reasoning);
 console.log('Answer:', text);
 ```
 
-For models that are thinking-only (like `qwen3-235b-a22b-thinking-2507`), thinking mode is enabled by default.
+对仅推理类模型（如 `qwen3-235b-a22b-thinking-2507`），思考模式默认开启。
 
-### Tool Calling
+### 工具调用
 
-Alibaba models support tool calling with parallel execution:
+Alibaba 模型支持并行工具调用：
 
 ```ts
 import { alibaba } from '@ai-sdk/alibaba';
@@ -170,13 +169,13 @@ const { text } = await generateText({
 });
 ```
 
-### Prompt Caching
+### Prompt 缓存
 
-Alibaba supports both implicit and explicit prompt caching to reduce costs for repeated prompts.
+阿里云同时支持隐式与显式提示缓存，以降低重复提示的成本。
 
-**Implicit caching** works automatically - the provider caches appropriate content without any configuration. For more control, you can use **explicit caching** by marking specific messages with `cacheControl`:
+**隐式缓存**自动生效——提供商会在无需配置的情况下缓存适用内容。需要更细粒度控制时，可使用 **显式缓存**，通过 `cacheControl` 标记特定消息：
 
-### Single message cache control
+### 单条消息的缓存控制
 
 ```ts
 import { alibaba } from '@ai-sdk/alibaba';
@@ -198,7 +197,7 @@ const { text, usage } = await generateText({
 });
 ```
 
-### Multi-part message cache control
+### 多段消息的缓存控制
 
 ```ts
 import { alibaba } from '@ai-sdk/alibaba';
@@ -231,18 +230,18 @@ const { text, usage } = await generateText({
 });
 ```
 
-**Note:** The minimum content length for a cache block is 1,024 tokens.
+**说明：** 可被缓存的单块内容最少需 1,024 个 token。
 
-## Video Models
+## 视频模型
 
-You can create [Wan](https://www.alibabacloud.com/help/en/model-studio/use-video-generation) video models that call the Alibaba Cloud DashScope API
-using the `.video()` factory method. For more on video generation with the AI SDK see [generateVideo()](/docs/reference/ai-sdk-core/generate-video).
+可使用 `.video()` 工厂方法创建调用阿里云 DashScope API 的 [Wan](https://www.alibabacloud.com/help/en/model-studio/use-video-generation) 视频模型。
+详见 AI SDK 的 [generateVideo()](/docs/reference/ai-sdk-core/generate-video)。
 
-Alibaba supports three video generation modes: text-to-video, image-to-video (first frame), and reference-to-video.
+Alibaba 支持三种视频生成模式：文生视频、图生视频（首帧）、参考图生视频。
 
-### Text-to-Video
+### 文生视频
 
-Generate videos from text prompts:
+由文本提示生成视频：
 
 ```ts
 import { alibaba, type AlibabaVideoModelOptions } from '@ai-sdk/alibaba';
@@ -262,9 +261,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### Image-to-Video
+### 图生视频
 
-Generate videos from a first-frame image and optional text prompt:
+由首帧图像与可选文本提示生成视频：
 
 ```ts
 import { alibaba, type AlibabaVideoModelOptions } from '@ai-sdk/alibaba';
@@ -285,10 +284,9 @@ const { video } = await generateVideo({
 });
 ```
 
-### Reference-to-Video
+### 参考图生视频
 
-Generate videos using reference images and/or videos for character consistency. Use character identifiers
-(`character1`, `character2`, etc.) in your prompt to reference them:
+使用参考图像和/或视频保持角色一致性。在提示中用 `character1`、`character2` 等占位符引用角色：
 
 ```ts
 import { alibaba, type AlibabaVideoModelOptions } from '@ai-sdk/alibaba';
@@ -308,82 +306,80 @@ const { video } = await generateVideo({
 });
 ```
 
-### Video Provider Options
+### 视频的提供商选项
 
-The following provider options are available via `providerOptions.alibaba`:
+可通过 `providerOptions.alibaba` 使用以下提供商选项：
 
 - **negativePrompt** _string_
 
-  A description of what to avoid in the generated video (max 500 characters).
+  描述生成视频中应避免出现的内容（最多 500 字符）。
 
 - **audioUrl** _string_
 
-  URL to an audio file for audio-video sync (WAV/MP3, 3-30 seconds, max 15MB).
+  用于音视频同步的音频文件 URL（WAV/MP3，3–30 秒，最大 15MB）。
 
 - **promptExtend** _boolean_
 
-  Enable prompt extension/rewriting for better generation quality. Defaults to `true`.
+  是否启用提示扩展/改写以提升生成质量。默认为 `true`。
 
 - **shotType** `'single'` | `'multi'`
 
-  Shot type for video generation. `'multi'` enables multi-shot cinematic narrative (wan2.6 models only).
+  镜头类型。`'multi'` 启用多分镜叙事（仅 wan2.6 模型）。
 
 - **watermark** _boolean_
 
-  Whether to add a watermark to the generated video. Defaults to `false`.
+  是否为生成的视频添加水印。默认为 `false`。
 
 - **audio** _boolean_
 
-  Whether to generate audio (for I2V and R2V models that support it).
+  是否生成音频（适用于支持音频的 I2V、R2V 模型）。
 
 - **referenceUrls** _string[]_
 
-  Array of reference image/video URLs for reference-to-video mode. Supports 0-5 images and 0-3 videos, max 5 total.
+  参考图生视频模式下参考图像/视频的 URL 数组。支持 0–5 张图与 0–3 个视频，总计最多 5 个引用。
 
 - **pollIntervalMs** _number_
 
-  Polling interval in milliseconds for checking task status. Defaults to 5000.
+  轮询任务状态的间隔（毫秒）。默认为 5000。
 
 - **pollTimeoutMs** _number_
 
-  Maximum wait time in milliseconds for video generation. Defaults to 600000 (10 minutes).
+  视频生成的最长等待时间（毫秒）。默认为 600000（10 分钟）。
 
 <Note>
-  Video generation is an asynchronous process that can take several minutes.
-  Consider setting `pollTimeoutMs` to at least 10 minutes (600000ms) for
-  reliable operation.
+  视频生成是异步过程，可能需要数分钟。
+  建议将 `pollTimeoutMs` 至少设为 10 分钟（600000 ms）以保证稳定。
 </Note>
 
-### Video Model Capabilities
+### 视频模型能力
 
-#### Text-to-Video
+#### 文生视频
 
-| Model                | Audio | Resolution        | Duration |
-| -------------------- | ----- | ----------------- | -------- |
-| `wan2.6-t2v`         | Yes   | 720P, 1080P       | 2-15s    |
-| `wan2.5-t2v-preview` | Yes   | 480P, 720P, 1080P | 5s, 10s  |
+| Model                | 音频 | 分辨率            | 时长     |
+| -------------------- | ---- | ----------------- | -------- |
+| `wan2.6-t2v`         | 有   | 720P, 1080P       | 2-15s    |
+| `wan2.5-t2v-preview` | 有   | 480P, 720P, 1080P | 5s, 10s  |
 
-#### Image-to-Video (First Frame)
+#### 图生视频（首帧）
 
-| Model              | Audio    | Resolution  | Duration |
-| ------------------ | -------- | ----------- | -------- |
-| `wan2.6-i2v-flash` | Optional | 720P, 1080P | 2-15s    |
-| `wan2.6-i2v`       | Yes      | 720P, 1080P | 2-15s    |
+| Model              | 音频 | 分辨率     | 时长   |
+| ------------------ | ---- | ---------- | ------ |
+| `wan2.6-i2v-flash` | 可选 | 720P, 1080P | 2-15s  |
+| `wan2.6-i2v`       | 有   | 720P, 1080P | 2-15s  |
 
-#### Reference-to-Video
+#### 参考图生视频
 
-| Model              | Audio    | Resolution  | Duration |
-| ------------------ | -------- | ----------- | -------- |
-| `wan2.6-r2v-flash` | Optional | 720P, 1080P | 2-10s    |
-| `wan2.6-r2v`       | Yes      | 720P, 1080P | 2-10s    |
+| Model              | 音频 | 分辨率     | 时长   |
+| ------------------ | ---- | ---------- | ------ |
+| `wan2.6-r2v-flash` | 可选 | 720P, 1080P | 2-10s  |
+| `wan2.6-r2v`       | 有   | 720P, 1080P | 2-10s  |
 
 <Note>
-  The tables above list models available in the Singapore International region.
-  You can also pass any available provider model ID as a string if needed.
+  上表为新加坡国际地域可用模型示例。
+  如需也可传入任意可用的提供商模型 ID 字符串。
 </Note>
 
-## Model Capabilities
+## 模型能力
 
-Please see the [Alibaba Cloud Model Studio docs](https://www.alibabacloud.com/help/en/model-studio/models) for a full
-list of available models. You can also pass any available provider model ID as
-a string if needed.
+完整模型列表见 [阿里云百炼文档](https://www.alibabacloud.com/help/en/model-studio/models)。
+也可按需传入任意可用的提供商模型 ID 字符串。

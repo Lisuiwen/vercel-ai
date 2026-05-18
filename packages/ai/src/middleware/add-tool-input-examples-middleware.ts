@@ -6,25 +6,25 @@ function defaultFormatExample(example: { input: JSONObject }): string {
 }
 
 /**
- * Middleware that appends input examples to tool descriptions.
+ * 将输入示例附加到工具描述的中间件。
  *
- * This is useful for providers that don't natively support the `inputExamples`
- * property. The middleware serializes examples into the tool's description text.
+ * 这对于本身不支持“inputExamples”的提供者很有用
+ * 财产。中间件将示例序列化到工具的描述文本中。
  *
  * @param options - Configuration options for the middleware.
  * @param options.prefix - A prefix to prepend before the examples. Default: 'Input Examples:'
  * @param options.format - Optional custom formatter for each example.
- *   Receives the example object and its index. Default: JSON.stringify(example.input)
+ *   接收示例对象及其索引。默认值：JSON.stringify(example.input)
  * @param options.remove - Whether to remove the inputExamples property
- *   after adding them to the description. Default: true
+ *   将它们添加到描述中后。默认值：true
  *
  * @example
- * ```ts
- * import { wrapLanguageModel, addToolInputExamplesMiddleware } from 'ai';
+ * ````ts
+ * 从“ai”导入{wrapLanguageModel，addToolInputExamplesMiddleware}；
  *
- * const model = wrapLanguageModel({
- *   model: yourModel,
- *   middleware: addToolInputExamplesMiddleware(),
+ * 常量模型=wrapLanguageModel({
+ *   型号：您的型号，
+ *   中间件：addToolInputExamplesMiddleware(),
  * });
  * ```
  */
@@ -34,20 +34,20 @@ export function addToolInputExamplesMiddleware({
   remove = true,
 }: {
   /**
-   * A prefix to prepend before the examples.
+   * 在示例之前添加的前缀。
    */
   prefix?: string;
 
   /**
-   * Optional custom formatter for each example.
-   * Receives the example object and its index.
-   * Default: JSON.stringify(example.input)
+   * 每个示例的可选自定义格式化程序。
+   * 接收示例对象及其索引。
+   * 默认值：JSON.stringify(example.input)
    */
   format?: (example: { input: JSONObject }, index: number) => string;
 
   /**
-   * Whether to remove the inputExamples property after adding them to the description.
-   * Default: true
+   * 将 inputExamples 添加到描述后是否删除 inputExamples 属性。
+   * 默认值：true
    */
   remove?: boolean;
 } = {}): LanguageModelMiddleware {
@@ -59,7 +59,7 @@ export function addToolInputExamplesMiddleware({
       }
 
       const transformedTools = params.tools.map(tool => {
-        // Only transform function tools that have inputExamples
+        // 仅具有 inputExamples 的变换函数工具
         if (tool.type !== 'function' || !tool.inputExamples?.length) {
           return tool;
         }

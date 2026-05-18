@@ -1,64 +1,59 @@
 ---
 title: zodSchema
-description: Helper function for creating Zod schemas
+description: 用于创建 Zod schema 的辅助函数
 ---
 
 # `zodSchema()`
 
-`zodSchema` is a helper function that converts a Zod schema into a JSON schema object that is compatible with the AI SDK.
-It takes a Zod schema and optional configuration as inputs, and returns a typed schema.
+`zodSchema` 将 Zod schema 转换为与 AI SDK 兼容的 JSON schema 对象。
+接受 Zod schema 与可选配置，返回带类型的 schema。
 
-You can use it to [generate structured data](/docs/ai-sdk-core/generating-structured-data) and in [tools](/docs/ai-sdk-core/tools-and-tool-calling).
+可用于[生成结构化数据](/docs/ai-sdk-core/generating-structured-data)与[工具](/docs/ai-sdk-core/tools-and-tool-calling)。
 
 <Note>
-  You can also pass Zod objects directly to the AI SDK functions. Internally,
-  the AI SDK will convert the Zod schema to a JSON schema using `zodSchema()`.
-  However, if you want to specify options such as `useReferences`, you can pass
-  the `zodSchema()` helper function instead.
+  也可直接向 AI SDK 函数传入 Zod 对象。内部会通过 `zodSchema()` 将 Zod schema 转为 JSON schema。
+  若需指定 `useReferences` 等选项，可改用 `zodSchema()` 辅助函数。
 </Note>
 
 <Note type="warning">
-  When using `.meta()` or `.describe()` to add metadata to your Zod schemas,
-  make sure these methods are called **at the end** of the schema chain.
+  使用 `.meta()` 或 `.describe()` 为 Zod schema 添加元数据时，请将这些方法放在**链式调用的末尾**。
   
-  metadata is attached to a specific schema
-  instance, and most schema methods (`.min()`, `.optional()`, `.extend()`, etc.)
-  return a new schema instance that does not inherit metadata from the previous one.
-  Due to Zod's immutability, metadata is only included in the JSON schema output
-  if `.meta()` or `.describe()` is the last method in the chain.
+  元数据附着在**特定 schema 实例**上，多数 schema 方法（`.min()`、`.optional()`、`.extend()` 等）
+  会返回不继承前序元数据的新实例。
+  由于 Zod 的不可变性，仅当 `.meta()` 或 `.describe()` 为链中最后一个方法时，元数据才会出现在 JSON schema 输出中。
 
 ```ts
-// ❌ Metadata will be lost - .min() returns a new instance without metadata
+// ❌ 元数据会丢失 — .min() 返回不带元数据的新实例
 z.string().meta({ describe: 'first name' }).min(1);
 
-// ✅ Metadata is preserved - .meta() is the final method
+// ✅ 元数据保留 — .meta() 为最后一步
 z.string().min(1).meta({ describe: 'first name' });
 ```
 
 </Note>
 
-## Example with recursive schemas
+## 递归 schema 示例
 
 ```ts
 import { zodSchema } from 'ai';
 import { z } from 'zod';
 
-// Define a base category schema
+// 基础分类 schema
 const baseCategorySchema = z.object({
   name: z.string(),
 });
 
-// Define the recursive Category type
+// 递归 Category 类型
 type Category = z.infer<typeof baseCategorySchema> & {
   subcategories: Category[];
 };
 
-// Create the recursive schema using z.lazy
+// 使用 z.lazy 创建递归 schema
 const categorySchema: z.ZodType<Category> = baseCategorySchema.extend({
   subcategories: z.lazy(() => categorySchema.array()),
 });
 
-// Create the final schema with useReferences enabled for recursive support
+// 启用 useReferences 以支持递归
 const mySchema = zodSchema(
   z.object({
     category: categorySchema,
@@ -67,25 +62,25 @@ const mySchema = zodSchema(
 );
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { zodSchema } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'zodSchema',
       type: 'z.Schema',
-      description: 'The Zod schema definition.',
+      description: 'Zod schema 定义。',
     },
     {
       name: 'options',
       type: 'object',
-      description: 'Additional options for the schema conversion.',
+      description: 'schema 转换的附加选项。',
       properties: [
         {
           type: 'object',
@@ -95,7 +90,7 @@ const mySchema = zodSchema(
               isOptional: true,
               type: 'boolean',
               description:
-                'Enables support for references in the schema. This is required for recursive schemas, e.g. with `z.lazy`. However, not all language models and providers support such references. Defaults to `false`.',
+                '启用 schema 中的引用支持。递归 schema（如 `z.lazy`）需要此项。并非所有语言模型与提供商都支持此类引用。默认 `false`。',
             },
           ],
         },
@@ -104,6 +99,6 @@ const mySchema = zodSchema(
   ]}
 />
 
-### Returns
+### 返回值
 
-A Schema object that is compatible with the AI SDK, containing both the JSON schema representation and validation functionality.
+与 AI SDK 兼容的 Schema 对象，同时包含 JSON schema 表示与校验能力。

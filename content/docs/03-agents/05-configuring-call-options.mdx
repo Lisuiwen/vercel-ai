@@ -1,34 +1,34 @@
 ---
-title: Configuring Call Options
-description: Pass type-safe runtime inputs to dynamically configure agent behavior.
+title: 配置调用选项
+description: 传递类型安全的运行时输入，以动态配置 Agent 行为。
 ---
 
-# Configuring Call Options
+# 配置调用选项
 
-Call options allow you to pass type-safe structured inputs to your agent. Use them to dynamically modify any agent setting based on the specific request.
+调用选项允许你向 Agent 传递类型安全的结构化输入。使用它们根据特定请求动态修改任何 Agent 设置。
 
-## Why Use Call Options?
+## 为何使用调用选项？
 
-When you need agent behavior to change based on runtime inputs:
+当你需要 Agent 行为根据运行时输入而变化时：
 
-- **Add dynamic context** - Inject retrieved documents, user preferences, or session data into prompts
-- **Select models dynamically** - Choose faster or more capable models based on request complexity
-- **Configure tools per request** - Pass user location to search tools or adjust tool behavior
-- **Customize provider options** - Set reasoning effort, temperature, or other provider-specific settings
+- **添加动态上下文** - 将检索到的文档、用户偏好或会话数据注入提示词
+- **动态选择模型** - 根据请求复杂度选择更快或更强的模型
+- **按请求配置工具** - 向搜索工具传递用户位置或调整工具行为
+- **自定义提供商选项** - 设置推理力度、temperature 或其他提供商特定设置
 
-Without call options, you'd need to create multiple agents or handle configuration logic outside the agent.
+没有调用选项时，你需要创建多个 Agent 或在 Agent 外部处理配置逻辑。
 
-## How It Works
+## 工作原理
 
-Define call options in three steps:
+分三步定义调用选项：
 
-1. **Define the schema** - Specify what inputs you accept using `callOptionsSchema`
-2. **Configure with `prepareCall`** - Use those inputs to modify agent settings
-3. **Pass options at runtime** - Provide the options when calling `generate()` or `stream()`
+1. **定义 schema** - 使用 `callOptionsSchema` 指定接受的输入
+2. **使用 `prepareCall` 配置** - 使用这些输入修改 Agent 设置
+3. **在运行时传递选项** - 在调用 `generate()` 或 `stream()` 时提供选项
 
-## Basic Example
+## 基本示例
 
-Add user context to your agent's prompt at runtime:
+在运行时将用户上下文添加到 Agent 的提示词：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -64,15 +64,15 @@ const result = await supportAgent.generate({
 });
 ```
 
-The `options` parameter is now required and type-checked. If you don't provide it or pass incorrect types, TypeScript will error.
+`options` 参数现在是必需的且经过类型检查。如果不提供或传递错误类型，TypeScript 会报错。
 
-## Modifying Agent Settings
+## 修改 Agent 设置
 
-Use `prepareCall` to modify any agent setting. Return only the settings you want to change.
+使用 `prepareCall` 修改任何 Agent 设置。仅返回你想更改的设置。
 
-### Dynamic Model Selection
+### 动态模型选择
 
-Choose models based on request characteristics:
+根据请求特征选择模型：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -104,9 +104,9 @@ await agent.generate({
 });
 ```
 
-### Dynamic Tool Configuration
+### 动态工具配置
 
-Configure tools based on runtime inputs:
+根据运行时输入配置工具：
 
 ```ts
 import { openai } from '@ai-sdk/openai';
@@ -148,9 +148,9 @@ await newsAgent.generate({
 });
 ```
 
-### Provider-Specific Options
+### 提供商特定选项
 
-Configure provider settings dynamically:
+动态配置提供商设置：
 
 ```ts
 import { OpenAILanguageModelResponsesOptions } from '@ai-sdk/openai';
@@ -178,11 +178,11 @@ await agent.generate({
 });
 ```
 
-## Advanced Patterns
+## 高级模式
 
-### Retrieval Augmented Generation (RAG)
+### 检索增强生成（RAG）
 
-Fetch relevant context and inject it into your prompt:
+获取相关上下文并将其注入提示词：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -213,11 +213,11 @@ await ragAgent.generate({
 });
 ```
 
-The `prepareCall` function can be async, enabling you to fetch data before configuring the agent.
+`prepareCall` 函数可以是异步的，使你能在配置 Agent 之前获取数据。
 
-### Combining Multiple Modifications
+### 组合多种修改
 
-Modify multiple settings together:
+同时修改多个设置：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -258,9 +258,9 @@ await agent.generate({
 });
 ```
 
-## Using with createAgentUIStreamResponse
+## 与 createAgentUIStreamResponse 一起使用
 
-Pass call options through API routes to your agent:
+通过 API 路由将调用选项传递给 Agent：
 
 ```ts filename="app/api/chat/route.ts"
 import { createAgentUIStreamResponse } from 'ai';
@@ -280,7 +280,7 @@ export async function POST(request: Request) {
 }
 ```
 
-## Next Steps
+## 下一步
 
-- Learn about [loop control](/docs/agents/loop-control) for execution management
-- Explore [workflow patterns](/docs/agents/workflows) for complex multi-step processes
+- 学习[循环控制](/docs/agents/loop-control)以进行执行管理
+- 探索[工作流模式](/docs/agents/workflows)以处理复杂多步流程

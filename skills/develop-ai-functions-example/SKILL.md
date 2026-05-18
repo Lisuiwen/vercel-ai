@@ -1,57 +1,57 @@
 ---
 name: develop-ai-functions-example
-description: Develop examples for AI SDK functions. Use when creating, running, or modifying examples under examples/ai-functions/src to validate provider support, demonstrate features, or create test fixtures.
+description: 开发 AI SDK function 的示例。在 examples/ai-functions/src 下创建、运行或修改示例以验证 provider 支持、演示功能或创建测试 fixture 时使用。
 metadata:
   internal: true
 ---
 
-## AI Functions Examples
+## AI Functions 示例
 
-The `examples/ai-functions/` directory contains scripts for validating, testing, and iterating on AI SDK functions across providers.
+`examples/ai-functions/` 目录包含用于验证、测试与迭代各 provider 上 AI SDK function 的脚本。
 
-## Example Categories
+## 示例分类
 
-Examples are organized by AI SDK function in `examples/ai-functions/src/`:
+示例按 AI SDK function 组织在 `examples/ai-functions/src/`：
 
 | Directory          | Purpose                                              |
 | ------------------ | ---------------------------------------------------- |
-| `generate-text/`   | Non-streaming text generation with `generateText()`  |
-| `stream-text/`     | Streaming text generation with `streamText()`        |
-| `generate-object/` | Structured output generation with `generateObject()` |
-| `stream-object/`   | Streaming structured output with `streamObject()`    |
-| `agent/`           | `ToolLoopAgent` examples for agentic workflows       |
-| `embed/`           | Single embedding generation with `embed()`           |
-| `embed-many/`      | Batch embedding generation with `embedMany()`        |
-| `generate-image/`  | Image generation with `generateImage()`              |
-| `generate-speech/` | Text-to-speech with `generateSpeech()`               |
-| `transcribe/`      | Audio transcription with `transcribe()`              |
-| `rerank/`          | Document reranking with `rerank()`                   |
-| `middleware/`      | Custom middleware implementations                    |
-| `registry/`        | Provider registry setup and usage                    |
-| `telemetry/`       | OpenTelemetry integration                            |
-| `complex/`         | Multi-component examples (agents, routers)           |
-| `lib/`             | Shared utilities (not examples)                      |
-| `tools/`           | Reusable tool definitions                            |
+| `generate-text/`   | 使用 `generateText()` 的非流式文本生成               |
+| `stream-text/`     | 使用 `streamText()` 的流式文本生成                   |
+| `generate-object/` | 使用 `generateObject()` 的结构化输出生成             |
+| `stream-object/`   | 使用 `streamObject()` 的流式结构化输出               |
+| `agent/`           | 用于 agentic 工作流的 `ToolLoopAgent` 示例           |
+| `embed/`           | 使用 `embed()` 的单条嵌入                            |
+| `embed-many/`      | 使用 `embedMany()` 的批量嵌入                        |
+| `generate-image/`  | 使用 `generateImage()` 的图像生成                    |
+| `generate-speech/` | 使用 `generateSpeech()` 的文本转语音                 |
+| `transcribe/`      | 使用 `transcribe()` 的音频转写                       |
+| `rerank/`          | 使用 `rerank()` 的文档重排序                         |
+| `middleware/`      | 自定义 middleware 实现                               |
+| `registry/`        | Provider registry 设置与用法                         |
+| `telemetry/`       | OpenTelemetry 集成                                   |
+| `complex/`         | 多组件示例（agent、router）                          |
+| `lib/`             | 共享工具（非示例）                                   |
+| `tools/`           | 可复用的 tool 定义                                   |
 
-## File Naming Convention
+## 文件命名约定
 
-Examples follow the pattern: `{provider}-{feature}.ts`
+示例遵循模式：`{provider}-{feature}.ts`
 
 | Pattern                                  | Example                                    | Description                |
 | ---------------------------------------- | ------------------------------------------ | -------------------------- |
-| `{provider}.ts`                          | `openai.ts`                                | Basic provider usage       |
-| `{provider}-{feature}.ts`                | `openai-tool-call.ts`                      | Specific feature           |
-| `{provider}-{sub-provider}.ts`           | `amazon-bedrock-anthropic.ts`              | Provider with sub-provider |
-| `{provider}-{sub-provider}-{feature}.ts` | `google-vertex-anthropic-cache-control.ts` | Sub-provider with feature  |
+| `{provider}.ts`                          | `openai.ts`                                | 基础 provider 用法         |
+| `{provider}-{feature}.ts`                | `openai-tool-call.ts`                      | 特定功能                   |
+| `{provider}-{sub-provider}.ts`           | `amazon-bedrock-anthropic.ts`              | 带子 provider 的 provider  |
+| `{provider}-{sub-provider}-{feature}.ts` | `google-vertex-anthropic-cache-control.ts` | 子 provider 与功能         |
 
-## Example Structure
+## 示例结构
 
-All examples use the `run()` wrapper from `lib/run.ts` which:
+所有示例使用 `lib/run.ts` 中的 `run()` 包装器，它会：
 
-- Loads environment variables from `.env`
-- Provides error handling with detailed API error logging
+- 从 `.env` 加载环境变量
+- 提供带详细 API 错误日志的错误处理
 
-### Basic Template
+### 基础模板
 
 ```typescript
 import { providerName } from '@ai-sdk/provider-name';
@@ -70,7 +70,7 @@ run(async () => {
 });
 ```
 
-### Streaming Template
+### 流式模板
 
 ```typescript
 import { providerName } from '@ai-sdk/provider-name';
@@ -88,7 +88,7 @@ run(async () => {
 });
 ```
 
-### Tool Calling Template
+### Tool Calling 模板
 
 ```typescript
 import { providerName } from '@ai-sdk/provider-name';
@@ -117,7 +117,7 @@ run(async () => {
 });
 ```
 
-### Structured Output Template
+### 结构化输出模板
 
 ```typescript
 import { providerName } from '@ai-sdk/provider-name';
@@ -140,9 +140,9 @@ run(async () => {
 });
 ```
 
-## Running Examples
+## 运行示例
 
-From the `examples/ai-functions` directory:
+在 `examples/ai-functions` 目录：
 
 ```bash
 pnpm tsx src/generate-text/openai.ts
@@ -150,34 +150,34 @@ pnpm tsx src/stream-text/openai-tool-call.ts
 pnpm tsx src/agent/openai-generate.ts
 ```
 
-## When to Write Examples
+## 何时编写示例
 
-Write examples when:
+在以下情况编写示例：
 
-1. **Adding a new provider**: Create basic examples for each supported API (`generateText`, `streamText`, `generateObject`, etc.)
+1. **添加新 provider**：为每个支持的 API 创建基础示例（`generateText`、`streamText`、`generateObject` 等）
 
-2. **Implementing a new feature**: Demonstrate the feature with at least one provider example
+2. **实现新功能**：至少用一个 provider 示例演示该功能
 
-3. **Reproducing a bug**: Create an example that shows the issue for debugging
+3. **复现 bug**：创建展示问题的示例以便调试
 
-4. **Adding provider-specific options**: Show how to use `providerOptions` for provider-specific settings
+4. **添加 provider 专用 options**：展示如何使用 `providerOptions` 配置 provider 专用设置
 
-5. **Creating test fixtures**: Use examples to generate API response fixtures (see `capture-api-response-test-fixture` skill)
+5. **创建测试 fixture**：用示例生成 API 响应 fixture（见 `capture-api-response-test-fixture` skill）
 
-## Utility Helpers
+## 工具 Helper
 
-The `lib/` directory contains shared utilities:
+`lib/` 目录包含共享工具：
 
 | File                   | Purpose                                                  |
 | ---------------------- | -------------------------------------------------------- |
-| `run.ts`               | Error-handling wrapper with `.env` loading               |
-| `print.ts`             | Clean object printing (removes undefined values)         |
-| `print-full-stream.ts` | Colored streaming output for tool calls, reasoning, text |
-| `save-raw-chunks.ts`   | Save streaming chunks for test fixtures                  |
-| `present-image.ts`     | Display images in terminal                               |
-| `save-audio.ts`        | Save audio files to disk                                 |
+| `run.ts`               | 带 `.env` 加载的错误处理包装器                           |
+| `print.ts`             | 清晰打印对象（移除 undefined 值）                        |
+| `print-full-stream.ts` | tool call、reasoning、文本的彩色流式输出                 |
+| `save-raw-chunks.ts`   | 保存流式 chunk 用于测试 fixture                          |
+| `present-image.ts`     | 在终端显示图像                                           |
+| `save-audio.ts`        | 将音频文件保存到磁盘                                     |
 
-### Using print utilities
+### 使用 print 工具
 
 ```typescript
 import { print } from '../lib/print';
@@ -187,7 +187,7 @@ print('Result:', result);
 print('Usage:', result.usage, { depth: 2 });
 ```
 
-### Using printFullStream
+### 使用 printFullStream
 
 ```typescript
 import { printFullStream } from '../lib/print-full-stream';
@@ -196,9 +196,9 @@ const result = streamText({ ... });
 await printFullStream({ result }); // Colored output for text, tool calls, reasoning
 ```
 
-## Reusable Tools
+## 可复用 Tools
 
-The `tools/` directory contains reusable tool definitions:
+`tools/` 目录包含可复用的 tool 定义：
 
 ```typescript
 import { weatherTool } from '../tools/weather-tool';
@@ -210,16 +210,16 @@ const result = await generateText({
 });
 ```
 
-## Best Practices
+## 最佳实践
 
-1. **Keep examples focused**: Each example should demonstrate one feature or use case
+1. **保持示例聚焦**：每个示例应演示一个功能或用例
 
-2. **Use descriptive prompts**: Make it clear what the example is testing
+2. **使用描述性 prompt**：清楚说明示例在测试什么
 
-3. **Handle errors gracefully**: The `run()` wrapper handles this automatically
+3. **优雅处理错误**：`run()` 包装器会自动处理
 
-4. **Use realistic model IDs**: Use actual model IDs that work with the provider
+4. **使用真实的 model ID**：使用 provider 实际可用的 model ID
 
-5. **Add comments for complex logic**: Explain non-obvious code patterns
+5. **为复杂逻辑添加注释**：解释非显而易见的代码模式
 
-6. **Reuse tools when appropriate**: Use `weatherTool` or create new reusable tools in `tools/`
+6. **适当复用 tool**：使用 `weatherTool` 或在 `tools/` 中创建新的可复用 tool

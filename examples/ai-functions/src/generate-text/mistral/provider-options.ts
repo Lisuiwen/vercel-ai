@@ -11,7 +11,7 @@ run(async () => {
         safePrompt: true,
         documentImageLimit: 5,
         documentPageLimit: 10,
-        // @ts-expect-error
+        // @ts-预期错误
         invalidOption: 0,
       } satisfies MistralLanguageModelChatOptions,
     },

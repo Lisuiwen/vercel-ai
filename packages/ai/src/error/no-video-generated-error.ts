@@ -6,7 +6,7 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 export class NoVideoGeneratedError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly responses: Array<VideoModelResponseMetadata>;
 
@@ -29,7 +29,7 @@ export class NoVideoGeneratedError extends AISDKError {
   }
 
   /**
-   * @deprecated use `isInstance` instead
+   * @deprecated 使用`isInstance`代替
    */
   static isNoVideoGeneratedError(
     error: unknown,
@@ -42,7 +42,7 @@ export class NoVideoGeneratedError extends AISDKError {
   }
 
   /**
-   * @deprecated Do not use this method. It will be removed in the next major version.
+   * @deprecated 不要使用此方法。将在下一个主要版本中删除。
    */
   toJSON() {
     return {

@@ -1,24 +1,24 @@
 ---
 title: OpenRouter
-description: OpenRouter Provider for the AI SDK
+description: 适用于 AI SDK 的 OpenRouter 提供商
 ---
 
 # OpenRouter
 
-[OpenRouter](https://openrouter.ai/) is a unified API gateway that provides access to hundreds of AI models from leading providers like Anthropic, Google, Meta, Mistral, and more. The OpenRouter provider for the AI SDK enables seamless integration with all these models while offering unique advantages:
+[OpenRouter](https://openrouter.ai/) 是统一 API 网关，可访问来自 Anthropic、Google、Meta、Mistral 等厂商的数百种 AI 模型。面向 AI SDK 的 OpenRouter 提供商可无缝接入这些模型，并具有以下优势：
 
-- **Universal Model Access**: One API key for hundreds of models from multiple providers
-- **Cost-Effective**: Pay-as-you-go pricing with no monthly fees or commitments
-- **Transparent Pricing**: Clear per-token costs for all models
-- **High Availability**: Enterprise-grade infrastructure with automatic failover
-- **Simple Integration**: Standardized API across all models
-- **Latest Models**: Immediate access to new models as they're released
+- **通用模型访问**：一把 API 密钥访问多家提供商的数百种模型
+- **成本友好**：按量付费，无月费或长期合约
+- **定价透明**：各模型按 token 明码标价
+- **高可用**：企业级基础设施与自动故障转移
+- **接入简单**：跨模型统一 API
+- **紧跟新模型**：新模型上线即可使用
 
-Learn more about OpenRouter's capabilities in the [OpenRouter Documentation](https://openrouter.ai/docs).
+更多能力说明见 [OpenRouter 文档](https://openrouter.ai/docs)。
 
-## Setup
+## 安装与配置
 
-The OpenRouter provider is available in the `@openrouter/ai-sdk-provider` module. You can install it with:
+OpenRouter 提供商位于 `@openrouter/ai-sdk-provider` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -36,9 +36,9 @@ The OpenRouter provider is available in the `@openrouter/ai-sdk-provider` module
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-To create an OpenRouter provider instance, use the `createOpenRouter` function:
+使用 `createOpenRouter` 创建 OpenRouter 提供商实例：
 
 ```typescript
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
@@ -48,11 +48,11 @@ const openrouter = createOpenRouter({
 });
 ```
 
-You can obtain your OpenRouter API key from the [OpenRouter Dashboard](https://openrouter.ai/keys).
+可在 [OpenRouter 控制台](https://openrouter.ai/keys) 获取 API 密钥。
 
-## Language Models
+## 语言模型
 
-OpenRouter supports both chat and completion models. Use `openrouter.chat()` for chat models and `openrouter.completion()` for completion models:
+OpenRouter 支持聊天模型与补全模型。聊天模型使用 `openrouter.chat()`，补全模型使用 `openrouter.completion()`：
 
 ```typescript
 // Chat models (recommended)
@@ -64,11 +64,11 @@ const completionModel = openrouter.completion(
 );
 ```
 
-You can find the full list of available models in the [OpenRouter Models documentation](https://openrouter.ai/docs#models).
+完整模型列表见 [OpenRouter 模型文档](https://openrouter.ai/docs#models)。
 
-## Examples
+## 示例
 
-Here are examples of using OpenRouter with the AI SDK:
+以下示例展示如何将 OpenRouter 与 AI SDK 配合使用：
 
 ### `generateText`
 
@@ -108,26 +108,26 @@ for await (const chunk of result.textStream) {
 }
 ```
 
-## Advanced Features
+## 高级功能
 
-OpenRouter offers several advanced features to enhance your AI applications:
+OpenRouter 还提供多项高级能力以增强 AI 应用：
 
-1. **Model Flexibility**: Switch between hundreds of models without changing your code or managing multiple API keys.
+1. **模型灵活**：无需改代码或管理多把密钥即可切换数百种模型。
 
-2. **Cost Management**: Track usage and costs per model in real-time through the dashboard.
+2. **成本管理**：在控制台实时按模型查看用量与费用。
 
-3. **Enterprise Support**: Available for high-volume users with custom SLAs and dedicated support.
+3. **企业支持**：面向高用量用户提供自定义 SLA 与专属支持。
 
-4. **Cross-Provider Compatibility**: Use the same code structure across different model providers.
+4. **跨提供商兼容**：不同模型提供商可使用相同的代码结构。
 
-5. **Regular Updates**: Automatic access to new models and features as they become available.
+5. **持续更新**：新模型与功能可用时自动接入。
 
-For more information about these features and advanced configuration options, visit the [OpenRouter Documentation](https://openrouter.ai/docs).
+更多信息与高级配置见 [OpenRouter 文档](https://openrouter.ai/docs)。
 
-## Additional Resources
+## 更多资源
 
-- [OpenRouter Provider Repository](https://github.com/OpenRouterTeam/ai-sdk-provider)
-- [OpenRouter Documentation](https://openrouter.ai/docs)
-- [OpenRouter Dashboard](https://openrouter.ai/dashboard)
-- [OpenRouter Discord Community](https://discord.gg/openrouter)
-- [OpenRouter Status Page](https://status.openrouter.ai)
+- [OpenRouter 提供商仓库](https://github.com/OpenRouterTeam/ai-sdk-provider)
+- [OpenRouter 文档](https://openrouter.ai/docs)
+- [OpenRouter 控制台](https://openrouter.ai/dashboard)
+- [OpenRouter Discord 社区](https://discord.gg/openrouter)
+- [OpenRouter 状态页](https://status.openrouter.ai)

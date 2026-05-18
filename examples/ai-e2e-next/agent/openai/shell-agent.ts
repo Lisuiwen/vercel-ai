@@ -1,7 +1,7 @@
 import { openai } from '@ai-sdk/openai';
 import { Sandbox } from '@vercel/sandbox';
 import { ToolLoopAgent, type InferAgentUIMessage } from 'ai';
-// warning: this is a demo sandbox that is shared across chats on localhost
+// 警告：这是 localhost 上跨聊天共享的演示 sandbox
 let globalSandboxId: string | null = null;
 async function getSandbox(): Promise<Sandbox> {
   if (globalSandboxId) {
@@ -21,10 +21,10 @@ async function executeShellCommand(
   outcome: { type: 'timeout' } | { type: 'exit'; exitCode: number };
 }> {
   const sandbox = await getSandbox();
-  const timeout = timeoutMs ?? 60_000; // Default 60 seconds
+  const timeout = timeoutMs ?? 60_000; // 默认 60 秒
 
   try {
-    // Use Promise.race to handle timeout
+    // 使用 Promise.race 处理超时
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(() => reject(new Error('Command timeout')), timeout);
     });
@@ -46,7 +46,7 @@ async function executeShellCommand(
       outcome: { type: 'exit', exitCode },
     };
   } catch (error: any) {
-    // Handle timeout or other errors
+    // 处理超时或其他错误
     const timedOut = error?.message?.includes('timeout') || false;
     const exitCode = timedOut ? null : (error?.code ?? 1);
 

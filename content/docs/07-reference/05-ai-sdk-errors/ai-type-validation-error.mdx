@@ -1,20 +1,20 @@
 ---
 title: AI_TypeValidationError
-description: Learn how to fix AI_TypeValidationError
+description: 了解如何修复 AI_TypeValidationError
 ---
 
 # AI_TypeValidationError
 
-This error occurs when type validation fails.
+此错误在类型校验失败时发生。
 
-## Properties
+## 属性
 
-- `value`: The value that failed validation
-- `cause`: The underlying validation error (required in constructor)
+- `value`：未通过校验的值
+- `cause`：底层校验错误（构造函数中必填）
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_TypeValidationError` using:
+你可以通过以下方式检查错误是否为 `AI_TypeValidationError` 的实例：
 
 ```typescript
 import { TypeValidationError } from 'ai';

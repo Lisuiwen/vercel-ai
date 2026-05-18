@@ -37,22 +37,22 @@ export type GenerateImagePrompt =
     };
 
 /**
- * Generates images using an image model.
+ * 使用图像模型生成图像。
  *
- * @param model - The image model to use.
- * @param prompt - The prompt that should be used to generate the image.
- * @param n - Number of images to generate. Default: 1.
- * @param maxImagesPerCall - Maximum number of images to generate in a single API call.
- * @param size - Size of the images to generate. Must have the format `{width}x{height}`.
- * @param aspectRatio - Aspect ratio of the images to generate. Must have the format `{width}:{height}`.
- * @param seed - Seed for the image generation.
- * @param providerOptions - Additional provider-specific options that are passed through to the provider
- * as body parameters.
- * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
- * @param abortSignal - An optional abort signal that can be used to cancel the call.
- * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+ * @param model - 要使用的图像模型。
+ * @param prompt - 应用于生成图像的提示。
+ * @param n - 要生成的图像数量。默认值：1。
+ * @param maxImagesPerCall - 一次 API 调用中生成的最大图像数。
+ * @param size - 要生成的图像的大小。格式必须为`{宽度}x{高度}`。
+ * @param aspectRatio - 要生成的图像的长宽比。必须采用`{width}:{height}`格式。
+ * @param seed - 图像生成的种子。
+ * @param providerOptions - 传递给提供商的其他特定于提供商的选项
+ * 作为身体参数。
+ * @param maxRetries - 最大重试次数。设置为 0 以禁用重试。默认值：2。
+ * @param abortSignal - 可用于取消调用的可选中止信号。
+ * @param headers - 与请求一起发送的附加 HTTP 标头。仅适用于基于 HTTP 的提供商。
  *
- * @returns A result object that contains the generated images.
+ * @returns 包含生成图像的结果对象。
  */
 export async function generateImage({
   model: modelArg,
@@ -68,50 +68,50 @@ export async function generateImage({
   headers,
 }: {
   /**
-   * The image model to use.
+   * 要使用的图像模型。
    */
   model: ImageModel;
 
   /**
-   * The prompt that should be used to generate the image.
+   * 应用于生成图像的提示。
    */
   prompt: GenerateImagePrompt;
 
   /**
-   * Number of images to generate.
+   * 要生成的图像数量。
    */
   n?: number;
 
   /**
-   * Maximum number of images to generate in a single API call. If not provided, the model's default will be used.
+   * 一次API调用中生成的最大图像数。如果未提供，将使用模型的默认值。
    */
   maxImagesPerCall?: number;
 
   /**
-   * Size of the images to generate. Must have the format `{width}x{height}`. If not provided, the default size will be used.
+   * 要生成的图像的大小。格式必须为`{宽度}x{高度}`。如果未提供，将使用默认大小。
    */
   size?: `${number}x${number}`;
 
   /**
-   * Aspect ratio of the images to generate. Must have the format `{width}:{height}`. If not provided, the default aspect ratio will be used.
+   * 要生成图像的长宽比。必须采用`{width}:{height}`格式。如果未提供，将使用默认的宽高比。
    */
   aspectRatio?: `${number}:${number}`;
 
   /**
-   * Seed for the image generation. If not provided, the default seed will be used.
+   * 图像生成的种子。如果未提供，将使用默认种子。
    */
   seed?: number;
 
   /**
-   * Additional provider-specific options that are passed through to the provider
-   * as body parameters.
+   * 传递给提供商的其他特定于提供商的选项
+   * 作为身体参数。
    *
-   * The outer record is keyed by the provider name, and the inner
-   * record is keyed by the provider-specific metadata key.
-   * ```ts
+   * 外部记录以提供者名称为键，内部记录以提供者名称为键
+   * 记录由特定于提供者的元数据密钥作为密钥。
+   * ````ts
    * {
-   * "openai": {
-   * "style": "vivid"
+   * “开放”：{
+   * “风格”：“生动”
    * }
    * }
    * ```
@@ -119,20 +119,20 @@ export async function generateImage({
   providerOptions?: ProviderOptions;
 
   /**
-   * Maximum number of retries per image model call. Set to 0 to disable retries.
+   * 每个图像模型调用的最大重试次数。设置为 0 以禁用重试。
    *
    * @default 2
    */
   maxRetries?: number;
 
   /**
-   * Abort signal.
+   * 中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional headers to include in the request.
-   * Only applicable for HTTP-based providers.
+   * 要包含在请求中的附加标头。
+   * 仅适用于基于 HTTP 的业务。
    */
   headers?: Record<string, string>;
 }): Promise<GenerateImageResult> {
@@ -148,12 +148,12 @@ export async function generateImage({
     abortSignal,
   });
 
-  // default to 1 if the model has not specified limits on
-  // how many images can be generated in a single call
+  // 如果模型没有指定限制，则默认为 1
+  // 一次调用可以生成多少张图像
   const maxImagesPerCallWithDefault =
     maxImagesPerCall ?? (await invokeModelMaxImagesPerCall(model)) ?? 1;
 
-  // parallelize calls to the model:
+  // 并行调用模型：
   const callCount = Math.ceil(n / maxImagesPerCallWithDefault);
   const callImageCounts = Array.from({ length: callCount }, (_, i) => {
     if (i < callCount - 1) {
@@ -186,7 +186,7 @@ export async function generateImage({
     ),
   );
 
-  // collect result images, warnings, and response metadata
+  // 收集结果图像、警告和响应元数据
   const images: Array<DefaultGeneratedFile> = [];
   const warnings: Array<Warning> = [];
   const responses: Array<ImageModelResponseMetadata> = [];
@@ -325,7 +325,7 @@ function toImageModelV4File(dataContent: DataContent): ImageModelV4File {
     };
   }
 
-  // Handle data URLs
+  // 处理数据 URL
   if (typeof dataContent === 'string' && dataContent.startsWith('data:')) {
     const { mediaType: dataUrlMediaType, base64Content } =
       splitDataUrl(dataContent);

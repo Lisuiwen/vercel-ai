@@ -20,8 +20,8 @@ const terminal = readline.createInterface({
 
 const messages: ModelMessage[] = [];
 
-// example query:
-// what is the weather in the 5th largest coastal city of germany?
+// 示例查询：
+// 德国第五大城市的天气怎么样？
 run(async () => {
   while (true) {
     const userInput = await terminal.question('You: ');
@@ -29,7 +29,7 @@ run(async () => {
     messages.push({ role: 'user', content: userInput });
 
     const result = streamText({
-      model: openai('gpt-4o'), // gpt-5-mini
+      model: openai('gpt-4o'), // GPT-5-迷你
       tools: {
         weather: tool({
           description: 'Get the weather in a location',

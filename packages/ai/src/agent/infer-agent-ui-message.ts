@@ -2,7 +2,7 @@ import type { InferUITools, UIMessage } from '../ui/ui-messages';
 import type { InferAgentTools } from './infer-agent-tools';
 
 /**
- * Infer the UI message type of an agent.
+ * 推断代理的UI消息类型。
  */
 export type InferAgentUIMessage<AGENT, MESSAGE_METADATA = unknown> = UIMessage<
   MESSAGE_METADATA,

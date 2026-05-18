@@ -1,45 +1,43 @@
 ---
-title: Overview
-description: An overview of AI SDK RSC.
+title: 概述
+description: AI SDK RSC 概述。
 ---
 
 # AI SDK RSC
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。有关从 RSC 迁移到 UI 的指南，请参阅[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
 <Note>
-  The `@ai-sdk/rsc` package is compatible with frameworks that support React
-  Server Components.
+  `@ai-sdk/rsc` 包兼容支持 React Server Components 的框架。
 </Note>
 
-[React Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components) (RSC) allow you to write UI that can be rendered on the server and streamed to the client. RSCs enable [ Server Actions ](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#with-client-components), a new way to call server-side code directly from the client just like any other function with end-to-end type-safety. This combination opens the door to a new way of building AI applications, allowing the large language model (LLM) to generate and stream UI directly from the server to the client.
+[React Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components)（RSC）允许你编写可在服务器上渲染并流式传输到客户端的 UI。RSC 支持 [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#with-client-components)，这是一种像调用普通函数一样从客户端直接调用服务端代码的新方式，并具有端到端类型安全。这种组合为构建 AI 应用开辟了新途径，使大语言模型（LLM）能够直接从服务器向客户端生成并流式传输 UI。
 
-## AI SDK RSC Functions
+## AI SDK RSC 函数
 
-AI SDK RSC has various functions designed to help you build AI-native applications with React Server Components. These functions:
+AI SDK RSC 提供多种函数，旨在帮助你使用 React Server Components 构建 AI 原生应用。这些函数：
 
-1. Provide abstractions for building Generative UI applications.
-   - [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui): calls a model and allows it to respond with React Server Components.
-   - [`useUIState`](/docs/reference/ai-sdk-rsc/use-ui-state): returns the current UI state and a function to update the UI State (like React's `useState`). UI State is the visual representation of the AI state.
-   - [`useAIState`](/docs/reference/ai-sdk-rsc/use-ai-state): returns the current AI state and a function to update the AI State (like React's `useState`). The AI state is intended to contain context and information shared with the AI model, such as system messages, function responses, and other relevant data.
-   - [`useActions`](/docs/reference/ai-sdk-rsc/use-actions): provides access to your Server Actions from the client. This is particularly useful for building interfaces that require user interactions with the server.
-   - [`createAI`](/docs/reference/ai-sdk-rsc/create-ai): creates a client-server context provider that can be used to wrap parts of your application tree to easily manage both UI and AI states of your application.
-2. Make it simple to work with streamable values between the server and client.
-   - [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value): creates a stream that sends values from the server to the client. The value can be any serializable data.
-   - [`readStreamableValue`](/docs/reference/ai-sdk-rsc/read-streamable-value): reads a streamable value from the client that was originally created using `createStreamableValue`.
-   - [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui): creates a stream that sends UI from the server to the client.
-   - [`useStreamableValue`](/docs/reference/ai-sdk-rsc/use-streamable-value): accepts a streamable value created using `createStreamableValue` and returns the current value, error, and pending state.
+1. 为构建生成式 UI 应用提供抽象。
+   - [`streamUI`](/docs/reference/ai-sdk-rsc/stream-ui)：调用模型并允许其使用 React Server Components 响应。
+   - [`useUIState`](/docs/reference/ai-sdk-rsc/use-ui-state)：返回当前 UI 状态及更新 UI 状态的函数（类似 React 的 `useState`）。UI 状态是 AI 状态的可视化表示。
+   - [`useAIState`](/docs/reference/ai-sdk-rsc/use-ai-state)：返回当前 AI 状态及更新 AI 状态的函数（类似 React 的 `useState`）。AI 状态用于包含与 AI 模型共享的上下文和信息，例如系统消息、函数响应及其他相关数据。
+   - [`useActions`](/docs/reference/ai-sdk-rsc/use-actions)：从客户端访问你的 Server Actions。这对于构建需要与服务器进行用户交互的界面特别有用。
+   - [`createAI`](/docs/reference/ai-sdk-rsc/create-ai)：创建客户端-服务端上下文提供者，可用于包裹应用树的部分，轻松管理应用的 UI 和 AI 状态。
+2. 简化在服务器与客户端之间处理可流式传输的值。
+   - [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value)：创建从服务器向客户端发送值的流。值可以是任何可序列化的数据。
+   - [`readStreamableValue`](/docs/reference/ai-sdk-rsc/read-streamable-value)：从客户端读取最初使用 `createStreamableValue` 创建的可流式传输的值。
+   - [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui)：创建从服务器向客户端发送 UI 的流。
+   - [`useStreamableValue`](/docs/reference/ai-sdk-rsc/use-streamable-value)：接受使用 `createStreamableValue` 创建的可流式传输的值，并返回当前值、错误和 pending 状态。
 
-## Templates
+## 模板
 
-Check out the following templates to see AI SDK RSC in action.
+查看以下模板，了解 AI SDK RSC 的实际应用。
 
 <Templates type="generative-ui" />
 
-## API Reference
+## API 参考
 
-Please check out the [AI SDK RSC API Reference](/docs/reference/ai-sdk-rsc) for more details on each function.
+请查看 [AI SDK RSC API 参考](/docs/reference/ai-sdk-rsc) 以了解每个函数的更多详情。

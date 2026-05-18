@@ -37,7 +37,7 @@ import { MockVideoModelV4 } from '../test/mock-video-model-v4';
 
 type RegistryProvider = ProviderV4 | ProviderV3;
 
-/** Same construction as `ProviderRegistryProvider` for assertion-only tests. */
+/* * 与仅断言测试的“ProviderRegistryProvider”结构相同。 */
 type RegistryLanguageModelIdentifier<
   registeredProviders extends Record<string, RegistryProvider>,
   separator extends string = ':',
@@ -361,9 +361,9 @@ describe('createProviderRegistry files and skills typing', () => {
   });
 
   it('rejects provider keys that are not registered', () => {
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registry.files('mistral');
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registry.skills('mistral');
   });
 });
@@ -431,7 +431,7 @@ describe('createProviderRegistry ProviderV3 typing', () => {
 
     registry.languageModel('v3:anything-goes');
 
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registry.languageModel('unknown:language');
   });
 });
@@ -462,7 +462,7 @@ describe('createProviderRegistry negative typing', () => {
   it('rejects registry identifiers whose provider key is not registered (language model)', () => {
     registryAnthropicOnly.languageModel('anthropic:haiku');
 
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registryAnthropicOnly.languageModel('unknown:haiku');
   });
 
@@ -473,15 +473,15 @@ describe('createProviderRegistry negative typing', () => {
     registryAnthropicOnly.speechModel('anthropic:tts1');
     registryAnthropicOnly.rerankingModel('anthropic:rerank');
 
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registryAnthropicOnly.embeddingModel('unknown:small');
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registryAnthropicOnly.imageModel('unknown:photon');
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registryAnthropicOnly.transcriptionModel('unknown:whisper-1');
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registryAnthropicOnly.speechModel('unknown:tts1');
-    // @ts-expect-error provider key must exist in the registry
+    // @ts-expect-error 提供程序密钥必须存在于注册表中
     registryAnthropicOnly.rerankingModel('unknown:rerank');
   });
 
@@ -493,7 +493,7 @@ describe('createProviderRegistry negative typing', () => {
 
     registryWithCustomSeparator.languageModel('anthropic > haiku');
 
-    // @ts-expect-error separator must match the configured registry separator
+    // @ts-expect-error 分隔符必须与配置的注册表分隔符匹配
     registryWithCustomSeparator.languageModel('anthropic:haiku');
   });
 
@@ -511,9 +511,9 @@ describe('createProviderRegistry negative typing', () => {
     registryOpenaiOnly.languageModel('openai:gpt-5');
     registryOpenaiOnly.embeddingModel('openai:text-embedding-3-small');
 
-    // @ts-expect-error anthropic is not a registered provider key
+    // @ts-expect-error anthropic 不是注册的提供者密钥
     registryOpenaiOnly.languageModel('anthropic:haiku');
-    // @ts-expect-error anthropic is not a registered provider key
+    // @ts-expect-error anthropic 不是注册的提供者密钥
     registryOpenaiOnly.embeddingModel('anthropic:small');
   });
 
@@ -533,14 +533,14 @@ describe('createProviderRegistry negative typing', () => {
     multiProviderRegistry.languageModel('openai:gpt-5');
     multiProviderRegistry.languageModel('anthropic:haiku');
 
-    // @ts-expect-error mistral is not a registered provider key
+    // @ts-expect-error 米斯特拉尔不是注册的提供者密钥
     multiProviderRegistry.languageModel('mistral:whatever');
-    // @ts-expect-error mistral is not a registered provider key
+    // @ts-expect-error 米斯特拉尔不是注册的提供者密钥
     multiProviderRegistry.imageModel('mistral:any');
   });
 
   it('still accepts arbitrary model suffix for a registered provider (second overload)', () => {
-    // Not every typo is a type error; identifier validation happens at runtime.
+    // 并非所有拼写错误都是类型错误；标识符验证在运行时发生。
     registryAnthropicOnly.languageModel('anthropic:dynamic-or-typo');
   });
 });

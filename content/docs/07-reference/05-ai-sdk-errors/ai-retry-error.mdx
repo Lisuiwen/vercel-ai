@@ -1,22 +1,22 @@
 ---
 title: AI_RetryError
-description: Learn how to fix AI_RetryError
+description: 了解如何修复 AI_RetryError
 ---
 
 # AI_RetryError
 
-This error occurs when a retry operation fails.
+此错误在重试操作失败时发生。
 
-## Properties
+## 属性
 
-- `reason`: The reason for the retry failure
-- `lastError`: The most recent error that occurred during retries
-- `errors`: Array of all errors that occurred during retry attempts
-- `message`: The error message
+- `reason`：重试失败的原因
+- `lastError`：重试期间最近发生的错误
+- `errors`：重试尝试期间发生的所有错误的数组
+- `message`：错误消息
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_RetryError` using:
+你可以通过以下方式检查错误是否为 `AI_RetryError` 的实例：
 
 ```typescript
 import { RetryError } from 'ai';

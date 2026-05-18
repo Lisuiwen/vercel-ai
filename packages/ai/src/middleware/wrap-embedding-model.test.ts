@@ -323,7 +323,7 @@ describe('wrapEmbeddingModel', () => {
 
       const result = await wrappedModel.doEmbed(params);
 
-      // The middlewares should wrap in order, applying wrapEmbed2 last
+      // 中间件应按顺序换行，最后应用wrapEmbed2
       expect(result).toBe('wrapEmbed1(wrapEmbed2(final generate result))');
       expect(wrapEmbed1).toHaveBeenCalled();
       expect(wrapEmbed2).toHaveBeenCalled();

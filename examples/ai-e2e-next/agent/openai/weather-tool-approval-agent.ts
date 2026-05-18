@@ -3,8 +3,8 @@ import { openai } from '@ai-sdk/openai';
 import { ToolLoopAgent, type InferAgentUIMessage } from 'ai';
 export const openaiWeatherToolApprovalAgent = new ToolLoopAgent({
   model: openai('gpt-5.4-mini'),
-  // context engineering required to make sure the model does not retry
-  // the tool execution if it is not approved for a particular tool call:
+  // 需要上下文工程以确保模型不会重试
+  // 若特定 tool 调用未获批准，则阻止 tool 执行：
   instructions:
     'When a tool call was not approved by the user, ' +
     'do not retry the tool call with the same input.' +

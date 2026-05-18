@@ -1,25 +1,25 @@
 ---
-title: Server Action Plain Objects Error
-description: Troubleshooting errors related to using AI SDK Core functions with Server Actions.
+title: Server Action 仅允许普通对象错误
+description: 排查在 Server Actions 中使用 AI SDK Core 函数时的错误。
 ---
 
-# "Only plain objects can be passed from client components" Server Action Error
+# 「Only plain objects can be passed from client components」Server Action 错误
 
-## Issue
+## 问题
 
-I am using [`streamText`](/docs/reference/ai-sdk-core/stream-text) with Server Actions, and I am getting a `"only plain objects and a few built ins can be passed from client components"` error.
+我在 Server Actions 中使用 [`streamText`](/docs/reference/ai-sdk-core/stream-text)，出现 `"only plain objects and a few built ins can be passed from client components"` 错误。
 
-## Background
+## 背景
 
-This error occurs when you're trying to return a non-serializable object from a Server Action to a Client Component. The streamText function likely returns an object with methods or complex structures that can't be directly serialized and passed to the client.
+当你试图从 Server Action 向客户端组件返回不可序列化的对象时会出现该错误。`streamText` 返回的对象可能包含方法或复杂结构，无法直接序列化传给客户端。
 
-## Solution
+## 解决方案
 
-To fix this issue, you need to ensure that you're only returning serializable data from your Server Action. Here's how you can modify your approach:
+需要确保 Server Action 只返回可序列化的数据。可以这样调整：
 
-1. Instead of returning the entire result object from streamText, extract only the necessary serializable data.
-2. Use the [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value) function to create a streamable value that can be safely passed to the client.
+1. 不要返回整个 `streamText` 结果对象，只提取需要的可序列化字段。
+2. 使用 [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value) 创建可安全传给客户端的可流式值。
 
-Here's an example that demonstrates how to implement this solution: [Streaming Text Generation](/examples/next-app/basics/streaming-text-generation).
+示例实现见：[Streaming Text Generation](/examples/next-app/basics/streaming-text-generation)。
 
-This approach ensures that only serializable data (the text) is passed to the client, avoiding the "only plain objects" error.
+这样只有可序列化的数据（例如文本）会传到客户端，可避免「only plain objects」错误。

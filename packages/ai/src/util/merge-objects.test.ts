@@ -8,7 +8,7 @@ describe('mergeObjects', () => {
     const result = mergeObjects(target, source);
 
     expect(result).toEqual({ a: 1, b: 3, c: 4 });
-    // Original objects should not be modified
+    // 不应修改原始对象
     expect(target).toEqual({ a: 1, b: 2 });
     expect(source).toEqual({ b: 3, c: 4 });
   });
@@ -108,10 +108,10 @@ describe('mergeObjects', () => {
   });
 
   it('should handle undefined inputs', () => {
-    // Both inputs undefined
+    // 两个输入均未定义
     expect(mergeObjects(undefined, undefined)).toBeUndefined();
 
-    // One input undefined
+    // 1 个输入未定义
     expect(mergeObjects({ a: 1 }, undefined)).toEqual({ a: 1 });
     expect(mergeObjects(undefined, { b: 2 })).toEqual({ b: 2 });
   });

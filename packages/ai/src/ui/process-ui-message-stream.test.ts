@@ -6455,7 +6455,7 @@ describe('processUIMessageStream', () => {
     });
 
     it('should propagate providerMetadata during input-streaming state', async () => {
-      // Find the first update after tool-input-start (when state is input-streaming)
+      // 查找 tool-input-start 之后的第一个更新（当状态为 input-streaming 时）
       const inputStreamingUpdate = writeCalls.find(call =>
         call.message.parts.some(
           (p: any) =>
@@ -6468,7 +6468,7 @@ describe('processUIMessageStream', () => {
         (p: any) => p.toolCallId === 'tool-call-id',
       ) as any;
 
-      // Key assertion: providerMetadata should be available during input-streaming
+      // 关键断言：providerMetadata 在输入流期间应该可用
       expect(toolPart.callProviderMetadata).toEqual({
         testProvider: { someKey: 'someValue' },
       });
@@ -6670,11 +6670,11 @@ describe('processUIMessageStream', () => {
   });
 
   describe('tool input error with dynamic flag mismatch', () => {
-    // Regression: when tool-input-start creates a static part (dynamic is
-    // undefined because the tool isn't in the tools object) and tool-input-error
-    // arrives with dynamic: true (from parseToolCall's catch for NoSuchToolError),
-    // the error should update the existing static part instead of creating a
-    // second dynamic-tool part.
+    // 回归：当 tool-input-start 创建静态部分时（动态是
+    // 未定义，因为该工具不在工具对象中）和工具输入错误
+    // 到达时动态：true（来自 parseToolCall 的 NoSuchToolError 捕获），
+    // 该错误应该更新现有的静态部分而不是创建
+    // 第二个动态工具部分。
     beforeEach(async () => {
       const stream = createUIMessageStream([
         {
@@ -6687,8 +6687,8 @@ describe('processUIMessageStream', () => {
           toolCallId: 'call-1',
           toolName: 'nonExistentTool',
           type: 'tool-input-start',
-          // dynamic is NOT set (undefined) — this is what happens when the
-          // tool isn't in the tools object and the provider doesn't set it
+          // 动态未设置（未定义）——这就是当
+          // 工具不在工具对象中并且提供者未设置它
         },
         {
           inputTextDelta: '{ "foo": "bar" }',
@@ -6701,8 +6701,8 @@ describe('processUIMessageStream', () => {
           toolCallId: 'call-1',
           toolName: 'nonExistentTool',
           type: 'tool-input-error',
-          // dynamic IS set to true — this is what parseToolCall returns for
-          // invalid tool calls (NoSuchToolError catch)
+          // 动态 IS 设置为 true — 这就是 parseToolCall 返回的内容
+          // 无效的工具调用（NoSuchToolError 捕获）
           dynamic: true,
         },
         {
@@ -7813,13 +7813,13 @@ describe('processUIMessageStream', () => {
     beforeEach(async () => {
       const stream = createUIMessageStream([
         { type: 'start' },
-        // initial tool execution:
+        // 初始工具执行：
         {
           output: 'result1',
           toolCallId: 'call-1',
           type: 'tool-output-available',
         },
-        // rest of the step:
+        // 其余步骤：
         { type: 'start-step' },
         { id: '1', type: 'text-start' },
         {
@@ -8049,14 +8049,14 @@ describe('processUIMessageStream', () => {
     beforeEach(async () => {
       const stream = createUIMessageStream([
         { type: 'start' },
-        // initial tool execution:
+        // 初始工具执行：
         {
           output: 'result1',
           toolCallId: 'call-1',
           type: 'tool-output-available',
           dynamic: true,
         },
-        // rest of the step:
+        // 其余步骤：
         { type: 'start-step' },
         { id: '1', type: 'text-start' },
         {
@@ -8291,7 +8291,7 @@ describe('processUIMessageStream', () => {
     beforeEach(async () => {
       const stream = createUIMessageStream([
         { type: 'start' },
-        // initial tool execution:
+        // 初始工具执行：
         {
           output: 'preliminary-result',
           preliminary: true,
@@ -8309,7 +8309,7 @@ describe('processUIMessageStream', () => {
           toolCallId: 'call-1',
           type: 'tool-output-available',
         },
-        // rest of the step:
+        // 其余步骤：
         { type: 'start-step' },
         { id: '1', type: 'text-start' },
         {
@@ -8595,12 +8595,12 @@ describe('processUIMessageStream', () => {
     beforeEach(async () => {
       const stream = createUIMessageStream([
         { type: 'start' },
-        // tool execution denial:
+        // 工具执行拒绝：
         {
           toolCallId: 'call-1',
           type: 'tool-output-denied',
         },
-        // rest of the step:
+        // 其余步骤：
         { type: 'start-step' },
         { id: '1', type: 'text-start' },
         { id: '1', type: 'text-delta', delta: 'I did not execute the tool.' },
@@ -8806,12 +8806,12 @@ describe('processUIMessageStream', () => {
     beforeEach(async () => {
       const stream = createUIMessageStream([
         { type: 'start' },
-        // tool execution denial:
+        // 工具执行拒绝：
         {
           toolCallId: 'call-1',
           type: 'tool-output-denied',
         },
-        // rest of the step:
+        // 其余步骤：
         { type: 'start-step' },
         { id: '1', type: 'text-start' },
         { id: '1', type: 'text-delta', delta: 'I did not execute the tool.' },

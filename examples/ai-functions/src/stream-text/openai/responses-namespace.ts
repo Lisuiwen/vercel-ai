@@ -5,9 +5,9 @@ import { run } from '../../lib/run';
 
 /**
  * Demonstrates `namespace` propagation on dispatched function calls.
- * Server-executed tool_search lets OpenAI search across deferred tools
+ * 服务器执行的 tool_search 让 OpenAI 可以跨延迟工具进行搜索
  * and dispatch one - the resulting function_call carries `namespace`
- * identifying which deferred tool the model picked. Surfaces via
+ * 确定模型选择了哪个延迟工具。表面通过
  * `providerMetadata.openai.namespace` on the tool-call content part.
  *
  * https://developers.openai.com/api/docs/guides/function-calling#defining-namespaces

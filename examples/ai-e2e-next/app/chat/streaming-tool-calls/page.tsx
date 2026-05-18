@@ -17,10 +17,10 @@ export default function Chat() {
 
       sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
 
-      // run client-side tools that are automatically executed:
+      // 运行自动执行的客户端 tools：
       async onToolCall({ toolCall }) {
         if (toolCall.toolName === 'showWeatherInformation') {
-          // display tool. add tool result that informs the llm that the tool was executed.
+          // 展示 tool。添加告知 LLM 该 tool 已执行的 tool 结果。
           addToolOutput({
             tool: 'showWeatherInformation',
             toolCallId: toolCall.toolCallId,
@@ -30,7 +30,7 @@ export default function Chat() {
       },
     });
 
-  // used to only render the role when it changes:
+  // 仅在 role 变化时渲染：
   let lastRole: string | undefined = undefined;
 
   return (

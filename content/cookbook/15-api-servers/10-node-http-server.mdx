@@ -1,31 +1,30 @@
 ---
-title: Node.js HTTP Server
-description: Learn how to use the AI SDK in a Node.js HTTP server
+title: Node.js HTTP 服务器
+description: 学习如何在 Node.js HTTP 服务器中使用 AI SDK
 tags: ['api servers', 'streaming']
 ---
 
 # Node.js HTTP Server
 
-You can use the AI SDK in a Node.js HTTP server to generate text and stream it to the client.
+你可以在 Node.js HTTP 服务器中使用 AI SDK 生成文本并将其流式传输到客户端。
 
-## Examples
+## 示例
 
-The examples start a simple HTTP server that listens on port 8080. You can e.g. test it using `curl`:
+以下示例会启动一个简单的 HTTP 服务器，监听 8080 端口。例如可使用 `curl` 测试：
 
 ```bash
 curl -X POST http://localhost:8080
 ```
 
 <Note>
-  The examples use the Vercel AI Gateway. Ensure that your AI Gateway API key is
-  set in the `AI_GATEWAY_API_KEY` environment variable.
+  示例使用 Vercel AI Gateway。请确保已在 `AI_GATEWAY_API_KEY` 环境变量中设置 AI Gateway API 密钥。
 </Note>
 
-**Full example**: [github.com/vercel/ai/examples/node-http-server](https://github.com/vercel/ai/tree/main/examples/node-http-server)
+**完整示例**：[github.com/vercel/ai/examples/node-http-server](https://github.com/vercel/ai/tree/main/examples/node-http-server)
 
 ### UI Message Stream
 
-You can use the `pipeUIMessageStreamToResponse` method to pipe the stream data to the server response.
+你可以使用 `pipeUIMessageStreamToResponse` 方法将流数据管道到服务器响应。
 
 ```ts filename='index.ts'
 import { streamText } from 'ai';
@@ -43,7 +42,7 @@ createServer(async (req, res) => {
 
 ### Sending Custom Data
 
-`createUIMessageStream` and `pipeUIMessageStreamToResponse` can be used to send custom data to the client.
+`createUIMessageStream` 和 `pipeUIMessageStreamToResponse` 可用于向客户端发送自定义数据。
 
 ```ts filename='index.ts'
 import {
@@ -96,7 +95,7 @@ createServer(async (req, res) => {
 
 ### Text Stream
 
-You can send a text stream to the client using `pipeTextStreamToResponse`.
+你可以使用 `pipeTextStreamToResponse` 向客户端发送文本流。
 
 ```ts filename='index.ts'
 import { streamText } from 'ai';
@@ -112,6 +111,6 @@ createServer(async (req, res) => {
 }).listen(8080);
 ```
 
-## Troubleshooting
+## 故障排除
 
-- Streaming not working when [proxied](/docs/troubleshooting/streaming-not-working-when-proxied)
+- 在[代理](/docs/troubleshooting/streaming-not-working-when-proxied)环境下流式传输不工作

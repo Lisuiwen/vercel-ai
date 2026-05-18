@@ -1,28 +1,27 @@
 ---
 title: useStreamableValue
-description: Reference for the useStreamableValue function from the AI SDK RSC
+description: AI SDK RSC 中 useStreamableValue 函数的参考
 ---
 
 # `useStreamableValue`
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境中使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。关于从 RSC 迁移到 UI 的指导，请参阅我们的[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-It is a React hook that takes a streamable value created using [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value) and returns the current value, error, and pending state.
+这是一个 React hook，接收使用 [`createStreamableValue`](/docs/reference/ai-sdk-rsc/create-streamable-value) 创建的 streamable value，并返回当前值、错误和 pending 状态。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { useStreamableValue } from "@ai-sdk/rsc"`}
   prompt={false}
 />
 
-## Example
+## 示例
 
-This is useful for consuming streamable values received from a component's props.
+这对于消费从组件 props 接收到的 streamable values 很有用。
 
 ```tsx
 function MyComponent({ streamableValue }) {
@@ -35,12 +34,12 @@ function MyComponent({ streamableValue }) {
 }
 ```
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
-It accepts a streamable value created using `createStreamableValue`.
+它接收使用 `createStreamableValue` 创建的 streamable value。
 
-### Returns
+### 返回值
 
-It is an array, where the first element contains the data, the second element contains an error if it is thrown anytime during the stream, and the third is a boolean indicating if the value is pending.
+它是一个数组：第一个元素包含数据，第二个元素包含流期间任意时刻抛出的错误（如果有），第三个元素是一个布尔值，表示该值是否处于 pending 状态。

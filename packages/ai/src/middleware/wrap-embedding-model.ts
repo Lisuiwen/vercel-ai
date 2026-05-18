@@ -9,9 +9,9 @@ import { asEmbeddingModelV4 } from '../model/as-embedding-model-v4';
 import type { EmbeddingModelMiddleware } from '../types';
 
 /**
- * Wraps an EmbeddingModelV4 instance with middleware functionality.
- * This function allows you to apply middleware to transform parameters,
- * wrap embed operations of an embedding model.
+ * 使用中间件功能包装 EmbeddingModelV4 实例。
+ * 该功能允许您应用中间件来转换参数，
+ * 嵌入模型的换行嵌入操作。
  *
  * @param options - Configuration options for wrapping the embedding model.
  * @param options.model - The original EmbeddingModelV4 instance to be wrapped.

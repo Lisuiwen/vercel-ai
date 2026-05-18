@@ -1,17 +1,17 @@
 ---
-title: Sequential Generations
-description: Learn how to implement sequential generations ("chains") with the AI SDK
+title: 顺序生成
+description: 学习如何使用 AI SDK 实现顺序生成（「链」）
 ---
 
-# Sequential Generations
+# 顺序生成
 
-When working with the AI SDK, you may want to create sequences of generations (often referred to as "chains" or "pipes"), where the output of one becomes the input for the next. This can be useful for creating more complex AI-powered workflows or for breaking down larger tasks into smaller, more manageable steps.
+使用 AI SDK 时，你可能希望创建一系列生成（常称为「链」或「管道」），其中一步的输出成为下一步的输入。这对于创建更复杂的 AI 工作流，或将较大任务拆分为更小、更易管理的步骤很有用。
 
-## Example
+## 示例
 
-In a sequential chain, the output of one generation is directly used as input for the next generation. This allows you to create a series of dependent generations, where each step builds upon the previous one.
+在顺序链中，一次生成的输出直接用作下一次生成的输入。这允许你创建一系列相互依赖的生成，每一步都建立在前一步之上。
 
-Here's an example of how you can implement sequential actions:
+以下是如何实现顺序操作的示例：
 
 ```typescript
 import { generateText } from 'ai';
@@ -52,4 +52,4 @@ Create a detailed outline for a blog post based on this idea.`,
 sequentialActions().catch(console.error);
 ```
 
-In this example, we first generate ideas for a blog post, then pick the best idea, and finally create an outline based on that idea. Each step uses the output from the previous step as input for the next generation.
+在此示例中，我们首先生成博客文章创意，然后选出最佳创意，最后基于该创意创建大纲。每一步都使用前一步的输出作为下一步生成的输入。

@@ -1,21 +1,21 @@
 ---
-title: Unclosed Streams
-description: Troubleshooting errors related to unclosed streams.
+title: 未关闭的流
+description: 排查与未正确关闭流相关的错误。
 ---
 
-# Unclosed Streams
+# 未关闭的流
 
-Sometimes streams are not closed properly, which can lead to unexpected behavior. The following are some common issues that can occur when streams are not closed properly.
+有时流未正确关闭，会导致意外行为。以下是流未关闭时常见的一些问题。
 
-## Issue
+## 问题
 
-The streamable UI has been slow to update.
+可流式 UI 更新很慢。
 
-## Solution
+## 解决方案
 
-This happens when you create a streamable UI using [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) and fail to close the stream.
-In order to fix this, you must ensure you close the stream by calling the [`.done()`](/docs/reference/ai-sdk-rsc/create-streamable-ui#done) method.
-This will ensure the stream is closed.
+这通常是因为使用 [`createStreamableUI`](/docs/reference/ai-sdk-rsc/create-streamable-ui) 创建可流式 UI 后没有关闭流。
+修复方法是务必调用 [`.done()`](/docs/reference/ai-sdk-rsc/create-streamable-ui#done) 关闭流，
+这样流才会正常结束。
 
 ```tsx file='app/actions.tsx'
 import { createStreamableUI } from '@ai-sdk/rsc';

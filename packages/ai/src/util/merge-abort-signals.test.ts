@@ -150,7 +150,7 @@ describe('mergeAbortSignals', () => {
 
     const merged = mergeAbortSignals(controller1.signal, controller2.signal);
 
-    // Both abort, but the first one's listener was registered first
+    // 两者都中止，但第一个监听器首先注册
     controller1.abort(reason1);
     controller2.abort(reason2);
 

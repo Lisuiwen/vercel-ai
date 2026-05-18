@@ -9,7 +9,7 @@ import type { ContentPart } from './content-part';
 import type { ToolSet } from '@ai-sdk/provider-utils';
 
 /**
- * Converts the result of a `generateText` or `streamText` call to a list of response messages.
+ * 将 `generateText` 或 `streamText` 调用的结果转换为响应消息列表。
  */
 export async function toResponseMessages<TOOLS extends ToolSet>({
   content: inputContent,
@@ -22,12 +22,12 @@ export async function toResponseMessages<TOOLS extends ToolSet>({
 
   const content: AssistantContent = [];
   for (const part of inputContent) {
-    // Skip sources - they are response-only content that no provider expects back
+    // 跳过来源 - 它们是仅响应的内容，没有提供商期望返回
     if (part.type === 'source') {
       continue;
     }
 
-    // Skip non-provider-executed tool results/errors (they go in the tool message)
+    // 跳过非提供商执行的工具结果/错误（它们位于工具消息中）
     if (
       (part.type === 'tool-result' || part.type === 'tool-error') &&
       !part.providerExecuted
@@ -35,7 +35,7 @@ export async function toResponseMessages<TOOLS extends ToolSet>({
       continue;
     }
 
-    // Skip empty text
+    // 跳过空文本
     if (part.type === 'text' && part.text.length === 0) {
       continue;
     }
@@ -160,9 +160,9 @@ export async function toResponseMessages<TOOLS extends ToolSet>({
         providerExecuted: part.providerExecuted,
       });
 
-      // when the tool approval is denied,
-      // we need to add an execution-denied tool result
-      // since there is no corresponding tool result for the tool call
+      // 当工具批准被拒绝时，
+      // 我们需要添加一个拒绝执行的工具结果
+      // 因为工具调用没有相应的工具结果
       if (part.approved === false) {
         toolResultContent.push({
           type: 'tool-result',

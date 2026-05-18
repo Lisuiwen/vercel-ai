@@ -1,15 +1,14 @@
 ---
 title: cosineSimilarity
-description: Calculate the cosine similarity between two vectors (API Reference)
+description: 计算两个向量之间的余弦相似度（API 参考）
 ---
 
 # `cosineSimilarity()`
 
-When you want to compare the similarity of embeddings, standard vector similarity metrics
-like cosine similarity are often used.
+比较嵌入向量相似度时，通常使用余弦相似度等标准向量度量。
 
-`cosineSimilarity` calculates the cosine similarity between two vectors.
-A high value (close to 1) indicates that the vectors are very similar, while a low value (close to -1) indicates that they are different.
+`cosineSimilarity` 计算两个向量之间的余弦相似度。
+较高值（接近 1）表示向量很相似，较低值（接近 -1）表示差异较大。
 
 ```ts
 import { cosineSimilarity, embedMany } from 'ai';
@@ -24,29 +23,29 @@ console.log(
 );
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { cosineSimilarity } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'vector1',
       type: 'number[]',
-      description: 'The first vector to compare',
+      description: '要比较的第一个向量',
     },
     {
       name: 'vector2',
       type: 'number[]',
-      description: 'The second vector to compare',
+      description: '要比较的第二个向量',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A number between -1 and 1 representing the cosine similarity between the two vectors.
+介于 -1 与 1 之间的数，表示两向量的余弦相似度。

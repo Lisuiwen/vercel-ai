@@ -1,26 +1,25 @@
 ---
 title: useAIState
-description: Reference for the useAIState function from the AI SDK RSC
+description: AI SDK RSC 中 useAIState 函数的参考
 ---
 
 # `useAIState`
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境中使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。关于从 RSC 迁移到 UI 的指导，请参阅我们的[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-It is a hook that enables you to read and update the AI state. The AI state is shared globally between all `useAIState` hooks under the same `<AI/>` provider.
+这是一个 hook，可让你读取并更新 AI 状态。在同一个 `<AI/>` provider 下，AI 状态会在所有 `useAIState` hook 之间全局共享。
 
-The AI state is intended to contain context and information shared with the AI model, such as system messages, function responses, and other relevant data.
+AI 状态用于包含与 AI 模型共享的上下文和信息，例如系统消息、函数响应以及其他相关数据。
 
-## Import
+## 导入
 
 <Snippet text={`import { useAIState } from "@ai-sdk/rsc"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Returns
+### 返回值
 
-Similar to useState, it is an array where the first element is the current AI state and the second element is a function to update the state.
+与 useState 类似，它是一个数组，第一个元素是当前 AI 状态，第二个元素是用于更新该状态的函数。

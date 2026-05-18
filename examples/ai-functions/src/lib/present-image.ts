@@ -8,9 +8,9 @@ import terminalImage from 'terminal-image';
 const OUTPUT_DIR = 'output';
 
 /**
- * Displays images in the terminal using a downsampled preview and saves the
- * original, full-resolution files to the output directory with unique
- * timestamps.
+ * 使用下采样预览在终端中显示图像并保存
+ * 原始的全分辨率文件到具有唯一的输出目录
+ * 时间戳。
  * @param images - An array of generated images to process and display.
  */
 export async function presentImages(images: GeneratedImage[]) {
@@ -18,7 +18,7 @@ export async function presentImages(images: GeneratedImage[]) {
   for (const [index, image] of images.entries()) {
     let srcBuffer = image.uint8Array;
 
-    // Determine the format of the image.
+    // 确定图像的格式。
     const format = await imageType(srcBuffer);
     const extension = format?.ext;
     if (!extension) {
@@ -30,10 +30,10 @@ export async function presentImages(images: GeneratedImage[]) {
       srcBuffer = await sharp(srcBuffer).png().toBuffer();
     }
 
-    // Render the image to the terminal.
+    // 将图像渲染到终端。
     console.log(await terminalImage.buffer(Buffer.from(srcBuffer)));
 
-    // Save the original image to a file.
+    // 将原始图像保存到文件中。
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     const filePath = path.join(
       OUTPUT_DIR,

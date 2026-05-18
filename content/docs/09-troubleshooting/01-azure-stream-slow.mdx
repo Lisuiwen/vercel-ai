@@ -1,26 +1,26 @@
 ---
-title: Azure OpenAI Slow to Stream
-description: Learn to troubleshoot Azure OpenAI slow to stream issues.
+title: Azure OpenAI 流式输出缓慢
+description: 了解如何排查 Azure OpenAI 流式输出缓慢的问题。
 ---
 
-# Azure OpenAI Slow To Stream
+# Azure OpenAI 流式输出缓慢
 
-## Issue
+## 问题
 
-When using OpenAI hosted on Azure, streaming is slow and in big chunks.
+在使用托管在 Azure 上的 OpenAI 时，流式输出很慢，且往往是大块到达。
 
-## Cause
+## 原因
 
-This is a Microsoft Azure issue. Some users have reported the following solutions:
+这是 Microsoft Azure 侧的问题。部分用户反馈可通过以下方式缓解：
 
-- **Update Content Filtering Settings**:
-  Inside [Azure AI Studio](https://ai.azure.com/), within "Shared resources" > "Content filters", create a new
-  content filter and set the "Streaming mode (Preview)" under "Output filter" from "Default"
-  to "Asynchronous Filter".
+- **更新内容过滤设置**：
+  在 [Azure AI Studio](https://ai.azure.com/) 中，进入「共享资源」>「内容过滤器」，新建内容过滤器，
+  并在「输出过滤器」下将「流式处理模式（预览）」从「默认」
+  改为「异步筛选」。
 
-## Solution
+## 解决方案
 
-You can use the [`smoothStream` transformation](/docs/ai-sdk-core/generating-text#smoothing-streams) to stream each word individually.
+可以使用 [`smoothStream` 转换](/docs/ai-sdk-core/generating-text#smoothing-streams)，按词逐个流式输出。
 
 ```tsx highlight="6"
 import { smoothStream, streamText } from 'ai';

@@ -348,9 +348,9 @@ export type SafeValidateUIMessagesResult<UI_MESSAGE extends UIMessage> =
     };
 
 /**
- * Validates a list of UI messages like `validateUIMessages`,
- * but instead of throwing it returns `{ success: true, data }`
- * or `{ success: false, error }`.
+ * 验证 UI 消息列表，例如“validateUIMessages”，
+ * 但它不会抛出，而是返回 `{ success: true, data }`
+ * 或“{成功：错误，错误}”。
  */
 export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
   messages,
@@ -405,7 +405,7 @@ export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
     if (dataSchemas || tools) {
       for (const [msgIdx, message] of validatedMessages.entries()) {
         for (const [partIdx, part] of message.parts.entries()) {
-          // Data part validation
+          // 数据部分验证
           if (dataSchemas && part.type.startsWith('data-')) {
             const dataPart = part as DataUIPart<InferUIMessageData<UI_MESSAGE>>;
             const dataName = dataPart.type.slice(5);
@@ -437,7 +437,7 @@ export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
             });
           }
 
-          // Tool part validation
+          // 工具零件验证
           if (tools && part.type.startsWith('tool-')) {
             const toolPart = part as ToolUIPart<
               InferUIMessageTools<UI_MESSAGE>
@@ -454,7 +454,7 @@ export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
               continue;
             }
 
-            // TODO support dynamic tools
+            // TODO 支持动态工具
             if (!tool) {
               return {
                 success: false,
@@ -470,7 +470,7 @@ export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
               };
             }
 
-            // Tool input validation
+            // 工具输入验证
             if (
               toolPart.state === 'input-available' ||
               toolPart.state === 'output-available' ||
@@ -488,7 +488,7 @@ export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
               });
             }
 
-            // Tool output validation
+            // 工具输出验证
             if (toolPart.state === 'output-available' && tool.outputSchema) {
               await validateTypes({
                 value: toolPart.output,
@@ -520,11 +520,11 @@ export async function safeValidateUIMessages<UI_MESSAGE extends UIMessage>({
 }
 
 /**
- * Validates a list of UI messages.
+ * 验证 UI 消息列表。
  *
- * Metadata, data parts, and generic tool call structures are only validated if
- * the corresponding schemas are provided. Otherwise, they are assumed to be
- * valid.
+ * 仅在以下情况下才验证元数据、数据部分和通用工具调用结构：
+ * 提供了相应的模式。否则，它们被假定为
+ * 有效。
  */
 export async function validateUIMessages<UI_MESSAGE extends UIMessage>({
   messages,

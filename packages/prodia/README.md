@@ -1,34 +1,38 @@
-# AI SDK - Prodia Provider
+# AI SDK - Prodia 提供商
 
-The **[Prodia provider](https://ai-sdk.dev/providers/ai-sdk-providers/prodia)** for the [AI SDK](https://ai-sdk.dev/docs) adds image model support for the [Prodia API](https://docs.prodia.com/).
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Prodia 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/prodia)** 为 [Prodia API](https://docs.prodia.com/) 增加图像模型支持。
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Prodia (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Prodia（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Prodia provider is available in the `@ai-sdk/prodia` module. You can install it with
+Prodia 提供商位于 `@ai-sdk/prodia` 模块，安装方式：
+
+
 
 ```bash
 pnpm add @ai-sdk/prodia
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `prodia` from `@ai-sdk/prodia`:
+可从 `@ai-sdk/prodia` 导入默认提供商实例 `prodia`：
+
+
 
 ```ts
 import { prodia } from '@ai-sdk/prodia';
 ```
 
-## Image Generation Example
+## 图像生成示例
 
 ```ts
 import fs from 'node:fs';
@@ -45,9 +49,9 @@ fs.writeFileSync(filename, image.uint8Array);
 console.log(`Image saved to ${filename}`);
 ```
 
-## Additional Options
+## 其他选项
 
-If you want to pass additional inputs to the model besides the prompt, use the `providerOptions.prodia` property:
+除 prompt 外若需向模型传入其他参数，请使用 `providerOptions.prodia`：
 
 ```ts
 import { prodia, type ProdiaImageProviderOptions } from '@ai-sdk/prodia';
@@ -66,9 +70,9 @@ const { image } = await generateImage({
 });
 ```
 
-## Configuring Base URL
+## 配置 Base URL
 
-By default, the provider uses `https://inference.prodia.com/v2`. You can override this if needed:
+默认使用 `https://inference.prodia.com/v2`，可按需覆盖：
 
 ```ts
 import { createProdia } from '@ai-sdk/prodia';
@@ -79,6 +83,6 @@ const prodia = createProdia({
 });
 ```
 
-## Documentation
+## 文档
 
-See the [Prodia provider](https://ai-sdk.dev/providers/ai-sdk-providers/prodia) for more information.
+更多信息见 [Prodia 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/prodia)。

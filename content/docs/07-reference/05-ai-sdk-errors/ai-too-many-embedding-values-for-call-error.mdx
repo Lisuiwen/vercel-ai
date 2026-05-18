@@ -1,22 +1,22 @@
 ---
 title: AI_TooManyEmbeddingValuesForCallError
-description: Learn how to fix AI_TooManyEmbeddingValuesForCallError
+description: 了解如何修复 AI_TooManyEmbeddingValuesForCallError
 ---
 
 # AI_TooManyEmbeddingValuesForCallError
 
-This error occurs when too many values are provided in a single embedding call.
+此错误在单次嵌入调用中提供的值过多时发生。
 
-## Properties
+## 属性
 
-- `provider`: The AI provider name
-- `modelId`: The ID of the embedding model
-- `maxEmbeddingsPerCall`: The maximum number of embeddings allowed per call
-- `values`: The array of values that was provided
+- `provider`：AI 提供方名称
+- `modelId`：嵌入模型的 ID
+- `maxEmbeddingsPerCall`：每次调用允许的最大嵌入数量
+- `values`：所提供的值的数组
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_TooManyEmbeddingValuesForCallError` using:
+你可以通过以下方式检查错误是否为 `AI_TooManyEmbeddingValuesForCallError` 的实例：
 
 ```typescript
 import { TooManyEmbeddingValuesForCallError } from 'ai';

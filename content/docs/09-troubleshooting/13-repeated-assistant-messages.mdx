@@ -1,13 +1,13 @@
 ---
-title: Repeated assistant messages in useChat
-description: Troubleshooting duplicate assistant messages when using useChat with streamText
+title: useChat 中助理消息重复
+description: 排查 useChat 配合 streamText 时出现重复助理消息的问题
 ---
 
-# Repeated assistant messages in useChat
+# useChat 中助理消息重复
 
-## Issue
+## 问题
 
-When using `useChat` with `streamText` on the server, the assistant's messages appear duplicated in the UI - showing both the previous message and the new message, or showing the same message multiple times. This can occur when using tool calls or complex message flows.
+在服务端将 `useChat` 与 `streamText` 联用时，界面里助理消息会重复——既显示上一条又显示新消息，或同一条出现多次。使用工具调用或复杂消息流时可能发生。
 
 ```tsx
 // Server-side code that may experience assistant message duplication on the client
@@ -34,13 +34,13 @@ export async function POST(req: Request) {
 }
 ```
 
-## Background
+## 背景
 
-The duplication occurs because `toUIMessageStreamResponse` generates new message IDs for each new message.
+重复是因为 `toUIMessageStreamResponse` 会为每条新消息生成新的消息 ID。
 
-## Solution
+## 解决方案
 
-Pass the original messages array to `toUIMessageStreamResponse` using the `originalMessages` option. By passing `originalMessages`, the method can reuse existing message IDs instead of generating new ones, ensuring the client properly updates existing messages rather than creating duplicates.
+通过 `originalMessages` 选项把原始 `messages` 数组传给 `toUIMessageStreamResponse`。传入 `originalMessages` 后，该方法可复用已有消息 ID，而不是每次都新建，客户端会正确更新既有消息，而不会多出重复项。
 
 ```tsx
 export async function POST(req: Request) {

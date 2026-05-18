@@ -12,14 +12,14 @@ import {
 } from 'ai';
 import { z } from 'zod';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 const getWeatherInformationTool = tool({
   description: 'show the weather in a given city to the user',
   inputSchema: z.object({ city: z.string() }),
   execute: async ({ city }: { city: string }, { messages }) => {
-    // count the number of assistant messages. throw error if 2 or less
+    // 统计 assistant 消息数量；若 ≤2 则抛出错误
     const assistantMessageCount = messages.filter(
       message => message.role === 'assistant',
     ).length;
@@ -28,7 +28,7 @@ const getWeatherInformationTool = tool({
       throw new Error('could not get weather information');
     }
 
-    // Add artificial delay of 5 seconds
+    // 人为增加 5 秒延迟
     await new Promise(resolve => setTimeout(resolve, 5000));
 
     const weatherOptions = ['sunny', 'cloudy', 'rainy', 'snowy', 'windy'];
@@ -37,7 +37,7 @@ const getWeatherInformationTool = tool({
 });
 
 const staticTools = {
-  // server-side tool with execute function:
+  // 带 execute 函数的服务端 tool：
   getWeatherInformation: getWeatherInformationTool,
 } as const;
 
@@ -68,7 +68,7 @@ export async function POST(req: Request) {
   const result = streamText({
     model: openai('gpt-4o'),
     messages: await convertToModelMessages(messages),
-    stopWhen: isStepCount(5), // multi-steps for server-side tools
+    stopWhen: isStepCount(5), // 服务端 tools 的多步执行
     tools: {
       ...staticTools,
       ...dynamicTools(),
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
   });
 
   return result.toUIMessageStreamResponse({
-    //  originalMessages: messages, //add if you want to have correct ids
+    //  originalMessages: messages, //若需要正确的 id 请添加
     onFinish: options => {
       console.log('onFinish', options);
     },

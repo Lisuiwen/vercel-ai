@@ -1,17 +1,17 @@
-# Documentation
+# 文档
 
-## Making Changes
+## 进行修改
 
-To make changes to the documentation website (https://ai-sdk.dev), modify files in the `/content` directory. Please follow conventions of similar files.
+要修改文档网站（https://ai-sdk.dev），请编辑 `/content` 目录中的文件。请遵循类似文件的既有约定。
 
-Note: There is currently no way to preview documentation changes locally before submitting.
+注意：目前无法在提交前在本地预览文档变更。
 
-## Pull Request Guidelines
+## Pull Request 指南
 
-All documentation PRs should be prefixed with `docs:` in the title.
+所有文档 PR 的标题应以 `docs:` 为前缀。
 
-Run `npm run fix` to solve formatting issues.
+运行 `npm run fix` 以修复格式化问题。
 
-## Update Schedule
+## 更新节奏
 
-Documentation is sourced and updated every 3 hours on the live site.
+文档源会每 3 小时同步到线上站点。

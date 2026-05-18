@@ -7,7 +7,7 @@ import {
 } from 'ai';
 import { z } from 'zod';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export type StreamingToolCallsMessage = UIMessage<
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       'You are a helpful assistant that answers questions about the weather in a given city.' +
       'You use the showWeatherInformation tool to show the weather information to the user instead of talking about it.',
     tools: {
-      // server-side tool with execute function:
+      // 带 execute 函数的服务端 tool：
       getWeatherInformation: {
         description: 'show the weather in a given city to the user',
         inputSchema: z.object({ city: z.string() }),
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
           };
         },
       },
-      // client-side tool that displays weather information to the user:
+      // 向用户展示天气信息的客户端 tool：
       showWeatherInformation: {
         description:
           'Show the weather information to the user. Always use this tool to tell weather information to the user.',

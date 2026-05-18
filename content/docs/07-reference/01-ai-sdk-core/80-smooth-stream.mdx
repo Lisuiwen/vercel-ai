@@ -1,14 +1,11 @@
 ---
 title: smoothStream
-description: Stream transformer for smoothing text and reasoning output
+description: 用于平滑文本与推理输出的流转换器
 ---
 
 # `smoothStream()`
 
-`smoothStream` is a utility function that creates a TransformStream
-for the `streamText` `transform` option
-to smooth out text and reasoning streaming by buffering and releasing complete chunks with configurable delays.
-This creates a more natural reading experience when streaming text and reasoning responses.
+`smoothStream` 创建用于 `streamText` 的 `transform` 选项的 `TransformStream`，通过缓冲并在可配置延迟后释放完整分块来平滑文本与推理的流式输出，使流式阅读体验更自然。
 
 ```ts highlight={"6-9"}
 import { smoothStream, streamText } from 'ai';
@@ -17,19 +14,19 @@ const result = streamText({
   model,
   prompt,
   experimental_transform: smoothStream({
-    delayInMs: 20, // optional: defaults to 10ms
-    chunking: 'line', // optional: defaults to 'word'
+    delayInMs: 20, // 可选：默认 10ms
+    chunking: 'line', // 可选：默认 'word'
   }),
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { smoothStream } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -38,36 +35,36 @@ const result = streamText({
       type: 'number | null',
       isOptional: true,
       description:
-        'The delay in milliseconds between outputting each chunk. Defaults to 10ms. Set to `null` to disable delays.',
+        '每个分块输出之间的延迟（毫秒）。默认 10ms。设为 `null` 可禁用延迟。',
     },
     {
       name: 'chunking',
       type: '"word" | "line" | RegExp | Intl.Segmenter | (buffer: string) => string | undefined | null',
       isOptional: true,
       description:
-        'Controls how text and reasoning content is chunked for streaming. Use "word" to stream word by word (default), "line" to stream line by line, an Intl.Segmenter for locale-aware word segmentation (recommended for CJK languages), or provide a custom callback or RegExp pattern for custom chunking.',
+        '控制文本与推理内容如何分块流式输出。使用 "word" 按词流式（默认），"line" 按行，`Intl.Segmenter` 可做符合区域设置的词分段（CJK 等语言推荐），或传入自定义回调 / RegExp。',
     },
   ]}
 />
 
-#### Word chunking caveats with non-latin languages
+#### 非拉丁语言下按词分块的注意事项
 
-The word based chunking **does not work well** with the following languages that do not delimit words with spaces:
+对**不用空格分词**的语言，基于词的分块**效果较差**，包括：
 
-- Chinese
-- Japanese
-- Korean
-- Vietnamese
-- Thai
+- 中文
+- 日文
+- 韩文
+- 越南文
+- 泰文
 
-#### Using Intl.Segmenter (recommended)
+#### 使用 Intl.Segmenter（推荐）
 
-For these languages, we recommend using `Intl.Segmenter` for proper locale-aware word segmentation.
-This is the preferred approach as it provides accurate word boundaries for CJK and other languages.
+对上述语言，建议使用 `Intl.Segmenter` 进行符合区域设置的词边界识别。
+这是在 CJK 及其他语言上较准确的做法。
 
 <Note>
-  `Intl.Segmenter` is available in Node.js 16+ and all modern browsers (Chrome
-  87+, Firefox 125+, Safari 14.1+).
+  `Intl.Segmenter` 在 Node.js 16+ 与现代浏览器（Chrome
+  87+、Firefox 125+、Safari 14.1+）中可用。
 </Note>
 
 ```tsx filename="Japanese example with Intl.Segmenter"
@@ -100,25 +97,25 @@ const result = streamText({
 });
 ```
 
-#### Regex based chunking
+#### 基于正则的分块
 
-To use regex based chunking, pass a `RegExp` to the `chunking` option.
+将 `RegExp` 传给 `chunking` 即可使用正则分块。
 
 ```ts
-// To split on underscores:
+// 按下划线切分：
 smoothStream({
   chunking: /_+/,
 });
 
-// Also can do it like this, same behavior
+// 也可这样写，行为相同
 smoothStream({
   chunking: /[^_]*_/,
 });
 ```
 
-#### Custom callback chunking
+#### 自定义回调分块
 
-To use a custom callback for chunking, pass a function to the `chunking` option.
+向 `chunking` 传入函数即可自定义分块逻辑。
 
 ```ts
 smoothStream({
@@ -135,11 +132,11 @@ smoothStream({
 });
 ```
 
-### Returns
+### 返回值
 
-Returns a `TransformStream` that:
+返回 `TransformStream`，其行为如下：
 
-- Buffers incoming text and reasoning chunks
-- Releases content when the chunking pattern is encountered
-- Adds configurable delays between chunks for smooth output
-- Passes through non-text/reasoning chunks (like tool calls, step-finish events) immediately
+- 缓冲传入的文本与推理分块
+- 在命中分块规则时释放内容
+- 在分块之间加入可配置延迟以实现平滑输出
+- 非文本/推理分块（如工具调用、step-finish 事件）立即透传

@@ -11,8 +11,8 @@ run(async () => {
       return {
         description: 'Successfully loaded PDF document',
         // This example currently does not work, neither with `google` nor with `vertex`, despite
-        // https://docs.cloud.google.com/vertex-ai/generative-ai/docs/model-reference/function-calling#functionresponsepart docs.
-        // The API doesn't error, but the model clearly doesn't see the image because it makes up something else.
+        // https://docs.cloud.google.com/vertex-ai/generative-ai/docs/model-reference/function-calling#functionresponsepart 文档。
+        // API 看不到该图像，因为它由其他内容组成。
         pdfUrl:
           'https://github.com/vercel/ai/blob/main/examples/ai-functions/data/ai.pdf?raw=true',
       };

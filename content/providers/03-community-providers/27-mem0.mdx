@@ -1,21 +1,21 @@
 ---
 title: 'Mem0'
-description: 'Learn how to use the Mem0 AI SDK provider for the AI SDK.'
+description: '介绍如何在 AI SDK 中使用 Mem0 AI SDK 提供商。'
 ---
 
-# Mem0 Provider
+# Mem0 提供商
 
-The [Mem0 Provider](https://github.com/mem0ai/mem0/tree/main/vercel-ai-sdk) is a library developed by [**Mem0**](https://mem0.ai)
-to integrate with the AI SDK.
-This library brings enhanced AI interaction capabilities to your applications by introducing persistent memory functionality.
+[Mem0 Provider](https://github.com/mem0ai/mem0/tree/main/vercel-ai-sdk) 是由 [**Mem0**](https://mem0.ai)
+开发的库，用于与 AI SDK 集成。
+该库通过引入持久记忆功能，为你的应用带来更强的 AI 交互能力。
 
 <Note type="info">
-  🎉 Exciting news! Mem0 AI SDK now supports <strong>Tools Call</strong>.
+  🎉 好消息：Mem0 AI SDK 现已支持 <strong>工具调用（Tools Call）</strong>。
 </Note>
 
-## Setup
+## 安装与配置
 
-The Mem0 provider is available in the `@mem0/vercel-ai-provider` module. You can install it with:
+Mem0 提供商位于 `@mem0/vercel-ai-provider` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -32,11 +32,11 @@ The Mem0 provider is available in the `@mem0/vercel-ai-provider` module. You can
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-First, get your **Mem0 API Key** from the [Mem0 Dashboard](https://app.mem0.ai/dashboard/api-keys).
+首先，在 [Mem0 控制台](https://app.mem0.ai/dashboard/api-keys) 获取 **Mem0 API Key**。
 
-Then initialize the `Mem0 Client` in your application:
+然后在应用中初始化 `Mem0 Client`：
 
 ```ts
 import { createMem0 } from '@mem0/vercel-ai-provider';
@@ -57,17 +57,16 @@ const mem0 = createMem0({
 ```
 
 <Note>
-  The `openai` provider is set as default. Consider using `MEM0_API_KEY` and
-  `OPENAI_API_KEY` as environment variables for security.
+  默认使用 `openai` 提供商。为安全起见，建议使用环境变量 `MEM0_API_KEY` 和
+  `OPENAI_API_KEY`。
 </Note>
 
 <Note>
-  The `mem0Config` is optional. It is used to set the global config for the Mem0
-  Client (eg. `user_id`, `agent_id`, `app_id`, `run_id`, `org_id`, `project_id`
-  etc).
+  `mem0Config` 为可选，用于为 Mem0 Client 设置全局配置（例如 `user_id`、`agent_id`、`app_id`、`run_id`、`org_id`、`project_id`
+  等）。
 </Note>
 
-- Add Memories to Enhance Context:
+- 添加记忆以增强上下文：
 
 ```ts
 import { LanguageModelV4Prompt } from '@ai-sdk/provider';
@@ -80,13 +79,13 @@ const messages: LanguageModelV4Prompt = [
 await addMemories(messages, { user_id: 'borat' });
 ```
 
-## Features
+## 功能
 
-### Adding and Retrieving Memories
+### 添加与检索记忆
 
-- `retrieveMemories()`: Retrieves memory context for prompts.
-- `getMemories()`: Get memories from your profile in array format.
-- `addMemories()`: Adds user memories to enhance contextual responses.
+- `retrieveMemories()`：为提示检索记忆上下文。
+- `getMemories()`：以数组格式从个人资料中获取记忆。
+- `addMemories()`：添加用户记忆以增强上下文相关的回复。
 
 ```ts
 await addMemories(messages, {
@@ -104,20 +103,18 @@ await getMemories(prompt, {
 ```
 
 <Note>
-  For standalone features, such as `addMemories`, `retrieveMemories`, and
-  `getMemories`, you must either set `MEM0_API_KEY` as an environment variable
-  or pass it directly in the function call.
+  对于独立功能（如 `addMemories`、`retrieveMemories`、`getMemories`），你必须将 `MEM0_API_KEY` 设为环境变量，
+  或在函数调用中直接传入。
 </Note>
 
 <Note>
-  `getMemories` will return raw memories in the form of an array of objects,
-  while `retrieveMemories` will return a response in string format with a system
-  prompt ingested with the retrieved memories.
+  `getMemories` 会以对象数组形式返回原始记忆，
+  而 `retrieveMemories` 会返回字符串格式的响应，并在系统提示中融入检索到的记忆。
 </Note>
 
-### Generate Text with Memory Context
+### 使用记忆上下文生成文本
 
-You can use language models from **OpenAI**, **Anthropic**, **Cohere**, and **Groq** to generate text with the `generateText` function:
+可使用 **OpenAI**、**Anthropic**、**Cohere** 与 **Groq** 的语言模型，配合 `generateText` 生成文本：
 
 ```ts
 import { generateText } from 'ai';
@@ -131,7 +128,7 @@ const { text } = await generateText({
 });
 ```
 
-### Structured Message Format with Memory
+### 带记忆的结构化消息格式
 
 ```ts
 import { generateText } from 'ai';
@@ -153,7 +150,7 @@ const { text } = await generateText({
 });
 ```
 
-### Streaming Responses with Memory Context
+### 带记忆上下文的流式响应
 
 ```ts
 import { streamText } from 'ai';
@@ -174,7 +171,7 @@ for await (const textPart of textStream) {
 }
 ```
 
-### Generate Responses with Tools Call
+### 使用工具调用生成响应
 
 ```ts
 import { generateText } from 'ai';
@@ -212,7 +209,7 @@ const result = await generateText({
 console.log(result);
 ```
 
-### Get sources from memory
+### 从记忆获取来源
 
 ```ts
 const { text, sources } = await generateText({
@@ -223,37 +220,37 @@ const { text, sources } = await generateText({
 console.log(sources);
 ```
 
-This same functionality is available in the `streamText` function.
+`streamText` 同样支持上述能力。
 
-## Supported LLM Providers
+## 支持的 LLM 提供商
 
-The Mem0 provider supports the following LLM providers:
+Mem0 提供商支持以下 LLM：
 
-| Provider  | Configuration Value |
-| --------- | ------------------- |
-| OpenAI    | `openai`            |
-| Anthropic | `anthropic`         |
-| Google    | `google`            |
-| Groq      | `groq`              |
-| Cohere    | `cohere`            |
+| 提供商    | 配置取值    |
+| --------- | ----------- |
+| OpenAI    | `openai`    |
+| Anthropic | `anthropic` |
+| Google    | `google`    |
+| Groq      | `groq`      |
+| Cohere    | `cohere`    |
 
-## Best Practices
+## 最佳实践
 
-- **User Identification**: Use a unique `user_id` for consistent memory retrieval.
-- **Memory Cleanup**: Regularly clean up unused memory data.
+- **用户标识**：使用稳定的唯一 `user_id` 以保持一致的记忆检索。
+- **记忆清理**：定期清理不再使用的记忆数据。
 
 <Note>
-  We also have support for `agent_id`, `app_id`, and `run_id`. Refer
-  [Docs](https://docs.mem0.ai/api-reference/memory/add-memories).
+  我们还支持 `agent_id`、`app_id` 和 `run_id`。详见
+  [文档](https://docs.mem0.ai/api-reference/memory/add-memories)。
 </Note>
 
-## Help
+## 帮助
 
-- For more details on Vercel AI SDK, visit the [Vercel AI SDK documentation](/docs/introduction).
-- For Mem0 documentation, refer to the [Mem0 Platform](https://app.mem0.ai/).
-- If you need further assistance, please feel free to reach out to us through following methods:
+- 关于 Vercel AI SDK 的更多说明，请参阅 [Vercel AI SDK 文档](/docs/introduction)。
+- Mem0 文档请参阅 [Mem0 平台](https://app.mem0.ai/)。
+- 如需进一步协助，可通过以下方式联系我们：
 
-## References
+## 参考链接
 
-- [Mem0 AI SDK Docs](https://docs.mem0.ai/integrations/vercel-ai-sdk#getting-started)
-- [Mem0 documentation](https://docs.mem0.ai)
+- [Mem0 AI SDK 文档](https://docs.mem0.ai/integrations/vercel-ai-sdk#getting-started)
+- [Mem0 文档](https://docs.mem0.ai)

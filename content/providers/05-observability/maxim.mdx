@@ -1,23 +1,23 @@
 ---
 title: Maxim
-description: Evaluate & Observe LLM applications with Maxim
+description: 使用 Maxim 评估并观测 LLM 应用
 ---
 
-# Maxim Observability
+# Maxim 可观测性
 
-[Maxim AI](https://getmaxim.ai) streamlines AI application development and deployment by applying traditional software best practices to non-deterministic AI workflows. Our evaluation and observability tools help teams maintain quality, reliability, and speed throughout the AI application lifecycle. Maxim integrates with the AI SDK to provide:
+[Maxim AI](https://getmaxim.ai) 通过将传统软件最佳实践应用到非确定性 AI 工作流，简化 AI 应用的开发与部署。我们的评估与可观测工具帮助团队在 AI 应用全生命周期保持质量、可靠与速度。Maxim 与 AI SDK 集成可提供：
 
-- Automatic Observability – Adds tracing, logging, and metadata to AI SDK calls with a simple wrapper.
+- 自动可观测——通过简单包装为 AI SDK 调用添加 tracing、日志与元数据。
 
-- Unified Model Wrapping – Supports OpenAI, Anthropic, and Google etc. models uniformly.
+- 统一模型包装——统一支持 OpenAI、Anthropic、Google 等模型。
 
-- Custom Metadata & Tagging – Enables attaching trace names, tags, and session IDs to track usage.
+- 自定义元数据与标签——可为追踪命名、添加标签与会话 ID 以观测用量。
 
-- Streaming & Structured Output Support – Handles streaming responses and structured outputs seamlessly.
+- 流式与结构化输出支持——无缝处理流式响应与结构化输出。
 
-# Setting up Maxim with the AI SDK
+# 将 Maxim 接入 AI SDK
 
-## Requirements
+## 前置要求
 
 ```
 "ai"
@@ -27,7 +27,7 @@ description: Evaluate & Observe LLM applications with Maxim
 "@maximai/maxim-js"
 ```
 
-## Environment Variables
+## 环境变量
 
 ```
 MAXIM_API_KEY=
@@ -36,7 +36,7 @@ OPENAI_API_KEY=
 ANTHROPIC_API_KEY=
 ```
 
-## Initialize Logger
+## 初始化 Logger
 
 ```javascript
 import { Maxim } from '@maximai/maxim-js';
@@ -62,7 +62,7 @@ async function initializeMaxim() {
 }
 ```
 
-## Wrap AI SDK Models with Maxim
+## 使用 Maxim 包装 AI SDK 模型
 
 ```javascript
 import { openai } from '@ai-sdk/openai';
@@ -71,7 +71,7 @@ import { wrapMaximAISDKModel } from '@maximai/maxim-js/vercel-ai-sdk';
 const model = wrapMaximAISDKModel(openai('gpt-5'), logger);
 ```
 
-## Make LLM calls using wrapped models
+## 使用包装后的模型调用 LLM
 
 ```javascript
 import { generateText } from 'ai';
@@ -91,11 +91,11 @@ const response = await generateText({
 console.log('Response:', response.text);
 ```
 
-## Working with Different AI SDK Functions
+## 搭配不同 AI SDK 函数
 
-The wrapped model works seamlessly with all Vercel AI SDK functions:
+包装后的模型可与所有 Vercel AI SDK 函数无缝配合：
 
-### **Structured Output**
+### **结构化输出**
 
 ```javascript
 import { generateText, Output } from 'ai';
@@ -117,7 +117,7 @@ const response = await generateText({
 console.log(response.output);
 ```
 
-### **Stream Text**
+### **流式文本**
 
 ```javascript
 import { streamText } from 'ai';
@@ -133,9 +133,9 @@ for await (const textPart of textStream) {
 }
 ```
 
-## Custom Metadata and Tracing
+## 自定义元数据与 tracing
 
-### **Using Custom Metadata**
+### **使用自定义元数据**
 
 ```javascript
 import { MaximVercelProviderMetadata } from '@maximai/maxim-js/vercel-ai-sdk';
@@ -155,31 +155,31 @@ const response = await generateText({
 });
 ```
 
-### **Available Metadata Fields**
+### **可用元数据字段**
 
-**Entity Naming:**
+**实体命名：**
 
-- `sessionName` - Override the default session name
-- `traceName` - Override the default trace name
-- `spanName` - Override the default span name
-- `generationName` - Override the default LLM generation name
+- `sessionName` - 覆盖默认会话名称
+- `traceName` - 覆盖默认 trace 名称
+- `spanName` - 覆盖默认 span 名称
+- `generationName` - 覆盖默认 LLM generation 名称
 
-**Entity Tagging:**
+**实体标签：**
 
-- `sessionTags` - Add custom tags to the session `(object: {key: value})`
-- `traceTags` - Add custom tags to the trace `(object: {key: value})`
-- `spanTags` - Add custom tags to span `(object: {key: value})`
-- `generationTags` - Add custom tags to LLM generations `(object: {key: value})`
+- `sessionTags` - 为会话添加自定义标签 `(object: {key: value})`
+- `traceTags` - 为 trace 添加自定义标签 `(object: {key: value})`
+- `spanTags` - 为 span 添加自定义标签 `(object: {key: value})`
+- `generationTags` - 为 LLM generation 添加自定义标签 `(object: {key: value})`
 
-**ID References:**
+**ID 引用：**
 
-- `sessionId` - Link this trace to an existing session
-- `traceId` - Use a specific trace ID
-- `spanId` - Use a specific span ID
+- `sessionId` - 将本 trace 关联到已有会话
+- `traceId` - 使用指定 trace ID
+- `spanId` - 使用指定 span ID
 
-![Maxim Demo](https://cdn.getmaxim.ai/public/images/maxim_vercel.gif)
+![Maxim 演示](https://cdn.getmaxim.ai/public/images/maxim_vercel.gif)
 
-## Streaming Support
+## 流式支持
 
 ```javascript
 import { streamText } from 'ai';
@@ -208,7 +208,7 @@ for await (const textPart of textStream) {
 }
 ```
 
-## Multiple Provider Support
+## 多 Provider 支持
 
 ```javascript
 import { openai } from '@ai-sdk/openai';
@@ -232,9 +232,9 @@ const responses = await Promise.all([
 ]);
 ```
 
-## Next.js Integration
+## Next.js 集成
 
-### **API Route Example**
+### **API Route 示例**
 
 ```javascript
 // app/api/chat/route.js
@@ -269,7 +269,7 @@ export async function POST(req) {
 }
 ```
 
-### **Client-side Integration**
+### **客户端集成**
 
 ```javascript
 // components/Chat.jsx
@@ -301,11 +301,11 @@ export default function Chat() {
 }
 ```
 
-## Learn more
+## 延伸阅读
 
-- After setting up Maxim tracing for the Vercel AI SDK, you can explore other Maxim platform capabilities:
-  - Prompt Management: Version, manage, and dynamically apply prompts across environments and agents.
-  - Evaluations: Run automated and manual evaluations on traces, generations, and full agent trajectories.
-  - Simulations: Test agents in real-world scenarios with simulated multi-turn interactions and workflows.
+- 完成 Vercel AI SDK 的 Maxim tracing 后，还可探索 Maxim 平台能力：
+  - Prompt Management：跨环境与智能体版本化、管理及动态下发 prompts。
+  - Evaluations：对 traces、generations 与完整智能体轨迹运行自动或人工评估。
+  - Simulations：通过模拟多轮交互与工作流，在近似真实场景中测试智能体。
 
-For further details, checkout Vercel AI SDK's [Maxim integration documentation](https://www.getmaxim.ai/docs/sdk/typescript/integrations/vercel/vercel).
+更多细节见 Vercel AI SDK 的 [Maxim integration documentation](https://www.getmaxim.ai/docs/sdk/typescript/integrations/vercel/vercel)。

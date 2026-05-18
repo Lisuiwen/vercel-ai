@@ -2,7 +2,7 @@ import { InvalidArgumentError } from '../error/invalid-argument-error';
 import type { LanguageModelCallOptions } from './language-model-call-options';
 
 /**
- * Validates model call options and returns a new object with normalized values.
+ * 验证模型调用选项并返回具有标准化值的新对象。
  */
 export function prepareLanguageModelCallOptions({
   maxOutputTokens,

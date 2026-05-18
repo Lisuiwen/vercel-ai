@@ -8,7 +8,7 @@ import { run } from '../../lib/run';
 import { downloadOpenaiContainerFile } from '../../lib/download-openai-container-file';
 
 run(async () => {
-  // Basic text generation
+  // 基本文本生成
   const basicResult = await generateText({
     model: openai.responses('gpt-4.1-mini'),
     prompt:

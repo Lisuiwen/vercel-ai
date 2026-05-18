@@ -1,31 +1,31 @@
 ---
 title: Experimental_StdioMCPTransport
-description: Create a transport for Model Context Protocol (MCP) clients to communicate with MCP servers using standard input and output streams
+description: 为 MCP 客户端创建基于标准输入输出流与 MCP 服务器通信的传输层
 ---
 
 # `Experimental_StdioMCPTransport`
 
-Creates a transport for Model Context Protocol (MCP) clients to communicate with MCP servers using standard input and output streams. This transport is only supported in Node.js environments.
+为 Model Context Protocol（MCP）客户端创建通过标准输入与标准输出流与 MCP 服务器通信的传输层。该传输仅在 Node.js 环境中受支持。
 
-This feature is experimental and may change or be removed in the future.
+该功能为实验性，未来可能变更或移除。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { Experimental_StdioMCPTransport } from "@ai-sdk/mcp/mcp-stdio"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'config',
       type: 'StdioConfig',
-      description: 'Configuration for the MCP client.',
+      description: 'MCP 客户端的配置。',
       properties: [
         {
           type: 'StdioConfig',
@@ -33,32 +33,32 @@ This feature is experimental and may change or be removed in the future.
             {
               name: 'command',
               type: 'string',
-              description: 'The command to run the MCP server.',
+              description: '运行 MCP 服务器的命令。',
             },
             {
               name: 'args',
               type: 'string[]',
               isOptional: true,
-              description: 'The arguments to pass to the MCP server.',
+              description: '传递给 MCP 服务器的参数。',
             },
             {
               name: 'env',
               type: 'Record<string, string>',
               isOptional: true,
               description:
-                'The environment variables to set for the MCP server.',
+                '为 MCP 服务器设置的环境变量。',
             },
             {
               name: 'stderr',
               type: 'IOType | Stream | number',
               isOptional: true,
-              description: "The stream to write the MCP server's stderr to.",
+              description: '写入 MCP 服务器 stderr 的目标流。',
             },
             {
               name: 'cwd',
               type: 'string',
               isOptional: true,
-              description: 'The current working directory for the MCP server.',
+              description: 'MCP 服务器的工作目录。',
             },
           ],
         },

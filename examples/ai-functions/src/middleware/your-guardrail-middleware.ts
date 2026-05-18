@@ -8,7 +8,7 @@ export const yourGuardrailMiddleware: LanguageModelV3Middleware = {
   wrapGenerate: async ({ doGenerate }) => {
     const { content, ...rest } = await doGenerate();
 
-    // filtering approach, e.g. for PII or other sensitive information:
+    // 过滤方法，例如对于 PII 或其他敏感信息：
     const cleanedContent: Array<LanguageModelV3Content> = content.map(part => {
       return part.type === 'text'
         ? {
@@ -24,7 +24,7 @@ export const yourGuardrailMiddleware: LanguageModelV3Middleware = {
     };
   },
 
-  // here you would implement the guardrail logic for streaming
-  // Note: streaming guardrails are difficult to implement, because
-  // you do not know the full content of the stream until it's finished.
+  // 在这里您将实现流式传输的护栏逻辑
+  // 注意：流式护栏很难实现，因为
+  // 在流结束之前您不知道流的完整内容。
 };

@@ -3,12 +3,12 @@ import { generateText } from 'ai';
 import { run } from '../../lib/run';
 
 /**
- * Demonstrates Alibaba's explicit cache feature using cache_control.
- * Requires minimum 1,024 tokens for explicit caching.
+ * 使用cache_control演示阿里巴巴的显式缓存功能。
+ * 显式缓存至少需要 1,024 个令牌。
  */
 
 run(async () => {
-  // Long system prompt (1024+ tokens required for explicit cache)
+  // 长系统提示（显式缓存需要 1024+ 令牌）
   const longSystemPrompt = 'You are an expert AI assistant. '.repeat(200);
 
   console.log('First request...\n');
@@ -41,7 +41,7 @@ run(async () => {
     messages: [
       {
         role: 'system',
-        content: longSystemPrompt, // Same content
+        content: longSystemPrompt, // 内容相同
         providerOptions: {
           alibaba: {
             cache_control: { type: 'ephemeral' },

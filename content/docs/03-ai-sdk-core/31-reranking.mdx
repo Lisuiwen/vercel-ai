@@ -1,18 +1,18 @@
 ---
-title: Reranking
-description: Learn how to rerank documents with the AI SDK.
+title: 重排序
+description: 了解如何使用 AI SDK 对文档重排序。
 ---
 
-# Reranking
+# 重排序
 
-Reranking is a technique used to improve search relevance by reordering a set of documents based on their relevance to a query.
-Unlike embedding-based similarity search, reranking models are specifically trained to understand the relationship between queries and documents,
-often producing more accurate relevance scores.
+重排序是一种根据文档与查询的相关性对文档集重新排序以提升搜索相关性的技术。
+与基于嵌入的相似度搜索不同，重排序模型专门训练用于理解查询与文档之间的关系，
+往往能产生更准确的相关性分数。
 
-## Reranking Documents
+## 重排序文档
 
-The AI SDK provides the [`rerank`](/docs/reference/ai-sdk-core/rerank) function to rerank documents based on their relevance to a query.
-You can use it with reranking models, e.g. `cohere.reranking('rerank-v3.5')` or `bedrock.reranking('cohere.rerank-v3-5:0')`.
+AI SDK 提供 [`rerank`](/docs/reference/ai-sdk-core/rerank) 函数，根据文档与查询的相关性对文档重排序。
+可与重排序模型一起使用，例如 `cohere.reranking('rerank-v3.5')` 或 `bedrock.reranking('cohere.rerank-v3-5:0')`。
 
 ```tsx
 import { rerank } from 'ai';
@@ -38,9 +38,9 @@ console.log(ranking);
 // ]
 ```
 
-## Working with Object Documents
+## 处理对象文档
 
-Reranking also supports structured documents (JSON objects), making it ideal for searching through databases, emails, or other structured content:
+重排序也支持结构化文档（JSON 对象），适合搜索数据库、邮件或其他结构化内容：
 
 ```tsx
 import { rerank } from 'ai';
@@ -70,9 +70,9 @@ console.log(rerankedDocuments[0]);
 // { from: 'John McGill', subject: 'Missing Info', text: '...' }
 ```
 
-## Understanding the Results
+## 理解结果
 
-The `rerank` function returns a comprehensive result object:
+`rerank` 函数返回完整的结果对象：
 
 ```ts
 import { cohere } from '@ai-sdk/cohere';
@@ -89,17 +89,17 @@ const { ranking, rerankedDocuments, originalDocuments } = await rerank({
 // originalDocuments: original documents array
 ```
 
-Each item in the `ranking` array contains:
+`ranking` 数组中每项包含：
 
-- `originalIndex`: Position in the original documents array
-- `score`: Relevance score (typically 0-1, where higher is more relevant)
-- `document`: The original document
+- `originalIndex`：在原始 documents 数组中的位置
+- `score`：相关性分数（通常为 0–1，越高越相关）
+- `document`：原始文档
 
-## Settings
+## 设置
 
-### Top-N Results
+### Top-N 结果
 
-Use `topN` to limit the number of results returned. This is useful for retrieving only the most relevant documents:
+使用 `topN` 限制返回结果数量。适用于仅获取最相关文档：
 
 ```ts highlight={"7"}
 import { cohere } from '@ai-sdk/cohere';
@@ -113,9 +113,9 @@ const { ranking } = await rerank({
 });
 ```
 
-### Provider Options
+### 提供商选项
 
-Reranking model settings can be configured using `providerOptions` for provider-specific parameters:
+可使用 `providerOptions` 配置重排序模型的提供商特定参数：
 
 ```ts highlight={"8-12"}
 import { cohere } from '@ai-sdk/cohere';
@@ -133,11 +133,11 @@ const { ranking } = await rerank({
 });
 ```
 
-### Retries
+### 重试
 
-The `rerank` function accepts an optional `maxRetries` parameter of type `number`
-that you can use to set the maximum number of retries for the reranking process.
-It defaults to `2` retries (3 attempts in total). You can set it to `0` to disable retries.
+`rerank` 接受可选的 `maxRetries` 参数（类型为 `number`），
+用于设置重排序过程的最大重试次数。
+默认为 `2` 次重试（共 3 次尝试）。设为 `0` 可禁用重试。
 
 ```ts highlight={"7"}
 import { cohere } from '@ai-sdk/cohere';
@@ -151,11 +151,10 @@ const { ranking } = await rerank({
 });
 ```
 
-### Abort Signals and Timeouts
+### 中止信号与超时
 
-The `rerank` function accepts an optional `abortSignal` parameter of
-type [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)
-that you can use to abort the reranking process or set a timeout.
+`rerank` 接受可选的 `abortSignal` 参数（类型为 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)），
+用于中止重排序过程或设置超时。
 
 ```ts highlight={"7"}
 import { cohere } from '@ai-sdk/cohere';
@@ -169,10 +168,10 @@ const { ranking } = await rerank({
 });
 ```
 
-### Custom Headers
+### 自定义头
 
-The `rerank` function accepts an optional `headers` parameter of type `Record<string, string>`
-that you can use to add custom headers to the reranking request.
+`rerank` 接受可选的 `headers` 参数（类型为 `Record<string, string>`），
+用于向重排序请求添加自定义头。
 
 ```ts highlight={"7"}
 import { cohere } from '@ai-sdk/cohere';
@@ -186,9 +185,9 @@ const { ranking } = await rerank({
 });
 ```
 
-## Response Information
+## 响应信息
 
-The `rerank` function returns response information that includes the raw provider response:
+`rerank` 返回包含原始提供商响应的响应信息：
 
 ```ts highlight={"4,10"}
 import { cohere } from '@ai-sdk/cohere';
@@ -203,11 +202,11 @@ const { ranking, response } = await rerank({
 console.log(response); // { id, timestamp, modelId, headers, body }
 ```
 
-## Reranking Providers & Models
+## 重排序提供商与模型
 
-Several providers offer reranking models:
+多个提供商提供重排序模型：
 
-| Provider                                                                      | Model                                 |
+| 提供商                                                                        | 模型                                  |
 | ----------------------------------------------------------------------------- | ------------------------------------- |
 | [Cohere](/providers/ai-sdk-providers/cohere#reranking-models)                 | `rerank-v3.5`                         |
 | [Cohere](/providers/ai-sdk-providers/cohere#reranking-models)                 | `rerank-english-v3.0`                 |

@@ -1,54 +1,54 @@
 ---
 name: major-version-mode
-description: "Context for working on the next AI SDK major release. Only use when explicitly invoked by the user (e.g. via '/major-version-mode'). Do NOT trigger autonomously based on task content."
+description: "在下一个 AI SDK 主版本上工作的上下文。仅当用户显式调用时使用（例如通过 '/major-version-mode'）。请勿根据任务内容自动触发。"
 metadata:
   internal: true
 ---
 
-## Context
+## 上下文
 
-This task is part of the next AI SDK major release. Breaking changes are acceptable.
+本任务属于下一个 AI SDK 主版本。可接受破坏性变更。
 
-## Breaking Change Guidelines
+## 破坏性变更指南
 
-While breaking changes are acceptable, it is still encouraged to minimize unnecessary disruption for 3P consumers of the AI SDK. Providing deprecated aliases and automated migration logic can help ease the transition.
+虽然可接受破坏性变更，仍建议尽量减少对 AI SDK 第三方消费者的不必要干扰。提供已弃用别名与自动化迁移逻辑有助于平滑过渡。
 
-### Renamed/changed exports
+### 重命名/变更的导出
 
-If renaming or modifying an exported function or type, provide a deprecated alias as a package-level export where feasible:
+若重命名或修改导出的函数或类型，在可行时于包级提供已弃用别名：
 
 ```typescript
 /** @deprecated Use `newFunctionName` instead. */
 export { newFunctionName as oldFunctionName } from './new-module';
 ```
 
-Only do this if it doesn't introduce meaningful technical debt. If it does, skip the alias — but **check with the user first** before making a clean break.
+仅当不会引入有意义的技术债时才这样做。若会引入，可跳过别名——但在做干净断裂之前**先与用户确认**。
 
-### Modified message types (e.g. in `@ai-sdk/provider-utils`)
+### 修改的消息类型（例如在 `@ai-sdk/provider-utils` 中）
 
-If modifying model message shapes (e.g. content part types in `packages/provider-utils/src/types/content-part.ts`):
+若修改 model 消息形状（例如 `packages/provider-utils/src/types/content-part.ts` 中的 content part 类型）：
 
-1. **Deprecate in `@ai-sdk/provider-utils`** rather than removing immediately, if feasible. Mark deprecated types/members with a `@deprecated` JSDoc comment and a `TODO` note to remove in the following major version.
-2. **Keep deprecated equivalents in `packages/ai/src/prompt/content-part.ts`** — this file is the consumer-facing layer and should retain the old shapes in the Zod schemas so existing consumer code continues to compile with a deprecation warning. Include a similar note about deprecation and removal in the following major version.
-3. If clean deprecation isn't feasible without meaningful technical debt, a hard removal may be preferred — but **check with the user first**.
+1. **在 `@ai-sdk/provider-utils` 中弃用而非立即移除**（若可行）。用 `@deprecated` JSDoc 与 `TODO` 注明在下一主版本中移除。
+2. **在 `packages/ai/src/prompt/content-part.ts` 中保留已弃用的等价物**——该文件是面向消费者的层，应在 Zod schema 中保留旧形状，使现有消费者代码仍能编译并收到弃用警告。同样注明弃用与下一主版本移除。
+3. 若干净弃用不可行且会引入有意义的技术债，可能更适合硬移除——但**先与用户确认**。
 
-### Provider spec changes (`@ai-sdk/provider`)
+### Provider 规范变更（`@ai-sdk/provider`）
 
-The `provider` package defines the spec that provider implementers code against. It should generally not be modified outside of major versions, so keeping the spec clean and consistent is critical.
+`provider` 包定义 provider 实现者所遵循的规范。一般不应在主版本外修改，因此保持规范清晰一致至关重要。
 
-Breaking changes _without_ maintaining temporary backward compatibility measures are more acceptable here than elsewhere, because the audience is smaller — far fewer developers implement their own providers than build features on top of the AI SDK.
+与其他地方相比，此处**不**维持临时向后兼容措施的破坏性变更更可接受，因为受众更小——自行实现 provider 的开发者远少于在 AI SDK 之上构建功能的开发者。
 
-Rules:
+规则：
 
-- **Only modify the latest spec version.** Older versioned spec interfaces must remain completely untouched.
-- Deprecated aliases are not required — a clean break is preferred to preserve spec clarity.
-- The current spec version is **not** the same as the current AI SDK major version number. If it's unclear which spec version to operate on, **ask the user before proceeding**.
+- **仅修改最新 spec 版本。** 旧版本化的 spec 接口必须完全不动。
+- 不需要已弃用别名——优先干净断裂以保持规范清晰。
+- 当前 spec 版本**不等于**当前 AI SDK 主版本号。若不清楚应操作哪个 spec 版本，**在继续之前询问用户**。
 
-## Documentation
+## 文档
 
-After implementing changes, update relevant documentation in `content/docs/`.
+实现变更后，更新 `content/docs/` 中的相关文档。
 
-If the change requires consumers to update their code or migrate stored data, add a section to the latest migration guide:
+若变更要求消费者更新代码或迁移存储数据，在最新迁移指南中添加一节：
 
-- Find the migration guide with the highest version number in `content/docs/08-migration-guides/`
-- Add a concise section explaining what changed and how to migrate
+- 在 `content/docs/08-migration-guides/` 中找到版本号最高的迁移指南
+- 添加简明一节，说明变更内容及如何迁移

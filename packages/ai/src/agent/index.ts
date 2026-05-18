@@ -7,7 +7,7 @@ export {
   type ToolLoopAgentSettings,
 
   /**
-   * @deprecated Use `ToolLoopAgentSettings` instead.
+   * @deprecated 请改用`ToolLoopAgentSettings`。
    */
   type ToolLoopAgentSettings as Experimental_AgentSettings,
 } from './tool-loop-agent-settings';
@@ -15,13 +15,13 @@ export {
   ToolLoopAgent,
 
   /**
-   * @deprecated Use `ToolLoopAgent` instead.
+   * @deprecated 请改用`ToolLoopAgent`。
    */
   ToolLoopAgent as Experimental_Agent,
 } from './tool-loop-agent';
 export {
   /**
-   * @deprecated Use `InferAgentUIMessage` instead.
+   * @deprecated 请改用`InferAgentUIMessage`。
    */
   type InferAgentUIMessage as Experimental_InferAgentUIMessage,
   type InferAgentUIMessage,

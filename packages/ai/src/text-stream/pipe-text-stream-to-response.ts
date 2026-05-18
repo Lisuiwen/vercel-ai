@@ -3,9 +3,9 @@ import { prepareHeaders } from '../util/prepare-headers';
 import { writeToServerResponse } from '../util/write-to-server-response';
 
 /**
- * Writes a text stream to a Node.js ServerResponse object.
- * Each text chunk is encoded as UTF-8 and written as a separate chunk.
- * Sets a `Content-Type` header to `text/plain; charset=utf-8`.
+ * 将文本流写入 Node.js ServerResponse 对象。
+ * 每个文本块都被编码为 UTF-8 并作为单独的块写入。
+ * 将“Content-Type”标头设置为“text/plain”；字符集=utf-8`。
  *
  * @param options - The options for piping the stream.
  * @param options.response - The Node.js ServerResponse to write to.

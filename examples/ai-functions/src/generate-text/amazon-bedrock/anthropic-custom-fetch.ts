@@ -4,7 +4,7 @@ import 'dotenv/config';
 import { run } from '../../lib/run';
 
 const bedrockAnthropic = createBedrockAnthropic({
-  // example fetch wrapper that logs the URL:
+  // 记录 URL 的 fetch 包装器示例：
   fetch: async (url, options) => {
     console.log(`Fetching ${url}`);
     const result = await fetch(url, options);

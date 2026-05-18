@@ -13,12 +13,12 @@ import type { Warning } from '../types/warning';
 import type { UploadFileResult } from './upload-file-result';
 
 /**
- * Uploads a file using a files API interface.
+ * 使用文件 API 接口上传文件。
  *
  * @param api - The Files API interface to use for uploading.
  * @param data - The file data to upload (tagged `{ type: 'data' | 'text' }`).
  * @param mediaType - Optional IANA media type. Auto-detected from file bytes
- * when omitted (falls back to `text/plain` for the `text` variant).
+ * 省略时（对于“text”变体，回退到“text/plain”）。
  * @param filename - Optional filename for the uploaded file.
  * @param providerOptions - Additional provider-specific options.
  *
@@ -32,20 +32,20 @@ export async function uploadFile({
   providerOptions,
 }: {
   /**
-   * The files API interface to use for uploading.
-   * Can be a `FilesV4` instance or a `ProviderV4` instance with a `files()` method.
+   * 用于上传的文件 API 接口。
+   * 可以是“FilesV4”实例或具有“files()”方法的“ProviderV4”实例。
    */
   api: FilesV4 | ProviderV4;
 } & Omit<FilesV4UploadFileCallOptions, 'mediaType' | 'data'> & {
     /**
-     * The file data. Accepts the tagged `{ type: 'data' | 'text' }` shapes, or
-     * the shorthand `Uint8Array | string` (treated as `{ type: 'data', data }`).
+     * 文件数据。接受标记为“{ type: 'data' | 'text' }` 形状，或者
+     * 简写`Uint8Array | string`（被视为“{ type: 'data', data }`）。
      */
     data: FilesV4UploadFileCallOptions['data'] | Uint8Array | string;
 
     /**
-     * Optional IANA media type of the file. Auto-detected from file bytes when
-     * omitted; falls back to `text/plain` for the `text` variant.
+     * 文件的可选 IANA 媒体类型。当以下情况时自动从文件字节中检测
+     * 省略；对于“text”变体，回退到“text/plain”。
      */
     mediaType?: string;
   }): Promise<UploadFileResult> {
@@ -112,8 +112,8 @@ class DefaultUploadFileResult implements UploadFileResult {
 
 function isLikelyText(data: Uint8Array | string): boolean {
   /*
-   * Limit checks to 512 bytes for performance.
-   * 4 base64 characters represent 3 bytes, and we use a small margin of 4 bytes just to be safe.
+   * 为了提高性能，将检查限制为 512 字节。
+   * 4 个 base64 字符代表 3 个字节，为了安全起见，我们使用了 4 个字节的小余量。
    */
   const CHECK_LENGTH = 512;
   const BASE64_CHECK_LENGTH = Math.ceil((CHECK_LENGTH + 4) / 3) * 4;

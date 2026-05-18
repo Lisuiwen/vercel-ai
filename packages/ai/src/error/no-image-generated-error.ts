@@ -6,16 +6,16 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 /**
- * Thrown when no image could be generated. This can have multiple causes:
+ * 当无法生成图像时抛出。这可能有多种原因：
  *
- * - The model failed to generate a response.
- * - The model generated a response that could not be parsed.
+ * - 模型无法生成响应。
+ * - 模型生成了无法解析的响应。
  */
 export class NoImageGeneratedError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   /**
-   * The response metadata for each call.
+   * 每个调用的响应元数据。
    */
   readonly responses: Array<ImageModelResponseMetadata> | undefined;
 

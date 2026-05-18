@@ -1,18 +1,16 @@
 ---
 title: valibotSchema
-description: Helper function for creating Valibot schemas
+description: 用于创建 Valibot schema 的辅助函数
 ---
 
 # `valibotSchema()`
 
-`valibotSchema` is a helper function that converts a Valibot schema into a JSON schema object
-that is compatible with the AI SDK.
-It takes a Valibot schema as input, and returns a typed schema.
+`valibotSchema` 将 Valibot schema 转换为与 AI SDK 兼容的 JSON schema 对象。
+输入为 Valibot schema，返回带类型的 schema。
 
-You can use it to [generate structured data](/docs/ai-sdk-core/generating-structured-data) and
-in [tools](/docs/ai-sdk-core/tools-and-tool-calling).
+可用于[生成结构化数据](/docs/ai-sdk-core/generating-structured-data)与[工具](/docs/ai-sdk-core/tools-and-tool-calling)。
 
-## Example
+## 示例
 
 ```ts
 import { valibotSchema } from '@ai-sdk/valibot';
@@ -32,27 +30,27 @@ const recipeSchema = valibotSchema(
 );
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { valibotSchema } from "@ai-sdk/valibot"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'valibotSchema',
       type: 'GenericSchema<unknown, T>',
-      description: 'The Valibot schema definition.',
+      description: 'Valibot schema 定义。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A Schema object that is compatible with the AI SDK, containing both the JSON schema representation and validation functionality.
+与 AI SDK 兼容的 Schema 对象，同时包含 JSON schema 表示与校验能力。

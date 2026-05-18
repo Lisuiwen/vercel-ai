@@ -5,7 +5,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   const result = streamText({
-    model: azure.responses('gpt-4.1-mini'), // please question about your documents.
+    model: azure.responses('gpt-4.1-mini'), // 请询问您的文件。
     messages: [
       {
         role: 'user',

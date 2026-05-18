@@ -1,41 +1,41 @@
 ---
 title: MLflow
-description: Track, visualize, and debug Vercel AI SDK traces with MLflow Tracing
+description: 使用 MLflow Tracing 跟踪、可视化并调试 Vercel AI SDK traces
 ---
 
-# MLflow Observability
+# MLflow 可观测性
 
-![MLflow Tracing Vercel AI SDK](https://mlflow.org/docs/latest/images/llms/tracing/vercel-ai-tracing.mp4)
+![MLflow Tracing 与 Vercel AI SDK](https://mlflow.org/docs/latest/images/llms/tracing/vercel-ai-tracing.mp4)
 
-[MLflow Tracing](https://mlflow.org/docs/latest/genai/tracing) provides automatic tracing for applications built with the [Vercel AI SDK](https://ai-sdk.dev/) (the `ai` package) via OpenTelemetry, unlocking observability for TypeScript and JavaScript apps.
+[MLflow Tracing](https://mlflow.org/docs/latest/genai/tracing) 通过 OpenTelemetry 为基于 [Vercel AI SDK](https://ai-sdk.dev/)（`ai` 包）构建的应用提供自动 tracing，为 TypeScript 与 JavaScript 应用解锁可观测能力。
 
-When enabled, MLflow records:
+启用后，MLflow 会记录：
 
-- Prompts/messages and generated responses
-- Latencies and call hierarchy
-- Token usage (when the provider returns it)
-- Exceptions
+- 提示词/消息与生成回复
+- 延迟与调用层级
+- Token 用量（在 provider 返回时）
+- 异常
 
-## Quickstart (NextJS)
+## 快速上手（NextJS）
 
-It is fairly straightforward to enable MLflow tracing for Vercel AI SDK if you are using NextJS.
+若使用 NextJS，为 Vercel AI SDK 启用 MLflow tracing 相对直接。
 
 <Note>
-  No app handy? Try Vercel’s demo chatbot:
+  还没有示例应用？可试用 Vercel 的演示聊天机器人：
   https://vercel.com/templates/next.js/ai-chatbot-telemetry
 </Note>
 
-### 1. Start MLflow Tracking Server
+### 1. 启动 MLflow Tracking Server
 
 ```bash
 mlflow server --backend-store-uri sqlite:///mlruns.db --port 5000
 ```
 
-You can also start the server with Docker Compose; see the [MLflow Setup Guide](https://mlflow.org/docs/latest/genai/getting-started/connect-environment/).
+也可用 Docker Compose 启动服务；见 [MLflow Setup Guide](https://mlflow.org/docs/latest/genai/getting-started/connect-environment/)。
 
-### 2. Configure Environment Variables
+### 2. 配置环境变量
 
-Add these to `.env.local`:
+将其添加到 `.env.local`：
 
 ```bash filename=".env.local"
 OTEL_EXPORTER_OTLP_ENDPOINT=<your-mlflow-tracking-server-endpoint>
@@ -43,17 +43,17 @@ OTEL_EXPORTER_OTLP_TRACES_HEADERS=x-mlflow-experiment-id=<your-experiment-id>
 OTEL_EXPORTER_OTLP_TRACES_PROTOCOL=http/protobuf
 ```
 
-For local testing: `OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:5000`.
+本地测试：`OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:5000`。
 
-### 3. Enable OpenTelemetry
+### 3. 启用 OpenTelemetry
 
-Install the Vercel OpenTelemetry integration:
+安装 Vercel OpenTelemetry 集成：
 
 ```bash
 pnpm i @opentelemetry/api @vercel/otel @ai-sdk/otel
 ```
 
-Create `instrumentation.ts` in your project root and register the `LegacyOpenTelemetry` alongside your OTel provider setup:
+在项目根目录创建 `instrumentation.ts`，注册 `LegacyOpenTelemetry` 并配合 OTel provider 设置：
 
 ```ts filename="instrumentation.ts"
 import { registerTelemetry } from 'ai';
@@ -67,7 +67,7 @@ export async function register() {
 }
 ```
 
-Once the integration is registered, telemetry is emitted automatically for your AI SDK calls:
+注册集成后，AI SDK 调用会自动发出遥测：
 
 ```ts filename="route.ts"
 import { generateText } from 'ai';
@@ -87,15 +87,15 @@ export async function POST(req: Request) {
 }
 ```
 
-See the [Vercel OpenTelemetry docs](https://vercel.com/docs/tracing/instrumentation) for advanced options like context propagation.
+上下文传播等高级选项见 [Vercel OpenTelemetry docs](https://vercel.com/docs/tracing/instrumentation)。
 
-### 4. Run the App and View Traces
+### 4. 运行应用并查看 traces
 
-Start your NextJS app and open MLflow UI at the tracking server endpoint (e.g., `http://localhost:5000`). Traces for AI SDK calls appear in the configured experiment.
+启动 NextJS 应用，在 tracking server 地址打开 MLflow UI（例如 `http://localhost:5000`）。AI SDK 调用的 traces 会出现在配置的实验中。
 
-## Other Node.js Applications
+## 其它 Node.js 应用
 
-For other Node.js frameworks, wire up the OpenTelemetry Node SDK and OTLP exporter manually.
+对其它 Node.js 框架，需手动接入 OpenTelemetry Node SDK 与 OTLP exporter。
 
 ```ts filename="main.ts"
 import { init } from 'mlflow-tracing';
@@ -134,9 +134,9 @@ sdk.shutdown();
 npx tsx main.ts
 ```
 
-## Streaming
+## 流式
 
-Streaming is supported. Like `generateText`, traces are captured automatically once the integration is registered.
+支持流式。与 `generateText` 类似，注册集成后会自动捕获 traces。
 
 ```ts
 import { streamText } from 'ai';
@@ -152,14 +152,14 @@ for await (const part of stream.textStream) {
 }
 ```
 
-## Disable auto-tracing
+## 关闭自动 tracing
 
-To disable tracing for Vercel AI SDK, set `telemetry: { isEnabled: false }` on the AI SDK call.
+要关闭 Vercel AI SDK 的 tracing，在调用上设置 `telemetry: { isEnabled: false }`。
 
-## Learn more
+## 延伸阅读
 
-- After setting up MLflow Tracing for the AI SDK, you can tap into broader MLflow GenAI capabilities:
-  - [Evaluation](https://mlflow.org/docs/latest/genai/eval-monitor/): Use built-in LLM judges and dataset management to systematically measure quality and monitor GenAI apps from development through production.
-  - [Prompt Management](https://mlflow.org/docs/latest/genai/prompt-registry/): Centralize prompt templates with versioning, aliases, lineage, and collaboration so teams can reuse and compare prompts safely.
-  - [MCP Server](https://mlflow.org/docs/latest/genai/mcp/): Connect your coding agent with MLflow MCP Server to interact with MLflow traces programmatically and improve your LLM applications.
-- For more information about tracing in AI SDK, see the [telemetry documentation](/docs/ai-sdk-core/telemetry).
+- 完成 AI SDK 的 MLflow Tracing 后，还可使用更广的 MLflow GenAI 能力：
+  - [Evaluation](https://mlflow.org/docs/latest/genai/eval-monitor/)：使用内置 LLM judge 与数据集管理，系统化度量质量并从开发到生产监控 GenAI 应用。
+  - [Prompt Management](https://mlflow.org/docs/latest/genai/prompt-registry/)：集中管理提示词模板，支持版本、别名、血缘与协作，便于团队安全复用与对比。
+  - [MCP Server](https://mlflow.org/docs/latest/genai/mcp/)：将编码智能体连接到 MLflow MCP Server，以编程方式交互 MLflow traces 并改进 LLM 应用。
+- AI SDK tracing 更多信息见 [telemetry documentation](/docs/ai-sdk-core/telemetry)。

@@ -1,28 +1,28 @@
 import type { SharedV4ProviderMetadata } from '@ai-sdk/provider';
 
 /**
- * Response metadata for a video model call.
+ * 视频模型调用的响应元数据。
  */
 export type VideoModelResponseMetadata = {
   /**
-   * Timestamp for the start of the generated response.
+   * 生成的响应的开始时间戳。
    */
   timestamp: Date;
 
   /**
-   * The ID of the response model that was used to generate the response.
+   * 用于生成响应的响应模型的 ID。
    */
   modelId: string;
 
   /**
-   * Response headers.
+   * 响应标头。
    */
   headers?: Record<string, string>;
 
   /**
-   * Provider-specific metadata for this call.
-   * When multiple calls are made (n > maxVideosPerCall), each response
-   * contains its own providerMetadata, allowing lossless per-call access.
+   * 此调用的提供商特定元数据。
+   * 当进行多次调用时 (n > maxVideosPerCall)，每个响应
+   * 包含自己的提供者元数据，允许无损的每次调用访问。
    */
   providerMetadata?: SharedV4ProviderMetadata;
 };

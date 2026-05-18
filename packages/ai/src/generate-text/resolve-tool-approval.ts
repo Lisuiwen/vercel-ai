@@ -13,10 +13,10 @@ import type { TypedToolCall } from './tool-call';
 import { validateToolContext } from './validate-tool-context';
 
 /**
- * Resolves the approval state for a tool call by checking user-supplied and tool-defined
- * approval settings, and normalizes the result to the object status shape.
- * User-defined approval settings take precedence over tool-defined settings.
- * If no approval settings are provided, the tool call does not require approval.
+ * 通过检查用户提供的和工具定义的来解析工具调用的批准状态
+ * 批准设置，并将结果标准化为对象状态形状。
+ * 用户定义的批准设置优先于工具定义的设置。
+ * 如果未提供批准设置，则工具调用不需要批准。
  */
 export async function resolveToolApproval<
   TOOLS extends ToolSet,
@@ -30,38 +30,38 @@ export async function resolveToolApproval<
   runtimeContext,
 }: {
   /**
-   * Tools that are available for the model to call.
+   * 可供模型调用的工具。
    */
   tools: TOOLS | undefined;
 
   /**
-   * Valid tool call.
+   * 有效的工具调用。
    */
   toolCall: TypedToolCall<TOOLS>;
 
   /**
-   * User-defined approval configuration for tools.
+   * 用户定义的工具审批配置。
    *
-   * This configuration takes precedence over tool-defined approval settings.
+   * 此配置优先于工具定义的批准设置。
    */
   toolApproval: ToolApprovalConfiguration<TOOLS, RUNTIME_CONTEXT> | undefined;
 
   /**
-   * Messages that were sent to the language model to initiate the response that contained the tool call.
+   * 发送到语言模型以启动包含工具调用的响应的消息。
    */
   messages: ModelMessage[];
 
   /**
-   * Tool context as defined by the tool's context schema.
+   * 由工具的上下文架构定义的工具上下文。
    */
   toolsContext: InferToolSetContext<TOOLS>;
 
   /**
-   * User-defined runtime context (same as `runtimeContext` on `generateText` / `streamText`).
+   * 用户定义的运行时上下文（与“generateText”/“streamText”上的“runtimeContext”相同）。
    */
   runtimeContext: RUNTIME_CONTEXT;
 }): Promise<Exclude<ToolApprovalStatus, string | undefined>> {
-  // user-defined generic tool approval
+  // 用户定义的通用工具审批
   if (toolApproval != null && typeof toolApproval === 'function') {
     return normalizeToolApprovalStatus(
       await toolApproval({
@@ -77,10 +77,10 @@ export async function resolveToolApproval<
   const toolName = toolCall.toolName;
   const tool = tools?.[toolName];
 
-  // assume that the input has been validated and matches the tool's input schema
+  // 假设输入已经过验证并且与工具的输入模式匹配
   const input = toolCall.input as InferToolInput<TOOLS[keyof TOOLS]>;
 
-  // user-defined per-tool approval
+  // 用户定义的每个工具批准
   const userDefinedToolApprovalStatus = toolApproval?.[toolName];
   if (userDefinedToolApprovalStatus != null) {
     const approvalStatus: ToolApprovalStatus | undefined =
@@ -101,7 +101,7 @@ export async function resolveToolApproval<
     return normalizeToolApprovalStatus(approvalStatus);
   }
 
-  // tool-defined approval
+  // 工具定义的批准
   if (tool?.needsApproval == null) {
     return { type: 'not-applicable' };
   }

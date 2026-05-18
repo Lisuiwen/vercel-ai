@@ -1,7 +1,7 @@
 import type { Telemetry } from './telemetry';
 
 /**
- * Registers one or more telemetry integrations globally.
+ * 在全球注册一个或多个遥测集成。
  */
 export function registerTelemetry(...integrations: Telemetry[]): void {
   if (!globalThis.AI_SDK_TELEMETRY_INTEGRATIONS) {

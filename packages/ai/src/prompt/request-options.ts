@@ -1,13 +1,13 @@
 import type { ToolSet } from '@ai-sdk/provider-utils';
 
 /**
- * Timeout configuration for API calls. Can be specified as:
- * - A number representing milliseconds
- * - An object with `totalMs` property for the total timeout in milliseconds
- * - An object with `stepMs` property for the timeout of each step in milliseconds
- * - An object with `chunkMs` property for the timeout between stream chunks (streaming only)
- * - An object with `toolMs` property for the default timeout for all tool executions
- * - An object with `tools` property for per-tool timeout overrides using `{toolName}Ms` keys
+ * API调用的超时配置。可以指定为：
+ * - 代表毫秒的数字
+ * - 具有“totalMs”属性的对象，用于表示总超时（以毫秒为单位）
+ * - 具有“stepMs”属性的对象，用于表示每个步骤的超时时间（以毫秒为单位）
+ * - 具有“chunkMs”属性的对象，用于流块之间的超时（仅限流）
+ * - 具有“toolMs”属性的对象，用于所有工具执行的默认超时
+ * - 具有“tools”属性的对象，用于使用“{toolName}Ms”键覆盖每个工具的超时
  */
 export type TimeoutConfiguration<TOOLS extends ToolSet> =
   | number
@@ -20,7 +20,7 @@ export type TimeoutConfiguration<TOOLS extends ToolSet> =
     };
 
 /**
- * Extracts the total timeout value in milliseconds from a TimeoutConfiguration.
+ * 从 TimeoutConfiguration 中提取总超时值（以毫秒为单位）。
  *
  * @param timeout - The timeout configuration.
  * @returns The total timeout in milliseconds, or undefined if no timeout is configured.
@@ -38,7 +38,7 @@ export function getTotalTimeoutMs(
 }
 
 /**
- * Extracts the step timeout value in milliseconds from a TimeoutConfiguration.
+ * 从 TimeoutConfiguration 中提取步骤超时值（以毫秒为单位）。
  *
  * @param timeout - The timeout configuration.
  * @returns The step timeout in milliseconds, or undefined if no step timeout is configured.
@@ -53,8 +53,8 @@ export function getStepTimeoutMs(
 }
 
 /**
- * Extracts the chunk timeout value in milliseconds from a TimeoutConfiguration.
- * This timeout is for streaming only - it aborts if no new chunk is received within the specified duration.
+ * 从 TimeoutConfiguration 中提取块超时值（以毫秒为单位）。
+ * 此超时仅适用于流式传输 - 如果在指定持续时间内没有收到新块，则会中止。
  *
  * @param timeout - The timeout configuration.
  * @returns The chunk timeout in milliseconds, or undefined if no chunk timeout is configured.
@@ -80,30 +80,30 @@ export function getToolTimeoutMs<TOOLS extends ToolSet>(
 }
 
 /**
- * Request-facing controls. These settings affect transport, retries,
- * cancellation, headers, and timeout – not model generation behavior.
+ * 面向请求的控件。这些设置影响传输、重试、
+ * 取消、标头和超时 – 不是模型生成行为。
  */
 export type RequestOptions<TOOLS extends ToolSet = ToolSet> = {
   /**
-   * Maximum number of retries. Set to 0 to disable retries.
+   * 最大重试次数。设置为 0 以禁用重试。
    *
    * @default 2
    */
   maxRetries?: number;
 
   /**
-   * Abort signal.
+   * 中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional HTTP headers to be sent with the request.
-   * Only applicable for HTTP-based providers.
+   * 与请求一起发送的附加 HTTP 标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string | undefined>;
 
   /**
-   * Timeout configuration for the request.
+   * 请求的超时配置。
    */
   timeout?: TimeoutConfiguration<TOOLS>;
 };

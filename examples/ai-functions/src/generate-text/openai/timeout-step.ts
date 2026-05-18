@@ -21,7 +21,7 @@ run(async () => {
       }),
     },
     stopWhen: isStepCount(5),
-    timeout: { stepMs: 1000 }, // 1 second timeout per step
+    timeout: { stepMs: 1000 }, // 每步 1 秒超时
   });
 
   console.log(text);

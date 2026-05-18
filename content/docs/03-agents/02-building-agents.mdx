@@ -1,26 +1,26 @@
 ---
-title: Building Agents
-description: Complete guide to creating agents with the ToolLoopAgent.
+title: 构建 Agent
+description: 使用 ToolLoopAgent 创建 Agent 的完整指南。
 ---
 
-# Building Agents
+# 构建 Agent
 
-The ToolLoopAgent provides a structured way to encapsulate LLM configuration, tools, and behavior into reusable components. It handles the agent loop for you, allowing the LLM to call tools multiple times in sequence to accomplish complex tasks. Define agents once and use them across your application.
+ToolLoopAgent 提供了一种结构化方式，将 LLM 配置、工具和行为封装为可复用组件。它为你处理 Agent 循环，使 LLM 能够连续多次调用工具以完成复杂任务。定义一次 Agent，即可在应用中随处使用。
 
-## Why Use the ToolLoopAgent Class?
+## 为何使用 ToolLoopAgent 类？
 
-When building AI applications, you often need to:
+构建 AI 应用时，你通常需要：
 
-- **Reuse configurations** - Same model settings, tools, and prompts across different parts of your application
-- **Maintain consistency** - Ensure the same behavior and capabilities throughout your codebase
-- **Simplify API routes** - Reduce boilerplate in your endpoints
-- **Type safety** - Get full TypeScript support for your agent's tools and outputs
+- **复用配置** - 在应用不同部分使用相同的模型设置、工具和提示词
+- **保持一致性** - 确保整个代码库中的行为和能力一致
+- **简化 API 路由** - 减少端点中的样板代码
+- **类型安全** - 为 Agent 的工具和输出获得完整的 TypeScript 支持
 
-The ToolLoopAgent class provides a single place to define your agent's behavior.
+ToolLoopAgent 类提供单一位置来定义 Agent 的行为。
 
-## Creating an Agent
+## 创建 Agent
 
-Define an agent by instantiating the ToolLoopAgent class with your desired configuration:
+通过使用所需配置实例化 ToolLoopAgent 类来定义 Agent：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -35,11 +35,11 @@ const myAgent = new ToolLoopAgent({
 });
 ```
 
-## Configuration Options
+## 配置选项
 
-The ToolLoopAgent accepts all the same settings as `generateText` and `streamText`. Configure:
+ToolLoopAgent 接受与 `generateText` 和 `streamText` 相同的所有设置。可配置：
 
-### Model and System Instructions
+### 模型与系统指令
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -51,9 +51,9 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-### Tools
+### 工具
 
-Provide tools that the agent can use to accomplish tasks:
+提供 Agent 用于完成任务的 tools：
 
 ```ts
 import { ToolLoopAgent, tool } from 'ai';
@@ -77,13 +77,9 @@ const codeAgent = new ToolLoopAgent({
 });
 ```
 
-### Context and Agent State
+### 上下文与 Agent 状态
 
-Use `runtimeContext` as the agent's shared runtime state. It flows through the
-agent loop and is available in `prepareStep`, lifecycle callbacks, and final
-results. If a tool needs server-side values such as credentials, scoped
-permissions, or default settings, pass them through `toolsContext` and declare
-them with the tool's `contextSchema`.
+使用 `runtimeContext` 作为 Agent 的共享运行时状态。它流经 Agent 循环，在 `prepareStep`、生命周期回调和最终结果中可用。如果工具需要凭据、范围权限或默认设置等服务端值，请通过 `toolsContext` 传递，并使用工具的 `contextSchema` 声明它们。
 
 ```ts highlight="8-15,21-31,37-49"
 import { ToolLoopAgent, tool } from 'ai';
@@ -129,15 +125,11 @@ const result = await agent.generate({
 });
 ```
 
-For the full model, including sensitive context filtering and where each context
-value is available, see [Runtime and Tool
-Context](/docs/ai-sdk-core/runtime-and-tool-context).
+关于完整模型（包括敏感上下文过滤以及每个上下文值的可用位置），请参阅[运行时与工具上下文](/docs/ai-sdk-core/runtime-and-tool-context)。
 
-### Tools That Use Experimental Sandboxes
+### 使用实验性 Sandbox 的工具
 
-Pass `experimental_sandbox` when an agent tool needs a command or code execution
-environment. The experimental sandbox is a per-call value, so provide it to `generate()`,
-`stream()`, or the agent UI stream helper that invokes the agent.
+当 Agent 工具需要命令或代码执行环境时，传递 `experimental_sandbox`。实验性 sandbox 是每次调用的值，因此请在 `generate()`、`stream()` 或调用 Agent 的 UI 流辅助函数时提供。
 
 ```ts highlight="8-16,25"
 const agent = new ToolLoopAgent({
@@ -174,15 +166,9 @@ const result = await agent.generate({
 });
 ```
 
-The experimental sandbox description is not added to the model prompt automatically. Include
-it in the prompt or instructions when the model needs to know environment
-details. Passing an experimental sandbox does not sandbox the tool itself; the tool must
-explicitly delegate operations to the experimental sandbox. See the
-[Experimental Sandbox section in Tool Calling](/docs/ai-sdk-core/tools-and-tool-calling#experimental-sandbox)
-for more details.
+实验性 sandbox 描述不会自动添加到模型提示词中。当模型需要了解环境详情时，请将其包含在 prompt 或 instructions 中。传递 experimental sandbox 并不会对工具本身进行沙箱化；工具必须显式将操作委托给 experimental sandbox。更多详情请参阅[工具调用中的实验性 Sandbox 部分](/docs/ai-sdk-core/tools-and-tool-calling#experimental-sandbox)。
 
-You can also require approval before a tool executes. Configure approval on the
-`ToolLoopAgent` with `toolApproval`:
+你也可以在工具执行前要求审批。在 `ToolLoopAgent` 上使用 `toolApproval` 进行配置：
 
 ```ts
 const agent = new ToolLoopAgent({
@@ -202,15 +188,13 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-For manual approvals, automatic approvals and denials, dynamic policy functions,
-and `useChat` integration, see [Tool
-Approvals](/docs/agents/tool-approvals).
+关于手动审批、自动批准与拒绝、动态策略函数以及 `useChat` 集成，请参阅[工具审批](/docs/agents/tool-approvals)。
 
-### Loop Control
+### 循环控制
 
-By default, agents run for 20 steps (`stopWhen: isStepCount(20)`). In each step, the model either generates text or calls a tool. If it generates text, the agent completes. If it calls a tool, the AI SDK executes that tool.
+默认情况下，Agent 运行 20 步（`stopWhen: isStepCount(20)`）。在每一步中，模型要么生成文本，要么调用工具。如果生成文本，Agent 完成。如果调用工具，AI SDK 会执行该工具。
 
-You can configure `stopWhen` differently to allow more steps. After each tool execution, the agent triggers a new generation where the model can call another tool or generate text:
+你可以不同地配置 `stopWhen` 以允许更多步骤。每次工具执行后，Agent 会触发新的生成，模型可以再次调用工具或生成文本：
 
 ```ts
 import { ToolLoopAgent, isStepCount } from 'ai';
@@ -222,14 +206,14 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-Each step represents one generation (which results in either text or a tool call). The loop continues until:
+每一步代表一次生成（结果为文本或工具调用）。循环持续直到：
 
-- A finish reasoning other than tool-calls is returned, or
-- A tool that is invoked does not have an execute function, or
-- A tool call needs approval, or
-- A stop condition is met
+- 返回的 finish reasoning 不是 tool-calls，或
+- 被调用的工具没有 execute 函数，或
+- 工具调用需要审批，或
+- 满足停止条件
 
-You can combine multiple conditions:
+你可以组合多个条件：
 
 ```ts
 import { ToolLoopAgent, isStepCount } from 'ai';
@@ -244,11 +228,11 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-Learn more about [loop control and stop conditions](/docs/agents/loop-control).
+了解更多请参阅[循环控制与停止条件](/docs/agents/loop-control)。
 
-### Tool Choice
+### 工具选择
 
-Control how the agent uses tools:
+控制 Agent 如何使用工具：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -265,7 +249,7 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-You can also force the use of a specific tool:
+你也可以强制使用特定工具：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -284,9 +268,9 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-### Structured Output
+### 结构化输出
 
-Define structured output schemas:
+定义结构化输出 schema：
 
 ```ts
 import { ToolLoopAgent, Output } from 'ai';
@@ -309,13 +293,13 @@ const { output } = await analysisAgent.generate({
 });
 ```
 
-## Define Agent Behavior with System Instructions
+## 使用系统指令定义 Agent 行为
 
-System instructions define your agent's behavior, personality, and constraints. They set the context for all interactions and guide how the agent responds to user queries and uses tools.
+系统指令定义 Agent 的行为、个性和约束。它们为所有交互设置上下文，并指导 Agent 如何响应用户查询和使用工具。
 
-### Basic System Instructions
+### 基本系统指令
 
-Set the agent's role and expertise:
+设置 Agent 的角色和专长：
 
 ```ts
 const agent = new ToolLoopAgent({
@@ -325,9 +309,9 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-### Detailed Behavioral Instructions
+### 详细行为指令
 
-Provide specific guidelines for agent behavior:
+为 Agent 行为提供具体指南：
 
 ```ts
 const codeReviewAgent = new ToolLoopAgent({
@@ -343,9 +327,9 @@ const codeReviewAgent = new ToolLoopAgent({
 });
 ```
 
-### Constrain Agent Behavior
+### 约束 Agent 行为
 
-Set boundaries and ensure consistent behavior:
+设置边界并确保一致的行为：
 
 ```ts
 const customerSupportAgent = new ToolLoopAgent({
@@ -366,9 +350,9 @@ const customerSupportAgent = new ToolLoopAgent({
 });
 ```
 
-### Tool Usage Instructions
+### 工具使用指令
 
-Guide how the agent should use available tools:
+指导 Agent 如何使用可用工具：
 
 ```ts
 const researchAgent = new ToolLoopAgent({
@@ -389,9 +373,9 @@ const researchAgent = new ToolLoopAgent({
 });
 ```
 
-### Format and Style Instructions
+### 格式与风格指令
 
-Control the output format and communication style:
+控制输出格式和沟通风格：
 
 ```ts
 const technicalWriterAgent = new ToolLoopAgent({
@@ -409,13 +393,13 @@ const technicalWriterAgent = new ToolLoopAgent({
 });
 ```
 
-## Using an Agent
+## 使用 Agent
 
-Once defined, you can use your agent in three ways:
+定义完成后，你可以通过三种方式使用 Agent：
 
-### Generate Text
+### 生成文本
 
-Use `generate()` for one-time text generation:
+使用 `generate()` 进行一次性文本生成：
 
 ```ts
 const result = await myAgent.generate({
@@ -425,9 +409,9 @@ const result = await myAgent.generate({
 console.log(result.text);
 ```
 
-### Stream Text
+### 流式文本
 
-Use `stream()` for streaming responses:
+使用 `stream()` 进行流式响应：
 
 ```ts
 const result = await myAgent.stream({
@@ -439,9 +423,9 @@ for await (const chunk of result.textStream) {
 }
 ```
 
-### Respond to UI Messages
+### 响应 UI 消息
 
-Use `createAgentUIStreamResponse()` to create API responses for client applications:
+使用 `createAgentUIStreamResponse()` 为客户端应用创建 API 响应：
 
 ```ts
 // In your API route (e.g., app/api/chat/route.ts)
@@ -457,15 +441,14 @@ export async function POST(request: Request) {
 }
 ```
 
-### Lifecycle Callbacks
+### 生命周期回调
 
 <Note type="warning">
-  Experimental callbacks are subject to breaking changes in incremental package
-  releases.
+  实验性回调在增量包发布中可能发生破坏性变更。
 </Note>
 
-Agents provide lifecycle callbacks that let you hook into different phases of the agent execution.
-These are useful for logging, observability, debugging, and custom telemetry.
+Agent 提供生命周期回调，让你可以挂接到 Agent 执行的不同阶段。
+这些回调适用于日志、可观测性、调试和自定义遥测。
 
 ```ts
 const result = await myAgent.generate({
@@ -512,18 +495,18 @@ const result = await myAgent.generate({
 });
 ```
 
-The available lifecycle callbacks are:
+可用的生命周期回调包括：
 
-- **`experimental_onStart`**: Called once when the agent operation begins, before any LLM calls. Receives model info, messages, settings, and `runtimeContext`.
-- **`experimental_onStepStart`**: Called before each step (LLM call). Receives the step number, model, messages being sent, tools, and prior steps.
-- **`onToolExecutionStart`**: Called right before a tool's `execute` function runs. Receives the tool call object, messages, and `toolContext`.
-- **`onToolExecutionEnd`**: Called right after a tool's `execute` function completes or errors. Receives the tool call, `toolExecutionMs`, and a `toolOutput` discriminated union (`type: 'tool-result'` with `output`, or `type: 'tool-error'` with `error`).
-- **`onStepFinish`**: Called after each step finishes. Receives step results including usage, performance, finish reason, and tool calls.
-- **`onFinish`**: Called when all steps are finished and the response is complete. Receives all step results, total usage, and `runtimeContext`.
+- **`experimental_onStart`**：在 Agent 操作开始时调用一次，在任何 LLM 调用之前。接收模型信息、消息、设置和 `runtimeContext`。
+- **`experimental_onStepStart`**：在每一步（LLM 调用）之前调用。接收步骤编号、模型、发送的消息、工具和先前步骤。
+- **`onToolExecutionStart`**：在工具的 `execute` 函数运行之前立即调用。接收工具调用对象、消息和 `toolContext`。
+- **`onToolExecutionEnd`**：在工具的 `execute` 函数完成或出错之后立即调用。接收工具调用、`toolExecutionMs` 以及判别联合 `toolOutput`（`type: 'tool-result'` 含 `output`，或 `type: 'tool-error'` 含 `error`）。
+- **`onStepFinish`**：在每一步完成后调用。接收包括用量、性能、finish reason 和工具调用在内的步骤结果。
+- **`onFinish`**：在所有步骤完成且响应就绪时调用。接收所有步骤结果、总用量和 `runtimeContext`。
 
-#### Constructor vs. Method Callbacks
+#### 构造函数 vs. 方法回调
 
-All lifecycle callbacks can be defined in the constructor for agent-wide tracking, in the `generate()`/`stream()` call for per-call tracking, or both. When both are provided, both are called (constructor first, then the method callback):
+所有生命周期回调都可以在构造函数中定义（用于 Agent 范围的跟踪），在 `generate()`/`stream()` 调用中定义（用于每次调用的跟踪），或两者兼有。当两者都提供时，两者都会被调用（先构造函数，后方法回调）：
 
 ```ts
 const agent = new ToolLoopAgent({
@@ -544,9 +527,9 @@ const result = await agent.generate({
 });
 ```
 
-## End-to-end Type Safety
+## 端到端类型安全
 
-You can infer types for your agent's `UIMessage`s:
+你可以为 Agent 的 `UIMessage` 推断类型：
 
 ```ts
 import { ToolLoopAgent, InferAgentUIMessage } from 'ai';
@@ -559,7 +542,7 @@ const myAgent = new ToolLoopAgent({
 export type MyAgentUIMessage = InferAgentUIMessage<typeof myAgent>;
 ```
 
-Use this type in your client components with `useChat`:
+在客户端组件中与 `useChat` 一起使用此类型：
 
 ```tsx filename="components/chat.tsx"
 'use client';
@@ -573,10 +556,10 @@ export function Chat() {
 }
 ```
 
-## Next Steps
+## 下一步
 
-Now that you understand building agents, you can:
+现在你已经了解如何构建 Agent，可以：
 
-- Explore [workflow patterns](/docs/agents/workflows) for structured patterns using core functions
-- Learn about [loop control](/docs/agents/loop-control) for advanced execution control
-- See [manual loop examples](/cookbook/node/manual-agent-loop) for custom workflow implementations
+- 探索[工作流模式](/docs/agents/workflows)，了解使用核心函数的结构化模式
+- 学习[循环控制](/docs/agents/loop-control)以进行高级执行控制
+- 查看[手动循环示例](/cookbook/node/manual-agent-loop)以了解自定义工作流实现

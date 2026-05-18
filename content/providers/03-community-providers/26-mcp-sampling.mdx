@@ -1,43 +1,43 @@
 ---
 title: MCP Sampling AI Provider
-description: Learn how to use the MCP Sampling AI Provider.
+description: 了解如何使用 MCP Sampling AI Provider。
 ---
 
 # MCP Sampling AI Provider
 
-The [MCP Sampling AI Provider](https://github.com/mcpc-tech/mcpc/tree/main/packages/mcp-sampling-ai-provider) allows MCP servers to use AI models through the AI SDK by leveraging your existing client subscriptions (like VS Code Copilot). This transforms your MCP server into an agentic tool that can reason and make decisions, without requiring separate API keys or subscriptions.
+[MCP Sampling AI Provider](https://github.com/mcpc-tech/mcpc/tree/main/packages/mcp-sampling-ai-provider) 让 MCP 服务器通过 AI SDK 使用 AI 模型，并可复用你已有的客户端订阅（例如 VS Code Copilot）。这样可将 MCP 服务器变为能推理与决策的 agentic 工具，而无需单独的 API Key 或订阅。
 
-The provider implements `LanguageModelV4` by forwarding requests through MCP's [sampling feature](https://modelcontextprotocol.io/specification/2025-06-18/client/sampling) to the MCP client, offering unique advantages:
+本提供商通过 MCP 的 [sampling 能力](https://modelcontextprotocol.io/specification/2025-06-18/client/sampling) 将请求转发给 MCP 客户端，从而实现 `LanguageModelV4`，具备以下优势：
 
-- **Server-Side AI Integration**: Enable MCP servers to call language models directly through AI SDK's standard interface
-- **No Direct Model Management**: Forward AI requests to MCP clients, eliminating the need for multiple API keys
-- **Model Flexibility**: Let MCP clients decide which model to use based on preferences (cost, speed, intelligence)
-- **Seamless AI SDK Compatibility**: Support for `generateText`, `streamText`, structured output with [`Output`](/docs/reference/ai-sdk-core/output), and experimental tool calling
-- **Client Sampling Support**: Add sampling capability to any MCP client with built-in helpers
-- **Agentic Tools**: Transform simple MCP tools into intelligent agents that can reason and make decisions
+- **服务端集成 AI**：MCP 服务器可通过 AI SDK 标准接口直接调用语言模型
+- **无需直连管理模型**：将 AI 请求交给 MCP 客户端，减少多把 API Key 的管理成本
+- **模型选择灵活**：由 MCP 客户端按偏好（成本、速度、智能）选择实际模型
+- **与 AI SDK 无缝兼容**：支持 `generateText`、`streamText`、配合 [`Output`](/docs/reference/ai-sdk-core/output) 的结构化输出，以及实验性工具调用
+- **客户端 Sampling 支持**：内置辅助方法，可为任意 MCP 客户端补充 sampling
+- **Agentic 工具**：将简单 MCP 工具升级为可推理、可决策的智能体
 
-Learn more about MCP Sampling in the [MCP Specification](https://modelcontextprotocol.io/specification/2025-06-18/client/sampling).
+更多说明见 [MCP Specification](https://modelcontextprotocol.io/specification/2025-06-18/client/sampling)。
 
-## Prerequisites
+## 前置条件
 
-**Warning:** This provider has specific requirements:
+**注意：** 本提供商有特定要求：
 
-1. **Must run inside an MCP Server** - This is not a standalone AI SDK provider. It works by forwarding requests to the MCP client.
-2. **Client must support MCP Sampling** - The connected MCP client must implement the sampling capability, or you can implement it yourself (see [Client Sampling](#client-sampling-for-clients-without-native-support) below).
+1. **必须在 MCP Server 内运行** — 不是独立的 AI SDK 提供商，通过将请求转发给 MCP 客户端工作。
+2. **客户端须支持 MCP Sampling** — 连接的 MCP 客户端需实现 sampling；也可自行实现（见下文 [Client Sampling](#client-sampling-for-clients-without-native-support)）。
 
-### Clients with Sampling Support
+### 已支持或跟进中的客户端
 
-- VS Code (with GitHub Copilot) - Supported
-- Claude Desktop - Tracking ([Issue #1785](https://github.com/anthropics/claude-code/issues/1785))
-- Cursor - Tracking ([Issue #3023](https://github.com/cursor/cursor/issues/3023))
+- VS Code（GitHub Copilot）— 已支持
+- Claude Desktop — 跟进中（[Issue #1785](https://github.com/anthropics/claude-code/issues/1785)）
+- Cursor — 跟进中（[Issue #3023](https://github.com/cursor/cursor/issues/3023)）
 
-See the [full list of MCP clients](https://modelcontextprotocol.io/clients) for more options.
+更多选项见 [MCP clients 列表](https://modelcontextprotocol.io/clients)。
 
-**Alternative:** Use `setupClientSampling()` to add sampling to any MCP client (see example below).
+**替代方案：** 使用 `setupClientSampling()` 为任意 MCP 客户端添加 sampling（见下方示例）。
 
-## Setup
+## 安装
 
-The MCP Sampling AI Provider is available in the `@mcpc-tech/mcp-sampling-ai-provider` module. You can install it with:
+本提供商位于 `@mcpc-tech/mcp-sampling-ai-provider` 模块：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun', 'deno']}>
   <Tab>
@@ -57,9 +57,9 @@ The MCP Sampling AI Provider is available in the `@mcpc-tech/mcp-sampling-ai-pro
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-To create an MCP Sampling provider instance, use the `createMCPSamplingProvider` function with your MCP server instance:
+使用 `createMCPSamplingProvider` 并传入 MCP 服务器实例：
 
 ```typescript
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -74,17 +74,15 @@ const server = new Server(
 const provider = createMCPSamplingProvider({ server });
 ```
 
-### Configuration
-
-The provider accepts the following configuration:
+### 配置
 
 - **server** _MCP Server instance_
 
-  An MCP Server instance that has sampling capability enabled.
+  已启用 sampling 能力的 MCP Server 实例。
 
-## Language Models
+## 语言模型
 
-Create a language model instance using the `languageModel()` method:
+使用 `languageModel()` 创建语言模型实例：
 
 ```typescript
 const model = provider.languageModel({
@@ -97,33 +95,33 @@ const model = provider.languageModel({
 });
 ```
 
-### Model Preferences
+### 模型偏好
 
-The `languageModel()` method accepts optional model preferences:
+`languageModel()` 可传入可选的模型偏好：
 
 - **hints** _Array\<\{ name: string \}\>_
 
-  Array of model name hints (e.g., `[{ name: "gpt-5-mini" }]`). These suggest preferred models to the MCP client.
+  模型名称提示数组（如 `[{ name: "gpt-5-mini" }]`），向 MCP 客户端建议首选模型。
 
 - **costPriority** _number (0-1)_
 
-  Higher values prefer cheaper models. Default is 0.
+  越大越倾向更便宜模型。默认 0。
 
 - **speedPriority** _number (0-1)_
 
-  Higher values prefer faster models. Default is 0.
+  越大越倾向更快模型。默认 0。
 
 - **intelligencePriority** _number (0-1)_
 
-  Higher values prefer more capable models. Default is 0.
+  越大越倾向更强模型。默认 0。
 
-See [MCP Model Preferences](https://modelcontextprotocol.io/specification/2025-06-18/client/sampling#model-preferences) for more details.
+详见 [MCP Model Preferences](https://modelcontextprotocol.io/specification/2025-06-18/client/sampling#model-preferences)。
 
-## Examples
+## 示例
 
 ### `generateText`
 
-Generate text using the MCP Sampling Provider in an MCP server tool:
+在 MCP 服务器工具中使用 MCP Sampling Provider 生成文本：
 
 ```typescript
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -192,7 +190,7 @@ await server.connect(transport);
 
 ### `streamText`
 
-Stream text responses using the MCP Sampling Provider:
+使用 MCP Sampling Provider 流式输出文本：
 
 ```typescript
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -248,9 +246,9 @@ const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-### Structured Output
+### 结构化输出
 
-Generate structured objects using the MCP Sampling Provider:
+使用 MCP Sampling Provider 生成结构化对象：
 
 ```typescript
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -314,9 +312,9 @@ const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-### Tool Calling (Experimental)
+### 工具调用（实验性）
 
-Use tools with the MCP Sampling Provider. Note: This is implemented via system prompt and may not be as reliable as native tool support:
+在 MCP Sampling Provider 中使用工具。注意：当前通过 system prompt 实现，可靠性可能不如原生工具支持：
 
 ```typescript
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -387,18 +385,18 @@ const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-### Additional Examples
+### 更多示例
 
-See the [examples directory](https://github.com/mcpc-tech/mcpc/tree/main/packages/mcp-sampling-ai-provider/examples) for more complete working examples:
+完整可运行示例见 [examples 目录](https://github.com/mcpc-tech/mcpc/tree/main/packages/mcp-sampling-ai-provider/examples)：
 
-- [generate_text_example.ts](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/generate_text_example.ts) - Basic text generation
-- [stream_text_example.ts](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/stream_text_example.ts) - Streaming responses
-- [generate_object_example.ts](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/generate_object_example.ts) - Structured output
-- [client-sampling-example.ts](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/client-sampling-example.ts) - Client sampling implementation
+- [generate_text_example.ts](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/generate_text_example.ts) — 基础文本生成
+- [stream_text_example.ts](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/stream_text_example.ts) — 流式响应
+- [generate_object_example.ts](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/generate_object_example.ts) — 结构化输出
+- [client-sampling-example.ts](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/client-sampling-example.ts) — 客户端 sampling 实现
 
-## Client Sampling (for clients without native support)
+## Client Sampling（无原生 sampling 的客户端）
 
-If your MCP client doesn't support sampling natively, you can add sampling capability using `setupClientSampling` with model preferences:
+若 MCP 客户端未原生支持 sampling，可使用 `setupClientSampling` 并传入模型偏好来启用：
 
 ```typescript
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
@@ -451,26 +449,26 @@ const transport = new StdioClientTransport({
 await client.connect(transport);
 ```
 
-See the [complete example](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/client-sampling-example.ts) for more details.
+完整示例见 [complete example](https://github.com/mcpc-tech/mcpc/blob/main/packages/mcp-sampling-ai-provider/examples/client-sampling-example.ts)。
 
-## How It Works
+## 工作原理
 
-The request flow is straightforward:
+请求流程如下：
 
-1. AI SDK calls the language model
-2. Provider converts to MCP `sampling/createMessage` format
-3. MCP client handles the sampling request
-4. Provider converts response back to AI SDK format
+1. AI SDK 调用语言模型
+2. 提供商转换为 MCP `sampling/createMessage` 格式
+3. MCP 客户端处理 sampling 请求
+4. 提供商将响应转回 AI SDK 格式
 
-The MCP client (e.g., VS Code, Claude Desktop) decides which actual model to use based on the provided `modelPreferences`.
+实际使用哪一模型由 MCP 客户端（如 VS Code、Claude Desktop）根据 `modelPreferences` 决定。
 
-## Limitations
+## 局限
 
-- **No token counting**: MCP doesn't provide token usage information (returns 0)
-- **No native streaming**: MCP sampling doesn't support streaming - the provider calls `doGenerate` first, then emits the complete response as stream events
-- **Experimental tool/JSON support**: Implemented via systemPrompt as MCP sampling doesn't natively support these features
+- **无 token 统计**：MCP 不提供用量信息（返回 0）
+- **无原生流式**：MCP sampling 不支持流式；提供商先调用 `doGenerate`，再将完整响应以流事件形式发出
+- **工具 / JSON 为实验性**：因 sampling 无原生支持，通过 systemPrompt 实现
 
-## Additional Resources
+## 更多资源
 
 - [MCP Sampling AI Provider Repository](https://github.com/mcpc-tech/mcpc/tree/main/packages/mcp-sampling-ai-provider)
 - [NPM Package](https://www.npmjs.com/package/@mcpc-tech/mcp-sampling-ai-provider)

@@ -1,23 +1,23 @@
 ---
-title: streamText fails silently
-description: Troubleshooting errors related to the streamText function not working.
+title: streamText 静默失败
+description: 排查 streamText 不工作相关的问题。
 ---
 
-# `streamText` is not working
+# `streamText` 不工作
 
-## Issue
+## 问题
 
-I am using [`streamText`](/docs/reference/ai-sdk-core/stream-text) function, and it does not work.
-It does not throw any errors and the stream is only containing error parts.
+我在使用 [`streamText`](/docs/reference/ai-sdk-core/stream-text)，但它不工作。
+不会抛出错误，流里只有错误片段。
 
-## Background
+## 背景
 
-`streamText` immediately starts streaming to enable sending data without waiting for the model.
-Errors become part of the stream and are not thrown to prevent e.g. servers from crashing.
+`streamText` 会立即开始流式输出，以便无需等待模型即可发送数据。
+错误会成为流的一部分而不会抛出，从而避免例如导致服务端进程崩溃。
 
-## Solution
+## 解决方案
 
-To log errors, you can provide an `onError` callback that is triggered when an error occurs.
+可提供在出错时触发的 `onError` 回调来记录错误。
 
 ```tsx highlight="6-8"
 import { streamText } from 'ai';

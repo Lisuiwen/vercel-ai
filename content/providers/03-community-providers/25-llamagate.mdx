@@ -1,25 +1,25 @@
 ---
 title: LlamaGate
-description: LlamaGate Provider for the AI SDK
+description: AI SDK 的 LlamaGate 提供商
 ---
 
 # LlamaGate
 
-[LlamaGate](https://llamagate.dev) is an OpenAI-compatible API gateway providing access to 26+ open-source LLMs with competitive pricing. Perfect for indie developers and startups who want affordable access to models like Llama, Qwen, DeepSeek, and Mistral.
+[LlamaGate](https://llamagate.dev) 是兼容 OpenAI 的 API 网关，提供 26+ 款开源 LLM 访问，价格实惠，适合独立开发者与初创团队低成本使用 Llama、Qwen、DeepSeek、Mistral 等模型。
 
-- **26+ Open-Source Models**: Access Llama, Mistral, DeepSeek R1, Qwen, and more
-- **OpenAI-Compatible API**: Drop-in replacement for existing OpenAI integrations
-- **Competitive Pricing**: $0.02-$0.55 per 1M tokens
-- **Vision Models**: Qwen VL, LLaVA for multimodal tasks
-- **Reasoning Models**: DeepSeek R1 for complex problem-solving
-- **Code Models**: CodeLlama, DeepSeek Coder, Qwen Coder
-- **Embedding Models**: Nomic Embed Text, Qwen 3 Embedding
+- **26+ 开源模型**：Llama、Mistral、DeepSeek R1、Qwen 等
+- **OpenAI 兼容 API**：可替换现有 OpenAI 集成
+- **有竞争力定价**：每百万 token 约 $0.02–$0.55
+- **视觉模型**：Qwen VL、LLaVA 等多模态
+- **推理模型**：DeepSeek R1 用于复杂问题
+- **代码模型**：CodeLlama、DeepSeek Coder、Qwen Coder
+- **嵌入模型**：Nomic Embed Text、Qwen 3 Embedding
 
-Learn more about LlamaGate's capabilities in the [LlamaGate Documentation](https://llamagate.dev/docs).
+更多说明见 [LlamaGate Documentation](https://llamagate.dev/docs)。
 
-## Setup
+## 安装
 
-The LlamaGate provider is available in the `@llamagate/ai-sdk-provider` module. You can install it with:
+位于 `@llamagate/ai-sdk-provider` 模块：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -36,9 +36,9 @@ The LlamaGate provider is available in the `@llamagate/ai-sdk-provider` module. 
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-To create a LlamaGate provider instance, use the `createLlamaGate` function:
+使用 `createLlamaGate` 创建实例：
 
 ```typescript
 import { createLlamaGate } from '@llamagate/ai-sdk-provider';
@@ -48,17 +48,17 @@ const llamagate = createLlamaGate({
 });
 ```
 
-You can obtain your LlamaGate API key from the [LlamaGate Dashboard](https://llamagate.dev/dashboard).
+API Key 见 [LlamaGate Dashboard](https://llamagate.dev/dashboard)。
 
-Alternatively, you can use the default instance which reads from the `LLAMAGATE_API_KEY` environment variable:
+也可使用默认实例（读取环境变量 `LLAMAGATE_API_KEY`）：
 
 ```typescript
 import { llamagate } from '@llamagate/ai-sdk-provider';
 ```
 
-## Language Models
+## 语言模型
 
-LlamaGate provides chat models via the `llamagate()` function or `llamagate.chatModel()`:
+通过 `llamagate()` 或 `llamagate.chatModel()` 获取对话模型：
 
 ```typescript
 // Default usage
@@ -68,9 +68,9 @@ const model = llamagate('llama-3.1-8b');
 const chatModel = llamagate.chatModel('qwen3-8b');
 ```
 
-### Available Models
+### 可用模型
 
-| Model ID              | Description                 | Context |
+| Model ID              | 说明                        | 上下文   |
 | --------------------- | --------------------------- | ------- |
 | `llama-3.1-8b`        | Llama 3.1 8B Instruct       | 131K    |
 | `llama-3.2-3b`        | Llama 3.2 3B                | 131K    |
@@ -86,27 +86,25 @@ const chatModel = llamagate.chatModel('qwen3-8b');
 | `llava-7b`            | LLaVA 1.5 7B (Vision)       | 4K      |
 | `gemma3-4b`           | Gemma 3 4B (Vision)         | 128K    |
 
-You can find the full list of available models in the [LlamaGate Models documentation](https://llamagate.dev/docs/models).
+完整列表见 [LlamaGate Models documentation](https://llamagate.dev/docs/models)。
 
-## Embedding Models
+## 嵌入模型
 
-LlamaGate provides text embedding models via `llamagate.textEmbeddingModel()`:
+文本嵌入使用 `llamagate.textEmbeddingModel()`：
 
 ```typescript
 const embeddingModel = llamagate.textEmbeddingModel('nomic-embed-text');
 ```
 
-### Available Embedding Models
+### 可用嵌入模型
 
-| Model ID              | Description         | Context |
+| Model ID              | 说明                | 上下文   |
 | --------------------- | ------------------- | ------- |
 | `nomic-embed-text`    | Nomic Embed Text    | 8K      |
 | `embeddinggemma-300m` | EmbeddingGemma 300M | 2K      |
 | `qwen3-embedding-8b`  | Qwen 3 Embedding 8B | 40K     |
 
-## Examples
-
-Here are examples of using LlamaGate with the AI SDK:
+## 示例
 
 ### `generateText`
 
@@ -194,7 +192,7 @@ const { text } = await generateText({
 console.log(text);
 ```
 
-## Additional Resources
+## 更多资源
 
 - [LlamaGate Website](https://llamagate.dev)
 - [LlamaGate Documentation](https://llamagate.dev/docs)

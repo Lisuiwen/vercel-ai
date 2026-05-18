@@ -1,13 +1,13 @@
 ---
 title: isLoopFinished
-description: API Reference for isLoopFinished.
+description: isLoopFinished 的 API 参考。
 ---
 
 # `isLoopFinished()`
 
-Creates a stop condition that never triggers, letting the agent loop run until it naturally finishes (i.e., the model stops making tool calls).
+创建永不触发的停止条件，让智能体循环自然结束（即模型不再发起工具调用）。
 
-By default, `ToolLoopAgent` uses `isStepCount(20)` as a safety measure to prevent runaway loops that could result in excessive API calls and costs. If you are confident that your agent will terminate naturally or you are less concerned about costs, `isLoopFinished()` removes that limit and lets the agent run until the model is truly done.
+默认情况下，`ToolLoopAgent` 使用 `isStepCount(20)` 作为安全措施，防止失控循环导致过多 API 调用与费用。若你确信智能体会自然结束或对费用不敏感，`isLoopFinished()` 可移除该上限，让智能体在模型真正结束之前持续运行。
 
 ```ts
 import { ToolLoopAgent, isLoopFinished } from 'ai';
@@ -26,29 +26,29 @@ const result = await agent.generate({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { isLoopFinished } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
-This function takes no parameters.
+该函数不接受参数。
 
-### Returns
+### 返回值
 
-A `StopCondition` function that always returns `false`, meaning it never triggers the stop condition. The agent loop will only stop through its natural termination conditions:
+`StopCondition` 函数，**始终**返回 `false`，即永不触发停止。循环仅通过自然终止条件结束：
 
-- The model stops making tool calls, or
-- A tool without an `execute` function is called, or
-- A tool call needs approval
+- 模型不再发起工具调用，或
+- 调用了没有 `execute` 函数的工具，或
+- 工具调用需要审批
 
-## Examples
+## 示例
 
-### Basic Usage
+### 基本用法
 
-Let the agent run until it's finished:
+让智能体运行直至自然结束：
 
 ```ts
 import { ToolLoopAgent, isLoopFinished } from 'ai';
@@ -60,9 +60,9 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-### Combining with Other Conditions
+### 与其他条件组合
 
-You can combine `isLoopFinished()` with other conditions. Since `isLoopFinished()` never triggers, the other conditions still apply:
+可将 `isLoopFinished()` 与其他条件组合。由于 `isLoopFinished()` 永不触发，其他条件仍会生效：
 
 ```ts
 import { ToolLoopAgent, isLoopFinished, hasToolCall } from 'ai';
@@ -74,9 +74,9 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-In practice, this does not make much sense in this context, since you could just omit `isLoopFinished()`.
+实际上在此场景下意义不大，因为可以直接省略 `isLoopFinished()`。
 
-## See also
+## 另请参阅
 
 - [`isStepCount()`](/docs/reference/ai-sdk-core/is-step-count)
 - [`hasToolCall()`](/docs/reference/ai-sdk-core/has-tool-call)

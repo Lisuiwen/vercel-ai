@@ -13,7 +13,7 @@ run(async () => {
     prompt: 'Explain quantum computing in simple terms.',
     providerOptions: {
       openai: {
-        serviceTier: 'flex', // 50% cheaper processing with increased latency
+        serviceTier: 'flex', // 处理成本降低 50%，且延迟增加
       } satisfies OpenAILanguageModelResponsesOptions,
     },
   });

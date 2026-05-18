@@ -1,28 +1,28 @@
 ---
 title: A2A
-description: A2A Protocol Provider for the AI SDK
+description: 适用于 AI SDK 的 A2A 协议提供商
 ---
 
 # A2A
 
-The [dracoblue/a2a-ai-provider](https://github.com/dracoblue/a2a-ai-provider) is a community provider enables the use of [A2A protocol](https://a2aproject.github.io/A2A/specification/) compliant agents with the [AI SDK](https://ai-sdk.dev/). This allows developers to stream, send, and receive text, tool calls, and artifacts using a standardized JSON-RPC interface over HTTP.
+[dracoblue/a2a-ai-provider](https://github.com/dracoblue/a2a-ai-provider) 是一个社区提供商，可将符合 [A2A 协议](https://a2aproject.github.io/A2A/specification/) 的智能体与 [AI SDK](https://ai-sdk.dev/) 一起使用。开发者可通过基于 HTTP 的标准化 JSON-RPC 接口进行流式传输、发送和接收文本、工具调用与制品。
 
 <Note type="warning">
-  The `a2a-ai-provider` package is under constant development.
+  `a2a-ai-provider` 包仍在持续开发中。
 </Note>
 
-The provider supports (by using the official a2a-js sdk [@a2a-js/sdk](https://github.com/a2aproject/a2a-js)):
+该提供商支持（通过官方 a2a-js SDK [@a2a-js/sdk](https://github.com/a2aproject/a2a-js)）：
 
-- **Streaming Text Responses** via `sendSubscribe` and SSE
-- **File & Artifact Uploads** to the A2A server
-- **Multi-modal Messaging** with support for text and file parts
-- **Full JSON-RPC 2.0 Compliance** for A2A-compatible LLM agents
+- **流式文本响应**：通过 `sendSubscribe` 与 SSE
+- **文件与制品上传**：上传到 A2A 服务器
+- **多模态消息**：支持文本与文件部分
+- **完整 JSON-RPC 2.0 合规**：面向兼容 A2A 的 LLM 智能体
 
-Learn more about A2A at the [A2A Project Site](https://a2aproject.github.io/A2A/).
+在 [A2A 项目站点](https://a2aproject.github.io/A2A/)了解更多。
 
-## Setup
+## 设置
 
-Install the `a2a-ai-provider` from npm:
+从 npm 安装 `a2a-ai-provider`：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -40,17 +40,17 @@ Install the `a2a-ai-provider` from npm:
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-To create a provider instance for an A2A server:
+要为 A2A 服务器创建提供商实例：
 
 ```ts
 import { a2a } from 'a2a-ai-provider';
 ```
 
-## Examples
+## 示例
 
-You can now use the provider with the AI SDK like this:
+现在可以像这样将提供商与 AI SDK 一起使用：
 
 ### `generateText`
 
@@ -89,14 +89,14 @@ await streamResult.consumeStream();
 console.log(await streamResult.content);
 ```
 
-## Features
+## 功能
 
-- **Text Streaming**: Streams token-by-token output from the A2A server
-- **File Uploads**: Send files as part of your prompts
-- **Artifact Handling**: Receives file artifacts in streamed or final results
+- **文本流式传输**：从 A2A 服务器按 token 流式输出
+- **文件上传**：将文件作为提示的一部分发送
+- **制品处理**：在流式或最终结果中接收文件制品
 
-## Additional Resources
+## 更多资源
 
-- [GitHub Repository](https://github.com/DracoBlue/a2a-ai-provider)
-- [A2A Protocol Spec](https://a2aproject.github.io/A2A/specification/)
-- License: MIT
+- [GitHub 仓库](https://github.com/DracoBlue/a2a-ai-provider)
+- [A2A 协议规范](https://a2aproject.github.io/A2A/specification/)
+- 许可证：MIT

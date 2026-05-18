@@ -47,13 +47,13 @@ run(async () => {
     result.finalStep.providerMetadata?.anthropic?.usage,
   );
 
-  // e.g.
-  // Usage information: {
-  //   input_tokens: 10,
-  //   cache_creation_input_tokens: 2177,
-  //   cache_read_input_tokens: 0,
-  //   cache_creation: { ephemeral_5m_input_tokens: 0, ephemeral_1h_input_tokens: 2177 },
-  //   output_tokens: 285,
+  // 例如
+  // 使用信息：{
+  //   输入令牌：10，
+  //   缓存创建输入令牌：2177，
+  //   缓存读取输入令牌：0，
+  //   缓存创建：{ ephemeral_5m_input_tokens：0，ephemeral_1h_input_tokens：2177 }，
+  //   输出令牌：285，
   //   service_tier: 'standard'
   // }
 
@@ -93,13 +93,13 @@ run(async () => {
     cachedResult.finalStep.providerMetadata?.anthropic?.usage,
   );
 
-  // e.g.
-  // Usage information: {
-  //   input_tokens: 8,
-  //   cache_creation_input_tokens: 0,
-  //   cache_read_input_tokens: 2177,
-  //   cache_creation: { ephemeral_5m_input_tokens: 0, ephemeral_1h_input_tokens: 0 },
-  //   output_tokens: 317,
+  // 例如
+  // 使用信息：{
+  //   输入令牌：8，
+  //   缓存创建输入令牌：0，
+  //   缓存读取输入令牌：2177，
+  //   缓存创建：{ ephemeral_5m_input_tokens：0，ephemeral_1h_input_tokens：0 }，
+  //   输出令牌：317，
   //   service_tier: 'standard'
   // }
 });

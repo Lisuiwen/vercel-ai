@@ -4,7 +4,7 @@ import { generateImage } from 'ai';
 import { presentImages } from '../../lib/present-image';
 import { run } from '../../lib/run';
 
-// Create an OpenAI-compatible provider (using OpenAI's API as an example)
+// 创建兼容OpenAI的Provider（以OpenAI的API为例）
 const provider = createOpenAICompatible({
   name: 'openai',
   baseURL: 'https://api.openai.com/v1',

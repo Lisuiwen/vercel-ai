@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     UIMessage<{ containerId: string }>
   >({ messages });
 
-  // get the last assistant message to enable reusing the container id
+  // 获取最后一条 assistant 消息以复用 container id
   const lastAssistantMessage = uiMessages.findLast(
     message => message.role === 'assistant',
   );
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     agent: anthropicCodeExecutionAgent,
     uiMessages: messages,
     messageMetadata({ part }) {
-      // store the anthropic container id if a container was used
+      // 若使用了 container，则存储 anthropic container id
       if (part.type === 'finish-step') {
         const anthropicContainer = (
           part.providerMetadata

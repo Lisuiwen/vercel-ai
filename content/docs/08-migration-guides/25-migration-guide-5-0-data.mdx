@@ -1,80 +1,80 @@
 ---
-title: Migrate Your Data to AI SDK 5.0
-description: Learn how to migrate your persisted messages and chat data from AI SDK 4.x to 5.0.
+title: 将数据迁移到 AI SDK 5.0
+description: 了解如何将持久化的消息与聊天数据从 AI SDK 4.x 迁移到 5.0。
 ---
 
-# Migrate Your Data to AI SDK 5.0
+# 将数据迁移到 AI SDK 5.0
 
-AI SDK 5.0 introduces changes to the message structure and persistence patterns. Unlike code migrations that can often be automated with codemods, data migration depends on your specific persistence approach, database schema, and application requirements.
+AI SDK 5.0 对消息结构与持久化模式做了调整。与通常可用 codemods 自动完成的代码迁移不同，数据迁移取决于你的持久化方式、数据库 schema 与应用需求。
 
-**This guide helps you get your application working with AI SDK 5.0 first** using a runtime conversion layer. This allows you to update your app immediately without database migrations blocking you. You can then migrate your data schema at your own pace.
+**本指南会先借助运行时转换层，让你的应用在 AI SDK 5.0 上跑起来**。这样你可以立刻升级应用，而不必被数据库迁移阻塞；之后再按自己的节奏迁移数据 schema。
 
-## Recommended Migration Process
+## 建议的迁移流程
 
-Follow this two-phase approach for a safe migration:
+推荐采用两阶段方案以降低风险：
 
-### Phase 1: Get Your App Working (Runtime Conversion)
+### 阶段 1：先让应用跑起来（运行时转换）
 
-**Goal:** Update your application to AI SDK 5.0 without touching your database.
+**目标：**在不改动数据库的前提下，将应用升级到 AI SDK 5.0。
 
-1. Update dependencies (install v4 types alongside v5)
-2. Add conversion functions to transform between v4 and v5 message formats
-3. Update data fetching logic to convert messages when reading from the database
-4. Update the rest of your application code to AI SDK 5.0 (see the [main migration guide](/docs/migration-guides/migration-guide-5-0))
+1. 更新依赖（同时安装 v5 与用于类型的 v4）
+2. 添加在 v4 / v5 消息格式之间转换的函数
+3. 更新数据读取逻辑：从数据库读出消息时完成转换
+4. 将其余应用代码升级到 AI SDK 5.0（参见 [主迁移指南](/docs/migration-guides/migration-guide-5-0)）
 
-Your database schema remains unchanged during Phase 1. You're only adding a conversion layer that transforms messages at runtime.
+阶段 1 期间数据库 schema 保持不变。你只是增加一个在运行时转换消息的层。
 
-**Timeline:** Can be completed in hours or days.
+**时间：**通常可在数小时到数天内完成。
 
-### Phase 2: Migrate to V5 Schema (Recommended)
+### 阶段 2：迁移到 V5 Schema（推荐）
 
-**Goal:** Migrate your data to a v5-compatible schema, eliminating the runtime conversion overhead.
+**目标：**把数据迁移到兼容 v5 的 schema，消除运行时转换开销。
 
-While Phase 1 gets you working immediately, migrate your schema soon after completing Phase 1. This phase uses a side-by-side migration approach with an equivalent v5 schema:
+阶段 1 能让你立刻可用，但完成后应尽快迁移 schema。本阶段采用并排（side-by-side）迁移，并准备等价的 v5 schema：
 
-1. Create `messages_v5` table alongside existing `messages` table
-2. Start dual-writing to both tables (with conversion)
-3. Run a background migration to convert existing messages
-4. Switch reads to the v5 schema
-5. Remove conversion from your route handlers
-6. Remove dual-write (write only to v5)
-7. Drop old tables
+1. 在现有 `messages` 表旁新建 `messages_v5` 表
+2. 开始双写两张表（配合转换）
+3. 运行后台任务迁移历史消息
+4. 将读取切换到 v5 schema
+5. 从路由处理器中移除转换逻辑
+6. 停止双写（只写入 v5）
+7. 删除旧表
 
-**Timeline:** Do this soon after Phase 1.
+**时间：**建议在阶段 1 完成后尽快进行。
 
-**Why this matters:**
+**为什么要做：**
 
-- Removes runtime conversion overhead
-- Eliminates technical debt early
-- Type safety with v5 message format
-- Easier to maintain and extend
+- 去掉运行时转换开销
+- 尽早消除技术债
+- v5 消息格式具备更好的类型安全
+- 更易维护与扩展
 
-## Understanding the Changes
+## 理解变更内容
 
-Before starting, understand the main persistence-related changes in AI SDK 5.0:
+开始前，先了解 AI SDK 5.0 与持久化相关的主要变化：
 
-**AI SDK 4.0:**
+**AI SDK 4.0：**
 
-- `content` field for text
-- `reasoning` as a top-level property
-- `toolInvocations` as a top-level property
-- `parts` (optional) ordered array
+- 文本使用 `content` 字段
+- `reasoning` 为顶层属性
+- `toolInvocations` 为顶层属性
+- `parts`（可选）有序数组
 
-**AI SDK 5.0:**
+**AI SDK 5.0：**
 
-- `parts` array is the single source of truth
-- `content` is removed (deprecated) and accessed via a `text` part
-- `reasoning` is removed and replaced with a `reasoning` part
-- `toolInvocations` is removed and replaced with `tool-${toolName}` parts with `input`/`output` (renamed from `args`/`result`)
-- `data` role removed (use data parts instead)
+- `parts` 数组是唯一事实来源
+- `content` 已移除（弃用），通过 `text` 部件访问
+- `reasoning` 已移除，改为 `reasoning` 部件
+- `toolInvocations` 已移除，改为 `tool-${toolName}` 部件，字段为 `input`/`output`（由 `args`/`result` 重命名而来）
+- 移除 `data` 角色（改用 data 部件）
 
-## Phase 1: Runtime Conversion Pattern
+## 阶段 1：运行时转换模式
 
-This creates a conversion layer without making changes to your database schema.
+在不修改数据库 schema 的前提下建立转换层。
 
-### Step 1: Update Dependencies
+### 步骤 1：更新依赖
 
-To get proper TypeScript types for your v4 messages, install the v4 package alongside v5 using npm aliases:
+要为 v4 消息获得正确的 TypeScript 类型，请通过 npm alias 同时安装 v4 与 v5：
 
 ```json filename="package.json"
 {
@@ -85,22 +85,22 @@ To get proper TypeScript types for your v4 messages, install the v4 package alon
 }
 ```
 
-Run:
+运行：
 
 ```bash
 pnpm install
 ```
 
-Import v4 types for proper type safety:
+导入 v4 类型以获得类型安全：
 
 ```tsx
 import type { Message as V4Message } from 'ai-legacy';
 import type { UIMessage } from 'ai';
 ```
 
-### Step 2: Add Conversion Functions
+### 步骤 2：添加转换函数
 
-Create type guards to detect which message format you're working with, and build a conversion function that handles all v4 message types:
+创建类型守卫以识别当前消息格式，并实现可处理所有 v4 消息类型的转换函数：
 
 ```tsx
 import type {
@@ -418,11 +418,11 @@ export function convertV5MessageToV4(msg: MyUIMessage): LegacyUIMessage {
 }
 ```
 
-### Step 3: Convert Messages When Reading
+### 步骤 3：读取时转换消息
 
-Apply the conversion when loading messages from your database:
+从数据库加载消息时应用转换：
 
-<Note type="warning">Adapt this code to your specific database and ORM.</Note>
+<Note type="warning">请根据你的数据库与 ORM 调整此代码。</Note>
 
 ```tsx
 import { convertV4MessageToV5, type MyUIMessage } from './conversion';
@@ -440,9 +440,9 @@ export async function loadChat(chatId: string): Promise<MyUIMessage[]> {
 }
 ```
 
-### Step 4: Convert Messages When Saving
+### 步骤 4：写入时转换消息
 
-In Phase 1, your application runs on v5 but your database stores v4 format. Convert messages inline in your route handlers before passing them to your database functions:
+在阶段 1，应用运行在 v5，但数据库仍保存 v4 格式。请在路由处理器中于写入数据库函数之前内联转换消息：
 
 ```tsx
 import {
@@ -492,58 +492,58 @@ export async function POST(req: Request) {
 }
 ```
 
-Keep your `upsertMessage` (or equivalent) function unchanged to continue working with v4 messages.
+保持 `upsertMessage`（或等价函数）不变，以继续兼容 v4 消息。
 
-With Steps 3 and 4 complete, you have a bidirectional conversion layer:
+完成步骤 3 与 4 后，你就有了双向转换层：
 
-- **Reading:** v4 (database) → v5 (application)
-- **Writing:** v5 (application) → v4 (database)
+- **读取：** v4（数据库）→ v5（应用）
+- **写入：** v5（应用）→ v4（数据库）
 
-Your database schema remains unchanged, but your application now works with v5 format.
+数据库 schema 不变，但应用已按 v5 格式工作。
 
-**What's next:** Follow the main migration guide to update the rest of your application code to AI SDK 5.0, including API routes, components, and other code that uses the AI SDK. Then proceed to Phase 2.
+**下一步：**按照主迁移指南将其余应用代码（API 路由、组件及其他使用 AI SDK 的代码）升级到 AI SDK 5.0，然后进入阶段 2。
 
-See the [main migration guide](/docs/migration-guides/migration-guide-5-0) for details.
+详情见 [主迁移指南](/docs/migration-guides/migration-guide-5-0)。
 
-## Phase 2: Side-by-Side Schema Migration
+## 阶段 2：并排 Schema 迁移
 
-Now that your application is updated to AI SDK 5.0 and working with the runtime conversion layer from Phase 1, you have a fully functional system. However, **the conversion functions are only a temporary solution**. Your database still stores messages in the v4 format, which means:
+应用已升级到 AI SDK 5.0，并在阶段 1 的运行时转换层下正常工作，系统已可用。但 **转换函数只是临时方案**。数据库仍以 v4 存储消息，这意味着：
 
-- Every read operation requires runtime conversion overhead
-- You maintain backward compatibility code indefinitely
-- Future features require working with the legacy schema
+- 每次读取都有运行时转换开销
+- 你需要长期维护向后兼容代码
+- 未来功能仍要面对旧 schema
 
-**Phase 2 migrates your message history to the v5 schema**, eliminating the conversion layer and enabling better performance and long-term maintainability.
+**阶段 2 会把消息历史迁移到 v5 schema**，移除转换层并获得更好的性能与长期可维护性。
 
-This phase uses a simplified approach: create a new `messages_v5` table with the same structure as your current `messages` table, but storing v5-formatted message parts.
+本阶段采用简化流程：新建一张结构与当前 `messages` 相同的 `messages_v5` 表，用于存储 v5 格式的消息部件。
 
 <Note type="warning">
-**Adapt phase 2 examples to your setup**
+**请按你的环境调整阶段 2 示例**
 
-These code examples demonstrate migration patterns. Your implementation will differ based on your database (Postgres, MySQL, SQLite), ORM (Drizzle, Prisma, raw SQL), schema design, and data persistence patterns.
+下列代码演示迁移模式。具体实现会因数据库（Postgres、MySQL、SQLite）、ORM（Drizzle、Prisma、原生 SQL）、schema 设计与数据持久化模式而异。
 
-Use these examples as a guide, then adapt them to your specific setup.
+请以示例为参考，再结合你的实际情况改写。
 
 </Note>
 
-### Overview: Migration Strategy
+### 概览：迁移策略
 
-1. **Create `messages_v5` table** alongside existing `messages` table
-2. **Dual-write** new messages to both schemas (with conversion)
-3. **Background migration** to convert existing messages
-4. **Verify** data integrity
-5. **Update read functions** to use `messages_v5` schema
-6. **Remove conversion** from route handlers
-7. **Remove dual-write** (write only to `messages_v5`)
-8. **Clean up** old tables
+1. **创建 `messages_v5` 表**，与现有 `messages` 表并存
+2. **双写**新消息到两套 schema（配合转换）
+3. **后台迁移**转换既有消息
+4. **校验**数据一致性
+5. **更新读取函数**使用 `messages_v5`
+6. 从路由处理器**移除转换**
+7. **停止双写**（只写入 `messages_v5`）
+8. **清理**旧表
 
-This ensures your application keeps running throughout the migration with no data loss risk.
+这样可在迁移全程保持应用可用并降低数据丢失风险。
 
-### Step 1: Create V5 Schema Alongside V4
+### 步骤 1：并排创建 V5 Schema
 
-Create a new `messages_v5` table with the same structure as your existing table, but designed to store v5 message parts:
+新建 `messages_v5` 表，结构与现有表一致，但用于存储 v5 消息部件：
 
-**Existing v4 Schema (keep running):**
+**既有 v4 Schema（保持运行）：**
 
 ```typescript
 import { UIMessage } from 'ai-legacy';
@@ -561,7 +561,7 @@ export const messages = pgTable('messages', {
 });
 ```
 
-**New v5 Schema (create alongside):**
+**新建 v5 Schema（并排创建）：**
 
 ```typescript
 import { MyUIMessage } from './conversion';
@@ -579,16 +579,16 @@ export const messages_v5 = pgTable('messages_v5', {
 });
 ```
 
-Run your migration to create the new table:
+运行迁移以创建新表：
 
 ```bash
 pnpm drizzle-kit generate
 pnpm drizzle-kit migrate
 ```
 
-### Step 2: Implement Dual-Write for New Messages
+### 步骤 2：为新消息实现双写
 
-Update your save functions to write to both schemas during the migration period. This ensures new messages are available in both formats:
+更新保存函数，在迁移期内同时写入两套 schema，确保新消息两种格式都有：
 
 ```typescript
 import { convertV4MessageToV5 } from './conversion';
@@ -653,9 +653,9 @@ export const upsertMessage = async ({
 };
 ```
 
-### Step 3: Migrate Existing Messages
+### 步骤 3：迁移既有消息
 
-Create a script to migrate existing messages from v4 to v5 schema:
+编写脚本，将既有消息从 v4 schema 迁到 v5：
 
 ```typescript
 import { convertV4MessageToV5 } from './conversion';
@@ -724,16 +724,16 @@ async function migrateExistingMessages() {
 migrateExistingMessages().catch(console.error);
 ```
 
-This script:
+该脚本：
 
-- Only migrates messages that haven't been migrated yet
-- Uses batching for better performance
-- Can be run multiple times safely
-- Can be stopped and resumed
+- 仅迁移尚未迁移的消息
+- 使用分批以提高性能
+- 可安全多次运行
+- 可中断后继续
 
-### Step 4: Verify Migration
+### 步骤 4：校验迁移
 
-Create a verification script to ensure data integrity:
+编写校验脚本以确保数据完整性：
 
 ```typescript
 import { count } from 'drizzle-orm';
@@ -756,9 +756,9 @@ async function verifyMigration() {
 verifyMigration().catch(console.error);
 ```
 
-### Step 5: Read from V5 Schema
+### 步骤 5：从 V5 Schema 读取
 
-Once migration is complete, update your read functions to use the new v5 schema. Since the data is now in v5 format, you don't need conversion:
+迁移完成后，更新读取函数以使用新的 v5 schema。数据已是 v5 格式，无需转换：
 
 ```typescript
 import type { MyUIMessage } from './conversion';
@@ -775,9 +775,9 @@ export const loadChat = async (chatId: string): Promise<MyUIMessage[]> => {
 };
 ```
 
-### Step 6: Write to V5 Schema Only
+### 步骤 6：仅写入 V5 Schema
 
-Once your read functions work with v5 and your background migration is complete, stop dual-writing and only write to v5:
+当读取函数已适配 v5，且后台迁移完成后，停止双写，仅写入 v5：
 
 ```typescript
 import type { MyUIMessage } from './conversion';
@@ -813,7 +813,7 @@ export const upsertMessage = async ({
 };
 ```
 
-Update your route handler to pass v5 messages directly:
+更新路由处理器以直接传递 v5 消息：
 
 ```tsx
 export async function POST(req: Request) {
@@ -852,31 +852,31 @@ export async function POST(req: Request) {
 }
 ```
 
-### Step 7: Complete the Switch
+### 步骤 7：完成切换
 
-Once verification passes and you're confident in the migration:
+校验通过后且你对迁移有信心时：
 
-1. **Remove conversion functions**: Delete the v4↔v5 conversion utilities
-2. **Remove `ai-legacy` dependency**: Uninstall the v4 types package
-3. **Test thoroughly**: Ensure your application works correctly with v5 schema
-4. **Monitor**: Watch for issues in production
-5. **Clean up**: After a safe period (1-2 weeks), drop the old table
+1. **移除转换函数**：删除 v4↔v5 转换工具
+2. **移除 `ai-legacy` 依赖**：卸载 v4 类型包
+3. **充分测试**：确认应用在 v5 schema 下正常
+4. **监控**：关注线上问题
+5. **清理**：在安全窗口（1–2 周）后删除旧表
 
 ```sql
--- After confirming everything works
+-- 确认一切正常后
 DROP TABLE messages;
 
--- Optionally rename v5 table to standard name
+-- 可选：将 v5 表重命名为标准名称
 ALTER TABLE messages_v5 RENAME TO messages;
 ```
 
-**Phase 2 is now complete.** Your application is fully migrated to v5 schema with no runtime conversion overhead.
+**阶段 2 已完成。**应用已完全迁移到 v5 schema，且无运行时转换开销。
 
-## Community Resources
+## 社区资源
 
-The following community members have shared their migration experiences:
+以下社区成员分享了迁移经验：
 
-- [AI SDK Migration: Handling Previously Saved Messages](https://jhakim.com/blog/ai-sdk-migration-handling-previously-saved-messages) - Detailed transformation function implementation
-- [How we migrated Atypica.ai to AI SDK v5 without breaking 10M+ chat histories](https://blog.web3nomad.com/p/how-we-migrated-atypicaai-to-ai-sdk-v5-without-breaking-10m-chat-histories) - Runtime conversion approach for large-scale migration
+- [AI SDK Migration: Handling Previously Saved Messages](https://jhakim.com/blog/ai-sdk-migration-handling-previously-saved-messages) — 详细的转换函数实现
+- [How we migrated Atypica.ai to AI SDK v5 without breaking 10M+ chat histories](https://blog.web3nomad.com/p/how-we-migrated-atypicaai-to-ai-sdk-v5-without-breaking-10m-chat-histories) — 大规模场景的运行时转换方案
 
-For more API change details, see the [main migration guide](/docs/migration-guides/migration-guide-5-0).
+更多 API 变更详见 [主迁移指南](/docs/migration-guides/migration-guide-5-0)。

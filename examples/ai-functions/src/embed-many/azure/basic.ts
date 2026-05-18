@@ -4,7 +4,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   const { embeddings, usage, warnings } = await embedMany({
-    model: azure.embedding('text-embedding-3-large'), // use your own deployment
+    model: azure.embedding('text-embedding-3-large'), // 使用您自己的部署
     values: [
       'sunny day at the beach',
       'rainy afternoon in the city',

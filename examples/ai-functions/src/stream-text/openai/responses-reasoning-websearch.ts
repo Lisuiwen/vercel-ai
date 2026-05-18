@@ -28,7 +28,7 @@ run(async () => {
 
   console.log(JSON.stringify(messages, null, 2));
 
-  // switch to generate (output irrelevant)
+  // 切换到生成（输出无关）
   const result2 = await generateText({
     model: openai.responses('gpt-5-mini'),
     messages: [

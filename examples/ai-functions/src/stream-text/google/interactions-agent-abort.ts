@@ -3,14 +3,14 @@ import { streamText } from 'ai';
 import { run } from '../../lib/run';
 
 /*
- * Aborts a long-running deep-research agent stream after 15 seconds and
+ * 15 秒后中止长时间运行的深度研究代理流，并且
  * verifies that the SDK fired `POST /interactions/{id}/cancel` so the run
- * actually stopped on Google's side instead of continuing to bill in the
- * background.
+ * 实际上停在了Google这边而不是继续在Google这边计费
+ * 背景。
  *
  * The interaction id is captured by wrapping `fetch` and peeking the POST
  * response body, since the `streamText` result's `providerMetadata` only
- * resolves after the stream finishes -- which it won't, given the abort.
+ * 在流完成后解析——考虑到中止，它不会。
  */
 run(async () => {
   const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
@@ -36,7 +36,7 @@ run(async () => {
           interactionId = body.id;
         }
       } catch {
-        // ignore -- best-effort capture
+        // 忽略——尽力捕获
       }
     }
     return response;

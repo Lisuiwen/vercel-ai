@@ -55,37 +55,37 @@ export type PrepareReconnectToStreamRequest = (options: {
     }>;
 
 /**
- * Options for the `HttpChatTransport` class.
+ * `HttpChatTransport` 类的选项。
  *
  * @param UI_MESSAGE - The type of message to be used in the chat.
  */
 export type HttpChatTransportInitOptions<UI_MESSAGE extends UIMessage> = {
   /**
-   * The API URL to be used for the chat transport.
-   * Defaults to '/api/chat'.
+   * 用于聊天传输的 API URL。
+   * 默认为“/api/chat”。
    */
   api?: string;
 
   /**
-   * The credentials mode to be used for the fetch request.
-   * Possible values are: 'omit', 'same-origin', 'include'.
-   * Defaults to 'same-origin'.
+   * 用于获取请求的凭据模式。
+   * 可能的值为：“省略”、“同源”、“包含”。
+   * 默认为“同源”。
    */
   credentials?: Resolvable<RequestCredentials>;
 
   /**
-   * HTTP headers to be sent with the API request.
+   * 与 API 请求一起发送的 HTTP 标头。
    */
   headers?: Resolvable<Record<string, string> | Headers>;
 
   /**
-   * Extra body object to be sent with the API request.
+   * 与 API 请求一起发送的额外主体对象。
    * @example
-   * Send a `sessionId` to the API along with the messages.
-   * ```js
-   * useChat({
-   *   body: {
-   *     sessionId: '123',
+   * 将“sessionId”与消息一起发送到 API。
+   * ````js
+   * 使用聊天（{
+   *   正文：{
+   *     会话 ID: '123',
    *   }
    * })
    * ```
@@ -93,22 +93,22 @@ export type HttpChatTransportInitOptions<UI_MESSAGE extends UIMessage> = {
   body?: Resolvable<object>;
 
   /**
-   * Custom fetch implementation. You can use it as a middleware to intercept requests,
-   * or to provide a custom fetch implementation for e.g. testing.
+   * 自定义获取实现。您可以将其用作拦截请求的中间件，
+   * 或者提供自定义的获取实现，例如测试。
    */
   fetch?: FetchFunction;
 
   /**
-   * When a function is provided, it will be used
-   * to prepare the request body for the chat API. This can be useful for
-   * customizing the request body based on the messages and data in the chat.
+   * 当提供一个函数时，它将被使用
+   * 为聊天 API 准备请求正文。这对于
+   * 根据聊天中的消息和数据自定义请求正文。
    */
   prepareSendMessagesRequest?: PrepareSendMessagesRequest<UI_MESSAGE>;
 
   /**
-   * When a function is provided, it will be used
-   * to prepare the reconnect request for the chat API. This can be useful for
-   * customizing the request based on the chat session.
+   * 当提供一个函数时，它将被使用
+   * 为聊天 API 准备重新连接请求。这对于
+   * 根据聊天会话自定义请求。
    */
   prepareReconnectToStreamRequest?: PrepareReconnectToStreamRequest;
 };
@@ -185,7 +185,7 @@ export abstract class HttpChatTransport<
           };
     const credentials = preparedRequest?.credentials ?? resolvedCredentials;
 
-    // avoid caching globalThis.fetch in case it is patched by other libraries
+    // 避免缓存 globalThis.fetch，以防它被其他库修补
     const fetch = this.fetch ?? globalThis.fetch;
 
     const response = await fetch(api, {
@@ -240,7 +240,7 @@ export abstract class HttpChatTransport<
         : baseHeaders;
     const credentials = preparedRequest?.credentials ?? resolvedCredentials;
 
-    // avoid caching globalThis.fetch in case it is patched by other libraries
+    // 避免缓存 globalThis.fetch，以防它被其他库修补
     const fetch = this.fetch ?? globalThis.fetch;
 
     const response = await fetch(api, {
@@ -249,7 +249,7 @@ export abstract class HttpChatTransport<
       credentials,
     });
 
-    // no active stream found, so we do not resume
+    // 未找到活动流，因此我们不恢复
     if (response.status === 204) {
       return null;
     }

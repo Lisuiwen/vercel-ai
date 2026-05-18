@@ -16,18 +16,18 @@ describe('createTextStreamResponse', () => {
       textStream: convertArrayToReadableStream(['test-data']),
     });
 
-    // Verify response properties
+    // 验证响应属性
     expect(response).toBeInstanceOf(Response);
     expect(response.status).toBe(200);
     expect(response.statusText).toBe('OK');
 
-    // Verify headers
+    // 验证标头
     expect(response.headers.get('Content-Type')).toBe(
       'text/plain; charset=utf-8',
     );
     expect(response.headers.get('Custom-Header')).toBe('test');
 
-    // Verify encoded stream content
+    // 验证编码流内容
     const decoder = new TextDecoder();
     const encodedStream = response.body!;
     const chunks = await convertReadableStreamToArray(encodedStream);

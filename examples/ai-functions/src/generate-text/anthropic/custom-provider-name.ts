@@ -41,7 +41,7 @@ run(async () => {
   print('Result 2 - providerMetadata:', result2.finalStep.providerMetadata);
   // Should have both 'anthropic' and 'my-custom-anthropic' keys
 
-  // Case 3: No providerOptions
+  // 情况 3：没有提供者选项
   const result3 = await generateText({
     model: customProvider('claude-sonnet-4-20250514'),
     prompt: 'Say "test" in one word.',

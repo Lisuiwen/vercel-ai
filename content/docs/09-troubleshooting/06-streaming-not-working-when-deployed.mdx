@@ -1,25 +1,25 @@
 ---
-title: Streaming Not Working When Deployed
-description: Troubleshooting streaming issues in deployed apps.
+title: 部署后流式不工作
+description: 排查已部署应用中的流式传输问题。
 ---
 
-# Streaming Not Working When Deployed
+# 部署后流式不工作
 
-## Issue
+## 问题
 
-Streaming with the AI SDK works in my local development environment.
-However, when deploying, streaming does not work in the deployed app.
-Instead of streaming, only the full response is returned after a while.
+在本地开发环境中，使用 AI SDK 的流式传输正常。
+但部署后，线上应用里流式不工作。
+不会逐段输出，而是过一会儿才一次性返回完整响应。
 
-## Cause
+## 原因
 
-The causes of this issue are varied and depend on the deployment environment.
+原因因部署环境而异。
 
-## Solution
+## 解决方案
 
-You can try the following:
+可以尝试：
 
-- add `'Transfer-Encoding': 'chunked'` and/or `Connection: 'keep-alive'` headers
+- 添加 `'Transfer-Encoding': 'chunked'` 和/或 `Connection: 'keep-alive'` 响应头
 
   ```tsx
   return result.toUIMessageStreamResponse({

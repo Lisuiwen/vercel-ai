@@ -13,6 +13,6 @@ run(async () => {
   });
 
   for await (const textPart of result.textStream) {
-    // consume the stream
+    // 消耗流
   }
 });

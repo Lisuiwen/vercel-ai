@@ -52,7 +52,7 @@ export async function downloadOpenaiContainerFile(
       );
     }
 
-    // get as binary data
+    // 获取二进制数据
     const arrayBuffer = await downloadResponse.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 

@@ -5,7 +5,7 @@ import { run } from '../../lib/run';
 
 run(async () => {
   const result = await generateText({
-    model: azure.responses('gpt-5-mini'), // use your own deployment
+    model: azure.responses('gpt-5-mini'), // 使用您自己的部署
     instructions: 'You are a helpful assistant.',
     prompt:
       'Tell me about the debate over Taqueria La Cumbre and El Farolito and who created the San Francisco Mission-style burrito.',

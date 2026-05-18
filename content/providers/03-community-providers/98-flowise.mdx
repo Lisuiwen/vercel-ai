@@ -1,15 +1,15 @@
 ---
 title: Flowise
-description: Learn how to use the Flowise provider for the AI SDK.
+description: 介绍如何在 AI SDK 中使用 Flowise 提供商。
 ---
 
-# Flowise Provider
+# Flowise 提供商
 
-The **[Flowise provider](https://github.com/ahmedrowaihi/flowise-ai-sdk-provider)** allows you to easily integrate [Flowise](https://flowiseai.com/) chatflows with your applications using the AI SDK.
+**[Flowise provider](https://github.com/ahmedrowaihi/flowise-ai-sdk-provider)** 便于通过 AI SDK 将 [Flowise](https://flowiseai.com/) 聊天流集成到应用中。
 
-## Setup
+## 安装与配置
 
-The Flowise provider is available in the `@ahmedrowaihi/flowise-vercel-ai-sdk-provider` module. You can install it with:
+Flowise 提供商位于 `@ahmedrowaihi/flowise-vercel-ai-sdk-provider` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn']}>
   <Tab>
@@ -32,19 +32,19 @@ The Flowise provider is available in the `@ahmedrowaihi/flowise-vercel-ai-sdk-pr
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can import the provider factory from `@ahmedrowaihi/flowise-vercel-ai-sdk-provider`:
+从 `@ahmedrowaihi/flowise-vercel-ai-sdk-provider` 导入提供商工厂：
 
 ```ts
 import { createFlowiseProvider } from '@ahmedrowaihi/flowise-vercel-ai-sdk-provider';
 ```
 
-## Quick Start
+## 快速开始
 
-### Using a Reusable Provider
+### 可复用的提供商
 
-Create a file called `.env.local` and add your Flowise configuration:
+创建 `.env.local` 并添加 Flowise 配置：
 
 ```text
 FLOWISE_BASE_URL=https://your-flowise-instance.com
@@ -66,7 +66,7 @@ const { text } = await generateText({
 });
 ```
 
-### Using a One-shot Model
+### 一次性模型
 
 ```ts
 import { createFlowiseModel } from '@ahmedrowaihi/flowise-vercel-ai-sdk-provider';
@@ -82,7 +82,7 @@ const { text } = await generateText({
 });
 ```
 
-### Streaming Example
+### 流式示例
 
 ```ts
 import { streamText } from 'ai';
@@ -101,6 +101,6 @@ const result = streamText({
 return result.toDataStreamResponse();
 ```
 
-## More Information
+## 更多信息
 
-For more information and advanced usage, see the [Flowise provider documentation](https://github.com/ahmedrowaihi/flowise-ai-sdk-provider#readme).
+高级用法与更多说明见 [Flowise provider 文档](https://github.com/ahmedrowaihi/flowise-ai-sdk-provider#readme)。

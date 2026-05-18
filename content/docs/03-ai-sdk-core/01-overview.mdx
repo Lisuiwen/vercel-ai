@@ -1,31 +1,31 @@
 ---
-title: Overview
-description: An overview of AI SDK Core.
+title: 概览
+description: AI SDK Core 概览。
 ---
 
 # AI SDK Core
 
-Large Language Models (LLMs) are advanced programs that can understand, create, and engage with human language on a large scale.
-They are trained on vast amounts of written material to recognize patterns in language and predict what might come next in a given piece of text.
+大语言模型（LLM）是能够理解、创造并与人类语言进行大规模交互的高级程序。
+它们在海量文本上训练，以识别语言中的模式，并预测给定文本片段之后可能出现的内容。
 
-AI SDK Core **simplifies working with LLMs by offering a standardized way of integrating them into your app** - so you can focus on building great AI applications for your users, not waste time on technical details.
+AI SDK Core **通过提供与 LLM 集成的标准化方式，简化你在应用中使用 LLM 的流程**——这样你可以专注于为用户构建出色的 AI 应用，而不必在实现细节上耗费时间。
 
-For example, here’s how you can generate text with various models using the AI SDK:
+例如，下面展示如何使用 AI SDK 通过不同模型生成文本：
 
 <PreviewSwitchProviders />
 
-## AI SDK Core Functions
+## AI SDK Core 函数
 
-AI SDK Core has various functions designed for [text generation](./generating-text), [structured data generation](./generating-structured-data), and [tool usage](./tools-and-tool-calling).
-These functions take a standardized approach to setting up [prompts](./prompts) and [settings](./settings), making it easier to work with different models.
+AI SDK Core 提供多种函数，分别面向[文本生成](./generating-text)、[结构化数据生成](./generating-structured-data)和 [tool 使用](./tools-and-tool-calling)。
+这些函数对[提示](./prompts)与[设置](./settings)采用统一方式，使你在不同模型之间切换时更容易协作。
 
-- [`generateText`](/docs/ai-sdk-core/generating-text): Generates text and [tool calls](./tools-and-tool-calling).
-  This function is ideal for non-interactive use cases such as automation tasks where you need to write text (e.g. drafting email or summarizing web pages) and for agents that use tools.
-- [`streamText`](/docs/ai-sdk-core/generating-text): Stream text and tool calls.
-  You can use the `streamText` function for interactive use cases such as [chat bots](/docs/ai-sdk-ui/chatbot) and [content streaming](/docs/ai-sdk-ui/completion).
+- [`generateText`](/docs/ai-sdk-core/generating-text)：生成文本并执行 [tool 调用](./tools-and-tool-calling)。
+  该函数适合非交互式场景，例如需要生成文本的自动化任务（起草邮件、摘要网页等），以及使用 tool 的 agent。
+- [`streamText`](/docs/ai-sdk-core/generating-text)：流式输出文本与 tool 调用。
+  可将 `streamText` 用于[聊天机器人](/docs/ai-sdk-ui/chatbot)、[内容流式输出](/docs/ai-sdk-ui/completion)等交互式场景。
 
-Both `generateText` and `streamText` support [structured output](/docs/ai-sdk-core/generating-structured-data) via the `output` property (e.g. `Output.object()`, `Output.array()`), allowing you to generate typed, schema-validated data for information extraction, synthetic data generation, classification tasks, and [streaming generated UIs](/docs/ai-sdk-ui/object-generation).
+`generateText` 与 `streamText` 均支持通过 `output` 属性实现[结构化输出](/docs/ai-sdk-core/generating-structured-data)（例如 `Output.object()`、`Output.array()`），从而生成经过 schema 校验的类型化数据，用于信息抽取、合成数据生成、分类任务以及[流式生成 UI](/docs/ai-sdk-ui/object-generation)。
 
-## API Reference
+## API 参考
 
-Please check out the [AI SDK Core API Reference](/docs/reference/ai-sdk-core) for more details on each function.
+更多关于各函数的说明，请参阅 [AI SDK Core API 参考](/docs/reference/ai-sdk-core)。

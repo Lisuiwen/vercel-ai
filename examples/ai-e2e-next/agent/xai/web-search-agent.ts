@@ -19,7 +19,7 @@ export const xaiWebSearchAgent = new ToolLoopAgent({
   },
   providerOptions: {
     xai: {
-      store: false, // enable ZDR - needs to be false for teams with ZDR enabled
+      store: false, // 启用 ZDR — 对已启用 ZDR 的团队需设为 false
       reasoningEffort: 'high',
       reasoningSummary: 'detailed',
     },

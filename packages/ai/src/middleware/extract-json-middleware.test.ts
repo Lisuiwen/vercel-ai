@@ -477,7 +477,7 @@ describe('extractJsonMiddleware', () => {
                 modelId: 'mock-model-id',
                 timestamp: new Date(0),
               },
-              // text-delta without text-start (edge case)
+              // 没有文本开始的文本增量（边缘情况）
               { type: 'text-delta', id: 'unknown', delta: 'some text' },
               {
                 type: 'finish',
@@ -516,7 +516,7 @@ describe('extractJsonMiddleware', () => {
                 timestamp: new Date(0),
               },
               { type: 'text-start', id: '1' },
-              // Very short content that stays in prefix buffer
+              // 保留在前缀缓冲区中的内容非常短
               { type: 'text-delta', id: '1', delta: '``' },
               { type: 'text-end', id: '1' },
               {

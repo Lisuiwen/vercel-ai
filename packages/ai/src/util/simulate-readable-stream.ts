@@ -1,7 +1,7 @@
 import { delay as delayFunction } from '@ai-sdk/provider-utils';
 
 /**
- * Creates a ReadableStream that emits the provided values with an optional delay between each value.
+ * 创建一个 ReadableStream，它发出提供的值，每个值之间有一个可选的延迟。
  *
  * @param options - The configuration options
  * @param options.chunks - Array of values to be emitted by the stream

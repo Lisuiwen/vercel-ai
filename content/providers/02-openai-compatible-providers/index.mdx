@@ -1,26 +1,26 @@
 ---
-title: OpenAI Compatible Providers
-description: Use OpenAI compatible providers with the AI SDK.
+title: OpenAI 兼容 Provider
+description: 在 AI SDK 中使用 OpenAI 兼容的 provider。
 ---
 
-# OpenAI Compatible Providers
+# OpenAI 兼容 Provider
 
-You can use the [OpenAI Compatible Provider](https://www.npmjs.com/package/@ai-sdk/openai-compatible) package to use language model providers that implement the OpenAI API.
+你可以使用 [OpenAI Compatible Provider](https://www.npmjs.com/package/@ai-sdk/openai-compatible) 包来使用实现了 OpenAI API 的语言模型 provider。
 
-Below we focus on the general setup and provider instance creation. You can also [write a custom provider package leveraging the OpenAI Compatible package](/providers/openai-compatible-providers/custom-providers).
+下文主要介绍通用安装与 provider 实例的创建。你也可以[基于 OpenAI Compatible 包编写自定义 provider 包](/providers/openai-compatible-providers/custom-providers)。
 
-We provide detailed documentation for the following OpenAI compatible providers:
+我们为以下 OpenAI 兼容 provider 提供详细文档：
 
 - [LM Studio](/providers/openai-compatible-providers/lmstudio)
 - [NIM](/providers/openai-compatible-providers/nim)
 - [Heroku](/providers/openai-compatible-providers/heroku)
 - [Clarifai](/providers/openai-compatible-providers/clarifai)
 
-The general setup and provider instance creation is the same for all of these providers.
+这些 provider 的通用安装与实例创建方式相同。
 
-## Setup
+## 安装
 
-The OpenAI Compatible provider is available via the `@ai-sdk/openai-compatible` module. You can install it with:
+OpenAI Compatible provider 通过 `@ai-sdk/openai-compatible` 模块提供。可按以下方式安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -38,9 +38,9 @@ The OpenAI Compatible provider is available via the `@ai-sdk/openai-compatible` 
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-To use an OpenAI compatible provider, you can create a custom provider instance with the `createOpenAICompatible` function from `@ai-sdk/openai-compatible`:
+要使用 OpenAI 兼容 provider，可使用 `@ai-sdk/openai-compatible` 中的 `createOpenAICompatible` 创建自定义 provider 实例：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -53,82 +53,78 @@ const provider = createOpenAICompatible({
 });
 ```
 
-You can use the following optional settings to customize the provider instance:
+可使用以下可选设置自定义 provider 实例：
 
 - **baseURL** _string_
 
-  Set the URL prefix for API calls.
+  设置 API 调用的 URL 前缀。
 
 - **apiKey** _string_
 
-  API key for authenticating requests. If specified, adds an `Authorization`
-  header to request headers with the value `Bearer <apiKey>`. This will be added
-  before any headers potentially specified in the `headers` option.
+  用于鉴权的 API 密钥。若指定，会在请求头中加入 `Authorization`，值为 `Bearer <apiKey>`。该头会加在 `headers` 选项可能指定的任何头之前。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Optional custom headers to include in requests. These will be added to request headers
-  after any headers potentially added by use of the `apiKey` option.
+  请求中要包含的可选自定义头。这些头会加在使用 `apiKey` 选项可能添加的头之后。
 
 - **queryParams** _Record&lt;string,string&gt;_
 
-  Optional custom url query parameters to include in request urls.
+  请求 URL 中要包含的可选自定义查询参数。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch` 函数。
+  可用作拦截请求的中间件，
+  或为测试等场景提供自定义 fetch 实现。
 
 - **includeUsage** _boolean_
 
-  Include usage information in streaming responses. When enabled, usage data will be included in the response metadata for streaming requests. Defaults to `undefined` (`false`).
+  在流式响应中包含用量信息。启用后，流式请求的响应元数据中会包含用量数据。默认为 `undefined`（即 `false`）。
 
 - **supportsStructuredOutputs** _boolean_
 
-  Set to true if the provider supports structured outputs. Only relevant for `provider()`, `provider.chatModel()`, and `provider.languageModel()`.
+  若 provider 支持结构化输出则设为 true。仅与 `provider()`、`provider.chatModel()` 和 `provider.languageModel()` 相关。
 
 - **transformRequestBody** _(args: Record&lt;string, any&gt;) =&gt; Record&lt;string, any&gt;_
 
-  Optional function to transform the request body before sending it to the API.
-  This is useful for proxy providers that may require a different request format
-  than the official OpenAI API.
+  在发送到 API 之前转换请求体的可选函数。
+  对可能需要与官方 OpenAI API 不同请求格式的代理 provider 很有用。
 
 - **metadataExtractor** _MetadataExtractor_
 
-  Optional metadata extractor to capture provider-specific metadata from API responses.
-  See [Custom Metadata Extraction](#custom-metadata-extraction) for details.
+  用于从 API 响应中提取 provider 特定元数据的可选元数据提取器。
+  详见[自定义元数据提取](#custom-metadata-extraction)。
 
-## Language Models
+## 语言模型
 
-You can create provider models using a provider instance.
-The first argument is the model id, e.g. `model-id`.
+你可以使用 provider 实例创建 provider 模型。
+第一个参数为模型 id，例如 `model-id`。
 
 ```ts
 const model = provider('model-id');
 ```
 
-You can also use the following factory methods:
+也可使用以下工厂方法：
 
-- `provider.languageModel('model-id')` - creates a chat language model (same as `provider('model-id')`)
-- `provider.chatModel('model-id')` - creates a chat language model
+- `provider.languageModel('model-id')` — 创建聊天语言模型（与 `provider('model-id')` 相同）
+- `provider.chatModel('model-id')` — 创建聊天语言模型
 
-### Supported Capabilities
+### 支持的能力
 
-Chat models created with this provider support the following capabilities:
+使用本 provider 创建的聊天模型支持以下能力：
 
-- **Text generation** - Generate text completions
-- **Streaming** - Stream text responses in real-time
-- **Tool calling** - Call tools/functions with streaming support
-- **Structured outputs** - Generate JSON with schema validation (when `supportsStructuredOutputs` is enabled)
-- **Reasoning content** - Support for models that return reasoning/thinking tokens (e.g., DeepSeek R1)
-- **System messages** - Support for system prompts
-- **Multi-modal inputs** - Support for images and other content types (provider-dependent)
+- **文本生成** — 生成文本补全
+- **流式输出** — 实时流式传输文本响应
+- **工具调用** — 调用 tools/functions，并支持流式
+- **结构化输出** — 通过 schema 校验生成 JSON（在启用 `supportsStructuredOutputs` 时）
+- **推理内容** — 支持返回推理/思考 token 的模型（例如 DeepSeek R1）
+- **系统消息** — 支持 system 提示
+- **多模态输入** — 支持图像等内容类型（取决于 provider）
 
-### Example
+### 示例
 
-You can use provider language models to generate text with the `generateText` function:
+可使用 provider 语言模型配合 `generateText` 生成文本：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -146,7 +142,7 @@ const { text } = await generateText({
 });
 ```
 
-### Including model ids for auto-completion
+### 包含模型 id 以支持自动补全
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -190,15 +186,14 @@ const { text } = await generateText({
 });
 ```
 
-### Custom query parameters
+### 自定义查询参数
 
-Some providers may require custom query parameters. An example is the [Azure AI
+部分 provider 可能需要自定义查询参数。例如 [Azure AI
 Model Inference
 API](https://learn.microsoft.com/en-us/azure/machine-learning/reference-model-inference-chat-completions?view=azureml-api-2)
-which requires an `api-version` query parameter.
+需要 `api-version` 查询参数。
 
-You can set these via the optional `queryParams` provider setting. These will be
-added to all requests made by the provider.
+可通过可选的 `queryParams` provider 设置来配置。这些参数会添加到该 provider 发起的所有请求中。
 
 ```ts highlight="7-9"
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -213,18 +208,18 @@ const provider = createOpenAICompatible({
 });
 ```
 
-For example, with the above configuration, API requests would include the query parameter in the URL like:
-`https://api.provider.com/v1/chat/completions?api-version=1.0.0`.
+例如，使用上述配置时，API 请求 URL 中会包含查询参数：
+`https://api.provider.com/v1/chat/completions?api-version=1.0.0`。
 
-## Image Models
+## 图像模型
 
-You can create image models using the `.imageModel()` factory method:
+可使用 `.imageModel()` 工厂方法创建图像模型：
 
 ```ts
 const model = provider.imageModel('model-id');
 ```
 
-### Basic Image Generation
+### 基础图像生成
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -243,11 +238,11 @@ const { images } = await generateImage({
 });
 ```
 
-### Image Editing
+### 图像编辑
 
-The OpenAI Compatible provider supports image editing through the `/images/edits` endpoint. Pass input images via `prompt.images` to transform or edit existing images.
+OpenAI Compatible provider 通过 `/images/edits` 端点支持图像编辑。通过 `prompt.images` 传入输入图像以变换或编辑现有图像。
 
-#### Basic Image Editing
+#### 基础图像编辑
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -271,9 +266,9 @@ const { images } = await generateImage({
 });
 ```
 
-#### Inpainting with Mask
+#### 使用遮罩的局部重绘（Inpainting）
 
-Edit specific parts of an image using a mask:
+使用遮罩编辑图像的指定区域：
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -300,20 +295,20 @@ const { images } = await generateImage({
 ```
 
 <Note>
-  Input images can be provided as `Buffer`, `ArrayBuffer`, `Uint8Array`,
-  base64-encoded strings, or URLs. The provider will automatically download
-  URL-based images and convert them to the appropriate format.
+  输入图像可提供为 `Buffer`、`ArrayBuffer`、`Uint8Array`、
+  base64 字符串或 URL。provider 会自动下载
+  基于 URL 的图像并转换为合适格式。
 </Note>
 
-## Embedding Models
+## 嵌入模型
 
-You can create embedding models using the `.embeddingModel()` factory method:
+可使用 `.embeddingModel()` 工厂方法创建嵌入模型：
 
 ```ts
 const model = provider.embeddingModel('model-id');
 ```
 
-### Example
+### 示例
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -331,19 +326,19 @@ const { embedding } = await embed({
 });
 ```
 
-### Embedding Model Options
+### 嵌入模型选项
 
-The following provider options are available for embedding models via `providerOptions`:
+以下 provider 选项可通过 `providerOptions` 用于嵌入模型：
 
 - **dimensions** _number_
 
-  The number of dimensions the resulting output embeddings should have.
-  Only supported in models that allow dimension configuration.
+  输出嵌入应有的维度数量。
+  仅在允许配置维度的模型中支持。
 
 - **user** _string_
 
-  A unique identifier representing your end-user, which can help providers to
-  monitor and detect abuse.
+  表示终端用户的唯一标识符，可帮助 provider
+  监控滥用行为。
 
 ```ts
 const { embedding } = await embed({
@@ -358,15 +353,15 @@ const { embedding } = await embed({
 });
 ```
 
-## Completion Models
+## 补全模型
 
-You can create completion models (for text completion, not chat) using the `.completionModel()` factory method:
+可使用 `.completionModel()` 工厂方法创建补全模型（用于文本补全，而非聊天）：
 
 ```ts
 const model = provider.completionModel('model-id');
 ```
 
-### Example
+### 示例
 
 ```ts
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
@@ -384,28 +379,28 @@ const { text } = await generateText({
 });
 ```
 
-### Completion Model Options
+### 补全模型选项
 
-The following provider options are available for completion models via `providerOptions`:
+以下 provider 选项可通过 `providerOptions` 用于补全模型：
 
 - **echo** _boolean_
 
-  Echo back the prompt in addition to the completion.
+  除补全外，同时回显 prompt。
 
 - **logitBias** _Record&lt;string, number&gt;_
 
-  Modify the likelihood of specified tokens appearing in the completion.
-  Accepts a JSON object that maps tokens (specified by their token ID) to an
-  associated bias value from -100 to 100.
+  调整指定 token 出现在补全中的相对概率。
+  接受将 token（按其 token ID 指定）映射到
+  -100 到 100 之间偏置值的 JSON 对象。
 
 - **suffix** _string_
 
-  The suffix that comes after a completion of inserted text.
+  插入文本补全之后的后缀。
 
 - **user** _string_
 
-  A unique identifier representing your end-user, which can help providers to
-  monitor and detect abuse.
+  表示终端用户的唯一标识符，可帮助 provider
+  监控滥用行为。
 
 ```ts
 const { text } = await generateText({
@@ -421,28 +416,27 @@ const { text } = await generateText({
 });
 ```
 
-## Chat Model Options
+## 聊天模型选项
 
-The following provider options are available for chat models via `providerOptions`:
+以下 provider 选项可通过 `providerOptions` 用于聊天模型：
 
 - **user** _string_
 
-  A unique identifier representing your end-user, which can help the provider to
-  monitor and detect abuse.
+  表示终端用户的唯一标识符，可帮助 provider
+  监控滥用行为。
 
 - **reasoningEffort** _string_
 
-  Reasoning effort for reasoning models. The exact values depend on the provider.
+  推理模型的推理强度。具体取值取决于 provider。
 
 - **textVerbosity** _string_
 
-  Controls the verbosity of the generated text. The exact values depend on the provider.
+  控制生成文本的详略程度。具体取值取决于 provider。
 
 - **strictJsonSchema** _boolean_
 
-  Whether to use strict JSON schema validation. When true, the model uses constrained
-  decoding to guarantee schema compliance. Only used when the provider supports
-  structured outputs and a schema is provided. Defaults to `true`.
+  是否使用严格的 JSON schema 校验。为 true 时，模型使用约束解码以保证符合 schema。仅在 provider 支持
+  结构化输出且提供了 schema 时使用。默认为 `true`。
 
 ```ts
 const { text } = await generateText({
@@ -457,11 +451,11 @@ const { text } = await generateText({
 });
 ```
 
-## Provider-specific options
+## Provider 专属选项
 
-The OpenAI Compatible provider supports adding provider-specific options to the request body. These are specified with the `providerOptions` field in the request body.
+OpenAI Compatible provider 支持在请求体中加入 provider 专属选项。这些选项通过请求体中的 `providerOptions` 字段指定。
 
-For example, if you create a provider instance with the name `providerName`, you can add a `customOption` field to the request body like this:
+例如，若创建的 provider 实例名称为 `providerName`，可向请求体添加 `customOption` 字段，如下所示：
 
 ```ts
 const provider = createOpenAICompatible({
@@ -479,30 +473,30 @@ const { text } = await generateText({
 });
 ```
 
-Note that the `providerOptions` key will be in camelCase. If you set the provider name to `provider-name`, the options still need to be set on `providerOptions.providerName`.
+注意：`providerOptions` 的键使用 camelCase。若将 provider 名称设为 `provider-name`，选项仍须设置在 `providerOptions.providerName` 上。
 
-The request body sent to the provider will include the `customOption` field with the value `magic-value`. This gives you an easy way to add provider-specific options to requests without having to modify the provider or AI SDK code.
+发往 provider 的请求体会包含值为 `magic-value` 的 `customOption` 字段。这样无需修改 provider 或 AI SDK 代码，即可便捷地向请求添加 provider 专属选项。
 
-## Custom Metadata Extraction
+## 自定义元数据提取
 
-The OpenAI Compatible provider supports extracting provider-specific metadata from API responses through metadata extractors.
-These extractors allow you to capture additional information returned by the provider beyond the standard response format.
+OpenAI Compatible provider 支持通过元数据提取器从 API 响应中提取 provider 专属元数据。
+这些提取器可捕获 provider 在标准响应格式之外返回的附加信息。
 
-Metadata extractors receive the raw, unprocessed response data from the provider, giving you complete flexibility
-to extract any custom fields or experimental features that the provider may include.
-This is particularly useful when:
+元数据提取器接收来自 provider 的原始、未处理响应数据，因此可灵活提取
+provider 可能包含的任意自定义字段或实验特性。
+在以下情况特别有用：
 
-- Working with providers that include non-standard response fields
-- Experimenting with beta or preview features
-- Capturing provider-specific metrics or debugging information
-- Supporting rapid provider API evolution without SDK changes
+- 与包含非标准响应字段的 provider 协作
+- 试验 beta 或预览功能
+- 捕获 provider 专属指标或调试信息
+- 在无需改动 SDK 的情况下快速跟进 provider API 变化
 
-Metadata extractors work with both streaming and non-streaming chat completions and consist of two main components:
+元数据提取器同时适用于流式与非流式聊天补全，主要包含两个部分：
 
-1. A function to extract metadata from complete responses
-2. A streaming extractor that can accumulate metadata across chunks in a streaming response
+1. 从完整响应中提取元数据的函数
+2. 可在流式响应的各个分块间累积元数据的流式提取器
 
-Here's an example metadata extractor that captures both standard and custom provider data:
+下面是一个同时捕获标准与自定义 provider 数据的元数据提取器示例：
 
 ```typescript
 import { MetadataExtractor } from '@ai-sdk/openai-compatible';
@@ -554,7 +548,7 @@ const myMetadataExtractor: MetadataExtractor = {
 };
 ```
 
-You can provide a metadata extractor when creating your provider instance:
+创建 provider 实例时可提供元数据提取器：
 
 ```typescript
 const provider = createOpenAICompatible({
@@ -565,7 +559,7 @@ const provider = createOpenAICompatible({
 });
 ```
 
-The extracted metadata will be included in the response under the `providerMetadata` field:
+提取的元数据会出现在响应的 `providerMetadata` 字段下：
 
 ```typescript
 const { text, providerMetadata } = await generateText({
@@ -576,4 +570,4 @@ const { text, providerMetadata } = await generateText({
 console.log(providerMetadata.myProvider.customMetric);
 ```
 
-This allows you to access provider-specific information while maintaining a consistent interface across different providers.
+这样即可访问 provider 专属信息，同时在不同 provider 之间保持一致的接口。

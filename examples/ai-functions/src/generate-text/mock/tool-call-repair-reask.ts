@@ -29,7 +29,7 @@ run(async () => {
             toolCallType: 'function',
             toolCallId: 'call-1',
             toolName: 'cityAttractions',
-            // wrong tool call arguments (city vs cities):
+            // 错误的工具调用参数（城市与城市）：
             input: `{ "city": "San Francisco" }`,
           },
         ],

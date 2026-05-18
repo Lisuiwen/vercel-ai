@@ -15,7 +15,7 @@ run(async () => {
           console.log('args', { action, coordinate, text });
           switch (action) {
             case 'screenshot': {
-              // multipart result:
+              // 多部分结果：
               return {
                 type: 'file',
                 mediaType: 'image',
@@ -33,7 +33,7 @@ run(async () => {
           }
         },
 
-        // map to tool result content for LLM consumption:
+        // 映射到 LLM 使用的工具结果内容：
         toModelOutput({ output }) {
           return {
             type: 'content',

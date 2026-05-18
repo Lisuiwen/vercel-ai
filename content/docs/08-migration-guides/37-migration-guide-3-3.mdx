@@ -1,64 +1,62 @@
 ---
-title: Migrate AI SDK 3.2 to 3.3
-description: Learn how to upgrade AI SDK 3.2 to 3.3.
+title: 将 AI SDK 3.2 迁移到 3.3
+description: 了解如何将 AI SDK 3.2 升级到 3.3。
 ---
 
-# Migrate AI SDK 3.2 to 3.3
+# 将 AI SDK 3.2 迁移到 3.3
 
 <Note>
-  Check out the [AI SDK 3.3 release blog
-  post](https://vercel.com/blog/vercel-ai-sdk-3-3) for more information about
-  the release.
+  更多信息请参阅 [AI SDK 3.3 发布公告](https://vercel.com/blog/vercel-ai-sdk-3-3)。
 </Note>
 
-No breaking changes in this release.
+本次发布没有破坏性变更。
 
-The following changelog encompasses all changes made in the 3.2.x series,
-introducing significant improvements and new features across the AI SDK and its associated libraries:
+下列变更日志涵盖了 3.2.x 系列的全部更新，
+在 AI SDK 及其相关库中引入了大量改进与新功能：
 
-## New Features
+## 新功能
 
-### Open Telemetry Support
+### OpenTelemetry 支持
 
-- Added experimental [OpenTelemetry support](/docs/ai-sdk-core/telemetry#telemetry) for all [AI SDK Core functions](/docs/ai-sdk-core/overview#ai-sdk-core-functions), enabling better observability and tracing capabilities.
+- 为所有 [AI SDK Core 函数](/docs/ai-sdk-core/overview#ai-sdk-core-functions) 增加了实验性的 [OpenTelemetry 支持](/docs/ai-sdk-core/telemetry#telemetry)，带来更好的可观测性与链路追踪能力。
 
-### AI SDK UI Improvements
+### AI SDK UI 改进
 
-- Introduced the experimental **`useObject`** hook (for React) that can be used in conjunction with **`streamObject`** on the backend to enable seamless streaming of structured data.
-- Enhanced **`useChat`** with experimental support for attachments and streaming tool calls, providing more versatile chat functionalities.
-- Patched **`useChat`** to prevent empty submissions, improving the quality of user interactions by ensuring that only intended inputs are processed.
-- Fix **`useChat`**'s **`reload`** function, now correctly sending data, body, and headers.
-- Implemented **`setThreadId`** helper for **`useAssistant`**, simplifying thread management.
-- Documented the stream data protocol for **`useChat`** and **`useCompletion`**, allowing developers to use these functions with any backend. The stream data protocol also enables the use of custom frontends with **`streamText`**.
-- Added support for custom fetch functions and request body customization, offering greater control over API interactions.
-- Added **`onFinish`** to **`useChat`** hook for access to token usage and finish reason.
+- 引入实验性的 **`useObject`** Hook（面向 React），可与后端的 **`streamObject`** 配合，实现结构化数据的无缝流式传输。
+- 增强 **`useChat`**：实验性支持附件与流式工具调用，使聊天能力更加灵活。
+- 修复 **`useChat`**：防止空提交，确保只有用户明确的输入会被处理。
+- 修复 **`useChat`** 的 **`reload`** 函数，现可正确发送 data、body 与 headers。
+- 为 **`useAssistant`** 提供 **`setThreadId`** 辅助函数，简化线程管理。
+- 记录了 **`useChat`** 与 **`useCompletion`** 的流式数据协议，开发者可将这些函数搭配任意后端使用；该协议也支持将 **`streamText`** 与自定义前端组合。
+- 支持自定义 `fetch` 与请求体定制，增强对 API 交互的控制。
+- 为 **`useChat`** 增加 **`onFinish`**，用于访问 token 用量与结束原因。
 
-### Core Enhancements
+### Core 增强
 
-- Implemented support for sending custom request headers, enabling more tailored API requests.
-- Added raw JSON schema support alongside existing Zod support, providing more options for schema and data validation.
-- Introduced usage information for **`embed`** and **`embedMany`** functions, offering insights into token usage.
-- Added support for additional settings including **`stopSequences`** and **`topK`**, allowing for finer control over text generation.
-- Provided access to information for all steps on **`generateText`**, providing access to intermediate tool calls and results.
+- 支持发送自定义请求头，便于按需定制 API 请求。
+- 在既有 Zod 支持之外增加原始 JSON Schema 支持，为校验提供更多选择。
+- 为 **`embed`** 与 **`embedMany`** 提供用量信息。
+- 增加 **`stopSequences`**、**`topK`** 等设置，细化文本生成控制。
+- **`generateText`** 现可访问所有步骤的信息，包括中间工具调用与结果。
 
-### New Providers
+### 新提供商
 
-- [AWS Bedrock provider](/providers/ai-sdk-providers/amazon-bedrock).
+- [AWS Bedrock provider](/providers/ai-sdk-providers/amazon-bedrock)。
 
-### Provider Improvements
+### 提供商改进
 
-- Enhanced existing providers including Anthropic, Google, Azure, and OpenAI with various improvements and bug fixes.
-- Upgraded the LangChain adapter with StreamEvent v2 support and introduced the **`toDataStreamResponse`** function, enabling conversion of LangChain output streams to data stream responses.
-- Added legacy function calling support to the OpenAI provider.
-- Updated Mistral AI provider with fixes and improvements for tool calling support.
+- 增强 Anthropic、Google、Azure、OpenAI 等既有提供商，包含多项改进与缺陷修复。
+- 升级 LangChain 适配器以支持 StreamEvent v2，并引入 **`toDataStreamResponse`**，可将 LangChain 输出流转换为数据流响应。
+- OpenAI 提供商新增旧版 function calling 支持。
+- Mistral AI 提供商更新工具调用相关修复与改进。
 
-### UI Framework Support Expansion
+### UI 框架支持扩展
 
-- SolidJS: Updated **`useChat`** and **`useCompletion`** to achieve feature parity with React implementations.
-- Vue.js: Introduced **`useAssistant`** hook.
-- Vue.js / Nuxt: [Updated examples](https://github.com/vercel/ai/tree/main/examples/nuxt-openai) to showcase latest features and best practices.
-- Svelte: Added tool calling support to **`useChat`.**
+- SolidJS：更新 **`useChat`** 与 **`useCompletion`**，与 React 实现保持一致的功能。
+- Vue.js：新增 **`useAssistant`** Hook。
+- Vue.js / Nuxt：[更新示例](https://github.com/vercel/ai/tree/main/examples/nuxt-openai)，展示最新能力与最佳实践。
+- Svelte：为 **`useChat`** 增加工具调用支持。
 
-## Fixes and Improvements
+## 修复与改进
 
-- Resolved various issues across different components of the SDK, including race conditions, error handling, and state management.
+- 修复 SDK 各组件中的多项问题，包括竞态条件、错误处理与状态管理等。

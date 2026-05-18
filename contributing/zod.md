@@ -1,30 +1,30 @@
-# Zod and AI SDK
+# Zod 与 AI SDK
 
-## Background
+## 背景
 
-The AI SDK allows users to use Zod 3, Zod 4, and Zod 4 mini schemas directly.
+AI SDK 允许用户直接使用 Zod 3、Zod 4 以及 Zod 4 mini schema。
 
-Incorrect internal implementations can lead to infinite recursion and OOM issues such as [#7351](https://github.com/vercel/ai/issues/7351).
+错误的内部实现可能导致无限递归和 OOM 等问题，例如 [#7351](https://github.com/vercel/ai/issues/7351)。
 
-## Rules
+## 规则
 
-For Zod 3 usage (only required in compatibility code, e.g. parsing):
+Zod 3 用法（仅兼容代码需要，例如解析）：
 
-- always use `import * as z3 from "zod/v3";`
+- 始终使用 `import * as z3 from "zod/v3";`
 
-For Zod 4 usage:
+Zod 4 用法：
 
-- always use `import * as z4 from "zod/v4";`
-- always use `z4.core.$ZodType`
+- 始终使用 `import * as z4 from "zod/v4";`
+- 始终使用 `z4.core.$ZodType`
 
-## Future Work
+## 后续工作
 
-- set up linter to ensure imports are correct
+- 配置 linter 以确保导入正确
 
-## Related issues
+## 相关问题
 
 - [OOM bug report](https://github.com/vercel/ai/issues/7351)
 
-## References
+## 参考
 
 - [Zod library authors guide](https://zod.dev/library-authors)

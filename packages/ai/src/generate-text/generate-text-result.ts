@@ -26,8 +26,8 @@ import type {
 } from './tool-result';
 
 /**
- * The result of a `generateText` call.
- * It contains the generated text, the tool calls that were made during the generation, and the results of the tool calls.
+ * `generateText` 调用的结果。
+ * 它包含生成的文本、生成期间进行的工具调用以及工具调用的结果。
  */
 export interface GenerateTextResult<
   TOOLS extends ToolSet,
@@ -35,142 +35,142 @@ export interface GenerateTextResult<
   OUTPUT extends Output,
 > {
   /**
-   * The content that was generated in all steps.
+   * 所有步骤中生成的内容。
    */
   readonly content: Array<ContentPart<TOOLS>>;
 
   /**
-   * The text that was generated in the final step.
+   * 在最后一步中生成的文本。
    */
   readonly text: string;
 
   /**
-   * The full reasoning that the model has generated in the last step.
+   * 模型在最后一步中生成的完整推理。
    *
-   * @deprecated Use `finalStep.reasoning` instead.
+   * @deprecated 请改用“finalStep.reasoning”。
    */
   readonly reasoning: Array<ReasoningOutput | ReasoningFileOutput>;
 
   /**
-   * The reasoning text that the model has generated in the last step. Can be undefined if the model
-   * has only generated text.
+   * 模型在上一步中生成的推理文本。如果模型可以是未定义的
+   * 仅生成文本。
    *
-   * @deprecated Use `finalStep.reasoningText` instead.
+   * @deprecated 请改用“finalStep.reasoningText”。
    */
   readonly reasoningText: string | undefined;
 
   /**
-   * The files that were generated in all steps.
-   * Empty array if no files were generated.
+   * 所有步骤中生成的文件。
+   * 如果没有生成文件，则为空数组。
    */
   readonly files: Array<GeneratedFile>;
 
   /**
-   * Sources that have been used as references in all steps.
+   * 在所有步骤中用作参考的来源。
    */
   readonly sources: Array<Source>;
 
   /**
-   * The tool calls that were made in all steps.
+   * 所有步骤中进行的工具调用。
    */
   readonly toolCalls: Array<TypedToolCall<TOOLS>>;
 
   /**
-   * The static tool calls that were made in all steps.
+   * 所有步骤中进行的静态工具调用。
    */
   readonly staticToolCalls: Array<StaticToolCall<TOOLS>>;
 
   /**
-   * The dynamic tool calls that were made in all steps.
+   * 所有步骤中进行的动态工具调用。
    */
   readonly dynamicToolCalls: Array<DynamicToolCall>;
 
   /**
-   * The results of the tool calls from all steps.
+   * 该工具从所有步骤调用的结果。
    */
   readonly toolResults: Array<TypedToolResult<TOOLS>>;
 
   /**
-   * The static tool results that were made in all steps.
+   * 所有步骤中生成的静态工具结果。
    */
   readonly staticToolResults: Array<StaticToolResult<TOOLS>>;
 
   /**
-   * The dynamic tool results that were made in all steps.
+   * 所有步骤中生成的动态工具结果。
    */
   readonly dynamicToolResults: Array<DynamicToolResult>;
 
   /**
-   * The unified reason why the generation finished.
+   * 一代结束的统一原因。
    */
   readonly finishReason: FinishReason;
 
   /**
-   * The raw reason why the generation finished (from the provider).
+   * 生成完成的原始原因（来自提供者）。
    */
   readonly rawFinishReason: string | undefined;
 
   /**
-   * The total token usage of all steps.
-   * When there are multiple steps, the usage is the sum of all step usages.
+   * 所有步骤的总令牌使用量。
+   * 当有多个步骤时，使用量为所有步骤使用量的总和。
    */
   readonly usage: LanguageModelUsage;
 
   /**
-   * The total token usage of all steps.
-   * When there are multiple steps, the usage is the sum of all step usages.
+   * 所有步骤的总令牌使用量。
+   * 当有多个步骤时，使用量为所有步骤使用量的总和。
    *
-   * @deprecated Use `usage` instead.
+   * @deprecated 请改用“用法”。
    */
   readonly totalUsage: LanguageModelUsage;
 
   /**
-   * Warnings from the model provider (e.g. unsupported settings) in all steps.
+   * 所有步骤中均来自模型提供者的警告（例如不支持的设置）。
    */
   readonly warnings: CallWarning[] | undefined;
 
   /**
-   * Additional request information from the last step.
+   * 上一步中的附加请求信息。
    *
-   * @deprecated Use `finalStep.request` instead.
+   * @deprecated 请改用“finalStep.request”。
    */
   readonly request: StepResult<TOOLS, RUNTIME_CONTEXT>['request'];
 
   /**
-   * Additional response information from the last step.
+   * 最后一步的附加响应信息。
    *
-   * @deprecated Use `finalStep.response` instead.
+   * @deprecated 请改用“finalStep.response”。
    */
   readonly response: LanguageModelResponseMetadata;
 
   /**
-   * The accumulated response messages of all steps that were generated during the call.
+   * 调用期间生成的所有步骤的累积响应消息。
    */
   readonly responseMessages: Array<ResponseMessage>;
 
   /**
-   * Additional provider-specific metadata from the final step. They are passed
-   * through from the provider to the AI SDK and enable provider-specific
-   * results that can be fully encapsulated in the provider.
+   * 最后一步中的其他特定于提供商的元数据。他们通过了
+   * 从提供商到 AI SDK 并启用提供商特定的
+   * 可以完全封装在提供者中的结果。
    *
-   * @deprecated Use `finalStep.providerMetadata` instead.
+   * @deprecated 请改用“finalStep.providerMetadata”。
    */
   readonly providerMetadata: ProviderMetadata | undefined;
 
   /**
-   * Details for all steps.
-   * You can use this to get information about intermediate steps,
-   * such as the tool calls or the response headers.
+   * 所有步骤的详细信息。
+   * 您可以使用它来获取有关中间步骤的信息，
+   * 例如工具调用或响应标头。
    */
   readonly steps: Array<StepResult<TOOLS, RUNTIME_CONTEXT>>;
 
   /**
-   * The final step. This is a shortcut for `steps.at(-1)`.
+   * 最后一步。这是“steps.at(-1)”的快捷方式。
    */
   readonly finalStep: StepResult<TOOLS, RUNTIME_CONTEXT>;
 
   /**
-   * The generated structured output. It uses the `output` specification.
+   * 生成的结构化输出。它使用“输出”规范。
    *
    */
   readonly output: InferCompleteOutput<OUTPUT>;

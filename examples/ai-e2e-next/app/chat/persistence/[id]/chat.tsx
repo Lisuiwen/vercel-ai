@@ -9,7 +9,7 @@ export default function Chat({
   initialMessages,
 }: { id?: string | undefined; initialMessages?: UIMessage[] } = {}) {
   const { status, sendMessage, messages } = useChat({
-    id, // use the provided chatId
+    id, // 使用提供的 chatId
     messages: initialMessages,
     transport: new DefaultChatTransport({
       api: '/api/chat/persistence',

@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     }
     console.log('[respond] ========================================');
 
-    // Resolve the pending elicitation with the user's response
+    // 用用户响应解决待处理的征询
     const resolved = resolvePendingElicitation(response);
 
     if (!resolved) {

@@ -1,19 +1,19 @@
 ---
 title: Braintrust
-description: Monitoring and tracing LLM applications with Braintrust
+description: 使用 Braintrust 监控与追踪 LLM 应用
 ---
 
-# Braintrust Observability
+# Braintrust 可观测性
 
-Braintrust is an end-to-end platform for building AI applications. When building with the AI SDK, you can integrate Braintrust to [log](https://www.braintrust.dev/docs/guides/logging), monitor, and take action on real-world interactions.
+Braintrust 是构建端到端 AI 应用的开发平台。使用 AI SDK 时，可接入 Braintrust，对真实交互进行 [记录](https://www.braintrust.dev/docs/guides/logging)、监控并采取行动。
 
-## Setup
+## 设置
 
-Braintrust natively supports OpenTelemetry and works out of the box with the AI SDK, either via Next.js or Node.js.
+Braintrust 原生支持 OpenTelemetry，可通过 Next.js 或 Node.js 与 AI SDK 开箱即用。
 
 ### Next.js
 
-If you are using Next.js, use the Braintrust exporter with `@vercel/otel`:
+若使用 Next.js，将 Braintrust exporter 与 `@vercel/otel` 配合使用：
 
 ```typescript filename="instrumentation"
 import { registerTelemetry } from 'ai';
@@ -34,9 +34,9 @@ export function register() {
 }
 ```
 
-Traced LLM calls will appear under the Braintrust project or experiment provided in the `parent` field.
+被追踪的 LLM 调用会出现在 Braintrust 中 `parent` 字段指定的项目或实验下。
 
-Once the integration is registered, telemetry is captured automatically. You can pass additional metadata via the `context` option:
+注册集成后，遥测会自动采集。可通过 `context` 选项传入额外元数据：
 
 ```typescript
 import { generateText } from 'ai';
@@ -53,7 +53,7 @@ const result = await generateText({
 ```
 
 <Note>
-The integration supports streaming functions like `streamText`. Each streamed call will produce `ai.streamText` spans in Braintrust.
+该集成支持 `streamText` 等流式函数。每次流式调用会在 Braintrust 中产生 `ai.streamText` span。
 
 ```typescript
 import { openai } from '@ai-sdk/openai';
@@ -75,15 +75,15 @@ export async function POST(req: Request) {
 
 ### Node.js
 
-If you are using Node.js without a framework, you must configure the `NodeSDK` directly. In this case, it's more straightforward to use the `BraintrustSpanProcessor`.
+若在 Node.js 中不使用框架，需直接配置 `NodeSDK`。此时使用 `BraintrustSpanProcessor` 更直接。
 
-First, install the necessary dependencies:
+首先安装必要依赖：
 
 ```bash
 npm install ai @ai-sdk/openai @ai-sdk/otel braintrust @opentelemetry/sdk-node @opentelemetry/sdk-trace-base zod
 ```
 
-Then, set up the OpenTelemetry SDK:
+然后配置 OpenTelemetry SDK：
 
 ```typescript
 import { NodeSDK } from '@opentelemetry/sdk-node';
@@ -144,12 +144,12 @@ async function main() {
 main().catch(console.error);
 ```
 
-## Resources
+## 资源
 
-To see a step-by-step example, check out the Braintrust [cookbook](https://www.braintrust.dev/docs/cookbook/recipes/OTEL-logging).
+查看分步示例：Braintrust [cookbook](https://www.braintrust.dev/docs/cookbook/recipes/OTEL-logging)。
 
-After you log your application in Braintrust, explore other workflows like:
+将应用接入 Braintrust 后，还可探索：
 
-- Adding [tools](https://www.braintrust.dev/docs/guides/functions/tools) to your library and using them in [experiments](https://www.braintrust.dev/docs/guides/evals) and the [playground](https://www.braintrust.dev/docs/guides/playground)
-- Creating [custom scorers](https://www.braintrust.dev/docs/guides/functions/scorers) to assess the quality of your LLM calls
-- Adding your logs to a [dataset](https://www.braintrust.dev/docs/guides/datasets) and running evaluations comparing models and prompts
+- 向工具库添加 [tools](https://www.braintrust.dev/docs/guides/functions/tools)，并在 [experiments](https://www.braintrust.dev/docs/guides/evals) 与 [playground](https://www.braintrust.dev/docs/guides/playground) 中使用
+- 创建 [custom scorers](https://www.braintrust.dev/docs/guides/functions/scorers) 评估 LLM 调用质量
+- 将日志加入 [dataset](https://www.braintrust.dev/docs/guides/datasets)，运行对比模型与提示词的评估

@@ -1,104 +1,104 @@
 ---
 name: adr-skill
-description: Create and maintain Architecture Decision Records (ADRs) optimized for agentic coding workflows. Use when you need to propose, write, update, accept/reject, deprecate, or supersede an ADR; bootstrap an adr folder and index; consult existing ADRs before implementing changes; or enforce ADR conventions. This skill uses Socratic questioning to capture intent before drafting, and validates output against an agent-readiness checklist.
+description: 创建与维护面向 agentic 编码工作流优化的架构决策记录（ADR）。在需要提议、撰写、更新、接受/拒绝、弃用或取代 ADR；bootstrap adr 文件夹与索引；在实现变更前查阅现有 ADR；或执行 ADR 约定时使用。本 skill 在起草前用苏格拉底式提问捕获意图，并对照 agent 就绪清单验证输出。
 metadata:
   internal: true
 ---
 
 # ADR Skill
 
-## Philosophy
+## 理念
 
-ADRs created with this skill are **executable specifications for coding agents**. A human approves the decision; an agent implements it. The ADR must contain everything the agent needs to write correct code without asking follow-up questions.
+用本 skill 创建的 ADR 是 **面向 coding agent 的可执行规范**。人类批准决策；agent 实现。ADR 必须包含 agent 编写正确代码所需的一切，无需追问。
 
-This means:
+这意味着：
 
-- Constraints must be explicit and measurable, not vibes
-- Decisions must be specific enough to act on ("use PostgreSQL 16 with pgvector" not "use a database")
-- Consequences must map to concrete follow-up tasks
-- Non-goals must be stated to prevent scope creep
-- The ADR must be self-contained — no tribal knowledge assumptions
-- **The ADR must include an implementation plan** — which files to touch, which patterns to follow, which tests to write, and how to verify the decision was implemented correctly
+- 约束必须明确且可衡量，而非模糊感觉
+- 决策必须具体到可执行（「使用带 pgvector 的 PostgreSQL 16」而非「使用数据库」）
+- 后果必须映射到具体后续任务
+- 必须说明非目标以防止范围蔓延
+- ADR 必须自包含——不假设口口相传的知识
+- **ADR 必须包含实现计划**——涉及哪些文件、遵循哪些模式、编写哪些测试、如何验证决策已正确实现
 
-## When to Write an ADR
+## 何时撰写 ADR
 
-Write an ADR when a decision:
+在以下情况撰写 ADR：
 
-- **Changes how the system is built or operated** (new dependency, architecture pattern, infrastructure choice, API design)
-- **Is hard to reverse** once code is written against it
-- **Affects other people or agents** who will work in this codebase later
-- **Has real alternatives** that were considered and rejected
+- **改变系统构建或运行方式**（新依赖、架构模式、基础设施选择、API 设计）
+- 一旦针对其编写代码后**难以逆转**
+- **影响**后续在本代码库工作的其他人或 agent
+- **存在被考虑并拒绝的真实替代方案**
 
-Do NOT write an ADR for:
+**不要**为以下情况撰写 ADR：
 
-- Routine implementation choices within an established pattern
-- Bug fixes or typo corrections
-- Decisions already captured in an existing ADR (update it instead)
-- Style preferences already covered by linters or formatters
+- 既定模式内的常规实现选择
+- Bug 修复或错别字更正
+- 已在现有 ADR 中记录的决策（应更新该 ADR）
+- 已由 linter 或 formatter 覆盖的风格偏好
 
-When in doubt: if a future agent working in this codebase would benefit from knowing _why_ this choice was made, write the ADR.
+有疑问时：若未来在此代码库工作的 agent 能因了解**为何**做出该选择而受益，则撰写 ADR。
 
-### Proactive ADR Triggers (For Agents)
+### 主动 ADR 触发（面向 Agent）
 
-If you are an agent coding in a repo and you encounter any of these situations, **stop and propose an ADR** before continuing:
+若你是正在仓库中编码的 agent 并遇到以下情况，**先停止并提议 ADR** 再继续：
 
-- You are about to introduce a new dependency that doesn't already exist in the project
-- You are about to create a new architectural pattern (new way of handling errors, new data access layer, new API convention) that other code will need to follow
-- You are about to make a choice between two or more real alternatives and the tradeoffs are non-obvious
-- You are about to change something that contradicts an existing accepted ADR
-- You realize you're writing a long code comment explaining "why" — that reasoning belongs in an ADR
+- 即将引入项目中尚不存在的新依赖
+- 即将创建其他代码需遵循的新架构模式（新的错误处理方式、新的数据访问层、新的 API 约定）
+- 即将在多个真实替代方案间做选择且权衡不明显
+- 即将变更与现有已接受 ADR 矛盾的内容
+- 发现自己正在写长代码注释解释「为什么」——该推理应放在 ADR 中
 
-**How to propose**: Tell the human what decision you've hit, why it matters, and ask if they want to capture it as an ADR. If yes, run the full four-phase workflow. If no, note the decision in a code comment and move on.
+**如何提议**：告诉人类你遇到的决策、为何重要，并询问是否希望记录为 ADR。若是，运行完整四阶段工作流。若否，在代码注释中记录决策并继续。
 
-## Creating an ADR: Four-Phase Workflow
+## 创建 ADR：四阶段工作流
 
-Every ADR goes through four phases. Do not skip phases.
+每个 ADR 经历四个阶段。不要跳过阶段。
 
-### Phase 0: Scan the Codebase
+### 阶段 0：扫描代码库
 
-Before asking any questions, gather context from the repo:
+在提问前，从仓库收集上下文：
 
-1. **Find existing ADRs.** Check `contributing/decisions/`, `docs/decisions/`, `adr/`, `docs/adr/`, `decisions/` for existing records. Read them. Note:
-   - Existing conventions (directory, naming, template style)
-   - Decisions that relate to or constrain the current one
-   - Any ADRs this new decision might supersede
+1. **查找现有 ADR。** 检查 `contributing/decisions/`、`docs/decisions/`、`adr/`、`docs/adr/`、`decisions/`。阅读它们。注意：
+   - 现有约定（目录、命名、模板风格）
+   - 与当前决策相关或约束当前决策的决策
+   - 本新决策可能取代的任何 ADR
 
-2. **Check the tech stack.** Read `package.json`, `go.mod`, `requirements.txt`, `Cargo.toml`, or equivalent. Note relevant dependencies and versions.
+2. **检查技术栈。** 阅读 `package.json`、`go.mod`、`requirements.txt`、`Cargo.toml` 或等价物。注意相关依赖与版本。
 
-3. **Find related code patterns.** If the decision involves a specific area (e.g., "how we handle auth"), scan for existing implementations. Identify the specific files, directories, and patterns that will be affected by the decision.
+3. **查找相关代码模式。** 若决策涉及特定领域（例如「我们如何处理 auth」），扫描现有实现。识别决策将影响的特定文件、目录与模式。
 
-4. **Check for ADR references in code.** Look for ADR references in comments and docs (see "Code ↔ ADR Linking" below). This reveals which existing decisions govern which parts of the codebase.
+4. **检查代码中的 ADR 引用。** 在注释与文档中查找 ADR 引用（见下方「Code ↔ ADR Linking」）。这可揭示哪些现有决策管辖代码库的哪些部分。
 
-5. **Note what you found.** Carry this context into Phase 1 — it will sharpen your questions and prevent the ADR from contradicting existing decisions.
+5. **记录发现。** 将上下文带入阶段 1——这将使问题更精准并防止 ADR 与现有决策矛盾。
 
-### Phase 1: Capture Intent (Socratic)
+### 阶段 1：捕获意图（苏格拉底式）
 
-Interview the human to understand the decision space. Ask questions **one at a time**, building on previous answers. Do not dump a list of questions.
+通过访谈理解决策空间。**一次问一个问题**，在前述答案基础上展开。不要一次性抛出问题列表。
 
-**Core questions** (ask in roughly this order, skip what's already clear from context or Phase 0):
+**核心问题**（大致按此顺序，若上下文或阶段 0 已清楚则跳过）：
 
-1. **What are you deciding?** — Get a short, specific title. Push for a verb phrase ("Choose X", "Adopt Y", "Replace Z with W").
-2. **Why now?** — What broke, what's changing, or what will break if you do nothing? This is the trigger.
-3. **What constraints exist?** — Tech stack, timeline, budget, team size, existing code, compliance. Be concrete. Reference what you found in Phase 0 ("I see you're already using X — does that constrain this?").
-4. **What does success look like?** — Measurable outcomes. Push past "it works" to specifics (latency, throughput, DX, maintenance burden).
-5. **What options have you considered?** — At least two. For each: what's the core tradeoff? If they only have one option, help them articulate why alternatives were rejected.
-6. **What's your current lean?** — Capture gut intuition early. Often reveals unstated priorities.
-7. **Who needs to know or approve?** — Decision-makers, consulted experts, informed stakeholders.
-8. **What would an agent need to implement this?** — Which files/directories are affected? What existing patterns should it follow? What should it avoid? What tests would prove it's working? This directly feeds the Implementation Plan.
+1. **你在决定什么？** — 得到简短、具体的标题。推动使用动词短语（「Choose X」、「Adopt Y」、「Replace Z with W」）。
+2. **为何是现在？** — 什么坏了、什么在变、或什么都不做会怎样？这是触发器。
+3. **存在哪些约束？** — 技术栈、时间线、预算、团队规模、现有代码、合规。要具体。引用阶段 0 的发现（「我看到你已在用 X——这是否约束本决策？」）。
+4. **成功是什么样子？** — 可衡量的结果。超越「能用」到具体指标（延迟、吞吐、DX、维护负担）。
+5. **考虑过哪些选项？** — 至少两个。每个：核心权衡是什么？若只有一个选项，帮助阐明为何拒绝替代方案。
+6. **你目前倾向什么？** — 尽早捕获直觉。常揭示未言明的优先级。
+7. **谁需要知晓或批准？** — 决策者、咨询专家、知情相关方。
+8. **Agent 实现需要什么？** — 影响哪些文件/目录？应遵循哪些现有模式？应避免什么？哪些测试能证明有效？这直接馈入实现计划。
 
-**Adaptive follow-ups**: Based on answers, probe deeper where the decision is fuzzy. Common follow-ups:
+**自适应追问**：根据答案，在决策模糊处深入。常见追问：
 
-- "What's the worst-case outcome if this decision is wrong?"
-- "What would make you revisit this in 6 months?"
-- "Is there anything you're explicitly choosing NOT to do?"
-- "What prior art or existing patterns in the codebase does this relate to?"
-- "I found [existing ADR/pattern] — does this new decision interact with it?"
+- 「若此决策错误，最坏结果是什么？」
+- 「什么会让你在 6 个月后重新审视？」
+- 「你明确选择**不**做什么？」
+- 「这与代码库中哪些先例或现有模式相关？」
+- 「我发现 [现有 ADR/模式]——新决策是否与之交互？」
 
-**When to stop**: You have enough when you can fill every section of the ADR — including the Implementation Plan — without making things up. If you're guessing at any section, ask another question.
+**何时停止**：当你能填写 ADR 的每个部分——包括实现计划——而无需编造时即足够。若对任何部分在猜测，再问一个问题。
 
-**Intent Summary Gate**: Before moving to Phase 2, present a structured summary of what you captured and ask the human to confirm or correct it:
+**意图摘要关卡**：进入阶段 2 前，呈现结构化摘要并请人类确认或更正：
 
-> **Here's what I'm capturing for the ADR:**
+> **以下为 ADR 捕获内容：**
 >
 > - **Title**: {title}
 > - **Trigger**: {why now}
@@ -110,40 +110,40 @@ Interview the human to understand the decision space. Ask questions **one at a t
 > - **Affected files/areas**: {where in the codebase this lands}
 > - **Verification**: {how we'll know it's implemented correctly}
 >
-> **Does this capture your intent? Anything to add or correct?**
+> **是否准确反映你的意图？需要补充或更正吗？**
 
-Do NOT proceed to Phase 2 until the human confirms the summary.
+在人类确认摘要之前**不要**进入阶段 2。
 
-### Phase 2: Draft the ADR
+### 阶段 2：起草 ADR
 
-1. **Choose the ADR directory.**
-   - If one exists (found in Phase 0), use it.
-   - If none exists, create `contributing/decisions/` (if `contributing/` exists), `docs/decisions/` (MADR default), or `adr/` (simpler repos).
+1. **选择 ADR 目录。**
+   - 若已存在（阶段 0 发现），使用它。
+   - 若不存在，创建 `contributing/decisions/`（若存在 `contributing/`）、`docs/decisions/`（MADR 默认）或 `adr/`（较简单仓库）。
 
-2. **Choose a filename strategy.**
-   - If existing ADRs use date prefixes (`YYYY-MM-DD-...`), continue that.
-   - Otherwise use slug-only filenames (`choose-database.md`).
+2. **选择文件名策略。**
+   - 若现有 ADR 使用日期前缀（`YYYY-MM-DD-...`），继续该方式。
+   - 否则使用仅 slug 文件名（`choose-database.md`）。
 
-3. **Choose a template.**
-   - Use `assets/templates/adr-simple.md` for straightforward decisions (one clear winner, minimal tradeoffs).
-   - Use `assets/templates/adr-madr.md` when you need to document multiple options with structured pros/cons/drivers.
-   - See `references/template-variants.md` for guidance.
+3. **选择模板。**
+   - 对直接决策（一个明确赢家、权衡少）使用 `assets/templates/adr-simple.md`。
+   - 需记录多个选项及结构化利弊/驱动因素时使用 `assets/templates/adr-madr.md`。
+   - 见 `references/template-variants.md`。
 
-4. **Fill every section from the confirmed intent summary.** Do not leave placeholder text. Every section should contain real content or be removed (optional sections only).
+4. **根据已确认的意图摘要填写每个部分。** 不要留占位符。每部分应有真实内容或删除（仅可选部分）。
 
-5. **Write the Implementation Plan.** This is the most important section for agent-first ADRs. It tells the next agent exactly what to do. See the template for structure.
+5. **撰写实现计划。** 这对 agent 优先的 ADR 最重要。它告诉下一个 agent 确切做什么。结构见模板。
 
-6. **Write Verification criteria as checkboxes.** These must be specific enough that an agent can programmatically or manually check each one.
+6. **将验证标准写为复选框。** 必须具体到 agent 可程序化或手动逐项检查。
 
-7. **Generate the file.**
-   - Preferred: run `scripts/new_adr.js` (handles directory, naming, and optional index updates).
-   - If you can't run scripts, copy a template from `assets/templates/` and fill it manually.
+7. **生成文件。**
+   - 首选：运行 `scripts/new_adr.js`（处理目录、命名与可选索引更新）。
+   - 若无法运行脚本，从 `assets/templates/` 复制模板并手动填写。
 
-### Phase 3: Review Against Checklist
+### 阶段 3：对照清单审阅
 
-After drafting, review the ADR against the agent-readiness checklist in `references/review-checklist.md`.
+起草后，对照 `references/review-checklist.md` 中的 agent 就绪清单审阅 ADR。
 
-**Present the review as a summary**, not a raw checklist dump. Format:
+**以摘要形式呈现审阅**，而非原始清单倾倒。格式：
 
 > **ADR Review**
 >
@@ -156,45 +156,45 @@ After drafting, review the ADR against the agent-readiness checklist in `referen
 >
 > **Recommendation**: {Ship it / Fix the gaps first / Needs more Phase 1 work}
 
-Only surface failures and notable strengths — do not recite every passing checkbox.
+仅呈现失败项与显著优点——不要逐条复述通过的复选框。
 
-If there are gaps, propose specific fixes. Do not just flag problems — offer solutions and ask the human to approve.
+若有缺口，提出具体修复。不要只标问题——提供方案并请人类批准。
 
-Do not finalize until the ADR passes the checklist or the human explicitly accepts the gaps.
+在 ADR 通过清单或人类明确接受缺口之前不要定稿。
 
-## Consulting ADRs (Read Workflow)
+## 查阅 ADR（阅读工作流）
 
-Agents should read existing ADRs **before implementing changes** in a codebase that has them. This is not part of the create-an-ADR workflow — it's a standalone operation any agent should do.
+Agent 应在有 ADR 的代码库中**在实现变更之前**阅读现有 ADR。这不属于创建 ADR 工作流——是任何 agent 都应执行的独立操作。
 
-### When to Consult ADRs
+### 何时查阅 ADR
 
-- Before starting work on a feature that touches architecture (auth, data layer, API design, infrastructure)
-- When you encounter a pattern in the code and wonder "why is it done this way?"
-- Before proposing a change that might contradict an existing decision
-- When a human says "check the ADRs" or "there's a decision about this"
-- When you find an ADR reference in a code comment
+- 开始涉及架构的功能（auth、数据层、API 设计、基础设施）之前
+- 遇到代码中的模式并疑惑「为何如此实现」时
+- 在提议可能与现有决策矛盾的变更之前
+- 当人类说「查 ADR」或「对此有决策」时
+- 在代码注释中发现 ADR 引用时
 
-### How to Consult ADRs
+### 如何查阅 ADR
 
-1. **Find the ADR directory.** Check `contributing/decisions/`, `docs/decisions/`, `adr/`, `docs/adr/`, `decisions/`. Also check for an index file (`README.md` or `index.md`).
+1. **找到 ADR 目录。** 检查 `contributing/decisions/`、`docs/decisions/`、`adr/`、`docs/adr/`、`decisions/`。并检查索引文件（`README.md` 或 `index.md`）。
 
-2. **Scan titles and statuses.** Read the index or list filenames. Focus on `accepted` ADRs — these are active decisions.
+2. **扫描标题与状态。** 阅读索引或列出文件名。聚焦 `accepted` ADR——这些是有效决策。
 
-3. **Read relevant ADRs fully.** Don't just read the title — read context, decision, consequences, non-goals, AND the Implementation Plan. The Implementation Plan tells you what patterns to follow and what files are governed by this decision.
+3. **完整阅读相关 ADR。** 不要只读标题——阅读 context、decision、consequences、non-goals **以及** Implementation Plan。Implementation Plan 说明应遵循的模式以及哪些文件受该决策管辖。
 
-4. **Respect the decisions.** If an accepted ADR says "use PostgreSQL," don't propose switching to MongoDB without creating a new ADR that supersedes it. If you find a conflict between what the code does and what the ADR says, flag it to the human.
+4. **尊重决策。** 若已接受 ADR 说「使用 PostgreSQL」，不要在不创建取代它的新 ADR 的情况下提议换 MongoDB。若发现代码与 ADR 矛盾，向人类标记。
 
-5. **Follow the Implementation Plan.** When implementing code in an area governed by an ADR, follow the patterns specified in its Implementation Plan. If the plan says "all new queries go through the data-access layer in `src/db/`," do that.
+5. **遵循实现计划。** 在 ADR 管辖区域内实现代码时，遵循其实现计划中的模式。若计划说「所有新查询经 `src/db/` 的数据访问层」，则照做。
 
-6. **Reference ADRs in your work.** Add ADR references in code comments and PR descriptions (see "Code ↔ ADR Linking" below).
+6. **在工作中引用 ADR。** 在代码注释与 PR 描述中添加 ADR 引用（见下方「Code ↔ ADR Linking」）。
 
 ## Code ↔ ADR Linking
 
-ADRs should be bidirectionally linked to the code they govern.
+ADR 应与其管辖的代码双向链接。
 
-### ADR → Code (in the Implementation Plan)
+### ADR → Code（在 Implementation Plan 中）
 
-The Implementation Plan section names specific files, directories, and patterns:
+Implementation Plan 部分命名具体文件、目录与模式：
 
 ```markdown
 ## Implementation Plan
@@ -203,9 +203,9 @@ The Implementation Plan section names specific files, directories, and patterns:
 - **Pattern**: all database queries go through `src/db/client.ts`
 ```
 
-### Code → ADR (in comments)
+### Code → ADR（在注释中）
 
-When implementing code guided by an ADR, add a comment referencing it:
+在 ADR 指导下实现代码时，添加引用 ADR 的注释：
 
 ```typescript
 // ADR: Using better-sqlite3 for test database
@@ -213,58 +213,58 @@ When implementing code guided by an ADR, add a comment referencing it:
 import Database from 'better-sqlite3';
 ```
 
-Keep these lightweight — one comment at the entry point, not on every line. The goal is discoverability: when a future agent reads this code, they can find the reasoning.
+保持轻量——在入口点一条注释，而非每行。目标是可发现性：未来 agent 读此代码时可找到推理。
 
-### Why This Matters
+### 为何重要
 
-- An agent working in `src/db/` can find which ADRs govern that area
-- An agent reading an ADR can find the code that implements it
-- When an ADR is superseded, the code references make it easy to find all code that needs updating
+- 在 `src/db/` 工作的 agent 可找到管辖该区域的 ADR
+- 阅读 ADR 的 agent 可找到实现它的代码
+- ADR 被取代时，代码引用便于找到所有需更新的代码
 
-## Other Operations
+## 其他操作
 
-### Update an Existing ADR
+### 更新现有 ADR
 
-1. Identify the intent:
-   - **Accept / reject**: change status, add any final context.
-   - **Deprecate**: status → `deprecated`, explain replacement path.
-   - **Supersede**: create a new ADR, link both ways (old → new, new → old).
-   - **Add learnings**: append to `## More Information` with a date stamp. Do not rewrite history.
+1. 明确意图：
+   - **Accept / reject**：更改状态，添加最终上下文。
+   - **Deprecate**：状态 → `deprecated`，说明替代路径。
+   - **Supersede**：创建新 ADR，双向链接（旧 → 新，新 → 旧）。
+   - **Add learnings**：附带到 `## More Information` 并加日期戳。不要改写历史。
 
-2. Use `scripts/set_adr_status.js` for status changes (supports YAML front matter, bullet status, and section status).
+2. 使用 `scripts/set_adr_status.js` 更改状态（支持 YAML front matter、bullet status 与 section status）。
 
-### Post-Acceptance Lifecycle
+### 接受后生命周期
 
-After an ADR is accepted:
+ADR 被接受后：
 
-1. **Create implementation tasks.** Each item in the Implementation Plan and each follow-up in Consequences should become a trackable task (issue, ticket, or TODO).
-2. **Reference the ADR in PRs.** Link to the ADR in PR descriptions, e.g. "Implements `contributing/decisions/2025-06-15-use-sqlite-for-test-database.md`."
-3. **Add code references.** Add ADR path comments at key implementation points.
-4. **Check verification criteria.** Once implementation is complete, walk through the Verification checkboxes. Update the ADR with results in `## More Information`.
-5. **Revisit when triggers fire.** If the ADR specified revisit conditions ("if X happens, reconsider"), monitor for those conditions.
+1. **创建实现任务。** Implementation Plan 中每项与 Consequences 中每项后续都应成为可跟踪任务（issue、ticket 或 TODO）。
+2. **在 PR 中引用 ADR。** 在 PR 描述中链接 ADR，例如 "Implements `contributing/decisions/2025-06-15-use-sqlite-for-test-database.md`."
+3. **添加代码引用。** 在关键实现点添加 ADR 路径注释。
+4. **检查验证标准。** 实现完成后，逐项检查 Verification 复选框。在 `## More Information` 中更新 ADR 结果。
+5. **触发条件时重新审视。** 若 ADR 指定了重新审视条件（「若 X 发生则重新考虑」），监控这些条件。
 
-### Index
+### 索引
 
-If the repo has an ADR index/log file (often `README.md` or `index.md` in the ADR dir), keep it updated.
+若仓库有 ADR 索引/日志文件（常在 ADR 目录的 `README.md` 或 `index.md`），保持更新。
 
-Preferred: let `scripts/new_adr.js --update-index` do it. Otherwise:
+首选：由 `scripts/new_adr.js --update-index` 处理。否则：
 
-- Add a bullet entry for the new ADR.
-- Keep ordering consistent (numeric if numbered; date or alpha if slugs).
+- 为新 ADR 添加 bullet 条目。
+- 保持排序一致（若编号则数字序；若 slug 则日期或字母序）。
 
 ### Bootstrap
 
-When introducing ADRs to a repo that has none:
+向尚无 ADR 的仓库引入 ADR 时：
 
 ```bash
 node /path/to/adr-skill/scripts/bootstrap_adr.js
 ```
 
-This creates the directory, an index file, and a filled-out first ADR ("Adopt architecture decision records") with real content explaining why the team is using ADRs. Use `--json` for machine-readable output. Use `--dir` to override the directory name.
+这会创建目录、索引文件，以及内容完整的第一个 ADR（「Adopt architecture decision records」），说明团队为何使用 ADR。使用 `--json` 获取机器可读输出。使用 `--dir` 覆盖目录名。
 
-### Categories (Large Projects)
+### 分类（大型项目）
 
-For repos with many ADRs, organize by subdirectory:
+对 ADR 很多的仓库，按子目录组织：
 
 ```
 docs/decisions/
@@ -276,32 +276,32 @@ docs/decisions/
     2025-07-01-use-terraform.md
 ```
 
-Date prefixes are local to each category. Choose a categorization scheme early (by layer, by domain, by team) and document it in the index.
+日期前缀在各分类内局部有效。尽早选择分类方案（按层、按域、按团队）并在索引中文档化。
 
-## Resources
+## 资源
 
 ### scripts/
 
-- `scripts/new_adr.js` — create a new ADR file from a template, using repo conventions.
-- `scripts/set_adr_status.js` — update an ADR status in-place (YAML front matter or inline). Use `--json` for machine output.
-- `scripts/bootstrap_adr.js` — create ADR dir, `README.md`, and initial "Adopt ADRs" decision.
+- `scripts/new_adr.js` — 根据仓库约定从模板创建新 ADR 文件。
+- `scripts/set_adr_status.js` — 就地更新 ADR 状态（YAML front matter 或内联）。使用 `--json` 获取机器输出。
+- `scripts/bootstrap_adr.js` — 创建 ADR 目录、`README.md` 与初始「Adopt ADRs」决策。
 
 ### references/
 
-- `references/review-checklist.md` — agent-readiness checklist for Phase 3 review.
-- `references/adr-conventions.md` — directory, filename, status, and lifecycle conventions.
-- `references/template-variants.md` — when to use simple vs MADR-style templates.
-- `references/examples.md` — filled-out short and long ADR examples with implementation plans.
+- `references/review-checklist.md` — 阶段 3 审阅的 agent 就绪清单。
+- `references/adr-conventions.md` — 目录、文件名、状态与生命周期约定。
+- `references/template-variants.md` — 何时使用 simple 与 MADR 风格模板。
+- `references/examples.md` — 带实现计划的完整短/长 ADR 示例。
 
 ### assets/
 
-- `assets/templates/adr-simple.md` — lean template for straightforward decisions.
-- `assets/templates/adr-madr.md` — MADR 4.0 template for decisions with multiple options and structured tradeoffs.
-- `assets/templates/adr-readme.md` — default ADR index scaffold used by `scripts/bootstrap_adr.js`.
+- `assets/templates/adr-simple.md` — 直接决策的精简模板。
+- `assets/templates/adr-madr.md` — 多选项与结构化权衡的 MADR 4.0 模板。
+- `assets/templates/adr-readme.md` — `scripts/bootstrap_adr.js` 使用的默认 ADR 索引脚手架。
 
 ### Script Usage
 
-From the target repo root:
+在目标仓库根目录：
 
 ```bash
 # Simple ADR

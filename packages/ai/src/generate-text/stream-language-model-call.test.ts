@@ -637,7 +637,7 @@ describe('streamLanguageModelCall', () => {
         streamParts: [
           {
             type: 'file',
-            data: { type: 'data', data: 'SGVsbG8gV29ybGQ=' }, // "Hello World" base64-encoded
+            data: { type: 'data', data: 'SGVsbG8gV29ybGQ=' }, // “Hello World”base64 编码
             mediaType: 'text/plain',
           },
           {
@@ -705,7 +705,7 @@ describe('streamLanguageModelCall', () => {
               data: new Uint8Array([
                 72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100,
               ]),
-            }, // "Hello World" as Uint8Array
+            }, // “Hello World”作为 Uint8Array
             mediaType: 'text/plain',
             providerMetadata: {
               testProvider: { signature: 'test-signature' },
@@ -990,7 +990,7 @@ describe('streamLanguageModelCall', () => {
     it('should emit error when tool call is not found for provider approval request', async () => {
       const result = await streamLanguageModelCallResult({
         streamParts: [
-          // No tool-call part before the approval request
+          // 批准请求之前没有工具调用部分
           {
             type: 'tool-approval-request',
             approvalId: 'mcp-approval-1',

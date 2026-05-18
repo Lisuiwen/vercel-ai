@@ -10,9 +10,9 @@ export type RetryErrorReason =
   | 'abort';
 
 export class RetryError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
-  // note: property order determines debugging output
+  // 注意：属性顺序决定调试输出
   readonly reason: RetryErrorReason;
   readonly lastError: unknown;
   readonly errors: Array<unknown>;
@@ -31,7 +31,7 @@ export class RetryError extends AISDKError {
     this.reason = reason;
     this.errors = errors;
 
-    // separate our last error to make debugging via log easier:
+    // 分离我们最后一个错误，以便通过日志进行调试更容易：
     this.lastError = errors[errors.length - 1];
   }
 

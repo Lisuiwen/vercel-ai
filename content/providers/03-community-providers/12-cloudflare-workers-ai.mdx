@@ -1,15 +1,15 @@
 ---
 title: Cloudflare Workers AI
-description: Learn how to use the Cloudflare Workers AI provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 Cloudflare Workers AI 提供商。
 ---
 
 # Cloudflare Workers AI
 
-[workers-ai-provider](https://github.com/cloudflare/ai/tree/main/packages/workers-ai-provider) is a community provider that allows you to use Cloudflare's [Workers AI](https://ai.cloudflare.com/) models with the AI SDK.
+[workers-ai-provider](https://github.com/cloudflare/ai/tree/main/packages/workers-ai-provider) 是社区提供商，让你在 AI SDK 中使用 Cloudflare [Workers AI](https://ai.cloudflare.com/) 模型。
 
-## Setup
+## 安装
 
-The Cloudflare Workers AI provider is available in the `workers-ai-provider` module. You can install it with:
+位于 `workers-ai-provider` 模块：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -27,16 +27,16 @@ The Cloudflare Workers AI provider is available in the `workers-ai-provider` mod
   </Tab>
 </Tabs>
 
-Then, setup an AI binding in your Cloudflare Workers project `wrangler.toml` file:
+然后在 Cloudflare Workers 项目的 `wrangler.toml` 中配置 AI binding：
 
 ```bash filename="wrangler.toml"
 [ai]
 binding = "AI"
 ```
 
-## Provider Instance
+## 提供商实例
 
-To create a `workersai` provider instance, use the `createWorkersAI` function, passing in the AI binding as an option:
+使用 `createWorkersAI` 并将 AI binding 作为选项传入：
 
 ```typescript
 import { createWorkersAI } from 'workers-ai-provider';
@@ -44,9 +44,9 @@ import { createWorkersAI } from 'workers-ai-provider';
 const workersai = createWorkersAI({ binding: env.AI });
 ```
 
-## Language Models
+## 语言模型
 
-To create a model instance, call the provider instance and specify the model you would like to use as the first argument. You can also pass additional settings in the second argument:
+调用提供商实例的第一个参数为模型 ID；第二个参数可传入额外设置：
 
 ```typescript highlight="4-7"
 import { createWorkersAI } from 'workers-ai-provider';
@@ -58,15 +58,15 @@ const model = workersai('@cf/meta/llama-3.1-8b-instruct', {
 });
 ```
 
-You can use the following optional settings to customize:
+可选设置：
 
 - **safePrompt** _boolean_
 
-  Whether to inject a safety prompt before all conversations. Defaults to `false`
+  是否在每条对话前注入安全提示词。默认为 `false`
 
-### Examples
+### 示例
 
-You can use Cloudflare Workers AI language models to generate text with the **`generateText`** or **`streamText`** function:
+可将 Cloudflare Workers AI 语言模型与 **`generateText`** 或 **`streamText`** 配合使用：
 
 #### `generateText`
 
@@ -122,9 +122,9 @@ export default {
 };
 ```
 
-#### Structured Output
+#### 结构化输出
 
-Some Cloudflare Workers AI language models also support structured data generation with [`Output`](/docs/reference/ai-sdk-core/output):
+部分 Cloudflare Workers AI 语言模型支持结合 [`Output`](/docs/reference/ai-sdk-core/output) 的结构化生成：
 
 ```typescript
 import { createWorkersAI } from 'workers-ai-provider';

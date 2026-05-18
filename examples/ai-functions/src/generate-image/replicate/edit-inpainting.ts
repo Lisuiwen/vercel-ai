@@ -5,9 +5,9 @@ import { presentImages } from '../../lib/present-image';
 import { run } from '../../lib/run';
 
 run(async () => {
-  // Inpainting example using flux-fill-pro model
-  // Note: Flux-2 models (flux-2-pro, flux-2-dev) do not support masks.
-  // Use flux-fill-pro or flux-fill-dev for inpainting with masks.
+  // 使用 Flux-fill-pro 模型的修复示例
+  // 注意：Flux-2 型号（flux-2-pro、flux-2-dev）不支持掩码。
+  // 使用 Flux-fill-pro 或 Flux-fill-dev 进行遮罩修复。
   const image = readFileSync('data/sunlit_lounge.png');
   const mask = readFileSync('data/sunlit_lounge_mask_black_white.png');
 

@@ -1,13 +1,13 @@
 ---
-title: Settings
-description: Learn how to configure the AI SDK.
+title: 设置
+description: 了解如何配置 AI SDK。
 ---
 
-# Settings
+# 设置
 
-Large language models (LLMs) typically provide settings to augment their output.
+大语言模型（LLM）通常提供设置以调整其输出。
 
-All AI SDK functions support the following common settings in addition to the model, the [prompt](./prompts), and additional provider-specific settings:
+除模型、[提示](./prompts)及额外提供商特定设置外，所有 AI SDK 函数均支持以下通用设置：
 
 ```ts highlight="3-6"
 const result = await generateText({
@@ -21,108 +21,105 @@ const result = await generateText({
 ```
 
 <Note>
-  Some providers do not support all common settings. If you use a setting with a
-  provider that does not support it, a warning will be generated. You can check
-  the `warnings` property in the result object to see if any warnings were
-  generated.
+  部分提供商不支持全部通用设置。若在不支持某设置的提供商上使用，将生成警告。可检查结果对象的 `warnings` 属性查看是否生成了警告。
 </Note>
 
-## Language Model Call Options
+## 语言模型调用选项
 
-Language model call options (`LanguageModelCallOptions`) are settings that influence how the language model generates its response — token limits, sampling behavior, penalties, stop sequences, seed, and reasoning. They are forwarded to the underlying model.
+语言模型调用选项（`LanguageModelCallOptions`）是影响语言模型如何生成响应的设置——token 限制、采样行为、惩罚、停止序列、种子与推理。它们会转发给底层模型。
 
 ### `maxOutputTokens`
 
-Maximum number of tokens to generate.
+要生成的最大 token 数。
 
 ### `temperature`
 
-Temperature setting.
+温度设置。
 
-The value is passed through to the provider. The range depends on the provider and model.
-For most providers, `0` means almost deterministic results, and higher values mean more randomness.
+该值会传递给提供商。范围取决于提供商与模型。
+对大多数提供商，`0` 表示几乎确定性的结果，较高值表示更多随机性。
 
-It is recommended to set either `temperature` or `topP`, but not both.
+建议只设置 `temperature` 或 `topP` 之一，不要同时设置。
 
-<Note>In AI SDK 5.0, temperature is no longer set to `0` by default.</Note>
+<Note>在 AI SDK 5.0 中，temperature 不再默认为 `0`。</Note>
 
 ### `topP`
 
-Nucleus sampling.
+核采样（Nucleus sampling）。
 
-The value is passed through to the provider. The range depends on the provider and model.
-For most providers, nucleus sampling is a number between 0 and 1.
-E.g. 0.1 would mean that only tokens with the top 10% probability mass are considered.
+该值会传递给提供商。范围取决于提供商与模型。
+对大多数提供商，核采样为 0 到 1 之间的数。
+例如 0.1 表示仅考虑概率质量前 10% 的 token。
 
-It is recommended to set either `temperature` or `topP`, but not both.
+建议只设置 `temperature` 或 `topP` 之一，不要同时设置。
 
 ### `topK`
 
-Only sample from the top K options for each subsequent token.
+仅从前 K 个选项中为每个后续 token 采样。
 
-Used to remove "long tail" low probability responses.
-Recommended for advanced use cases only. You usually only need to use `temperature`.
+用于去除低概率的「长尾」响应。
+仅建议高级用例使用。通常只需使用 `temperature`。
 
 ### `presencePenalty`
 
-The presence penalty affects the likelihood of the model to repeat information that is already in the prompt.
+存在惩罚影响模型重复提示中已有信息的倾向。
 
-The value is passed through to the provider. The range depends on the provider and model.
-For most providers, `0` means no penalty.
+该值会传递给提供商。范围取决于提供商与模型。
+对大多数提供商，`0` 表示无惩罚。
 
 ### `frequencyPenalty`
 
-The frequency penalty affects the likelihood of the model to repeatedly use the same words or phrases.
+频率惩罚影响模型反复使用相同词语或短语的倾向。
 
-The value is passed through to the provider. The range depends on the provider and model.
-For most providers, `0` means no penalty.
+该值会传递给提供商。范围取决于提供商与模型。
+对大多数提供商，`0` 表示无惩罚。
 
 ### `stopSequences`
 
-The stop sequences to use for stopping the text generation.
+用于停止文本生成的停止序列。
 
-If set, the model will stop generating text when one of the stop sequences is generated.
-Providers may have limits on the number of stop sequences.
+若设置，当生成某个停止序列时模型将停止生成文本。
+提供商可能对停止序列数量有限制。
 
 ### `seed`
 
-It is the seed (integer) to use for random sampling.
-If set and supported by the model, calls will generate deterministic results.
+用于随机采样的种子（整数）。
+若设置且模型支持，调用将产生确定性结果。
 
 ### `reasoning`
 
-Controls how much reasoning the model performs before generating a response.
+控制模型在生成响应前进行多少推理。
 
-| Value                | Behavior                                                             |
+| 值                   | 行为                                                                 |
 | -------------------- | -------------------------------------------------------------------- |
-| `'provider-default'` | Use the provider's default reasoning behavior (default when omitted) |
-| `'none'`             | Disable reasoning                                                    |
-| `'minimal'`          | Bare-minimum reasoning                                               |
-| `'low'`              | Fast, concise reasoning                                              |
-| `'medium'`           | Balanced reasoning                                                   |
-| `'high'`             | Thorough reasoning                                                   |
-| `'xhigh'`            | Maximum reasoning                                                    |
+| `'provider-default'` | 使用提供商默认推理行为（省略时的默认值）                             |
+| `'none'`             | 禁用推理                                                             |
+| `'minimal'`          | 最低限度推理                                                         |
+| `'low'`              | 快速、简洁推理                                                       |
+| `'medium'`           | 平衡推理                                                             |
+| `'high'`             | 深入推理                                                             |
+| `'xhigh'`            | 最大推理                                                             |
 
-If you also set reasoning-related options in `providerOptions` (e.g. `openai.reasoningEffort` or `anthropic.thinking`), the provider-specific options take precedence and the top-level `reasoning` parameter is ignored.
+若在 `providerOptions` 中也设置了与推理相关的选项（例如 `openai.reasoningEffort` 或 `anthropic.thinking`），提供商特定选项将优先，顶层 `reasoning` 参数会被忽略。
 
-See the [reasoning guide](/docs/ai-sdk-core/reasoning) for details on per-provider mapping and migration from `providerOptions`.
+有关各提供商映射及从 `providerOptions` 迁移的详情，请参阅[推理指南](/docs/ai-sdk-core/reasoning)。
 
-## Request Options
+## 请求选项
 
-Request options (`RequestOptions`) are settings that affect transport, retries, cancellation, and timeouts — not model generation behavior. They control how the SDK communicates with the provider's API.
+请求选项（`RequestOptions`）影响传输、重试、取消与超时——而非模型生成行为。它们控制 SDK 如何与提供商 API 通信。
 
 ### `maxRetries`
 
-Maximum number of retries. Set to 0 to disable retries. Default: `2`.
+最大重试次数。设为 `0` 可禁用重试。默认：`2`。
 
 ### `abortSignal`
 
-An optional abort signal that can be used to cancel the call.
+可选的中止信号，用于取消调用。
 
-The abort signal can e.g. be forwarded from a user interface to cancel the call,
-or to define a timeout using `AbortSignal.timeout`.
+例如可从用户界面转发中止信号以取消调用，
+或使用 `AbortSignal.timeout` 定义超时。
 
-#### Example: AbortSignal.timeout
+#### 示例：AbortSignal.timeout
 
 ```ts
 const result = await generateText({
@@ -134,19 +131,19 @@ const result = await generateText({
 
 ### `timeout`
 
-An optional timeout in milliseconds. The call will be aborted if it takes longer than the specified duration.
+可选的超时（毫秒）。若调用超过指定时长将被中止。
 
-This is a convenience parameter that creates an abort signal internally. It can be used alongside `abortSignal` - if both are provided, the call will abort when either condition is met.
+这是便捷参数，会在内部创建中止信号。可与 `abortSignal` 一起使用——若两者都提供，满足任一条件即中止。
 
-You can specify the timeout either as a number (milliseconds) or as an object with the following properties:
+可将超时指定为数字（毫秒）或包含以下属性的对象：
 
-- `totalMs`: The total timeout for the entire call including all steps.
-- `stepMs`: The timeout for each individual step (LLM call). This is useful for multi-step generations where you want to limit the time spent on each step independently.
-- `chunkMs`: The timeout between stream chunks (streaming only). The call will abort if no new chunk is received within this duration. This is useful for detecting stalled streams.
-- `toolMs`: The default timeout for all tool executions. If a tool takes longer, it aborts and returns a tool-error so the model can respond or retry.
-- `tools`: Per-tool timeout overrides using `{toolName}Ms` keys (e.g. `weatherMs`, `slowApiMs`). Takes precedence over `toolMs`. Tool names are type-checked for autocomplete.
+- `totalMs`：整个调用（含所有步骤）的总超时。
+- `stepMs`：每个单独步骤（LLM 调用）的超时。适用于多步生成，可独立限制每步耗时。
+- `chunkMs`：流块之间的超时（仅流式）。若在此时间内未收到新块则中止。适用于检测停滞的流。
+- `toolMs`：所有工具执行的默认超时。若工具耗时更长，将中止并返回 tool-error，以便模型响应或重试。
+- `tools`：使用 `{toolName}Ms` 键（例如 `weatherMs`、`slowApiMs`）的按工具超时覆盖。优先于 `toolMs`。工具名称支持自动补全类型检查。
 
-#### Example: 5 second timeout (number format)
+#### 示例：5 秒超时（数字格式）
 
 ```ts
 const result = await generateText({
@@ -156,7 +153,7 @@ const result = await generateText({
 });
 ```
 
-#### Example: 5 second total timeout (object format)
+#### 示例：5 秒总超时（对象格式）
 
 ```ts
 const result = await generateText({
@@ -166,7 +163,7 @@ const result = await generateText({
 });
 ```
 
-#### Example: 10 second step timeout
+#### 示例：10 秒步骤超时
 
 ```ts
 const result = await generateText({
@@ -176,7 +173,7 @@ const result = await generateText({
 });
 ```
 
-#### Example: Combined total and step timeout
+#### 示例：组合总超时与步骤超时
 
 ```ts
 const result = await generateText({
@@ -189,7 +186,7 @@ const result = await generateText({
 });
 ```
 
-#### Example: Per-chunk timeout for streaming (streamText only)
+#### 示例：流式按块超时（仅 streamText）
 
 ```ts
 const result = streamText({
@@ -199,7 +196,7 @@ const result = streamText({
 });
 ```
 
-#### Example: Tool execution timeout
+#### 示例：工具执行超时
 
 ```ts
 const result = await generateText({
@@ -212,7 +209,7 @@ const result = await generateText({
 });
 ```
 
-#### Example: Per-tool timeout overrides
+#### 示例：按工具超时覆盖
 
 ```ts
 const result = await generateText({
@@ -231,11 +228,10 @@ const result = await generateText({
 
 ### `headers`
 
-Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
+随请求发送的额外 HTTP 头。仅适用于基于 HTTP 的提供商。
 
-You can use the request headers to provide additional information to the provider,
-depending on what the provider supports. For example, some observability providers support
-headers such as `Prompt-Id`.
+可根据提供商支持情况使用请求头向提供商提供额外信息。
+例如，部分可观测性提供商支持 `Prompt-Id` 等头。
 
 ```ts
 import { generateText } from 'ai';
@@ -251,7 +247,5 @@ const result = await generateText({
 ```
 
 <Note>
-  The `headers` setting is for request-specific headers. You can also set
-  `headers` in the provider configuration. These headers will be sent with every
-  request made by the provider.
+  `headers` 设置用于请求特定的头。也可在提供商配置中设置 `headers`。这些头将随提供商的每次请求发送。
 </Note>

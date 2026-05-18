@@ -1,14 +1,14 @@
 ---
-title: Speech
-description: Learn how to generate speech from text with the AI SDK.
+title: 语音
+description: 了解如何使用 AI SDK 将文本合成为语音。
 ---
 
-# Speech
+# 语音
 
-<Note type="warning">Speech is an experimental feature.</Note>
+<Note type="warning">语音为实验性功能。</Note>
 
-The AI SDK provides the [`generateSpeech`](/docs/reference/ai-sdk-core/generate-speech)
-function to generate speech from text using a speech model.
+AI SDK 提供 [`generateSpeech`](/docs/reference/ai-sdk-core/generate-speech)
+函数，使用语音模型将文本合成为语音。
 
 ```ts
 import { experimental_generateSpeech as generateSpeech } from 'ai';
@@ -21,9 +21,9 @@ const audio = await generateSpeech({
 });
 ```
 
-### Language Setting
+### 语言设置
 
-You can specify the language for speech generation (provider support varies):
+可指定语音合成的语言（取决于 provider 支持）：
 
 ```ts
 import { experimental_generateSpeech as generateSpeech } from 'ai';
@@ -36,7 +36,7 @@ const audio = await generateSpeech({
 });
 ```
 
-To access the generated audio:
+访问生成的音频：
 
 ```ts
 const audioData = result.audio.uint8Array; // audio data as Uint8Array
@@ -44,13 +44,13 @@ const audioData = result.audio.uint8Array; // audio data as Uint8Array
 const audioBase64 = result.audio.base64; // audio data as base64 string
 ```
 
-## Settings
+## 设置
 
-### Provider-Specific settings
+### Provider 特定设置
 
-You can set model-specific settings with the `providerOptions` parameter.
+可通过 `providerOptions` 设置模型特定选项。
 
-```ts highlight="7-11"
+```ts highlight="7-11"}
 import { experimental_generateSpeech as generateSpeech } from 'ai';
 import { openai } from '@ai-sdk/openai';
 
@@ -65,11 +65,11 @@ const audio = await generateSpeech({
 });
 ```
 
-### Abort Signals and Timeouts
+### Abort 信号与超时
 
-`generateSpeech` accepts an optional `abortSignal` parameter of
-type [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)
-that you can use to abort the speech generation process or set a timeout.
+`generateSpeech` 接受可选的 `abortSignal` 参数（
+类型为 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)），
+用于中止合成或设置超时。
 
 ```ts highlight="7"
 import { openai } from '@ai-sdk/openai';
@@ -82,10 +82,10 @@ const audio = await generateSpeech({
 });
 ```
 
-### Custom Headers
+### 自定义请求头
 
-`generateSpeech` accepts an optional `headers` parameter of type `Record<string, string>`
-that you can use to add custom headers to the speech generation request.
+`generateSpeech` 接受可选的 `headers` 参数（`Record<string, string>` 类型），
+用于为语音合成请求添加自定义头。
 
 ```ts highlight="7"
 import { openai } from '@ai-sdk/openai';
@@ -98,9 +98,9 @@ const audio = await generateSpeech({
 });
 ```
 
-### Warnings
+### 警告
 
-Warnings (e.g. unsupported parameters) are available on the `warnings` property.
+警告（例如不支持的参数）位于 `warnings` 属性。
 
 ```ts
 import { openai } from '@ai-sdk/openai';
@@ -114,19 +114,19 @@ const audio = await generateSpeech({
 const warnings = audio.warnings;
 ```
 
-### Error Handling
+### 错误处理
 
-When `generateSpeech` cannot generate a valid audio, it throws a [`AI_NoSpeechGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-speech-generated-error).
+当 `generateSpeech` 无法生成有效音频时，会抛出 [`AI_NoSpeechGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-speech-generated-error)。
 
-This error can arise for any of the following reasons:
+可能原因包括：
 
-- The model failed to generate a response
-- The model generated a response that could not be parsed
+- 模型未能生成响应
+- 模型生成的响应无法解析
 
-The error preserves the following information to help you log the issue:
+错误保留以下信息便于记录：
 
-- `responses`: Metadata about the speech model responses, including timestamp, model, and headers.
-- `cause`: The cause of the error. You can use this for more detailed error handling.
+- `responses`：语音模型响应的元数据，含时间戳、模型与头。
+- `cause`：错误原因，可用于更详细的错误处理。
 
 ```ts
 import {
@@ -149,7 +149,7 @@ try {
 }
 ```
 
-## Speech Models
+## 语音模型
 
 | Provider                                                           | Model                    |
 | ------------------------------------------------------------------ | ------------------------ |
@@ -166,4 +166,4 @@ try {
 | [LMNT](/providers/ai-sdk-providers/lmnt#speech-models)             | `blizzard`               |
 | [Hume](/providers/ai-sdk-providers/hume#speech-models)             | `default`                |
 
-Above are a small subset of the speech models supported by the AI SDK providers. For more, see the respective provider documentation.
+上表仅为 AI SDK provider 支持的语音模型子集。更多请参阅各 provider 文档。

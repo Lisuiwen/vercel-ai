@@ -1,28 +1,26 @@
 ---
 title: LangDB
-description: Learn how to use LangDB with the AI SDK
+description: 了解如何将 LangDB 与 AI SDK 配合使用
 ---
 
 # LangDB
 
 <Note type="warning">
-  This community provider is not yet compatible with AI SDK 5. Please wait for
-  the provider to be updated or consider using an [AI SDK 5 compatible
-  provider](/providers/ai-sdk-providers).
+  该社区提供商尚未兼容 AI SDK 5。请等待提供商更新，或改用 [兼容 AI SDK 5 的提供商](/providers/ai-sdk-providers)。
 </Note>
 
-[LangDB](https://langdb.ai) is a high-performance enterprise AI gateway built in Rust, designed to govern, secure, and optimize AI traffic.
+[LangDB](https://langdb.ai) 是使用 Rust 构建的高性能企业级 AI 网关，用于治理、保护与优化 AI 流量。
 
-LangDB provides OpenAI-compatible APIs, enabling developers to connect with multiple LLMs by changing just two lines of code. With LangDB, you can:
+LangDB 提供兼容 OpenAI 的 API，只需小幅改动代码即可接入多种 LLM。借助 LangDB 你可以：
 
-- Provide access to all major LLMs
-- Enable plug-and-play functionality using any framework like Langchain, Vercel AI SDK, CrewAI, etc., for easy adoption.
-- Simplify implementation of tracing and cost optimization features, ensuring streamlined operations.
-- Dynamically route requests to the most suitable LLM based on predefined parameters.
+- 访问主流 LLM
+- 与 Langchain、Vercel AI SDK、CrewAI 等框架即插即用
+- 简化追踪与成本优化等能力的落地
+- 按预设参数将请求动态路由到最合适的 LLM
 
-## Setup
+## 安装
 
-The LangDB provider is available via the `@langdb/vercel-provider` module. You can install it with:
+通过 `@langdb/vercel-provider` 模块提供：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -40,9 +38,9 @@ The LangDB provider is available via the `@langdb/vercel-provider` module. You c
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-To create a LangDB provider instance, use the `createLangDB` function:
+使用 `createLangDB` 创建 LangDB 提供商实例：
 
 ```tsx
 import { createLangDB } from '@langdb/vercel-provider';
@@ -57,11 +55,11 @@ const langdb = createLangDB({
 });
 ```
 
-You can find your LangDB API key in the [LangDB dashboard](https://app.langdb.ai).
+API Key 可在 [LangDB dashboard](https://app.langdb.ai) 获取。
 
-## Examples
+## 示例
 
-You can use LangDB with the `generateText` or `streamText` function:
+可与 `generateText` 或 `streamText` 配合：
 
 ### `generateText`
 
@@ -130,10 +128,8 @@ export async function generateEmbeddings() {
 }
 ```
 
-## Supported Models
+## 支持的模型
 
-LangDB supports over 250+ models, enabling seamless interaction with a wide range of AI capabilities.
+LangDB 支持超过 250+ 款模型。详见 [model list](https://app.langdb.ai/models)。
 
-Checkout the [model list](https://app.langdb.ai/models) for more information.
-
-For more information, visit the [LangDB documentation](https://docs.langdb.ai/).
+更多信息见 [LangDB documentation](https://docs.langdb.ai/)。

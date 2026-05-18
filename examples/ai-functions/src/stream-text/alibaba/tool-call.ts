@@ -7,7 +7,7 @@ run(async () => {
   const result = streamText({
     model: alibaba('qwen-plus'),
     prompt: 'What is the weather in Paris and Tokyo?',
-    stopWhen: isStepCount(5), // Allow multi-turn: call tools → get results → generate answer
+    stopWhen: isStepCount(5), // 允许多轮：调用工具→获取结果→生成答案
     tools: {
       getWeather: tool({
         description: 'Get the weather for a location',
@@ -15,7 +15,7 @@ run(async () => {
           location: z.string().describe('The location to get weather for'),
         }),
         execute: async ({ location }) => {
-          // Simulate weather API call
+          // 模拟天气 API 调用
           const temps = { Paris: 18, Tokyo: 24, London: 15 };
           const temp = temps[location as keyof typeof temps] ?? 20;
           return {
@@ -29,7 +29,7 @@ run(async () => {
     },
   });
 
-  // Show tool calls and text as they happen
+  // 在发生时显示工具调用和文本
   for await (const part of result.fullStream) {
     switch (part.type) {
       case 'tool-call':

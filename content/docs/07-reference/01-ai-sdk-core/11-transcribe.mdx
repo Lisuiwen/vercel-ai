@@ -1,13 +1,13 @@
 ---
 title: transcribe
-description: API Reference for transcribe.
+description: transcribe 的 API 参考。
 ---
 
 # `transcribe()`
 
-<Note type="warning">`transcribe` is an experimental feature.</Note>
+<Note type="warning">`transcribe` 为实验性功能。</Note>
 
-Generates a transcript from an audio file.
+从音频文件生成文字稿。
 
 ```ts
 import { experimental_transcribe as transcribe } from 'ai';
@@ -22,107 +22,107 @@ const { text: transcript } = await transcribe({
 console.log(transcript);
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { experimental_transcribe as transcribe } from "ai"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'model',
       type: 'TranscriptionModelV4',
-      description: 'The transcription model to use.',
+      description: '要使用的转录模型。',
     },
     {
       name: 'audio',
       type: 'DataContent (string | Uint8Array | ArrayBuffer | Buffer) | URL',
-      description: 'The audio file to generate the transcript from.',
+      description: '用于生成文字稿的音频文件。',
     },
     {
       name: 'providerOptions',
       type: 'Record<string, JSONObject>',
       isOptional: true,
-      description: 'Additional provider-specific options.',
+      description: '额外的提供商专用选项。',
     },
     {
       name: 'maxRetries',
       type: 'number',
       isOptional: true,
-      description: 'Maximum number of retries. Default: 2.',
+      description: '最大重试次数。默认：2。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal',
       isOptional: true,
-      description: 'An optional abort signal to cancel the call.',
+      description: '可选的取消信号。',
     },
     {
       name: 'headers',
       type: 'Record<string, string>',
       isOptional: true,
-      description: 'Additional HTTP headers for the request.',
+      description: '请求的额外 HTTP 头。',
     },
     {
       name: 'download',
       type: '(options: { url: URL; abortSignal?: AbortSignal }) => Promise<{ data: Uint8Array; mediaType: string | undefined }>',
       isOptional: true,
       description:
-        'Custom download function for fetching audio from URLs. Use `createDownload()` from `ai` to create a download function with custom size limits, e.g. `createDownload({ maxBytes: 50 * 1024 * 1024 })`. Default: built-in download with 2 GiB limit.',
+        '从 URL 获取音频的自定义下载函数。可使用 `ai` 的 `createDownload()` 创建带自定义大小限制的下载函数，例如 `createDownload({ maxBytes: 50 * 1024 * 1024 })`。默认：内置下载，上限 2 GiB。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
 <PropertiesTable
   content={[
     {
       name: 'text',
       type: 'string',
-      description: 'The complete transcribed text from the audio input.',
+      description: '来自音频输入的完整转录文本。',
     },
     {
       name: 'segments',
       type: 'Array<{ text: string; startSecond: number; endSecond: number }>',
       description:
-        'An array of transcript segments, each containing a portion of the transcribed text along with its start and end times in seconds.',
+        '转录片段数组，每段包含部分文本及起止时间（秒）。',
     },
     {
       name: 'language',
       type: 'string | undefined',
       description:
-        'The language of the transcript in ISO-639-1 format e.g. "en" for English.',
+        '转录语言，ISO-639-1，例如英语的 "en"。',
     },
     {
       name: 'durationInSeconds',
       type: 'number | undefined',
-      description: 'The duration of the transcript in seconds.',
+      description: '转录时长（秒）。',
     },
     {
       name: 'warnings',
       type: 'Warning[]',
       description:
-        'Warnings from the model provider (e.g. unsupported settings).',
+        '模型提供商的警告（例如不支持的设置）。',
     },
     {
       name: 'providerMetadata',
       type: 'Record<string, JSONObject>',
       isOptional: true,
       description:
-        'Optional metadata from the provider. The outer key is the provider name. The inner values are the metadata. Details depend on the provider.',
+        '提供商返回的可选元数据。外层键为提供商名，内层为具体元数据，细节因提供商而异。',
     },
     {
       name: 'responses',
       type: 'Array<TranscriptionModelResponseMetadata>',
       description:
-        'Response metadata from the provider. There may be multiple responses if we made multiple calls to the model.',
+        '提供商的响应元数据。若对模型发起多次调用则可能有多个条目。',
       properties: [
         {
           type: 'TranscriptionModelResponseMetadata',
@@ -130,19 +130,19 @@ console.log(transcript);
             {
               name: 'timestamp',
               type: 'Date',
-              description: 'Timestamp for the start of the generated response.',
+              description: '生成响应开始时刻的时间戳。',
             },
             {
               name: 'modelId',
               type: 'string',
               description:
-                'The ID of the response model that was used to generate the response.',
+                '用于生成响应的模型 ID。',
             },
             {
               name: 'headers',
               type: 'Record<string, string>',
               isOptional: true,
-              description: 'Response headers.',
+              description: '响应头。',
             },
           ],
         },

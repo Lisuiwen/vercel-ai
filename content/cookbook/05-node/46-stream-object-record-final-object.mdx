@@ -1,16 +1,16 @@
 ---
-title: Record Final Object after Streaming Object
-description: Learn how to record the final object after streaming an object using the AI SDK and Node
+title: 流式对象后记录最终对象
+description: 学习如何在流式输出对象后记录最终对象
 tags: ['node', 'streaming', 'structured data']
 ---
 
-# Record Final Object after Streaming Object
+# 流式对象后记录最终对象
 
-When you're streaming structured data, you may want to record the final object for logging or other purposes.
+流式输出结构化数据时，你可能需要记录最终对象用于日志或其他用途。
 
-## `onFinish` and `output`
+## `onFinish` 与 `output`
 
-Use `onFinish` for metadata like token usage and await `result.output` for the final structured object.
+使用 `onFinish` 记录 token 用量等元数据，并 await `result.output` 获取最终结构化对象。
 
 ```ts file='index.ts' highlight={"15-29"}
 import { streamText, Output } from 'ai';
@@ -46,8 +46,8 @@ try {
 
 ## `output` Promise
 
-The `streamText` result contains an `output` promise that resolves to the final object.
-The object is fully typed. When the type validation according to the schema fails, the promise will be rejected with a `TypeValidationError`.
+`streamText` 的返回结果包含 `output` promise，解析后为最终对象。
+对象具有完整类型。若按 schema 的类型校验失败，promise 将以 `TypeValidationError` 拒绝。
 
 ```ts file='index.ts' highlight={"17-26"}
 import { streamText, Output } from 'ai';

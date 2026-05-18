@@ -1,13 +1,13 @@
 ---
-title: Stale body values with useChat
-description: Troubleshooting stale values when passing information via the body parameter of useChat
+title: useChat 中 body 值陈旧
+description: 排查通过 useChat 的 body 传参时出现值不更新的问题
 ---
 
-# Stale body values with useChat
+# useChat 中 body 值陈旧
 
-## Issue
+## 问题
 
-When using `useChat` and passing dynamic information via the `body` parameter at the hook level, the data remains stale and only reflects the value from the initial component render. This occurs because the body configuration is captured once when the hook is initialized and doesn't update with subsequent component re-renders.
+使用 `useChat` 并在钩子层通过 `body` 传入会变化的数据时，请求里始终是初次渲染时的值。原因是 body 在钩子初始化时只捕获一次，后续组件重渲染不会更新。
 
 ```tsx
 // Problematic code - body data will be stale
@@ -40,13 +40,13 @@ export default function Chat() {
 }
 ```
 
-## Background
+## 背景
 
-The hook-level body configuration is evaluated once during the initial render and doesn't re-evaluate when component state changes.
+钩子级的 body 只在首次渲染时计算，不会在组件状态变化时重新求值。
 
-## Solution
+## 解决方案
 
-Pass dynamic variables via the second argument of the `sendMessage` function instead of at the hook level. Request-level options are evaluated on each call and take precedence over hook-level options.
+不要把随状态变化的量放在钩子层，改在 `sendMessage` 的第二个参数里传入。请求级选项在每次调用时求值，并优先于钩子级选项。
 
 ```tsx
 export default function Chat() {
@@ -94,9 +94,9 @@ export default function Chat() {
 }
 ```
 
-### Alternative: Dynamic Hook-Level Configuration
+### 备选：钩子层的动态配置
 
-If you need hook-level configuration that responds to changes, you can use functions that return configuration values. However, for component state, you'll need to use `useRef` to access current values:
+若必须在钩子层响应变化，可使用返回配置的函数。但对组件状态通常需要配合 `useRef` 读取当前值：
 
 ```tsx
 export default function Chat() {
@@ -116,11 +116,11 @@ export default function Chat() {
 }
 ```
 
-**Recommendation:** Request-level configuration is simpler and more reliable for component state. Use it whenever you need to pass dynamic values that change during the component lifecycle.
+**建议：**对会随组件生命周期变化的动态值，请求级配置更简单可靠。
 
-### Server-side handling
+### 服务端处理
 
-On your server side, retrieve the custom fields by destructuring the request body:
+在服务端从请求体解构出自定义字段：
 
 ```tsx
 // app/api/chat/route.ts
@@ -138,4 +138,4 @@ export async function POST(req: Request) {
 }
 ```
 
-For more information, see [chatbot request configuration documentation](/docs/ai-sdk-ui/chatbot#request-configuration).
+更多说明见 [聊天机器人请求配置](/docs/ai-sdk-ui/chatbot#request-configuration)。

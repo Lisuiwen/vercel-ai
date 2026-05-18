@@ -20,32 +20,32 @@ export function handleUIMessageStreamFinish<UI_MESSAGE extends UIMessage>({
   stream: ReadableStream<InferUIMessageChunk<UI_MESSAGE>>;
 
   /**
-   * The message ID to use for the response message.
-   * If not provided, no id will be set for the response message.
+   * 用于响应消息的消息 ID。
+   * 如果未提供，则不会为响应消息设置 id。
    */
   messageId?: string;
 
   /**
-   * The original messages.
+   * 原始消息。
    */
   originalMessages?: UI_MESSAGE[];
 
   onError: ErrorHandler;
 
   /**
-   * Callback that is called when each step finishes during multi-step agent runs.
+   * 在多步骤代理运行期间每个步骤完成时调用的回调。
    */
   onStepFinish?: UIMessageStreamOnStepFinishCallback<UI_MESSAGE>;
 
   onFinish?: UIMessageStreamOnFinishCallback<UI_MESSAGE>;
 }): ReadableStream<InferUIMessageChunk<UI_MESSAGE>> {
-  // last message is only relevant for assistant messages
+  // 最后一条消息仅与助理消息相关
   let lastMessage: UI_MESSAGE | undefined =
     originalMessages?.[originalMessages.length - 1];
   if (lastMessage?.role !== 'assistant') {
     lastMessage = undefined;
   } else {
-    // appending to the last message, so we need to use the same id
+    // 附加到最后一条消息，因此我们需要使用相同的 id
     messageId = lastMessage.id;
   }
 
@@ -57,9 +57,9 @@ export function handleUIMessageStreamFinish<UI_MESSAGE extends UIMessage>({
       InferUIMessageChunk<UI_MESSAGE>
     >({
       transform(chunk, controller) {
-        // when there is no messageId in the start chunk,
-        // but the user checked for persistence,
-        // inject the messageId into the chunk
+        // 当start chunk中没有messageId时，
+        // 但用户检查了持久性，
+        // 将 messageId 注入到 chunk 中
         if (chunk.type === 'start') {
           const startChunk = chunk as UIMessageChunk & { type: 'start' };
           if (startChunk.messageId == null && messageId != null) {
@@ -76,7 +76,7 @@ export function handleUIMessageStreamFinish<UI_MESSAGE extends UIMessage>({
     }),
   );
 
-  // Only process the stream if we need to track state for callbacks
+  // 仅当我们需要跟踪回调状态时才处理流
   if (onFinish == null && onStepFinish == null) {
     return idInjectedStream;
   }
@@ -85,7 +85,7 @@ export function handleUIMessageStreamFinish<UI_MESSAGE extends UIMessage>({
     lastMessage: lastMessage
       ? (structuredClone(lastMessage) as UI_MESSAGE)
       : undefined,
-    messageId: messageId ?? '', // will be overridden by the stream
+    messageId: messageId ?? '', // 将被流覆盖
   });
 
   const runUpdateMessageJob = async (
@@ -157,7 +157,7 @@ export function handleUIMessageStreamFinish<UI_MESSAGE extends UIMessage>({
 
         controller.enqueue(chunk);
       },
-      // @ts-expect-error cancel is still new and missing from types https://developer.mozilla.org/en-US/docs/Web/API/TransformStream#browser_compatibility
+      // @ts-expect-error cancel 仍然是新的，类型 https://developer.mozilla.org/en-US/docs/Web/API/TransformStream#browser_compatibility
       async cancel() {
         await callOnFinish();
       },

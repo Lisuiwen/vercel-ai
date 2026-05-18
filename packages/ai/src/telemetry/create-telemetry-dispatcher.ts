@@ -12,8 +12,8 @@ import { getGlobalTelemetryIntegrations } from './telemetry-registry';
 import type { TelemetryOptions } from './telemetry-options';
 
 /**
- * The subset of `TelemetryDispatcher` keys whose values are Callback callbacks.
- * This excludes non-Callback properties such as `executeTool`.
+ * `TelemetryDispatcher` 键的子集，其值为 Callback 回调。
+ * 这不包括非回调属性，例如“executeTool”。
  */
 type TelemetryCallbackKey = keyof {
   [K in keyof TelemetryDispatcher as TelemetryDispatcher[K] extends
@@ -24,7 +24,7 @@ type TelemetryCallbackKey = keyof {
 };
 
 /**
- * Resolves the public event type accepted by a telemetry callback key.
+ * 解析遥测回调键接受的公共事件类型。
  */
 type TelemetryEvent<K extends TelemetryCallbackKey> =
   TelemetryDispatcher[K] extends Callback<infer EVENT> | undefined
@@ -46,26 +46,26 @@ function augmentEvent<EVENT>(
 }
 
 /**
- * Creates a telemetry dispatcher that sends telemetry events
- * to the resolved set of integrations.
+ * 创建发送遥测事件的遥测调度程序
+ * 到已解决的集成集。
  *
- * When per-call integrations are provided, they take precedence over the globally
- * registered integrations for that call. When no per-call integrations are
- * provided, the globally registered integrations are used.
+ * 当提供每次调用集成时，它们优先于全局集成
+ * 为该调用注册了集成。当没有每次调用集成时
+ * 前提是使用全局注册的集成。
  *
  * @param args.telemetry - Optional per-call telemetry settings and integrations.
  *
  * @returns A telemetry dispatcher that fans out lifecycle events to the
- * resolved set of integrations.
+ * 解决了一组集成。
  */
 export function createTelemetryDispatcher({
   telemetry,
 }: {
   telemetry?: TelemetryOptions;
-  // operationId: string;
+  // 操作ID：字符串；
 }): TelemetryDispatcher {
-  // When telemetry is explicitly disabled, return a dispatcher
-  // that performs no work and lets tool execution pass through unwrapped.
+  // 当遥测被明确禁用时，返回调度程序
+  // 不执行任何工作并让工具执行以未包装方式通过。
   if (telemetry?.isEnabled === false) {
     return {};
   }
@@ -85,7 +85,7 @@ export function createTelemetryDispatcher({
   const mergeTelemetryCallback = <KEY extends TelemetryCallbackKey>(
     key: KEY,
   ): Callback<TelemetryEvent<KEY>> => {
-    // event data is now automatically published to the diagnostic channel
+    // 事件数据现在自动发布到诊断通道
     const publishDiagnosticChannelMessage = ((event: TelemetryEvent<KEY>) =>
       publishTelemetryDiagnosticChannelMessage({
         type: key as TelemetryDiagnosticEventType,
@@ -134,10 +134,10 @@ export function createTelemetryDispatcher({
     onError: mergeTelemetryCallback('onError'),
 
     /**
-     * Composes all `executeTool` wrappers around the original tool execution.
-     * Each wrapper receives an `execute` function that calls the next wrapper in
-     * the chain, so integrations can establish nested telemetry context before
-     * delegating to the underlying tool.
+     * 围绕原始工具执行组成所有“executeTool”包装器。
+     * 每个包装器接收一个“执行”函数，该函数调用下一个包装器
+     * 链，因此集成可以在之前建立嵌套遥测上下文
+     * 委托给底层工具。
      */
     executeTool:
       executeWrappers.length > 0

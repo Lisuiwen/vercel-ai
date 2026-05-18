@@ -1,26 +1,26 @@
 ---
-title: Prompts
-description: Learn about the Prompt structure used in the AI SDK.
+title: 提示词
+description: 了解 AI SDK 中使用的提示词结构。
 ---
 
-# Prompts
+# 提示词
 
-Prompts are instructions that you give a [large language model (LLM)](/docs/foundations/overview#large-language-models) to tell it what to do.
-It's like when you ask someone for directions; the clearer your question, the better the directions you'll get.
+提示词是你给[大语言模型（LLM）](/docs/foundations/overview#large-language-models)的指令，用来告诉它该做什么。
+这就像你向某人问路：问题越清楚，得到的指引就越好。
 
-Many LLM providers offer complex interfaces for specifying prompts. They involve different roles and message types.
-While these interfaces are powerful, they can be hard to use and understand.
+许多 LLM 提供商提供复杂的接口来指定提示词，涉及不同角色和消息类型。
+虽然这些接口功能强大，但可能难以使用和理解。
 
-In order to simplify prompting, the AI SDK supports text, message, and system prompts.
+为简化提示词用法，AI SDK 支持文本提示词、消息提示词和系统提示词。
 
-## Text Prompts
+## 文本提示词
 
-Text prompts are strings.
-They are ideal for simple generation use cases,
-e.g. repeatedly generating content for variants of the same prompt text.
+文本提示词是字符串。
+它们适合简单的生成场景，
+例如对同一提示词文本的变体反复生成内容。
 
-You can set text prompts using the `prompt` property made available by AI SDK functions like [`streamText`](/docs/reference/ai-sdk-core/stream-text) or [`generateText`](/docs/reference/ai-sdk-core/generate-text).
-You can structure the text in any way and inject variables, e.g. using a template literal.
+你可以通过 AI SDK 函数（如 [`streamText`](/docs/reference/ai-sdk-core/stream-text) 或 [`generateText`](/docs/reference/ai-sdk-core/generate-text)）提供的 `prompt` 属性设置文本提示词。
+你可以按任意方式组织文本并注入变量，例如使用模板字面量。
 
 ```ts highlight="3"
 const result = await generateText({
@@ -29,7 +29,7 @@ const result = await generateText({
 });
 ```
 
-You can also use template literals to provide dynamic data to your prompt.
+你也可以使用模板字面量为提示词提供动态数据。
 
 ```ts highlight="3-5"
 const result = await generateText({
@@ -40,18 +40,17 @@ const result = await generateText({
 });
 ```
 
-## System Prompts
+## 系统提示词
 
-System prompts are the initial set of instructions given to models that help guide and constrain the models' behaviors and responses.
-You can set system prompts using the `instructions` property.
-System prompts work with both the `prompt` and the `messages` properties.
-System messages in `prompt` or `messages` are rejected by default; use the `instructions` property for system instructions, or set `allowSystemInMessages: true` when you need to send existing message histories that contain system messages.
+系统提示词是提供给模型的初始指令集，用于引导和约束模型的行为与回复。
+你可以通过 `instructions` 属性设置系统提示词。
+系统提示词可与 `prompt` 和 `messages` 属性配合使用。
+`prompt` 或 `messages` 中的 system 消息默认会被拒绝；请使用 `instructions` 属性设置系统指令，或在需要发送包含 system 消息的既有消息历史时设置 `allowSystemInMessages: true`。
 
 <Note type="warning">
-  Opting in with `allowSystemInMessages` can create a prompt injection risk
-  where users can override or set the system prompt by injecting system
-  messages. In most cases, only trusted server-side code should set system
-  instructions via the `instructions` property.
+  使用 `allowSystemInMessages` 可能带来提示词注入风险：
+  用户可通过注入 system 消息覆盖或设置系统提示词。
+  在大多数情况下，只有受信任的服务端代码应通过 `instructions` 属性设置系统指令。
 </Note>
 
 ```ts highlight="3-6"
@@ -67,13 +66,13 @@ const result = await generateText({
 });
 ```
 
-## Message Prompts
+## 消息提示词
 
-A message prompt is an array of user, assistant, and tool messages.
-They are great for chat interfaces and more complex, multi-modal prompts.
-You can use the `messages` property to set message prompts.
+消息提示词是由 user、assistant 和 tool 消息组成的数组。
+它们适合聊天界面以及更复杂的多模态提示词。
+你可以使用 `messages` 属性设置消息提示词。
 
-Each message has a `role` and a `content` property. The content can either be text (for user and assistant messages), or an array of relevant parts (data) for that message type.
+每条消息都有 `role` 和 `content` 属性。`content` 可以是文本（用于 user 和 assistant 消息），也可以是与该消息类型相关的部分（数据）组成的数组。
 
 ```ts highlight="3-7"
 const result = await generateText({
@@ -86,24 +85,24 @@ const result = await generateText({
 });
 ```
 
-Instead of sending a text in the `content` property, you can send an array of parts that includes a mix of text and other content parts.
+除了在 `content` 属性中发送文本，你还可以发送由文本与其他内容部分混合组成的数组。
 
 <Note type="warning">
-  Not all language models support all message and content types. For example,
-  some models might not be capable of handling multi-modal inputs or tool
-  messages. [Learn more about the capabilities of select
-  models](./providers-and-models#model-capabilities).
+  并非所有语言模型都支持所有消息与内容类型。例如，
+  部分模型可能无法处理多模态输入或 tool
+  消息。[了解部分所选
+  模型的能力](./providers-and-models#model-capabilities)。
 </Note>
 
-### Provider Options
+### 提供商选项
 
-You can pass through additional provider-specific metadata to enable provider-specific functionality at 3 levels.
+你可以传入额外的提供商特定元数据，在 3 个层级启用提供商特定功能。
 
-#### Function Call Level
+#### 函数调用层级
 
-Functions like [`streamText`](/docs/reference/ai-sdk-core/stream-text#provider-options) or [`generateText`](/docs/reference/ai-sdk-core/generate-text#provider-options) accept a `providerOptions` property.
+像 [`streamText`](/docs/reference/ai-sdk-core/stream-text#provider-options) 或 [`generateText`](/docs/reference/ai-sdk-core/generate-text#provider-options) 这样的函数接受 `providerOptions` 属性。
 
-Adding provider options at the function call level should be used when you do not need granular control over where the provider options are applied.
+在函数调用层级添加提供商选项适用于你不需要精细控制提供商选项应用位置的场景。
 
 ```ts
 const { text } = await generateText({
@@ -116,9 +115,9 @@ const { text } = await generateText({
 });
 ```
 
-#### Message Level
+#### 消息层级
 
-For granular control over applying provider options at the message level, you can pass `providerOptions` to the message object:
+若要在消息层级精细控制提供商选项的应用，可以将 `providerOptions` 传给消息对象：
 
 ```ts
 const result = await generateText({
@@ -135,9 +134,9 @@ const result = await generateText({
 });
 ```
 
-#### Message Part Level
+#### 消息部分层级
 
-Certain provider-specific options require configuration at the message part level:
+某些提供商特定选项需要在消息部分层级配置：
 
 ```ts
 import { ModelMessage } from 'ai';
@@ -168,23 +167,22 @@ const messages: ModelMessage[] = [
 ```
 
 <Note type="warning">
-  AI SDK UI hooks like [`useChat`](/docs/reference/ai-sdk-ui/use-chat) return
-  arrays of `UIMessage` objects, which do not support provider options. We
-  recommend using the
+  像 [`useChat`](/docs/reference/ai-sdk-ui/use-chat) 这样的 AI SDK UI hook 会返回
+  `UIMessage` 对象数组，这些对象不支持 provider options。我们建议在使用
   [`convertToModelMessages`](/docs/reference/ai-sdk-ui/convert-to-model-messages)
-  function to convert `UIMessage` objects to
-  [`ModelMessage`](/docs/reference/ai-sdk-core/model-message) objects before
-  applying or appending message(s) or message parts with `providerOptions`.
+  将 `UIMessage` 对象转换为
+  [`ModelMessage`](/docs/reference/ai-sdk-core/model-message) 对象之后，
+  再为消息或消息部分添加或附加带有 `providerOptions` 的内容。
 </Note>
 
-### User Messages
+### User 消息
 
-#### Text Parts
+#### 文本部分
 
-Text content is the most common type of content. It is a string that is passed to the model.
+文本内容是最常见的内容类型，是作为字符串传给模型的内容。
 
-If you only need to send text content in a message, the `content` property can be a string,
-but you can also use it to send multiple content parts.
+如果一条消息只需发送文本内容，`content` 属性可以是字符串，
+但你也可以用它发送多个内容部分。
 
 ```ts highlight="7-10"
 const result = await generateText({
@@ -203,22 +201,22 @@ const result = await generateText({
 });
 ```
 
-#### Image Parts
+#### 图像部分
 
-User messages can include image parts. An image can be one of the following:
+User 消息可以包含图像部分。图像可以是以下形式之一：
 
-- base64-encoded image:
-  - `string` with base-64 encoded content
-  - data URL `string`, e.g. `data:image/png;base64,...`
-- binary image:
+- base64 编码的图像：
+  - 带有 base-64 编码内容的 `string`
+  - data URL `string`，例如 `data:image/png;base64,...`
+- 二进制图像：
   - `ArrayBuffer`
   - `Uint8Array`
   - `Buffer`
-- URL:
-  - http(s) URL `string`, e.g. `https://example.com/image.png`
-  - `URL` object, e.g. `new URL('https://example.com/image.png')`
+- URL：
+  - http(s) URL `string`，例如 `https://example.com/image.png`
+  - `URL` 对象，例如 `new URL('https://example.com/image.png')`
 
-##### Example: Binary image (Buffer)
+##### 示例：二进制图像（Buffer）
 
 ```ts highlight="8-11"
 const result = await generateText({
@@ -239,7 +237,7 @@ const result = await generateText({
 });
 ```
 
-##### Example: Base-64 encoded image (string)
+##### 示例：Base-64 编码图像（string）
 
 ```ts highlight="8-11"
 const result = await generateText({
@@ -260,7 +258,7 @@ const result = await generateText({
 });
 ```
 
-##### Example: Image URL (string)
+##### 示例：图像 URL（string）
 
 ```ts highlight="8-12"
 const result = await generateText({
@@ -281,33 +279,32 @@ const result = await generateText({
 });
 ```
 
-#### File Parts
+#### 文件部分
 
 <Note type="warning">
-  Only a few providers and models currently support file parts: [Google
-  Generative AI](/providers/ai-sdk-providers/google), [Google Vertex
-  AI](/providers/ai-sdk-providers/google-vertex),
-  [OpenAI](/providers/ai-sdk-providers/openai) (for `wav` and `mp3` audio with
-  `gpt-4o-audio-preview`), [Anthropic](/providers/ai-sdk-providers/anthropic),
-  [OpenAI](/providers/ai-sdk-providers/openai) (for `pdf`).
+  目前只有少数提供商和模型支持文件部分：[Google
+  Generative AI](/providers/ai-sdk-providers/google)、[Google Vertex
+  AI](/providers/ai-sdk-providers/google-vertex)、
+  [OpenAI](/providers/ai-sdk-providers/openai)（`gpt-4o-audio-preview` 支持 `wav` 和 `mp3` 音频）、[Anthropic](/providers/ai-sdk-providers/anthropic)、
+  [OpenAI](/providers/ai-sdk-providers/openai)（支持 `pdf`）。
 </Note>
 
-User messages can include file parts. A file can be one of the following:
+User 消息可以包含文件部分。文件可以是以下形式之一：
 
-- base64-encoded file:
-  - `string` with base-64 encoded content
-  - data URL `string`, e.g. `data:image/png;base64,...`
-- binary data:
+- base64 编码的文件：
+  - 带有 base-64 编码内容的 `string`
+  - data URL `string`，例如 `data:image/png;base64,...`
+- 二进制数据：
   - `ArrayBuffer`
   - `Uint8Array`
   - `Buffer`
-- URL:
-  - http(s) URL `string`, e.g. `https://example.com/some.pdf`
-  - `URL` object, e.g. `new URL('https://example.com/some.pdf')`
+- URL：
+  - http(s) URL `string`，例如 `https://example.com/some.pdf`
+  - `URL` 对象，例如 `new URL('https://example.com/some.pdf')`
 
-You need to specify the MIME type of the file you are sending.
+你需要指定所发送文件的 MIME 类型。
 
-##### Example: PDF file from Buffer
+##### 示例：来自 Buffer 的 PDF 文件
 
 ```ts highlight="12-15"
 import { google } from '@ai-sdk/google';
@@ -332,7 +329,7 @@ const result = await generateText({
 });
 ```
 
-##### Example: mp3 audio file from Buffer
+##### 示例：来自 Buffer 的 mp3 音频文件
 
 ```ts highlight="12-14"
 import { openai } from '@ai-sdk/openai';
@@ -356,13 +353,13 @@ const result = await generateText({
 });
 ```
 
-#### Custom Download Function (Experimental)
+#### 自定义下载函数（实验性）
 
-You can use custom download functions to implement throttling, retries, authentication, caching, and more.
+你可以使用自定义下载函数实现限流、重试、认证、缓存等。
 
-The default download implementation automatically downloads files in parallel when they are not supported by the model.
+当模型不支持文件时，默认下载实现会自动并行下载文件。
 
-Custom download function can be passed via the `experimental_download` property:
+自定义下载函数可通过 `experimental_download` 属性传入：
 
 ```ts
 const result = await generateText({
@@ -396,17 +393,16 @@ const result = await generateText({
 ```
 
 <Note>
-  The `experimental_download` option is experimental and may change in future
-  releases.
+  `experimental_download` 选项为实验性功能，未来版本可能变更。
 </Note>
 
-### Assistant Messages
+### Assistant 消息
 
-Assistant messages are messages that have a role of `assistant`.
-They are typically previous responses from the assistant
-and can contain text, reasoning, and tool call parts.
+Assistant 消息是 `role` 为 `assistant` 的消息。
+它们通常是助手先前的回复，
+可包含文本、推理和 tool call 部分。
 
-#### Example: Assistant message with text content
+#### 示例：带文本内容的 Assistant 消息
 
 ```ts highlight="5"
 const result = await generateText({
@@ -418,7 +414,7 @@ const result = await generateText({
 });
 ```
 
-#### Example: Assistant message with text content in array
+#### 示例：数组形式文本内容的 Assistant 消息
 
 ```ts highlight="7"
 const result = await generateText({
@@ -433,7 +429,7 @@ const result = await generateText({
 });
 ```
 
-#### Example: Assistant message with tool call content
+#### 示例：带 tool call 内容的 Assistant 消息
 
 ```ts highlight="7-14"
 const result = await generateText({
@@ -455,11 +451,11 @@ const result = await generateText({
 });
 ```
 
-#### Example: Assistant message with file content
+#### 示例：带文件内容的 Assistant 消息
 
 <Note>
-  This content part is for model-generated files. Only a few models support
-  this, and only for file types that they can generate.
+  该内容部分用于模型生成的文件。只有少数模型支持
+  此功能，且仅支持它们能生成的文件类型。
 </Note>
 
 ```ts highlight="9-11"
@@ -481,17 +477,16 @@ const result = await generateText({
 });
 ```
 
-### Tool messages
+### Tool 消息
 
 <Note>
-  [Tools](/docs/foundations/tools) (also known as function calling) are programs
-  that you can provide an LLM to extend its built-in functionality. This can be
-  anything from calling an external API to calling functions within your UI.
-  Learn more about Tools in [the next section](/docs/foundations/tools).
+  [工具](/docs/foundations/tools)（也称为 function calling）是你可以提供给 LLM 以扩展其内置能力的程序。
+  这可以是从调用外部 API 到调用 UI 内函数的任何操作。
+  在[下一节](/docs/foundations/tools)了解更多关于工具的内容。
 </Note>
 
-For models that support [tool](/docs/foundations/tools) calls, assistant messages can contain tool call parts, and tool messages can contain tool output parts.
-A single assistant message can call multiple tools, and a single tool message can contain multiple tool results.
+对于支持 [tool](/docs/foundations/tools) 调用的模型，assistant 消息可包含 tool call 部分，tool 消息可包含 tool output 部分。
+一条 assistant 消息可以调用多个工具，一条 tool 消息可以包含多个 tool 结果。
 
 ```ts highlight="14-42"
 const result = await generateText({
@@ -547,10 +542,10 @@ const result = await generateText({
 });
 ```
 
-#### Multi-modal Tool Results
+#### 多模态 Tool 结果
 
-Tool results can be multi-part and multi-modal, e.g. a text and an image.
-You can use `output: { type: 'content', value: [...] }` to specify multi-part tool results.
+Tool 结果可以是多部分、多模态的，例如文本与图像。
+你可以使用 `output: { type: 'content', value: [...] }` 指定多部分 tool 结果。
 
 ```ts highlight="14-27"
 const result = await generateText({
@@ -605,10 +600,10 @@ const result = await generateText({
 });
 ```
 
-### System Messages
+### System 消息
 
-System messages are messages that are sent to the model before the user messages to guide the assistant's behavior.
-You can alternatively use the `instructions` property.
+System 消息是在 user 消息之前发送给模型、用于引导助手行为的消息。
+你也可以改用 `instructions` 属性。
 
 ```ts highlight="4"
 const result = await generateText({

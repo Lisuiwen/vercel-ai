@@ -6,10 +6,10 @@ const marker = `vercel.ai.error.${name}`;
 const symbol = Symbol.for(marker);
 
 /**
- * Error that is thrown when no speech audio was generated.
+ * 未生成语音音频时引发的错误。
  */
 export class NoSpeechGeneratedError extends AISDKError {
-  private readonly [symbol] = true; // used in isInstance
+  private readonly [symbol] = true; // 在 isInstance 中使用
 
   readonly responses: Array<SpeechModelResponseMetadata>;
 

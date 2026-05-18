@@ -1,49 +1,49 @@
 ---
-title: Streaming
-description: Why use streaming for AI applications?
+title: 流式传输
+description: AI 应用为何使用流式传输？
 ---
 
-# Streaming
+# 流式传输
 
-Streaming conversational text UIs (like ChatGPT) have gained massive popularity over the past few months. This section explores the benefits and drawbacks of streaming and blocking interfaces.
+流式对话文本 UI（如 ChatGPT）在过去几个月迅速流行。本节探讨流式与阻塞界面的利弊。
 
-[Large language models (LLMs)](/docs/foundations/overview#large-language-models) are extremely powerful. However, when generating long outputs, they can be very slow compared to the latency you're likely used to. If you try to build a traditional blocking UI, your users might easily find themselves staring at loading spinners for 5, 10, even up to 40s waiting for the entire LLM response to be generated. This can lead to a poor user experience, especially in conversational applications like chatbots. Streaming UIs can help mitigate this issue by **displaying parts of the response as they become available**.
+[大语言模型（LLM）](/docs/foundations/overview#large-language-models)非常强大。但在生成长输出时，相比你可能习惯的延迟，它们可能非常慢。若构建传统阻塞 UI，用户可能要盯着加载动画 5、10 甚至 40 秒，等待整个 LLM 响应生成完毕。这在聊天机器人等对话应用中会导致较差体验。流式 UI 可通过**在部分内容可用时即显示**来缓解该问题。
 
 <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-8">
   <Card
-    title="Blocking UI"
-    description="Blocking responses wait until the full response is available before displaying it."
+    title="阻塞 UI"
+    description="阻塞式响应会等待完整响应可用后再显示。"
   >
     <BrowserIllustration highlight blocking />
   </Card>
   <Card
-    title="Streaming UI"
-    description="Streaming responses can transmit parts of the response as they become available."
+    title="流式 UI"
+    description="流式响应可在部分内容可用时即传输。"
   >
     <BrowserIllustration highlight />
   </Card>
 </div>
 
-## Real-world Examples
+## 真实示例
 
-Here are 2 examples that illustrate how streaming UIs can improve user experiences in a real-world setting – the first uses a blocking UI, while the second uses a streaming UI.
+以下两个示例说明流式 UI 如何在真实场景中改善体验——第一个使用阻塞 UI，第二个使用流式 UI。
 
-### Blocking UI
+### 阻塞 UI
 
 <InlinePrompt
   initialInput="Come up with the first 200 characters of the first book in the Harry Potter series."
   blocking
 />
 
-### Streaming UI
+### 流式 UI
 
 <InlinePrompt initialInput="Come up with the first 200 characters of the first book in the Harry Potter series." />
 
-As you can see, the streaming UI is able to start displaying the response much faster than the blocking UI. This is because the blocking UI has to wait for the entire response to be generated before it can display anything, while the streaming UI can display parts of the response as they become available.
+可见，流式 UI 能比阻塞 UI 更快开始显示响应。因为阻塞 UI 必须等待整个响应生成完毕才能显示任何内容，而流式 UI 可在部分内容可用时即显示。
 
-While streaming interfaces can greatly enhance user experiences, especially with larger language models, they aren't always necessary or beneficial. If you can achieve your desired functionality using a smaller, faster model without resorting to streaming, this route can often lead to simpler and more manageable development processes.
+虽然流式界面能显著改善体验（尤其在使用较大语言模型时），但并非总是必要或有益。若使用更小、更快的模型即可实现目标功能且无需流式，该路径往往能带来更简单、更易管理的开发流程。
 
-However, regardless of the speed of your model, the AI SDK is designed to make implementing streaming UIs as simple as possible. In the example below, we stream text generation in under 10 lines of code using the SDK's [`streamText`](/docs/reference/ai-sdk-core/stream-text) function:
+不过，无论模型速度如何，AI SDK 都旨在尽可能简化流式 UI 的实现。在下方示例中，我们使用 SDK 的 [`streamText`](/docs/reference/ai-sdk-core/stream-text) 函数，用不到 10 行代码实现文本流式生成：
 
 ```ts
 import { streamText } from 'ai';
@@ -59,4 +59,4 @@ for await (const textPart of textStream) {
 }
 ```
 
-For an introduction to streaming UIs and the AI SDK, check out our [Getting Started guides](/docs/getting-started).
+若要入门流式 UI 与 AI SDK，请参阅我们的[快速入门指南](/docs/getting-started)。

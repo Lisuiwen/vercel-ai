@@ -1,34 +1,34 @@
 ---
-title: Loop Control
-description: Control agent execution with built-in loop management using stopWhen and prepareStep
+title: 循环控制
+description: 使用 stopWhen 和 prepareStep 通过内置循环管理控制 Agent 执行
 ---
 
-# Loop Control
+# 循环控制
 
-You can control both the execution flow and the settings at each step of the agent loop. The loop continues until:
+你可以控制 Agent 循环的执行流程以及每一步的设置。循环持续直到：
 
-- A finish reasoning other than tool-calls is returned, or
-- A tool that is invoked does not have an execute function, or
-- A tool call needs approval, or
-- A stop condition is met
+- 返回的 finish reasoning 不是 tool-calls，或
+- 被调用的工具没有 execute 函数，或
+- 工具调用需要审批，或
+- 满足停止条件
 
-The AI SDK provides built-in loop control through two parameters: `stopWhen` for defining stopping conditions and `prepareStep` for modifying settings (model, tools, messages, and more) between steps.
+AI SDK 通过两个参数提供内置循环控制：`stopWhen` 用于定义停止条件，`prepareStep` 用于在步骤之间修改设置（模型、工具、消息等）。
 
-## Stop Conditions
+## 停止条件
 
-The `stopWhen` parameter controls when to stop execution when there are tool results in the last step. By default, agents stop after 20 steps using `isStepCount(20)`. This default is a safety measure to prevent runaway loops that could result in excessive API calls and costs.
+`stopWhen` 参数控制当最后一步存在工具结果时何时停止执行。默认情况下，Agent 使用 `isStepCount(20)` 在 20 步后停止。此默认值是安全措施，可防止失控循环导致过多的 API 调用和成本。
 
-When you provide `stopWhen`, the agent continues executing after tool calls until a stopping condition is met. When the condition is an array, execution stops when any of the conditions are met.
+当你提供 `stopWhen` 时，Agent 在工具调用后继续执行，直到满足停止条件。当条件是数组时，满足任一条件即停止执行。
 
-### Use Built-in Conditions
+### 使用内置条件
 
-The AI SDK provides several built-in stopping conditions:
+AI SDK 提供多种内置停止条件：
 
-- `isStepCount(count)` — stops after a specified number of steps
-- `hasToolCall(...toolNames)` — stops when any of the specified tools is called
-- `isLoopFinished()` — never triggers, letting the loop run until the agent is naturally finished
+- `isStepCount(count)` — 在指定步数后停止
+- `hasToolCall(...toolNames)` — 在调用任一指定工具时停止
+- `isLoopFinished()` — 永不触发，让循环运行直到 Agent 自然完成
 
-### Run Up to a Maximum Number of Steps
+### 运行至多指定步数
 
 ```ts
 import { ToolLoopAgent, isStepCount } from 'ai';
@@ -47,9 +47,9 @@ const result = await agent.generate({
 });
 ```
 
-### Run Until Finished
+### 运行直至完成
 
-If you want the agent to run until the model naturally stops making tool calls, use `isLoopFinished()`. This removes the default step limit:
+如果你希望 Agent 运行直到模型自然停止调用工具，请使用 `isLoopFinished()`。这会移除默认步数限制：
 
 ```ts
 import { ToolLoopAgent, isLoopFinished } from 'ai';
@@ -69,14 +69,12 @@ const result = await agent.generate({
 ```
 
 <Note>
-  Use `isLoopFinished()` with caution. Without a step limit, the agent could
-  potentially run indefinitely or incur significant costs if the model keeps
-  making tool calls.
+  请谨慎使用 `isLoopFinished()`。没有步数限制时，如果模型持续调用工具，Agent 可能无限运行或产生显著成本。
 </Note>
 
-### Combine Multiple Conditions
+### 组合多个条件
 
-Combine multiple stopping conditions. The loop stops when it meets any condition:
+组合多个停止条件。满足任一条件时循环停止：
 
 ```ts
 import { ToolLoopAgent, isStepCount, hasToolCall } from 'ai';
@@ -98,9 +96,9 @@ const result = await agent.generate({
 });
 ```
 
-### Create Custom Conditions
+### 创建自定义条件
 
-Build custom stopping conditions for specific requirements:
+为特定需求构建自定义停止条件：
 
 ```ts
 import { ToolLoopAgent, StopCondition, ToolSet } from 'ai';
@@ -126,7 +124,7 @@ const result = await agent.generate({
 });
 ```
 
-Custom conditions receive step information across all steps:
+自定义条件接收所有步骤的详细信息：
 
 ```ts
 const budgetExceeded: StopCondition<typeof tools> = ({ steps }) => {
@@ -146,13 +144,13 @@ const budgetExceeded: StopCondition<typeof tools> = ({ steps }) => {
 
 ## Prepare Step
 
-The `prepareStep` callback runs before each step in the loop and defaults to the initial settings if you don't return any changes. Use it to modify settings, manage context, or implement dynamic behavior based on execution history.
+`prepareStep` 回调在循环中每一步之前运行；如果你不返回任何更改，则默认为初始设置。使用它修改设置、管理上下文，或根据执行历史实现动态行为。
 
-It receives `messages` for the current step, plus `initialMessages` and `responseMessages` when you need to distinguish the original input from assistant/tool messages accumulated in earlier steps. Treat `messages` as the loop's current message state: if you return a `messages` override, that override persists as the base for later steps, together with the response messages from each completed step.
+它接收当前步骤的 `messages`，以及 `initialMessages` 和 `responseMessages`（当你需要区分原始输入与先前步骤累积的 assistant/tool 消息时）。将 `messages` 视为循环的当前消息状态：如果你返回 `messages` 覆盖，该覆盖会与每个已完成步骤的响应消息一起，作为后续步骤的基础持久存在。
 
-### Dynamic Model Selection
+### 动态模型选择
 
-Switch models based on step requirements:
+根据步骤需求切换模型：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -180,13 +178,13 @@ const result = await agent.generate({
 });
 ```
 
-### Context Management
+### 上下文管理
 
-Long-running agents can accumulate large tool results, reasoning parts, and assistant messages. Use `prepareStep` to mutate the message state that will be used by later steps. This is useful for compaction, and you decide when compaction should happen.
+长时间运行的 Agent 可能累积大量工具结果、推理部分和 assistant 消息。使用 `prepareStep` 修改后续步骤将使用的消息状态。这对压缩很有用，由你决定何时进行压缩。
 
-The `messages` value contains the messages that will be sent for the current step. When you return a `messages` override from `prepareStep`, that changed list becomes the base for later steps. New assistant and tool response messages are appended to it as the loop continues. If you need to rebuild a step from the discrete pieces instead of the persisted message state, use `initialMessages` for the original input and `responseMessages` for the model/tool response messages accumulated so far.
+`messages` 值包含将发送给当前步骤的消息。当你从 `prepareStep` 返回 `messages` 覆盖时，更改后的列表会成为后续步骤的基础。随着循环继续，新的 assistant 和 tool 响应消息会追加到其上。如果你需要从零散片段而非持久消息状态重建步骤，请对原始输入使用 `initialMessages`，对迄今累积的 model/tool 响应消息使用 `responseMessages`。
 
-The `pruneMessages` helper provides a built-in way to remove selected messages. You can use it inside `prepareStep` when you want a simple compaction strategy.
+`pruneMessages` 辅助函数提供内置方式移除选定消息。当你想要简单的压缩策略时，可在 `prepareStep` 内使用它。
 
 ```ts
 import { ToolLoopAgent, pruneMessages, type ModelMessage } from 'ai';
@@ -222,11 +220,11 @@ const result = await agent.generate({
 });
 ```
 
-The token estimator above is intentionally simple and only demonstrates one way to decide when to compact. The main point is that `prepareStep` can return a new `messages` array, and that array becomes the message state for following steps. The same pattern also works with `generateText` and `streamText`.
+上述 token 估算器故意保持简单，仅演示决定何时压缩的一种方式。要点是 `prepareStep` 可以返回新的 `messages` 数组，该数组会成为后续步骤的消息状态。相同模式也适用于 `generateText` 和 `streamText`。
 
-### Tool Selection
+### 工具选择
 
-Control which tools are available at each step:
+控制每一步可用的工具：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -268,7 +266,7 @@ const result = await agent.generate({
 });
 ```
 
-You can also force a specific tool to be used:
+你也可以强制使用特定工具：
 
 ```ts
 prepareStep: async ({ stepNumber }) => {
@@ -290,9 +288,9 @@ prepareStep: async ({ stepNumber }) => {
 };
 ```
 
-### Message Modification
+### 消息修改
 
-Transform messages before sending them to the model. Returned messages carry forward to later steps, so later `messages` values include your transformed messages plus the assistant/tool response messages from completed steps:
+在将消息发送给模型之前进行转换。返回的消息会传递到后续步骤，因此后续的 `messages` 值包含你转换后的消息以及已完成步骤的 assistant/tool 响应消息：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -324,9 +322,9 @@ const result = await agent.generate({
 });
 ```
 
-### Experimental Sandbox Selection
+### 实验性 Sandbox 选择
 
-Switch the experimental sandbox used for tool execution in a single step:
+切换单步工具执行使用的 experimental sandbox：
 
 ```ts
 import { ToolLoopAgent } from 'ai';
@@ -354,13 +352,11 @@ const result = await agent.generate({
 });
 ```
 
-Unlike `runtimeContext` and `toolsContext`, an experimental sandbox returned from `prepareStep`
-only applies to tool execution in that step. Later steps use the top-level
-`experimental_sandbox` unless they return their own experimental sandbox override.
+与 `runtimeContext` 和 `toolsContext` 不同，从 `prepareStep` 返回的 experimental sandbox 仅适用于该步的工具执行。后续步骤使用顶层 `experimental_sandbox`，除非它们返回自己的 experimental sandbox 覆盖。
 
-## Access Step Information
+## 访问步骤信息
 
-Both `stopWhen` and `prepareStep` receive detailed information about the current execution:
+`stopWhen` 和 `prepareStep` 都会接收有关当前执行的详细信息：
 
 ```ts
 prepareStep: async ({
@@ -384,9 +380,9 @@ prepareStep: async ({
 },
 ```
 
-## Forced Tool Calling
+## 强制工具调用
 
-You can force the agent to always use tools by combining `toolChoice: 'required'` with a `done` tool that has no `execute` function. This pattern ensures the agent uses tools for every step and stops only when it explicitly signals completion.
+你可以通过将 `toolChoice: 'required'` 与没有 `execute` 函数的 `done` 工具结合，强制 Agent 始终使用工具。此模式确保 Agent 在每一步都使用工具，并仅在显式发出完成信号时停止。
 
 ```ts
 import { ToolLoopAgent, tool } from 'ai';
@@ -420,21 +416,21 @@ if (toolCall?.toolName === 'done') {
 }
 ```
 
-Key aspects of this pattern:
+此模式的关键方面：
 
-- **`toolChoice: 'required'`**: Forces the model to call a tool at every step instead of generating text directly. This ensures the agent follows a structured workflow.
-- **`done` tool without `execute`**: A tool that has no `execute` function acts as a termination signal. When the agent calls this tool, the loop stops because there's no function to execute.
-- **Accessing results**: The final answer is available in `result.staticToolCalls`, which contains tool calls that weren't executed.
+- **`toolChoice: 'required'`**：强制模型在每一步调用工具，而不是直接生成文本。这确保 Agent 遵循结构化工作流。
+- **没有 `execute` 的 `done` 工具**：没有 `execute` 函数的工具充当终止信号。当 Agent 调用此工具时，循环停止，因为没有可执行的函数。
+- **访问结果**：最终答案在 `result.staticToolCalls` 中可用，其中包含未执行的工具调用。
 
-This pattern is useful when you want the agent to always use specific tools for operations (like code execution or data retrieval) rather than attempting to answer directly.
+当你希望 Agent 始终使用特定工具进行操作（如代码执行或数据检索），而不是直接回答时，此模式很有用。
 
-## Manual Loop Control
+## 手动循环控制
 
-For scenarios requiring complete control over the agent loop, you can use AI SDK Core functions (`generateText` and `streamText`) to implement your own loop management instead of using `stopWhen` and `prepareStep`. This approach provides maximum flexibility for complex workflows.
+对于需要完全控制 Agent 循环的场景，你可以使用 AI SDK Core 函数（`generateText` 和 `streamText`）实现自己的循环管理，而不是使用 `stopWhen` 和 `prepareStep`。此方法为复杂工作流提供最大灵活性。
 
-### Implementing a Manual Loop
+### 实现手动循环
 
-Build your own agent loop when you need full control over execution:
+当你需要对执行进行完全控制时，构建自己的 Agent 循环：
 
 ```ts
 import { generateText, ModelMessage } from 'ai';
@@ -464,12 +460,12 @@ while (step < maxSteps) {
 }
 ```
 
-This manual approach gives you complete control over:
+此手动方法让你完全控制：
 
-- Message history management
-- Step-by-step decision making
-- Custom stopping conditions
-- Dynamic tool and model selection
-- Error handling and recovery
+- 消息历史管理
+- 逐步决策
+- 自定义停止条件
+- 动态工具和模型选择
+- 错误处理与恢复
 
-[Learn more about manual agent loops in the cookbook](/cookbook/node/manual-agent-loop).
+[在 Cookbook 中了解更多关于手动 Agent 循环的信息](/cookbook/node/manual-agent-loop)。

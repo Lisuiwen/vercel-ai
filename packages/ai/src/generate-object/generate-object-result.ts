@@ -8,55 +8,55 @@ import type {
 import type { LanguageModelUsage } from '../types/usage';
 
 /**
- * The result of a `generateObject` call.
+ * `generateObject` 调用的结果。
  */
 export interface GenerateObjectResult<OBJECT> {
   /**
-   * The generated object (typed according to the schema).
+   * 生成的对象（根据模式键入）。
    */
   readonly object: OBJECT;
 
   /**
-   * The reasoning that was used to generate the object.
-   * Concatenated from all reasoning parts.
+   * 用于生成对象的推理。
+   * 由所有推理部分连接而成。
    */
   readonly reasoning: string | undefined;
 
   /**
-   * The reason why the generation finished.
+   * 一代完结的原因。
    */
   readonly finishReason: FinishReason;
 
   /**
-   * The token usage of the generated response.
+   * 生成的响应的令牌使用情况。
    */
   readonly usage: LanguageModelUsage;
 
   /**
-   * Warnings from the model provider (e.g. unsupported settings).
+   * 来自模型提供商的警告（例如不支持的设置）。
    */
   readonly warnings: CallWarning[] | undefined;
 
   /**
-   * Additional request information.
+   * 附加请求信息。
    */
   readonly request: Omit<LanguageModelRequestMetadata, 'messages'>;
 
   /**
-   * Additional response information.
+   * 附加响应信息。
    */
   readonly response: Omit<LanguageModelResponseMetadata, 'messages'>;
 
   /**
-   * Additional provider-specific metadata. They are passed through
-   * from the provider to the AI SDK and enable provider-specific
-   * results that can be fully encapsulated in the provider.
+   * 其他特定于提供商的元数据。他们通过
+   * 从成功到AI SDK并实现成功特定的
+   * 可以完全封装在提供者中的结果。
    */
   readonly providerMetadata: ProviderMetadata | undefined;
 
   /**
-   * Converts the object to a JSON response.
-   * The response will have a status code of 200 and a content type of `application/json; charset=utf-8`.
+   * 将对象转换为 JSON 响应。
+   * 响应的状态代码为200，内容类型为`application/json;`字符集=utf-8`。
    */
   toJsonResponse(init?: ResponseInit): Response;
 }

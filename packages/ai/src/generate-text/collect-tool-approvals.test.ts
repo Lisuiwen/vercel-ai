@@ -291,7 +291,7 @@ describe('collectToolApprovals', () => {
             content: [
               {
                 type: 'tool-approval-response',
-                approvalId: 'unknown-approval-id', // doesn't match any request
+                approvalId: 'unknown-approval-id', // 不符合任何请求
                 approved: true,
               },
             ],
@@ -310,7 +310,7 @@ describe('collectToolApprovals', () => {
           {
             role: 'assistant',
             content: [
-              // No tool-call part, only the approval request
+              // 没有工具调用部分，只有批准请求
               {
                 type: 'tool-approval-request',
                 approvalId: 'approval-id-1',

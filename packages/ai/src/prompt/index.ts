@@ -4,7 +4,7 @@ import type { RequestOptions } from './request-options';
 export type { LanguageModelCallOptions } from './language-model-call-options';
 export type { RequestOptions, TimeoutConfiguration } from './request-options';
 
-/** @deprecated Use `LanguageModelCallOptions` combined with `RequestOptions` instead. */
+/* * @deprecated 使用 `LanguageModelCallOptions` 与 `RequestOptions` 结合使用。 */
 export type CallSettings = LanguageModelCallOptions &
   Omit<RequestOptions, 'timeout'>;
 export {
@@ -23,7 +23,7 @@ export {
 export type { Instructions, Prompt } from './prompt';
 export { convertDataContentToBase64String } from './data-content';
 
-// re-export types from provider-utils
+// 从provider-utils重新导出类型
 export type {
   AssistantContent,
   AssistantModelMessage,

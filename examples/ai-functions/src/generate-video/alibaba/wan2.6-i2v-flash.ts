@@ -19,7 +19,7 @@ run(async () => {
         providerOptions: {
           alibaba: {
             audio: false,
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies AlibabaVideoModelOptions,
         },
       }),

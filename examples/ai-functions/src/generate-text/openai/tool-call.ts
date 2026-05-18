@@ -18,7 +18,7 @@ run(async () => {
       'What is the weather in San Francisco and what attractions should I visit?',
   });
 
-  // typed tool calls:
+  // 键入工具调用：
   for (const toolCall of result.toolCalls) {
     if (toolCall.dynamic) {
       continue;
@@ -26,18 +26,18 @@ run(async () => {
 
     switch (toolCall.toolName) {
       case 'cityAttractions': {
-        toolCall.input.city; // string
+        toolCall.input.city; // 字符串
         break;
       }
 
       case 'weather': {
-        toolCall.input.location; // string
+        toolCall.input.location; // 字符串
         break;
       }
     }
   }
 
-  // typed tool results for tools with execute method:
+  // 具有执行方法的工具的类型化工具结果：
   for (const toolResult of result.toolResults) {
     if (toolResult.dynamic) {
       continue;
@@ -45,15 +45,15 @@ run(async () => {
 
     switch (toolResult.toolName) {
       case 'cityAttractions': {
-        toolResult.input.city; // string
-        toolResult.output; // any since no outputSchema is provided
+        toolResult.input.city; // 字符串
+        toolResult.output; // 任何，因为没有提供outputSchema
         break;
       }
 
       case 'weather': {
-        toolResult.input.location; // string
-        toolResult.output.location; // string
-        toolResult.output.temperature; // number
+        toolResult.input.location; // 字符串
+        toolResult.output.location; // 字符串
+        toolResult.output.temperature; // 数字
         break;
       }
     }

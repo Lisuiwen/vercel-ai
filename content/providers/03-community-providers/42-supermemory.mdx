@@ -1,24 +1,24 @@
 ---
 title: 'Supermemory'
-description: 'Learn how to use the Supermemory AI SDK provider for the Vercel AI SDK.'
+description: '介绍如何在 Vercel AI SDK 中使用 Supermemory AI SDK 提供商。'
 ---
 
 # Supermemory
 
-[Supermemory](https://supermemory.ai) is a long-term memory platform that adds persistent, self-growing memory to your AI applications. The Supermemory provider for the AI SDK enables you to build AI applications with memory that works like the human brain:
+[Supermemory](https://supermemory.ai) 是长期记忆平台，为 AI 应用添加持久、可增长的记忆。面向 AI SDK 的 Supermemory 提供商可帮助构建类似人类大脑工作的记忆能力：
 
-- **Persistent Memory**: Long-term storage that grows with each interaction
-- **Semantic Search**: Find relevant memories using natural language queries
-- **Automatic Memory Management**: AI automatically saves and retrieves relevant information
-- **Easy Integration**: Simple setup with existing AI SDK applications
-- **Memory Router**: Direct integration with language model providers
-- **Free Tier Available**: Get started with a free API key
+- **持久记忆**：随交互增长的长期存储
+- **语义检索**：用自然语言查询相关记忆
+- **自动记忆管理**：AI 自动保存与检索相关信息
+- **易于集成**：可与现有 AI SDK 应用简单对接
+- **Memory Router**：与语言模型提供商直连集成
+- **免费层级**：可使用免费 API 密钥上手
 
-Learn more about Supermemory's capabilities in the [Supermemory Documentation](https://supermemory.ai/docs/ai-sdk/overview).
+更多说明见 [Supermemory 文档](https://supermemory.ai/docs/ai-sdk/overview)。
 
-## Setup
+## 安装与配置
 
-The Supermemory provider is available in the `@supermemory/tools` module. You can install it with:
+Supermemory 提供商位于 `@supermemory/tools` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -35,23 +35,23 @@ The Supermemory provider is available in the `@supermemory/tools` module. You ca
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can obtain your Supermemory API key for free at [https://console.supermemory.ai](https://console.supermemory.ai).
+可在 [https://console.supermemory.ai](https://console.supermemory.ai) 免费获取 Supermemory API 密钥。
 
-There are two ways to integrate Supermemory with your AI applications:
+将 Supermemory 与 AI 应用集成有两种方式：
 
-**1. Using Supermemory Tools**
+**1. 使用 Supermemory Tools**
 
-Import and use Supermemory tools with your existing AI SDK setup:
+导入并在现有 AI SDK 配置中使用 Supermemory 工具：
 
 ```typescript
 import { supermemoryTools } from '@supermemory/tools/ai-sdk';
 ```
 
-**2. Using the Memory Router**
+**2. 使用 Memory Router**
 
-Use the Memory Router for direct integration with language model providers:
+通过 Memory Router 与语言模型提供商直连：
 
 ```typescript
 import { createAnthropic } from '@ai-sdk/anthropic';
@@ -66,11 +66,11 @@ const supermemoryRouter = createAnthropic({
 });
 ```
 
-## Examples
+## 示例
 
-Here are examples of using Supermemory with the AI SDK:
+以下示例展示如何将 Supermemory 与 AI SDK 配合使用：
 
-### `generateText` with Tools
+### 配合工具的 `generateText`
 
 ```javascript
 import { generateText } from 'ai';
@@ -90,7 +90,7 @@ const { text } = await generateText({
 console.log(text);
 ```
 
-### `streamText` with Automatic Memory
+### 带自动记忆的 `streamText`
 
 ```javascript
 import { streamText } from 'ai';
@@ -118,7 +118,7 @@ for await (const chunk of result.textStream) {
 }
 ```
 
-### Using Memory Router
+### 使用 Memory Router
 
 ```javascript
 import { streamText } from 'ai';
@@ -141,11 +141,11 @@ const result = streamText({
 });
 ```
 
-For more information about these features and advanced configuration options, visit the [Supermemory Documentation](https://supermemory.ai/docs/).
+更多信息与高级配置见 [Supermemory 文档](https://supermemory.ai/docs/)。
 
-## Additional Resources
+## 更多资源
 
-- [Supermemory Documentation](https://supermemory.ai/docs/?ref=ai-sdk)
-- [AI SDK Integration Cookbook](https://supermemory.ai/docs/cookbook/ai-sdk-integration)
-- [Supermemory Console](https://console.supermemory.ai)
-- [Memory Engine Blog Post](https://supermemory.ai/blog/memory-engine/)
+- [Supermemory 文档](https://supermemory.ai/docs/?ref=ai-sdk)
+- [AI SDK 集成食谱](https://supermemory.ai/docs/cookbook/ai-sdk-integration)
+- [Supermemory 控制台](https://console.supermemory.ai)
+- [Memory Engine 博客文章](https://supermemory.ai/blog/memory-engine/)

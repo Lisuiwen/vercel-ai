@@ -4,78 +4,78 @@ import type { ProviderMetadata } from '../types';
 import type { Warning } from '../types/warning';
 
 /**
- * Event passed to the `onStart` callback for rerank operations.
+ * 事件传递给“onStart”回调以进行重新排名操作。
  *
- * Called when the operation begins, before the reranking model is called.
+ * 在操作开始时调用重排序模型之前调用。
  */
 export type RerankStartEvent = {
-  /** Unique identifier for this rerank call, used to correlate events. */
+  /* * 此重新排序调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Identifies the operation type ('ai.rerank'). */
+  /* * 标识操作类型（'ai.rerank'）。 */
   readonly operationId: string;
 
-  //** The provider identifier (e.g., 'openai', 'anthropic'). */
+  // ** 提供商标识符（例如“openai”、“anthropic”）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'gpt-4o'). */
+  /* * 特定型号标识符（例如“gpt-4o”）。 */
   readonly modelId: string;
-  /** The documents being reranked. */
+  /* * 文档被重新排序。 */
   readonly documents: Array<JSONObject | string>;
 
-  /** The query to rerank the documents against. */
+  /* * 对文档重新排序的查询。 */
   readonly query: string;
 
-  /** Number of top documents to return. */
+  /* * 要返回的顶级文档的数量。 */
   readonly topN: number | undefined;
 
-  /** Maximum number of retries for failed requests. */
+  /* * 失败请求的最大重试次数。 */
   readonly maxRetries: number;
-  /** Additional HTTP headers sent with the request. */
+  /* * 随请求一起发送的附加 HTTP 标头。 */
   readonly headers: Record<string, string | undefined> | undefined;
 
-  /** Additional provider-specific options. */
+  /* * 其他特定于提供商的选项。 */
   readonly providerOptions: ProviderOptions | undefined;
 };
 
 /**
- * Event passed to the `onFinish` callback for rerank operations.
+ * 事件传递给“onFinish”回调以进行重新排名操作。
  *
- * Called when the operation completes, after the reranking model returns.
+ * 在操作完成、重排序模型返回后调用。
  */
 export type RerankEndEvent = {
-  /** Unique identifier for this rerank call, used to correlate events. */
+  /* * 此重新排序调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Identifies the operation type ('ai.rerank'). */
+  /* * 标识操作类型（'ai.rerank'）。 */
   readonly operationId: string;
 
-  //** The provider identifier (e.g., 'openai', 'anthropic'). */
+  // ** 提供商标识符（例如“openai”、“anthropic”）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'gpt-4o'). */
+  /* * 特定型号标识符（例如“gpt-4o”）。 */
   readonly modelId: string;
 
-  /** The documents that were reranked. */
+  /* * 重新排序的文档。 */
   readonly documents: Array<JSONObject | string>;
 
-  /** The query that documents were reranked against. */
+  /* * 文档重新排序所依据的查询。 */
   readonly query: string;
 
-  /** The reranked results sorted by relevance score in descending order. */
+  /* * 重新排序的结果按相关性得分降序排列。 */
   readonly ranking: Array<{
     originalIndex: number;
     score: number;
     document: JSONObject | string;
   }>;
 
-  /** Warnings from the reranking model. */
+  /* *来自重新排名模型的警告。 */
   readonly warnings: Array<Warning>;
 
-  /** Optional provider-specific metadata. */
+  /* * 可选的特定于提供商的元数据。 */
   readonly providerMetadata: ProviderMetadata | undefined;
 
-  /** Response data including headers and body. */
+  /* * 响应数据包括标头和正文。 */
   readonly response: {
     id?: string;
     timestamp: Date;
@@ -86,55 +86,55 @@ export type RerankEndEvent = {
 };
 
 /**
- * Event fired when an individual reranking model call (inner doRerank) begins.
+ * 当单独的重新排序模型调用（内部 doRerank）开始时触发事件。
  */
 export type RerankingModelCallStartEvent = {
-  /** Unique identifier for this rerank call, used to correlate events. */
+  /* * 此重新排序调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Identifies the inner operation ('ai.rerank.doRerank'). */
+  /* * 标识内部操作（'ai.rerank.doRerank'）。 */
   readonly operationId: string;
 
-  /** The provider identifier. */
+  /* * 提供商标识符。 */
   readonly provider: string;
 
-  /** The specific model identifier. */
+  /* * 具体型号标识符。 */
   readonly modelId: string;
 
-  /** The documents being reranked. */
+  /* * 文档被重新排序。 */
   readonly documents: Array<JSONObject | string>;
 
-  /** The type of documents ('text' or 'object'). */
+  /* * 文档的类型（“文本”或“对象”）。 */
   readonly documentsType: string;
 
-  /** The query to rerank against. */
+  /* * 重新排名的查询。 */
   readonly query: string;
 
-  /** Number of top documents to return. */
+  /* * 要返回的顶级文档的数量。 */
   readonly topN: number | undefined;
 };
 
 /**
- * Event fired when an individual reranking model call (doRerank) completes.
+ * 当单个重新排序模型调用 (doRerank) 完成时触发事件。
  *
- * Contains the ranking results from the model response.
+ * 包含模型响应的排名结果。
  */
 export type RerankingModelCallEndEvent = {
-  /** Unique identifier for this rerank call, used to correlate events. */
+  /* * 此重新排序调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Identifies the inner operation ('ai.rerank.doRerank'). */
+  /* * 标识内部操作（'ai.rerank.doRerank'）。 */
   readonly operationId: string;
 
-  /** The provider identifier. */
+  /* * 提供商标识符。 */
   readonly provider: string;
 
-  /** The specific model identifier. */
+  /* * 具体型号标识符。 */
   readonly modelId: string;
 
-  /** The type of documents ('text' or 'object'). */
+  /* * 文档的类型（“文本”或“对象”）。 */
   readonly documentsType: string;
 
-  /** The ranking results from the model. */
+  /* * 排名结果来自模型。 */
   readonly ranking: Array<{ index: number; relevanceScore: number }>;
 };

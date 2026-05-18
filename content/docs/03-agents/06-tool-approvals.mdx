@@ -1,29 +1,28 @@
 ---
-title: Tool Approvals
-description: Add manual and automatic approval flows to ToolLoopAgent tools.
+title: 工具审批
+description: 为 ToolLoopAgent 工具添加手动和自动审批流程。
 ---
 
-# Tool Approvals
+# 工具审批
 
-By default, tools with an `execute` function run automatically when the model calls them. Use `toolApproval` on `ToolLoopAgent` to review, approve, or deny selected tool calls before they execute.
+默认情况下，带有 `execute` 函数的工具在模型调用时会自动运行。在 `ToolLoopAgent` 上使用 `toolApproval` 可在执行前审查、批准或拒绝选定的工具调用。
 
-`toolApproval` is useful for tools that can modify data, spend money, execute code, send messages, access private data, or perform any other sensitive action.
+`toolApproval` 适用于可能修改数据、花费资金、执行代码、发送消息、访问私有数据或执行任何其他敏感操作的工具。
 
 <Note>
-  `toolApproval` applies to tools executed by the AI SDK. Provider-executed
-  tools run provider-side and do not use AI SDK tool approvals.
+  `toolApproval` 适用于由 AI SDK 执行的工具。提供商执行的工具在提供商侧运行，不使用 AI SDK 工具审批。
 </Note>
 
-## Statuses
+## 状态
 
-Every approval rule returns one of these statuses, either as a string or as an object with a `type` field:
+每个审批规则返回以下状态之一，可以是字符串或带有 `type` 字段的对象：
 
-- `'not-applicable'`: execute the tool normally without approval metadata. This is the default.
-- `'approved'`: record an automatic approval, then execute the tool.
-- `'denied'`: record an automatic denial and return a denied tool output.
-- `'user-approval'`: emit an approval request and wait for an explicit response.
+- `'not-applicable'`：正常执行工具，无审批元数据。这是默认值。
+- `'approved'`：记录自动批准，然后执行工具。
+- `'denied'`：记录自动拒绝并返回被拒绝的工具输出。
+- `'user-approval'`：发出审批请求并等待显式响应。
 
-For automatic approvals and denials, use the object form when you want to include a reason:
+对于自动批准和拒绝，当你想包含原因时使用对象形式：
 
 ```ts
 toolApproval: {
@@ -34,11 +33,11 @@ toolApproval: {
 }
 ```
 
-Approval functions can also return `undefined`, which is treated the same as `'not-applicable'`.
+审批函数也可以返回 `undefined`，与 `'not-applicable'` 同等对待。
 
-## Require Approval for a Tool
+## 要求对工具进行审批
 
-Use a per-tool map when each tool has a simple policy.
+当每个工具有简单策略时使用按工具映射。
 
 ```ts highlight="13-15"
 import { ToolLoopAgent, tool } from 'ai';
@@ -59,11 +58,11 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-When `runCommand` is called, the agent returns a `tool-approval-request` instead of executing the tool.
+当调用 `runCommand` 时，Agent 返回 `tool-approval-request` 而不是执行工具。
 
-## Decide Based on Tool Input
+## 根据工具输入决定
 
-Use a per-tool approval function when the decision depends on the parsed tool input. The function receives the typed input plus `toolCallId`, `messages`, `toolContext`, and `runtimeContext`.
+当决策取决于解析后的工具输入时，使用按工具审批函数。该函数接收类型化输入以及 `toolCallId`、`messages`、`toolContext` 和 `runtimeContext`。
 
 ```ts highlight="22-25"
 import { ToolLoopAgent, tool } from 'ai';
@@ -93,11 +92,11 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-In this example, non-admin users are denied automatically, large payments require manual approval, and smaller admin payments execute normally.
+在此示例中，非管理员用户被自动拒绝，大额支付需要手动审批，较小的管理员支付正常执行。
 
-## Use One Policy for All Tools
+## 对所有工具使用单一策略
 
-Pass a function directly as `toolApproval` when approval depends on the full tool call, shared state across tools, or the complete tool set. This is called a `GenericToolApprovalFunction`.
+当审批取决于完整工具调用、跨工具共享状态或完整工具集时，直接将函数作为 `toolApproval` 传递。这称为 `GenericToolApprovalFunction`。
 
 ```ts highlight="17-28"
 const agent = new ToolLoopAgent({
@@ -126,17 +125,17 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-The generic function receives:
+通用函数接收：
 
-- `toolCall`: the full tool call, including `toolName`, `toolCallId`, `input`, and whether it is dynamic.
-- `tools`: all tools available to the model.
-- `toolsContext`: context for all tools.
-- `messages`: the messages sent to the model for the step that produced the tool call.
-- `runtimeContext`: the call's shared runtime context.
+- `toolCall`：完整工具调用，包括 `toolName`、`toolCallId`、`input` 以及是否为 dynamic。
+- `tools`：模型可用的所有工具。
+- `toolsContext`：所有工具的上下文。
+- `messages`：产生工具调用的步骤发送给模型的消息。
+- `runtimeContext`：调用的共享运行时上下文。
 
-## Configure Approval per Request
+## 按请求配置审批
 
-Because `toolApproval` is an agent setting, you can also return it from `prepareCall`. This is useful when approval policy depends on call options, tenant policy, or user permissions.
+因为 `toolApproval` 是 Agent 设置，你也可以从 `prepareCall` 返回它。当审批策略取决于调用选项、租户策略或用户权限时很有用。
 
 ```ts highlight="8-10,11-18"
 import { ToolLoopAgent, tool } from 'ai';
@@ -165,15 +164,15 @@ const agent = new ToolLoopAgent({
 });
 ```
 
-## Handle Manual Approvals
+## 处理手动审批
 
-Manual approval requires two calls:
+手动审批需要两次调用：
 
-1. Call `agent.generate()` or `agent.stream()` with `toolApproval`.
-2. Read the `tool-approval-request` from the result or UI stream.
-3. Ask the user or your approval system for a decision.
-4. Add a `tool-approval-response` to the messages.
-5. Call the agent again with the updated messages.
+1. 使用 `toolApproval` 调用 `agent.generate()` 或 `agent.stream()`。
+2. 从结果或 UI 流中读取 `tool-approval-request`。
+3. 向用户或审批系统询问决定。
+4. 向消息添加 `tool-approval-response`。
+5. 使用更新后的消息再次调用 Agent。
 
 ```ts highlight="11-18,21-28"
 import { type ModelMessage, type ToolApprovalResponse } from 'ai';
@@ -204,17 +203,15 @@ messages.push({
 const finalResult = await agent.generate({ messages });
 ```
 
-If approved, the tool runs on the second call. If denied, the model receives the denial and can respond without the tool result.
+如果批准，工具在第二次调用时运行。如果拒绝，模型会收到拒绝信息，可以在没有工具结果的情况下响应。
 
 <Note>
-  When a tool execution is denied, consider adding an instruction such as "When
-  a tool execution is not approved, do not retry it" to prevent repeated
-  approval requests for the same action.
+  当工具执行被拒绝时，考虑添加类似「当工具执行未获批准时，不要重试」的指令，以防止对同一操作重复请求审批。
 </Note>
 
-## Use with `useChat`
+## 与 `useChat` 一起使用
 
-When streaming an agent to a chat UI, approval requests appear as tool parts with `state: 'approval-requested'`. Respond with `addToolApprovalResponse`.
+当将 Agent 流式传输到聊天 UI 时，审批请求会显示为 `state: 'approval-requested'` 的工具部分。使用 `addToolApprovalResponse` 响应。
 
 ```tsx highlight="6,14-28"
 'use client';
@@ -264,10 +261,10 @@ export default function Chat() {
 }
 ```
 
-Only call `addToolApprovalResponse` for manual approvals. Automatic approvals and denials already include approval state in the stream.
+仅对手动审批调用 `addToolApprovalResponse`。自动批准和拒绝已在流中包含审批状态。
 
-## Related APIs
+## 相关 API
 
-- Use `toolApproval` with `ToolLoopAgent`, `generateText`, and `streamText`.
-- Use `needsApproval` only with [`WorkflowAgent`](/docs/agents/workflow-agent), where approvals suspend and resume durable workflow execution.
-- Subagent tools cannot use `toolApproval`; see [Subagents](/docs/agents/subagents#no-tool-approvals-in-subagents).
+- 将 `toolApproval` 与 `ToolLoopAgent`、`generateText` 和 `streamText` 一起使用。
+- 仅将 `needsApproval` 与 [`WorkflowAgent`](/docs/agents/workflow-agent) 一起使用，其中审批会暂停并恢复持久工作流执行。
+- 子 Agent 工具不能使用 `toolApproval`；请参阅[子 Agent](/docs/agents/subagents#no-tool-approvals-in-subagents)。

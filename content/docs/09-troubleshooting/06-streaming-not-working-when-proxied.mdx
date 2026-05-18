@@ -1,26 +1,26 @@
 ---
-title: Streaming Not Working When Proxied
-description: Troubleshooting streaming issues in proxied apps.
+title: 经代理时流式不工作
+description: 排查经代理的应用中的流式传输问题。
 ---
 
-# Streaming Not Working When Proxied
+# 经代理时流式不工作
 
-## Issue
+## 问题
 
-Streaming with the AI SDK doesn't work in local development environment, or deployed in some proxy environments.
-Instead of streaming, only the full response is returned after a while.
+在本地开发或某些经代理部署的环境中，使用 AI SDK 时流式不工作。
+不会逐段输出，而是过一会儿才一次性返回完整响应。
 
-## Cause
+## 原因
 
-The causes of this issue are caused by the proxy middleware.
+问题来自代理中间件。
 
-If the middleware is configured to compress the response, it will cause the streaming to fail.
+若中间件对响应做了压缩配置，会导致流式失败。
 
-## Solution
+## 解决方案
 
-You can try the following, the solution only affects the streaming API:
+可以尝试以下做法（仅影响流式 API）：
 
-- add `'Content-Encoding': 'none'` headers
+- 添加 `'Content-Encoding': 'none'` 响应头
 
   ```tsx
   return result.toUIMessageStreamResponse({

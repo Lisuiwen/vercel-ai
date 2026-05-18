@@ -29,8 +29,8 @@ run(async () => {
     prompt: 'What is the weather in San Francisco, London, Paris, and Berlin?',
   });
 
-  // elementStream streams individual completed elements one at a time,
-  // unlike partialOutputStream which streams the entire partial array
+  // elementStream 一次流式传输一个已完成的单个元素，
+  // 与partialOutputStream不同，partialOutputStream流式传输整个部分数组
   for await (const element of result.elementStream) {
     console.log('New element:', element);
   }

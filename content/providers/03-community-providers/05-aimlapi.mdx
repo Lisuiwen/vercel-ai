@@ -1,15 +1,15 @@
 ---
 title: AI/ML API
-description: Learn how to use the AI/ML API provider.
+description: 了解如何使用 AI/ML API 提供商。
 ---
 
-# AI/ML API Provider
+# AI/ML API 提供商
 
-The [AI/ML API](https://aimlapi.com/?utm_source=aimlapi-vercel-ai&utm_medium=github&utm_campaign=integration) provider gives access to more than 300 AI models over an OpenAI-compatible API.
+[AI/ML API](https://aimlapi.com/?utm_source=aimlapi-vercel-ai&utm_medium=github&utm_campaign=integration) 提供商通过兼容 OpenAI 的 API，提供超过 300 款 AI 模型的访问。
 
-## Setup
+## 安装
 
-The AI/ML API provider is available via the `@ai-ml.api/aimlapi-vercel-ai` module. You can install it with:
+AI/ML API 提供商通过 `@ai-ml.api/aimlapi-vercel-ai` 模块提供。可使用：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -28,23 +28,23 @@ The AI/ML API provider is available via the `@ai-ml.api/aimlapi-vercel-ai` modul
 
 ### API Key
 
-Set the `AIMLAPI_API_KEY` environment variable with your key:
+请设置环境变量 `AIMLAPI_API_KEY`：
 
 ```bash
 export AIMLAPI_API_KEY="sk-..."
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `aimlapi`:
+可导入默认实例 `aimlapi`：
 
 ```ts
 import { aimlapi } from '@ai-ml.api/aimlapi-vercel-ai';
 ```
 
-## Language Models
+## 语言模型
 
-Create models for text generation with `aimlapi` and use them with `generateText`:
+使用 `aimlapi` 创建文本生成模型并与 `generateText` 配合使用：
 
 ```ts
 import { aimlapi } from '@ai-ml.api/aimlapi-vercel-ai';
@@ -57,9 +57,9 @@ const { text } = await generateText({
 });
 ```
 
-## Image Generation
+## 图像生成
 
-You can generate images by calling `doGenerate` on an image model:
+对图像模型调用 `doGenerate` 生成图片：
 
 ```ts
 import { aimlapi } from '@ai-ml.api/aimlapi-vercel-ai';
@@ -78,9 +78,9 @@ const res = await model.doGenerate({
 console.log(`✅ Generated image url: ${res.images[0]}`);
 ```
 
-## Embeddings
+## 向量嵌入
 
-AI/ML API also supports embedding models:
+AI/ML API 还支持嵌入模型：
 
 ```ts
 import { aimlapi } from '@ai-ml.api/aimlapi-vercel-ai';
@@ -92,4 +92,4 @@ const { embedding } = await embed({
 });
 ```
 
-For more information and a full model list, visit the [AI/ML API dashboard](https://aimlapi.com/app?utm_source=aimlapi-vercel-ai&utm_medium=github&utm_campaign=integration) and the [AI/ML API documentation](https://docs.aimlapi.com/?utm_source=aimlapi-vercel-ai&utm_medium=github&utm_campaign=integration).
+更多信息与完整模型列表见 [AI/ML API dashboard](https://aimlapi.com/app?utm_source=aimlapi-vercel-ai&utm_medium=github&utm_campaign=integration) 与 [AI/ML API documentation](https://docs.aimlapi.com/?utm_source=aimlapi-vercel-ai&utm_medium=github&utm_campaign=integration)。

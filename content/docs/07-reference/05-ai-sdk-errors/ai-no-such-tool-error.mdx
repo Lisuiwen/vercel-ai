@@ -1,21 +1,21 @@
 ---
 title: AI_NoSuchToolError
-description: Learn how to fix AI_NoSuchToolError
+description: 了解如何修复 AI_NoSuchToolError
 ---
 
 # AI_NoSuchToolError
 
-This error occurs when a model tries to call an unavailable tool.
+此错误在模型尝试调用不可用工具时发生。
 
-## Properties
+## 属性
 
-- `toolName`: The name of the tool that was not found
-- `availableTools`: Array of available tool names (optional)
-- `message`: The error message (optional, auto-generated from `toolName` and `availableTools`)
+- `toolName`：未找到的工具名称
+- `availableTools`：可用工具名称的数组（可选）
+- `message`：错误消息（可选，根据 `toolName` 和 `availableTools` 自动生成）
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_NoSuchToolError` using:
+你可以通过以下方式检查错误是否为 `AI_NoSuchToolError` 的实例：
 
 ```typescript
 import { NoSuchToolError } from 'ai';

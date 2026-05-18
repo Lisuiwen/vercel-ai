@@ -18,7 +18,7 @@ import {
   type GeneratedAudioFile,
 } from './generated-audio-file';
 /**
- * Generates speech audio using a speech model.
+ * 使用语音模型生成语音音频。
  *
  * @param model - The speech model to use.
  * @param text - The text to convert to speech.
@@ -28,7 +28,7 @@ import {
  * @param speed - The speed of the speech generation.
  * @param language - The language for speech generation (ISO 639-1 code e.g. "en", "es", "fr") or "auto" for automatic detection.
  * @param providerOptions - Additional provider-specific options that are passed through to the provider
- * as body parameters.
+ * 作为身体参数。
  * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
  * @param abortSignal - An optional abort signal that can be used to cancel the call.
  * @param headers - Additional HTTP headers to be sent with the request. Only applicable for HTTP-based providers.
@@ -49,70 +49,70 @@ export async function generateSpeech({
   headers,
 }: {
   /**
-   * The speech model to use.
+   * 要使用的语音模型。
    */
   model: SpeechModel;
 
   /**
-   * The text to convert to speech.
+   * 要转换为语音的文本。
    */
   text: string;
 
   /**
-   * The voice to use for speech generation.
+   * 用于语音生成的语音。
    */
   voice?: string;
 
   /**
-   * The desired output format for the audio e.g. "mp3", "wav", etc.
+   * 所需的音频输出格式，例如“mp3”、“wav”等
    */
   outputFormat?: 'mp3' | 'wav' | (string & {});
 
   /**
-   * Instructions for the speech generation e.g. "Speak in a slow and steady tone".
+   * 语音生成的说明，例如“用缓慢而稳定的语气说话”。
    */
   instructions?: string;
 
   /**
-   * The speed of the speech generation.
+   * 语音生成的速度。
    */
   speed?: number;
 
   /**
-   * The language for speech generation. This should be an ISO 639-1 language code (e.g. "en", "es", "fr")
-   * or "auto" for automatic language detection. Provider support varies.
+   * 用于语音生成的语言。这应该是 ISO 639-1 语言代码（例如“en”、“es”、“fr”）
+   * 或“auto”用于自动语言检测。提供商的支持各不相同。
    */
   language?: string;
 
   /**
-   * Additional provider-specific options that are passed through to the provider
-   * as body parameters.
+   * 传递给提供商的其他特定于提供商的选项
+   * 作为身体参数。
    *
-   * The outer record is keyed by the provider name, and the inner
-   * record is keyed by the provider-specific metadata key.
-   * ```ts
+   * 外部记录以提供者名称为键，内部记录以提供者名称为键
+   * 记录由特定于提供者的元数据密钥作为密钥。
+   * ````ts
    * {
-   * "openai": {}
+   * “openai”：{}
    * }
    * ```
    */
   providerOptions?: ProviderOptions;
 
   /**
-   * Maximum number of retries per speech model call. Set to 0 to disable retries.
+   * 每个语音模型调用的最大重试次数。设置为 0 以禁用重试。
    *
    * @default 2
    */
   maxRetries?: number;
 
   /**
-   * Abort signal.
+   * 中止信号。
    */
   abortSignal?: AbortSignal;
 
   /**
-   * Additional headers to include in the request.
-   * Only applicable for HTTP-based providers.
+   * 要包含在请求中的附加标头。
+   * 仅适用于基于 HTTP 的提供商。
    */
   headers?: Record<string, string>;
 }): Promise<SpeechResult> {

@@ -1,17 +1,17 @@
 ---
 title: MiniMax
-description: Learn how to use MiniMax provider with the AI SDK.
+description: 介绍如何在 AI SDK 中使用 MiniMax 提供商。
 ---
 
-# MiniMax Provider
+# MiniMax 提供商
 
-[vercel-minimax-ai-provider](https://github.com/MiniMax-AI/vercel-minimax-ai-provider) is a community provider that provides access to the latest [MiniMax-M2 model](https://platform.minimax.io/docs/guides/text-generation) from [MiniMax](https://www.minimax.io/).
+[vercel-minimax-ai-provider](https://github.com/MiniMax-AI/vercel-minimax-ai-provider) 是社区提供商，可访问 [MiniMax](https://www.minimax.io/) 最新的 [MiniMax-M2 模型](https://platform.minimax.io/docs/guides/text-generation)。
 
-API keys can be obtained from the [MiniMax Platform](https://platform.minimax.io/user-center/basic-information/interface-key).
+API 密钥可在 [MiniMax 平台](https://platform.minimax.io/user-center/basic-information/interface-key) 获取。
 
-## Setup
+## 安装与配置
 
-The MiniMax provider is available via the `vercel-minimax-ai-provider` module. You can install it with:
+MiniMax 提供商通过 `vercel-minimax-ai-provider` 模块提供。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -28,35 +28,35 @@ The MiniMax provider is available via the `vercel-minimax-ai-provider` module. Y
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-The MiniMax provider supports two API compatibility modes:
+MiniMax 提供商支持两种 API 兼容模式：
 
-### Anthropic-Compatible API (Default)
+### Anthropic 兼容 API（默认）
 
-You can import the default provider instance `minimax` from `vercel-minimax-ai-provider`:
+可从 `vercel-minimax-ai-provider` 导入默认提供商实例 `minimax`：
 
 ```ts
 import { minimax } from 'vercel-minimax-ai-provider';
 ```
 
-Or explicitly use the Anthropic-compatible instance:
+或显式使用 Anthropic 兼容实例：
 
 ```ts
 import { minimaxAnthropic } from 'vercel-minimax-ai-provider';
 ```
 
-Or OpenAI-compatible API format:
+或 OpenAI 兼容 API 格式：
 
 ```ts
 import { minimaxOpenAI } from 'vercel-minimax-ai-provider';
 ```
 
-## Custom Configuration
+## 自定义配置
 
-For custom configuration, you can use the `createMinimax` (Anthropic-compatible) or `createMinimaxOpenAI` (OpenAI-compatible) functions:
+如需自定义配置，可使用 `createMinimax`（Anthropic 兼容）或 `createMinimaxOpenAI`（OpenAI 兼容）：
 
-### Anthropic-Compatible Configuration (Default)
+### Anthropic 兼容配置（默认）
 
 ```ts
 import { createMinimax } from 'vercel-minimax-ai-provider';
@@ -66,57 +66,55 @@ const minimax = createMinimax({
 });
 ```
 
-### Configuration Options
+### 配置选项
 
-You can use the following optional settings to customize the MiniMax provider instance:
+可使用以下可选设置自定义 MiniMax 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls.
-  - Anthropic-compatible default: `https://api.minimax.io/anthropic/v1`
-  - OpenAI-compatible default: `https://api.minimax.io/v1`
+  为 API 调用使用不同的 URL 前缀。
+  - Anthropic 兼容默认：`https://api.minimax.io/anthropic/v1`
+  - OpenAI 兼容默认：`https://api.minimax.io/v1`
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header. It defaults to
-  the `MINIMAX_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API 密钥。默认读取
+  `MINIMAX_API_KEY` 环境变量。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义标头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
 
-## API Compatibility
+## API 兼容性
 
-MiniMax provides two API formats. Both are included in this package.
+MiniMax 提供两种 API 格式，本包均包含。
 
-The main difference is the API request/response format:
+主要区别在于 API 的请求/响应格式：
 
-- **Anthropic format** (default): Uses Anthropic Messages API format with `anthropic-version` header
-- **OpenAI format**: Uses standard OpenAI chat completion format
+- **Anthropic 格式**（默认）：使用带 `anthropic-version` 标头的 Anthropic Messages API 格式
+- **OpenAI 格式**：使用标准 OpenAI 聊天补全格式
 
-Both formats access the same MiniMax models with the same capabilities.
+两种格式均可访问相同的 MiniMax 模型与能力。
 
-## Model Capabilities
+## 模型能力
 
-| Model               | Text Generation     | Object Generation   | Image Input         | Tool Usage          | Tool Streaming      |
+| 模型                | 文本生成            | 结构化对象生成      | 图像输入            | 工具使用            | 工具流式            |
 | ------------------- | ------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `MiniMax-M2`        | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `MiniMax-M2-Stable` | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  Please see the [MiniMax
-  docs](https://platform.minimax.io/docs/api-reference/text-intro) for a full
-  list of available models and their capabilities. The provider accepts any
-  model ID as a string for forward compatibility.
+  完整可用模型及能力列表请参阅 [MiniMax
+  文档](https://platform.minimax.io/docs/api-reference/text-intro)。提供商接受任意字符串形式的模型 ID，以保持向前兼容。
 </Note>
 
-## Example Usage
+## 示例用法
 
-### Basic Text Generation
+### 基础文本生成
 
 ```ts
 import { minimax } from 'vercel-minimax-ai-provider';
@@ -130,7 +128,7 @@ const result = await generateText({
 console.log(result.text);
 ```
 
-### Streaming
+### 流式输出
 
 ```ts
 import { minimax } from 'vercel-minimax-ai-provider';

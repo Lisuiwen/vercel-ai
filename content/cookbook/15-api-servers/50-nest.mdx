@@ -1,22 +1,22 @@
 ---
 title: Nest.js
-description: Learn how to use the AI SDK in a Nest.js server
+description: 学习如何在 Nest.js 服务器中使用 AI SDK
 tags: ['api servers', 'streaming']
 ---
 
 # Nest.js
 
-You can use the AI SDK in a [Nest.js](https://nestjs.com/) server to generate and stream text and objects to the client.
+你可以在 [Nest.js](https://nestjs.com/) 服务器中使用 AI SDK，向客户端生成并流式传输文本与对象。
 
-## Examples
+## 示例
 
-The examples show how to implement a Nest.js controller that uses the AI SDK to stream text and objects to the client.
+示例展示如何实现 Nest.js 控制器，使用 AI SDK 向客户端流式传输文本与对象。
 
-**Full example**: [github.com/vercel/ai/examples/nest](https://github.com/vercel/ai/tree/main/examples/nest)
+**完整示例**：[github.com/vercel/ai/examples/nest](https://github.com/vercel/ai/tree/main/examples/nest)
 
 ### UI Message Stream
 
-You can use the `pipeUIMessageStreamToResponse` method to pipe the stream data to the server response.
+可使用 `pipeUIMessageStreamToResponse` 将流数据管道写入服务器响应。
 
 ```ts filename='app.controller.ts'
 import { Controller, Post, Res } from '@nestjs/common';
@@ -37,9 +37,9 @@ export class AppController {
 }
 ```
 
-### Sending Custom Data
+### 发送自定义数据
 
-`createUIMessageStream` and `pipeUIMessageStreamToResponse` can be used to send custom data to the client.
+`createUIMessageStream` 与 `pipeUIMessageStreamToResponse` 可用于向客户端发送自定义数据。
 
 ```ts filename='app.controller.ts'
 import { Controller, Post, Res } from '@nestjs/common';
@@ -89,7 +89,7 @@ export class AppController {
 
 ### Text Stream
 
-You can use the `pipeTextStreamToResponse` method to get a text stream from the result and then pipe it to the response.
+可使用 `pipeTextStreamToResponse` 从结果获取文本流并管道写入响应。
 
 ```ts filename='app.controller.ts'
 import { Controller, Post, Res } from '@nestjs/common';
@@ -110,6 +110,6 @@ export class AppController {
 }
 ```
 
-## Troubleshooting
+## 故障排除
 
-- Streaming not working when [proxied](/docs/troubleshooting/streaming-not-working-when-proxied)
+- 经[代理](/docs/troubleshooting/streaming-not-working-when-proxied)时流式传输异常

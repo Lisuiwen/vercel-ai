@@ -4,16 +4,16 @@ import { cancelOnSigint } from '../../lib/cancel-on-sigint';
 import { run } from '../../lib/run';
 
 run(async () => {
-  // Ctrl+C aborts the in-flight stream, which fires
+  // Ctrl+C 中止正在进行的流，这会触发
   // `POST /interactions/{id}/cancel` on Google's side so the agent stops
-  // billing instead of running to completion in the background.
+  // 计费而不是在后台运行完成。
   const ac = cancelOnSigint();
 
-  // Turn 1: ask the deep-research agent to identify key topics. Default
+  // 第 1 回合：要求深度研究代理确定关键主题。默认
   // `store: true` keeps server-side context so we can chain via
   // `previousInteractionId`. Note: agent calls can be slow. With
   // `thinkingSummaries: 'auto'` the agent emits intermediate reasoning
-  // events as it works -- printed dimmed below alongside the final answer.
+  // 事件的运作方式——在最终答案旁边打印成灰色。
   console.log('--- Turn 1 ---');
   const turn1 = streamText({
     model: google.interactions({
@@ -51,9 +51,9 @@ run(async () => {
     throw new Error('Turn 1 did not return an interaction id.');
   }
 
-  // Turn 2: send ONLY the new user message + previousInteractionId. The
-  // server pulls the prior agent context from its own state — no message
-  // history needs to be re-sent.
+  // 第 2 回合：仅发送新用户消息 + previousInteractionId。这
+  // 服务器从其自己的状态中提取先前的代理上下文 - 无消息
+  // 历史需要重新发送。
   console.log('--- Turn 2 ---');
   const turn2 = streamText({
     model: google.interactions({

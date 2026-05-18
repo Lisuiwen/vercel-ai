@@ -1,12 +1,12 @@
 ---
-title: Chatbot Message Persistence
-description: Learn how to store and load chat messages in a chatbot.
+title: 聊天机器人消息持久化
+description: 学习如何在聊天机器人中存储和加载聊天消息。
 ---
 
-# Chatbot Message Persistence
+# 聊天机器人消息持久化
 
-Being able to store and load chat messages is crucial for most AI chatbots.
-In this guide, we'll show how to implement message persistence with `useChat` and `streamText`.
+能够存储和加载聊天消息对大多数 AI 聊天机器人至关重要。
+本指南将展示如何使用 `useChat` 和 `streamText` 实现消息持久化。
 
 <Note>
   This guide does not cover authorization, error handling, or other real-world
@@ -14,7 +14,7 @@ In this guide, we'll show how to implement message persistence with `useChat` an
   message persistence.
 </Note>
 
-## Starting a new chat
+## 开始新聊天
 
 When the user navigates to the chat page without providing a chat ID,
 we need to create a new chat and redirect to the chat page with the new chat ID.
@@ -53,11 +53,11 @@ function getChatFile(id: string): string {
 }
 ```
 
-## Loading an existing chat
+## 加载已有聊天
 
-When the user navigates to the chat page with a chat ID, we need to load the chat messages from storage.
+当用户带着聊天 ID 访问聊天页面时，我们需要从存储加载聊天消息。
 
-The `loadChat` function in our file-based chat store is implemented as follows:
+基于文件的聊天存储中，`loadChat` 函数实现如下：
 
 ```tsx filename="util/chat-store.ts"
 import { UIMessage } from 'ai';
@@ -70,11 +70,11 @@ export async function loadChat(id: string): Promise<UIMessage[]> {
 // ... rest of the file
 ```
 
-## Validating messages on the server
+## 在服务端验证消息
 
-When processing messages on the server that contain tool calls, custom metadata, or data parts, you should validate them using `validateUIMessages` before sending them to the model.
+在服务端处理包含工具调用、自定义元数据或数据部分的消息时，应在发送给模型之前使用 `validateUIMessages` 进行验证。
 
-### Validation with tools
+### 使用工具验证
 
 When your messages include tool calls, validate them against your tool definitions:
 
@@ -138,7 +138,7 @@ export async function POST(req: Request) {
 }
 ```
 
-### Handling validation errors
+### 处理验证错误
 
 Handle validation errors gracefully when messages from the database don't match current schemas:
 
@@ -181,7 +181,7 @@ export async function POST(req: Request) {
 }
 ```
 
-## Displaying the chat
+## 显示聊天
 
 Once messages are loaded from storage, you can display them in your chat UI. Here's how to set up the page component and the chat display:
 
@@ -251,7 +251,7 @@ export default function Chat({
 }
 ```
 
-## Storing messages
+## 存储消息
 
 `useChat` sends the chat id and the messages to the backend.
 
@@ -314,12 +314,12 @@ export async function saveChat({
 // ... rest of the file
 ```
 
-## Message IDs
+## 消息 ID
 
 In addition to a chat ID, each message has an ID.
 You can use this message ID to e.g. manipulate individual messages.
 
-### Client-side vs Server-side ID Generation
+### 客户端与服务端 ID 生成
 
 By default, message IDs are generated client-side:
 
@@ -329,7 +329,7 @@ By default, message IDs are generated client-side:
 For applications without persistence, client-side ID generation works perfectly.
 However, **for persistence, you need server-side generated IDs** to ensure consistency across sessions and prevent ID conflicts when messages are stored and retrieved.
 
-### Setting Up Server-side ID Generation
+### 设置服务端 ID 生成
 
 When implementing persistence, you have two options for generating server-side IDs:
 
@@ -421,7 +421,7 @@ const { ... } = useChat({
 
 </Note>
 
-## Sending only the last message
+## 仅发送最后一条消息
 
 Once you have implemented message persistence, you might want to send only the last message to the server.
 This reduces the amount of data sent to the server on each request and can improve performance.
@@ -483,7 +483,7 @@ export async function POST(req: Request) {
 }
 ```
 
-## Handling client disconnects
+## 处理客户端断开连接
 
 By default, the AI SDK `streamText` function uses backpressure to the language model provider to prevent
 the consumption of tokens that are not yet requested.

@@ -4,44 +4,44 @@ date: 2026-03-11
 decision-makers:
 ---
 
-# Adopt architecture decision records
+# 采用架构决策记录
 
-## Context and Problem Statement
+## 背景与问题陈述
 
-Architecture decisions in this project are made implicitly — through code, conversations, and tribal knowledge. When a new contributor (human or AI agent) joins the codebase, there is no record of _why_ things are built the way they are. This makes it hard to:
+本项目的架构决策往往隐含在代码、对话与口口相传中。当新贡献者（人类或 AI agent）加入代码库时，缺少关于**为何**如此构建的记录。这导致：
 
-- Understand whether a pattern is intentional or accidental
-- Know if a past decision still applies or has been superseded
-- Avoid relitigating decisions that were already carefully considered
+- 难以判断某种模式是有意为之还是偶然形成
+- 难以知晓过往决策是否仍适用或已被取代
+- 容易重复争论已仔细考虑过的决策
 
-We need a lightweight, version-controlled way to capture decisions where the code lives.
+我们需要一种轻量、与代码同库版本控制的决策记录方式。
 
-## Decision
+## 决策
 
-Adopt Architecture Decision Records (ADRs) using the MADR 4.0 format, stored in `contributing/decisions/`.
+采用 MADR 4.0 格式的架构决策记录（ADR），存放在 `contributing/decisions/`。
 
-Conventions:
+约定：
 
-- One ADR per file, named `YYYY-MM-DD-title-with-dashes.md`
-- New ADRs start as `proposed`, move to `accepted` or `rejected`
-- Superseded ADRs link to their replacement
-- ADRs are written to be self-contained — a coding agent should be able to read one and implement the decision without further context
+- 每个 ADR 一个文件，命名为 `YYYY-MM-DD-title-with-dashes.md`
+- 新 ADR 从 `proposed` 开始，再转为 `accepted` 或 `rejected`
+- 被取代的 ADR 需双向链接到替代 ADR
+- ADR 应自包含——coding agent 应能仅凭 ADR 实现决策，无需额外上下文
 
-## Consequences
+## 后果
 
-- Good, because decisions are discoverable and version-controlled alongside the code
-- Good, because new contributors (human or agent) can understand the "why" behind architecture choices
-- Good, because the team builds a shared decision log that prevents relitigating settled questions
-- Bad, because writing ADRs takes time — though a good ADR saves more time than it costs
-- Neutral, because ADRs require periodic review to mark outdated decisions as deprecated or superseded
+- 优点：决策可发现，并与代码一起版本控制
+- 优点：新贡献者（人类或 agent）能理解架构选择背后的「为什么」
+- 优点：团队积累共享决策日志，避免重复争论已定论的问题
+- 缺点：编写 ADR 需要时间——但好的 ADR 节省的时间多于成本
+- 中性：ADR 需要定期审阅，将过时决策标记为 deprecated 或 superseded
 
-## Alternatives Considered
+## 考虑的替代方案
 
-- No formal records: Continue making decisions in conversations and code comments. Rejected because context is lost and decisions get relitigated.
-- Wiki or Notion pages: Capture decisions outside the repo. Rejected because they drift out of sync with the code and are not version-controlled.
-- Lightweight RFCs: More heavyweight process with formal review cycles. Rejected as overkill for most decisions — ADRs can scale up to RFC-level detail when needed.
+- 无正式记录：继续在对话与代码注释中做决策。因上下文会丢失且决策被重复争论而拒绝。
+- Wiki 或 Notion 页面：在仓库外记录决策。因与代码不同步且未版本控制而拒绝。
+- 轻量 RFC：更重的流程与正式评审。对大多数决策而言过重——ADR 在需要时可扩展到 RFC 级别细节。
 
-## More Information
+## 更多信息
 
-- MADR: <https://adr.github.io/madr/>
+- MADR：<https://adr.github.io/madr/>
 - Michael Nygard, "Documenting Architecture Decisions": <https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions>

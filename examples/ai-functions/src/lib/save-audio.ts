@@ -12,7 +12,7 @@ const audioFormatMap = {
 };
 
 /**
- * Saves a generated audio file to the output directory with unique timestamps.
+ * 将生成的音频文件保存到具有唯一时间戳的输出目录。
  * @param audio - The generated audio file to save.
  */
 export async function saveAudioFile(audio: GeneratedAudioFile) {
@@ -22,7 +22,7 @@ export async function saveAudioFile(audio: GeneratedAudioFile) {
       ? audioFormatMap[audio.mediaType as keyof typeof audioFormatMap]
       : 'mp3';
 
-  // Save the audio file to disk.
+  // 将音频文件保存到磁盘。
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   const filePath = path.join(OUTPUT_DIR, `audio-${timestamp}.${extension}`);
   await fs.promises.writeFile(filePath, audio.uint8Array);

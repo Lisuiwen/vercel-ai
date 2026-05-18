@@ -1,7 +1,7 @@
 import { openai } from '@ai-sdk/openai';
 import { generateImage } from 'ai';
 
-// Allow responses up to 60 seconds
+// 允许响应最长 60 秒
 export const maxDuration = 60;
 
 export async function POST(req: Request) {

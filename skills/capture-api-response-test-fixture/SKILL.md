@@ -1,21 +1,21 @@
 ---
 name: capture-api-response-test-fixture
-description: Capture API response test fixture.
+description: 捕获 API 响应测试 fixture。
 metadata:
   internal: true
 ---
 
-### API Response Test Fixtures
+### API 响应测试 Fixtures
 
-For provider response parsing tests, we aim at storing test fixtures with the true responses from the providers (unless they are too large in which case some cutting that does not change semantics is advised).
+对于 provider 响应解析测试，我们尽量使用来自 provider 的真实响应作为测试 fixture（若过大，可在不改变语义的前提下适当裁剪）。
 
-The fixtures are stored in a `__fixtures__` subfolder, e.g. `packages/openai/src/responses/__fixtures__`. See the file names in `packages/openai/src/responses/__fixtures__` for naming conventions and `packages/openai/src/responses/openai-responses-language-model.test.ts` for how to set up test helpers.
+fixture 存放在 `__fixtures__` 子文件夹，例如 `packages/openai/src/responses/__fixtures__`。命名约定见 `packages/openai/src/responses/__fixtures__` 中的文件名；测试 helper 设置见 `packages/openai/src/responses/openai-responses-language-model.test.ts`。
 
-You can use our examples under `/examples/ai-functions` to generate test fixtures.
+可使用 `/examples/ai-functions` 下的示例生成测试 fixture。
 
-#### generateText (doGenerate testing)
+#### generateText（doGenerate 测试）
 
-For `generateText`, log the raw response output to the console and copy it into a new test fixture.
+对于 `generateText`，将原始响应输出记录到控制台，并复制到新的测试 fixture。
 
 ```ts
 import { openai } from '@ai-sdk/openai';
@@ -32,9 +32,9 @@ run(async () => {
 });
 ```
 
-#### streamText (doStream testing)
+#### streamText（doStream 测试）
 
-For `streamText`, you need to set `includeRawChunks` to `true` and use the special `saveRawChunks` helper. Run the script from the `/example/ai-functions` folder via `pnpm tsx src/stream-text/script-name.ts`. The result is then stored in the `/examples/ai-functions/output` folder. You can copy it to your fixtures folder and rename it.
+对于 `streamText`，需将 `includeRawChunks` 设为 `true`，并使用专用的 `saveRawChunks` helper。在 `/example/ai-functions` 文件夹中通过 `pnpm tsx src/stream-text/script-name.ts` 运行脚本。结果保存在 `/examples/ai-functions/output` 文件夹。可复制到 fixture 文件夹并重命名。
 
 ```ts
 import { openai } from '@ai-sdk/openai';

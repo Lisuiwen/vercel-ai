@@ -18,7 +18,7 @@ run(async () => {
 
   await presentImages([image]);
 
-  // Log cost metadata if available
+  // 记录成本元数据（如果可用）
   const costInUsdTicks = (providerMetadata?.xai as Record<string, unknown>)
     ?.costInUsdTicks as number | undefined;
   if (costInUsdTicks != null) {

@@ -202,7 +202,7 @@ function InputView({
   }
 
   switch (input.type) {
-    // Handle programmatic tool calling format
+    // 处理程序化 tool 调用格式
     case 'programmatic-tool-call': {
       return (
         <div className="mb-2 bg-gray-600 rounded-xl border border-gray-900 shadow-lg">

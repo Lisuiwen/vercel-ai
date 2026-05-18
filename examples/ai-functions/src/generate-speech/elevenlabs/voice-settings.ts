@@ -14,10 +14,10 @@ run(async () => {
     providerOptions: {
       elevenlabs: {
         voiceSettings: {
-          stability: 0.3, // Lower for more variation
-          similarityBoost: 0.8, // Higher for closer to original voice
-          style: 0.6, // Control speaking style
-          useSpeakerBoost: true, // Enhance voice clarity
+          stability: 0.3, // 降低以获得更多变化
+          similarityBoost: 0.8, // 越高越接近原始声音
+          style: 0.6, // 控制说话风格
+          useSpeakerBoost: true, // 增强语音清晰度
         },
       } satisfies ElevenLabsSpeechModelOptions,
     },

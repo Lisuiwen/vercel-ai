@@ -9,7 +9,7 @@ describe('generateObject', () => {
       schema: z.object({ number: z.number() }),
       model: undefined!,
       messages: [],
-      // @ts-expect-error timeout is not supported for the deprecated generateObject API
+      // 已废弃的generateObject API不支持@ts-expect-error超时
       timeout: 5000,
     });
   });

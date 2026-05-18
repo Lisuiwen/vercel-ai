@@ -1,15 +1,15 @@
 ---
-title: Stream Text
-description: Learn how to stream text using the AI SDK and Node
+title: 流式文本
+description: 学习如何使用 AI SDK 和 Node 流式输出文本
 tags: ['node', 'streaming']
 ---
 
-# Stream Text
+# 流式文本
 
-Text generation can sometimes take a long time to complete, especially when you're generating a couple of paragraphs.
-In such cases, it is useful to stream the text to the client in real-time.
-This allows the client to display the generated text as it is being generated,
-rather than have users wait for it to complete before displaying the result.
+文本生成有时需要较长时间，尤其是生成较长段落时。
+此时将文本实时流式传输到客户端会很有用。
+这样客户端可以在生成过程中展示文本，
+而不必让用户等到全部完成后再显示结果。
 
 ```txt
 Introducing "Joyful Hearts Day" - a holiday dedicated to spreading love, joy, and kindness to others.
@@ -23,7 +23,7 @@ One of the main traditions of Joyful Hearts Day is the "Heart Exchange" where pe
 Overall, Joyful Hearts Day is a day to celebrate love, kindness, and positivity, and to spread joy and happiness to all those around us. It is a reminder to appreciate the people in our lives and to make the world a brighter and more loving place.
 ```
 
-## Without reader
+## 不使用 reader
 
 ```ts file='index.ts'
 import { streamText } from 'ai';
@@ -39,7 +39,7 @@ for await (const textPart of result.textStream) {
 }
 ```
 
-## With reader
+## 使用 reader
 
 ```ts file='index.ts'
 import { streamText } from 'ai';

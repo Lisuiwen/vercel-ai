@@ -4,27 +4,27 @@ import type { Warning } from '../types/warning';
 import type { GeneratedAudioFile } from './generated-audio-file';
 
 /**
- * The result of a `generateSpeech` call.
- * It contains the audio data and additional information.
+ * `generateSpeech` 调用的结果。
+ * 它包含音频数据和附加信息。
  */
 export interface SpeechResult {
   /**
-   * The generated audio file with the audio data.
+   * 生成的带有音频数据的音频文件。
    */
   readonly audio: GeneratedAudioFile;
 
   /**
-   * Warnings for the call, e.g. unsupported settings.
+   * 通话警告，例如不支持的设置。
    */
   readonly warnings: Array<Warning>;
 
   /**
-   * Response metadata from the provider. There may be multiple responses if we made multiple calls to the model.
+   * 来自提供商的响应元数据。如果我们多次调用模型，可能会有多个响应。
    */
   readonly responses: Array<SpeechModelResponseMetadata>;
 
   /**
-   * Provider metadata from the provider.
+   * 来自提供商的提供商元数据。
    */
   readonly providerMetadata: Record<string, JSONObject>;
 }

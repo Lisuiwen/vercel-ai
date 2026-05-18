@@ -7,8 +7,8 @@ const bedrockAnthropic = createBedrockAnthropic();
 
 async function main() {
   try {
-    // Bedrock does not support the redact-thinking beta header.
-    // This should trigger a model-level error from Bedrock.
+    // Bedrock 不支持编辑思维 beta 标头。
+    // 这应该会触发 Bedrock 的模型级错误。
     const result = streamText({
       model: bedrockAnthropic('us.anthropic.claude-sonnet-4-5-20250929-v1:0'),
       prompt: 'Say hello.',
@@ -23,7 +23,7 @@ async function main() {
       process.stdout.write(textPart);
     }
   } catch (error) {
-    // What the client/AI Gateway sees:
+    // 客户端/AI网关看到的内容：
     console.error('Error message:', (error as Error).message);
     console.error('Status code:', (error as any).statusCode);
   }

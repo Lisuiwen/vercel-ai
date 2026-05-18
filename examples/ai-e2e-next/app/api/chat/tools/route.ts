@@ -14,7 +14,7 @@ import {
 } from 'ai';
 import { z } from 'zod';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 const getWeatherInformationTool = tool({
@@ -23,7 +23,7 @@ const getWeatherInformationTool = tool({
   async *execute({ city }: { city: string }, { messages }) {
     yield { state: 'loading' as const };
 
-    // count the number of assistant messages. throw error if 2 or less
+    // 统计 assistant 消息数量；若 ≤2 则抛出错误
     const assistantMessageCount = messages.filter(
       message => message.role === 'assistant',
     ).length;
@@ -32,7 +32,7 @@ const getWeatherInformationTool = tool({
     //   throw new Error('could not get weather information');
     // }
 
-    // Add artificial delay of 5 seconds
+    // 人为增加 5 秒延迟
     await new Promise(resolve => setTimeout(resolve, 5000));
 
     const weatherOptions = ['sunny', 'cloudy', 'rainy', 'snowy', 'windy'];
@@ -73,11 +73,11 @@ const getLocationTool = tool({
 });
 
 const tools = {
-  // server-side tool with execute function:
+  // 带 execute 函数的服务端 tool：
   getWeatherInformation: getWeatherInformationTool,
-  // client-side tool that starts user interaction:
+  // 发起用户交互的客户端 tool：
   askForConfirmation: askForConfirmationTool,
-  // client-side tool that is automatically executed on the client:
+  // 在客户端自动执行的客户端 tool：
   getLocation: getLocationTool,
 } as const;
 
@@ -98,7 +98,7 @@ export async function POST(req: Request) {
   const result = streamText({
     model: openai('gpt-5-mini'),
     messages: await convertToModelMessages(messages),
-    stopWhen: isStepCount(5), // multi-steps for server-side tools
+    stopWhen: isStepCount(5), // 服务端 tools 的多步执行
     tools,
     providerOptions: {
       openai: {
@@ -111,7 +111,7 @@ export async function POST(req: Request) {
   });
 
   return result.toUIMessageStreamResponse({
-    //  originalMessages: messages, //add if you want to have correct ids
+    //  originalMessages: messages, //若需要正确的 id 请添加
     onFinish: options => {
       console.log('onFinish', options);
     },

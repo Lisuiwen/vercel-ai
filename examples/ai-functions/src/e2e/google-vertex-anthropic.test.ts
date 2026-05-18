@@ -46,7 +46,7 @@ const createLanguageModel = (
 ): ModelWithCapabilities<LanguageModelV3 | LanguageModelV4> => {
   const model = createVertexAnthropic({
     project: process.env.GOOGLE_VERTEX_PROJECT!,
-    // Anthropic models are typically only available in us-east5 region.
+    // 人择模型通常仅在 us-east5 区域可用。
     location: process.env.GOOGLE_VERTEX_LOCATION ?? 'us-east5',
   })(modelId);
 
@@ -71,12 +71,12 @@ const createModelVariants = (
   createLanguageModel(createVertexAnthropic, modelId, [toolTests]),
 ];
 
-// Model variants to test against
+// 要测试的模型变体
 const CHAT_MODELS = [
   'claude-3-5-sonnet-v2@20241022',
   // 'claude-3-5-haiku@20241022',
   // 'claude-3-5-sonnet@20240620',
-  // Models must be individually enabled through the Cloud Console. The above are the latest and most likely to be used.
+  // 模型必须通过 Cloud Console 单独启用。以上是最新的也是最有可能使用的。
   // 'claude-3-haiku@20240307',
   // 'claude-3-sonnet@20240229',
   // 'claude-3-opus@20240229',
@@ -192,9 +192,9 @@ README.md     build         data          node_modules  package.json  src       
       });
 
       expect(result.text).toBeTruthy();
-      expect(result.text).toContain('README.md'); // Check for specific file
-      expect(result.text).toContain('package.json'); // Check for another specific file
-      expect(result.text).toContain('node_modules'); // Check for directory
+      expect(result.text).toContain('README.md'); // 检查特定文件
+      expect(result.text).toContain('package.json'); // 检查另一个特定文件
+      expect(result.text).toContain('node_modules'); // 检查目录
       expect(result.usage?.totalTokens).toBeGreaterThan(0);
     },
     COMPUTER_USE_TEST_MILLIS,

@@ -12,7 +12,7 @@ import type { DeepPartial } from '../util/deep-partial';
 import type { ValueOf } from '../util/value-of';
 
 /**
- * The data types that can be used in the UI message for the UI message data parts.
+ * 可在 UI 消息中用于 UI 消息数据部分的数据类型。
  */
 export type UIDataTypes = Record<string, unknown>;
 
@@ -22,7 +22,7 @@ export type UITool = {
 };
 
 /**
- * Infer the input and output types of a tool so it can be used as a UI tool.
+ * 推断工具的输入和输出类型，以便将其用作 UI 工具。
  */
 export type InferUITool<TOOL extends Tool> = {
   input: InferToolInput<TOOL>;
@@ -30,7 +30,7 @@ export type InferUITool<TOOL extends Tool> = {
 };
 
 /**
- * Infer the input and output types of a tool set so it can be used as a UI tool set.
+ * 推断工具集的输入和输出类型，以便将其用作 UI 工具集。
  */
 export type InferUITools<TOOLS extends ToolSet> = {
   [NAME in keyof TOOLS & string]: InferUITool<TOOLS[NAME]>;
@@ -39,7 +39,7 @@ export type InferUITools<TOOLS extends ToolSet> = {
 export type UITools = Record<string, UITool>;
 
 /**
- * AI SDK UI Messages. They are used in the client and to communicate between the frontend and the API routes.
+ * AI SDK UI 消息。它们用于客户端并在前端和 API 路由之间进行通信。
  */
 export interface UIMessage<
   METADATA = unknown,
@@ -47,29 +47,29 @@ export interface UIMessage<
   TOOLS extends UITools = UITools,
 > {
   /**
-   * A unique identifier for the message.
+   * 消息的唯一标识符。
    */
   id: string;
 
   /**
-   * The role of the message.
+   * 消息的作用。
    */
   role: 'system' | 'user' | 'assistant';
 
   /**
-   * The metadata of the message.
+   * 消息的元数据。
    */
   metadata?: METADATA;
 
   /**
-   * The parts of the message. Use this for rendering the message in the UI.
+   * 消息的各个部分。使用它在 UI 中呈现消息。
    *
-   * System messages should be avoided (set the system prompt on the server instead).
-   * They can have text parts.
+   * 应避免系统消息（而是在服务器上设置系统提示符）。
+   * 它们可以有文本部分。
    *
-   * User messages can have text parts and file parts.
+   * 用户消息可以包含文本部分和文件部分。
    *
-   * Assistant messages can have text, reasoning, tool invocation, and file parts.
+   * 助理消息可以包含文本、推理、工具调用和文件部分。
    */
   parts: Array<UIMessagePart<DATA_PARTS, TOOLS>>;
 }
@@ -91,68 +91,68 @@ export type UIMessagePart<
   | StepStartUIPart;
 
 /**
- * A text part of a message.
+ * 消息的文本部分。
  */
 export type TextUIPart = {
   type: 'text';
 
   /**
-   * The text content.
+   * 文字内容。
    */
   text: string;
 
   /**
-   * The state of the text part.
+   * 文本部分的状态。
    */
   state?: 'streaming' | 'done';
 
   /**
-   * The provider metadata.
+   * 提供者元数据。
    */
   providerMetadata?: ProviderMetadata;
 };
 
 /**
- * A provider-specific part of a message.
+ * 消息的特定于提供者的部分。
  */
 export type CustomContentUIPart = {
   type: 'custom';
 
   /**
-   * The kind of custom content, in the format `{provider}.{provider-type}`.
+   * 自定义内容的类型，格式为“{provider}.{provider-type}”。
    */
   kind: `${string}.${string}`;
 
   /**
-   * The provider metadata.
+   * 提供者元数据。
    */
   providerMetadata?: ProviderMetadata;
 };
 
 /**
- * A reasoning part of a message.
+ * 消息的推理部分。
  */
 export type ReasoningUIPart = {
   type: 'reasoning';
 
   /**
-   * The reasoning text.
+   * 推理文本。
    */
   text: string;
 
   /**
-   * The state of the reasoning part.
+   * 推理部分的状态。
    */
   state?: 'streaming' | 'done';
 
   /**
-   * The provider metadata.
+   * 提供者元数据。
    */
   providerMetadata?: ProviderMetadata;
 };
 
 /**
- * A source part of a message.
+ * 消息的源部分。
  */
 export type SourceUrlUIPart = {
   type: 'source-url';
@@ -163,7 +163,7 @@ export type SourceUrlUIPart = {
 };
 
 /**
- * A document source part of a message.
+ * 消息的文档源部分。
  */
 export type SourceDocumentUIPart = {
   type: 'source-document';
@@ -175,76 +175,76 @@ export type SourceDocumentUIPart = {
 };
 
 /**
- * A file part of a message.
+ * 消息的文件部分。
  */
 export type FileUIPart = {
   type: 'file';
 
   /**
-   * Either a full IANA media type (`type/subtype`, e.g. `image/png`) or just
-   * the top-level IANA segment (e.g. `image`, `audio`, `video`, `text`).
+   * 完整的 IANA 媒体类型（“类型/子类型”，例如“image/png”）或只是
+   * 顶级 IANA 部分（例如“图像”、“音频”、“视频”、“文本”）。
    *
-   * `*`-subtype wildcards (e.g. `image/*`) are normalized as equivalent to the
-   * top-level segment alone (e.g. `image`). Providers can use the helpers in
+   * `*`-子类型通配符（例如`image/*`）被规范化为等同于
+   * 单独的顶级段（例如“image”）。提供者可以使用以下帮助程序
    * `@ai-sdk/provider-utils` (`isFullMediaType`, `getTopLevelMediaType`,
-   * `detectMediaType`) to resolve the field according to their API
-   * requirements.
+   * `detectMediaType`) 根据其 API 解析该字段
+   * 要求。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
   mediaType: string;
 
   /**
-   * Optional filename of the file.
+   * 文件的可选文件名。
    */
   filename?: string;
 
   /**
-   * The URL of the file.
-   * It can either be a URL to a hosted file or a [Data URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs).
+   * 文件的 URL。
+   * 它可以是托管文件的 URL，也可以是[数据 URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)。
    */
   url: string;
 
   /**
-   * Provider reference for files uploaded via `uploadFile`.
-   * Maps provider names to provider-specific file identifiers.
-   * When present, takes precedence over `url` in model messages.
+   * 通过“uploadFile”上传的文件的提供者参考。
+   * 将提供程序名称映射到提供程序特定的文件标识符。
+   * 如果存在，则在模型消息中优先于“url”。
    */
   providerReference?: ProviderReference;
 
   /**
-   * The provider metadata.
+   * 提供者元数据。
    */
   providerMetadata?: ProviderMetadata;
 };
 
 /**
- * A reasoning file part of a message.
+ * 消息的推理文件部分。
  */
 export type ReasoningFileUIPart = {
   type: 'reasoning-file';
 
   /**
-   * IANA media type of the file.
+   * 文件的 IANA 媒体类型。
    *
    * @see https://www.iana.org/assignments/media-types/media-types.xhtml
    */
   mediaType: string;
 
   /**
-   * The URL of the file.
-   * It can either be a URL to a hosted file or a [Data URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs).
+   * 文件的 URL。
+   * 它可以是托管文件的 URL，也可以是[数据 URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)。
    */
   url: string;
 
   /**
-   * The provider metadata.
+   * 提供者元数据。
    */
   providerMetadata?: ProviderMetadata;
 };
 
 /**
- * A step boundary part of a message.
+ * 消息的步骤边界部分。
  */
 export type StepStartUIPart = {
   type: 'step-start';
@@ -263,7 +263,7 @@ type asUITool<TOOL extends UITool | Tool> = TOOL extends Tool
   : TOOL;
 
 /**
- * Check if a message part is a data part.
+ * 检查消息部分是否是数据部分。
  */
 export function isDataUIPart<DATA_TYPES extends UIDataTypes>(
   part: UIMessagePart<DATA_TYPES, UITools>,
@@ -272,20 +272,20 @@ export function isDataUIPart<DATA_TYPES extends UIDataTypes>(
 }
 
 /**
- * A UI tool invocation contains all the information needed to render a tool invocation in the UI.
- * It can be derived from a tool without knowing the tool name, and can be used to define
- * UI components for the tool.
+ * UI 工具调用包含在 UI 中呈现工具调用所需的所有信息。
+ * 它可以在不知道工具名称的情况下从工具派生出来，并且可以用来定义
+ * 该工具的 UI 组件。
  */
 export type UIToolInvocation<TOOL extends UITool | Tool> = {
   /**
-   * ID of the tool call.
+   * 工具调用的 ID。
    */
   toolCallId: string;
   title?: string;
   toolMetadata?: JSONObject;
 
   /**
-   * Whether the tool call was executed by the provider.
+   * 工具调用是否由提供者执行。
    */
   providerExecuted?: boolean;
 } & (
@@ -347,9 +347,9 @@ export type UIToolInvocation<TOOL extends UITool | Tool> = {
       };
     }
   | {
-      state: 'output-error'; // TODO AI SDK 6: change to 'error' state
+      state: 'output-error'; // TODO AI SDK 6：更改为“错误”状态
       input: asUITool<TOOL>['input'] | undefined;
-      rawInput?: unknown; // TODO AI SDK 6: remove this field, input should be unknown
+      rawInput?: unknown; // TODO AI SDK 6：删除此字段，输入应该是未知的
       output?: never;
       errorText: string;
       callProviderMetadata?: ProviderMetadata;
@@ -386,19 +386,19 @@ export type DynamicToolUIPart = {
   type: 'dynamic-tool';
 
   /**
-   * Name of the tool that is being called.
+   * 正在调用的工具的名称。
    */
   toolName: string;
 
   /**
-   * ID of the tool call.
+   * 工具调用的 ID。
    */
   toolCallId: string;
   title?: string;
   toolMetadata?: JSONObject;
 
   /**
-   * Whether the tool call was executed by the provider.
+   * 工具调用是否由提供者执行。
    */
   providerExecuted?: boolean;
 } & (
@@ -460,7 +460,7 @@ export type DynamicToolUIPart = {
       };
     }
   | {
-      state: 'output-error'; // TODO AI SDK 6: change to 'error' state
+      state: 'output-error'; // TODO AI SDK 6：更改为“错误”状态
       input: unknown;
       output?: never;
       errorText: string;
@@ -489,7 +489,7 @@ export type DynamicToolUIPart = {
 );
 
 /**
- * Type guard to check if a message part is a text part.
+ * 输入guard 来检查消息部分是否是文本部分。
  */
 export function isTextUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -498,7 +498,7 @@ export function isTextUIPart(
 }
 
 /**
- * Type guard to check if a message part is a custom part.
+ * 键入guard 以检查消息部分是否是自定义部分。
  */
 export function isCustomContentUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -507,7 +507,7 @@ export function isCustomContentUIPart(
 }
 
 /**
- * Type guard to check if a message part is a file part.
+ * 输入guard 来检查消息部分是否是文件部分。
  */
 export function isFileUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -516,7 +516,7 @@ export function isFileUIPart(
 }
 
 /**
- * Type guard to check if a message part is a reasoning file part.
+ * 键入guard 以检查消息部分是否是推理文件部分。
  */
 export function isReasoningFileUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -525,7 +525,7 @@ export function isReasoningFileUIPart(
 }
 
 /**
- * Type guard to check if a message part is a reasoning part.
+ * 输入guard 来检查消息部分是否是推理部分。
  */
 export function isReasoningUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -534,9 +534,9 @@ export function isReasoningUIPart(
 }
 
 /**
- * Check if a message part is a static tool part.
+ * 检查消息部分是否是静态工具部分。
  *
- * Static tools are tools for which the types are known at development time.
+ * 静态工具是在开发时类型已知的工具。
  */
 export function isStaticToolUIPart<TOOLS extends UITools>(
   part: UIMessagePart<UIDataTypes, TOOLS>,
@@ -545,9 +545,9 @@ export function isStaticToolUIPart<TOOLS extends UITools>(
 }
 
 /**
- * Check if a message part is a dynamic tool part.
+ * 检查消息部件是否是动态工具部件。
  *
- * Dynamic tools are tools for which the input and output types are unknown.
+ * 动态工具是输入和输出类型未知的工具。
  */
 export function isDynamicToolUIPart(
   part: UIMessagePart<UIDataTypes, UITools>,
@@ -556,11 +556,11 @@ export function isDynamicToolUIPart(
 }
 
 /**
- * Check if a message part is a tool part.
+ * 检查消息部分是否是工具部分。
  *
- * Tool parts are either static or dynamic tools.
+ * 工具部件可以是静态工具，也可以是动态工具。
  *
- * Use `isStaticToolUIPart` or `isDynamicToolUIPart` to check the type of the tool.
+ * 使用“isStaticToolUIPart”或“isDynamicToolUIPart”检查工具的类型。
  */
 export function isToolUIPart<TOOLS extends UITools>(
   part: UIMessagePart<UIDataTypes, TOOLS>,
@@ -569,9 +569,9 @@ export function isToolUIPart<TOOLS extends UITools>(
 }
 
 /**
- * Returns the name of the static tool.
+ * 返回静态工具的名称。
  *
- * The possible values are the keys of the tool set.
+ * 可能的值是工具集的键。
  */
 export function getStaticToolName<TOOLS extends UITools>(
   part: ToolUIPart<TOOLS>,
@@ -580,10 +580,10 @@ export function getStaticToolName<TOOLS extends UITools>(
 }
 
 /**
- * Returns the name of the tool (static or dynamic).
+ * 返回工具的名称（静态或动态）。
  *
- * This function will not restrict the name to the keys of the tool set.
- * If you need to restrict the name to the keys of the tool set, use `getStaticToolName` instead.
+ * 此功能不会将名称限制为工具集的按键。
+ * 如果您需要将名称限制为工具集的键，请改用“getStaticToolName”。
  */
 export function getToolName(
   part: ToolUIPart<UITools> | DynamicToolUIPart,
@@ -592,7 +592,7 @@ export function getToolName(
 }
 
 /**
- * @deprecated Use getToolName instead.
+ * @deprecated 请改用 getToolName。
  */
 export const getToolOrDynamicToolName = getToolName;
 

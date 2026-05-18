@@ -1,36 +1,36 @@
-// License for this File only:
+// 仅此文件的许可证：
 //
-// MIT License
+// 麻省理工学院许可证
 //
-// Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
-// Copyright (c) Vercel, Inc. (https://vercel.com)
+// 版权所有 (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
+// 版权所有 (c) Vercel, Inc. (https://vercel.com)
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-// documentation files (the "Software"), to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
-// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// 特此免费向获得本软件及其相关副本的任何人授予许可
+// 文档文件（“软件”），不受限制地处理软件，包括但不限于
+// 使用、复制、修改、合并、发布、分发、再许可和/或出售软件副本的权利，以及
+// 允许向其提供软件的人员这样做，但须满足以下条件：
 //
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions
-// of the Software.
+// 上述版权声明和本许可声明应包含在所有副本或主要部分中
+// 该软件的。
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// 该软件按“原样”提供，不提供任何类型的明示或默示保证，包括但不限于
+// 对适销性、特定用途的适用性和不侵权的保证。在任何情况下都不得
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE.
+// 因本软件或使用或其他交易而产生、产生或与之相关的合同、侵权行为或其他行为
+// 在软件中。
 
 import type { FlexibleSchema, InferSchema } from '@ai-sdk/provider-utils';
 
 /**
- * Create a type from an object with all keys and nested keys set to optional.
- * The helper supports normal objects and schemas (which are resolved automatically).
- * It always recurses into arrays.
+ * 从对象创建一个类型，并将所有键和嵌套键设置为可选。
+ * 帮助器支持普通对象和模式（自动解析）。
+ * 它总是递归到数组中。
  *
- * Adopted from [type-fest](https://github.com/sindresorhus/type-fest/tree/main) PartialDeep.
+ * 摘自 [type-fest](https://github.com/sindresorhus/type-fest/tree/main) PartialDeep。
  */
 
 export type DeepPartial<T> = T extends FlexibleSchema
-  ? DeepPartialInternal<InferSchema<T>> // resolve schemas first to prevent infinite recursion
+  ? DeepPartialInternal<InferSchema<T>> // 首先解析模式以防止无限递归
   : DeepPartialInternal<T>;
 
 type DeepPartialInternal<T> = T extends
@@ -56,12 +56,12 @@ type DeepPartialInternal<T> = T extends
         : T extends ReadonlySet<infer ItemType>
           ? PartialReadonlySet<ItemType>
           : T extends object
-            ? T extends ReadonlyArray<infer ItemType> // Test for arrays/tuples, per https://github.com/microsoft/TypeScript/issues/35156
-              ? ItemType[] extends T // Test for arrays (non-tuples) specifically
-                ? readonly ItemType[] extends T // Differentiate readonly and mutable arrays
+            ? T extends ReadonlyArray<infer ItemType> // 测试数组/元组，按照 https://github.com/microsoft/TypeScript/issues/35156
+              ? ItemType[] extends T // 专门测试数组（非元组）
+                ? readonly ItemType[] extends T // 区分只读数组和可变数组
                   ? ReadonlyArray<DeepPartialInternal<ItemType | undefined>>
                   : Array<DeepPartialInternal<ItemType | undefined>>
-                : PartialObject<T> // Tuples behave properly
+                : PartialObject<T> // 元组行为正常
               : PartialObject<T>
             : unknown;
 

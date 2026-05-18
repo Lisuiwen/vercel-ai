@@ -3,47 +3,47 @@ import type { EmbeddingModelUsage } from '../types/usage';
 import type { Warning } from '../types/warning';
 
 /**
- * The result of an `embedMany` call.
- * It contains the embeddings, the values, and additional information.
+ * `embedMany`调用的结果。
+ * 它包含嵌入、值和附加信息。
  */
 export interface EmbedManyResult {
   /**
-   * The values that were embedded.
+   * 嵌入的价值观。
    */
   readonly values: Array<string>;
 
   /**
-   * The embeddings. They are in the same order as the values.
+   * 嵌入。它们的顺序与值相同。
    */
   readonly embeddings: Array<Embedding>;
 
   /**
-   * The embedding token usage.
+   * 嵌入令牌的使用。
    */
   readonly usage: EmbeddingModelUsage;
 
   /**
-   * Warnings for the call, e.g. unsupported settings.
+   * 通话警告，例如不支持的设置。
    */
   readonly warnings: Array<Warning>;
 
   /**
-   * Optional provider-specific metadata.
+   * 可选的特定于提供商的元数据。
    */
   readonly providerMetadata?: ProviderMetadata;
 
   /**
-   * Optional raw response data.
+   * 可选的原始响应数据。
    */
   readonly responses?: Array<
     | {
         /**
-         * Response headers.
+         * 响应标头。
          */
         headers?: Record<string, string>;
 
         /**
-         * The response body.
+         * 响应主体。
          */
         body?: unknown;
       }

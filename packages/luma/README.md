@@ -1,6 +1,6 @@
-# AI SDK - Luma Provider
+# AI SDK - Luma 提供商
 
-The **Luma provider** for the [AI SDK](https://ai-sdk.dev/docs) contains support for Luma AI's state-of-the-art image generation models - Photon and Photon Flash.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **Luma 提供商** 支持 Luma AI 最先进的图像生成模型 Photon 与 Photon Flash。
 
 ## About Luma Photon Models
 
@@ -12,35 +12,39 @@ Luma Photon and Photon Flash are groundbreaking image generation models that del
 - Unique character consistency capabilities from single reference images
 - Multi-image reference support for precise style matching
 
-For more detailed information about the Luma models and their capabilities, please visit [Luma AI](https://lumalabs.ai/).
+有关 Luma 模型与能力的更多详情，请访问 [Luma AI](https://lumalabs.ai/)。
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Luma (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Luma（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Luma provider is available in the `@ai-sdk/luma` module. You can install it with:
+Luma 提供商位于 `@ai-sdk/luma` 模块，安装方式：
+
+:
 
 ```bash
 npm i @ai-sdk/luma
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `luma` from `@ai-sdk/luma`:
+可从 `@ai-sdk/luma` 导入默认提供商实例 `luma`：
+
+
 
 ```ts
 import { luma } from '@ai-sdk/luma';
 ```
 
-## Image Generation Example
+## 图像生成示例
 
 ```ts
 import { luma } from '@ai-sdk/luma';
@@ -57,6 +61,6 @@ fs.writeFileSync(filename, image.uint8Array);
 console.log(`Image saved to ${filename}`);
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[Luma provider](https://ai-sdk.dev/providers/ai-sdk-providers/luma)** for more information.
+更多信息请参阅 **[Luma 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/luma)**。

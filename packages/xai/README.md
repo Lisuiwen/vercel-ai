@@ -1,35 +1,39 @@
-# AI SDK - xAI Grok Provider
+# AI SDK - xAI Grok 提供商
 
-The **[xAI Grok provider](https://ai-sdk.dev/providers/ai-sdk-providers/xai)** for the [AI SDK](https://ai-sdk.dev/docs)
-contains language model support for the xAI chat and completion APIs.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[xAI Grok 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/xai)**
+提供 xAI chat and completion APIs 的语言模型支持。
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access xAI (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 xAI（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The xAI Grok provider is available in the `@ai-sdk/xai` module. You can install it with
+xAI Grok 提供商位于 `@ai-sdk/xai` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/xai
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `xai` from `@ai-sdk/xai`:
+可从 `@ai-sdk/xai` 导入默认提供商实例 `xai`：
+
+
 
 ```ts
 import { xai } from '@ai-sdk/xai';
 ```
 
-## Example
+## 示例
 
 ```ts
 import { xai } from '@ai-sdk/xai';
@@ -41,6 +45,6 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[xAI Grok provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/xai)** for more information.
+更多信息请参阅 **[xAI Grok 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/xai)**。

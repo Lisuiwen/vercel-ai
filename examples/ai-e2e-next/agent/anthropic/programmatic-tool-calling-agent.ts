@@ -28,7 +28,7 @@ export const anthropicProgrammaticToolCallingAgent = new ToolLoopAgent({
     },
   }),
 
-  // Pass container ID between steps within the same stream
+  // 在同一流内的步骤之间传递 container ID
   prepareStep: forwardAnthropicContainerIdFromLastStep,
 });
 

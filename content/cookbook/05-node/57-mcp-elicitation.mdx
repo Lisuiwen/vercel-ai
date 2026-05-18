@@ -1,16 +1,16 @@
 ---
 title: Model Context Protocol (MCP) Elicitation
-description: Learn how to handle elicitation requests from MCP servers with the AI SDK
+description: 学习如何使用 AI SDK 处理来自 MCP 服务器的 elicitation 请求
 tags: ['node', 'mcp', 'elicitation']
 ---
 
 # MCP Elicitation
 
-Elicitation is a mechanism where MCP servers can request additional information from the client during tool execution. This example demonstrates how to handle elicitation requests, such as collecting user registration information.
+Elicitation 是一种机制：MCP 服务器在工具执行过程中可向客户端请求额外信息。本示例演示如何处理 elicitation 请求，例如收集用户注册信息。
 
-## Example: User Registration
+## 示例：用户注册
 
-This example shows how to set up an MCP client to handle elicitation requests from a server that needs to collect user input.
+本示例展示如何配置 MCP 客户端以处理需要收集用户输入的服务器 elicitation 请求。
 
 ```ts
 import { createMCPClient, ElicitationRequestSchema } from '@ai-sdk/mcp';
@@ -81,25 +81,23 @@ async function promptUserForInput(
 }
 ```
 
-## Elicitation Response Actions
+## Elicitation 响应操作
 
-Your handler must return an object with an `action` field:
+处理函数必须返回包含 `action` 字段的对象：
 
-- **`'accept'`**: User provided the requested information. Must include `content` with the data.
-- **`'decline'`**: User chose not to provide the information.
-- **`'cancel'`**: User cancelled the operation entirely.
+- **`'accept'`**：用户提供了请求的信息。必须包含 `content` 数据。
+- **`'decline'`**：用户选择不提供信息。
+- **`'cancel'`**：用户完全取消操作。
 
-## Important Notes
+## 重要说明
 
 <Note type="warning">
-  It is up to the client application to handle elicitation requests properly.
-  The MCP client simply surfaces these requests from the server to your
-  application code.
+  由客户端应用正确处理 elicitation 请求。MCP 客户端仅将服务器发来的这些请求暴露给你的应用代码。
 </Note>
 
-The elicitation handler should:
+elicitation 处理程序应：
 
-1. Parse the `request.params.requestedSchema` to understand what data the server needs
-2. Implement appropriate user input collection (CLI, web form, etc.)
-3. Validate the input matches the requested schema
-4. Return the appropriate action and content
+1. 解析 `request.params.requestedSchema` 以了解服务器需要的数据
+2. 实现合适的用户输入收集方式（CLI、网页表单等）
+3. 校验输入是否符合请求的 schema
+4. 返回适当的 action 与 content

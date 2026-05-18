@@ -1,35 +1,35 @@
 ---
 title: Confident AI
-description: Trace and Evaluate your LLM applications using Confident AI
+description: 使用 Confident AI 追踪与评估 LLM 应用
 ---
 
-# Confident AI Observability
+# Confident AI 可观测性
 
-[Confident AI](https://confident-ai.com/) is an LLM observability and evaluation platform for teams to build reliable AI applications in both development and production.
+[Confident AI](https://confident-ai.com/) 是面向团队的 LLM 可观测与评估平台，可在开发与生产环境中构建可靠的 AI 应用。
 
-The `deepeval-ts` package integrates with the AI SDK to provide tracing, online evaluations, and session analytics.
+`deepeval-ts` 包与 AI SDK 集成，提供追踪、在线评估与会话分析。
 
-## Setup
+## 设置
 
-To enable tracing, install `deepeval-ts`, configure your API key, and register the Confident AI integration globally.
+启用追踪：安装 `deepeval-ts`、配置 API key，并在应用启动时全局注册 Confident AI 集成。
 
-### 1. Install deepeval-ts
+### 1. 安装 deepeval-ts
 
 ```bash
 npm install deepeval-ts @ai-sdk/otel
 ```
 
-### 2. Set Environment Variables
+### 2. 设置环境变量
 
-Sign up or log in to [Confident AI](https://app.confident-ai.com) to get your API key, then set it as an environment variable:
+在 [Confident AI](https://app.confident-ai.com) 注册或登录以获取 API key，并设为环境变量：
 
 ```bash
 CONFIDENT_API_KEY="YOUR-PROJECT-API-KEY"
 ```
 
-### 3. Register the OpenTelemetry Integration
+### 3. 注册 OpenTelemetry 集成
 
-Register the `LegacyOpenTelemetry` globally at application startup so the AI SDK emits OpenTelemetry spans that Confident AI can collect:
+在应用启动时全局注册 `LegacyOpenTelemetry`，使 AI SDK 发出 Confident AI 可采集的 OpenTelemetry span：
 
 ```typescript
 import { registerTelemetry } from 'ai';
@@ -40,13 +40,13 @@ configureAiSdkTracing();
 registerTelemetry(new LegacyOpenTelemetry());
 ```
 
-## Tracing Your Application
+## 追踪你的应用
 
-You can now pass the `tracer` object into the `telemetry` field of any AI SDK call to get your traces on the Confident AI platform.
+现在可将 `tracer` 传入任意 AI SDK 调用的 `telemetry` 字段，在 Confident AI 平台查看 traces。
 
-Here are some of the examples on how to trace various AI SDK functions using Confident AI's tracer:
+以下是使用 Confident AI tracer 追踪多种 AI SDK 函数的示例：
 
-### Generate text
+### 生成文本
 
 ```typescript
 import { generateText } from 'ai';
@@ -65,7 +65,7 @@ const { text } = await generateText({
 });
 ```
 
-### Stream text
+### 流式文本
 
 ```typescript
 import { streamText } from 'ai';
@@ -88,7 +88,7 @@ for await (const textPart of result.textStream) {
 }
 ```
 
-### Generate text with tool calls
+### 带工具调用的文本生成
 
 ```typescript
 import { generateText, tool, isStepCount } from 'ai';
@@ -121,7 +121,7 @@ const result = await generateText({
 });
 ```
 
-### Generate structured output
+### 生成结构化输出
 
 ```typescript
 import { generateObject } from 'ai';
@@ -148,24 +148,24 @@ const { object } = await generateObject({
 });
 ```
 
-The following examples show traces generated from the snippets above:
+以下链接展示由上述片段产生的 traces：
 
 - [Generate text](https://app.confident-ai.com/share/traces/6629a1f0-ab5e-50a0-a7ac-62cd0d64cd63)
 - [Stream text](https://app.confident-ai.com/share/traces/a5ab4eea-b29b-578a-9151-afb988dd61d8)
 - [Generate text with tool calls](https://app.confident-ai.com/share/traces/c34935e2-f1b7-5507-a7ae-46e4db2a64bc)
 - [Generate structured output](https://app.confident-ai.com/share/traces/e718d3d4-53cb-51b5-b3c7-89593f7cd8bc)
 
-## Configuration
+## 配置
 
-You can customize trace grouping and evaluation behavior by passing options to `configureAiSdkTracing`. This allows you to:
+可向 `configureAiSdkTracing` 传入选项以自定义 trace 分组与评估行为，例如：
 
-- Group related traces (for example, chat sessions)
-- Associate prompt versions with traces
-- Enable online evaluation at span and trace levels
+- 将相关 traces 分组（如聊天会话）
+- 将提示词版本与 traces 关联
+- 在 span 与 trace 级别启用在线评估
 
-### Setting Trace Attributes
+### 设置 Trace 属性
 
-You can pass attributes like `name`, `threadId`, `userId` and `environment` to make it easier to find and filter your traces.
+可传入 `name`、`threadId`、`userId`、`environment` 等属性，便于检索与筛选 traces。
 
 ```typescript
 import { registerTelemetry, generateText } from 'ai';
@@ -188,9 +188,9 @@ const { text } = await generateText({
 });
 ```
 
-### Log Managed Prompts
+### 记录托管提示词（Managed Prompts）
 
-If you use Confident AI Prompt Management, you can associate traces with a specific prompt version. Pass a `Prompt` object to `configureAiSdkTracing` to associate your traces with the prompt version used at runtime.
+若使用 Confident AI Prompt Management，可将 traces 关联到特定提示词版本。向 `configureAiSdkTracing` 传入 `Prompt` 对象，即可在运行时绑定所用提示词版本。
 
 ```typescript
 import { registerTelemetry, generateText } from 'ai';
@@ -212,25 +212,23 @@ const { text } = await generateText({
 });
 ```
 
-Logging prompts allows you to monitor what prompts are running in production and which ones are performing best overtime:
+记录提示词有助于监控线上运行的提示及其长期表现：
 
-![Prompt Observability on Confident AI](https://confident-docs.s3.us-east-1.amazonaws.com/llm-tracing:prompt-logging.png)
+![Confident AI 上的提示词可观测性](https://confident-docs.s3.us-east-1.amazonaws.com/llm-tracing:prompt-logging.png)
 
 <Note>
-  Make sure to **`pull` the prompt** before passing it to
-  `configureAiSdkTracing`. Without pulling first, the prompt version will not be
-  visible on Confident AI.
+  在传给 `configureAiSdkTracing` 之前务必 **`pull` 提示词**。若不先 pull，Confident AI 上将看不到提示词版本。
 </Note>
 
-## Online Evaluations
+## 在线评估（Online Evaluations）
 
-Confident AI supports automatic online evaluation of your traces by passing a metric collection defined in your project. To enable online evaluations:
+Confident AI 支持通过项目中定义的 metric collection 对 traces 自动进行在线评估。启用步骤：
 
-1. [Create a metric collection](https://www.confident-ai.com/docs/metrics/metric-collections) in the Confident AI platform
-2. Pass your metric collection name in the `configureAiSdkTracing` options
-3. You can pass different metric collections for trace, LLM span and tool span levels
+1. 在 Confident AI 平台 [创建 metric collection](https://www.confident-ai.com/docs/metrics/metric-collections)
+2. 在 `configureAiSdkTracing` 选项中传入 metric collection 名称
+3. 可为 trace、LLM span、tool span 等不同层级指定不同的 metric collection
 
-Here's an example of how to attach metric collections to your traces:
+将 metric collection 挂载到 traces 的示例：
 
 ```typescript
 import { registerTelemetry, generateText } from 'ai';
@@ -251,11 +249,11 @@ const { text } = await generateText({
 });
 ```
 
-All incoming traces will now be evaluated automatically. Evaluation results are visible in the Confident AI Observatory alongside your traces.
+此后所有入库 traces 将自动评估，结果可在 Confident AI Observatory 中与 traces 一同查看。
 
-You can find a more comprehensive guide on AI SDK tracing with `deepeval-ts` in the [Confident AI docs here](https://www.confident-ai.com/docs/integrations/third-party/vercel-ai-sdk).
+更完整的 AI SDK 与 `deepeval-ts` 追踪指南见 [Confident AI 文档](https://www.confident-ai.com/docs/integrations/third-party/vercel-ai-sdk)。
 
-## Learn More
+## 延伸阅读
 
 - [Confident AI documentation](https://www.confident-ai.com/docs)
 - [LLM Tracing](https://www.confident-ai.com/docs/llm-tracing/introduction)

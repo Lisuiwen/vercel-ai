@@ -1,14 +1,14 @@
 ---
-title: Transcription
-description: Learn how to transcribe audio with the AI SDK.
+title: 转录
+description: 了解如何使用 AI SDK 转录音频。
 ---
 
-# Transcription
+# 转录
 
-<Note type="warning">Transcription is an experimental feature.</Note>
+<Note type="warning">转录为实验性功能。</Note>
 
-The AI SDK provides the [`transcribe`](/docs/reference/ai-sdk-core/transcribe)
-function to transcribe audio using a transcription model.
+AI SDK 提供 [`transcribe`](/docs/reference/ai-sdk-core/transcribe)
+函数，使用转录模型转录音频。
 
 ```ts
 import { experimental_transcribe as transcribe } from 'ai';
@@ -21,9 +21,9 @@ const transcript = await transcribe({
 });
 ```
 
-The `audio` property can be a `Uint8Array`, `ArrayBuffer`, `Buffer`, `string` (base64 encoded audio data), or a `URL`.
+`audio` 属性可以是 `Uint8Array`、`ArrayBuffer`、`Buffer`、`string`（base64 编码的音频数据）或 `URL`。
 
-To access the generated transcript:
+访问生成的转录：
 
 ```ts
 const text = transcript.text; // transcript text e.g. "Hello, world!"
@@ -32,11 +32,11 @@ const language = transcript.language; // language of the transcript e.g. "en", i
 const durationInSeconds = transcript.durationInSeconds; // duration of the transcript in seconds, if available
 ```
 
-## Settings
+## 设置
 
-### Provider-Specific settings
+### 提供商特定设置
 
-Transcription models often have provider or model-specific settings which you can set using the `providerOptions` parameter.
+转录模型通常具有提供商或模型特定的设置，可通过 `providerOptions` 参数设置。
 
 ```ts highlight="8-12"
 import { experimental_transcribe as transcribe } from 'ai';
@@ -54,10 +54,10 @@ const transcript = await transcribe({
 });
 ```
 
-### Download Size Limits
+### 下载大小限制
 
-When `audio` is a URL, the SDK downloads the file with a default **2 GiB** size limit.
-You can customize this using `createDownload`:
+当 `audio` 为 URL 时，SDK 以默认 **2 GiB** 大小限制下载文件。
+可使用 `createDownload` 自定义：
 
 ```ts highlight="1,8"
 import { experimental_transcribe as transcribe, createDownload } from 'ai';
@@ -70,7 +70,7 @@ const transcript = await transcribe({
 });
 ```
 
-You can also provide a fully custom download function:
+也可提供完全自定义的下载函数：
 
 ```ts highlight="6-12"
 import { experimental_transcribe as transcribe } from 'ai';
@@ -89,7 +89,7 @@ const transcript = await transcribe({
 });
 ```
 
-If a download exceeds the size limit, a `DownloadError` is thrown:
+若下载超过大小限制，将抛出 `DownloadError`：
 
 ```ts
 import { experimental_transcribe as transcribe, DownloadError } from 'ai';
@@ -107,13 +107,12 @@ try {
 }
 ```
 
-### Abort Signals and Timeouts
+### 中止信号与超时
 
-`transcribe` accepts an optional `abortSignal` parameter of
-type [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)
-that you can use to abort the transcription process or set a timeout.
+`transcribe` 接受可选的 `abortSignal` 参数（类型为 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)），
+用于中止转录过程或设置超时。
 
-This is particularly useful when combined with URL downloads to prevent long-running requests:
+与 URL 下载结合时尤其有用，可防止长时间运行的请求：
 
 ```ts highlight="8"
 import { openai } from '@ai-sdk/openai';
@@ -126,10 +125,10 @@ const transcript = await transcribe({
 });
 ```
 
-### Custom Headers
+### 自定义头
 
-`transcribe` accepts an optional `headers` parameter of type `Record<string, string>`
-that you can use to add custom headers to the transcription request.
+`transcribe` 接受可选的 `headers` 参数（类型为 `Record<string, string>`），
+用于向转录请求添加自定义头。
 
 ```ts highlight="8"
 import { openai } from '@ai-sdk/openai';
@@ -143,9 +142,9 @@ const transcript = await transcribe({
 });
 ```
 
-### Warnings
+### 警告
 
-Warnings (e.g. unsupported parameters) are available on the `warnings` property.
+警告（例如不支持的参数）可在 `warnings` 属性中获取。
 
 ```ts
 import { openai } from '@ai-sdk/openai';
@@ -160,19 +159,19 @@ const transcript = await transcribe({
 const warnings = transcript.warnings;
 ```
 
-### Error Handling
+### 错误处理
 
-When `transcribe` cannot generate a valid transcript, it throws a [`AI_NoTranscriptGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-transcript-generated-error).
+当 `transcribe` 无法生成有效转录时，会抛出 [`AI_NoTranscriptGeneratedError`](/docs/reference/ai-sdk-errors/ai-no-transcript-generated-error)。
 
-This error can arise for any of the following reasons:
+可能原因包括：
 
-- The model failed to generate a response
-- The model generated a response that could not be parsed
+- 模型未能生成响应
+- 模型生成的响应无法解析
 
-The error preserves the following information to help you log the issue:
+该错误保留以下信息以帮助记录问题：
 
-- `responses`: Metadata about the transcription model responses, including timestamp, model, and headers.
-- `cause`: The cause of the error. You can use this for more detailed error handling.
+- `responses`：转录模型响应的元数据，包括时间戳、模型和头。
+- `cause`：错误原因。可用于更详细的错误处理。
 
 ```ts
 import {
@@ -196,9 +195,9 @@ try {
 }
 ```
 
-## Transcription Models
+## 转录模型
 
-| Provider                                                                  | Model                    |
+| 提供商                                                                  | 模型                     |
 | ------------------------------------------------------------------------- | ------------------------ |
 | [OpenAI](/providers/ai-sdk-providers/openai#transcription-models)         | `whisper-1`              |
 | [OpenAI](/providers/ai-sdk-providers/openai#transcription-models)         | `gpt-4o-transcribe`      |
@@ -224,4 +223,4 @@ try {
 | [Fal](/providers/ai-sdk-providers/fal#transcription-models)               | `whisper`                |
 | [Fal](/providers/ai-sdk-providers/fal#transcription-models)               | `wizper`                 |
 
-Above are a small subset of the transcription models supported by the AI SDK providers. For more, see the respective provider documentation.
+以上为 AI SDK 提供商支持的转录模型的一小部分。更多请参阅各提供商文档。

@@ -16,7 +16,7 @@ run(async () => {
         providerOptions: {
           klingai: {
             mode: 'std',
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies KlingAIVideoModelOptions,
         },
       }),

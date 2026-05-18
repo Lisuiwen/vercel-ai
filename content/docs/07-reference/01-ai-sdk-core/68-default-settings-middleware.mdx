@@ -1,11 +1,11 @@
 ---
 title: defaultSettingsMiddleware
-description: Middleware that applies default settings for language models
+description: 为语言模型应用默认设置的中间件
 ---
 
 # `defaultSettingsMiddleware()`
 
-`defaultSettingsMiddleware` is a middleware function that applies default settings to language model calls. This is useful when you want to establish consistent default parameters across multiple model invocations.
+`defaultSettingsMiddleware` 为语言模型调用应用默认设置。若希望在多次调用间统一默认参数，可使用该中间件。
 
 ```ts
 import { defaultSettingsMiddleware } from 'ai';
@@ -19,35 +19,35 @@ const middleware = defaultSettingsMiddleware({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet
   text={`import { defaultSettingsMiddleware } from "ai"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
-The middleware accepts a configuration object with the following properties:
+中间件接受包含以下属性的配置对象：
 
-- `settings`: An object containing default parameter values to apply to language model calls. These can include any valid `LanguageModelV4CallOptions` properties and optional provider metadata.
+- `settings`：包含要应用于语言模型调用的默认参数值。可包含任意有效的 `LanguageModelV4CallOptions` 属性以及可选的提供商元数据。
 
-### Returns
+### 返回值
 
-Returns a middleware object that:
+返回中间件对象，其行为如下：
 
-- Merges the default settings with the parameters provided in each model call
-- Ensures that explicitly provided parameters take precedence over defaults
-- Merges provider metadata objects
+- 将默认设置与每次模型调用提供的参数合并
+- 确保显式传入的参数优先于默认值
+- 合并提供商元数据对象
 
-### Usage Example
+### 使用示例
 
 ```ts
 import { streamText, wrapLanguageModel, defaultSettingsMiddleware } from 'ai';
 
-// Create a model with default settings
+// 创建带默认设置的模型
 const modelWithDefaults = wrapLanguageModel({
   model: gateway('anthropic/claude-sonnet-4.5'),
   middleware: defaultSettingsMiddleware({
@@ -61,20 +61,20 @@ const modelWithDefaults = wrapLanguageModel({
   }),
 });
 
-// Use the model - default settings will be applied
+// 使用该模型 — 会应用默认设置
 const result = await streamText({
   model: modelWithDefaults,
   prompt: 'Your prompt here',
-  // These parameters will override the defaults
+  // 以下参数将覆盖默认值
   temperature: 0.8,
 });
 ```
 
-## How It Works
+## 工作原理
 
-The middleware:
+该中间件会：
 
-1. Takes a set of default settings as configuration
-2. Merges these defaults with the parameters provided in each model call
-3. Ensures that explicitly provided parameters take precedence over defaults
-4. Merges provider metadata objects from both sources
+1. 将一组默认设置作为配置接受
+2. 在每次模型调用时将这些默认值与调用参数合并
+3. 确保显式传入的参数优先于默认值
+4. 合并来自两处的提供商元数据对象

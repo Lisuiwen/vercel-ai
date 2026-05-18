@@ -12,7 +12,7 @@ export function asImageModelV4(
     return model;
   }
 
-  // first convert v2 to v3, then proxy v3 as v4:
+  // 首先将 v2 转换为 v3，然后将 v3 代理为 v4：
   const v3Model =
     model.specificationVersion === 'v2' ? asImageModelV3(model) : model;
 

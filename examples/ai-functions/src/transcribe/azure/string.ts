@@ -9,7 +9,7 @@ run(async () => {
     apiVersion: '2025-04-01-preview',
   });
   const result = await transcribe({
-    model: azure.transcription('whisper-1'), // use your own deployment
+    model: azure.transcription('whisper-1'), // 使用您自己的部署
     audio: Buffer.from(await readFile('./data/galileo.mp3')).toString('base64'),
   });
 

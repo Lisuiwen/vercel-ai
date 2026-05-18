@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   const uiMessages =
     await validateUIMessages<AzureOpenAICodeInterpreterMessage>({ messages });
 
-  // Collect sources with container file citations as they're generated
+  // 在生成时收集带容器文件引用的 sources
   const containerFileSources: Array<{
     containerId: string;
     fileId: string;
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     onStepFinish: async ({ sources, request }) => {
       console.log(JSON.stringify(request.body, null, 2));
 
-      // Collect container file citations from sources
+      // 从 sources 收集容器文件引用
       for (const source of sources) {
         if (source.sourceType === 'document') {
           const providerMetadata = source.providerMetadata as
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
           if (azure.type === 'container_file_citation') {
             const { containerId, fileId } = azure;
             const filename = source.filename || source.title;
-            // Avoid duplicates
+            // 避免重复
             const exists = containerFileSources.some(
               s => s.containerId === containerId && s.fileId === fileId,
             );
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
   return result.toUIMessageStreamResponse({
     originalMessages: uiMessages,
     messageMetadata: ({ part }) => {
-      // When streaming finishes, create download links from collected sources
+      // 流结束后，从收集的 sources 创建下载链接
       if (part.type === 'finish' && containerFileSources.length > 0) {
         const downloadLinks = containerFileSources.map(source => ({
           filename: source.filename,

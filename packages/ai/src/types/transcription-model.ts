@@ -5,7 +5,7 @@ import type {
 } from '@ai-sdk/provider';
 
 /**
- * Transcription model that is used by the AI SDK.
+ * AI SDK 使用的转录模型。
  */
 export type TranscriptionModel =
   | string

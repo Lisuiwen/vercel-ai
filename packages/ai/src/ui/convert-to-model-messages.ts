@@ -33,8 +33,8 @@ import {
   type UIMessage,
 } from './ui-messages';
 /**
- * Converts an array of UI messages from useChat into an array of ModelMessages that can be used
- * with the AI functions (e.g. `streamText`, `generateText`).
+ * 将 useChat 中的 UI 消息数组转换为可以使用的 ModelMessages 数组
+ * 使用 AI 功能（例如“streamText”、“generateText”）。
  *
  * @param messages - The UI messages to convert.
  * @param options.tools - The tools to use.
@@ -96,7 +96,7 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
           role: 'user',
           content: message.parts
             .map((part): TextPart | FilePart | undefined => {
-              // Process text parts
+              // 处理文本部分
               if (isTextUIPart(part)) {
                 return {
                   type: 'text' as const,
@@ -107,7 +107,7 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
                 };
               }
 
-              // Process file parts
+              // 处理文件部分
               if (isFileUIPart(part)) {
                 return {
                   type: 'file' as const,
@@ -126,7 +126,7 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
                 };
               }
 
-              // Process data parts with converter if provided
+              // 使用转换器处理数据部分（如果提供）
               if (isDataUIPart(part)) {
                 return options?.convertDataPart?.(
                   part as DataUIPart<InferUIMessageData<UI_MESSAGE>>,
@@ -282,8 +282,8 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
               content,
             });
 
-            // check if there are tool invocations with results in the block
-            // Include non-provider-executed tools, OR provider-executed tools with approval responses
+            // 检查块中是否存在带有结果的工具调用
+            // 包括非提供商执行的工具，或包含批准响应的提供商执行的工具
             const toolParts = block.filter(
               part =>
                 isToolUIPart(part) &&
@@ -294,13 +294,13 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
               | DynamicToolUIPart
             )[];
 
-            // tool message with tool results
+            // 带有工具结果的工具消息
             if (toolParts.length > 0) {
               {
                 const content: Array<ToolResultPart | ToolApprovalResponse> =
                   [];
                 for (const toolPart of toolParts) {
-                  // add approval response for approved tool calls:
+                  // 添加批准工具调用的批准响应：
                   if (toolPart.approval?.approved != null) {
                     content.push({
                       type: 'tool-approval-response' as const,
@@ -311,7 +311,7 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
                     });
                   }
 
-                  // add synthetic execution-denied result for denied tool approvals
+                  // 为拒绝的工具批准添加综合执行拒绝结果
                   if (
                     toolPart.state === 'approval-responded' &&
                     toolPart.approval?.approved === false
@@ -330,9 +330,9 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
                     });
                   }
 
-                  // For provider-executed tools, the tool result is already in the
-                  // assistant content. Skip adding to tool message to avoid duplicates
-                  // (which would create orphaned function_call_output entries).
+                  // 对于提供商执行的工具，工具结果已经在
+                  // 助理内容。跳过添加到工具消息以避免重复
+                  // （这将创建孤立的 function_call_output 条目）。
                   if (toolPart.providerExecuted === true) {
                     continue;
                   }
@@ -392,7 +392,7 @@ export async function convertToModelMessages<UI_MESSAGE extends UIMessage>(
               }
             }
 
-            // updates for next block
+            // 下一个块的更新
             block = [];
           }
 

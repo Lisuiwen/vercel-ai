@@ -1,14 +1,14 @@
 ---
-title: Generate Text with Chat Prompt
-description: Learn how to generate text with chat prompt using the AI SDK and Node
+title: 使用聊天提示生成文本
+description: 学习如何使用 AI SDK 和 Node 通过聊天提示生成文本
 tags: ['node', 'chat']
 ---
 
-# Generate Text with Chat Prompt
+# 使用聊天提示生成文本
 
-Previously, we were able to generate text and objects using either a single message prompt, a system prompt, or a combination of both of them. However, there may be times when you want to generate text based on a series of messages.
+此前，我们已能通过单条消息提示、系统提示或两者组合来生成文本和对象。但有时你需要基于一系列消息生成文本。
 
-A chat completion allows you to generate text based on a series of messages. This series of messages can be any series of interactions between any number of systems, but the most popular and relatable use case has been a series of messages that represent a conversation between a user and a model.
+聊天补全允许你基于一系列消息生成文本。这一系列消息可以是任意系统之间的任意交互，但最常见、最易理解的是用户与模型之间对话的消息序列。
 
 ```ts file='index.ts'
 import { generateText } from 'ai';

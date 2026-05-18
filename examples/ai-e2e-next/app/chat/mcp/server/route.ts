@@ -1,7 +1,7 @@
 import { mcpApiHandler } from '@/util/mcp/handler';
 import type { NextRequest } from 'next/server';
 
-// This route (/chat/mcp/server) serves the MCP server; it's called by the /mcp/chat route that's used by useChat to connect to the server and fetch tools:
+// 此路由 (/chat/mcp/server) 提供 MCP 服务器；由 useChat 用于连接服务器并获取 tools 的 /mcp/chat 路由调用：
 const requestHandler = (req: NextRequest) => {
   return mcpApiHandler(req);
 };

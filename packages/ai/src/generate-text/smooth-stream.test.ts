@@ -192,8 +192,8 @@ describe('smoothStream', () => {
         },
         'delay 10',
         {
-          // note: leading whitespace is included here
-          // because it is part of the new chunk:
+          // 注意：此处包含前导空格
+          // 因为它是新块的一部分：
           id: '1',
           text: '    Multiple ',
           type: 'text-delta',
@@ -1515,7 +1515,7 @@ describe('smoothStream', () => {
         { type: 'reasoning-start', id: '1' },
         { text: 'I am', type: 'reasoning-delta', id: '1' },
         { text: ' thinking...', type: 'reasoning-delta', id: '1' },
-        // signature as an empty delta with providerMetadata
+        // 签名为带有providerMetadata的空增量
         {
           text: '',
           type: 'reasoning-delta',
@@ -1537,7 +1537,7 @@ describe('smoothStream', () => {
 
       await consumeStream(stream);
 
-      // Find the last reasoning-delta chunk
+      // 找到最后一个推理增量块
       const reasoningDeltas = events.filter(
         (e: any) => e.type === 'reasoning-delta',
       );
@@ -1568,7 +1568,7 @@ describe('smoothStream', () => {
 
       await consumeStream(stream);
 
-      // reasoning-start should pass through unchanged with providerMetadata
+      // 推理开始应该通过providerMetadata不变
       const reasoningStart = events.find(
         (e: any) => e.type === 'reasoning-start',
       );
@@ -1802,8 +1802,8 @@ describe('smoothStream', () => {
 
       await consumeStream(stream);
 
-      // Note: Intl.Segmenter segments hiragana character-by-character when
-      // the full word isn't available in the buffer
+      // 注意：Intl.Segmenter 在以下情况下逐个字符地分割平假名：
+      // 缓冲区中没有完整的单词
       expect(events).toMatchInlineSnapshot(`
         [
           {

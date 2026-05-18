@@ -15,7 +15,7 @@ run(async () => {
           },
           required: ['location'],
         }),
-        // location below is inferred to be a string:
+        // 下面的位置被推断为一个字符串：
         execute: async ({ location }) => ({
           location,
           temperature: 72 + Math.floor(Math.random() * 21) - 10,
@@ -49,13 +49,13 @@ run(async () => {
         switch (part.toolName) {
           case 'cityAttractions': {
             console.log('TOOL CALL cityAttractions');
-            console.log(`city: ${part.input.city}`); // string
+            console.log(`city: ${part.input.city}`); // 字符串
             break;
           }
 
           case 'weather': {
             console.log('TOOL CALL weather');
-            console.log(`location: ${part.input.location}`); // string
+            console.log(`location: ${part.input.location}`); // 字符串
             break;
           }
         }
@@ -69,18 +69,18 @@ run(async () => {
         }
 
         switch (part.toolName) {
-          // NOT AVAILABLE (NO EXECUTE METHOD)
+          // 不可用（无 execute 方法）
           // case 'cityAttractions': {
           //   console.log('TOOL RESULT cityAttractions');
-          //   console.log(`city: ${part.input.city}`); // string
+          //   console.log(`city: ${part.input.city}`); // 字符串
           //   console.log(`result: ${part.result}`);
           //   break;
           // }
 
           case 'weather': {
             console.log('TOOL RESULT weather');
-            console.log(`location: ${part.input.location}`); // string
-            console.log(`temperature: ${part.output.temperature}`); // number
+            console.log(`location: ${part.input.location}`); // 字符串
+            console.log(`temperature: ${part.output.temperature}`); // 数字
             break;
           }
         }

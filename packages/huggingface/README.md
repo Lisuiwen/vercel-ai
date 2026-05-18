@@ -1,34 +1,38 @@
 # Vercel AI SDK - Hugging Face Provider
 
-The **[Hugging Face Inference Providers](https://huggingface.co/docs/inference-providers/index)** for the [Vercel AI SDK](https://ai-sdk.dev/docs) contains language model support for thousands of models through multiple inference providers via the Hugging Face router API.
+面向 [Vercel AI SDK](https://ai-sdk.dev/docs) 的 **[Hugging Face Inference Providers](https://huggingface.co/docs/inference-providers/index)** 通过 Hugging Face router API，为数千个模型提供多推理提供商的语言模型支持。
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Hugging Face (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Hugging Face（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Hugging Face provider is available in the `@ai-sdk/huggingface` module. You can install it with:
+Hugging Face 提供商位于 `@ai-sdk/huggingface` 模块，安装方式：
+
+:
 
 ```bash
 npm i @ai-sdk/huggingface
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `huggingface` from `@ai-sdk/huggingface`:
+可从 `@ai-sdk/huggingface` 导入默认提供商实例 `huggingface`：
+
+
 
 ```ts
 import { huggingface } from '@ai-sdk/huggingface';
 ```
 
-## Example
+## 示例
 
 ```ts
 import { huggingface } from '@ai-sdk/huggingface';
@@ -40,6 +44,6 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[Hugging Face provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/huggingface)** for more information.
+更多信息请参阅 **[Hugging Face 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/huggingface)**。

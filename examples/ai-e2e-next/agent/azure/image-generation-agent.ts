@@ -3,7 +3,7 @@ import { ToolLoopAgent, type InferAgentUIMessage } from 'ai';
 export const azureImageGenerationAgent = new ToolLoopAgent({
   model: createAzure({
     headers: {
-      'x-ms-oai-image-generation-deployment': 'gpt-image-1', // use your own image model deployment
+      'x-ms-oai-image-generation-deployment': 'gpt-image-1', // 使用你自己的图像 model 部署
     },
   })('gpt-4.1-mini'),
   tools: {

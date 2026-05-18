@@ -19,10 +19,10 @@ run(async () => {
         providerOptions: {
           klingai: {
             mode: 'pro',
-            // End frame image for start+end frame control
+            // 用于开始+结束帧控制的结束帧图像
             imageTail:
               'https://raw.githubusercontent.com/vercel/ai/refs/heads/main/examples/ai-functions/data/comic-dog.png',
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies KlingAIVideoModelOptions,
         },
       }),

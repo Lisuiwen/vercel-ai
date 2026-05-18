@@ -1,25 +1,24 @@
 ---
 title: getAIState
-description: Reference for the getAIState function from the AI SDK RSC
+description: AI SDK RSC 中 getAIState 函数的参考
 ---
 
 # `getAIState`
 
 <Note type="warning">
-  AI SDK RSC is currently experimental. We recommend using [AI SDK
-  UI](/docs/ai-sdk-ui/overview) for production. For guidance on migrating from
-  RSC to UI, see our [migration guide](/docs/ai-sdk-rsc/migrating-to-ui).
+  AI SDK RSC 目前处于实验阶段。我们建议在生产环境中使用 [AI SDK
+  UI](/docs/ai-sdk-ui/overview)。关于从 RSC 迁移到 UI 的指导，请参阅我们的[迁移指南](/docs/ai-sdk-rsc/migrating-to-ui)。
 </Note>
 
-Get the current AI state.
+获取当前 AI 状态。
 
-## Import
+## 导入
 
 <Snippet text={`import { getAIState } from "@ai-sdk/rsc"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -28,22 +27,22 @@ Get the current AI state.
       type: 'string',
       isOptional: true,
       description:
-        "Returns the value of the specified key in the AI state, if it's an object.",
+        "如果 AI 状态是对象，则返回其中指定键的值。",
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-The AI state.
+AI 状态。
 
-## Examples
+## 示例
 
 <ExampleLinks
   examples={[
     {
       title:
-        'Learn to render a React component during a tool call made by a language model in Next.js',
+        '学习如何在 Next.js 中渲染语言模型发起 tool 调用期间的 React 组件',
       link: '/examples/next-app/tools/render-interface-during-tool-call',
     },
   ]}

@@ -16,7 +16,7 @@ import {
   DefaultGeneratedAudioFile,
   type GeneratedAudioFile,
 } from './generated-audio-file';
-const audio = new Uint8Array([1, 2, 3, 4]); // Sample audio data
+const audio = new Uint8Array([1, 2, 3, 4]); // 音频数据样本
 const testDate = new Date(2024, 0, 1);
 const mockFile = new DefaultGeneratedAudioFile({
   data: audio,
@@ -169,7 +169,7 @@ describe('generateSpeech', () => {
         doGenerate: async () =>
           createMockResponse({
             audio: mockFile,
-            warnings: [], // no warnings
+            warnings: [], // 没有警告
           }),
       }),
       text: sampleText,

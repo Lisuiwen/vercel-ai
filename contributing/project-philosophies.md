@@ -1,53 +1,53 @@
-# Project Philosophies
+# 项目理念
 
-## Core Architecture
+## 核心架构
 
-- **Unified provider interface (adapter pattern).** Keep a layered architecture (Specifications → Utilities → Providers → Core) that enables a single, consistent API across many AI providers.
-  - This is our central architecture backbone and the heart of what the AI SDK is.
-  - It also enables community providers to be developed independently in 3rd party packages.
+- **统一的 provider 接口（适配器模式）。** 保持分层架构（Specifications → Utilities → Providers → Core），在多种 AI provider 上提供单一、一致的 API。
+  - 这是我们 central 架构骨干，也是 AI SDK 的核心所在。
+  - 也使社区 provider 能在第三方包中独立开发。
 
-- **Keep the building blocks separated.** Building blocks beyond the provider abstraction layer must be cleanly architected and not entangled with it.
-  - Critical for tree shaking and agentic development.
-  - Enforcing architectural boundaries reduces complexity and the potential for side effects.
+- **保持构建块分离。** provider 抽象层之外的构建块必须架构清晰，且不与该层纠缠。
+  - 对 tree shaking 与 agentic 开发至关重要。
+  - 强化架构边界可降低复杂度与副作用风险。
 
-- **Lean, focused mission.** Keep the AI SDK centered on its core mission: the provider abstraction layer, plus directly associated building blocks on top (e.g. the UI chatbot protocol).
-  - Be conservative about adding entirely new building blocks. Any such feature needs to be carefully evaluated with the team.
-  - The better solution often is to create a separate project built on top of the AI SDK.
+- **精简、聚焦的使命。** 保持 AI SDK 聚焦核心使命：provider 抽象层，以及其上的直接相关构建块（例如 UI chatbot 协议）。
+  - 对全新构建块的添加应保守。任何此类功能都需与团队仔细评估。
+  - 更好的方案往往是基于 AI SDK 构建独立项目。
 
-## API Design
+## API 设计
 
-- **Stability and backward compatibility first.** Changes must remain backward compatible — never change the signature of existing public functions. The only exception is a new AI SDK major release.
-  - Even in a major version, breaking changes should have a good justification.
-  - If keeping a public API unchanged would result in inferior or painful DX, making the breaking change is absolutely right — it just must happen as part of a new major release.
+- **稳定性与向后兼容优先。** 变更必须保持向后兼容——切勿更改现有公开函数的签名。唯一例外是新的 AI SDK 主版本发布。
+  - 即使在主版本中，破坏性变更也应有充分理由。
+  - 若保持公开 API 不变会导致较差或痛苦的 DX，进行破坏性变更是完全正确的——但必须作为新的主版本发布的一部分。
 
-- **Be extremely cautious with `@ai-sdk/provider`.** This package contains the spec. Treat any spec changes as potentially breaking.
-  - Ideally, `@ai-sdk/provider` changes are only made in alignment with a new AI SDK major release.
+- **对 `@ai-sdk/provider` 极度谨慎。** 该包包含规范。将任何规范变更视为潜在破坏性。
+  - 理想情况下，`@ai-sdk/provider` 的变更仅与新的 AI SDK 主版本发布对齐。
 
-- **Conservative API surface.** Keep provider option schemas as restrictive as possible to preserve flexibility for future changes.
-  - Keep response schemas minimal (no unused properties).
-  - Keep schemas flexible enough to handle provider API changes without unnecessary breakages.
-  - Use minimal package exports, especially from the `@ai-sdk/provider` package, which is responsible for the spec. Usage of the TypeScript primitives `Params` and `ReturnType` is encouraged in consuming code over having direct exports of the underlying types.
+- **保守的 API 表面。** 尽量严格限制 provider option schema，以保留未来变更的灵活性。
+  - 保持 response schema 精简（无未使用属性）。
+  - 保持 schema 足够灵活，以应对 provider API 变更而不造成不必要的破坏性。
+  - 使用最少的包导出，尤其是负责规范的 `@ai-sdk/provider` 包。消费代码中鼓励使用 TypeScript 原语 `Params` 与 `ReturnType`，而非直接导出底层类型。
 
-- **Beware premature abstraction.** Provider APIs evolve quickly. Avoid adding generic parameters or abstractions that translate differently across providers.
-  - Follow the rule of 3: wait until at least 3 providers have implemented the same concept before generalizing, to ensure the abstraction is solid.
-  - When unsure or provider-specific, prefer `providerOptions`.
-  - There can be significant pressure to abstract based on one provider. Resist it.
+- **警惕过早抽象。** Provider API 演进迅速。避免添加在各 provider 间翻译方式不同的泛型参数或抽象。
+  - 遵循 rule of 3：至少 3 个 provider 实现同一概念后再泛化，以确保抽象稳固。
+  - 不确定或 provider 专用时，优先使用 `providerOptions`。
+  - 基于单一 provider 抽象的压力可能很大。应抵制。
 
-- **Use `Experimental_` prefixes to explore new features outside of major releases.** When a new feature needs to be explored outside of a major release cycle, use code structures explicitly marked as experimental (e.g. `Experimental_*` prefix for types, `experimental_*` prefix for functions). This allows iteration without committing to a stable API contract.
-  - It is acceptable for `@ai-sdk/provider` to export `Experimental_*` types for this purpose. These types may have breaking changes outside of major releases.
-  - Non-experimental types must NEVER include references to experimental types (e.g., do not add a reference to something like `Experimental_VideoModelV4` to `ProviderV4`).
-  - Experimental features must remain fully isolated until they are promoted to stable.
-  - Adding a new experimental feature requires broad consensus between the maintainers. Use it with caution. Do not use experimental code as a way out when you're unsure about stability.
+- **使用 `Experimental_` 前缀在主版本周期外探索新功能。** 当新功能需要在主版本周期外探索时，使用明确标记为实验性的代码结构（例如类型的 `Experimental_*` 前缀、函数的 `experimental_*` 前缀）。这样可在不承诺稳定 API 契约的情况下迭代。
+  - `@ai-sdk/provider` 为此目的导出 `Experimental_*` 类型是可接受的。这些类型可能在主版本外发生破坏性变更。
+  - 非实验类型不得引用实验类型（例如不要将 `Experimental_VideoModelV4` 之类引用加入 `ProviderV4`）。
+  - 实验功能在晋升为稳定之前必须完全隔离。
+  - 添加新实验功能需要维护者广泛共识。谨慎使用。不要用实验代码作为不确定稳定性时的退路。
 
-- **Clear, accurate naming.** When in doubt, prefer longer, more explicit names that are unambiguous and correct (e.g. `.languageModel(id)` over `.chat(id)`).
-  - Optimize for clarity for both developers and coding agents, not brevity.
+- **清晰、准确的命名。** 有疑问时，优先使用更长、更明确且无歧义的名称（例如 `.languageModel(id)` 优于 `.chat(id)`）。
+  - 为开发者与 coding agent 优化清晰度，而非简短。
 
-## Developer & Agent Experience
+## 开发者与 Agent 体验
 
-- **Build with developers _and_ agents in mind.** Consistent APIs, development patterns, and naming conventions are key.
-  - Monitor common agent hallucinations encountered when using agents to write AI SDK code.
-  - Agent hallucinations can be worth considering as a suggestion to make the API work the way the agent expected it in the first place.
+- **为开发者与 agent 共同构建。** 一致的 API、开发模式与命名约定是关键。
+  - 关注使用 agent 编写 AI SDK 代码时常见的 agent 幻觉。
+  - agent 幻觉有时值得作为 API 应按 agent 最初预期方式工作的建议来考虑。
 
-- **DX through consistency.** Consistent naming conventions and development patterns improve developer experience.
-  - Normalized conventions are extremely critical for coding agents — document them in `AGENTS.md`.
-  - This matters especially across provider implementations that are technically decoupled.
+- **通过一致性提升 DX。** 一致的命名约定与开发模式改善开发者体验。
+  - 规范化约定对 coding agent 极其重要——在 `AGENTS.md` 中文档化。
+  - 这在技术上解耦的 provider 实现之间尤其重要。

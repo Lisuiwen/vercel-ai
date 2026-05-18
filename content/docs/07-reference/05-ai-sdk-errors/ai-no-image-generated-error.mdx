@@ -1,25 +1,25 @@
 ---
 title: AI_NoImageGeneratedError
-description: Learn how to fix AI_NoImageGeneratedError
+description: 了解如何修复 AI_NoImageGeneratedError
 ---
 
 # AI_NoImageGeneratedError
 
-This error occurs when the AI provider fails to generate an image.
-It can arise due to the following reasons:
+此错误在 AI 提供方未能生成图像时发生。
+可能由以下原因引起：
 
-- The model failed to generate a response.
-- The model generated an invalid response.
+- 模型未能生成响应。
+- 模型生成了无效响应。
 
-## Properties
+## 属性
 
-- `message`: The error message (optional, defaults to `'No image generated.'`).
-- `responses`: Metadata about the image model responses, including timestamp, model, and headers (optional).
-- `cause`: The cause of the error. You can use this for more detailed error handling (optional).
+- `message`：错误消息（可选，默认为 `'No image generated.'`）。
+- `responses`：关于图像模型响应的元数据，包括时间戳、模型和响应头（可选）。
+- `cause`：错误原因。可用于更详细的错误处理（可选）。
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_NoImageGeneratedError` using:
+你可以通过以下方式检查错误是否为 `AI_NoImageGeneratedError` 的实例：
 
 ```typescript
 import { generateImage, NoImageGeneratedError } from 'ai';

@@ -1,15 +1,15 @@
 ---
 title: Open Responses
-description: Learn how to use the Open Responses provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 Open Responses 提供商。
 ---
 
-# Open Responses Provider
+# Open Responses 提供商
 
-The [Open Responses](https://www.openresponses.org/) provider contains language model support for Open Responses compatible APIs.
+[Open Responses](https://www.openresponses.org/) 提供商为兼容 Open Responses 的 API 提供语言模型支持。
 
-## Setup
+## 安装
 
-The Open Responses provider is available in the `@ai-sdk/open-responses` module. You can install it with
+Open Responses 提供商位于 `@ai-sdk/open-responses` 模块中，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -26,9 +26,9 @@ The Open Responses provider is available in the `@ai-sdk/open-responses` module.
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-Create an Open Responses provider instance using `createOpenResponses`:
+使用 `createOpenResponses` 创建 Open Responses 提供商实例：
 
 ```ts
 import { createOpenResponses } from '@ai-sdk/open-responses';
@@ -39,44 +39,44 @@ const openResponses = createOpenResponses({
 });
 ```
 
-The `name` and `url` options are required:
+`name` 与 `url` 为必填项：
 
 - **name** _string_
 
-  Provider name. Used as the key for provider options and metadata.
+  提供商名称。用作 provider options 与元数据的键。
 
 - **url** _string_
 
-  URL for the Open Responses API POST endpoint.
+  Open Responses API 的 POST 端点 URL。
 
-You can use the following optional settings to customize the Open Responses provider instance:
+可使用以下可选设置自定义 Open Responses 提供商实例：
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
+  通过 `Authorization` 请求头发送的 API Key。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch` 函数。
 
-## Language Models
+## 语言模型
 
-The Open Responses provider instance is a function that you can invoke to create a language model:
+Open Responses 提供商实例可作为函数调用以创建语言模型：
 
 ```ts
 const model = openResponses('mistralai/ministral-3-14b-reasoning');
 ```
 
-You can use Open Responses models with the `generateText` and `streamText` functions,
-and they support structured data generation with [`Output`](/docs/reference/ai-sdk-core/output)
-(see [AI SDK Core](/docs/ai-sdk-core)).
+可与 `generateText`、`streamText` 搭配使用，
+并支持通过 [`Output`](/docs/reference/ai-sdk-core/output) 生成结构化数据
+（参见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-### Example
+### 示例
 
 ```ts
 import { createOpenResponses } from '@ai-sdk/open-responses';
@@ -93,7 +93,7 @@ const { text } = await generateText({
 });
 ```
 
-## Notes
+## 说明
 
-- Stop sequences, `topK`, and `seed` are not supported and are ignored with warnings.
-- Image inputs are supported for user messages with `file` parts using image media types.
+- 停止序列、`topK` 与 `seed` 不被支持，传入时会被忽略并发出警告。
+- 支持在用户消息中使用 `file` 部分且 media type 为图像时传入图像输入。

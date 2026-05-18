@@ -2623,7 +2623,7 @@ describe('convertToModelMessages', () => {
           ],
           {
             convertDataPart: part => {
-              // Include URLs, skip UI state
+              // 包含 URL，跳过 UI 状态
               if (part.type === 'data-url') {
                 return { type: 'text', text: part.data.url };
               }
@@ -2969,7 +2969,7 @@ describe('convertToModelMessages', () => {
           ],
           {
             convertDataPart: part => {
-              // Include URLs, skip UI state
+              // 包含 URL，跳过 UI 状态
               if (part.type === 'data-url') {
                 return { type: 'text', text: part.data.url };
               }

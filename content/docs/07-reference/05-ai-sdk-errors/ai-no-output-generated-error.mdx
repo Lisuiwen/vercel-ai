@@ -1,20 +1,20 @@
 ---
 title: AI_NoOutputGeneratedError
-description: Learn how to fix AI_NoOutputGeneratedError
+description: 了解如何修复 AI_NoOutputGeneratedError
 ---
 
 # AI_NoOutputGeneratedError
 
-This error is thrown when no LLM output was generated, e.g. because of errors.
+此错误在未生成任何 LLM 输出时抛出，例如因发生错误。
 
-## Properties
+## 属性
 
-- `message`: The error message (optional, defaults to `'No output generated.'`)
-- `cause`: The underlying error that caused no output to be generated (optional)
+- `message`：错误消息（可选，默认为 `'No output generated.'`）
+- `cause`：导致未生成输出的底层错误（可选）
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_NoOutputGeneratedError` using:
+你可以通过以下方式检查错误是否为 `AI_NoOutputGeneratedError` 的实例：
 
 ```typescript
 import { NoOutputGeneratedError } from 'ai';

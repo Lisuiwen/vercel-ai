@@ -1,28 +1,28 @@
 ---
 title: Patronus
-description: Monitor, evaluate and debug your AI SDK application with Patronus
+description: 使用 Patronus 监控、评估并调试 AI SDK 应用
 ---
 
-# Patronus Observability
+# Patronus 可观测性
 
-[Patronus AI](https://patronus.ai) provides an end-to-end system to evaluate, monitor and improve performance of an LLM system, enabling developers to ship AI products safely and confidently. Learn more [here](https://docs.patronus.ai/docs).
+[Patronus AI](https://patronus.ai) 提供端到端方案，用于评估、监控并改进 LLM 系统表现，帮助开发者安全可靠地交付 AI 产品。更多说明见 [此处](https://docs.patronus.ai/docs)。
 
-When you build with the AI SDK, you can stream OpenTelemetry (OTEL) traces straight into Patronus and pair every generation with rich automatic evaluations.
+使用 AI SDK 构建时，可将 OpenTelemetry（OTEL）traces 直接流入 Patronus，并为每次生成配对丰富的自动评估。
 
-## Setup
+## 设置
 
 ### 1. OpenTelemetry
 
-Patronus exposes a fully‑managed OTEL endpoint. Configure an **OTLP exporter** to point at it, pass your API key, and you’re done—Patronus will automatically convert LLM spans into prompt/response records you can explore and evaluate.
+Patronus 暴露全托管 OTEL 端点。配置 **OTLP exporter** 指向该端点，传入 API key 即可——Patronus 会自动将 LLM span 转换为可浏览与评估的 prompt/response 记录。
 
-#### Environment variables (recommended)
+#### 环境变量（推荐）
 
 ```bash filename=".env.local"
 OTEL_EXPORTER_OTLP_ENDPOINT=https://otel.patronus.ai/v1/traces
 OTEL_EXPORTER_OTLP_HEADERS="x-api-key:<PATRONUS_API_KEY>"
 ```
 
-#### With `@vercel/otel`
+#### 使用 `@vercel/otel`
 
 ```ts filename="instrumentation.ts"
 import { registerOTel } from '@vercel/otel';
@@ -51,14 +51,14 @@ registerTelemetry(new LegacyOpenTelemetry());
 ```
 
 <Note>
-  If you need gRPC instead of HTTP, swap the exporter for
-  `@opentelemetry/exporter-trace-otlp-grpc` and use
-  `https://otel.patronus.ai:4317`.
+  若需 gRPC 而非 HTTP，请将 exporter 换为
+  `@opentelemetry/exporter-trace-otlp-grpc`，并使用
+  `https://otel.patronus.ai:4317`。
 </Note>
 
-### 2. Register the integration and enable telemetry
+### 2. 注册集成并启用 telemetry
 
-Once you've installed `@ai-sdk/otel` and added `registerTelemetry` to your `instrumentation.ts`, telemetry is captured automatically. Pass `telemetry` to attach metadata:
+安装 `@ai-sdk/otel` 并在 `instrumentation.ts` 中加入 `registerTelemetry` 后，遥测会自动采集。传入 `telemetry` 可附加元数据：
 
 ```ts
 import { generateText } from 'ai';
@@ -76,9 +76,9 @@ const result = await generateText({
 });
 ```
 
-Every attribute inside `metadata` becomes an OTEL attribute and is indexed by Patronus for filtering.
+`metadata` 中的每个属性都会成为 OTEL 属性，并由 Patronus 索引以供筛选。
 
-## Example — tracing and automated evaluation
+## 示例——tracing 与自动评估
 
 ```ts filename="app/api/chat/route.ts"
 import { trace } from '@opentelemetry/api';
@@ -124,14 +124,14 @@ export async function POST(req: Request) {
 }
 ```
 
-Result: a single trace containing the root HTTP request, the LLM generation span, and your evaluation span—**all visible in Patronus** with the hallucination score attached.
+结果：单一 trace 包含根 HTTP 请求、LLM generation span，以及你的评估 span——**全部可在 Patronus 中查看**，并附带 hallucination 分数。
 
-## Once you've traced
+## 完成 tracing 之后
 
-- If you're tracing an agent, Patronus's AI assistant Percival will assist with error analysis and prompt optimization. Learn more [here](https://docs.patronus.ai/docs/percival/percival)
-- Get set up on production monitoring and alerting by viewing logs and traces on Patronus and configuring webhooks for alerting. Learn more [here](https://docs.patronus.ai/docs/real_time_monitoring/webhooks)
+- 若在追踪智能体，Patronus 的 AI 助手 Percival 可协助错误分析与提示优化。详见 [此处](https://docs.patronus.ai/docs/percival/percival)。
+- 在 Patronus 上查看日志与 traces，并配置 webhook 告警，搭建生产监控。详见 [此处](https://docs.patronus.ai/docs/real_time_monitoring/webhooks)。
 
-## Resources
+## 资源
 
 - [Patronus docs](https://docs.patronus.ai)
 - [OpenTelemetry SDK (JS)](https://opentelemetry.io/docs/instrumentation/js/)

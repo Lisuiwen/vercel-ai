@@ -3,13 +3,13 @@ import { streamText } from 'ai';
 import { run } from '../../lib/run';
 
 /**
- * *** NOTICE ***
- * The completion API may not be available.
+ * *** 注意 ***
+ * 完成 API 可能不可用。
  */
 
 run(async () => {
   const result = streamText({
-    model: azure.completion('gpt-35-turbo'), // use your own deployment
+    model: azure.completion('gpt-35-turbo'), // 使用您自己的部署
     prompt: 'Invent a new holiday and describe its traditions.',
   });
 

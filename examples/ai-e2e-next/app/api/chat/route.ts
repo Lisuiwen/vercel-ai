@@ -22,6 +22,6 @@ export async function POST(req: Request) {
         console.log('Aborted');
       }
     },
-    consumeSseStream: consumeStream, // needed for correct abort handling
+    consumeSseStream: consumeStream, // 正确中止处理所需
   });
 }

@@ -16,7 +16,7 @@ run(async () => {
         /*
          * Partial reasoningConfig: `type` and `maxReasoningEffort` are derived
          * from the top-level `reasoning` parameter. Only `display` is provided
-         * here and merged on top of the derived fields.
+         * 此处并合并在派生字段之上。
          */
         reasoningConfig: { display: 'summarized' },
       } satisfies AmazonBedrockLanguageModelChatOptions,

@@ -5,7 +5,7 @@ import type {
 import type { LanguageModelMiddleware } from '../types/language-model-middleware';
 
 /**
- * Default transform function that strips markdown code fences from text.
+ * 默认转换函数，从文本中去除 Markdown 代码围栏。
  */
 function defaultTransform(text: string): string {
   return text
@@ -15,21 +15,21 @@ function defaultTransform(text: string): string {
 }
 
 /**
- * Middleware that extracts JSON from text content by stripping
- * markdown code fences and other formatting.
+ * 通过剥离从文本内容中提取 JSON 的中间件
+ * Markdown 代码围栏和其他格式。
  *
- * This is useful when using Output.object() with models that wrap
- * JSON responses in markdown code blocks.
+ * 当将 Output.object() 与包装模型一起使用时，这非常有用
+ * Markdown 代码块中的 JSON 响应。
  *
  * @param options - Configuration options for the middleware.
  * @param options.transform - Custom transform function. If provided, this will be
- * used instead of the default markdown fence stripping.
+ * 使用而不是默认的降价栅栏剥离。
  */
 export function extractJsonMiddleware(options?: {
   /**
-   * Custom transform function to apply to text content.
-   * Receives the raw text and should return the transformed text.
-   * If not provided, the default transform strips markdown code fences.
+   * 应用于文本内容的自定义转换函数。
+   * 接收原始文本并应返回转换后的文本。
+   * 如果未提供，默认转换会去除 Markdown 代码围栏。
    */
   transform?: (text: string) => string;
 }): LanguageModelMiddleware {
@@ -82,7 +82,7 @@ export function extractJsonMiddleware(options?: {
               if (chunk.type === 'text-start') {
                 textBlocks[chunk.id] = {
                   startEvent: chunk,
-                  // Custom transforms need to buffer all content
+                  // 自定义转换需要缓冲所有内容
                   phase: hasCustomTransform ? 'buffering' : 'prefix',
                   buffer: '',
                   prefixStripped: false,
@@ -99,13 +99,13 @@ export function extractJsonMiddleware(options?: {
 
                 block.buffer += chunk.delta;
 
-                // Custom transform: buffer everything, transform at end
+                // 自定义转换：缓冲所有内容，最后转换
                 if (block.phase === 'buffering') {
                   return;
                 }
 
                 if (block.phase === 'prefix') {
-                  // Check if we can determine prefix status
+                  // 检查我们是否可以确定前缀状态
                   if (
                     block.buffer.length > 0 &&
                     !block.buffer.startsWith('`')
@@ -113,7 +113,7 @@ export function extractJsonMiddleware(options?: {
                     block.phase = 'streaming';
                     controller.enqueue(block.startEvent);
                   } else if (block.buffer.startsWith('```')) {
-                    // Only strip prefix when we have a newline (fence is complete)
+                    // 仅当我们有换行符时才去除前缀（栅栏已完成）
                     if (block.buffer.includes('\n')) {
                       const prefixMatch =
                         block.buffer.match(/^```(?:json)?\s*\n/);

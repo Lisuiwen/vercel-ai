@@ -40,13 +40,13 @@ export interface ModelWithCapabilities<T> {
 }
 
 export const defaultChatModelCapabilities: ModelCapabilities = [
-  // audioInput is not supported by most language models.
-  // embedding is not supported by language models.
-  // imageGeneration is not supported by language models.
+  // 大多数语言模型不支持audioInput。
+  // 语言模型不支持嵌入。
+  // 语言模型不支持 imageGeneration。
   'imageInput',
   'objectGeneration',
   'pdfInput',
-  // searchGrounding is not supported by most language models.
+  // 大多数语言模型不支持 searchGrounding。
   'textCompletion',
   'toolCalls',
 ];
@@ -108,10 +108,10 @@ const verifyGroundingMetadata = (groundingMetadata: any) => {
   expect(Array.isArray(groundingMetadata?.webSearchQueries)).toBe(true);
   expect(groundingMetadata?.webSearchQueries?.length).toBeGreaterThan(0);
 
-  // Verify search entry point exists
+  // 验证搜索入口点是否存在
   expect(groundingMetadata?.searchEntryPoint?.renderedContent).toBeDefined();
 
-  // Verify grounding supports
+  // 验证接地支架
   expect(Array.isArray(groundingMetadata?.groundingSupports)).toBe(true);
   const support = groundingMetadata?.groundingSupports?.[0];
   expect(support?.segment).toBeDefined();
@@ -123,7 +123,7 @@ const verifySafetyRatings = (safetyRatings: any[]) => {
   expect(Array.isArray(safetyRatings)).toBe(true);
   expect(safetyRatings?.length).toBeGreaterThan(0);
 
-  // Verify each safety rating has required properties
+  // 验证每个安全等级具有所需的属性
   safetyRatings?.forEach(rating => {
     expect(rating.category).toBeDefined();
     expect(rating.probability).toBeDefined();
@@ -806,7 +806,7 @@ export function createFeatureTestSuite({
                         {
                           type: 'file',
                           mediaType: 'image',
-                          // TODO(shaper): Some tests omit the .toString() below.
+                          // TODO(shaper)：一些测试省略了下面的 .toString()。
                           data: fs
                             .readFileSync('./data/comic-cat.png')
                             .toString('base64'),
@@ -1017,7 +1017,7 @@ export function createFeatureTestSuite({
                 });
 
                 for await (const _ of result.textStream) {
-                  // consume the stream
+                  // 消耗流
                 }
 
                 const metadata = (await result.providerMetadata)?.google as
@@ -1054,13 +1054,13 @@ export function createFeatureTestSuite({
                 prompt: 'This should fail',
               });
 
-              // Try to consume the stream to trigger the error
+              // 尝试消费流来触发错误
               for await (const _ of result.textStream) {
-                // Do nothing with the chunks
+                // 对块不执行任何操作
               }
 
-              // If we reach here, the test should fail
-              expect(true).toBe(false); // Force test to fail if no error is thrown
+              // 如果我们到达这里，测试就会失败
+              expect(true).toBe(false); // 如果没有抛出错误，则强制测试失败
             } catch (error) {
               expect(error).toBeInstanceOf(APICallError);
               errorValidator(error as APICallError);
@@ -1146,11 +1146,11 @@ export function createFeatureTestSuite({
                     prompt: 'A cute cartoon cat',
                   });
 
-                  // Verify we got a base64 string back
+                  // 验证我们返回了一个 Base64 字符串
                   expect(result.image.base64).toBeTruthy();
                   expect(typeof result.image.base64).toBe('string');
 
-                  // Check the decoded length is reasonable (at least 10KB)
+                  // 检查解码长度​​是否合理（至少10KB）
                   const decoded = Buffer.from(result.image.base64, 'base64');
                   expect(decoded.length).toBeGreaterThan(10 * 1024);
                 });

@@ -1,32 +1,36 @@
-# AI SDK - Gateway Provider
+# AI SDK - Gateway 提供商
 
-The Gateway provider for the [AI SDK](https://ai-sdk.dev/docs) allows the use of a wide variety of AI models and providers.
+[AI SDK](https://ai-sdk.dev/docs) 的 Gateway 提供商可访问多种 AI 模型与提供商。
 
-## Setup
+## 安装
 
-The Gateway provider is available in the `@ai-sdk/gateway` module. You can install it with
+Gateway 提供商位于 `@ai-sdk/gateway` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/gateway
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `gateway` from `@ai-sdk/gateway`:
+可从 `@ai-sdk/gateway` 导入默认提供商实例 `gateway`：
+
+
 
 ```ts
 import { gateway } from '@ai-sdk/gateway';
 ```
 
-## Example
+## 示例
 
 ```ts
 import { gateway } from '@ai-sdk/gateway';
@@ -39,6 +43,6 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the [AI SDK documentation](https://ai-sdk.dev/docs) for more information.
+更多信息请参阅 [AI SDK 文档](https://ai-sdk.dev/docs)。

@@ -1,49 +1,49 @@
 ---
 title: WorkflowAgent
-description: Build durable, resumable agents with the WorkflowAgent from @ai-sdk/workflow.
+description: 使用 @ai-sdk/workflow 中的 WorkflowAgent 构建持久、可恢复的 Agent。
 ---
 
 # WorkflowAgent
 
-The `WorkflowAgent` from `@ai-sdk/workflow` is designed for building **durable, resumable agents** that run inside a [workflow](https://vercel.com/docs/workflow). It provides the same agent loop as the [`ToolLoopAgent`](/docs/agents/building-agents), but adds automatic state persistence, tool schema serialization, and built-in tool approval flows that survive workflow step boundaries.
+`@ai-sdk/workflow` 中的 `WorkflowAgent` 专为构建在 [workflow](https://vercel.com/docs/workflow) 内运行的**持久、可恢复 Agent** 而设计。它提供与 [`ToolLoopAgent`](/docs/agents/building-agents) 相同的 Agent 循环，但增加了自动状态持久化、工具 schema 序列化以及在工作流步骤边界间存活的内置工具审批流程。
 
-## Why Durable Agents?
+## 为何需要持久 Agent？
 
-A standard `ToolLoopAgent` runs entirely in memory — if the process crashes, all progress is lost. For production agents that make multiple tool calls, this creates problems:
+标准 `ToolLoopAgent` 完全在内存中运行——如果进程崩溃，所有进度都会丢失。对于进行多次工具调用的生产 Agent，这会带来问题：
 
-- **Statefulness** — Long-running agent loops need to persist state across process boundaries
-- **Resumability** — If a step fails, you want to retry from the last checkpoint, not restart from scratch
-- **Human-in-the-loop** — Tools that require user approval need to pause the agent and resume later
-- **Observability** — Each tool call runs as a discrete workflow step, visible in dashboards
+- **有状态** — 长时间运行的 Agent 循环需要在进程边界间持久化状态
+- **可恢复** — 如果某步失败，你希望从上次检查点重试，而不是从头开始
+- **人在回路中** — 需要用户审批的工具必须暂停 Agent 并在之后恢复
+- **可观测性** — 每次工具调用作为独立的工作流步骤运行，在仪表板中可见
 
-`WorkflowAgent` solves these by running inside a workflow, where each tool execution is a durable step with automatic retries.
+`WorkflowAgent` 通过在 workflow 内运行来解决这些问题，其中每次工具执行都是带有自动重试的持久步骤。
 
-## When to Use WorkflowAgent vs ToolLoopAgent
+## 何时使用 WorkflowAgent vs ToolLoopAgent
 
 |                         | ToolLoopAgent             | WorkflowAgent                                   |
 | ----------------------- | ------------------------- | ----------------------------------------------- |
-| **Package**             | `ai`                      | `@ai-sdk/workflow`                              |
-| **Runtime**             | In-memory                 | Workflow                                        |
-| **Durability**          | Lost on crash             | Survives restarts                               |
-| **Tool retries**        | Manual                    | Automatic (via workflow steps)                  |
-| **Human approval**      | Built-in                  | Built-in + survives suspension                  |
-| **`generate()` method** | Available                 | Not available                                   |
-| **`stream()` method**   | Available                 | Primary API                                     |
-| **Stream output**       | `streamText` return value | `writable` parameter with `ModelCallStreamPart` |
+| **包**             | `ai`                      | `@ai-sdk/workflow`                              |
+| **运行时**             | 内存中                 | Workflow                                        |
+| **持久性**          | 崩溃后丢失             | 在重启后存活               |
+| **工具重试**        | 手动                    | 自动（通过 workflow 步骤）                  |
+| **人工审批**      | 内置                  | 内置 + 在挂起后存活                  |
+| **`generate()` 方法** | 可用                 | 不可用                                   |
+| **`stream()` 方法**   | 可用                 | 主要 API                                     |
+| **流输出**       | `streamText` 返回值 | 带 `ModelCallStreamPart` 的 `writable` 参数 |
 
-For simpler use cases that don't need durability, use [`ToolLoopAgent`](/docs/agents/building-agents) from the `ai` package.
+对于不需要持久性的更简单用例，请使用 `ai` 包中的 [`ToolLoopAgent`](/docs/agents/building-agents)。
 
-## Installation
+## 安装
 
 ```bash
 npm install @ai-sdk/workflow workflow
 ```
 
-`@ai-sdk/workflow` requires the `ai` package and `zod` as peer dependencies. The `workflow` package provides the Workflow DevKit runtime (`getWritable`, `'use workflow'`, `'use step'`).
+`@ai-sdk/workflow` 需要 `ai` 包和 `zod` 作为 peer dependencies。`workflow` 包提供 Workflow DevKit 运行时（`getWritable`、`'use workflow'`、`'use step'`）。
 
-## Creating a WorkflowAgent
+## 创建 WorkflowAgent
 
-Define an agent by instantiating the `WorkflowAgent` class with a model, instructions, and tools:
+通过使用模型、instructions 和 tools 实例化 `WorkflowAgent` 类来定义 Agent：
 
 ```ts
 import { WorkflowAgent } from '@ai-sdk/workflow';
@@ -68,9 +68,9 @@ const agent = new WorkflowAgent({
 });
 ```
 
-### Model Resolution
+### 模型解析
 
-The `model` parameter accepts two forms:
+`model` 参数接受两种形式：
 
 ```ts
 // String — AI Gateway model ID
@@ -81,15 +81,15 @@ import { openai } from '@ai-sdk/openai';
 new WorkflowAgent({ model: openai('gpt-4o') });
 ```
 
-## Using the Agent in a Workflow
+## 在工作流中使用 Agent
 
-`WorkflowAgent` is designed to run inside a workflow function. The key integration points are:
+`WorkflowAgent` 设计为在工作流函数内运行。关键集成点是：
 
-1. Mark your function with `'use workflow'`
-2. Pass `getWritable()` to the agent's `stream()` method
-3. Start the workflow from your API route
+1. 用 `'use workflow'` 标记你的函数
+2. 将 `getWritable()` 传递给 Agent 的 `stream()` 方法
+3. 从 API 路由启动工作流
 
-### End-to-End Example
+### 端到端示例
 
 ```ts filename="workflow/agent-chat.ts"
 import { WorkflowAgent, type ModelCallStreamPart } from '@ai-sdk/workflow';
@@ -152,9 +152,9 @@ export async function POST(request: Request) {
 }
 ```
 
-### Message Conversion
+### 消息转换
 
-`WorkflowAgent.stream()` expects `ModelMessage[]`, not `UIMessage[]`. When receiving messages from the client (via `useChat`), convert them first:
+`WorkflowAgent.stream()` 期望 `ModelMessage[]`，而非 `UIMessage[]`。从客户端（通过 `useChat`）接收消息时，请先转换：
 
 ```ts
 import { convertToModelMessages, type UIMessage } from 'ai';
@@ -171,9 +171,9 @@ export async function chat(messages: UIMessage[]) {
 }
 ```
 
-### Writable Streams
+### Writable 流
 
-Unlike `ToolLoopAgent` where you consume the returned stream, `WorkflowAgent` writes raw `ModelCallStreamPart` chunks to a `writable` stream provided by the workflow runtime via `getWritable()`. At the response boundary, use `createModelCallToUIChunkTransform()` to convert these into `UIMessageChunk` objects for the client:
+与 `ToolLoopAgent` 中你消费返回的流不同，`WorkflowAgent` 将原始 `ModelCallStreamPart` 块写入 workflow 运行时通过 `getWritable()` 提供的 `writable` 流。在响应边界处，使用 `createModelCallToUIChunkTransform()` 将它们转换为客户端的 `UIMessageChunk` 对象：
 
 ```ts
 import { createModelCallToUIChunkTransform } from '@ai-sdk/workflow';
@@ -185,9 +185,9 @@ return createUIMessageStreamResponse({
 });
 ```
 
-## Resumable Streaming with WorkflowChatTransport
+## 使用 WorkflowChatTransport 实现可恢复流式传输
 
-Workflow functions can time out or be interrupted by network failures. `WorkflowChatTransport` is a [`ChatTransport`](/docs/ai-sdk-ui/transport) implementation that handles these interruptions automatically — it detects when a stream ends without a `finish` event and reconnects to resume from where it left off.
+工作流函数可能超时或因网络故障中断。`WorkflowChatTransport` 是 [`ChatTransport`](/docs/ai-sdk-ui/transport) 实现，可自动处理这些中断——它检测流在没有 `finish` 事件时结束，并重新连接以从中断处恢复。
 
 ```tsx filename="app/page.tsx"
 'use client';
@@ -213,7 +213,7 @@ export default function Chat() {
 }
 ```
 
-The transport requires your POST endpoint to return an `x-workflow-run-id` response header, and a GET endpoint at `{api}/{runId}/stream` for reconnection:
+该 transport 要求你的 POST 端点返回 `x-workflow-run-id` 响应头，并在 `{api}/{runId}/stream` 提供 GET 端点用于重连：
 
 ```ts filename="app/api/chat/route.ts"
 import { createModelCallToUIChunkTransform } from '@ai-sdk/workflow';
@@ -264,15 +264,15 @@ export async function GET(
 }
 ```
 
-For the full API reference, see [`WorkflowChatTransport`](/docs/reference/ai-sdk-workflow/workflow-chat-transport).
+完整 API 参考请参阅 [`WorkflowChatTransport`](/docs/reference/ai-sdk-workflow/workflow-chat-transport)。
 
-## Tools as Workflow Steps
+## 工具作为工作流步骤
 
-Mark tool execute functions with `'use step'` to make them durable workflow steps. This gives each tool call:
+用 `'use step'` 标记工具 execute 函数，使其成为持久工作流步骤。这为每次工具调用提供：
 
-- **Automatic retries** — Failed tool calls are retried automatically (default: 3 attempts)
-- **Persistence** — Results survive process restarts
-- **Observability** — Each tool call appears as a discrete step in the workflow dashboard
+- **自动重试** — 失败的工具调用自动重试（默认：3 次）
+- **持久性** — 结果在进程重启后存活
+- **可观测性** — 每次工具调用在工作流仪表板中显示为独立步骤
 
 ```ts
 async function searchFlightsStep(input: {
@@ -298,15 +298,14 @@ async function bookFlightStep(input: {
 }
 ```
 
-Tools without `'use step'` still work but run as regular in-memory functions without durability guarantees.
+没有 `'use step'` 的工具仍可工作，但作为常规内存函数运行，没有持久性保证。
 
-## Tool Approval
+## 工具审批
 
-For `WorkflowAgent`, human approval is configured on the tool definition with
-`needsApproval`. This is specific to `WorkflowAgent`; for `generateText`,
-`streamText`, and `ToolLoopAgent`, use `toolApproval` instead. When a workflow
-tool has `needsApproval` set, the agent pauses and emits an approval request to
-the writable stream. The workflow suspends until the user approves or denies:
+对于 `WorkflowAgent`，人工审批在工具定义上使用 `needsApproval` 配置。
+这特定于 `WorkflowAgent`；对于 `generateText`、`streamText` 和 `ToolLoopAgent`，请改用 `toolApproval`。
+当工作流工具设置了 `needsApproval` 时，Agent 暂停并向 writable 流发出审批请求。
+工作流挂起直到用户批准或拒绝：
 
 ```ts
 const agent = new WorkflowAgent({
@@ -334,11 +333,11 @@ const agent = new WorkflowAgent({
 });
 ```
 
-Because the workflow is durable, the approval request survives process restarts — the user can approve hours later and the agent will resume.
+由于工作流是持久的，审批请求在进程重启后仍然存活——用户可以在数小时后批准，Agent 将恢复。
 
-## Loop Control
+## 循环控制
 
-Control how many steps the agent can take:
+控制 Agent 可以执行的步数：
 
 ```ts
 import { isStepCount } from 'ai';
@@ -349,7 +348,7 @@ const result = await agent.stream({
 });
 ```
 
-If you want the agent to keep running until it has finished calling tools, you can also use `isLoopFinished()`:
+如果你希望 Agent 持续运行直到自然完成工具调用，也可以使用 `isLoopFinished()`：
 
 ```ts
 import { isLoopFinished } from 'ai';
@@ -360,13 +359,13 @@ const result = await agent.stream({
 });
 ```
 
-`isLoopFinished()` lets the agent run until all tool calls have completed, but you should still pair it with `maxSteps` to avoid runaway loops. See https://ai-sdk.dev/v7/docs/reference/ai-sdk-core/loop-finished#isloopfinished.
+`isLoopFinished()` 让 Agent 运行直到所有工具调用完成，但你仍应配合 `maxSteps` 使用以避免失控循环。请参阅 https://ai-sdk.dev/v7/docs/reference/ai-sdk-core/loop-finished#isloopfinished。
 
-By default, the agent loops until the model stops calling tools (no maximum).
+默认情况下，Agent 循环直到模型停止调用工具（无最大步数限制）。
 
-## Structured Output
+## 结构化输出
 
-Parse agent responses into typed objects using `Output`:
+使用 `Output` 将 Agent 响应解析为类型化对象：
 
 ```ts
 import { Output } from '@ai-sdk/workflow';
@@ -385,16 +384,16 @@ const result = await agent.stream({
 console.log(result.output); // { sentiment: 'positive', summary: '...' }
 ```
 
-## Configuration Options
+## 配置选项
 
-`WorkflowAgent` accepts the same generation settings as `ToolLoopAgent` (`temperature`, `maxOutputTokens`, `topP`, etc.) plus workflow-specific options.
+`WorkflowAgent` 接受与 `ToolLoopAgent` 相同的生成设置（`temperature`、`maxOutputTokens`、`topP` 等），以及工作流特定选项。
 
-### runtimeContext and toolsContext
+### runtimeContext 和 toolsContext
 
-Pass server-side state through the agent loop without putting it into the prompt. Use these instead of the previous `experimental_context` option.
+在不放入提示词的情况下，通过 Agent 循环传递服务端状态。请使用这些选项替代之前的 `experimental_context` 选项。
 
-- `runtimeContext` is shared agent state that flows through `prepareStep`, lifecycle callbacks, and `onFinish`. Treat it as immutable; return a new value from `prepareStep` to update it for the current and subsequent steps.
-- `toolsContext` is a per-tool map keyed by tool name. Each tool's `execute` only sees its own validated entry as `context`. Tools that declare a `contextSchema` validate their entry against the schema before execution.
+- `runtimeContext` 是流经 `prepareStep`、生命周期回调和 `onFinish` 的共享 Agent 状态。将其视为不可变；从 `prepareStep` 返回新值以更新当前及后续步骤。
+- `toolsContext` 是按工具名称键控的每工具映射。每个工具的 `execute` 仅将其自己的已验证条目视为 `context`。声明了 `contextSchema` 的工具会在执行前根据 schema 验证其条目。
 
 ```ts filename="workflow/agent-chat.ts"
 import { WorkflowAgent } from '@ai-sdk/workflow';
@@ -438,15 +437,15 @@ const agent = new WorkflowAgent({
 });
 ```
 
-`runtimeContext` and `toolsContext` can also be passed per-call to `stream()`, where they override the constructor-level defaults.
+`runtimeContext` 和 `toolsContext` 也可以在每次调用 `stream()` 时传递，它们会覆盖构造函数级别的默认值。
 
-Because `WorkflowAgent` runs inside the Workflow runtime, context values may be persisted and replayed across workflow and step boundaries. Keep `runtimeContext`, `toolsContext`, and any context values returned from `prepareStep` serializable. Use plain data such as strings, numbers, booleans, arrays, plain objects, dates, URLs, maps, sets, and other Workflow-supported structured data. Do not put functions, class instances, symbols, `WeakMap`, `WeakSet`, database clients, or SDK clients in context. Pass identifiers or configuration data instead, and recreate non-serializable resources inside step functions.
+因为 `WorkflowAgent` 在 Workflow 运行时内运行，上下文值可能在工作流和步骤边界间被持久化和重放。保持 `runtimeContext`、`toolsContext` 以及从 `prepareStep` 返回的任何上下文值可序列化。使用纯数据，如字符串、数字、布尔值、数组、普通对象、日期、URL、Map、Set 以及其他 Workflow 支持的结构化数据。不要在上下文中放置函数、类实例、Symbol、`WeakMap`、`WeakSet`、数据库客户端或 SDK 客户端。改为传递标识符或配置数据，并在步骤函数内重新创建不可序列化的资源。
 
-This differs from `ToolLoopAgent`, which runs in memory and can carry richer JavaScript values for the lifetime of a single process. With `WorkflowAgent`, treating context as durable data keeps workflow replay and step execution reliable.
+这与 `ToolLoopAgent` 不同，后者在内存中运行，可在单个进程的生命周期内携带更丰富的 JavaScript 值。使用 `WorkflowAgent` 时，将上下文视为持久数据可使工作流重放和步骤执行可靠。
 
 ### prepareCall
 
-Called once before the agent loop starts. Use it to transform model, instructions, or other settings based on runtime context:
+在 Agent 循环开始前调用一次。使用它根据运行时上下文转换 model、instructions 或其他设置：
 
 ```ts
 const agent = new WorkflowAgent({
@@ -461,7 +460,7 @@ const agent = new WorkflowAgent({
 
 ### prepareStep
 
-Called before each step (LLM call). Use it to modify settings, manage context, or inject messages dynamically:
+在每一步（LLM 调用）之前调用。使用它修改设置、管理上下文或动态注入消息：
 
 ```ts
 const agent = new WorkflowAgent({
@@ -475,11 +474,11 @@ const agent = new WorkflowAgent({
 });
 ```
 
-Both `prepareCall` and `prepareStep` can also be passed per-call in `stream()`.
+`prepareCall` 和 `prepareStep` 也可以在 `stream()` 中按调用传递。
 
-## Lifecycle Callbacks
+## 生命周期回调
 
-Agents provide lifecycle callbacks for logging, observability, and custom telemetry. All callbacks can be defined in the constructor (agent-wide) or in `stream()` (per-call). When both are provided, both fire (constructor first):
+Agent 提供用于日志、可观测性和自定义遥测的生命周期回调。所有回调可以在构造函数（Agent 范围）或 `stream()`（每次调用）中定义。当两者都提供时，两者都会触发（先构造函数）：
 
 ```ts
 const agent = new WorkflowAgent({
@@ -511,9 +510,9 @@ const agent = new WorkflowAgent({
 });
 ```
 
-## Type Inference
+## 类型推断
 
-Infer the UI message type for type-safe client components:
+推断 UI 消息类型以实现类型安全的客户端组件：
 
 ```ts
 import { WorkflowAgent, InferWorkflowAgentUIMessage } from '@ai-sdk/workflow';
@@ -525,13 +524,13 @@ const myAgent = new WorkflowAgent({
 export type MyAgentUIMessage = InferWorkflowAgentUIMessage<typeof myAgent>;
 ```
 
-## Migrating from `DurableAgent`
+## 从 `DurableAgent` 迁移
 
-`WorkflowAgent` replaces the Workflow DevKit's [`DurableAgent`](https://workflow-sdk.dev/docs/api-reference/workflow-ai/durable-agent). The two share the same core idea — a durable agent loop that runs inside a workflow — but `WorkflowAgent` moves the class into the AI SDK, tightens typing, and introduces first-class tool approval. If you are using `DurableAgent` today, follow the steps below to switch.
+`WorkflowAgent` 替代 Workflow DevKit 的 [`DurableAgent`](https://workflow-sdk.dev/docs/api-reference/workflow-ai/durable-agent)。两者共享相同的核心思想——在 workflow 内运行的持久 Agent 循环——但 `WorkflowAgent` 将类移入 AI SDK，收紧类型，并引入一流的工具审批。如果你今天正在使用 `DurableAgent`，请按照以下步骤切换。
 
-### Change the import and class name
+### 更改导入和类名
 
-`DurableAgent` was exported from `workflow/ai`. `WorkflowAgent` is exported from `@ai-sdk/workflow`, alongside its helpers.
+`DurableAgent` 从 `workflow/ai` 导出。`WorkflowAgent` 与 helpers 一起从 `@ai-sdk/workflow` 导出。
 
 ```diff
 - import { DurableAgent } from 'workflow/ai';
@@ -545,15 +544,15 @@ export type MyAgentUIMessage = InferWorkflowAgentUIMessage<typeof myAgent>;
   });
 ```
 
-Install the new package alongside `workflow`:
+与 `workflow` 一起安装新包：
 
 ```bash
 npm install @ai-sdk/workflow
 ```
 
-### Write `ModelCallStreamPart`, not `UIMessageChunk`
+### 写入 `ModelCallStreamPart`，而非 `UIMessageChunk`
 
-`DurableAgent` wrote `UIMessageChunk` objects directly to the writable returned by `getWritable()`. `WorkflowAgent` writes the lower-level `ModelCallStreamPart` shape and leaves the conversion to a transform at the response boundary. This keeps the durable stream provider-shaped and avoids baking a UI protocol into the workflow payload.
+`DurableAgent` 直接将 `UIMessageChunk` 对象写入 `getWritable()` 返回的 writable。`WorkflowAgent` 写入较低级别的 `ModelCallStreamPart` 形状，并在响应边界进行转换。这使持久流保持 provider 形状，避免将 UI 协议烘焙到 workflow 负载中。
 
 ```diff
   // Inside the workflow
@@ -574,9 +573,9 @@ npm install @ai-sdk/workflow
   });
 ```
 
-### Replace `maxSteps` with `stopWhen`
+### 用 `stopWhen` 替换 `maxSteps`
 
-`DurableAgent` accepted `maxSteps` directly. `WorkflowAgent` uses the AI SDK's shared `stopWhen` conditions so the same stop logic works across `ToolLoopAgent`, `generateText`, and `streamText`.
+`DurableAgent` 直接接受 `maxSteps`。`WorkflowAgent` 使用 AI SDK 的共享 `stopWhen` 条件，使相同的停止逻辑在 `ToolLoopAgent`、`generateText` 和 `streamText` 中生效。
 
 ```diff
 + import { isStepCount } from 'ai';
@@ -588,9 +587,9 @@ npm install @ai-sdk/workflow
   });
 ```
 
-See [Loop Control](/docs/agents/loop-control) for the full list of stop conditions.
+完整停止条件列表请参阅[循环控制](/docs/agents/loop-control)。
 
-### Replace `experimental_output` with `output`
+### 用 `output` 替换 `experimental_output`
 
 ```diff
 + import { Output } from '@ai-sdk/workflow';
@@ -602,11 +601,11 @@ See [Loop Control](/docs/agents/loop-control) for the full list of stop conditio
   });
 ```
 
-The returned value is now on `result.output` (previously `result.experimental_output`).
+返回值现在在 `result.output` 上（先前为 `result.experimental_output`）。
 
-### WorkflowAgent: Use `needsApproval` for human-in-the-loop tools
+### WorkflowAgent：对人在回路工具使用 `needsApproval`
 
-With `DurableAgent`, tool approval was implemented by calling a Hook from inside the tool's `execute` function. `WorkflowAgent` makes approval a first-class tool property — the agent emits the approval request, suspends the workflow, and resumes automatically when the user responds.
+使用 `DurableAgent` 时，工具审批通过在工具的 `execute` 函数内调用 Hook 实现。`WorkflowAgent` 将审批作为一流的工具属性——Agent 发出审批请求、挂起工作流，并在用户响应时自动恢复。
 
 ```diff
   bookFlight: tool({
@@ -622,12 +621,11 @@ With `DurableAgent`, tool approval was implemented by calling a Hook from inside
   }),
 ```
 
-`needsApproval` also accepts an async function so you can decide per-input
-whether approval is required (see [Tool Approval](#tool-approval) above).
+`needsApproval` 也接受异步函数，以便你可以按输入决定是否需要审批（见上文[工具审批](#tool-approval)）。
 
-### `uiMessages` / `collectUIMessages` is gone
+### `uiMessages` / `collectUIMessages` 已移除
 
-`DurableAgent.stream()` returned accumulated `uiMessages` when `collectUIMessages: true` was set. `WorkflowAgent.stream()` returns `ModelMessage[]` on `result.messages` instead — persist those and convert them at the edge with `convertToModelMessages` / `convertToUIMessages` as needed.
+当设置 `collectUIMessages: true` 时，`DurableAgent.stream()` 返回累积的 `uiMessages`。`WorkflowAgent.stream()` 在 `result.messages` 上返回 `ModelMessage[]`——持久化这些消息，并在边界使用 `convertToModelMessages` / `convertToUIMessages` 按需转换。
 
 ```diff
   const result = await agent.stream({
@@ -640,13 +638,13 @@ whether approval is required (see [Tool Approval](#tool-approval) above).
 + return { messages: result.messages };
 ```
 
-### No `generate()` method
+### 没有 `generate()` 方法
 
-`WorkflowAgent` only exposes `stream()`. If you were calling `agent.generate()`, switch to `stream()` and read `result.messages` / `result.output` once the promise resolves.
+`WorkflowAgent` 仅暴露 `stream()`。如果你曾调用 `agent.generate()`，请切换到 `stream()`，并在 promise 解析后读取 `result.messages` / `result.output`。
 
-### Replace `experimental_context` with `runtimeContext` and `toolsContext`
+### 用 `runtimeContext` 和 `toolsContext` 替换 `experimental_context`
 
-`WorkflowAgent` no longer accepts `experimental_context`. Split the value into shared agent state (`runtimeContext`) and per-tool state (`toolsContext`); each tool's `execute` then receives only its own validated entry as `context`. See [runtimeContext and toolsContext](#runtimecontext-and-toolscontext) for the full shape.
+`WorkflowAgent` 不再接受 `experimental_context`。将值拆分为共享 Agent 状态（`runtimeContext`）和每工具状态（`toolsContext`）；每个工具的 `execute` 仅将其自己的已验证条目作为 `context` 接收。完整形状见 [runtimeContext 和 toolsContext](#runtimecontext-and-toolscontext)。
 
 ```diff
   const agent = new WorkflowAgent({
@@ -658,13 +656,13 @@ whether approval is required (see [Tool Approval](#tool-approval) above).
   });
 ```
 
-### Everything else
+### 其他一切
 
-Other options carry over with the same names: `prepareStep`, `onStepFinish`, `onFinish`, `onError`, `toolChoice`, `activeTools`, `timeout`, `experimental_repairToolCall`, and the usual generation settings (`temperature`, `maxOutputTokens`, `topP`, …). `WorkflowAgent` additionally adds `prepareCall` (runs once before the loop) and the `experimental_onStart` / `experimental_onStepStart` / `onToolExecutionStart` / `onToolExecutionEnd` lifecycle callbacks documented above.
+其他选项以相同名称延续：`prepareStep`、`onStepFinish`、`onFinish`、`onError`、`toolChoice`、`activeTools`、`timeout`、`experimental_repairToolCall`，以及常用生成设置（`temperature`、`maxOutputTokens`、`topP` 等）。`WorkflowAgent` 此外还添加 `prepareCall`（在循环前运行一次）以及上文记录的生命周期回调 `experimental_onStart` / `experimental_onStepStart` / `onToolExecutionStart` / `onToolExecutionEnd`。
 
-## Next Steps
+## 下一步
 
-- [WorkflowAgent API Reference](/docs/reference/ai-sdk-workflow/workflow-agent) for detailed parameter documentation
-- [WorkflowChatTransport API Reference](/docs/reference/ai-sdk-workflow/workflow-chat-transport) for stream reconnection options
-- [Building Agents](/docs/agents/building-agents) for the in-memory `ToolLoopAgent` alternative
-- [Loop Control](/docs/agents/loop-control) for advanced stop conditions
+- [WorkflowAgent API 参考](/docs/reference/ai-sdk-workflow/workflow-agent) 了解详细参数文档
+- [WorkflowChatTransport API 参考](/docs/reference/ai-sdk-workflow/workflow-chat-transport) 了解流重连选项
+- [构建 Agent](/docs/agents/building-agents) 了解内存中的 `ToolLoopAgent` 替代方案
+- [循环控制](/docs/agents/loop-control) 了解高级停止条件

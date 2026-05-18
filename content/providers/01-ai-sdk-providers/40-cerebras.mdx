@@ -1,17 +1,17 @@
 ---
 title: Cerebras
-description: Learn how to use Cerebras's models with the AI SDK.
+description: 了解如何在 AI SDK 中使用 Cerebras 模型。
 ---
 
-# Cerebras Provider
+# Cerebras 提供商
 
-The [Cerebras](https://cerebras.ai) provider offers access to powerful language models through the Cerebras API, including their high-speed inference capabilities powered by Wafer-Scale Engines and CS-3 systems.
+[Cerebras](https://cerebras.ai) 提供商通过 Cerebras API 提供强大的语言模型访问能力，并利用 Wafer-Scale Engine 与 CS-3 系统实现高速推理。
 
-API keys can be obtained from the [Cerebras Platform](https://cloud.cerebras.ai).
+可在 [Cerebras 平台](https://cloud.cerebras.ai) 获取 API Key。
 
-## Setup
+## 安装
 
-The Cerebras provider is available via the `@ai-sdk/cerebras` module. You can install it with:
+Cerebras 提供商通过 `@ai-sdk/cerebras` 模块提供，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -29,15 +29,15 @@ The Cerebras provider is available via the `@ai-sdk/cerebras` module. You can in
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `cerebras` from `@ai-sdk/cerebras`:
+可从 `@ai-sdk/cerebras` 导入默认的 `cerebras` 提供商实例：
 
 ```ts
 import { cerebras } from '@ai-sdk/cerebras';
 ```
 
-For custom configuration, you can import `createCerebras` and create a provider instance with your settings:
+如需自定义配置，可导入 `createCerebras` 并创建实例：
 
 ```ts
 import { createCerebras } from '@ai-sdk/cerebras';
@@ -47,29 +47,28 @@ const cerebras = createCerebras({
 });
 ```
 
-You can use the following optional settings to customize the Cerebras provider instance:
+可使用以下可选设置自定义 Cerebras 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls.
-  The default prefix is `https://api.cerebras.ai/v1`.
+  为 API 请求使用不同的 URL 前缀。
+  默认前缀为 `https://api.cerebras.ai/v1`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header. It defaults to
-  the `CEREBRAS_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API Key。默认为环境变量 `CEREBRAS_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
 
-## Language Models
+## 语言模型
 
-You can create language models using a provider instance:
+可使用提供商实例创建语言模型：
 
 ```ts
 import { cerebras } from '@ai-sdk/cerebras';
@@ -81,27 +80,27 @@ const { text } = await generateText({
 });
 ```
 
-Cerebras language models can be used in the `streamText` function
-(see [AI SDK Core](/docs/ai-sdk-core)).
+Cerebras 语言模型可用于 `streamText`
+（参见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-You can create Cerebras language models using a provider instance. The first argument is the model ID, e.g. `llama-3.3-70b`:
+可使用提供商实例创建 Cerebras 语言模型；首个参数为模型 ID，例如 `llama-3.3-70b`：
 
 ```ts
 const model = cerebras('llama-3.3-70b');
 ```
 
-You can also use the `.languageModel()` and `.chat()` methods:
+也可使用 `.languageModel()` 与 `.chat()` 方法：
 
 ```ts
 const model = cerebras.languageModel('llama-3.3-70b');
 const model = cerebras.chat('llama-3.3-70b');
 ```
 
-### Reasoning Models
+### 推理模型
 
-Cerebras offers several reasoning models including `gpt-oss-120b`, `qwen-3-32b`, and `zai-glm-4.7` that generate intermediate thinking tokens before their final response. The reasoning output is streamed through the standard AI SDK reasoning parts.
+Cerebras 提供多款推理模型，包括 `gpt-oss-120b`、`qwen-3-32b` 与 `zai-glm-4.7`，会在最终答复前生成中间 thinking token；推理输出通过 AI SDK 标准的 reasoning part 进行流式传输。
 
-For `gpt-oss-120b`, you can control the reasoning depth using the `reasoningEffort` provider option:
+对于 `gpt-oss-120b`，可使用 `reasoningEffort` 提供商选项控制推理深度：
 
 ```ts
 import { cerebras } from '@ai-sdk/cerebras';
@@ -126,41 +125,37 @@ for await (const part of result.fullStream) {
 }
 ```
 
-See [AI SDK UI: Chatbot](/docs/ai-sdk-ui/chatbot#reasoning) for more details on how to integrate reasoning into your chatbot.
+如何将推理接入聊天机器人的更多说明，参见 [AI SDK UI：Chatbot](/docs/ai-sdk-ui/chatbot#reasoning)。
 
-### Provider Options
+### Provider 选项
 
-The following optional provider options are available for Cerebras language models:
+Cerebras 语言模型支持以下可选的提供商选项：
 
 - **reasoningEffort** _'low' | 'medium' | 'high'_
 
-  Controls the depth of reasoning for GPT-OSS models. Defaults to `'medium'`.
+  控制 GPT-OSS 模型的推理深度。默认为 `'medium'`。
 
 - **user** _string_
 
-  A unique identifier representing your end-user, which can help with monitoring and abuse detection.
+  代表终端用户的唯一标识符，可用于监控与滥用检测。
 
 - **strictJsonSchema** _boolean_
 
-  Whether to use strict JSON schema validation. When `true`, the model uses constrained decoding to guarantee schema compliance. Defaults to `true`.
+  是否启用严格 JSON schema 校验。为 `true` 时模型使用约束解码以确保符合 schema。默认为 `true`。
 
-## Model Capabilities
+## 模型能力
 
-| Model                            | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      | Reasoning           |
-| -------------------------------- | ------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
+| Model                            | 图像输入           | 对象生成           | 工具使用           | 工具流式传输       | 推理               |
+| -------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | `llama3.1-8b`                    | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
 | `llama-3.3-70b`                  | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
 | `gpt-oss-120b`                   | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `qwen-3-32b`                     | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `qwen-3-235b-a22b-instruct-2507` | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
 | `qwen-3-235b-a22b-thinking-2507` | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
-| `zai-glm-4.6`                    | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
+| `zai-glm-4.6`                    | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `zai-glm-4.7`                    | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
 <Note>
-  The models `qwen-3-32b` and `llama-3.3-70b` are scheduled for deprecation on
-  February 16, 2026. Please see the [Cerebras
-  docs](https://inference-docs.cerebras.ai/introduction) for more details about
-  the available models and migration guidance. You can also pass any available
-  provider model ID as a string if needed.
+  `qwen-3-32b` 与 `llama-3.3-70b` 计划于 2026 年 2 月 16 日弃用。可用模型与迁移说明请参阅 [Cerebras 文档](https://inference-docs.cerebras.ai/introduction)。也可根据需要直接传入可用的提供商模型 ID 字符串。
 </Note>

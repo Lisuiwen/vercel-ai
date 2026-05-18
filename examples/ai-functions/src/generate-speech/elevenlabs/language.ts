@@ -7,7 +7,7 @@ run(async () => {
   const result = await generateSpeech({
     model: elevenLabs.speech('eleven_multilingual_v2'),
     text: 'Hola, este es un ejemplo de síntesis de voz en español.',
-    language: 'es', // Spanish language code
+    language: 'es', // 西班牙语代码
   });
 
   console.log('Audio:', result.audio);

@@ -1,13 +1,13 @@
 import type { ErrorHandler } from './error-handler';
 
 /**
- * Creates a Promise with externally accessible resolve and reject functions.
+ * 创建一个具有外部可访问的解析和拒绝函数的 Promise。
  *
  * @template T - The type of the value that the Promise will resolve to.
  * @returns An object containing:
- *   - promise: A Promise that can be resolved or rejected externally.
- *   - resolve: A function to resolve the Promise with a value of type T.
- *   - reject: A function to reject the Promise with an error.
+ *   - Promise：可以在外部解决或拒绝的Promise。
+ *   -resolve：用 T 类型的值解析 Promise 的函数。
+ *   -reject：一个函数，用于拒绝带有错误的 Promise。
  */
 export function createResolvablePromise<T = any>(): {
   promise: Promise<T>;

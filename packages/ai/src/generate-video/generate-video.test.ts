@@ -315,7 +315,7 @@ describe('experimental_generateVideo', () => {
     });
 
     it('should detect mediaType via signature when provider and download return application/octet-stream', async () => {
-      // Mock fetch to return octet-stream content-type (simulating CDN behavior)
+      // 模拟获取以返回八位字节流内容类型（模拟 CDN 行为）
       (global.fetch as ReturnType<typeof vi.fn>).mockImplementationOnce(
         async () => {
           return new Response(convertBase64ToUint8Array(mp4Base64), {
@@ -333,7 +333,7 @@ describe('experimental_generateVideo', () => {
                 {
                   type: 'url',
                   url: 'https://example.com/video',
-                  // Provider also returns octet-stream (or could be empty)
+                  // 提供者还返回八位字节流（或者可以为空）
                   mediaType: 'application/octet-stream',
                 },
               ],
@@ -342,7 +342,7 @@ describe('experimental_generateVideo', () => {
         prompt,
       });
 
-      // Should detect MP4 from file signature, not use octet-stream
+      // 应该从文件签名中检测 MP4，而不是使用八位字节流
       expect(result.video.mediaType).toBe('video/mp4');
     });
   });
@@ -693,7 +693,7 @@ describe('experimental_generateVideo', () => {
         n: 2,
       });
 
-      // Gateway metadata is merged like any other provider
+      // 网关元数据像任何其他提供商一样合并
       expect(result.providerMetadata.gateway).toStrictEqual({
         videos: [{ seed: 111 }, { seed: 222 }],
         routing: { provider: 'fal' },
@@ -764,7 +764,7 @@ describe('experimental_generateVideo', () => {
         n: 2,
       });
 
-      // Verify per-call metadata is preserved in responses array
+      // 验证每次调用元数据是否保留在响应数组中
       expect(result.responses).toHaveLength(2);
       expect(result.responses[0].providerMetadata).toStrictEqual({
         testProvider: {
@@ -779,14 +779,14 @@ describe('experimental_generateVideo', () => {
         },
       });
 
-      // Top-level merged metadata still works
+      // 顶级合并元数据仍然有效
       expect(result.providerMetadata).toStrictEqual({
         testProvider: {
           videos: [
             { seed: 111, duration: 5 },
             { seed: 222, duration: 8 },
           ],
-          requestId: 'req-002', // Last call wins for non-array fields
+          requestId: 'req-002', // 对于非数组字段，最后一次调用获胜
         },
       });
     });
@@ -922,7 +922,7 @@ describe('experimental_generateVideo', () => {
 
     it('should detect image mediaType from raw base64 string via signature detection', async () => {
       let capturedArgs!: Parameters<Experimental_VideoModelV4['doGenerate']>[0];
-      // Raw base64 PNG (not a data URL) - must be detected via signature
+      // 原始 base64 PNG（不是数据 URL）- 必须通过签名检测
       const pngBase64 =
         'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==';
 
@@ -951,7 +951,7 @@ describe('experimental_generateVideo', () => {
 
     it('should detect image mediaType from Uint8Array via signature detection', async () => {
       let capturedArgs!: Parameters<Experimental_VideoModelV4['doGenerate']>[0];
-      // JPEG magic bytes: 0xFF 0xD8 0xFF
+      // JPEG 魔术字节：0xFF 0xD8 0xFF
       const jpegBytes = new Uint8Array([
         0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46,
       ]);

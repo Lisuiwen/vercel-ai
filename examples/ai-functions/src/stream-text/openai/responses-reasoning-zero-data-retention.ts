@@ -13,7 +13,7 @@ run(async () => {
     reasoning: 'medium',
     providerOptions: {
       openai: {
-        store: false, // No data retention - makes interaction stateless
+        store: false, // 无数据保留 - 使交互无状态
         reasoningSummary: 'auto',
       } satisfies OpenAILanguageModelResponsesOptions,
     },
@@ -44,7 +44,7 @@ run(async () => {
           },
         ],
       },
-      ...(await result1.response).messages, // Need to pass all previous messages to the follow-up request
+      ...(await result1.response).messages, // 需要将之前的所有消息传递给后续请求
       {
         role: 'user',
         content:
@@ -54,7 +54,7 @@ run(async () => {
     reasoning: 'medium',
     providerOptions: {
       openai: {
-        store: false, // No data retention - makes interaction stateless
+        store: false, // 无数据保留 - 使交互无状态
         reasoningSummary: 'auto',
       } satisfies OpenAILanguageModelResponsesOptions,
     },

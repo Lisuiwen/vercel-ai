@@ -36,7 +36,7 @@ export async function POST(req: Request) {
   const { message, previousProviderMetadata } =
     reqJson as PreviousResponseIdRequestBody;
 
-  // Extract the prior OpenAI responseId so the Responses API can replay history.
+  // 提取先前的 OpenAI responseId，以便 Responses API 重放历史。
   const previousResponseId: string | null | undefined =
     !!previousProviderMetadata
       ? previousProviderMetadata.openai.responseId
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     execute: async ({ writer }) => {
       const result = streamText({
         model: openai('gpt-5-mini'),
-        // Send only the latest user message; OpenAI will fetch prior turns via previousResponseId.
+        // 仅发送最新用户消息；OpenAI 将通过 previousResponseId 获取先前轮次。
         messages: await convertToModelMessages([message]),
         tools,
         stopWhen: isStepCount(20),
@@ -55,13 +55,13 @@ export async function POST(req: Request) {
           openai: {
             reasoningSummary: 'auto',
             store: true,
-            // Enable history lookup by passing the responseId from the previous call.
+            // 通过传入上次调用的 responseId 启用历史查找。
             previousResponseId,
           } satisfies OpenAILanguageModelResponsesOptions,
         },
         onFinish: ({ providerMetadata }) => {
           if (!!providerMetadata) {
-            // Return provider metadata so the client can persist the latest responseId.
+            // 返回 provider metadata，以便客户端持久化最新的 responseId。
             writer.write({
               type: 'data-providerMetadata',
               data: providerMetadata as OpenaiResponsesProviderMetadata,

@@ -286,7 +286,7 @@ describe('streamText types', () => {
         tools: mixedTools,
         toolsContext: { weather: { weatherApiKey: 'key' } },
         experimental_refineToolInput: {
-          // @ts-expect-error refinement must return the same tool input type
+          // @ts-expect-error 细化必须返回相同的工具输入类型
           weather: _input => ({
             location: 123,
           }),
@@ -301,7 +301,7 @@ describe('streamText types', () => {
         tools: mixedTools,
         toolsContext: { weather: { weatherApiKey: 'key' } },
         experimental_refineToolInput: {
-          // @ts-expect-error unknown tool names are not accepted
+          // @ts-expect-error 不接受未知的工具名称
           unknown: input => input,
         },
       });
@@ -426,7 +426,7 @@ describe('streamText types', () => {
         runtimeContext: { userId: 'user-123' },
         telemetry: {
           includeRuntimeContext: {
-            // @ts-expect-error includeRuntimeContext only supports runtimeContext properties
+            // @ts-expect-error includeRuntimeContext 仅支持 runtimeContext 属性
             unknown: true,
           },
         },
@@ -565,7 +565,7 @@ describe('streamText types', () => {
         streamText({
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
-          // @ts-expect-error toolsContext is not accepted when no tools are provided
+          // 当没有提供工具时，不接受@ts-expect-error toolsContext
           toolsContext: {},
         });
       });
@@ -577,7 +577,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: toolWithoutContext,
-          // @ts-expect-error toolsContext is not accepted when no tools require it
+          // 当没有工具需要时，不接受@ts-expect-error toolsContext
           toolsContext: {},
         });
       });
@@ -585,7 +585,7 @@ describe('streamText types', () => {
 
     describe('single tool with fully optional contextSchema', () => {
       it('should reject no toolsContext', async () => {
-        // @ts-expect-error toolsContext is required when a tool has contextSchema
+        // 当工具具有 contextSchema 时，需要 @ts-expect-error toolsContext
         streamText({
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
@@ -644,7 +644,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: toolWithOptionalContextObject,
-          // @ts-expect-error missing required weather.weatherApiKey
+          // @ts-expect-error 缺少所需的weather.weatherApiKey
           toolsContext: { weather: {} },
         });
       });
@@ -652,7 +652,7 @@ describe('streamText types', () => {
 
     describe('two tools with contextSchema', () => {
       it('should reject no toolsContext', async () => {
-        // @ts-expect-error toolsContext is required when tools have contextSchema
+        // 当工具具有 contextSchema 时，需要 @ts-expect-error toolsContext
         streamText({
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
@@ -665,7 +665,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: twoToolsWithContext,
-          // @ts-expect-error missing required weather and db tool contexts
+          // @ts-expect-error 缺少所需的天气和数据库工具上下文
           toolsContext: {},
         });
       });
@@ -675,7 +675,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: twoToolsWithContext,
-          // @ts-expect-error missing required weather and db tool contexts
+          // @ts-expect-error 缺少所需的天气和数据库工具上下文
           toolsContext: { wrong: 'value' },
         });
       });
@@ -695,7 +695,7 @@ describe('streamText types', () => {
 
     describe('mixed tools', () => {
       it('should reject no toolsContext', async () => {
-        // @ts-expect-error toolsContext is required when at least one tool has contextSchema
+        // 当至少一个工具具有 contextSchema 时，需要 @ts-expect-error toolsContext
         streamText({
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
@@ -708,7 +708,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: mixedTools,
-          // @ts-expect-error missing required weather tool context
+          // @ts-expect-error 缺少所需的天气工具上下文
           toolsContext: {},
         });
       });
@@ -718,7 +718,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: mixedTools,
-          // @ts-expect-error missing required weather tool context
+          // @ts-expect-error 缺少所需的天气工具上下文
           toolsContext: { wrong: 'value' },
         });
       });
@@ -758,7 +758,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: mixedTools,
-          // @ts-expect-error missing required weather tool context
+          // @ts-expect-error 缺少所需的天气工具上下文
           toolsContext: {},
           prepareStep: ({ runtimeContext, toolsContext }) => {
             expectTypeOf(runtimeContext).toEqualTypeOf<Context>();
@@ -778,7 +778,7 @@ describe('streamText types', () => {
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
           tools: mixedTools,
-          // @ts-expect-error missing required weather.weatherApiKey
+          // @ts-expect-error 缺少所需的weather.weatherApiKey
           toolsContext: { weather: { wrong: 'value' } },
           prepareStep: ({ runtimeContext, toolsContext }) => {
             expectTypeOf(runtimeContext).toEqualTypeOf<Context>();
@@ -799,7 +799,7 @@ describe('streamText types', () => {
         streamText({
           model: new MockLanguageModelV4(),
           prompt: 'Hello',
-          // @ts-expect-error toolsContext is not accepted when no tools are provided
+          // 当没有提供工具时，不接受@ts-expect-error toolsContext
           toolsContext: {},
           prepareStep: ({ runtimeContext, toolsContext }) => {
             expectTypeOf(runtimeContext).toEqualTypeOf<Context>();

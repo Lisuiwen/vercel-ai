@@ -1,12 +1,14 @@
 # AI SDK - Google Provider
 
-The **[Google provider](https://ai-sdk.dev/providers/ai-sdk-providers/google)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for the [Google Generative AI](https://ai.google/discover/generativeai/) APIs.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Google provider](https://ai-sdk.dev/providers/ai-sdk-providers/google)** contains language model support for the [Google Generative AI](https://ai.google/discover/generativeai/) APIs.
 
 > **Deploying to Vercel?** With Vercel's AI Gateway you can access Google (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
 
-## Setup
+## 安装
 
-The Google provider is available in the `@ai-sdk/google` module. You can install it with
+Google 提供商位于 `@ai-sdk/google` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/google
@@ -22,7 +24,9 @@ npx skills add vercel/ai
 
 ## Provider Instance
 
-You can import the default provider instance `google` from `@ai-sdk/google`:
+可从 `@ai-sdk/google` 导入默认提供商实例 `google`：
+
+
 
 ```ts
 import { google } from '@ai-sdk/google';
@@ -42,4 +46,4 @@ const { text } = await generateText({
 
 ## Documentation
 
-Please check out the **[Google provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/google)** for more information.
+更多信息请参阅 **[Google 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/google)**。

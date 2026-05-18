@@ -1,9 +1,9 @@
 import { prepareHeaders } from '../util/prepare-headers';
 
 /**
- * Creates a Response object from a text stream.
- * Each text chunk is encoded as UTF-8 and sent as a separate chunk.
- * Sets a `Content-Type` header to `text/plain; charset=utf-8`.
+ * 从文本流创建 Response 对象。
+ * 每个文本块都编码为 UTF-8 并作为单独的块发送。
+ * 将“Content-Type”标头设置为“text/plain”；字符集=utf-8`。
  *
  * @param options - The options for creating the response.
  * @param options.status - Optional HTTP status code (default: 200).

@@ -72,7 +72,7 @@ run(async () => {
   console.log(`Max: ${max.toFixed(1)} ms`);
   console.log(`Range: ${(max - min).toFixed(1)} ms`);
 
-  // Write to GitHub Actions output if running in CI
+  // 如果在 CI 中运行，则写入 GitHub Actions 输出
   if (process.env.GITHUB_OUTPUT) {
     // remove "@ai-sdk/" prefix if present
     const outputKey = moduleName.replace(/^@ai-sdk\//, '');

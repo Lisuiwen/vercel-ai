@@ -59,7 +59,7 @@ export default function OpenAIApplyPatchView({
             ? 'bg-blue-200 text-blue-900'
             : 'bg-red-200 text-red-900';
 
-      // Parse diff for visualization
+      // 解析 diff 以供可视化
       const { lines, addedLines, removedLines, contextLines } =
         parseDiffForVisualization(input.operation.diff || '');
 
@@ -203,7 +203,7 @@ export default function OpenAIApplyPatchView({
             : 'bg-red-200 text-red-900'
         : 'bg-red-200 text-red-900';
 
-      // Parse diff for visualization
+      // 解析 diff 以供可视化
       const { lines, addedLines, removedLines, contextLines } =
         parseDiffForVisualization(input.operation.diff || '');
 

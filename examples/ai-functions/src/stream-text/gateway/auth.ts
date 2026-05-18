@@ -2,9 +2,9 @@ import { streamText } from 'ai';
 import { gateway } from '@ai-sdk/gateway';
 import { run } from '../../lib/run';
 
-// An integration test for Vercel AI Gateway provider authentication. There are
-// two authentication methods: OIDC and API key. Proper testing requires that
-// the developer has set a valid OIDC token and API key in the
+// Vercel AI 网关提供商身份验证的集成测试。有
+// 两种身份验证方法：OIDC 和 API 密钥。正确的测试需要
+// 开发者已在中设置了有效的 OIDC 令牌和 API 密钥
 // `examples/ai-functions/.env` file (or otherwise in the environment somehow).
 
 const VALID_OIDC_TOKEN = (() => {

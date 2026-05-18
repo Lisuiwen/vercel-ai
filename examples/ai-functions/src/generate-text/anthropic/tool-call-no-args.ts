@@ -9,7 +9,7 @@ run(async () => {
     model: anthropic('claude-sonnet-4-5'),
     tools: {
       updateIssueList: tool({
-        inputSchema: z.object({}), // empty input schema
+        inputSchema: z.object({}), // 空输入模式
       }),
     },
     prompt: 'Update the issue list',

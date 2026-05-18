@@ -37,7 +37,7 @@ import type { DownloadFunction } from '../util/download/download-function';
 import type { AgentCallParameters } from './agent';
 
 /**
- * Configuration options for an agent.
+ * 代理的配置选项。
  */
 export type ToolLoopAgentSettings<
   CALL_OPTIONS = never,
@@ -48,91 +48,91 @@ export type ToolLoopAgentSettings<
   Omit<RequestOptions<TOOLS>, 'abortSignal'> &
   ToolsContextParameter<TOOLS> & {
     /**
-     * The id of the agent.
+     * 代理的ID。
      */
     id?: string;
 
     /**
-     * The instructions for the agent.
+     * 给代理的说明。
      *
-     * It can be a string, or, if you need to pass additional provider options (e.g. for caching), a `SystemModelMessage`.
+     * 它可以是一个字符串，或者，如果您需要提供其他提供程序选项（例如用于服务器），则可以是`SystemModelMessage`。
      */
     instructions?: Instructions;
 
     /**
-     * The language model to use.
+     * 要使用的语言模型。
      */
     model: LanguageModel;
 
     /**
-     * The tool choice strategy. Default: 'auto'.
+     * 工具选择策略。默认值：“自动”。
      */
     toolChoice?: ToolChoice<NoInfer<TOOLS>>;
 
     /**
-     * Condition for stopping the generation when there are tool results in the last step.
-     * When the condition is an array, any of the conditions can be met to stop the generation.
+     * 最后一步有工具结果时停止生成的条件。
+     * 当条件是数组时，满足任何一个条件都可以停止生成。
      *
      * @default isStepCount(20)
      */
     stopWhen?: Arrayable<StopCondition<NoInfer<TOOLS>, RUNTIME_CONTEXT>>;
 
     /**
-     * Optional telemetry configuration.
+     * 可选遥测配置。
      */
     telemetry?: TelemetryOptions<RUNTIME_CONTEXT, NoInfer<TOOLS>>;
 
     /**
-     * Optional telemetry configuration.
+     * 可选遥测配置。
      *
-     * @deprecated Use `telemetry` instead. This alias will be removed in a future major release.
+     * @deprecated 请改用`遥测`。该别名将在未来的主要版本中删除。
      */
     experimental_telemetry?: TelemetryOptions<RUNTIME_CONTEXT, NoInfer<TOOLS>>;
 
     /**
-     * Limits the tools that are available for the model to call without
-     * changing the tool call and result types in the result.
+     * 限制模型可以调用的工具，无需
+     * 更改结果中的工具调用和结果类型。
      */
     activeTools?: ActiveTools<NoInfer<TOOLS>>;
 
     /**
-     * Optional specification for generating structured outputs.
+     * 用于生成结构化输出的可选规范。
      */
     output?: OUTPUT;
 
     /**
-     * Runtime context. Treat runtime context as immutable.
-     * If you need to mutate runtime context, update it in `prepareStep`.
+     * 运行时上下文。将运行时上下文视为不可变。
+     * 如果您需要改变运行时上下文，请在`prepareStep`中更新它。
      */
     runtimeContext?: RUNTIME_CONTEXT;
 
     /**
-     * Optional tool approval configuration.
+     * 可选工具审批配置。
      *
-     * This configuration takes precedence over tool-defined approval settings.
+     * 此配置优先于工具定义的批准设置。
      */
     toolApproval?: ToolApprovalConfiguration<NoInfer<TOOLS>, RUNTIME_CONTEXT>;
 
     /**
-     * Optional function that you can use to provide different settings for a step.
+     * 您可以使用可选函数为步骤提供不同的设置。
      */
     prepareStep?: PrepareStepFunction<NoInfer<TOOLS>, RUNTIME_CONTEXT>;
 
     /**
-     * A function that attempts to repair a tool call that failed to parse.
+     * 尝试修复无法解析的工具调用的函数。
      */
     experimental_repairToolCall?: ToolCallRepairFunction<NoInfer<TOOLS>>;
 
     /**
-     * Optional mapping of tool names to functions that refine parsed tool inputs.
+     * 工具名称到优化已解析工具输入的函数的可选映射。
      *
-     * The refined input must have the same type shape as the tool input. Refined
-     * inputs are used for tool execution, outputs, callbacks, and telemetry.
+     * 精炼输入必须与工具输入具有相同的类型形状。精致
+     * 输入用于工具执行、输出、回调和遥测。
      */
     experimental_refineToolInput?: ToolInputRefinement<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called when the agent operation begins, before any LLM calls.
+     * 代理操作开始时、任何LLM调用之前调用的回调。
      */
     experimental_onStart?: GenerateTextOnStartCallback<
       NoInfer<TOOLS>,
@@ -141,7 +141,7 @@ export type ToolLoopAgentSettings<
     >;
 
     /**
-     * Callback that is called when a step (LLM call) begins, before the provider is called.
+     * 在调用提供程序之前，步骤（LLM调用）开始时调用的回调。
      */
     experimental_onStepStart?: GenerateTextOnStepStartCallback<
       NoInfer<TOOLS>,
@@ -150,17 +150,17 @@ export type ToolLoopAgentSettings<
     >;
 
     /**
-     * Callback that is called before each tool execution begins.
+     * 在每个工具执行开始之前调用的回调。
      */
     onToolExecutionStart?: OnToolExecutionStartCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called after each tool execution completes.
+     * 每个工具执行完成后调用的回调。
      */
     onToolExecutionEnd?: OnToolExecutionEndCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called when each step (LLM call) is finished, including intermediate steps.
+     * 每个步骤（LLM调用）完成时调用的回调，包括中间步骤。
      */
     onStepFinish?: GenerateTextOnStepFinishCallback<
       NoInfer<TOOLS>,
@@ -168,7 +168,7 @@ export type ToolLoopAgentSettings<
     >;
 
     /**
-     * Callback that is called when all steps are finished and the response is complete.
+     * 当所有步骤完成并且响应完成时调用的回调。
      */
     onFinish?: GenerateTextOnFinishCallback<
       NoInfer<TOOLS>,
@@ -176,31 +176,31 @@ export type ToolLoopAgentSettings<
     >;
 
     /**
-     * Additional provider-specific options. They are passed through
-     * to the provider from the AI SDK and enable provider-specific
-     * functionality that can be fully encapsulated in the provider.
+     * 其他特定于提供商的选项。他们通过
+     * 从AI SDK发送给成功并实现特定的成功
+     * 可以完全封装在提供者中的功能。
      */
     providerOptions?: ProviderOptions;
 
     /**
-     * Custom download function to use for URLs.
+     * 使用URL的自定义下载功能。
      *
-     * By default, files are downloaded if the model does not support the URL for the given media type.
+     * 默认情况下，如果模型不支持给定媒体类型的URL，则下载文件。
      */
     experimental_download?: DownloadFunction | undefined;
 
     /**
-     * Settings for controlling what data is included in step results.
-     * Disabling inclusion can help reduce memory usage when processing
-     * large payloads like images.
+     * 用于控制步骤结果中包含哪些数据的设置。
+     * 禁用包含可以帮助减少处理时的内存使用量
+     * 图像等大型有效负载。
      *
-     * By default, request and response bodies are included, and request
-     * messages are excluded.
+     * 默认情况下包含请求体和响应体，并且请求
+     * 消息被排除。
      */
     include?: GenerateTextInclude & StreamTextInclude;
 
     /**
-     * Internal. For test use only. May change without notice.
+     * 内部的。仅供测试使用。可能会更改，恕不另行通知。
      */
     _internal?: {
       generateId?: IdGenerator;
@@ -208,22 +208,22 @@ export type ToolLoopAgentSettings<
     };
 
     /**
-     * The schema for the call options.
+     * 看涨期权的架构。
      */
     callOptionsSchema?: FlexibleSchema<CALL_OPTIONS>;
 
     /**
-     * Prepare the parameters for the generateText or streamText call.
+     * 为generateText 或streamText 调用准备参数。
      *
-     * You can use this to have templates based on call options.
+     * 您可以使用它来创建基于呼叫选项的模板。
      *
-     * The design requires you to pass call parameters as follows to
-     * allow for the removal of parameters from the original settings
-     * by setting them to `undefined`:
+     * 该设计要求您传递如下调用参数
+     * 允许从原始设置中删除参数
+     * 通过将它们设置为“未定义”：
      *
      * ```
-     *   prepareCall: ({ options, ...rest }) => ({
-     *     ...rest,
+     * 准备调用：（{选项，...休息}）=>（{
+     *     ...休息，
      *   }),
      * ```
      */

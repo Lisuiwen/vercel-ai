@@ -1,10 +1,10 @@
 # AI SDK DevTools
 
-A local development tool for debugging and inspecting AI SDK applications. View LLM requests, responses, tool calls, and multi-step interactions in a web-based UI.
+用于调试与检查 AI SDK 应用的本地开发工具。在 Web UI 中查看 LLM 请求、响应、工具调用与多步交互。
 
-> **Note**: This package is experimental and intended for local development only. Do not use in production environments.
+> **注意**：本包为实验性，仅用于本地开发。请勿在生产环境使用。
 
-## Installation
+## 安装
 
 ```bash
 npm install @ai-sdk/devtools
@@ -12,14 +12,14 @@ npm install @ai-sdk/devtools
 pnpm add @ai-sdk/devtools
 ```
 
-## Requirements
+## 要求
 
-- AI SDK v6 beta (`ai@^6.0.0-beta.0`)
-- Node.js compatible runtime
+- AI SDK v6 beta（`ai@^6.0.0-beta.0`）
+- 兼容 Node.js 的运行时
 
-## Usage
+## 用法
 
-### 1. Add the middleware to your model
+### 1. 为模型添加中间件
 
 ```typescript
 import { wrapLanguageModel } from 'ai';
@@ -31,43 +31,43 @@ const model = wrapLanguageModel({
 });
 ```
 
-### 2. Run the viewer
+### 2. 运行查看器
 
 ```bash
 npx @ai-sdk/devtools
 ```
 
-Open http://localhost:4983 to view your AI SDK interactions.
+打开 http://localhost:4983 查看 AI SDK 交互。
 
-## How it works
+## 工作原理
 
-The middleware intercepts all `generateText` and `streamText` calls, capturing:
+中间件拦截所有 `generateText` 与 `streamText` 调用，并捕获：
 
-- Input parameters and prompts
-- Output content and tool calls
-- Token usage and timing
-- Raw provider request/response data
+- 输入参数与 prompt
+- 输出内容与工具调用
+- Token 用量与耗时
+- 原始提供商请求/响应数据
 
-Data is stored locally in a JSON file (`.devtools/generations.json`) and served through a web UI.
+数据保存在本地 JSON 文件（`.devtools/generations.json`）中，并通过 Web UI 展示。
 
-### Data flow
+### 数据流
 
 ```
 AI SDK call → devToolsMiddleware → JSON file → Hono API → React UI
 ```
 
-### Key concepts
+### 核心概念
 
-- **Run**: A complete multi-step AI interaction, grouped by initial prompt
-- **Step**: A single LLM call within a run
+- **Run**：按初始 prompt 分组的多步完整 AI 交互
+- **Step**：一次 Run 内的单次 LLM 调用
 
-## Development
+## 开发
 
 ```bash
 pnpm install
 pnpm dev        # Start dev server at http://localhost:5173
 ```
 
-## License
+## 许可证
 
 MIT

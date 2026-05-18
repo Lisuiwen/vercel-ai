@@ -1,28 +1,28 @@
 ---
 title: Traceloop
-description: Monitoring and evaluating LLM applications with Traceloop
+description: 使用 Traceloop 监控与评估 LLM 应用
 ---
 
 # Traceloop
 
-[Traceloop](https://www.traceloop.com/) is a development platform for building reliable AI applications.
-After integrating with the AI SDK, you can use Traceloop to trace, monitor, and experiment with LLM providers, prompts and flows.
+[Traceloop](https://www.traceloop.com/) 是用于构建可靠 AI 应用的研发平台。
+接入 AI SDK 后，可使用 Traceloop 追踪、监控并实验 LLM 提供商、prompts 与流程。
 
-## Setup
+## 设置
 
-Traceloop supports [AI SDK telemetry data](/docs/ai-sdk-core/telemetry) through [OpenTelemetry](https://opentelemetry.io/docs/).
-You'll need to sign up at https://app.traceloop.com and get an API Key.
+Traceloop 通过 [OpenTelemetry](https://opentelemetry.io/docs/) 支持 [AI SDK telemetry data](/docs/ai-sdk-core/telemetry)。
+请在 https://app.traceloop.com 注册并获取 API Key。
 
 ### Next.js
 
-To use the AI SDK to send telemetry data to Traceloop, set these environment variables in your Next.js app's `.env` file:
+要在 Next.js 应用中通过 AI SDK 向 Traceloop 发送 telemetry，在应用的 `.env` 中设置这些环境变量：
 
 ```bash
 OTEL_EXPORTER_OTLP_ENDPOINT=https://api.traceloop.com
 OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer <Your API Key>"
 ```
 
-Install `@ai-sdk/otel` and register the `LegacyOpenTelemetry` in your `instrumentation.ts` file:
+安装 `@ai-sdk/otel`，并在 `instrumentation.ts` 注册 `LegacyOpenTelemetry`：
 
 ```typescript filename="instrumentation.ts"
 import { registerTelemetry } from 'ai';
@@ -31,7 +31,7 @@ import { LegacyOpenTelemetry } from '@ai-sdk/otel';
 registerTelemetry(new LegacyOpenTelemetry());
 ```
 
-You can then use the `telemetry` option to enable telemetry on supported AI SDK function calls:
+随后可在支持的 AI SDK 函数调用上使用 `telemetry` 选项启用遥测：
 
 ```typescript highlight="7-12"
 import { generateText } from 'ai';
@@ -49,7 +49,7 @@ const result = await generateText({
 });
 ```
 
-## Resources
+## 资源
 
 - [Traceloop demo chatbot](https://www.traceloop.com/docs/demo)
 - [Traceloop docs](https://www.traceloop.com/docs)

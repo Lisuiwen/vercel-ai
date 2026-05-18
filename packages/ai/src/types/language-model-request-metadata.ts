@@ -1,16 +1,16 @@
 import type { ModelMessage } from '@ai-sdk/provider-utils';
 
 /**
- * Metadata for a language model request.
+ * 语言模型请求的元数据。
  */
 export type LanguageModelRequestMetadata = {
   /**
-   * The input messages that were sent to the model for this step.
+   * 为此步骤发送到模型的输入消息。
    */
   readonly messages?: Array<ModelMessage>;
 
   /**
-   * Request HTTP body that was sent to the provider API.
+   * 请求发送到提供商 API 的 HTTP 正文。
    */
   readonly body?: unknown;
 };

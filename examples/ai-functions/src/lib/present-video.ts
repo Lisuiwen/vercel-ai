@@ -5,8 +5,8 @@ import path from 'node:path';
 const OUTPUT_DIR = 'output';
 
 /**
- * Saves generated video files to the output directory with unique timestamps.
- * Videos are typically too large to display in the terminal, so we just save them.
+ * 将生成的视频文件保存到具有唯一时间戳的输出目录。
+ * 视频通常太大而无法在终端中显示，因此我们只需保存它们。
  * @param videos - An array of generated videos to process and save.
  */
 export async function presentVideos(videos: GeneratedFile[]) {

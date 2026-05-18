@@ -6,7 +6,7 @@ run(async () => {
   const { text, usage } = await generateText({
     model: openai('gpt-3.5-turbo'),
     prompt: 'Invent a new holiday and describe its traditions.',
-    timeout: { totalMs: 1000 }, // 1 second timeout using object format
+    timeout: { totalMs: 1000 }, // 使用对象格式的 1 秒超时
   });
 
   console.log(text);

@@ -1,9 +1,9 @@
-# Building new features
+# 构建新功能
 
-1. Create/update generateText example
-2. Create/update streamText example
-3. Create/update UI tests (next-openai)
-   - always test follow up message
-   - consider testing with store: false
+1. 创建/更新 generateText 示例
+2. 创建/更新 streamText 示例
+3. 创建/更新 UI 测试（next-openai）
+   - 始终测试后续消息
+   - 考虑使用 `store: false` 进行测试
 
-Example: https://github.com/vercel/ai/pull/8691
+示例：https://github.com/vercel/ai/pull/8691

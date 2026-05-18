@@ -9,7 +9,7 @@ import {
 } from 'ai';
 import type { HumanInTheLoopUIMessage } from './types';
 
-// Approval string to be shared across frontend and backend
+// 前后端共用的审批字符串
 export const APPROVAL = {
   YES: 'Yes, confirmed.',
   NO: 'No, denied.',
@@ -23,14 +23,14 @@ function isValidToolName<K extends PropertyKey, T extends object>(
 }
 
 /**
- * Processes tool invocations where human input is required, executing tools when authorized.
+ * 处理需要人工输入的 tool 调用，在授权后执行 tool。
  *
- * @param options - The function options
- * @param options.tools - Map of tool names to Tool instances that may expose execute functions
- * @param options.writer - UIMessageStream writer for sending results back to the client
- * @param options.messages - Array of messages to process
- * @param executionFunctions - Map of tool names to execute functions
- * @returns Promise resolving to the processed messages
+ * @param options - 函数选项
+ * @param options.tools - tool 名称到可能暴露 execute 函数的 Tool 实例的映射
+ * @param options.writer - 用于将结果发回客户端的 UIMessageStream writer
+ * @param options.messages - 待处理的消息数组
+ * @param executionFunctions - tool 名称到 execute 函数的映射
+ * @returns 解析为处理后消息的 Promise
  */
 export async function processToolCalls<
   Tools extends ToolSet,
@@ -44,9 +44,9 @@ export async function processToolCalls<
     writer,
     messages,
   }: {
-    tools: Tools; // used for type inference
+    tools: Tools; // 用于类型推断
     writer: UIMessageStreamWriter;
-    messages: HumanInTheLoopUIMessage[]; // IMPORTANT: replace with your message type
+    messages: HumanInTheLoopUIMessage[]; // 重要：替换为你的消息类型
   },
   executeFunctions: {
     [K in keyof Tools & keyof ExecutableTools]?: (
@@ -61,19 +61,19 @@ export async function processToolCalls<
 
   const processedParts = await Promise.all(
     parts.map(async part => {
-      // Only process tool invocations parts
+      // 仅处理 tool invocation parts
       if (!isStaticToolUIPart(part)) return part;
 
       const toolName = getStaticToolName(part);
 
-      // Only continue if we have an execute function for the tool (meaning it requires confirmation) and it's in a 'result' state
+      // 仅当 tool 有 execute 函数（需要确认）且处于 'result' 状态时继续
       if (!(toolName in executeFunctions) || part.state !== 'output-available')
         return part;
 
       let result;
 
       if (part.output === APPROVAL.YES) {
-        // Get the tool and check if the tool has an execute function.
+        // 获取 tool 并检查是否有 execute 函数。
         if (
           !isValidToolName(toolName, executeFunctions) ||
           part.state !== 'output-available'
@@ -94,18 +94,18 @@ export async function processToolCalls<
       } else if (part.output === APPROVAL.NO) {
         result = 'Error: User denied access to tool execution';
       } else {
-        // For any unhandled responses, return the original part.
+        // 对任何未处理的响应，返回原始 part。
         return part;
       }
 
-      // Forward updated tool result to the client.
+      // 将更新后的 tool 结果转发给客户端。
       writer.write({
         type: 'tool-output-available',
         toolCallId: part.toolCallId,
         output: result,
       });
 
-      // Return updated toolInvocation with the actual result.
+      // 返回带实际结果的更新后 toolInvocation。
       return {
         ...part,
         output: result,
@@ -113,7 +113,7 @@ export async function processToolCalls<
     }),
   );
 
-  // Finally return the processed messages
+  // 最后返回处理后的消息
   return [...messages.slice(0, -1), { ...lastMessage, parts: processedParts }];
 }
 

@@ -1,22 +1,22 @@
-# AI SDK, Next.js, and Google Vertex AI Edge Example
+# AI SDK、Next.js 与 Google Vertex AI Edge 示例
 
-This example shows how to use the [AI SDK](https://ai-sdk.dev/docs) with [Next.js](https://nextjs.org/) and [Google Vertex AI](https://cloud.google.com/vertex-ai) to validate that the AI SDK's Google Vertex provider can run successfully in the Edge runtime.
+本示例演示如何将 [AI SDK](https://ai-sdk.dev/docs) 与 [Next.js](https://nextjs.org/) 和 [Google Vertex AI](https://cloud.google.com/vertex-ai) 结合，验证 AI SDK 的 Google Vertex 提供商可在 Edge 运行时成功运行。
 
-## Deploy your own
+## 自行部署
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=ai-sdk-example):
+使用 [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=ai-sdk-example) 部署本示例：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fai%2Ftree%2Fmain%2Fexamples%2Fnext-google-vertex-edge&env=GOOGLE_VERTEX_API_KEY&project-name=ai-sdk-vertex-edge&repository-name=ai-sdk-vertex-edge)
 
-## How to use
+## 使用方法
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+使用 [npm](https://docs.npmjs.com/cli/init)、[Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) 或 [pnpm](https://pnpm.io) 执行 [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) 初始化示例：
 
 ```bash
 npx create-next-app --example https://github.com/vercel/ai/tree/main/examples/next-google-vertex-edge next-vertex-edge-app
 ```
 
-To run the example locally you need to:
+本地运行需完成：
 
 1. Set up a [Google Cloud Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
 2. Enable the [Vertex AI API](https://cloud.google.com/vertex-ai/docs/start/cloud-console)
@@ -34,11 +34,11 @@ To run the example locally you need to:
 4. `pnpm install` to install the required dependencies
 5. `pnpm dev` to launch the development server
 
-## Learn More
+## 延伸阅读
 
 To learn more about Google Vertex AI, Next.js, and the AI SDK take a look at the following resources:
 
-- [AI SDK docs](https://ai-sdk.dev/docs)
+- [AI SDK 文档](https://ai-sdk.dev/docs)
 - [Vercel AI Playground](https://ai-sdk.dev/playground)
 - [Google Vertex AI Documentation](https://cloud.google.com/vertex-ai/docs) - learn about Vertex AI features and API
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
+- [Next.js 文档](https://nextjs.org/docs) - 了解 Next.js 功能与 API

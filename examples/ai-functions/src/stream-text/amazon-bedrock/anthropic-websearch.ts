@@ -8,7 +8,7 @@ import {
 import 'dotenv/config';
 import { run } from '../../lib/run';
 
-// Note: web_search may not be supported on Amazon Bedrock
+// 注意：Amazon Bedrock 可能不支持 web_search
 run(async () => {
   const result = streamText({
     model: bedrockAnthropic('us.anthropic.claude-sonnet-4-5-20250929-v1:0'),

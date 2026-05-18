@@ -25,10 +25,10 @@ const agent = new ToolLoopAgent({
       inputSchema: z.object({
         answer: z.string().describe('The answer to the problem'),
       }),
-      // no execute function, will stop the agent when called
+      // 无 execute 函数，调用时会停止 agent
     }),
   },
-  toolChoice: 'required', // force tool calls
+  toolChoice: 'required', // 强制工具调用
 });
 
 run(async () => {

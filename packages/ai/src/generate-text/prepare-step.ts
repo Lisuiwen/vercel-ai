@@ -13,7 +13,7 @@ import type { ResponseMessage } from './response-message';
 import type { StepResult } from './step-result';
 
 /**
- * Function that you can use to provide different settings for a step.
+ * 可用于为步骤提供不同设置的函数。
  *
  * @param options - The options for the step.
  * @param options.steps - The steps that have been executed so far.
@@ -27,65 +27,65 @@ import type { StepResult } from './step-result';
  * @param options.runtimeContext - The user-defined runtime context.
  *
  * @returns An object that contains the settings for the step.
- * If you return undefined (or for undefined settings), the settings from the outer level will be used.
+ * 如果返回未定义（或未定义的设置），则将使用外层的设置。
  */
 export type PrepareStepFunction<
   TOOLS extends ToolSet,
   RUNTIME_CONTEXT extends Context = Context,
 > = (options: {
   /**
-   * The steps that have been executed so far.
+   * 到目前为止已执行的步骤。
    */
   steps: Array<StepResult<NoInfer<TOOLS>, NoInfer<RUNTIME_CONTEXT>>>;
 
   /**
-   * The number of the step that is being executed.
+   * 正在执行的步骤的编号。
    */
   stepNumber: number;
 
   /**
-   * The model instance that is being used for this step.
+   * 用于此步骤的模型实例。
    */
   model: LanguageModel;
 
   /**
-   * The instructions that will be sent to the model for the current step.
+   * 将发送到当前步骤的模型的指令。
    */
   instructions: Instructions | undefined;
 
   /**
-   * The initial instructions that were passed into generateText or streamText.
+   * 传递到generateText或streamText的初始指令。
    */
   initialInstructions: Instructions | undefined;
 
   /**
-   * The messages that will be sent to the model for the current step.
-   * If you return a `messages` override, those messages carry forward to later steps.
+   * 将发送到当前步骤的模型的消息。
+   * 如果您返回“messages”覆盖，这些消息将继续执行后续步骤。
    */
   messages: Array<ModelMessage>;
 
   /**
-   * The initial messages that were passed into generateText or streamText.
+   * 传递到generateText或streamText的初始消息。
    */
   initialMessages: Array<ModelMessage>;
 
   /**
-   * The response messages that have been accumulated from all previous steps.
+   * 从之前所有步骤中累积的响应消息。
    */
   responseMessages: Array<ResponseMessage>;
 
   /**
-   * Tool context.
+   * 工具上下文。
    */
   toolsContext: InferToolSetContext<TOOLS>;
 
   /**
-   * User-defined runtime context.
+   * 用户定义的运行时上下文。
    */
   runtimeContext: RUNTIME_CONTEXT;
 
   /**
-   * The sandbox environment that the step is operating in.
+   * 该步骤运行所在的沙箱环境。
    */
   experimental_sandbox?: Sandbox;
 }) =>
@@ -93,8 +93,8 @@ export type PrepareStepFunction<
   | PrepareStepResult<TOOLS, RUNTIME_CONTEXT>;
 
 /**
- * The result type returned by a {@link PrepareStepFunction},
- * allowing per-step overrides of model, tools, instructions, or messages.
+ * {@linkPrepareStepFunction}返回的结果类型，
+ * 允许按步骤覆盖模型、工具、指令或消息。
  */
 export type PrepareStepResult<
   TOOLS extends ToolSet,
@@ -102,70 +102,70 @@ export type PrepareStepResult<
 > =
   | {
       /**
-       * Optionally override which LanguageModel instance is used for this step.
+       * （可选）覆盖此步骤使用的 LanguageModel 实例。
        */
       model?: LanguageModel;
 
       /**
-       * Optionally set which tool the model must call, or provide tool call configuration
-       * for this step.
+       * 可选择设置模型必须调用哪个工具，或提供工具调用配置
+       * 对于这一步。
        */
       toolChoice?: ToolChoice<NoInfer<TOOLS>>;
 
       /**
-       * If provided, only these tools are enabled/available for this step.
+       * 如果提供，则此步骤仅启用/可用这些工具。
        */
       activeTools?: ActiveTools<NoInfer<TOOLS>>;
 
       /**
-       * Optionally override the instructions sent to the model for this step.
-       * The override carries forward to later steps.
+       * （可选）覆盖发送到模型的此步骤的指令。
+       * 覆盖将继续到后续步骤。
        */
       instructions?: Instructions;
 
       /**
-       * Optionally override the instructions sent to the model for this step.
+       * （可选）覆盖发送到模型的此步骤的指令。
        *
-       * @deprecated Use `instructions` instead.
+       * @deprecated 请改用“说明”。
        */
       system?: Instructions;
 
       /**
-       * Optionally override the full set of messages sent to the model
-       * for this step. The override carries forward to later steps.
+       * 可以选择覆盖发送到模型的全套消息
+       * 对于这一步。覆盖将继续到后续步骤。
        */
       messages?: Array<ModelMessage>;
 
       /**
-       * Tool context.
+       * 工具上下文。
        *
-       * Changing the toolsContext will affect the toolsContext in this step
-       * and all subsequent steps.
+       * 改变toolsContext会影响这一步的toolsContext
+       * 以及所有后续步骤。
        *
-       * The toolsContext is passed into tool execution.
+       * toolsContext 被传递到工具执行中。
        */
       toolsContext?: InferToolSetContext<TOOLS>;
 
       /**
-       * Runtime context.
+       * 运行时上下文。
        *
-       * Changing the runtimeContext will affect the runtimeContext in this step
-       * and all subsequent steps.
+       * 改变runtimeContext会影响这一步的runtimeContext
+       * 以及所有后续步骤。
        */
       runtimeContext?: RUNTIME_CONTEXT;
 
       /**
-       * The sandbox environment that the step is operating in.
+       * 该步骤运行所在的沙箱环境。
        *
-       * Changing the sandbox will affect tool execution in this step only.
+       * 更改沙箱只会影响此步骤中的工具执行。
        */
       experimental_sandbox?: Sandbox;
 
       /**
-       * Additional provider-specific options for this step.
+       * 此步骤的其他特定于提供商的选项。
        *
-       * Can be used to pass provider-specific configuration such as
-       * container IDs for Anthropic's code execution.
+       * 可用于传递特定于提供者的配置，例如
+       * Anthropic 代码执行的容器 ID。
        */
       providerOptions?: ProviderOptions;
     }

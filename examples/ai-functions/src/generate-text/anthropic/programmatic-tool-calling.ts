@@ -31,7 +31,7 @@ run(async () => {
         }),
         execute: async ({ player }) => {
           if (player === 'player1') {
-            // Simulate a loaded die that slightly skews towards 6
+            // 模拟稍微偏向 6 的加载模具
             const r = Math.random();
             if (r < 0.13) return 1;
             if (r < 0.26) return 2;
@@ -51,10 +51,10 @@ run(async () => {
       }),
     },
 
-    // Propagate container ID between steps for code execution continuity
+    // 在步骤之间传播容器 ID，以保证代码执行的连续性
     prepareStep: forwardAnthropicContainerIdFromLastStep,
 
-    // Log request and response at each step
+    // 记录每一步的请求和响应
     onStepFinish: async ({ request, response }) => {
       stepIndex++;
       console.log(`\n${'='.repeat(60)}`);

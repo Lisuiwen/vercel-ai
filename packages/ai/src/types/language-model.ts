@@ -9,30 +9,30 @@ import type {
 
 declare global {
   /**
-   * Global interface that can be augmented by third-party packages to register custom model IDs.
+   * 全局接口，可以通过第三方包进行扩展以注册自定义模型 ID。
    *
-   * You can register model IDs in two ways:
+   * 您可以通过两种方式注册模型 ID：
    *
-   * 1. Register based on Model IDs from a provider package:
+   * 1. 根据提供商包中的模型 ID 进行注册：
    * @example
-   * ```typescript
-   * import { openai } from '@ai-sdk/openai';
-   * type OpenAIResponsesModelId = Parameters<typeof openai>[0];
+   * ``打字稿
+   * 从'@ai-sdk/openai'导入{openai}；
+   * 类型 OpenAIResponsesModelId = 参数<openai 类型>[0];
    *
-   * declare global {
-   *   interface RegisteredProviderModels {
-   *     openai: OpenAIResponsesModelId;
+   * 声明全局{
+   *   接口 RegisteredProviderModels {
+   *     openai：OpenAIResponsesModelId；
    *   }
    * }
    * ```
    *
-   * 2. Register individual model IDs directly as keys:
+   * 2. 直接将各个模型ID注册为密钥：
    * @example
-   * ```typescript
-   * declare global {
-   *   interface RegisteredProviderModels {
-   *     'my-provider:my-model': any;
-   *     'my-provider:another-model': any;
+   * ``打字稿
+   * 声明全局{
+   *   接口 RegisteredProviderModels {
+   *     '我的提供商：我的模型'：任意；
+   *     '我的提供商：另一个模型'：任何；
    *   }
    * }
    * ```
@@ -41,8 +41,8 @@ declare global {
 }
 
 /**
- * Global provider model ID type that defaults to GatewayModelId but can be augmented
- * by third-party packages via declaration merging.
+ * 全局提供程序模型 ID 类型，默认为 GatewayModelId 但可以增强
+ * 通过第三方包通过声明合并。
  */
 export type GlobalProviderModelId = [keyof RegisteredProviderModels] extends [
   never,
@@ -53,7 +53,7 @@ export type GlobalProviderModelId = [keyof RegisteredProviderModels] extends [
       | RegisteredProviderModels[keyof RegisteredProviderModels];
 
 /**
- * Language model that is used by the AI SDK.
+ * AI SDK使用的语言模型。
  */
 export type LanguageModel =
   | GlobalProviderModelId
@@ -62,15 +62,15 @@ export type LanguageModel =
   | LanguageModelV2;
 
 /**
- * Reason why a language model finished generating a response.
+ * 语言模型完成生成响应的原因。
  *
- * Can be one of the following:
- * - `stop`: model generated stop sequence
- * - `length`: model generated maximum number of tokens
- * - `content-filter`: content filter violation stopped the model
- * - `tool-calls`: model triggered tool calls
- * - `error`: model stopped because of an error
- * - `other`: model stopped for other reasons
+ * 可以是以下之一：
+ * - `stop`：模型生成的停止序列
+ * - `length`：模型生成的最大令牌数
+ * - `content-filter`：内容过滤器违规停止了模型
+ * - `tool-calls`：模型触发的工具调用
+ * - `error`：模型因错误而停止
+ * - `other`：模型因其他原因停止
  */
 export type FinishReason =
   | 'stop'
@@ -81,23 +81,23 @@ export type FinishReason =
   | 'other';
 
 /**
- * Warning from the model provider for this call. The call will proceed, but e.g.
- * some settings might not be supported, which can lead to suboptimal results.
+ * 来自模型提供商对此调用的警告。呼叫将继续进行，但例如
+ * 某些设置可能不受支持，这可能会导致结果不理想。
  */
 export type CallWarning = SharedV4Warning;
 
 /**
- * A source that has been used as input to generate the response.
+ * 已用作生成响应的输入的源。
  */
 export type Source = LanguageModelV4Source;
 
 /**
- * Tool choice for the generation. It supports the following settings:
+ * 一代人的工具选择。它支持以下设置：
  *
- * - `auto` (default): the model can choose whether and which tools to call.
- * - `required`: the model must call a tool. It can choose which tool to call.
- * - `none`: the model must not call tools
- * - `{ type: 'tool', toolName: string (typed) }`: the model must call the specified tool
+ * - `auto`（默认）：模型可以选择是否调用工具以及调用哪些工具。
+ * - `required`：模型必须调用工具。它可以选择调用哪个工具。
+ * - `none`：模型不能调用工具
+ * - `{ type: 'tool', toolName: string (typed) }`：模型必须调用指定的工具
  */
 export type ToolChoice<TOOLS extends Record<string, unknown>> =
   | 'auto'

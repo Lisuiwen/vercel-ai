@@ -5,13 +5,13 @@ import type {
 } from '@ai-sdk/provider-utils';
 
 /**
- * Checks whether a tool context map contains any contextual tool entries.
+ * 检查工具上下文映射是否包含任何上下文工具条目。
  */
 type IsEmptyObject<OBJECT> = keyof OBJECT extends never ? true : false;
 
 /**
- * Helper type to make the toolsContext parameter optional, required, or
- * unavailable based on the tool set.
+ * 使toolsContext参数成为可选、必需或可选的帮助程序类型
+ * 根据工具集不可用。
  */
 export type ToolsContextParameter<TOOLS extends ToolSet> = {
   tools?: TOOLS;

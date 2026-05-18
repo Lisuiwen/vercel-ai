@@ -1,26 +1,28 @@
-# AI SDK - Replicate Provider
+# AI SDK - Replicate 提供商
 
-The **[Replicate provider](https://ai-sdk.dev/providers/ai-sdk-providers/replicate)** for the [AI SDK](https://ai-sdk.dev/docs) contains image model support for the Replicate API.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Replicate 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/replicate)** 提供 Replicate API 的图像模型支持。
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Replicate (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Replicate（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Replicate provider is available in the `@ai-sdk/replicate` module. You can install it with
+Replicate 提供商位于 `@ai-sdk/replicate` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/replicate
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Usage
+## 用法
 
 ```ts
 import { replicate } from '@ai-sdk/replicate';
@@ -36,7 +38,7 @@ fs.writeFileSync(filename, image.uint8Array);
 console.log(`Image saved to ${filename}`);
 ```
 
-If you want to pass additional inputs to the model besides the prompt, use the `providerOptions.replicate` property:
+除 prompt 外若需向模型传入其他参数，请使用 `providerOptions.replicate`：
 
 ```ts
 const { image } = await generateImage({
@@ -51,6 +53,6 @@ const { image } = await generateImage({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[Replicate provider](https://ai-sdk.dev/providers/ai-sdk-providers/replicate)** for more information.
+更多信息请参阅 **[Replicate 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/replicate)**。

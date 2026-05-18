@@ -11,9 +11,9 @@ import { asLanguageModelV4 } from '../model/as-language-model-v4';
 import type { LanguageModelMiddleware } from '../types';
 
 /**
- * Wraps a LanguageModelV4 instance with middleware functionality.
- * This function allows you to apply middleware to transform parameters,
- * wrap generate operations, and wrap stream operations of a language model.
+ * 使用中间件功能包装 LanguageModelV4 实例。
+ * 该功能允许您应用中间件来转换参数，
+ * 包装生成操作，以及包装语言模型的流操作。
  *
  * @param options - Configuration options for wrapping the language model.
  * @param options.model - The original LanguageModelV4 instance to be wrapped.

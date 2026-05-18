@@ -5,10 +5,10 @@ import { presentImages } from '../../lib/present-image';
 import { run } from '../../lib/run';
 
 run(async () => {
-  // Flux-2 models support up to 8 reference images for:
-  // - Style transfer
-  // - Character consistency
-  // - Composition guidance
+  // Flux-2 型号支持多达 8 个参考图像，用于：
+  // - 风格转移
+  // - 角色一致性
+  // - 构图指导
   const cat = readFileSync('data/comic-cat.png');
   const dog = readFileSync('data/comic-dog.png');
 
@@ -19,7 +19,7 @@ run(async () => {
   console.log(`PROMPT: ${prompt}`);
 
   const { images } = await generateImage({
-    // Flux-2-pro supports multiple input images via input_image, input_image_2, etc.
+    // Flux-2-pro通过input_image、input_image_2等支持多个输入图像。
     model: replicate.image('black-forest-labs/flux-2-pro'),
     prompt: {
       text: prompt,

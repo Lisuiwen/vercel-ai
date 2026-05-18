@@ -1,13 +1,13 @@
 ---
 title: Claude Code
-description: Learn how to use the Claude Code provider to access Claude models through the Claude Agent SDK.
+description: 了解如何通过 Claude Agent SDK 使用 Claude Code 提供商访问 Claude 模型。
 ---
 
-# Claude Code Provider
+# Claude Code 提供商
 
-The [ai-sdk-provider-claude-code](https://github.com/ben-vargas/ai-sdk-provider-claude-code) community provider allows you to access Claude models through the official [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk). It's particularly useful for developers who want to use their existing Claude Pro/Max subscription without managing API keys.
+[ai-sdk-provider-claude-code](https://github.com/ben-vargas/ai-sdk-provider-claude-code) 允许通过官方 [Claude Agent SDK](https://www.npmjs.com/package/@anthropic-ai/claude-agent-sdk) 访问 Claude 模型；适合已通过 Claude Pro / Max 订阅、希望免管 API Key 的场景。
 
-## Version Compatibility
+## 版本兼容
 
 | Provider Version | AI SDK Version | NPM Tag     | Status      |
 | ---------------- | -------------- | ----------- | ----------- |
@@ -26,7 +26,7 @@ npm install ai-sdk-provider-claude-code@ai-sdk-v5 ai@^5.0.0
 npm install ai-sdk-provider-claude-code@ai-sdk-v4 ai@^4.0.0
 ```
 
-## Setup
+## 安装
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -43,15 +43,15 @@ npm install ai-sdk-provider-claude-code@ai-sdk-v4 ai@^4.0.0
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `claudeCode` from `ai-sdk-provider-claude-code`:
+从 `ai-sdk-provider-claude-code` 导入默认实例 `claudeCode`：
 
 ```ts
 import { claudeCode } from 'ai-sdk-provider-claude-code';
 ```
 
-If you need a customized setup, you can import `createClaudeCode` and create a provider instance with your settings:
+如需自定义，可导入 `createClaudeCode`：
 
 ```ts
 import { createClaudeCode } from 'ai-sdk-provider-claude-code';
@@ -69,38 +69,38 @@ const claudeCode = createClaudeCode({
 });
 ```
 
-You can use the following optional settings to customize the provider instance:
+可选设置：
 
-- **allowedTools** _string[]_ - List of allowed tools. When specified, only these tools will be available.
-- **disallowedTools** _string[]_ - List of disallowed tools (e.g., `['Bash(rm:*)']`).
-- **mcpServers** _Record&lt;string, McpServerConfig&gt;_ - MCP server configurations.
-- **permissionMode** _'default' | 'acceptEdits' | 'bypassPermissions' | 'plan'_ - Tool permission handling.
-- **maxTurns** _number_ - Maximum conversation turns.
-- **cwd** _string_ - Working directory for CLI operations.
-- **verbose** _boolean_ - Enable debug logging.
+- **allowedTools** _string[]_：允许的工具列表；指定后仅这些工具可用。
+- **disallowedTools** _string[]_：禁用工具列表（例如 `['Bash(rm:*)']`）。
+- **mcpServers** _Record&lt;string, McpServerConfig&gt;_：MCP 服务器配置。
+- **permissionMode** _'default' | 'acceptEdits' | 'bypassPermissions' | 'plan'_：工具权限处理策略。
+- **maxTurns** _number_：最大对话轮数。
+- **cwd** _string_：CLI 操作工作目录。
+- **verbose** _boolean_：是否输出调试日志。
 
-## Language Models
+## 语言模型
 
-You can create models that call Claude through the Claude Agent SDK using the provider instance:
+通过提供商实例创建经由 Claude Agent SDK 调用的模型：
 
 ```ts
 const model = claudeCode('sonnet');
 ```
 
-Supported model shortcuts:
+支持的模型简写：
 
-- **opus**: Claude Opus (most capable)
-- **sonnet**: Claude Sonnet (balanced)
-- **haiku**: Claude Haiku (fastest)
+- **opus**：Claude Opus（能力最强）
+- **sonnet**：Claude Sonnet（均衡）
+- **haiku**：Claude Haiku（最快）
 
-You can also use full model identifiers directly:
+也可直接使用完整模型标识：
 
 ```ts
 const model = claudeCode('claude-opus-4-5');
 const model = claudeCode('claude-sonnet-4-5-20250514');
 ```
 
-### Example
+### 示例
 
 ```ts
 import { claudeCode } from 'ai-sdk-provider-claude-code';
@@ -112,7 +112,7 @@ const { text } = await generateText({
 });
 ```
 
-### Model Capabilities
+### 模型能力
 
 | Model    | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
 | -------- | ------------------- | ------------------- | ------------------- | ------------------- |
@@ -121,28 +121,25 @@ const { text } = await generateText({
 | `haiku`  | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
 
 <Note>
-  Tool Usage and Tool Streaming show ❌ because this provider does not support
-  AI SDK custom tools (Zod schemas passed to `generateText`/`streamText`).
-  Instead, it uses Claude's built-in tools (Bash, Edit, Read, Write, etc.) and
-  MCP servers which execute autonomously. Object generation uses native
-  structured outputs with guaranteed schema compliance. Image input requires
-  streaming mode and base64/data URL format only.
+  Tool Usage 与 Tool Streaming 显示为 ❌，因为本提供商不支持向 `generateText` /
+  `streamText` 传入 AI SDK 自定义工具（Zod schema）。它使用 Claude 内置工具（Bash、Edit、Read、Write
+  等）与可自主执行的 MCP 服务器。对象生成使用原生结构化输出并保证符合 schema。图像输入需流式模式，且仅支持 base64 / data URL。
 </Note>
 
-## Authentication
+## 认证
 
-The provider uses your existing Claude Pro or Max subscription through the Claude Code CLI:
+通过 Claude Code CLI 使用你已有的 Claude Pro 或 Max 订阅：
 
 ```bash
 claude login
 ```
 
-This opens a browser window for authentication. Once authenticated, the provider will use your subscription automatically.
+将在浏览器中完成登录；认证后提供商会自动使用你的订阅。
 
-## Requirements
+## 要求
 
-- Node.js 18 or higher
-- Claude Code CLI installed (`npm install -g @anthropic-ai/claude-code`)
-- Claude Pro or Max subscription
+- Node.js 18 或更高
+- 已安装 Claude Code CLI（`npm install -g @anthropic-ai/claude-code`）
+- Claude Pro 或 Max 订阅
 
-For more details, see the [provider documentation](https://github.com/ben-vargas/ai-sdk-provider-claude-code).
+更多说明见 [provider documentation](https://github.com/ben-vargas/ai-sdk-provider-claude-code)。

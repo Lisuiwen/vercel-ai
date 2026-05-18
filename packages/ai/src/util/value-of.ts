@@ -1,60 +1,60 @@
-// License for this File only:
+// 仅此文件的许可证：
 //
-// MIT License
+// 麻省理工学院许可证
 //
-// Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
-// Copyright (c) Vercel, Inc. (https://vercel.com)
+// 版权所有 (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
+// 版权所有 (c) Vercel, Inc. (https://vercel.com)
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-// documentation files (the "Software"), to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
-// to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// 特此免费向获得本软件及其相关副本的任何人授予许可
+// 文档文件（“软件”），不受限制地处理软件，包括但不限于
+// 使用、复制、修改、合并、发布、分发、再许可和/或出售软件副本的权利，以及
+// 允许向其提供软件的人员这样做，但须满足以下条件：
 //
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions
-// of the Software.
+// 上述版权声明和本许可声明应包含在所有副本或主要部分中
+// 该软件的。
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-// TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// 该软件按“原样”提供，不提供任何类型的明示或默示保证，包括但不限于
+// 对适销性、特定用途的适用性和不侵权的保证。在任何情况下都不得
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE.
+// 因本软件或使用或其他交易而产生、产生或与之相关的合同、侵权行为或其他行为
+// 在软件中。
 
 /**
- * Create a union of the given object's values, and optionally specify which keys to get the values from.
+ * 创建给定对象值的并集，并可以选择指定从哪些键获取值。
  *
- * Please upvote [this issue](https://github.com/microsoft/TypeScript/issues/31438) if you want to have this type as a built-in in TypeScript.
+ * 如果您希望将此类型作为 TypeScript 的内置类型，请投票[此问题](https://github.com/microsoft/TypeScript/issues/31438)。
  *
  * @example
  * ```
- * // data.json
+ * // 数据.json
  * {
- * 	'foo': 1,
- * 	'bar': 2,
- * 	'biz': 3
+ * 	“富”：1，
+ * 	“酒吧”：2，
+ * 	“商业”：3
  * }
  *
  * // main.ts
- * import type {ValueOf} from 'type-fest';
- * import data = require('./data.json');
+ * 从 'type-fest' 导入类型 {ValueOf}；
+ * 导入数据 = require('./data.json');
  *
- * export function getData(name: string): ValueOf<typeof data> {
- * 	return data[name];
+ * 导出函数 getData(name: string): ValueOf<datatype> {
+ * 	返回数据[名称]；
  * }
  *
- * export function onlyBar(name: string): ValueOf<typeof data, 'bar'> {
- * 	return data[name];
+ * 导出函数 onlyBar(name: string): ValueOf<typeof data, 'bar'> {
+ * 	返回数据[名称]；
  * }
  *
- * // file.ts
- * import {getData, onlyBar} from './main';
+ * // 文件.ts
+ * 从 './main' 导入 {getData, onlyBar};
  *
  * getData('foo');
  * //=> 1
  *
  * onlyBar('foo');
- * //=> TypeError ...
+ * //=> 类型错误 ...
  *
- * onlyBar('bar');
+ * onlyBar('酒吧');
  * //=> 2
  * ```
  * @see https://github.com/sindresorhus/type-fest/blob/main/source/value-of.d.ts

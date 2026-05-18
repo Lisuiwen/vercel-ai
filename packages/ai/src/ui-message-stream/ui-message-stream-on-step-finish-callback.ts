@@ -1,25 +1,25 @@
 import type { UIMessage } from '../ui/ui-messages';
 
 /**
- * Callback that is called when a step finishes during streaming.
- * This is useful for persisting intermediate UI messages during multi-step agent runs.
+ * 流式处理期间步骤完成时调用的回调。
+ * 这对于在多步骤代理运行期间保留中间 UI 消息非常有用。
  */
 export type UIMessageStreamOnStepFinishCallback<UI_MESSAGE extends UIMessage> =
   (event: {
     /**
-     * The updated list of UI messages at the end of this step.
+     * 此步骤结束时更新的 UI 消息列表。
      */
     messages: UI_MESSAGE[];
 
     /**
-     * Indicates whether the response message is a continuation of the last original message,
-     * or if a new message was created.
+     * 指示响应消息是否是上一条原始消息的延续，
+     * 或者是否创建了新消息。
      */
     isContinuation: boolean;
 
     /**
-     * The message that was sent to the client as a response
-     * (including the original message if it was extended).
+     * 作为响应发送给客户端的消息
+     * （如果有扩展，则包括原始消息）。
      */
     responseMessage: UI_MESSAGE;
   }) => PromiseLike<void> | void;

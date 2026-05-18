@@ -1,21 +1,21 @@
 ---
-title: Streaming Status Shows But No Text Appears
-description: Why useChat shows "streaming" status without any visible content
+title: 显示流式状态但没有文本
+description: 为何 useChat 显示「streaming」状态却迟迟看不到内容
 ---
 
-# Streaming Status Shows But No Text Appears
+# 显示流式状态但没有文本
 
-## Issue
+## 问题
 
-When using `useChat`, the status changes to "streaming" immediately, but no text appears for several seconds.
+使用 `useChat` 时，状态马上变成「streaming」，但好几秒内都没有文字出现。
 
-## Background
+## 背景
 
-The status changes to "streaming" as soon as the connection to the server is established and streaming begins - this includes metadata streaming, not just the LLM's generated tokens.
+状态在到服务器的连接建立并开始流式传输时就会变为「streaming」——这包括元数据流，而不仅仅是 LLM 生成的 token。
 
-## Solution
+## 解决方案
 
-Create a custom loading state that checks if the last assistant message actually contains content:
+自定义加载状态，检查最后一条助理消息是否已有实际内容：
 
 ```tsx
 'use client';
@@ -49,7 +49,7 @@ export default function Page() {
 }
 ```
 
-You can also check for specific part types if you're waiting for something specific:
+若在等待特定类型的片段，也可按 `part.type` 判断：
 
 ```tsx
 const showLoader =
@@ -58,6 +58,6 @@ const showLoader =
   !lastMessage?.parts?.some(part => part.type === 'text');
 ```
 
-## Related Issues
+## 相关问题
 
 - [GitHub Issue #7586](https://github.com/vercel/ai/issues/7586)

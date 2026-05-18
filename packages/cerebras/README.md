@@ -1,28 +1,32 @@
-# AI SDK - Cerebras Provider
+# AI SDK - Cerebras 提供商
 
-The **Cerebras provider** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for [Cerebras](https://cerebras.ai), offering high-speed AI model inference powered by Cerebras Wafer-Scale Engines and CS-3 systems.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **Cerebras 提供商** contains language model support for [Cerebras](https://cerebras.ai), offering high-speed AI model inference powered by Cerebras Wafer-Scale Engines and CS-3 systems.
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Cerebras (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Cerebras（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Cerebras provider is available in the `@ai-sdk/cerebras` module. You can install it with
+Cerebras 提供商位于 `@ai-sdk/cerebras` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/cerebras
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `cerebras` from `@ai-sdk/cerebras`:
+可从 `@ai-sdk/cerebras` 导入默认提供商实例 `cerebras`：
+
+
 
 ```ts
 import { cerebras } from '@ai-sdk/cerebras';
@@ -33,7 +37,7 @@ import { cerebras } from '@ai-sdk/cerebras';
 Cerebras offers a variety of high-performance language models:
 https://inference-docs.cerebras.ai/models/overview
 
-## Example
+## 示例
 
 ```ts
 import { cerebras } from '@ai-sdk/cerebras';
@@ -45,9 +49,9 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-For more information about Cerebras' high-speed inference capabilities and API documentation, please visit:
+有关 Cerebras 高速推理能力与 API 文档的更多信息，请访问：
 
 - [Cerebras Inference Documentation](https://inference-docs.cerebras.ai/introduction)
 - [Cerebras Website](https://cerebras.ai)

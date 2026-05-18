@@ -1,7 +1,7 @@
 import { Output, streamText } from 'ai';
 import { notificationSchema } from './schema';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export async function POST(req: Request) {

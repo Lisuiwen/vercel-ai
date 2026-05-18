@@ -3,46 +3,46 @@ import type { EmbeddingModelUsage } from '../types/usage';
 import type { Warning } from '../types/warning';
 
 /**
- * The result of an `embed` call.
- * It contains the embedding, the value, and additional information.
+ * `embed`调用的结果。
+ * 它包含嵌入、值和附加信息。
  */
 export interface EmbedResult {
   /**
-   * The value that was embedded.
+   * 嵌入的价值。
    */
   readonly value: string;
 
   /**
-   * The embedding of the value.
+   * 值的嵌入。
    */
   readonly embedding: Embedding;
 
   /**
-   * The embedding token usage.
+   * 嵌入令牌的使用。
    */
   readonly usage: EmbeddingModelUsage;
 
   /**
-   * Warnings for the call, e.g. unsupported settings.
+   * 通话警告，例如不支持的设置。
    */
   readonly warnings: Array<Warning>;
 
   /**
-   * Optional provider-specific metadata.
+   * 可选的特定于提供商的元数据。
    */
   readonly providerMetadata?: ProviderMetadata;
 
   /**
-   * Optional response data.
+   * 可选的响应数据。
    */
   readonly response?: {
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers?: Record<string, string>;
 
     /**
-     * The response body.
+     * 响应主体。
      */
     body?: unknown;
   };

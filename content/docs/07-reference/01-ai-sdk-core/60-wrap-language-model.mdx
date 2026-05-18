@@ -1,13 +1,12 @@
 ---
 title: wrapLanguageModel
-description: Function for wrapping a language model with middleware (API Reference)
+description: 使用中间件包装语言模型的函数（API 参考）
 ---
 
 # `wrapLanguageModel()`
 
-The `wrapLanguageModel` function provides a way to enhance the behavior of language models
-by wrapping them with middleware.
-See [Language Model Middleware](/docs/ai-sdk-core/middleware) for more information on middleware.
+`wrapLanguageModel` 通过中间件包装语言模型以增强其行为。
+更多中间件说明见[语言模型中间件](/docs/ai-sdk-core/middleware)。
 
 ```ts
 import { wrapLanguageModel, gateway } from 'ai';
@@ -18,42 +17,42 @@ const wrappedLanguageModel = wrapLanguageModel({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { wrapLanguageModel } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'model',
       type: 'LanguageModelV4',
-      description: 'The original LanguageModelV4 instance to be wrapped.',
+      description: '要被包装的原始 LanguageModelV4 实例。',
     },
     {
       name: 'middleware',
       type: 'LanguageModelV4Middleware | LanguageModelV4Middleware[]',
       description:
-        'The middleware to be applied to the language model. When multiple middlewares are provided, the first middleware will transform the input first, and the last middleware will be wrapped directly around the model.',
+        '应用于语言模型的中间件。传入多个时，第一个先处理输入，最后一个直接包在模型外围。',
     },
     {
       name: 'modelId',
       type: 'string',
       description:
-        "Optional custom model ID to override the original model's ID.",
+        '可选的自定义模型 ID，用于覆盖原始模型的 ID。',
     },
     {
       name: 'providerId',
       type: 'string',
       description:
-        "Optional custom provider ID to override the original model's provider.",
+        '可选的自定义提供商 ID，用于覆盖原始模型的提供商。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-A new `LanguageModelV4` instance with middleware applied.
+应用中间件后的新 `LanguageModelV4` 实例。

@@ -1,26 +1,26 @@
 ---
 title: Codex CLI (App Server)
-description: Learn how to use the Codex CLI App Server provider for mid-execution message injection and persistent threads.
+description: 介绍如何使用 Codex CLI App Server 提供商，支持执行过程中注入消息与持久线程。
 ---
 
-# Codex CLI (App Server) Provider
+# Codex CLI（App Server）提供商
 
-The [ai-sdk-provider-codex-app-server](https://github.com/pablof7z/ai-sdk-provider-codex-app-server) community provider enables using OpenAI's GPT-5 series models through the [Codex CLI](https://github.com/openai/codex) app-server mode. Unlike the standard Codex CLI provider, it supports **mid-execution message injection** and **persistent threads**.
+[ai-sdk-provider-codex-app-server](https://github.com/pablof7z/ai-sdk-provider-codex-app-server) 社区提供商可通过 [Codex CLI](https://github.com/openai/codex) 的 app-server 模式使用 OpenAI GPT-5 系列模型。与标准 Codex CLI 提供商不同，它支持**执行过程中注入消息**与**持久线程**。
 
-## Key Features
+## 核心特性
 
-- **Mid-execution injection**: Send additional instructions while the agent is working
-- **Persistent threads**: Maintain conversation context across multiple calls
-- **Session control**: Interrupt running turns, inject messages at checkpoints
-- **Tool streaming**: Real-time visibility into command executions and file changes
+- **执行中注入**：在智能体运行期间发送额外指令
+- **持久线程**：在多次调用间保持对话上下文
+- **会话控制**：中断正在运行的回合，在检查点注入消息
+- **工具流式**：实时查看命令执行与文件变更
 
-## Version Compatibility
+## 版本兼容性
 
-| Provider Version | AI SDK Version | Status |
-| ---------------- | -------------- | ------ |
-| 1.x              | v6             | Stable |
+| 提供商版本 | AI SDK 版本 | 状态   |
+| ---------- | ----------- | ------ |
+| 1.x        | v6          | 稳定   |
 
-## Setup
+## 安装与配置
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -37,9 +37,9 @@ The [ai-sdk-provider-codex-app-server](https://github.com/pablof7z/ai-sdk-provid
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-Import the default provider instance:
+导入默认提供商工厂：
 
 ```ts
 import {
@@ -58,9 +58,9 @@ const provider = createCodexAppServer({
 });
 ```
 
-## Mid-Execution Injection
+## 执行中注入
 
-The killer feature of this provider is the ability to inject messages while the agent is actively working:
+该提供商的核心能力是在智能体仍活跃工作时注入消息：
 
 ```ts
 import {
@@ -98,7 +98,7 @@ console.log(await result.text);
 
 ## Session API
 
-The session object provides control over active turns:
+会话对象用于控制活跃回合：
 
 ```ts
 interface Session {
@@ -116,9 +116,9 @@ interface Session {
 }
 ```
 
-## Model Discovery
+## 模型发现
 
-Discover available models and their capabilities:
+枚举可用模型及其能力：
 
 ```ts
 import { listModels } from 'ai-sdk-provider-codex-app-server';
@@ -132,7 +132,7 @@ for (const model of models) {
 }
 ```
 
-## Settings
+## 设置
 
 ```ts
 interface CodexAppServerSettings {
@@ -152,10 +152,10 @@ interface CodexAppServerSettings {
 }
 ```
 
-## Thread Modes
+## 线程模式
 
-- **persistent** (default): Reuses the same thread across calls, maintaining context
-- **stateless**: Creates a fresh thread for each call
+- **persistent**（默认）：跨调用复用同一线程，保持上下文
+- **stateless**：每次调用创建新线程
 
 ```ts
 const model = provider('gpt-5.1-codex-max', {
@@ -163,9 +163,9 @@ const model = provider('gpt-5.1-codex-max', {
 });
 ```
 
-## Per-Call Overrides
+## 每次调用覆盖
 
-Override settings per call using `providerOptions`:
+使用 `providerOptions` 按调用覆盖设置：
 
 ```ts
 const result = await streamText({
@@ -180,31 +180,31 @@ const result = await streamText({
 });
 ```
 
-## Model Capabilities
+## 模型能力
 
-| Model                | Image Input         | Object Generation   | Tool Streaming      | Mid-Execution       |
+| 模型                 | 图像输入            | 结构化对象生成      | 工具流式            | 执行中注入          |
 | -------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
 | `gpt-5.3-codex`      | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `gpt-5.2-codex`      | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `gpt-5.1-codex-max`  | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `gpt-5.1-codex-mini` | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 
-## Comparison with Codex CLI Provider
+## 与 Codex CLI 提供商对比
 
-| Feature              | Codex CLI Provider  | Codex App Server    |
-| -------------------- | ------------------- | ------------------- |
-| Mid-execution inject | <Cross size={18} /> | <Check size={18} /> |
-| Persistent threads   | <Cross size={18} /> | <Check size={18} /> |
-| Session control      | <Cross size={18} /> | <Check size={18} /> |
-| Tool streaming       | <Cross size={18} /> | <Check size={18} /> |
-| One-shot execution   | <Check size={18} /> | <Check size={18} /> |
+| 特性           | Codex CLI 提供商    | Codex App Server    |
+| -------------- | ------------------- | ------------------- |
+| 执行中注入     | <Cross size={18} /> | <Check size={18} /> |
+| 持久线程       | <Cross size={18} /> | <Check size={18} /> |
+| 会话控制       | <Cross size={18} /> | <Check size={18} /> |
+| 工具流式       | <Cross size={18} /> | <Check size={18} /> |
+| 单次执行       | <Check size={18} /> | <Check size={18} /> |
 
-Use the **Codex CLI provider** for simple one-shot tasks. Use the **Codex App Server provider** when you need human-in-the-loop workflows, real-time course correction, or collaborative coding.
+简单单次任务请使用 **Codex CLI 提供商**。需要人机协同、实时纠偏或协作编码时请使用 **Codex App Server 提供商**。
 
-## Requirements
+## 环境要求
 
-- Node.js 18 or higher
-- Codex CLI installed globally (v0.60.0+ recommended)
-- ChatGPT Plus/Pro subscription or OpenAI API key
+- Node.js 18 及以上
+- 全局安装 Codex CLI（建议 v0.60.0+）
+- ChatGPT Plus/Pro 订阅或 OpenAI API 密钥
 
-For more details, see the [provider documentation](https://github.com/pablof7z/ai-sdk-provider-codex-app-server).
+更多说明见 [提供商文档](https://github.com/pablof7z/ai-sdk-provider-codex-app-server)。

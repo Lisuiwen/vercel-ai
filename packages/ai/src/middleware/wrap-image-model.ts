@@ -10,9 +10,9 @@ import { asImageModelV4 } from '../model/as-image-model-v4';
 import type { ImageModelMiddleware } from '../types';
 
 /**
- * Wraps an ImageModelV4 instance with middleware functionality.
- * This function allows you to apply middleware to transform parameters
- * and wrap generate operations of an image model.
+ * 使用中间件功能包装 ImageModelV4 实例。
+ * 该功能允许您应用中间件来转换参数
+ * 并包装图像模型的生成操作。
  *
  * @param options - Configuration options for wrapping the image model.
  * @param options.model - The original ImageModelV4 instance to be wrapped.
@@ -64,8 +64,8 @@ const doWrap = ({
   const maxImagesPerCallRaw =
     overrideMaxImagesPerCall?.({ model }) ?? model.maxImagesPerCall;
 
-  // Ensure provider implementations that rely on `this` inside `maxImagesPerCall`
-  // keep working after the value is copied onto the wrapper object.
+  // 确保提供者实现依赖于“maxImagesPerCall”中的“this”
+  // 将值复制到包装对象后继续工作。
   const maxImagesPerCall =
     maxImagesPerCallRaw instanceof Function
       ? maxImagesPerCallRaw.bind(model)

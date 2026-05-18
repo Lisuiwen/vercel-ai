@@ -32,7 +32,7 @@ export async function parseToolCall<TOOLS extends ToolSet>({
 }): Promise<TypedToolCall<TOOLS>> {
   try {
     if (tools == null) {
-      // provider-executed dynamic tools are not part of our list of tools:
+      // 提供商执行的动态工具不属于我们的工具列表：
       if (toolCall.providerExecuted && toolCall.dynamic) {
         return await refineParsedToolCallInput({
           toolCall: await parseProviderExecutedDynamicToolCall(toolCall),
@@ -81,7 +81,7 @@ export async function parseToolCall<TOOLS extends ToolSet>({
         });
       }
 
-      // no repaired tool call returned
+      // 没有返回已修复的工具调用
       if (repairedToolCall == null) {
         throw error;
       }
@@ -92,12 +92,12 @@ export async function parseToolCall<TOOLS extends ToolSet>({
       });
     }
   } catch (error) {
-    // use parsed input when possible
+    // 尽可能使用已解析的输入
     const parsedInput = await safeParseJSON({ text: toolCall.input });
     const input = parsedInput.success ? parsedInput.value : toolCall.input;
     const tool = tools?.[toolCall.toolName];
 
-    // TODO AI SDK 6: special invalid tool call parts
+    // TODO AI SDK 6：特殊无效工具调用部分
     return {
       type: 'tool-call',
       toolCallId: toolCall.toolCallId,
@@ -172,7 +172,7 @@ async function doParseToolCall<TOOLS extends ToolSet>({
   const tool = tools[toolName];
 
   if (tool == null) {
-    // provider-executed dynamic tools are not part of our list of tools:
+    // 提供商执行的动态工具不属于我们的工具列表：
     if (toolCall.providerExecuted && toolCall.dynamic) {
       return await parseProviderExecutedDynamicToolCall(toolCall);
     }
@@ -185,8 +185,8 @@ async function doParseToolCall<TOOLS extends ToolSet>({
 
   const schema = asSchema(tool.inputSchema);
 
-  // when the tool call has no arguments, we try passing an empty object to the schema
-  // (many LLMs generate empty strings for tool calls with no arguments)
+  // 当工具调用没有参数时，我们尝试将空对象传递给模式
+  // （许多法学硕士为不带参数的工具调用生成空字符串）
   const parseResult =
     toolCall.input.trim() === ''
       ? await safeValidateTypes({ value: {}, schema })

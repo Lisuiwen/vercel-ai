@@ -25,15 +25,15 @@ import type {
 import type { ToolLoopAgentSettings } from './tool-loop-agent-settings';
 
 /**
- * A tool loop agent is an agent that runs tools in a loop. In each step,
- * it calls the LLM, and if there are tool calls, it executes the tools
- * and calls the LLM again in a new step with the tool results.
+ * 工具循环代理是在循环中运行工具的代理。在每一步中，
+ * 它调用LLM，如果有工具调用，它会执行工具
+ * 并在新的步骤中使用工具结果再次调用法学硕士。
  *
- * The loop continues until:
- * - A finish reasoning other than tool-calls is returned, or
- * - A tool that is invoked does not have an execute function, or
- * - A tool call needs approval via `toolApproval` or tool-level `needsApproval`, or
- * - A stop condition is met (default stop condition is isStepCount(20))
+ * 循环继续直到：
+ * - 返回除工具调用之外的完成推理，或者
+ * - 调用的工具没有执行函数，或者
+ * - 工具调用需要通过`toolApproval`或工具级`needsApproval`批准，或者
+ * - 满足停止条件（默认停止条件为isStepCount(20)）
  */
 export class ToolLoopAgent<
   CALL_OPTIONS = never,
@@ -62,14 +62,14 @@ export class ToolLoopAgent<
   }
 
   /**
-   * The id of the agent.
+   * 代理的ID。
    */
   get id(): string | undefined {
     return this.settings.id;
   }
 
   /**
-   * The tools that the agent can use.
+   * 代理可以使用的工具。
    */
   get tools(): TOOLS {
     return this.settings.tools as TOOLS;
@@ -156,7 +156,7 @@ export class ToolLoopAgent<
   }
 
   /**
-   * Generates an output from the agent (non-streaming).
+   * 从代理生成输出（非流式传输）。
    */
   async generate({
     abortSignal,
@@ -212,7 +212,7 @@ export class ToolLoopAgent<
   }
 
   /**
-   * Streams an output from the agent (streaming).
+   * 对代理的输出进行流式传输（流式传输）。
    */
   async stream({
     abortSignal,

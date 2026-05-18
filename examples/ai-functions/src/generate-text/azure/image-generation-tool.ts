@@ -7,16 +7,16 @@ import { convertBase64ToUint8Array } from '../../lib/convert-base64';
 run(async () => {
   const azure = createAzure({
     headers: {
-      'x-ms-oai-image-generation-deployment': 'gpt-image-1', // use your own image model deployment
+      'x-ms-oai-image-generation-deployment': 'gpt-image-1', // 使用您自己的图像模型部署
     },
   });
 
   const result = await generateText({
-    model: azure.responses('gpt-4.1-mini'), // use your own deployment
+    model: azure.responses('gpt-4.1-mini'), // 使用您自己的部署
     prompt: `Create an anime-like image of a cute cat waving hello.`,
     tools: {
       image_generation: azure.tools.imageGeneration({
-        outputFormat: 'png', // on azure , supported extension is png and jpeg.
+        outputFormat: 'png', // 在 azure 上，支持的扩展名是 png 和 jpeg。
         quality: 'medium',
         size: '1024x1024',
       }),

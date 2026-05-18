@@ -1,16 +1,16 @@
 export type TranscriptionModelResponseMetadata = {
   /**
-   * Timestamp for the start of the generated response.
+   * 生成的响应的开始时间戳。
    */
   timestamp: Date;
 
   /**
-   * The ID of the response model that was used to generate the response.
+   * 用于生成响应的响应模型的 ID。
    */
   modelId: string;
 
   /**
-   * Response headers.
+   * 响应标头。
    */
   headers?: Record<string, string>;
 };

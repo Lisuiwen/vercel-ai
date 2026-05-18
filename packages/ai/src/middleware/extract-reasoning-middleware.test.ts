@@ -1153,7 +1153,7 @@ describe('extractReasoningMiddleware', () => {
 
       const fullStream = await convertAsyncIterableToArray(result.fullStream);
 
-      // Find the reasoning events
+      // 找出推理事件
       const reasoningStartIndex = fullStream.findIndex(
         part => part.type === 'reasoning-start' && part.id === 'reasoning-0',
       );
@@ -1161,7 +1161,7 @@ describe('extractReasoningMiddleware', () => {
         part => part.type === 'reasoning-end' && part.id === 'reasoning-0',
       );
 
-      // Verify both events exist and are in the correct order
+      // 验证两个事件都存在并且顺序正确
       expect(reasoningStartIndex).toBeGreaterThanOrEqual(0);
       expect(reasoningEndIndex).toBeGreaterThanOrEqual(0);
       expect(reasoningEndIndex).toBeGreaterThan(reasoningStartIndex);

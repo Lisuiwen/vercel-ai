@@ -1,15 +1,15 @@
-# Packages
+# 包
 
-When adding new packages under `packages`, please ensure they are added to `/tsconfig.json`.
+在 `packages` 下添加新包时，请确保已将其加入 `/tsconfig.json`。
 
-## Core Packages
+## 核心包
 
 | Package          | NPM Name                 | Description                             |
 | ---------------- | ------------------------ | --------------------------------------- |
-| `ai`             | `ai`                     | Main package                            |
-| `provider`       | `@ai-sdk/provider`       | Provider specifications                 |
-| `provider-utils` | `@ai-sdk/provider-utils` | Shared provider and ai code             |
-| `codemod`        | `@ai-sdk/codemod`        | Automated migrations for major releases |
+| `ai`             | `ai`                     | 主包                                    |
+| `provider`       | `@ai-sdk/provider`       | Provider 规范                           |
+| `provider-utils` | `@ai-sdk/provider-utils` | Provider 与 ai 共享代码                 |
+| `codemod`        | `@ai-sdk/codemod`        | 主版本发布的自动化迁移                  |
 
 ## AI/LLM Providers
 
@@ -48,7 +48,7 @@ When adding new packages under `packages`, please ensure they are added to `/tsc
 | `llamaindex`        | `@ai-sdk/llamaindex`        | LlamaIndex integration      |
 | `valibot`           | `@ai-sdk/valibot`           | Valibot schema validation   |
 
-## UI Framework Integrations
+## UI 框架集成
 
 | Package   | NPM Name          | Framework                   |
 | --------- | ----------------- | --------------------------- |

@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     execute: async ({ writer }) => {
       writer.write({ type: 'start' });
 
-      // write a custom url source to the stream:
+      // 向流写入自定义 url source：
       writer.write({
         type: 'source-url',
         sourceId: 'source-1',

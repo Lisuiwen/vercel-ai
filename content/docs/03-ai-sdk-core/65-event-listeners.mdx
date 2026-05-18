@@ -1,15 +1,15 @@
 ---
-title: Event Callbacks
-description: Subscribe to lifecycle events in generateText, streamText, embed, embedMany, and rerank calls
+title: 事件回调
+description: 在 generateText、streamText、embed、embedMany 与 rerank 调用中订阅生命周期事件
 ---
 
-# Event Callbacks
+# 事件回调
 
-The AI SDK provides per-call event callbacks that you can pass to `generateText`, `streamText`, `embed`, `embedMany`, and `rerank` to observe lifecycle events. This is useful for building observability tools, logging systems, analytics, and debugging utilities.
+AI SDK 提供可按次传入 `generateText`、`streamText`、`embed`、`embedMany` 与 `rerank` 的事件回调，用于观察生命周期事件。适用于构建可观测性工具、日志系统、分析与调试工具。
 
-## Basic Usage
+## 基本用法
 
-Pass callbacks directly to `generateText`, `streamText`, `embed`, `embedMany`, or `rerank`:
+将回调直接传给 `generateText`、`streamText`、`embed`、`embedMany` 或 `rerank`：
 
 ```ts
 import { generateText } from 'ai';
@@ -26,7 +26,7 @@ const result = await generateText({
 });
 ```
 
-## Available Callbacks
+## 可用回调
 
 ### `generateText` / `streamText`
 
@@ -35,53 +35,52 @@ const result = await generateText({
     {
       name: 'experimental_onStart',
       type: '(event: GenerateTextStartEvent) => void | Promise<void>',
-      description: 'Called when generation begins, before any LLM calls.',
+      description: '在生成开始时调用，位于任何 LLM 调用之前。',
     },
     {
       name: 'experimental_onStepStart',
       type: '(event: GenerateTextStepStartEvent) => void | Promise<void>',
-      description:
-        'Called when a step (LLM call) begins, before the provider is called.',
+      description: '在 step（LLM 调用）开始时调用，位于调用 provider 之前。',
     },
     {
       name: 'experimental_onLanguageModelCallStart',
       type: '(event: LanguageModelCallStartEvent) => void | Promise<void>',
       description:
-        'Called immediately before the provider model call begins. Unlike `experimental_onStepStart`, this is scoped to model work only.',
+        '在 provider 模型调用即将开始前立即调用。与 `experimental_onStepStart` 不同，此回调仅作用于模型工作。',
     },
     {
       name: 'experimental_onLanguageModelCallEnd',
       type: '(event: LanguageModelCallEndEvent) => void | Promise<void>',
       description:
-        'Called after the model response has been normalized and parsed, but before any client-side tool execution begins.',
+        '在模型响应已规范化并解析后、任何客户端 tool 执行开始前调用。',
     },
     {
       name: 'onToolExecutionStart',
       type: '(event: ToolExecutionStartEvent) => void | Promise<void>',
-      description: "Called when a tool's execute function is about to run.",
+      description: "在 tool 的 execute 函数即将运行时调用。",
     },
     {
       name: 'onToolExecutionEnd',
       type: '(event: ToolExecutionEndEvent) => void | Promise<void>',
-      description: "Called when a tool's execute function completes or errors.",
+      description: "在 tool 的 execute 函数完成或出错时调用。",
     },
     {
       name: 'onStepFinish',
       type: '(event: GenerateTextStepEndEvent) => void | Promise<void>',
-      description: 'Called when a step (LLM call) completes.',
+      description: '在 step（LLM 调用）完成时调用。',
     },
     {
       name: 'onFinish',
       type: '(event: GenerateTextEndEvent) => void | Promise<void>',
       description:
-        'Called when the entire generation completes (all steps finished).',
+        '在整个生成完成时调用（所有 step 已结束）。',
     },
   ]}
 />
 
-For multi-step text generations that use tools, the callback order is typically
+使用 tool 的多步文本生成中，回调顺序通常为
 `experimental_onStepStart` -> `experimental_onLanguageModelCallStart` ->
-`experimental_onLanguageModelCallEnd` -> tool execution callbacks -> `onStepFinish`.
+`experimental_onLanguageModelCallEnd` -> tool 执行回调 -> `onStepFinish`。
 
 ### `embed` / `embedMany`
 
@@ -91,13 +90,13 @@ For multi-step text generations that use tools, the callback order is typically
       name: 'experimental_onStart',
       type: '(event: EmbedStartEvent) => void | Promise<void>',
       description:
-        'Called when the embedding operation begins, before the embedding model is called.',
+        '在嵌入操作开始时调用，位于调用嵌入模型之前。',
     },
     {
       name: 'experimental_onEnd',
       type: '(event: EmbedEndEvent) => void | Promise<void>',
       description:
-        'Called when the embedding operation completes, after the embedding model returns.',
+        '在嵌入操作完成时调用，位于嵌入模型返回之后。',
     },
   ]}
 />
@@ -110,24 +109,24 @@ For multi-step text generations that use tools, the callback order is typically
       name: 'experimental_onStart',
       type: '(event: RerankStartEvent) => void | Promise<void>',
       description:
-        'Called when the reranking operation begins, before the reranking model is called.',
+        '在重排序操作开始时调用，位于调用重排序模型之前。',
     },
     {
       name: 'experimental_onEnd',
       type: '(event: RerankEndEvent) => void | Promise<void>',
       description:
-        'Called when the reranking operation completes, after the reranking model returns.',
+        '在重排序操作完成时调用，位于重排序模型返回之后。',
     },
   ]}
 />
 
-## Event Reference
+## 事件参考
 
 ### `generateText` / `streamText`
 
 #### `experimental_onStart`
 
-Called when the generation operation begins, before any LLM calls are made.
+在生成操作开始时调用，位于进行任何 LLM 调用之前。
 
 ```ts
 const result = await generateText({
@@ -145,119 +144,117 @@ const result = await generateText({
     {
       name: 'provider',
       type: 'string',
-      description: 'The provider identifier (e.g., "openai", "anthropic").',
+      description: '提供商标识符（例如 "openai"、"anthropic"）。',
     },
     {
       name: 'modelId',
       type: 'string',
-      description: 'The specific model identifier (e.g., "gpt-4o").',
+      description: '具体模型标识符（例如 "gpt-4o"）。',
     },
     {
       name: 'instructions',
       type: 'Instructions | undefined',
-      description: 'The instructions provided to the model.',
+      description: '提供给模型的 instructions。',
     },
     {
       name: 'messages',
       type: 'Array<ModelMessage>',
-      description: 'The messages for this generation.',
+      description: '本次生成的 messages。',
     },
     {
       name: 'tools',
       type: 'ToolSet | undefined',
-      description: 'The tools available for this generation.',
+      description: '本次生成可用的 tools。',
     },
     {
       name: 'toolChoice',
       type: 'ToolChoice | undefined',
-      description: 'The tool choice strategy for this generation.',
+      description: '本次生成的 tool 选择策略。',
     },
     {
       name: 'activeTools',
       type: 'ActiveTools<TOOLS>',
-      description: 'Limits which tools are available for the model to call.',
+      description: '限制模型可调用的 tool。',
     },
     {
       name: 'maxOutputTokens',
       type: 'number | undefined',
-      description: 'Maximum number of tokens to generate.',
+      description: '生成的最大 token 数。',
     },
     {
       name: 'temperature',
       type: 'number | undefined',
-      description: 'Sampling temperature for generation.',
+      description: '生成时的采样 temperature。',
     },
     {
       name: 'topP',
       type: 'number | undefined',
-      description: 'Top-p (nucleus) sampling parameter.',
+      description: 'Top-p（核采样）参数。',
     },
     {
       name: 'topK',
       type: 'number | undefined',
-      description: 'Top-k sampling parameter.',
+      description: 'Top-k 采样参数。',
     },
     {
       name: 'presencePenalty',
       type: 'number | undefined',
-      description: 'Presence penalty for generation.',
+      description: '生成时的 presence 惩罚。',
     },
     {
       name: 'frequencyPenalty',
       type: 'number | undefined',
-      description: 'Frequency penalty for generation.',
+      description: '生成时的 frequency 惩罚。',
     },
     {
       name: 'stopSequences',
       type: 'string[] | undefined',
-      description: 'Sequences that will stop generation.',
+      description: '将停止生成的序列。',
     },
     {
       name: 'seed',
       type: 'number | undefined',
-      description: 'Random seed for reproducible generation.',
+      description: '用于可复现生成的随机种子。',
     },
     {
       name: 'maxRetries',
       type: 'number',
-      description: 'Maximum number of retries for failed requests.',
+      description: '失败请求的最大重试次数。',
     },
     {
       name: 'timeout',
       type: 'TimeoutConfiguration | undefined',
-      description: 'Timeout configuration for the generation.',
+      description: '生成的超时配置。',
     },
     {
       name: 'headers',
       type: 'Record<string, string | undefined> | undefined',
-      description: 'Additional HTTP headers sent with the request.',
+      description: '随请求发送的额外 HTTP 头。',
     },
     {
       name: 'providerOptions',
       type: 'ProviderOptions | undefined',
-      description: 'Additional provider-specific options.',
+      description: '额外的 provider 特定选项。',
     },
     {
       name: 'output',
       type: 'Output | undefined',
-      description: 'The output specification for structured outputs.',
+      description: '结构化输出的 output 规范。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal | undefined',
-      description: 'Abort signal for cancelling the operation.',
+      description: '用于取消操作的 abort 信号。',
     },
     {
       name: 'include',
       type: '{ requestBody?: boolean; requestMessages?: boolean; responseBody?: boolean } | undefined',
-      description:
-        'Settings for controlling what data is included in step results.',
+      description: '控制 step 结果中包含哪些数据的设置。',
     },
     {
       name: 'runtimeContext',
       type: 'CONTEXT',
-      description:
-        'User-defined shared runtime context object that flows through the generation lifecycle.',
+      description: '在生成生命周期中流动的用户定义共享 runtimeContext 对象。',
     },
     {
       name: 'toolsContext',
@@ -270,7 +267,7 @@ const result = await generateText({
 
 #### `experimental_onStepStart`
 
-Called before each step (LLM call) begins. Useful for tracking multi-step generations.
+在每个 step（LLM 调用）开始前调用。适用于跟踪多步生成。
 
 ```ts
 const result = await generateText({
@@ -288,42 +285,42 @@ const result = await generateText({
     {
       name: 'stepNumber',
       type: 'number',
-      description: 'Zero-based index of the current step.',
+      description: '当前 step 的从零开始索引。',
     },
     {
       name: 'provider',
       type: 'string',
-      description: 'The provider identifier (e.g., "openai", "anthropic").',
+      description: '提供商标识符（例如 "openai"、"anthropic"）。',
     },
     {
       name: 'modelId',
       type: 'string',
-      description: 'The specific model identifier (e.g., "gpt-4o").',
+      description: '具体模型标识符（例如 "gpt-4o"）。',
     },
     {
       name: 'instructions',
       type: 'Instructions | undefined',
-      description: 'The instructions provided to the model for this step.',
+      description: '本 step 提供给模型的 instructions。',
     },
     {
       name: 'messages',
       type: 'Array<ModelMessage>',
-      description: 'The messages that will be sent to the model for this step.',
+      description: '将发送给本 step 模型的 messages。',
     },
     {
       name: 'tools',
       type: 'ToolSet | undefined',
-      description: 'The tools available for this generation.',
+      description: '本次生成可用的 tools。',
     },
     {
       name: 'toolChoice',
       type: 'LanguageModelV4ToolChoice | undefined',
-      description: 'The tool choice configuration for this step.',
+      description: '本 step 的 tool 选择配置。',
     },
     {
       name: 'activeTools',
       type: 'ActiveTools<TOOLS>',
-      description: 'Limits which tools are available for this step.',
+      description: '限制本 step 可用的 tool。',
     },
     {
       name: 'steps',
@@ -334,38 +331,37 @@ const result = await generateText({
     {
       name: 'providerOptions',
       type: 'ProviderOptions | undefined',
-      description: 'Additional provider-specific options for this step.',
+      description: '本 step 的额外 provider 特定选项。',
     },
     {
       name: 'timeout',
       type: 'TimeoutConfiguration | undefined',
-      description: 'Timeout configuration for the generation.',
+      description: '生成的超时配置。',
     },
     {
       name: 'headers',
       type: 'Record<string, string | undefined> | undefined',
-      description: 'Additional HTTP headers sent with the request.',
+      description: '随请求发送的额外 HTTP 头。',
     },
     {
       name: 'stopWhen',
       type: 'StopCondition | Array<StopCondition> | undefined',
-      description: 'Condition(s) for stopping the generation.',
+      description: '停止生成的条件。',
     },
     {
       name: 'output',
       type: 'Output | undefined',
-      description: 'The output specification for structured outputs.',
+      description: '结构化输出的 output 规范。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal | undefined',
-      description: 'Abort signal for cancelling the operation.',
+      description: '用于取消操作的 abort 信号。',
     },
     {
       name: 'include',
       type: '{ requestBody?: boolean; requestMessages?: boolean; responseBody?: boolean } | undefined',
-      description:
-        'Settings for controlling what data is included in step results.',
+      description: '控制 step 结果中包含哪些数据的设置。',
     },
     {
       name: 'runtimeContext',
@@ -384,9 +380,9 @@ const result = await generateText({
 
 #### `experimental_onLanguageModelCallStart`
 
-Called immediately before the provider model call begins. Unlike
-`experimental_onStepStart`, this callback is scoped to model work only and
-excludes any later client-side tool execution.
+在 provider 模型调用即将开始前立即调用。与
+`experimental_onStepStart` 不同，此回调仅作用于模型工作，
+不包含后续任何客户端 tool 执行。
 
 ```ts
 const result = await generateText({
@@ -404,40 +400,39 @@ const result = await generateText({
     {
       name: 'callId',
       type: 'string',
-      description: 'Unique identifier for the generation call.',
+      description: '生成调用的唯一标识符。',
     },
     {
       name: 'provider',
       type: 'string',
-      description: 'The provider identifier for this model call.',
+      description: '本次模型调用的 provider 标识符。',
     },
     {
       name: 'modelId',
       type: 'string',
-      description: 'The specific model identifier for this model call.',
+      description: '本次模型调用的具体模型标识符。',
     },
     {
       name: 'instructions',
       type: 'Instructions | undefined',
-      description: 'The instructions that will be sent to the model.',
+      description: '将发送给模型的 instructions。',
     },
     {
       name: 'messages',
       type: 'Array<ModelMessage>',
-      description: 'The messages that will be sent to the model.',
+      description: '将发送给模型的 messages。',
     },
     {
       name: 'tools',
       type: 'ReadonlyArray<Record<string, unknown>> | undefined',
-      description: 'Prepared tool definitions for the model call, if any.',
+      description: '为模型调用准备的 tool 定义（若有）。',
     },
   ]}
 />
 
 #### `experimental_onLanguageModelCallEnd`
 
-Called after the model response has been normalized and parsed, but before any
-client-side tool execution begins.
+在模型响应已规范化并解析后、任何客户端 tool 执行开始前调用。
 
 ```ts
 const result = await generateText({
@@ -455,27 +450,27 @@ const result = await generateText({
     {
       name: 'callId',
       type: 'string',
-      description: 'Unique identifier for the generation call.',
+      description: '生成调用的唯一标识符。',
     },
     {
       name: 'provider',
       type: 'string',
-      description: 'The provider identifier for this model call.',
+      description: '本次模型调用的 provider 标识符。',
     },
     {
       name: 'modelId',
       type: 'string',
-      description: 'The specific model identifier for this model call.',
+      description: '本次模型调用的具体模型标识符。',
     },
     {
       name: 'finishReason',
       type: 'FinishReason',
-      description: 'The unified reason why the model call finished.',
+      description: '模型调用结束的统一原因。',
     },
     {
       name: 'usage',
       type: 'LanguageModelUsage',
-      description: 'Token usage reported by the model call.',
+      description: '模型调用报告的 token 用量。',
     },
     {
       name: 'content',
@@ -486,12 +481,12 @@ const result = await generateText({
     {
       name: 'responseId',
       type: 'string',
-      description: 'The provider-returned response ID for this model call.',
+      description: '本次模型调用的 provider 返回响应 ID。',
     },
     {
       name: 'performance',
       type: '{ responseTimeMs: number; effectiveOutputTokensPerSecond: number; outputTokensPerSecond: number | undefined; inputTokensPerSecond: number | undefined; effectiveTotalTokensPerSecond: number; timeToFirstOutputTokenMs: number | undefined }',
-      description: 'Performance metrics for the model call.',
+      description: '模型调用的性能指标。',
       properties: [
         {
           type: 'LanguageModelCallPerformance',
@@ -541,7 +536,7 @@ const result = await generateText({
 
 #### `onToolExecutionStart`
 
-Called before a tool's `execute` function runs.
+在 tool 的 `execute` 函数运行前调用。
 
 ```ts
 const result = await generateText({
@@ -566,7 +561,7 @@ const result = await generateText({
     {
       name: 'toolCall',
       type: 'TypedToolCall',
-      description: 'The full tool call object.',
+      description: '完整的 tool 调用对象。',
       properties: [
         {
           type: 'TypedToolCall',
@@ -574,22 +569,22 @@ const result = await generateText({
             {
               name: 'type',
               type: "'tool-call'",
-              description: 'The type of the call.',
+              description: '调用类型。',
             },
             {
               name: 'toolCallId',
               type: 'string',
-              description: 'Unique identifier for this tool call.',
+              description: '本次 tool 调用的唯一标识符。',
             },
             {
               name: 'toolName',
               type: 'string',
-              description: 'Name of the tool being called.',
+              description: '被调用的 tool 名称。',
             },
             {
               name: 'input',
               type: 'unknown',
-              description: 'Input arguments passed to the tool.',
+              description: '传给 tool 的输入参数。',
             },
           ],
         },
@@ -612,7 +607,7 @@ const result = await generateText({
 
 #### `onToolExecutionEnd`
 
-Called after a tool's `execute` function completes or errors. The `toolOutput` field is a discriminated union: check `toolOutput.type` to determine whether it is a `'tool-result'` (success) or `'tool-error'` (failure).
+在 tool 的 `execute` 函数完成或出错后调用。`toolOutput` 字段为判别联合：检查 `toolOutput.type` 可判断是 `'tool-result'`（成功）还是 `'tool-error'`（失败）。
 
 ```ts
 const result = await generateText({
@@ -643,7 +638,7 @@ const result = await generateText({
     {
       name: 'toolCall',
       type: 'TypedToolCall',
-      description: 'The full tool call object.',
+      description: '完整的 tool 调用对象。',
       properties: [
         {
           type: 'TypedToolCall',
@@ -651,22 +646,22 @@ const result = await generateText({
             {
               name: 'type',
               type: "'tool-call'",
-              description: 'The type of the call.',
+              description: '调用类型。',
             },
             {
               name: 'toolCallId',
               type: 'string',
-              description: 'Unique identifier for this tool call.',
+              description: '本次 tool 调用的唯一标识符。',
             },
             {
               name: 'toolName',
               type: 'string',
-              description: 'Name of the tool that was called.',
+              description: '已调用的 tool 名称。',
             },
             {
               name: 'input',
               type: 'unknown',
-              description: 'Input arguments passed to the tool.',
+              description: '传给 tool 的输入参数。',
             },
           ],
         },
@@ -675,7 +670,7 @@ const result = await generateText({
     {
       name: 'toolExecutionMs',
       type: 'number',
-      description: 'Execution time of the tool call in milliseconds.',
+      description: 'tool 调用执行时间（毫秒）。',
     },
     {
       name: 'messages',
@@ -692,15 +687,14 @@ const result = await generateText({
     {
       name: 'toolOutput',
       type: 'ToolOutput',
-      description:
-        "Discriminated union representing the tool execution result. When `type` is `'tool-result'`, the `output` field contains the tool's return value. When `type` is `'tool-error'`, the `error` field contains the error.",
+      description: "表示 tool 执行结果的判别联合。当 `type` 为 `'tool-result'` 时，`output` 字段包含 tool 返回值；当 `type` 为 `'tool-error'` 时，`error` 字段包含错误。",
     },
   ]}
 />
 
 #### `onStepFinish`
 
-Called after each step (LLM call) completes. Provides the full `StepResult`.
+在每个 step（LLM 调用）完成后调用。提供完整的 `StepResult`。
 
 ```ts
 const result = await generateText({
@@ -719,22 +713,22 @@ const result = await generateText({
     {
       name: 'stepNumber',
       type: 'number',
-      description: 'Zero-based index of this step.',
+      description: '本 step 的从零开始索引。',
     },
     {
       name: 'model',
       type: '{ provider: string; modelId: string }',
-      description: 'Information about the model that produced this step.',
+      description: '产生本 step 的模型信息。',
     },
     {
       name: 'finishReason',
       type: "'stop' | 'length' | 'content-filter' | 'tool-calls' | 'error' | 'other'",
-      description: 'The unified reason why the generation finished.',
+      description: '生成结束的统一原因。',
     },
     {
       name: 'usage',
       type: 'LanguageModelUsage',
-      description: 'The token usage of the generated text.',
+      description: '生成文本的 token 用量。',
       properties: [
         {
           type: 'LanguageModelUsage',
@@ -742,17 +736,17 @@ const result = await generateText({
             {
               name: 'inputTokens',
               type: 'number | undefined',
-              description: 'The total number of input (prompt) tokens used.',
+              description: '使用的输入（提示）token 总数。',
             },
             {
               name: 'outputTokens',
               type: 'number | undefined',
-              description: 'The number of output (completion) tokens used.',
+              description: '使用的输出（补全）token 数。',
             },
             {
               name: 'totalTokens',
               type: 'number | undefined',
-              description: 'The total number of tokens used.',
+              description: '使用的 token 总数。',
             },
           ],
         },
@@ -761,7 +755,7 @@ const result = await generateText({
     {
       name: 'performance',
       type: 'StepResultPerformance',
-      description: 'Timing and throughput metrics for the step.',
+      description: '本 step 的耗时与吞吐指标。',
       properties: [
         {
           type: 'StepResultPerformance',
@@ -821,47 +815,47 @@ const result = await generateText({
     {
       name: 'text',
       type: 'string',
-      description: 'The generated text.',
+      description: '生成的文本。',
     },
     {
       name: 'toolCalls',
       type: 'Array<TypedToolCall>',
-      description: 'The tool calls that were made during the generation.',
+      description: '生成过程中进行的 tool 调用。',
     },
     {
       name: 'toolResults',
       type: 'Array<TypedToolResult>',
-      description: 'The results of the tool calls.',
+      description: 'tool 调用的结果。',
     },
     {
       name: 'content',
       type: 'Array<ContentPart>',
-      description: 'The content that was generated in this step.',
+      description: '本 step 生成的内容。',
     },
     {
       name: 'reasoning',
       type: 'Array<ReasoningPart | ReasoningFilePart>',
-      description: 'The reasoning that was generated during the generation.',
+      description: '生成过程中产生的推理内容。',
     },
     {
       name: 'reasoningText',
       type: 'string | undefined',
-      description: 'The reasoning text that was generated.',
+      description: '生成的推理文本。',
     },
     {
       name: 'files',
       type: 'Array<GeneratedFile>',
-      description: 'The files that were generated during the generation.',
+      description: '生成过程中产生的文件。',
     },
     {
       name: 'sources',
       type: 'Array<Source>',
-      description: 'The sources that were used to generate the text.',
+      description: '用于生成文本的来源。',
     },
     {
       name: 'warnings',
       type: 'CallWarning[] | undefined',
-      description: 'Warnings from the model provider.',
+      description: '模型 provider 的警告。',
     },
     {
       name: 'request',
@@ -884,19 +878,19 @@ const result = await generateText({
     {
       name: 'toolsContext',
       type: 'InferToolSetContext<TOOLS>',
-      description: 'Per-tool context map for the generation step.',
+      description: '生成 step 的按 tool 上下文映射。',
     },
     {
       name: 'providerMetadata',
       type: 'ProviderMetadata | undefined',
-      description: 'Additional provider-specific metadata.',
+      description: '额外的 provider 特定元数据。',
     },
   ]}
 />
 
 #### `onFinish`
 
-Called when the entire generation completes (all steps finished). Includes aggregated data.
+在整个生成完成时调用（所有 step 已结束）。包含汇总数据。
 
 ```ts
 const result = await generateText({
@@ -915,12 +909,12 @@ const result = await generateText({
     {
       name: 'steps',
       type: 'Array<StepResult>',
-      description: 'Array containing results from all steps in the generation.',
+      description: '包含生成中所有 step 结果的数组。',
     },
     {
       name: 'totalUsage',
       type: 'LanguageModelUsage',
-      description: 'Aggregated token usage across all steps.',
+      description: '所有 step 汇总的 token 用量。',
       properties: [
         {
           type: 'LanguageModelUsage',
@@ -940,7 +934,7 @@ const result = await generateText({
             {
               name: 'totalTokens',
               type: 'number | undefined',
-              description: 'The total number of tokens used across all steps.',
+              description: '所有 step 使用的 token 总数。',
             },
           ],
         },
@@ -949,57 +943,57 @@ const result = await generateText({
     {
       name: 'stepNumber',
       type: 'number',
-      description: 'Zero-based index of the final step.',
+      description: '最后 step 的从零开始索引。',
     },
     {
       name: 'model',
       type: '{ provider: string; modelId: string }',
-      description: 'Information about the model that produced the final step.',
+      description: '产生最后 step 的模型信息。',
     },
     {
       name: 'finishReason',
       type: "'stop' | 'length' | 'content-filter' | 'tool-calls' | 'error' | 'other'",
-      description: 'The unified reason why the generation finished.',
+      description: '生成结束的统一原因。',
     },
     {
       name: 'usage',
       type: 'LanguageModelUsage',
-      description: 'The token usage from the final step only (not aggregated).',
+      description: '仅最后 step 的 token 用量（非汇总）。',
     },
     {
       name: 'text',
       type: 'string',
-      description: 'The full text that has been generated.',
+      description: '已生成的完整文本。',
     },
     {
       name: 'toolCalls',
       type: 'Array<TypedToolCall>',
-      description: 'The tool calls that were made in the final step.',
+      description: '最后 step 中的 tool 调用。',
     },
     {
       name: 'toolResults',
       type: 'Array<TypedToolResult>',
-      description: 'The results of the tool calls from the final step.',
+      description: '最后 step 中 tool 调用的结果。',
     },
     {
       name: 'content',
       type: 'Array<ContentPart>',
-      description: 'The content that was generated in the final step.',
+      description: '最后 step 生成的内容。',
     },
     {
       name: 'reasoning',
       type: 'Array<ReasoningPart | ReasoningFilePart>',
-      description: 'The reasoning that was generated.',
+      description: '生成的推理内容。',
     },
     {
       name: 'reasoningText',
       type: 'string | undefined',
-      description: 'The reasoning text that was generated.',
+      description: '生成的推理文本。',
     },
     {
       name: 'files',
       type: 'Array<GeneratedFile>',
-      description: 'Files that were generated in the final step.',
+      description: '最后 step 生成的文件。',
     },
     {
       name: 'sources',
@@ -1010,7 +1004,7 @@ const result = await generateText({
     {
       name: 'warnings',
       type: 'CallWarning[] | undefined',
-      description: 'Warnings from the model provider.',
+      description: '模型 provider 的警告。',
     },
     {
       name: 'request',
@@ -1039,7 +1033,7 @@ const result = await generateText({
     {
       name: 'providerMetadata',
       type: 'ProviderMetadata | undefined',
-      description: 'Additional provider-specific metadata from the final step.',
+      description: '来自最后 step 的额外 provider 特定元数据。',
     },
   ]}
 />
@@ -1048,7 +1042,7 @@ const result = await generateText({
 
 #### `experimental_onStart`
 
-Called when the embedding operation begins, before the embedding model is called. Both `embed` and `embedMany` share the same event interface; the `operationId` field distinguishes them (`'ai.embed'` vs `'ai.embedMany'`), and the `value` field is a single string for `embed` or an array of strings for `embedMany`.
+在嵌入操作开始时调用，位于调用嵌入模型之前。`embed` 与 `embedMany` 共用同一事件接口；`operationId` 字段区分二者（`'ai.embed'` 与 `'ai.embedMany'`），`value` 在 `embed` 中为单个字符串，在 `embedMany` 中为字符串数组。
 
 ```ts
 import { embed } from 'ai';
@@ -1068,7 +1062,7 @@ const result = await embed({
     {
       name: 'callId',
       type: 'string',
-      description: 'Unique identifier for this embed call.',
+      description: '本次 embed 调用的唯一标识符。',
     },
     {
       name: 'operationId',
@@ -1079,7 +1073,7 @@ const result = await embed({
     {
       name: 'model',
       type: '{ provider: string; modelId: string }',
-      description: 'The embedding model being used.',
+      description: '正在使用的嵌入模型。',
     },
     {
       name: 'value',
@@ -1090,29 +1084,29 @@ const result = await embed({
     {
       name: 'maxRetries',
       type: 'number',
-      description: 'Maximum number of retries for failed requests.',
+      description: '失败请求的最大重试次数。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal | undefined',
-      description: 'Abort signal for cancelling the operation.',
+      description: '用于取消操作的 abort 信号。',
     },
     {
       name: 'headers',
       type: 'Record<string, string | undefined> | undefined',
-      description: 'Additional HTTP headers sent with the request.',
+      description: '随请求发送的额外 HTTP 头。',
     },
     {
       name: 'providerOptions',
       type: 'ProviderOptions | undefined',
-      description: 'Additional provider-specific options.',
+      description: '额外的 provider 特定选项。',
     },
   ]}
 />
 
 #### `experimental_onEnd`
 
-Called when the embedding operation completes. For `embed`, `embedding` is a single vector and `response` is a single response object. For `embedMany`, `embedding` is an array of vectors and `response` is an array of response objects (one per chunk).
+在嵌入操作完成时调用。`embed` 中 `embedding` 为单向量、`response` 为单个响应对象；`embedMany` 中 `embedding` 为向量数组、`response` 为响应对象数组（每个分块一个）。
 
 ```ts
 import { embedMany } from 'ai';
@@ -1132,7 +1126,7 @@ const result = await embedMany({
     {
       name: 'callId',
       type: 'string',
-      description: 'Unique identifier for this embed call.',
+      description: '本次 embed 调用的唯一标识符。',
     },
     {
       name: 'operationId',
@@ -1143,12 +1137,12 @@ const result = await embedMany({
     {
       name: 'model',
       type: '{ provider: string; modelId: string }',
-      description: 'The embedding model that was used.',
+      description: '已使用的嵌入模型。',
     },
     {
       name: 'value',
       type: 'string | Array<string>',
-      description: 'The value(s) that were embedded.',
+      description: '已嵌入的值。',
     },
     {
       name: 'embedding',
@@ -1159,17 +1153,17 @@ const result = await embedMany({
     {
       name: 'usage',
       type: 'EmbeddingModelUsage',
-      description: 'Token usage for the embedding operation.',
+      description: '嵌入操作的 token 用量。',
     },
     {
       name: 'warnings',
       type: 'Array<Warning>',
-      description: 'Warnings from the embedding model.',
+      description: '嵌入模型的警告。',
     },
     {
       name: 'providerMetadata',
       type: 'ProviderMetadata | undefined',
-      description: 'Optional provider-specific metadata.',
+      description: '可选的 provider 特定元数据。',
     },
     {
       name: 'response',
@@ -1184,7 +1178,7 @@ const result = await embedMany({
 
 #### `experimental_onStart`
 
-Called when the reranking operation begins, before the reranking model is called.
+在重排序操作开始时调用，位于调用重排序模型之前。
 
 ```ts
 import { rerank } from 'ai';
@@ -1205,59 +1199,59 @@ const result = await rerank({
     {
       name: 'callId',
       type: 'string',
-      description: 'Unique identifier for this rerank call.',
+      description: '本次 rerank 调用的唯一标识符。',
     },
     {
       name: 'operationId',
       type: 'string',
-      description: "Identifies the operation type ('ai.rerank').",
+      description: "标识操作类型（'ai.rerank'）。",
     },
     {
       name: 'model',
       type: '{ provider: string; modelId: string }',
-      description: 'The reranking model being used.',
+      description: '正在使用的重排序模型。',
     },
     {
       name: 'documents',
       type: 'Array<JSONObject | string>',
-      description: 'The documents being reranked.',
+      description: '正在重排序的文档。',
     },
     {
       name: 'query',
       type: 'string',
-      description: 'The query to rerank the documents against.',
+      description: '用于对文档重排序的查询。',
     },
     {
       name: 'topN',
       type: 'number | undefined',
-      description: 'Number of top documents to return.',
+      description: '返回的 top 文档数量。',
     },
     {
       name: 'maxRetries',
       type: 'number',
-      description: 'Maximum number of retries for failed requests.',
+      description: '失败请求的最大重试次数。',
     },
     {
       name: 'abortSignal',
       type: 'AbortSignal | undefined',
-      description: 'Abort signal for cancelling the operation.',
+      description: '用于取消操作的 abort 信号。',
     },
     {
       name: 'headers',
       type: 'Record<string, string | undefined> | undefined',
-      description: 'Additional HTTP headers sent with the request.',
+      description: '随请求发送的额外 HTTP 头。',
     },
     {
       name: 'providerOptions',
       type: 'ProviderOptions | undefined',
-      description: 'Additional provider-specific options.',
+      description: '额外的 provider 特定选项。',
     },
   ]}
 />
 
 #### `experimental_onEnd`
 
-Called when the reranking operation completes, after the reranking model returns.
+在重排序操作完成时调用，位于重排序模型返回之后。
 
 ```ts
 import { rerank } from 'ai';
@@ -1278,27 +1272,27 @@ const result = await rerank({
     {
       name: 'callId',
       type: 'string',
-      description: 'Unique identifier for this rerank call.',
+      description: '本次 rerank 调用的唯一标识符。',
     },
     {
       name: 'operationId',
       type: 'string',
-      description: "Identifies the operation type ('ai.rerank').",
+      description: "标识操作类型（'ai.rerank'）。",
     },
     {
       name: 'model',
       type: '{ provider: string; modelId: string }',
-      description: 'The reranking model that was used.',
+      description: '已使用的重排序模型。',
     },
     {
       name: 'documents',
       type: 'Array<JSONObject | string>',
-      description: 'The documents that were reranked.',
+      description: '已重排序的文档。',
     },
     {
       name: 'query',
       type: 'string',
-      description: 'The query that documents were reranked against.',
+      description: '文档所针对重排序的查询。',
     },
     {
       name: 'ranking',
@@ -1309,24 +1303,24 @@ const result = await rerank({
     {
       name: 'warnings',
       type: 'Array<Warning>',
-      description: 'Warnings from the reranking model.',
+      description: '重排序模型的警告。',
     },
     {
       name: 'providerMetadata',
       type: 'ProviderMetadata | undefined',
-      description: 'Optional provider-specific metadata.',
+      description: '可选的 provider 特定元数据。',
     },
     {
       name: 'response',
       type: '{ id?: string; timestamp: Date; modelId: string; headers?: Record<string, string>; body?: unknown }',
-      description: 'Response data including headers and body.',
+      description: '响应数据，包括头与 body。',
     },
   ]}
 />
 
-## Use Cases
+## 使用场景
 
-### Logging and Debugging
+### 日志与调试
 
 ```ts
 import { generateText } from 'ai';
@@ -1358,7 +1352,7 @@ const result = await generateText({
 });
 ```
 
-### Tool Execution Monitoring
+### Tool 执行监控
 
 ```ts
 import { generateText } from 'ai';
@@ -1385,7 +1379,7 @@ const result = await generateText({
 });
 ```
 
-### Embedding Observability
+### 嵌入可观测性
 
 ```ts
 import { embedMany } from 'ai';
@@ -1407,9 +1401,9 @@ const result = await embedMany({
 });
 ```
 
-## Error Handling
+## 错误处理
 
-Errors thrown inside callbacks are caught and do not break the generation, embedding, or reranking flow. This ensures that monitoring code cannot disrupt your application:
+回调内抛出的错误会被捕获，不会中断生成、嵌入或重排序流程。这可确保监控代码不会破坏应用：
 
 ```ts
 const result = await generateText({

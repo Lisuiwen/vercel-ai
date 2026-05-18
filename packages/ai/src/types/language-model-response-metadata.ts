@@ -1,38 +1,38 @@
 import type { ResponseMessage } from '../generate-text/response-message';
 
 /**
- * Metadata for a language model response.
+ * 语言模型响应的元数据。
  */
 export type LanguageModelResponseMetadata = {
   /**
-   * The response messages that were generated during the call.
-   * Response messages can be either assistant messages or tool messages.
-   * They contain a generated id.
+   * 呼叫期间生成的响应消息。
+   * 响应消息可以是辅助消息，也可以是工具消息。
+   * 它们包含一个生成的 id。
    */
   readonly messages: Array<ResponseMessage>;
 
   /**
-   * ID for the generated response.
+   * 生成的响应的 ID。
    */
   readonly id: string;
 
   /**
-   * Timestamp for the start of the generated response.
+   * 生成的响应的开始时间戳。
    */
   readonly timestamp: Date;
 
   /**
-   * The ID of the response model that was used to generate the response.
+   * 用于生成响应的响应模型的 ID。
    */
   readonly modelId: string;
 
   /**
-   * Response headers (available only for providers that use HTTP requests).
+   * 响应标头（仅适用于使用 HTTP 请求的提供者）。
    */
   readonly headers?: Record<string, string>;
 
   /**
-   * Response body (available only for providers that use HTTP requests).
+   * 响应正文（仅适用于使用 HTTP 请求的提供商）。
    */
   readonly body?: unknown;
 };

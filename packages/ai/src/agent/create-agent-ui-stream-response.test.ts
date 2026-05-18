@@ -76,7 +76,7 @@ describe('createAgentUIStreamResponse', () => {
             outputSchema: z.object({
               value: z.string(),
             }),
-            // important: tool has toModelOutput that needs to be called
+            // 重要：工具有需要调用的模型输出
             toModelOutput: ({ output }) => ({
               type: 'content',
               value: [{ type: 'text', text: output.value }],
@@ -118,7 +118,7 @@ describe('createAgentUIStreamResponse', () => {
         ],
       });
 
-      // consume the response
+      // 消耗响应
       const decoder = new TextDecoder();
       const encodedStream = response.body!;
       const chunks = await convertReadableStreamToArray(encodedStream);
@@ -335,25 +335,25 @@ describe('createAgentUIStreamResponse', () => {
             ],
           },
         ],
-        // Note: originalMessages is NOT provided, relying on auto-population
+        // 注意：未提供原始消息，依赖于自动填充
         onFinish: ({ messages }) => {
           onFinishCalled = true;
           finishMessages = messages;
         },
       });
 
-      // Consume the response to trigger onFinish
+      // 使用响应来触发 onFinish
       const decoder = new TextDecoder();
       const encodedStream = response.body!;
       const chunks = await convertReadableStreamToArray(encodedStream);
       const decodedChunks = chunks.map(chunk => decoder.decode(chunk));
 
-      // Verify stream completed successfully
+      // 验证流已成功完成
       expect(
         decodedChunks.some(chunk => chunk.includes('"type":"finish"')),
       ).toBe(true);
 
-      // Verify onFinish was called with messages
+      // 验证 onFinish 是否已通过消息调用
       expect(onFinishCalled).toBe(true);
       expect(finishMessages).toBeDefined();
       expect(finishMessages!.length).toBe(2);

@@ -1,15 +1,15 @@
 ---
 title: LMNT
-description: Learn how to use the LMNT provider for the AI SDK.
+description: 了解如何在 AI SDK 中使用 LMNT 提供商。
 ---
 
-# LMNT Provider
+# LMNT 提供商
 
-The [LMNT](https://lmnt.com/) provider contains speech model support for the LMNT speech synthesis API.
+[LMNT](https://lmnt.com/) 提供商为 LMNT 语音合成 API 提供语音模型支持。
 
-## Setup
+## 安装
 
-The LMNT provider is available in the `@ai-sdk/lmnt` module. You can install it with
+LMNT 提供商位于 `@ai-sdk/lmnt` 模块中，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -27,15 +27,15 @@ The LMNT provider is available in the `@ai-sdk/lmnt` module. You can install it 
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `lmnt` from `@ai-sdk/lmnt`:
+可从 `@ai-sdk/lmnt` 导入默认的 `lmnt` 提供商实例：
 
 ```ts
 import { lmnt } from '@ai-sdk/lmnt';
 ```
 
-If you need a customized setup, you can import `createLMNT` from `@ai-sdk/lmnt` and create a provider instance with your settings:
+如需自定义配置，可导入 `createLMNT` 并创建实例：
 
 ```ts
 import { createLMNT } from '@ai-sdk/lmnt';
@@ -46,36 +46,35 @@ const lmnt = createLMNT({
 });
 ```
 
-You can use the following optional settings to customize the LMNT provider instance:
+可使用以下可选设置自定义 LMNT 提供商实例：
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header.
-  It defaults to the `LMNT_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API Key。
+  默认为环境变量 `LMNT_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch`。
+  可用作拦截请求的中间件，
+  或在测试中提供自定义 `fetch`。
 
-## Speech Models
+## 语音模型
 
-You can create models that call the [LMNT speech API](https://docs.lmnt.com/api-reference/speech/synthesize-speech-bytes)
-using the `.speech()` factory method.
+可使用 `.speech()` 工厂方法创建调用 [LMNT speech API](https://docs.lmnt.com/api-reference/speech/synthesize-speech-bytes) 的模型。
 
-The first argument is the model id e.g. `aurora`.
+首个参数为模型 ID，例如 `aurora`。
 
 ```ts
 const model = lmnt.speech('aurora');
 ```
 
-The `voice` parameter can be set to a voice ID from LMNT. You can find available voices in the [LMNT documentation](https://docs.lmnt.com/api-reference/voices/list-voices).
+`voice` 可设为 LMNT 的音色 ID，可用音色见 [LMNT 文档](https://docs.lmnt.com/api-reference/voices/list-voices)。
 
 ```ts highlight="7"
 import { experimental_generateSpeech as generateSpeech } from 'ai';
@@ -89,7 +88,7 @@ const result = await generateSpeech({
 });
 ```
 
-You can also pass additional provider-specific options using the `providerOptions` argument:
+也可通过 `providerOptions` 传入更多提供商专有选项：
 
 ```ts highlight="10-14"
 import { experimental_generateSpeech as generateSpeech } from 'ai';
@@ -110,43 +109,43 @@ const result = await generateSpeech({
 });
 ```
 
-### Provider Options
+### Provider 选项
 
-The LMNT provider accepts the following options via `providerOptions.lmnt`:
+LMNT 提供商可通过 `providerOptions.lmnt` 接受以下选项：
 
 - **format** _'aac' | 'mp3' | 'mulaw' | 'raw' | 'wav'_
 
-  The audio format to return. Defaults to `'mp3'`.
+  返回的音频格式。默认为 `'mp3'`。
 
 - **sampleRate** _8000 | 16000 | 24000_
 
-  The sample rate of the audio in Hz. Defaults to `24000`.
+  音频采样率（Hz）。默认为 `24000`。
 
 - **speed** _number_
 
-  The speed of the speech. Must be between 0.25 and 2. Defaults to `1`.
+  语速。须在 0.25 至 2 之间。默认为 `1`。
 
 - **seed** _number_
 
-  An optional seed for deterministic generation.
+  可选的随机种子，用于可复现生成。
 
 - **conversational** _boolean_
 
-  Whether to use a conversational style. Defaults to `false`. Does not work with the `blizzard` model.
+  是否使用会话风格。默认为 `false`。不能与 `blizzard` 模型一起使用。
 
 - **length** _number_
 
-  Maximum length of the audio in seconds. Maximum value is 300. Does not work with the `blizzard` model.
+  音频最大长度（秒），最大 300。不能与 `blizzard` 模型一起使用。
 
 - **topP** _number_
 
-  Top-p sampling parameter. Must be between 0 and 1. Defaults to `1`.
+  Top-p 采样参数。须在 0 至 1 之间。默认为 `1`。
 
 - **temperature** _number_
 
-  Temperature parameter for sampling. Must be at least 0. Defaults to `1`.
+  采样温度。须 ≥ 0。默认为 `1`。
 
-### Model Capabilities
+### 模型能力
 
 | Model      | Instructions        |
 | ---------- | ------------------- |

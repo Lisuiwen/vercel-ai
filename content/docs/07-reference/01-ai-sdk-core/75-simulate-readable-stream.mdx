@@ -1,11 +1,11 @@
 ---
 title: simulateReadableStream
-description: Create a ReadableStream that emits values with configurable delays
+description: 创建可按可配置延迟发出值的 ReadableStream
 ---
 
 # `simulateReadableStream()`
 
-`simulateReadableStream` is a utility function that creates a ReadableStream which emits provided values sequentially with configurable delays. This is particularly useful for testing streaming functionality or simulating time-delayed data streams.
+`simulateReadableStream` 用于创建 `ReadableStream`，按顺序、可配置延迟地发出给定值。适用于测试流式行为或模拟带时间间隔的数据流。
 
 ```ts
 import { simulateReadableStream } from 'ai';
@@ -17,13 +17,13 @@ const stream = simulateReadableStream({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { simulateReadableStream } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -31,41 +31,41 @@ const stream = simulateReadableStream({
       name: 'chunks',
       type: 'T[]',
       isOptional: false,
-      description: 'Array of values to be emitted by the stream',
+      description: '由流发出的值数组',
     },
     {
       name: 'initialDelayInMs',
       type: 'number | null',
       isOptional: true,
       description:
-        'Initial delay in milliseconds before emitting the first value. Defaults to 0. Set to null to skip the initial delay entirely.',
+        '发出第一个值前的初始延迟（毫秒）。默认 0。设为 `null` 可完全跳过初始延迟。',
     },
     {
       name: 'chunkDelayInMs',
       type: 'number | null',
       isOptional: true,
       description:
-        'Delay in milliseconds between emitting each value. Defaults to 0. Set to null to skip delays between chunks.',
+        '相邻值之间的延迟（毫秒）。默认 0。设为 `null` 可取消分块间延迟。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
-Returns a `ReadableStream<T>` that:
+返回 `ReadableStream<T>`，其行为如下：
 
-- Emits each value from the provided `chunks` array sequentially
-- Waits for `initialDelayInMs` before emitting the first value (if not `null`)
-- Waits for `chunkDelayInMs` between emitting subsequent values (if not `null`)
-- Closes automatically after all chunks have been emitted
+- 按顺序发出 `chunks` 数组中的每个值
+- 在发出第一个值前等待 `initialDelayInMs`（若非 `null`）
+- 在后续值之间等待 `chunkDelayInMs`（若非 `null`）
+- 所有分块发出后自动关闭
 
-### Type Parameters
+### 类型参数
 
-- `T`: The type of values contained in the chunks array and emitted by the stream
+- `T`：分块数组所含类型，亦为流发出值的类型
 
-## Examples
+## 示例
 
-### Basic Usage
+### 基本用法
 
 ```ts
 const stream = simulateReadableStream({
@@ -73,22 +73,22 @@ const stream = simulateReadableStream({
 });
 ```
 
-### With Delays
+### 带延迟
 
 ```ts
 const stream = simulateReadableStream({
   chunks: ['Hello', ' ', 'World'],
-  initialDelayInMs: 1000, // Wait 1 second before first chunk
-  chunkDelayInMs: 500, // Wait 0.5 seconds between chunks
+  initialDelayInMs: 1000, // 首块前等待 1 秒
+  chunkDelayInMs: 500, // 分块之间等待 0.5 秒
 });
 ```
 
-### Without Delays
+### 无延迟
 
 ```ts
 const stream = simulateReadableStream({
   chunks: ['Hello', ' ', 'World'],
-  initialDelayInMs: null, // No initial delay
-  chunkDelayInMs: null, // No delay between chunks
+  initialDelayInMs: null, // 无初始延迟
+  chunkDelayInMs: null, // 分块间无延迟
 });
 ```

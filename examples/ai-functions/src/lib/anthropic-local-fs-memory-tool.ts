@@ -3,7 +3,7 @@ import * as fsSync from 'fs';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
-// based on
+// 基于
 // https://github.com/anthropics/anthropic-sdk-typescript/blob/main/examples/tools-helpers-memory.ts
 export const anthropicLocalFsMemoryTool = ({
   basePath = './memory',

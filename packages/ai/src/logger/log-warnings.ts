@@ -1,36 +1,36 @@
 import type { Warning } from '../types';
 
 /**
- * A function for logging warnings.
+ * 记录警告的功能。
  *
- * You can assign it to the `AI_SDK_LOG_WARNINGS` global variable to use it as the default warning logger.
+ * 您可以将其分配给“AI_SDK_LOG_WARNINGS”全局变量，以将其用作默认警告记录器。
  *
  * @example
- * ```ts
- * globalThis.AI_SDK_LOG_WARNINGS = (options) => {
- *   console.log('WARNINGS:', options.warnings, options.provider, options.model);
+ * ````ts
+ * globalThis.AI_SDK_LOG_WARNINGS =（选项）=> {
+ *   console.log('警告：', options.warnings, options.provider, options.model);
  * };
  * ```
  */
 export type LogWarningsFunction = (options: {
   /**
-   * The warnings returned by the model provider.
+   * 模型提供者返回的警告。
    */
   warnings: Warning[];
 
   /**
-   * The provider id used for the call, if scoped to a specific provider.
+   * 用于调用的提供者 ID（如果范围仅限于特定提供者）。
    */
   provider?: string;
 
   /**
-   * The model id used for the call, if scoped to a specific provider.
+   * 用于调用的模型 ID（如果范围仅限于特定提供商）。
    */
   model?: string;
 }) => void;
 
 /**
- * Formats a warning object into a human-readable string with clear AI SDK branding.
+ * 将警告对象格式化为具有清晰 AI SDK 品牌的人类可读字符串。
  *
  * @param options - The options for formatting the warning.
  * @param options.warning - The warning to format.
@@ -77,7 +77,7 @@ function formatWarning({
     }
 
     default: {
-      // Fallback for any unknown warning types
+      // 任何未知警告类型的后备
       return `${prefix} ${JSON.stringify(warning, null, 2)}`;
     }
   }
@@ -89,12 +89,12 @@ export const FIRST_WARNING_INFO_MESSAGE =
 let hasLoggedBefore = false;
 
 /**
- * Logs warnings to the console or uses a custom logger if configured.
+ * 将警告记录到控制台或使用自定义记录器（如果已配置）。
  *
- * The behavior can be customized via the `AI_SDK_LOG_WARNINGS` global variable:
- * - If set to `false`, warnings are suppressed.
- * - If set to a function, that function is called with the warnings.
- * - Otherwise, warnings are logged to the console using `console.warn`.
+ * 可以通过“AI_SDK_LOG_WARNINGS”全局变量自定义该行为：
+ * - 如果设置为“false”，则会抑制警告。
+ * - 如果设置为函数，则调用该函数并发出警告。
+ * - 否则，警告将使用“console.warn”记录到控制台。
  *
  * @param options - The options containing warnings and context.
  * @param options.warnings - The warnings to log.
@@ -102,31 +102,31 @@ let hasLoggedBefore = false;
  * @param options.model - The model id used for the call, if scoped to a specific provider.
  */
 export const logWarnings: LogWarningsFunction = options => {
-  // if the warnings array is empty, do nothing
+  // 如果警告数组为空，则不执行任何操作
   if (options.warnings.length === 0) {
     return;
   }
 
   const logger = globalThis.AI_SDK_LOG_WARNINGS;
 
-  // if the logger is set to false, do nothing
+  // 如果记录器设置为 false，则不执行任何操作
   if (logger === false) {
     return;
   }
 
-  // use the provided logger if it is a function
+  // 如果它是一个函数，则使用提供的记录器
   if (typeof logger === 'function') {
     logger(options);
     return;
   }
 
-  // display information note on first call
+  // 第一次通话时显示信息注释
   if (!hasLoggedBefore) {
     hasLoggedBefore = true;
     console.info(FIRST_WARNING_INFO_MESSAGE);
   }
 
-  // default behavior: log warnings via process.emitWarning if available, otherwise console.warn
+  // 默认行为：通过 process.emitWarning 记录警告（如果可用），否则通过 console.warn
   for (const warning of options.warnings) {
     const message = formatWarning({
       warning,
@@ -147,7 +147,7 @@ export const logWarnings: LogWarningsFunction = options => {
 };
 
 /**
- * Resets the internal logging state. Used for testing purposes.
+ * 重置内部日志记录状态。用于测试目的。
  */
 export const resetLogWarningsState = () => {
   hasLoggedBefore = false;

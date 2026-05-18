@@ -15,7 +15,7 @@ import {
 } from 'ai';
 import 'dotenv/config';
 
-// custom provider with alias names:
+// 具有别名的自定义提供程序：
 const myAnthropic = customProvider({
   languageModels: {
     opus: anthropic('claude-3-opus-20240229'),
@@ -25,10 +25,10 @@ const myAnthropic = customProvider({
   fallbackProvider: anthropic,
 });
 
-// custom provider with different model settings:
+// 具有不同模型设置的自定义提供程序：
 const myOpenAI = customProvider({
   languageModels: {
-    // replacement model with custom provider options:
+    // 具有自定义提供程序选项的替换模型：
     'gpt-5': wrapLanguageModel({
       model: openai('gpt-5'),
       middleware: defaultSettingsMiddleware({
@@ -41,7 +41,7 @@ const myOpenAI = customProvider({
         },
       }),
     }),
-    // alias model with custom provider options:
+    // 具有自定义提供程序选项的别名模型：
     'gpt-4o-high-reasoning': wrapLanguageModel({
       model: openai('gpt-4o'),
       middleware: defaultSettingsMiddleware({

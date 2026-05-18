@@ -1,15 +1,15 @@
 ---
 title: DeepInfra
-description: Learn how to use DeepInfra's models with the AI SDK.
+description: 了解如何在 AI SDK 中使用 DeepInfra 模型。
 ---
 
-# DeepInfra Provider
+# DeepInfra 提供商
 
-The [DeepInfra](https://deepinfra.com) provider contains support for state-of-the-art models through the DeepInfra API, including Llama 3, Mixtral, Qwen, and many other popular open-source models.
+[DeepInfra](https://deepinfra.com) 提供商通过 DeepInfra API 接入众多前沿模型，包括 Llama 3、Mixtral、Qwen 以及多种热门开源模型。
 
-## Setup
+## 安装
 
-The DeepInfra provider is available via the `@ai-sdk/deepinfra` module. You can install it with:
+DeepInfra 提供商通过 `@ai-sdk/deepinfra` 模块提供，可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -27,15 +27,15 @@ The DeepInfra provider is available via the `@ai-sdk/deepinfra` module. You can 
   </Tab>
 </Tabs>
 
-## Provider Instance
+## Provider 实例
 
-You can import the default provider instance `deepInfra` from `@ai-sdk/deepinfra`:
+可从 `@ai-sdk/deepinfra` 导入默认的 `deepInfra` 提供商实例：
 
 ```ts
 import { deepInfra } from '@ai-sdk/deepinfra';
 ```
 
-If you need a customized setup, you can import `createDeepInfra` from `@ai-sdk/deepinfra` and create a provider instance with your settings:
+如需自定义配置，可导入 `createDeepInfra` 并创建实例：
 
 ```ts
 import { createDeepInfra } from '@ai-sdk/deepinfra';
@@ -45,35 +45,34 @@ const deepInfra = createDeepInfra({
 });
 ```
 
-You can use the following optional settings to customize the DeepInfra provider instance:
+可使用以下可选设置自定义 DeepInfra 提供商实例：
 
 - **baseURL** _string_
 
-  Use a different URL prefix for API calls, e.g. to use proxy servers.
-  The default prefix is `https://api.deepinfra.com/v1`.
+  为 API 请求使用不同的 URL 前缀，例如经由代理。
+  默认前缀为 `https://api.deepinfra.com/v1`。
 
-  Note: Language models and embeddings use OpenAI-compatible endpoints at `{baseURL}/openai`,
-  while image models use `{baseURL}/inference`.
+  说明：语言模型与嵌入使用 `{baseURL}/openai` 下的 OpenAI 兼容端点；
+  图像模型则使用 `{baseURL}/inference`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header. It defaults to
-  the `DEEPINFRA_API_KEY` environment variable.
+  通过 `Authorization` 请求头发送的 API Key。默认为环境变量 `DEEPINFRA_API_KEY`。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation.
-  Defaults to the global `fetch` function.
-  You can use it as a middleware to intercept requests,
-  or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。
+  默认为全局 `fetch`。
+  可用作拦截请求的中间件，
+  或在测试中提供自定义 `fetch`。
 
-## Language Models
+## 语言模型
 
-You can create language models using a provider instance. The first argument is the model ID, for example:
+可使用提供商实例创建语言模型；首个参数为模型 ID，例如：
 
 ```ts
 import { deepInfra } from '@ai-sdk/deepinfra';
@@ -85,47 +84,45 @@ const { text } = await generateText({
 });
 ```
 
-DeepInfra language models can also be used in the `streamText` function (see [AI SDK Core](/docs/ai-sdk-core)).
+DeepInfra 语言模型也可用于 `streamText`（参见 [AI SDK Core](/docs/ai-sdk-core)）。
 
-## Model Capabilities
+## 模型能力
 
-| Model                                               | Image Input         | Object Generation   | Tool Usage          | Tool Streaming      |
-| --------------------------------------------------- | ------------------- | ------------------- | ------------------- | ------------------- |
+| Model                                               | 图像输入           | 对象生成           | 工具使用           | 工具流式传输       |
+| --------------------------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ |
 | `meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8` | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `meta-llama/Llama-4-Scout-17B-16E-Instruct`         | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `meta-llama/Llama-3.3-70B-Instruct-Turbo`           | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| `meta-llama/Llama-3.3-70B-Instruct`                 | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| `meta-llama/Meta-Llama-3.1-405B-Instruct`           | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| `meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo`      | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| `meta-llama/Meta-Llama-3.1-70B-Instruct`            | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| `meta-llama/Llama-4-Scout-17B-16E-Instruct`        | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `meta-llama/Llama-3.3-70B-Instruct-Turbo`          | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| `meta-llama/Llama-3.3-70B-Instruct`                | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| `meta-llama/Meta-Llama-3.1-405B-Instruct`          | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| `meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo`     | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| `meta-llama/Meta-Llama-3.1-70B-Instruct`           | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
 | `meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo`       | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
 | `meta-llama/Meta-Llama-3.1-8B-Instruct`             | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| `meta-llama/Llama-3.2-11B-Vision-Instruct`          | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `meta-llama/Llama-3.2-90B-Vision-Instruct`          | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `mistralai/Mixtral-8x7B-Instruct-v0.1`              | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
-| `deepseek-ai/DeepSeek-V3`                           | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| `deepseek-ai/DeepSeek-R1`                           | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `deepseek-ai/DeepSeek-R1-Distill-Llama-70B`         | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `deepseek-ai/DeepSeek-R1-Turbo`                     | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `nvidia/Llama-3.1-Nemotron-70B-Instruct`            | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
-| `Qwen/Qwen2-7B-Instruct`                            | <Cross size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `meta-llama/Llama-3.2-11B-Vision-Instruct`         | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `meta-llama/Llama-3.2-90B-Vision-Instruct`         | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `mistralai/Mixtral-8x7B-Instruct-v0.1`             | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
+| `deepseek-ai/DeepSeek-V3`                          | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
+| `deepseek-ai/DeepSeek-R1`                          | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `deepseek-ai/DeepSeek-R1-Distill-Llama-70B`       | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `deepseek-ai/DeepSeek-R1-Turbo`                    | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `nvidia/Llama-3.1-Nemotron-70B-Instruct`           | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Cross size={18} /> |
+| `Qwen/Qwen2-7B-Instruct`                           | <Cross size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
 | `Qwen/Qwen2.5-72B-Instruct`                         | <Cross size={18} /> | <Check size={18} /> | <Check size={18} /> | <Check size={18} /> |
-| `Qwen/Qwen2.5-Coder-32B-Instruct`                   | <Cross size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `Qwen/Qwen2.5-Coder-32B-Instruct`                  | <Cross size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
 | `Qwen/QwQ-32B-Preview`                              | <Cross size={18} /> | <Check size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `google/codegemma-7b-it`                            | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `google/gemma-2-9b-it`                              | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
-| `microsoft/WizardLM-2-8x22B`                        | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `google/codegemma-7b-it`                           | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `google/gemma-2-9b-it`                             | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
+| `microsoft/WizardLM-2-8x22B`                       | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> | <Cross size={18} /> |
 
 <Note>
-  The table above lists popular models. Please see the [DeepInfra
-  docs](https://deepinfra.com) for a full list of available models. You can also
-  pass any available provider model ID as a string if needed.
+  上表列出常用模型；完整列表见 [DeepInfra 文档](https://deepinfra.com)。也可根据需要直接传入可用的提供商模型 ID 字符串。
 </Note>
 
-## Image Models
+## 图像模型
 
-You can create DeepInfra image models using the `.image()` factory method.
-For more on image generation with the AI SDK see [generateImage()](/docs/reference/ai-sdk-core/generate-image).
+可使用 `.image()` 工厂方法创建 DeepInfra 图像模型。
+关于在 AI SDK 中生成图像，参见 [generateImage()](/docs/reference/ai-sdk-core/generate-image)。
 
 ```ts
 import { deepInfra } from '@ai-sdk/deepinfra';
@@ -139,15 +136,12 @@ const { image } = await generateImage({
 ```
 
 <Note>
-  Model support for `size` and `aspectRatio` parameters varies by model. Please
-  check the individual model documentation on [DeepInfra's models
-  page](https://deepinfra.com/models/text-to-image) for supported options and
-  additional parameters.
+  模型对 `size` 与 `aspectRatio` 的支持各不相同，请参阅 [DeepInfra 文生图模型页](https://deepinfra.com/models/text-to-image) 中单模型的文档与可选参数。
 </Note>
 
-### Model-specific options
+### 模型特定选项
 
-You can pass model-specific parameters using the `providerOptions.deepinfra` field:
+可通过 `providerOptions.deepinfra` 传入模型专有参数：
 
 ```ts
 import { deepInfra } from '@ai-sdk/deepinfra';
@@ -165,13 +159,13 @@ const { image } = await generateImage({
 });
 ```
 
-### Image Editing
+### 图像编辑
 
-DeepInfra supports image editing through models like `Qwen/Qwen-Image-Edit`. Pass input images via `prompt.images` to transform or edit existing images.
+DeepInfra 支持通过诸如 `Qwen/Qwen-Image-Edit` 的模型编辑图像；经 `prompt.images` 传入待变换或修改的图像。
 
-#### Basic Image Editing
+#### 基础编辑
 
-Transform an existing image using text prompts:
+用文本指令变换既有图像：
 
 ```ts
 const imageBuffer = readFileSync('./input-image.png');
@@ -186,9 +180,9 @@ const { images } = await generateImage({
 });
 ```
 
-#### Inpainting with Mask
+#### 遮罩（Inpaint）
 
-Edit specific parts of an image using a mask. Transparent areas in the mask indicate where the image should be edited:
+借助遮罩仅编辑局部；遮罩透明区域为待编辑区域：
 
 ```ts
 const image = readFileSync('./input-image.png');
@@ -204,9 +198,9 @@ const { images } = await generateImage({
 });
 ```
 
-#### Multi-Image Combining
+#### 多图合成
 
-Combine multiple reference images into a single output:
+将多张参考图融合为单张输出：
 
 ```ts
 const cat = readFileSync('./cat.png');
@@ -222,40 +216,38 @@ const { images } = await generateImage({
 ```
 
 <Note>
-  Input images can be provided as `Buffer`, `ArrayBuffer`, `Uint8Array`, or
-  base64-encoded strings. DeepInfra uses an OpenAI-compatible image editing API
-  at `https://api.deepinfra.com/v1/openai/images/edits`.
+  输入图像可使用 `Buffer`、`ArrayBuffer`、`Uint8Array` 或 base64 字符串。DeepInfra 使用位于 `https://api.deepinfra.com/v1/openai/images/edits` 的 OpenAI 兼容图像编辑 API。
 </Note>
 
-### Model Capabilities
+### 模型能力
 
-For models supporting aspect ratios, the following ratios are typically supported:
+对支持宽高比的模型，常见可选比例包括：
 `1:1 (default), 16:9, 1:9, 3:2, 2:3, 4:5, 5:4, 9:16, 9:21`
 
-For models supporting size parameters, dimensions must typically be:
+对支持 `size` 的模型，尺寸通常需满足：
 
-- Multiples of 32
-- Width and height between 256 and 1440 pixels
-- Default size is 1024x1024
+- 为 32 的倍数
+- 宽、高在 256–1440 像素之间
+- 默认 1024×1024
 
-| Model                                  | Dimensions Specification | Notes                                                    |
-| -------------------------------------- | ------------------------ | -------------------------------------------------------- |
-| `stabilityai/sd3.5`                    | Aspect Ratio             | Premium quality base model, 8B parameters                |
-| `black-forest-labs/FLUX-1.1-pro`       | Size                     | Latest state-of-art model with superior prompt following |
-| `black-forest-labs/FLUX-1-schnell`     | Size                     | Fast generation in 1-4 steps                             |
-| `black-forest-labs/FLUX-1-dev`         | Size                     | Optimized for anatomical accuracy                        |
-| `black-forest-labs/FLUX-pro`           | Size                     | Flagship Flux model                                      |
-| `black-forest-labs/FLUX.1-Kontext-dev` | Size                     | Image editing and transformation model                   |
-| `black-forest-labs/FLUX.1-Kontext-pro` | Size                     | Professional image editing and transformation            |
-| `stabilityai/sd3.5-medium`             | Aspect Ratio             | Balanced 2.5B parameter model                            |
-| `stabilityai/sdxl-turbo`               | Aspect Ratio             | Optimized for fast generation                            |
+| Model                                  | 尺寸说明     | 备注                                                    |
+| -------------------------------------- | ------------ | -------------------------------------------------------- |
+| `stabilityai/sd3.5`                    | 宽高比       | 高质量基础模型，约 8B 参数                              |
+| `black-forest-labs/FLUX-1.1-pro`       | Size         | 最新 SOTA，提示遵从更强                                 |
+| `black-forest-labs/FLUX-1-schnell`     | Size         | 1–4 步快速生成                                          |
+| `black-forest-labs/FLUX-1-dev`         | Size         | 针对解剖结构准确性优化                                  |
+| `black-forest-labs/FLUX-pro`           | Size         | 旗舰 Flux 模型                                          |
+| `black-forest-labs/FLUX.1-Kontext-dev` | Size         | 图像编辑与变换                                          |
+| `black-forest-labs/FLUX.1-Kontext-pro` | Size         | 专业级图像编辑与变换                                    |
+| `stabilityai/sd3.5-medium`             | 宽高比       | 约 2.5B 的平衡模型                                      |
+| `stabilityai/sdxl-turbo`               | 宽高比       | 面向快速生成优化                                        |
 
-For more details and pricing information, see the [DeepInfra text-to-image models page](https://deepinfra.com/models/text-to-image).
+更多细节与定价见 [DeepInfra 文生图模型页](https://deepinfra.com/models/text-to-image)。
 
-## Embedding Models
+## 嵌入模型
 
-You can create DeepInfra embedding models using the `.embeddingModel()` factory method.
-For more on embedding models with the AI SDK see [embed()](/docs/reference/ai-sdk-core/embed).
+可使用 `.embeddingModel()` 工厂方法创建 DeepInfra 嵌入模型。
+关于嵌入，参见 [embed()](/docs/reference/ai-sdk-core/embed)。
 
 ```ts
 import { deepInfra } from '@ai-sdk/deepinfra';
@@ -267,28 +259,27 @@ const { embedding } = await embed({
 });
 ```
 
-### Model Capabilities
+### 模型能力
 
-| Model                                                 | Dimensions | Max Tokens |
-| ----------------------------------------------------- | ---------- | ---------- |
-| `BAAI/bge-base-en-v1.5`                               | 768        | 512        |
-| `BAAI/bge-large-en-v1.5`                              | 1024       | 512        |
-| `BAAI/bge-m3`                                         | 1024       | 8192       |
-| `intfloat/e5-base-v2`                                 | 768        | 512        |
-| `intfloat/e5-large-v2`                                | 1024       | 512        |
-| `intfloat/multilingual-e5-large`                      | 1024       | 512        |
-| `sentence-transformers/all-MiniLM-L12-v2`             | 384        | 256        |
-| `sentence-transformers/all-MiniLM-L6-v2`              | 384        | 256        |
-| `sentence-transformers/all-mpnet-base-v2`             | 768        | 384        |
-| `sentence-transformers/clip-ViT-B-32`                 | 512        | 77         |
-| `sentence-transformers/clip-ViT-B-32-multilingual-v1` | 512        | 77         |
-| `sentence-transformers/multi-qa-mpnet-base-dot-v1`    | 768        | 512        |
-| `sentence-transformers/paraphrase-MiniLM-L6-v2`       | 384        | 128        |
-| `shibing624/text2vec-base-chinese`                    | 768        | 512        |
-| `thenlper/gte-base`                                   | 768        | 512        |
-| `thenlper/gte-large`                                  | 1024       | 512        |
+| Model                                                 | 维度 | 最大 Token |
+| ----------------------------------------------------- | ---- | ---------- |
+| `BAAI/bge-base-en-v1.5`                               | 768  | 512        |
+| `BAAI/bge-large-en-v1.5`                              | 1024 | 512        |
+| `BAAI/bge-m3`                                         | 1024 | 8192       |
+| `intfloat/e5-base-v2`                                 | 768  | 512        |
+| `intfloat/e5-large-v2`                                | 1024 | 512        |
+| `intfloat/multilingual-e5-large`                      | 1024 | 512        |
+| `sentence-transformers/all-MiniLM-L12-v2`             | 384  | 256        |
+| `sentence-transformers/all-MiniLM-L6-v2`              | 384  | 256        |
+| `sentence-transformers/all-mpnet-base-v2`             | 768  | 384        |
+| `sentence-transformers/clip-ViT-B-32`                | 512  | 77         |
+| `sentence-transformers/clip-ViT-B-32-multilingual-v1` | 512  | 77         |
+| `sentence-transformers/multi-qa-mpnet-base-dot-v1`    | 768  | 512        |
+| `sentence-transformers/paraphrase-MiniLM-L6-v2`       | 384  | 128        |
+| `shibing624/text2vec-base-chinese`                    | 768  | 512        |
+| `thenlper/gte-base`                                   | 768  | 512        |
+| `thenlper/gte-large`                                  | 1024 | 512        |
 
 <Note>
-  For a complete list of available embedding models, see the [DeepInfra
-  embeddings page](https://deepinfra.com/models/embeddings).
+  完整嵌入模型列表见 [DeepInfra embeddings 页面](https://deepinfra.com/models/embeddings)。
 </Note>

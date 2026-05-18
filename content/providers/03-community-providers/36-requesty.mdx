@@ -1,25 +1,25 @@
 ---
 title: Requesty
-description: Requesty Provider for the AI SDK
+description: 适用于 AI SDK 的 Requesty 提供商
 ---
 
 # Requesty
 
-[Requesty](https://requesty.ai/) is a unified LLM gateway that provides access to over 300 large language models from leading providers like OpenAI, Anthropic, Google, Mistral, AWS, and more. The Requesty provider for the AI SDK enables seamless integration with all these models while offering enterprise-grade advantages:
+[Requesty](https://requesty.ai/) 是统一 LLM 网关，可访问来自 OpenAI、Anthropic、Google、Mistral、AWS 等厂商的 300 多种大语言模型。面向 AI SDK 的 Requesty 提供商可无缝接入这些模型，并具有企业级优势：
 
-- **Universal Model Access**: One API key for 300+ models from multiple providers
-- **99.99% Uptime SLA**: Enterprise-grade infrastructure with intelligent failover and load balancing
-- **Cost Optimization**: Pay-as-you-go pricing with intelligent routing and prompt caching to reduce costs by up to 80%
-- **Advanced Security**: Prompt injection detection, end-to-end encryption, and GDPR compliance
-- **Real-time Observability**: Built-in monitoring, tracing, and analytics
-- **Intelligent Routing**: Automatic failover and performance-based routing
-- **Reasoning Support**: Advanced reasoning capabilities with configurable effort levels
+- **通用模型访问**：一把 API 密钥访问多家提供商的 300+ 模型
+- **99.99% 正常运行时间 SLA**：企业级基础设施，智能故障转移与负载均衡
+- **成本优化**：按量计费，结合智能路由与提示缓存，最高可降本约 80%
+- **高级安全**：提示注入检测、端到端加密与 GDPR 合规
+- **实时可观测性**：内置监控、追踪与分析
+- **智能路由**：自动故障转移与基于性能的路由
+- **推理支持**：可配置推理力度的进阶推理能力
 
-Learn more about Requesty's capabilities in the [Requesty Documentation](https://docs.requesty.ai).
+更多说明见 [Requesty 文档](https://docs.requesty.ai)。
 
-## Setup
+## 安装与配置
 
-The Requesty provider is available in the `@requesty/ai-sdk` module. You can install it with:
+Requesty 提供商位于 `@requesty/ai-sdk` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -37,9 +37,9 @@ The Requesty provider is available in the `@requesty/ai-sdk` module. You can ins
   </Tab>
 </Tabs>
 
-## API Key Setup
+## API 密钥配置
 
-For security, you should set your API key as an environment variable named exactly `REQUESTY_API_KEY`:
+出于安全考虑，应将 API 密钥设为名为 `REQUESTY_API_KEY` 的环境变量（名称须完全一致）：
 
 ```bash
 # Linux/Mac
@@ -52,17 +52,17 @@ set REQUESTY_API_KEY=your_api_key_here
 $env:REQUESTY_API_KEY="your_api_key_here"
 ```
 
-You can obtain your Requesty API key from the [Requesty Dashboard](https://app.requesty.ai/api-keys).
+可在 [Requesty 控制台](https://app.requesty.ai/api-keys) 获取 API 密钥。
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `requesty` from `@requesty/ai-sdk`:
+可从 `@requesty/ai-sdk` 导入默认提供商实例 `requesty`：
 
 ```typescript
 import { requesty } from '@requesty/ai-sdk';
 ```
 
-Alternatively, you can create a custom provider instance using `createRequesty`:
+也可使用 `createRequesty` 创建自定义实例：
 
 ```typescript
 import { createRequesty } from '@requesty/ai-sdk';
@@ -72,9 +72,9 @@ const customRequesty = createRequesty({
 });
 ```
 
-## Language Models
+## 语言模型
 
-Requesty supports both chat and completion models with a simple, unified interface:
+Requesty 以统一接口支持聊天模型与补全模型：
 
 ```typescript
 // Using the default provider instance
@@ -84,11 +84,11 @@ const model = requesty('openai/gpt-4o');
 const customModel = customRequesty('anthropic/claude-3.5-sonnet');
 ```
 
-You can find the full list of available models in the [Requesty Models documentation](https://requesty.ai/models).
+完整模型列表见 [Requesty 模型文档](https://requesty.ai/models)。
 
-## Examples
+## 示例
 
-Here are examples of using Requesty with the AI SDK:
+以下示例展示如何将 Requesty 与 AI SDK 配合使用：
 
 ### `generateText`
 
@@ -120,7 +120,7 @@ for await (const chunk of result.textStream) {
 }
 ```
 
-### Structured Output
+### 结构化输出
 
 ```javascript
 import { requesty } from '@requesty/ai-sdk';
@@ -144,11 +144,11 @@ const { output } = await generateText({
 console.log(output.recipe);
 ```
 
-## Advanced Features
+## 高级功能
 
-### Reasoning Support
+### 推理支持
 
-Requesty provides advanced reasoning capabilities with configurable effort levels for supported models:
+Requesty 为支持的模型提供可配置推理力度的进阶推理：
 
 ```javascript
 import { createRequesty } from '@requesty/ai-sdk';
@@ -168,23 +168,23 @@ console.log('Response:', text);
 console.log('Reasoning:', reasoning);
 ```
 
-#### Reasoning Effort Values
+#### 推理力度取值
 
-- `'low'` - Minimal reasoning effort
-- `'medium'` - Moderate reasoning effort
-- `'high'` - High reasoning effort
-- `'max'` - Maximum reasoning effort (Requesty-specific)
-- Budget strings (e.g., `"10000"`) - Specific token budget for reasoning
+- `'low'` — 最低推理强度
+- `'medium'` — 中等推理强度
+- `'high'` — 高推理强度
+- `'max'` — 最高推理强度（Requesty 特有）
+- 预算字符串（如 `"10000"`）— 为推理指定 token 预算
 
-#### Supported Reasoning Models
+#### 支持的推理模型
 
-- **OpenAI**: `openai/o3-mini`, `openai/o3`
-- **Anthropic**: `anthropic/claude-sonnet-4-0`, other Claude reasoning models
-- **Deepseek**: All Deepseek reasoning models (automatic reasoning)
+- **OpenAI**：`openai/o3-mini`、`openai/o3`
+- **Anthropic**：`anthropic/claude-sonnet-4-0` 及其他 Claude 推理模型
+- **Deepseek**：全部 Deepseek 推理模型（自动推理）
 
-### Custom Configuration
+### 自定义配置
 
-Configure Requesty with custom settings:
+使用自定义设置配置 Requesty：
 
 ```javascript
 import { createRequesty } from '@requesty/ai-sdk';
@@ -201,11 +201,11 @@ const requesty = createRequesty({
 });
 ```
 
-### Passing Extra Body Parameters
+### 传递额外请求体参数
 
-There are three ways to pass extra body parameters to Requesty:
+有三种方式向 Requesty 传递额外 body 参数：
 
-#### 1. Via Provider Options
+#### 1. 通过提供商选项
 
 ```javascript
 await streamText({
@@ -220,7 +220,7 @@ await streamText({
 });
 ```
 
-#### 2. Via Model Settings
+#### 2. 通过模型设置
 
 ```javascript
 const model = requesty('anthropic/claude-3.5-sonnet', {
@@ -230,7 +230,7 @@ const model = requesty('anthropic/claude-3.5-sonnet', {
 });
 ```
 
-#### 3. Via Provider Factory
+#### 3. 通过提供商工厂
 
 ```javascript
 const requesty = createRequesty({
@@ -241,37 +241,37 @@ const requesty = createRequesty({
 });
 ```
 
-## Enterprise Features
+## 企业级功能
 
-Requesty offers several enterprise-grade features:
+Requesty 提供多项企业级能力：
 
-1. **99.99% Uptime SLA**: Advanced routing and failover mechanisms keep your AI application online when other services fail.
+1. **99.99% 正常运行时间 SLA**：高级路由与故障转移机制，在其他服务故障时仍尽力保持在线。
 
-2. **Intelligent Load Balancing**: Real-time performance-based routing automatically selects the best-performing providers.
+2. **智能负载均衡**：基于实时性能自动选择表现最佳的提供商。
 
-3. **Cost Optimization**: Intelligent routing can reduce API costs by up to 40% while maintaining response quality.
+3. **成本优化**：智能路由可在保持回复质量的同时最高降低约 40% 的 API 成本。
 
-4. **Advanced Security**: Built-in prompt injection detection, end-to-end encryption, and GDPR compliance.
+4. **高级安全**：内置提示注入检测、端到端加密与 GDPR 合规。
 
-5. **Real-time Observability**: Comprehensive monitoring, tracing, and analytics for all requests.
+5. **实时可观测性**：面向全部请求的监控、追踪与分析。
 
-6. **Geographic Restrictions**: Comply with regional regulations through configurable geographic controls.
+6. **地理限制**：通过可配置的地域策略满足区域法规。
 
-7. **Model Access Control**: Fine-grained control over which models and providers can be accessed.
+7. **模型访问控制**：细粒度控制可用模型与提供商。
 
-## Key Benefits
+## 核心优势
 
-- **Zero Downtime**: Automatic failover with \<50ms switching time
-- **Multi-Provider Redundancy**: Seamless switching between healthy providers
-- **Intelligent Queuing**: Retry logic with exponential backoff
-- **Developer-Friendly**: Straightforward setup with unified API
-- **Flexibility**: Switch between models and providers without code changes
-- **Enterprise Support**: Available for high-volume users with custom SLAs
+- **近零停机**：自动故障转移，切换时间 \<50ms
+- **多提供商冗余**：在健康的提供商间无缝切换
+- **智能队列**：带指数退避的重试逻辑
+- **开发者友好**：统一 API，上手简单
+- **灵活**：无需改代码即可切换模型与提供商
+- **企业支持**：面向高用量用户提供自定义 SLA
 
-## Additional Resources
+## 更多资源
 
-- [Requesty Provider Repository](https://github.com/requestyai/ai-sdk-requesty)
-- [Requesty Documentation](https://docs.requesty.ai/)
-- [Requesty Dashboard](https://app.requesty.ai/analytics)
-- [Requesty Discord Community](https://discord.com/invite/Td3rwAHgt4)
-- [Requesty Status Page](https://status.requesty.ai)
+- [Requesty 提供商仓库](https://github.com/requestyai/ai-sdk-requesty)
+- [Requesty 文档](https://docs.requesty.ai/)
+- [Requesty 控制台](https://app.requesty.ai/analytics)
+- [Requesty Discord 社区](https://discord.com/invite/Td3rwAHgt4)
+- [Requesty 状态页](https://status.requesty.ai)

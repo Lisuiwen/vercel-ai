@@ -1,29 +1,29 @@
 ---
 title: SAP AI Core
-description: Learn how to use the SAP AI Core provider for the AI SDK.
+description: 介绍如何在 AI SDK 中使用 SAP AI Core 提供商。
 ---
 
-# SAP AI Core Provider
+# SAP AI Core 提供商
 
-[jerome-benoit/sap-ai-provider](https://github.com/jerome-benoit/sap-ai-provider) is a community provider for SAP AI Core built on the official **@sap-ai-sdk/orchestration** and **@sap-ai-sdk/foundation-models** packages.
+[jerome-benoit/sap-ai-provider](https://github.com/jerome-benoit/sap-ai-provider) 是基于官方 **@sap-ai-sdk/orchestration** 与 **@sap-ai-sdk/foundation-models** 的 SAP AI Core 社区提供商。
 
-Two npm packages are published from this repository:
+该仓库发布两个 npm 包：
 
-- `@jerome-benoit/sap-ai-provider` - Language Model V4 for AI SDK 5.x & 6.x (recommended)
-- `@jerome-benoit/sap-ai-provider-v2` - Language Model V2 for AI SDK 5.x
+- `@jerome-benoit/sap-ai-provider` — 面向 AI SDK 5.x 与 6.x 的 Language Model V4（推荐）
+- `@jerome-benoit/sap-ai-provider-v2` — 面向 AI SDK 5.x 的 Language Model V2
 
-## Features
+## 功能
 
-Both providers offer:
+两种提供商均提供：
 
-- **Dual API Support**: Choose between Orchestration API (with data masking, content filtering, document grounding, translation) or Foundation Models API (`logprobs`, `seed`, `dataSources`)
-- **Tool calling** and **multi-modal input** (images)
-- **Streaming support** for real-time text generation
-- **Text embeddings** for RAG and semantic search
+- **双 API 支持**：可在 Orchestration API（数据脱敏、内容过滤、文档 grounding、翻译）与 Foundation Models API（`logprobs`、`seed`、`dataSources`）之间选择
+- **工具调用**与**多模态输入**（图像）
+- **流式支持**，用于实时文本生成
+- **文本嵌入**，用于 RAG 与语义检索
 
-## Setup
+## 安装与配置
 
-### @jerome-benoit/sap-ai-provider (recommended)
+### @jerome-benoit/sap-ai-provider（推荐）
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -57,17 +57,17 @@ Both providers offer:
   </Tab>
 </Tabs>
 
-Authentication is handled automatically via the `AICORE_SERVICE_KEY` environment variable (local) or `VCAP_SERVICES` (SAP BTP).
+认证通过环境变量 `AICORE_SERVICE_KEY`（本地）或 `VCAP_SERVICES`（SAP BTP）自动完成。
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `sapai` from `@jerome-benoit/sap-ai-provider`:
+可从 `@jerome-benoit/sap-ai-provider` 导入默认提供商实例 `sapai`：
 
 ```ts
 import { sapai } from '@jerome-benoit/sap-ai-provider';
 ```
 
-If you need a customized setup, you can import `createSAPAIProvider` and create a provider instance with your settings:
+如需自定义配置，可导入 `createSAPAIProvider` 并创建实例：
 
 ```ts
 import { createSAPAIProvider } from '@jerome-benoit/sap-ai-provider';
@@ -78,31 +78,31 @@ const sapai = createSAPAIProvider({
 });
 ```
 
-You can use the following optional settings to customize the SAP AI provider instance:
+可使用以下可选设置自定义 SAP AI 提供商实例：
 
 - **resourceGroup** _string_
 
-  SAP AI Core resource group. Defaults to `'default'`.
+  SAP AI Core 资源组。默认为 `'default'`。
 
 - **deploymentId** _string_
 
-  Specific deployment ID. If not provided, the SDK resolves deployment automatically.
+  指定部署 ID。若未提供，SDK 会自动解析部署。
 
 - **api** _'orchestration' | 'foundation-models'_
 
-  API to use. Defaults to `'orchestration'`. Can be overridden per model or per call via `providerOptions`.
+  使用的 API。默认为 `'orchestration'`。可通过 `providerOptions` 按模型或按调用覆盖。
 
 - **name** _string_
 
-  Provider name used as key in `providerOptions`. Defaults to `'sap-ai'`.
+  用作 `providerOptions` 键名的提供商名称。默认为 `'sap-ai'`。
 
 - **defaultSettings** _object_
 
-  Default model settings including `modelParams`, `masking`, `filtering`, `grounding`, and `translation`.
+  默认模型设置，包含 `modelParams`、`masking`、`filtering`、`grounding`、`translation`。
 
-## Language Models
+## 语言模型
 
-You can create models that call the SAP AI Core API using the provider instance. The first argument is the model id. Model naming follows SAP AI Core conventions with vendor prefixes:
+使用提供商实例可创建调用 SAP AI Core API 的模型。第一个参数为模型 id。命名遵循带厂商前缀的 SAP AI Core 约定：
 
 ```ts
 const model = sapai('gpt-4.1');
@@ -111,13 +111,12 @@ const geminiModel = sapai('gemini-2.0-flash');
 ```
 
 <Note>
-  Model availability depends on your SAP AI Core tenant configuration and
-  region.
+  模型可用性取决于 SAP AI Core 租户配置与区域。
 </Note>
 
-## Embedding Models
+## 嵌入模型
 
-You can create models that call the SAP AI Core embeddings API using the `.embeddingModel()` factory method:
+使用 `.embeddingModel()` 工厂方法可创建调用 SAP AI Core 嵌入 API 的模型：
 
 ```ts
 const model = sapai.embeddingModel('text-embedding-3-small');

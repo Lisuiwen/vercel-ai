@@ -1,16 +1,16 @@
 ---
-title: Call Tools in Multiple Steps
-description: Learn how to call tools with multiple steps using the AI SDK and Node
+title: 多步调用工具
+description: 学习如何使用 AI SDK 和 Node 进行多步工具调用
 tags: ['node', 'tool use', 'agent']
 ---
 
-# Call Tools in Multiple Steps
+# 多步调用工具
 
-Models call tools to gather information or perform actions that are not directly available to the model.
-When tool results are available, the model can use them to generate another response.
+模型调用工具以获取信息或执行模型无法直接完成的操作。
+当工具结果可用时，模型可用其生成后续响应。
 
-You can enable multi-step tool calls in `generateText` by defining stopping conditions with `stopWhen`.
-This allows you to define the conditions for which your agent should stop when the model generates a tool call.
+可在 `generateText` 中通过 `stopWhen` 定义停止条件以启用多步工具调用。
+这样可定义 agent 在模型生成工具调用时应停止的条件。
 
 ```ts highlight={"7"}
 import { generateText, tool, isStepCount } from 'ai';

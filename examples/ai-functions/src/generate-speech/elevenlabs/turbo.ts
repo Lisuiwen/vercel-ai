@@ -7,7 +7,7 @@ run(async () => {
   const result = await generateSpeech({
     model: elevenLabs.speech('eleven_turbo_v2_5'),
     text: 'This uses the Turbo model which balances quality and speed, supporting 32 languages.',
-    language: 'en', // Can be any of the 32 supported languages
+    language: 'en', // 可以是 32 种支持的语言中的任何一种
   });
 
   console.log('Audio:', result.audio);

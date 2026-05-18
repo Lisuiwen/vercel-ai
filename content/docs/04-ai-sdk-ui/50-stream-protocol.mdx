@@ -1,9 +1,9 @@
 ---
-title: Stream Protocols
-description: Learn more about the supported stream protocols in the AI SDK.
+title: 流协议
+description: 了解 AI SDK 支持的流协议。
 ---
 
-# Stream Protocols
+# 流协议
 
 AI SDK UI functions such as `useChat` and `useCompletion` support both text streams and data streams.
 The stream protocol defines how the data is streamed to the frontend on top of the HTTP protocol.
@@ -15,7 +15,7 @@ to provide compatible API endpoints that are implemented in a different language
 
 For instance, here's an example using [FastAPI](https://github.com/vercel/ai/tree/main/examples/next-fastapi) as a backend.
 
-## Text Stream Protocol
+## 文本流协议
 
 A text stream contains chunks in plain text, that are streamed to the frontend.
 Each chunk is then appended together to form a full text response.
@@ -33,7 +33,7 @@ a streaming HTTP response is returned.
   of data such as tool calls, use data streams.
 </Note>
 
-### Text Stream Example
+### 文本流示例
 
 Here is a Next.js example that uses the text stream protocol:
 
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
 }
 ```
 
-## Data Stream Protocol
+## 数据流协议
 
 A data stream follows a special protocol that the AI SDK provides to send information to the frontend.
 
@@ -115,7 +115,7 @@ The data stream protocol uses Server-Sent Events (SSE) format for improved stand
 
 The following stream parts are currently supported:
 
-### Message Start Part
+### 消息开始部分
 
 Indicates the beginning of a new message with metadata.
 
@@ -128,7 +128,7 @@ data: {"type":"start","messageId":"..."}
 
 ```
 
-### Text Parts
+### 文本部分
 
 Text content is streamed using a start/delta/end pattern with unique IDs for each text block.
 
@@ -171,7 +171,7 @@ data: {"type":"text-end","id":"msg_68679a454370819ca74c8eb3d04379630dd1afb72306c
 
 ```
 
-### Reasoning Parts
+### 推理部分
 
 Reasoning content is streamed using a start/delta/end pattern with unique IDs for each reasoning block.
 
@@ -214,7 +214,7 @@ data: {"type":"reasoning-end","id":"reasoning_123"}
 
 ```
 
-### Reasoning File Part
+### 推理文件部分
 
 Reasoning file parts contain references to files generated as part of reasoning, such as images produced during the reasoning process.
 
@@ -227,7 +227,7 @@ data: {"type":"reasoning-file","url":"data:image/png;base64,iVBOR...","mediaType
 
 ```
 
-### Source Parts
+### 来源部分
 
 Source parts provide references to external content sources.
 
@@ -257,7 +257,7 @@ data: {"type":"source-document","sourceId":"https://example.com","mediaType":"fi
 
 ```
 
-### File Part
+### 文件部分
 
 The file parts contain references to files with their media type.
 
@@ -270,7 +270,7 @@ data: {"type":"file","url":"https://example.com/file.png","mediaType":"image/png
 
 ```
 
-### Custom Part
+### 自定义部分
 
 Custom parts represent provider-specific content that doesn't fit into the standard part types. The `kind` field identifies the specific custom content type in the format `{provider}.{provider-type}`.
 
@@ -283,7 +283,7 @@ data: {"type":"custom","kind":"openai.compaction","providerMetadata":{"openai":{
 
 ```
 
-### Data Parts
+### 数据部分
 
 Custom data parts allow streaming of arbitrary structured data with type-specific handling.
 
@@ -298,7 +298,7 @@ data: {"type":"data-weather","data":{"location":"SF","temperature":100}}
 
 The `data-*` type pattern allows you to define custom data types that your frontend can handle specifically.
 
-### Error Part
+### 错误部分
 
 The error parts are appended to the message as they are received.
 
@@ -311,7 +311,7 @@ data: {"type":"error","errorText":"error message"}
 
 ```
 
-### Tool Input Start Part
+### 工具输入开始部分
 
 Indicates the beginning of tool input streaming.
 
@@ -324,7 +324,7 @@ data: {"type":"tool-input-start","toolCallId":"call_fJdQDqnXeGxTmr4E3YPSR7Ar","t
 
 ```
 
-### Tool Input Delta Part
+### 工具输入增量部分
 
 Incremental chunks of tool input as it's being generated.
 
@@ -337,7 +337,7 @@ data: {"type":"tool-input-delta","toolCallId":"call_fJdQDqnXeGxTmr4E3YPSR7Ar","i
 
 ```
 
-### Tool Input Available Part
+### 工具输入可用部分
 
 Indicates that tool input is complete and ready for execution.
 
@@ -350,7 +350,7 @@ data: {"type":"tool-input-available","toolCallId":"call_fJdQDqnXeGxTmr4E3YPSR7Ar
 
 ```
 
-### Tool Approval Request Part
+### 工具审批请求部分
 
 Indicates that a tool call requires approval, or records that the approval decision was made automatically.
 
@@ -365,7 +365,7 @@ data: {"type":"tool-approval-request","toolCallId":"call_fJdQDqnXeGxTmr4E3YPSR7A
 
 When `isAutomatic` is omitted, the request expects an explicit approval response from the client.
 
-### Tool Approval Response Part
+### 工具审批响应部分
 
 Records the approval decision for a tool call.
 
@@ -380,7 +380,7 @@ data: {"type":"tool-approval-response","approvalId":"approval_123","approved":fa
 
 For provider-executed tools, the response can also include `providerExecuted: true`.
 
-### Tool Output Available Part
+### 工具输出可用部分
 
 Contains the result of tool execution.
 
@@ -393,7 +393,7 @@ data: {"type":"tool-output-available","toolCallId":"call_fJdQDqnXeGxTmr4E3YPSR7A
 
 ```
 
-### Tool Output Denied Part
+### 工具输出拒绝部分
 
 Indicates that tool execution was denied after the approval flow completed.
 
@@ -406,7 +406,7 @@ data: {"type":"tool-output-denied","toolCallId":"call_fJdQDqnXeGxTmr4E3YPSR7Ar"}
 
 ```
 
-### Start Step Part
+### 开始步骤部分
 
 A part indicating the start of a step.
 
@@ -419,7 +419,7 @@ data: {"type":"start-step"}
 
 ```
 
-### Finish Step Part
+### 完成步骤部分
 
 A part indicating that a step (i.e., one LLM API call in the backend) has been completed.
 
@@ -434,7 +434,7 @@ data: {"type":"finish-step"}
 
 ```
 
-### Finish Message Part
+### 完成消息部分
 
 A part indicating the completion of a message.
 
@@ -447,7 +447,7 @@ data: {"type":"finish"}
 
 ```
 
-### Abort Part
+### 中止部分
 
 Indicates the stream was aborted.
 
@@ -460,7 +460,7 @@ data: {"type":"abort","reason":"user cancelled"}
 
 ```
 
-### Stream Termination
+### 流终止
 
 The stream ends with a special `[DONE]` marker.
 

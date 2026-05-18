@@ -5,7 +5,7 @@ import type {
 } from '@ai-sdk/provider-utils';
 
 /**
- * Prunes model messages from a list of model messages.
+ * 从模型消息列表中删除模型消息。
  *
  * @param messages - The list of model messages to prune.
  * @param reasoning - How to remove reasoning content from assistant messages. Default is `'none'`.
@@ -33,7 +33,7 @@ export function pruneMessages({
       }>;
   emptyMessages?: 'keep' | 'remove';
 }): ModelMessage[] {
-  // filter reasoning parts:
+  // 过滤推理部分：
   if (reasoning === 'all' || reasoning === 'before-last-message') {
     messages = messages.map((message, messageIndex) => {
       if (
@@ -52,7 +52,7 @@ export function pruneMessages({
     });
   }
 
-  // filter tool calls, results, errors, and approvals:
+  // 过滤工具调用、结果、错误和批准：
   if (toolCalls === 'none') {
     toolCalls = [];
   } else if (toolCalls === 'all') {
@@ -64,7 +64,7 @@ export function pruneMessages({
   }
 
   for (const toolCall of toolCalls) {
-    // determine how many trailing messages to keep:
+    // 确定要保留多少尾随消息：
     const keepLastMessagesCount =
       toolCall.type === 'all'
         ? undefined
@@ -76,7 +76,7 @@ export function pruneMessages({
                 .slice(0, -'-messages'.length),
             );
 
-    // scan kept messages to identify tool calls and approvals that need to be kept:
+    // 扫描保留的消息以识别需要保留的工具调用和批准：
     const keptToolCallIds: Set<string> = new Set();
     const keptApprovalIds: Set<string> = new Set();
 
@@ -116,7 +116,7 @@ export function pruneMessages({
       return {
         ...message,
         content: message.content.filter(part => {
-          // keep non-tool parts:
+          // 保留非工具零件：
           if (
             part.type !== 'tool-call' &&
             part.type !== 'tool-result' &&
@@ -126,7 +126,7 @@ export function pruneMessages({
             return true;
           }
 
-          // track tool calls and approvals:
+          // 跟踪工具调用和批准：
           if (part.type === 'tool-call') {
             toolCallIdToToolName[part.toolCallId] = part.toolName;
           } else if (part.type === 'tool-approval-request') {
@@ -134,7 +134,7 @@ export function pruneMessages({
               toolCallIdToToolName[part.toolCallId];
           }
 
-          // keep parts that are associated with a tool call or approval that needs to be kept:
+          // 保留与需要保留的工具调用或批准关联的部分：
           if (
             ((part.type === 'tool-call' || part.type === 'tool-result') &&
               keptToolCallIds.has(part.toolCallId)) ||
@@ -145,7 +145,7 @@ export function pruneMessages({
             return true;
           }
 
-          // keep parts that are not associated with a tool that should be removed:
+          // 保留与应移除的工具无关的部件：
           return (
             toolCall.tools != null &&
             !toolCall.tools.includes(

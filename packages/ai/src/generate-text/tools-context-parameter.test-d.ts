@@ -198,7 +198,7 @@ describe('ToolsContextParameter', () => {
       type Tools = {};
 
       const unnecessaryToolsContext: ToolsContextParameter<Tools> = {
-        // @ts-expect-error - toolsContext is not accepted when no tools require it
+        // @ts-expect-error - 当没有工具需要时，不接受toolsContext
         toolsContext: {},
       };
 
@@ -217,7 +217,7 @@ describe('ToolsContextParameter', () => {
         >;
       };
 
-      // @ts-expect-error - toolsContext is required when one tool in the set requires it
+      // @ts-expect-error - 当集合中的一个工具需要它时，需要toolsContext
       const missingToolsContext: ToolsContextParameter<Tools> = {};
 
       expectTypeOf(missingToolsContext).toEqualTypeOf<
@@ -232,7 +232,7 @@ describe('ToolsContextParameter', () => {
 
       const missingRequiredField: ToolsContextParameter<Tools> = {
         toolsContext: {
-          // @ts-expect-error - required nested tool context fields must be provided
+          // @ts-expect-error - 必须提供必需的嵌套工具上下文字段
           weather: {},
         },
       };
@@ -250,7 +250,7 @@ describe('ToolsContextParameter', () => {
       const invalidOptionalField: ToolsContextParameter<Tools> = {
         toolsContext: {
           weather: {
-            // @ts-expect-error - optional nested tool context fields must match their declared type
+            // @ts-expect-error - 可选的嵌套工具上下文字段必须与其声明的类型匹配
             userId: 123,
           },
         },
@@ -268,7 +268,7 @@ describe('ToolsContextParameter', () => {
 
       const missingOptionalObjectField: ToolsContextParameter<Tools> = {
         toolsContext: {
-          // @ts-expect-error - provided optional context objects must satisfy their object type
+          // @ts-expect-error - 提供的可选上下文对象必须满足其对象类型
           weather: {},
         },
       };
@@ -300,7 +300,7 @@ describe('ToolsContextParameter', () => {
 
       const missingToolEntry: ToolsContextParameter<typeof tools> = {
         tools,
-        // @ts-expect-error - toolsContext must include the contextual tool key
+        // @ts-expect-error - toolsContext 必须包含上下文工具键
         toolsContext: {},
       };
 

@@ -6,7 +6,7 @@ export default function WeatherView({
   invocation: WeatherUIToolInvocation;
 }) {
   switch (invocation.state) {
-    // example of pre-rendering streaming tool calls:
+    // 流式 tool 调用预渲染示例：
     case 'input-streaming':
       return <pre>{JSON.stringify(invocation.input, null, 2)}</pre>;
     case 'input-available':

@@ -18,7 +18,7 @@ export default function MCPElicitationChat() {
   } | null>(null);
   const [formData, setFormData] = useState<Record<string, any>>({});
 
-  // Track which elicitation IDs we've already handled
+  // 跟踪已处理的征询 ID
   const handledElicitationsRef = useRef<Set<string>>(new Set());
 
   const { messages, sendMessage } = useChat<MCPElicitationUIMessage>({
@@ -27,9 +27,9 @@ export default function MCPElicitationChat() {
     }),
   });
 
-  // Check for NEW elicitation requests in messages (only unhandled ones)
+  // 检查消息中的新征询请求（仅未处理的）
   useEffect(() => {
-    // Loop through messages in REVERSE order to find the most recent unhandled elicitation
+    // 按逆序遍历消息以找到最近的未处理征询
     for (let i = messages.length - 1; i >= 0; i--) {
       const message = messages[i];
       if (!message.parts) continue;
@@ -38,7 +38,7 @@ export default function MCPElicitationChat() {
         if (isDataUIPart(part) && part.type === 'data-elicitation-request') {
           const elicitationId = part.data.elicitationId;
 
-          // Only show modal if this elicitation hasn't been handled yet
+          // 仅当该征询尚未处理时显示模态框
           if (!handledElicitationsRef.current.has(elicitationId)) {
             console.log(
               '[page] New elicitation request detected:',
@@ -49,7 +49,7 @@ export default function MCPElicitationChat() {
             setCurrentElicitation(part.data);
             setShowModal(true);
 
-            // Initialize form data with defaults from schema
+            // 使用 schema 中的默认值初始化表单数据
             const schema = part.data.requestedSchema as any;
             if (schema?.properties) {
               const defaults: Record<string, any> = {};
@@ -63,7 +63,7 @@ export default function MCPElicitationChat() {
               }
               setFormData(defaults);
             }
-            return; // Show only the most recent unhandled elicitation
+            return; // 仅显示最近的未处理征询
           }
         }
       }
@@ -84,14 +84,14 @@ export default function MCPElicitationChat() {
       action,
     );
 
-    // Immediately close modal and clear state to prevent double-submission
+    // 立即关闭模态框并清空状态以防重复提交
     setShowModal(false);
     const elicitationToRespond = currentElicitation;
     const dataToSend = action === 'accept' ? { ...formData } : undefined;
     setCurrentElicitation(null);
     setFormData({});
 
-    // Send elicitation response to the separate endpoint
+    // 将征询响应发送到独立端点
     try {
       const response = await fetch('/api/mcp-elicitation/respond', {
         method: 'POST',
@@ -114,7 +114,7 @@ export default function MCPElicitationChat() {
       console.log('[page] Successfully submitted response for:', elicitationId);
     } catch (error) {
       console.error('[page] Error sending elicitation response:', error);
-      // Don't show alert as the response might have already been processed
+      // 不显示 alert，响应可能已处理
       // alert('Failed to submit response. Please try again.');
     }
   };
@@ -263,7 +263,7 @@ export default function MCPElicitationChat() {
         />
       </form>
 
-      {/* Elicitation Modal */}
+      {/* 征询模态框 */}
       {showModal && currentElicitation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-xl max-h-[80vh] overflow-y-auto">

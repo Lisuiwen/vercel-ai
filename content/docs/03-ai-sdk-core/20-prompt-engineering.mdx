@@ -1,37 +1,37 @@
 ---
-title: Prompt Engineering
-description: Learn how to develop prompts with AI SDK Core.
+title: 提示工程
+description: 了解如何在 AI SDK Core 中开发提示。
 ---
 
-# Prompt Engineering
+# 提示工程
 
-## Tips
+## 技巧
 
-### Prompts for Tools
+### 面向工具的提示
 
-When you create prompts that include tools, getting good results can be tricky as the number and complexity of your tools increases.
+创建包含工具的提示时，随着工具数量与复杂度增加，获得良好结果可能变得困难。
 
-Here are a few tips to help you get the best results:
+以下技巧有助于获得最佳效果：
 
-1. Use a model that is strong at tool calling, such as `gpt-5` or `gpt-4.1`. Weaker models will often struggle to call tools effectively and flawlessly.
-1. Keep the number of tools low, e.g. to 5 or less.
-1. Keep the complexity of the tool parameters low. Complex Zod schemas with many nested and optional elements, unions, etc. can be challenging for the model to work with.
-1. Use semantically meaningful names for your tools, parameters, parameter properties, etc. The more information you pass to the model, the better it can understand what you want.
-1. Add `.describe("...")` to your Zod schema properties to give the model hints about what a particular property is for.
-1. When the output of a tool might be unclear to the model and there are dependencies between tools, use the `description` field of a tool to provide information about the output of the tool execution.
-1. You can include example input/outputs of tool calls in your prompt to help the model understand how to use the tools. Keep in mind that the tools work with JSON objects, so the examples should use JSON.
+1. 使用擅长工具调用的模型，例如 `gpt-5` 或 `gpt-4.1`。较弱模型往往难以稳定、无误地调用工具。
+1. 保持工具数量较少，例如不超过 5 个。
+1. 降低工具参数的复杂度。包含大量嵌套与可选元素、联合类型等的复杂 Zod schema 可能让模型难以处理。
+1. 为工具、参数、参数属性等使用语义清晰的名称。向模型传递的信息越多，它就越能理解你的意图。
+1. 在 Zod schema 属性上使用 `.describe("...")`，向模型说明各属性的用途。
+1. 当工具输出对模型可能不清晰，且工具之间存在依赖时，可在工具的 `description` 字段中说明工具执行的输出信息。
+1. 可在提示中包含工具调用的示例输入/输出，帮助模型理解如何使用工具。请注意工具使用 JSON 对象，因此示例应使用 JSON。
 
-In general, the goal should be to give the model all information it needs in a clear way.
+总体而言，目标应是以清晰的方式向模型提供其所需的全部信息。
 
-### Tool & Structured Data Schemas
+### 工具与结构化数据 Schema
 
-The mapping from Zod schemas to LLM inputs (typically JSON schema) is not always straightforward, since the mapping is not one-to-one.
+从 Zod schema 到 LLM 输入（通常为 JSON schema）的映射并不总是一一对应。
 
-#### Zod Dates
+#### Zod 日期
 
-Zod expects JavaScript Date objects, but models return dates as strings.
-You can specify and validate the date format using `z.string().datetime()` or `z.string().date()`,
-and then use a Zod transformer to convert the string to a Date object.
+Zod 期望 JavaScript Date 对象，但模型返回的日期为字符串。
+可使用 `z.string().datetime()` 或 `z.string().date()` 指定并校验日期格式，
+然后使用 Zod transformer 将字符串转换为 Date 对象。
 
 ```ts highlight="8-11"
 const result = await generateText({
@@ -53,16 +53,15 @@ const result = await generateText({
 });
 ```
 
-#### Optional Parameters
+#### 可选参数
 
-When working with tools that have optional parameters, you may encounter compatibility issues with certain providers that use strict schema validation.
+使用带有可选参数的工具时，可能与采用严格 schema 校验的某些提供商出现兼容性问题。
 
 <Note>
-  This is particularly relevant for OpenAI models with structured outputs
-  (strict mode).
+  这对使用结构化输出（严格模式）的 OpenAI 模型尤其相关。
 </Note>
 
-For maximum compatibility, optional parameters should use `.nullable()` instead of `.optional()`:
+为获得最大兼容性，可选参数应使用 `.nullable()` 而非 `.optional()`：
 
 ```ts highlight="6,7,16,17"
 // This may fail with strict schema validation
@@ -86,9 +85,9 @@ const workingTool = tool({
 });
 ```
 
-#### Temperature Settings
+#### 温度设置
 
-For tool calls and object generation, it's recommended to use `temperature: 0` to ensure deterministic and consistent results:
+对于工具调用与对象生成，建议使用 `temperature: 0` 以确保确定且一致的结果：
 
 ```ts highlight="3"
 const result = await generateText({
@@ -106,19 +105,19 @@ const result = await generateText({
 });
 ```
 
-Lower temperature values reduce randomness in model outputs, which is particularly important when the model needs to:
+较低的温度值可降低模型输出的随机性，这在模型需要以下行为时尤为重要：
 
-- Generate structured data with specific formats
-- Make precise tool calls with correct parameters
-- Follow strict schemas consistently
+- 生成具有特定格式的结构化数据
+- 以正确参数进行精确的工具调用
+- 一致地遵循严格 schema
 
-## Debugging
+## 调试
 
-### Inspecting Warnings
+### 检查警告
 
-Not all providers support all AI SDK features.
-Providers either throw exceptions or return warnings when they do not support a feature.
-To check if your prompt, tools, and settings are handled correctly by the provider, you can check the call warnings:
+并非所有提供商都支持全部 AI SDK 功能。
+当不支持某功能时，提供商可能抛出异常或返回警告。
+要检查提示、工具与设置是否被提供商正确处理，可查看调用警告：
 
 ```ts
 const result = await generateText({
@@ -129,10 +128,10 @@ const result = await generateText({
 console.log(result.warnings);
 ```
 
-### Request Messages
+### 请求消息
 
-You can inspect the input messages that were sent to the model for the final step using `request.messages`.
-Set `include.requestMessages` to `true` to include these messages in step results.
+可使用 `request.messages` 检查发送给模型最后一步的输入消息。
+将 `include.requestMessages` 设为 `true`，以在步骤结果中包含这些消息。
 
 ```ts highlight="6"
 const result = await generateText({
@@ -144,12 +143,12 @@ const result = await generateText({
 console.log(result.finalStep.request.messages);
 ```
 
-### HTTP Request Bodies
+### HTTP 请求体
 
-You can inspect the raw HTTP request bodies for models that expose them, e.g. [OpenAI](/providers/ai-sdk-providers/openai).
-This allows you to inspect the exact payload that is sent to the model provider in the provider-specific way.
+对于暴露原始 HTTP 请求体的模型（例如 [OpenAI](/providers/ai-sdk-providers/openai)），可进行检查。
+这样你可以按提供商特定方式查看发送给模型提供商的确切负载。
 
-Request bodies are available via the `finalStep.request.body` property of the response:
+请求体可通过响应的 `finalStep.request.body` 属性获取：
 
 ```ts highlight="6"
 const result = await generateText({

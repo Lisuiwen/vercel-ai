@@ -1,8 +1,8 @@
 # Codemods
 
-We strongly recommend to utilize an AI model to create a codemod for your changes, such as [Cursor](https://cursor.com) with `claude-4-sonnet`.
+我们强烈建议使用 AI 模型为你的变更创建 codemod，例如使用 [Cursor](https://cursor.com) 与 `claude-4-sonnet`。
 
-Here is a list of instructions that will help the AI model to come up with a better result
+以下说明有助于 AI 模型产出更好的结果：
 
 ```md
 - Start all input/output fixtures files with `// @ts-nocheck`. Make sure the comment remains in place in the output fixture file.
@@ -17,9 +17,9 @@ Here is a list of instructions that will help the AI model to come up with a bet
 - If you need to create temporary files for testing, create them in `packages/codemod/`, and remove them when done.
 ```
 
-Depending on the complexity of the changes, you can instruct the AI to review changes directly from a pull request, e.g. https://github.com/vercel/ai/pull/5750.diff. If that doesn't yield a useful result, try describing the breaking change such as in the example below
+根据变更复杂度，可指示 AI 直接审阅 pull request 中的变更，例如 https://github.com/vercel/ai/pull/5750.diff。若无用，可像下方示例那样描述破坏性变更。
 
-## Example
+## 示例
 
 ````md
 # Breaking change

@@ -17,14 +17,14 @@ describe('pipeTextStreamToResponse', () => {
       textStream: convertArrayToReadableStream(['test-data']),
     });
 
-    // Wait for the stream to finish writing
+    // 等待流完成写入
     await mockResponse.waitForEnd();
 
-    // Verify response properties
+    // 验证响应属性
     expect(mockResponse.statusCode).toBe(200);
     expect(mockResponse.statusMessage).toBe('OK');
 
-    // Verify headers
+    // 验证标头
     expect(mockResponse.headers).toMatchInlineSnapshot(`
       {
         "content-type": "text/plain; charset=utf-8",
@@ -32,7 +32,7 @@ describe('pipeTextStreamToResponse', () => {
       }
     `);
 
-    // Verify written data using decoded chunks
+    // 使用解码的块验证写入的数据
     expect(mockResponse.getDecodedChunks()).toStrictEqual(['test-data']);
   });
 });

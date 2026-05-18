@@ -10,7 +10,7 @@ import { processToolCalls } from './utils';
 import { tools } from './tools';
 import type { HumanInTheLoopUIMessage } from './types';
 
-// Allow streaming responses up to 30 seconds
+// 允许流式响应最长 30 秒
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
@@ -20,8 +20,8 @@ export async function POST(req: Request) {
   const stream = createUIMessageStream({
     originalMessages: messages,
     execute: async ({ writer }) => {
-      // Utility function to handle tools that require human confirmation
-      // Checks for confirmation in last message and then runs associated tool
+      // 处理需要人工确认的 tools 的工具函数
+      // 在最后一条消息中检查确认，然后运行关联的 tool
       const processedMessages = await processToolCalls(
         {
           messages,
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
           tools,
         },
         {
-          // type-safe object for tools without an execute function
+          // 无 execute 函数的 tools 的类型安全对象
           getWeatherInformation: async ({ city }) => {
             const conditions = ['sunny', 'cloudy', 'rainy', 'snowy'];
             return `The weather in ${city} is ${
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       console.log('Messages:', JSON.stringify(messages, null, 2));
     },
     onFinish: ({}) => {
-      // save messages here
+      // 在此保存消息
       console.log('Finished!');
     },
   });

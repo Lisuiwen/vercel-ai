@@ -1,40 +1,40 @@
-# Provider Development Notes
+# Provider 开发说明
 
 ## Provider Options Schemas
 
-Provider options schemas are user facing.
-We want them to be as restrictive as possible, so that we have more flexibility with future changes and allow for meaningful `null` values.
+Provider options schema 面向用户。
+我们希望它们尽可能严格，以便未来变更时保留更多灵活性，并允许有意义的 `null` 值。
 
-- use `.optional()` unless `null` is meaningful
+- 除非 `null` 有明确语义，否则使用 `.optional()`
 
 ## Response Schemas
 
-Response schemas need to be flexible enough to deal with provider API changes that do not affect our processing
-to prevent unnecessary breakages.
+Response schema 需要足够灵活，以应对不影响我们处理逻辑的 provider API 变更，
+从而避免不必要的破坏性中断。
 
-- keep them minimal (no unused properties)
-- use `.nullish()` instead of `.optional()`
+- 保持精简（无未使用属性）
+- 使用 `.nullish()` 而非 `.optional()`
 
-## Provider-Specific Model Options Types
+## Provider 专用 Model Options 类型
 
-Types and Zod schemas for the provider specific model options follow the pattern `{Provider}{ModelType}Options`, e.g. `AnthropicLanguageModelOptions`.
-If a provider has multiple implementations for the same model type, add a qualifier: `{Provider}{ModelType}{Qualifier}Options`, e.g. `OpenAILanguageModelChatOptions` and `OpenAILanguageModelResponsesOptions`.
-If options apply provider-wide rather than to a specific model type, use `{Provider}ProviderOptions` instead, e.g. `GatewayProviderOptions`.
+Provider 专用 model options 的类型与 Zod schema 遵循 `{Provider}{ModelType}Options` 模式，例如 `AnthropicLanguageModelOptions`。
+若同一 model 类型有多个实现，添加限定符：`{Provider}{ModelType}{Qualifier}Options`，例如 `OpenAILanguageModelChatOptions` 与 `OpenAILanguageModelResponsesOptions`。
+若 options 适用于整个 provider 而非特定 model 类型，使用 `{Provider}ProviderOptions`，例如 `GatewayProviderOptions`。
 
-- types are PascalCase, Zod schemas are camelCase (e.g. `openaiLanguageModelChatOptions`)
-- types must be exported from the provider package, Zod schemas must not
+- 类型为 PascalCase，Zod schema 为 camelCase（例如 `openaiLanguageModelChatOptions`）
+- 类型必须从 provider 包导出，Zod schema 不得导出
 
-## Provider Method Names
+## Provider 方法命名
 
-For the Provider v3 interface, we require fully specified names with a "Model" suffix, e.g. `languageModel(id)` or `imageModel(id)`. These help with clarity for both developers and agents.
+对于 Provider v3 接口，我们要求使用带 "Model" 后缀的完整名称，例如 `languageModel(id)` 或 `imageModel(id)`。这有助于开发者和 agent 理解。
 
 ## Workflow Serialization
 
-All provider model classes must support workflow serialization so they can cross workflow step boundaries. This requires:
+所有 provider model 类必须支持 workflow 序列化，以便跨越 workflow step 边界。要求如下：
 
-1. **`headers` must be optional** in the model's config type due to serialization. Use `headers?:` instead of `headers:`. Guard access with optional chaining (`this.config.headers?.()`) or a conditional check for `Resolvable` types.
+1. **因序列化限制，`headers` 在 model 的 config 类型中必须为可选**。使用 `headers?:` 而非 `headers:`。访问时使用可选链（`this.config.headers?.()`）或对 `Resolvable` 类型做条件检查。
 
-2. **Add static serde methods** using the helpers from `@ai-sdk/provider-utils`:
+2. **使用 `@ai-sdk/provider-utils` 中的 helper 添加静态 serde 方法**：
 
 ```typescript
 import {
@@ -62,6 +62,6 @@ export class MyLanguageModel implements LanguageModelV4 {
 }
 ```
 
-`serializeModel()` automatically extracts only serializable config properties, filtering out functions (`headers`, `fetch`, `generateId`, etc.) and objects containing functions (`errorStructure`, `metadataExtractor`, etc.).
+`serializeModel()` 会自动仅提取可序列化的 config 属性，过滤函数（`headers`、`fetch`、`generateId` 等）以及包含函数的对象（`errorStructure`、`metadataExtractor` 等）。
 
-The deserialized model will not have `headers` (auth), `fetch`, `generateId`, or `supportedUrls`. Auth must come from request-level options or environment variables in the workflow step context.
+反序列化后的 model 将没有 `headers`（认证）、`fetch`、`generateId` 或 `supportedUrls`。认证必须来自 workflow step 上下文中的请求级 options 或环境变量。

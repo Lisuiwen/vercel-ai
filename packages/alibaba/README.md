@@ -1,28 +1,32 @@
-# AI SDK - Alibaba Provider
+# AI SDK - Alibaba 提供商
 
-The **[Alibaba provider](https://ai-sdk.dev/providers/ai-sdk-providers/alibaba)** for the [AI SDK](https://ai-sdk.dev/docs) contains language model support for [Alibaba Cloud Model Studio](https://modelstudio.console.alibabacloud.com/), including the Qwen model series with advanced reasoning capabilities.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Alibaba provider](https://ai-sdk.dev/providers/ai-sdk-providers/alibaba)** 提供 [Alibaba Cloud Model Studio](https://modelstudio.console.alibabacloud.com/), including the Qwen model series with advanced reasoning capabilities 的语言模型支持。
 
-> **Deploying to Vercel?** With Vercel's AI Gateway you can access Alibaba (and hundreds of models from other providers) — no additional packages, API keys, or extra cost. [Get started with AI Gateway](https://vercel.com/ai-gateway).
+> **部署到 Vercel？** 通过 Vercel AI Gateway 可访问 Alibaba（以及数百个其他提供商的模型）——无需额外安装包、API Key 或额外费用。[开始使用 AI Gateway](https://vercel.com/ai-gateway)。
 
-## Setup
+## 安装
 
-The Alibaba provider is available in the `@ai-sdk/alibaba` module. You can install it with
+Alibaba 提供商位于 `@ai-sdk/alibaba` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/alibaba
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `alibaba` from `@ai-sdk/alibaba`:
+可从 `@ai-sdk/alibaba` 导入默认提供商实例 `alibaba`：
+
+
 
 ```ts
 import { alibaba } from '@ai-sdk/alibaba';
@@ -88,11 +92,11 @@ const { text } = await generateText({
 });
 ```
 
-## Explicit Caching Example
+## 显式缓存示例
 
-Alibaba supports both implicit and explicit prompt caching to reduce costs for repeated prompts.
+Alibaba 支持隐式与显式 prompt 缓存，以降低重复 prompt 的成本。
 
-**Implicit caching** works automatically - the provider caches appropriate content without any configuration. For more control, you can use **explicit caching** by marking specific messages with `cacheControl`:
+**隐式缓存**自动生效——提供商无需配置即可缓存合适内容。若需更多控制，可通过 `cacheControl` 标记特定消息以使用**显式缓存**：
 
 ```ts
 import { alibaba } from '@ai-sdk/alibaba';
@@ -125,8 +129,8 @@ const { text, usage } = await generateText({
 });
 ```
 
-**Note:** The minimum content length for a cache block is 1,024 tokens.
+**注意：** 每个缓存块的最小内容为 1,024 tokens。
 
-## Documentation
+## 文档
 
-Please check out the **[Alibaba provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/alibaba)** for more information.
+更多信息请参阅 **[Alibaba 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/alibaba)**。

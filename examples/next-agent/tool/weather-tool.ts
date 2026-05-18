@@ -7,7 +7,7 @@ export const weatherTool = tool({
   async *execute({ city }: { city: string }) {
     yield { state: 'loading' as const };
 
-    // Add artificial delay of 5 seconds
+    // 人为增加 5 秒延迟
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     const weatherOptions = ['sunny', 'cloudy', 'rainy', 'snowy', 'windy'];

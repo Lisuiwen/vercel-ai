@@ -2,7 +2,7 @@ import type { LanguageModelV4StreamPart } from '@ai-sdk/provider';
 import type { LanguageModelMiddleware } from '../types';
 
 /**
- * Simulates streaming chunks with the response from a generate call.
+ * 使用生成调用的响应来模拟流数据块。
  */
 export function simulateStreamingMiddleware(): LanguageModelMiddleware {
   return {

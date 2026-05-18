@@ -1,84 +1,84 @@
 ---
 title: AI SDK UI
-description: Reference documentation for the AI SDK UI
+description: AI SDK UI 参考文档
 collapsed: true
 ---
 
 # AI SDK UI
 
-[AI SDK UI](/docs/ai-sdk-ui) is designed to help you build interactive chat, completion, and assistant applications with ease.
-It is a framework-agnostic toolkit, streamlining the integration of advanced AI functionalities into your applications.
+[AI SDK UI](/docs/ai-sdk-ui) 旨在帮助你轻松构建交互式聊天、补全与助手类应用。
+它是框架无关的工具包，可简化将高级 AI 能力集成到应用中的流程。
 
-AI SDK UI contains the following hooks:
+AI SDK UI 包含以下 Hooks：
 
 <IndexCards
   cards={[
     {
       title: 'useChat',
       description:
-        'Use a hook to interact with language models in a chat interface.',
+        '在聊天界面中与语言模型交互的 Hook。',
       href: '/docs/reference/ai-sdk-ui/use-chat',
     },
     {
       title: 'useCompletion',
       description:
-        'Use a hook to interact with language models in a completion interface.',
+        '在补全界面中与语言模型交互的 Hook。',
       href: '/docs/reference/ai-sdk-ui/use-completion',
     },
     {
       title: 'useObject',
-      description: 'Use a hook for consuming a streamed JSON objects.',
+      description: '消费流式 JSON 对象的 Hook。',
       href: '/docs/reference/ai-sdk-ui/use-object',
     },
     {
       title: 'convertToModelMessages',
       description:
-        'Convert useChat messages to ModelMessages for AI functions.',
+        '将 useChat 消息转换为 AI 函数可用的 ModelMessages。',
       href: '/docs/reference/ai-sdk-ui/convert-to-model-messages',
     },
     {
       title: 'pruneMessages',
-      description: 'Prunes model messages from a list of model messages.',
+      description: '从模型消息列表中裁剪模型消息。',
       href: '/docs/reference/ai-sdk-ui/prune-messages',
     },
     {
       title: 'createUIMessageStream',
       description:
-        'Create a UI message stream to stream additional data to the client.',
+        '创建 UI 消息流，以向客户端流式传输额外数据。',
       href: '/docs/reference/ai-sdk-ui/create-ui-message-stream',
     },
     {
       title: 'createUIMessageStreamResponse',
       description:
-        'Create a response object to stream UI messages to the client.',
+        '创建用于向客户端流式传输 UI 消息的响应对象。',
       href: '/docs/reference/ai-sdk-ui/create-ui-message-stream-response',
     },
     {
       title: 'pipeUIMessageStreamToResponse',
       description:
-        'Pipe a UI message stream to a Node.js ServerResponse object.',
+        '将 UI 消息流管道连接到 Node.js ServerResponse 对象。',
       href: '/docs/reference/ai-sdk-ui/pipe-ui-message-stream-to-response',
     },
     {
       title: 'readUIMessageStream',
       description:
-        'Transform a stream of UIMessageChunk objects into an AsyncIterableStream of UIMessage objects.',
+        '将 UIMessageChunk 流转换为 UIMessage 对象的 AsyncIterableStream。',
       href: '/docs/reference/ai-sdk-ui/read-ui-message-stream',
     },
     {
       title: 'experimental_MCPAppRenderer',
-      description: 'Render interactive MCP App tool UIs in React.',
+      description: '在 React 中渲染交互式 MCP App 工具 UI。',
       href: '/docs/reference/ai-sdk-ui/mcp-app-renderer',
     },
   ]}
 />
 
-## UI Framework Support
+## UI 框架支持
 
-AI SDK UI supports the following frameworks: [React](https://react.dev/), [Svelte](https://svelte.dev/), [Vue.js](https://vuejs.org/),
-[Angular](https://angular.dev/), and [SolidJS](https://www.solidjs.com/).
+AI SDK UI 支持以下框架：[React](https://react.dev/)、[Svelte](https://svelte.dev/)、[Vue.js](https://vuejs.org/)、
+[Angular](https://angular.dev/) 与 [SolidJS](https://www.solidjs.com/)。
 
-Here is a comparison of the supported functions across these frameworks:
+各框架所支持功能的对比：
 
 |                                                                 | [useChat](/docs/reference/ai-sdk-ui/use-chat) | [useCompletion](/docs/reference/ai-sdk-ui/use-completion) | [useObject](/docs/reference/ai-sdk-ui/use-object) | [MCP Apps](/docs/ai-sdk-core/mcp-apps) |
 | --------------------------------------------------------------- | --------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------- | -------------------------------------- |
@@ -86,9 +86,8 @@ Here is a comparison of the supported functions across these frameworks:
 | Vue.js `@ai-sdk/vue`                                            | <Check size={18} /> Chat                      | <Check size={18} />                                       | <Check size={18} />                               | <Cross size={18} />                    |
 | Svelte `@ai-sdk/svelte`                                         | <Check size={18} /> Chat                      | <Check size={18} /> Completion                            | <Check size={18} /> StructuredObject              | <Cross size={18} />                    |
 | Angular `@ai-sdk/angular`                                       | <Check size={18} /> Chat                      | <Check size={18} /> Completion                            | <Check size={18} /> StructuredObject              | <Cross size={18} />                    |
-| [SolidJS](https://github.com/kodehort/ai-sdk-solid) (community) | <Check size={18} />                           | <Check size={18} />                                       | <Check size={18} />                               | <Cross size={18} />                    |
+| [SolidJS](https://github.com/kodehort/ai-sdk-solid)（社区） | <Check size={18} />                           | <Check size={18} />                                       | <Check size={18} />                               | <Cross size={18} />                    |
 
 <Note>
-  [Contributions](https://github.com/vercel/ai/blob/main/CONTRIBUTING.md) are
-  welcome to implement missing features for non-React frameworks.
+  欢迎[贡献](https://github.com/vercel/ai/blob/main/CONTRIBUTING.md)，为非 React 框架补齐缺失功能。
 </Note>

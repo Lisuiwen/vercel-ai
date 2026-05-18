@@ -1,62 +1,62 @@
 ---
-title: Subagents
-description: Delegate context-heavy tasks to specialized subagents while keeping the main agent focused.
+title: 子 Agent
+description: 将上下文密集的任务委托给专用子 Agent，同时保持主 Agent 专注。
 ---
 
-# Subagents
+# 子 Agent
 
-A subagent is an agent that a parent agent can invoke. The parent delegates work via a tool, and the subagent executes autonomously before returning a result.
+子 Agent 是父 Agent 可以调用的 Agent。父 Agent 通过工具委托工作，子 Agent 在返回结果前自主执行。
 
-## How It Works
+## 工作原理
 
-1. **Define a subagent** with its own model, instructions, and tools
-2. **Create a tool that calls it** for the main agent to use
-3. **Subagent runs independently with its own context window**
-4. **Return a result** (optionally streaming progress to the UI)
-5. **Control what the model sees** using `toModelOutput` to summarize
+1. **定义子 Agent**，包含其自己的模型、instructions 和 tools
+2. **创建调用它的工具**，供主 Agent 使用
+3. **子 Agent 在独立的上下文窗口中独立运行**
+4. **返回结果**（可选地将进度流式传输到 UI）
+5. **使用 `toModelOutput` 控制模型看到的内容**以进行摘要
 
-## When to Use Subagents
+## 何时使用子 Agent
 
-Subagents add latency and complexity. Use them when the benefits outweigh the costs:
+子 Agent 会增加延迟和复杂度。在收益大于成本时使用：
 
-| Use Subagents When                              | Avoid Subagents When           |
+| 使用子 Agent 当                              | 避免子 Agent 当           |
 | ----------------------------------------------- | ------------------------------ |
-| Tasks require exploring large amounts of tokens | Tasks are simple and focused   |
-| You need to parallelize independent research    | Sequential processing suffices |
-| Context would grow beyond model limits          | Context stays manageable       |
-| You want to isolate tool access by capability   | All tools can safely coexist   |
+| 任务需要探索大量 token | 任务简单且聚焦   |
+| 需要并行化独立研究    | 顺序处理已足够 |
+| 上下文会超出模型限制          | 上下文可管理       |
+| 需要按能力隔离工具访问   | 所有工具可安全共存   |
 
-## Why Use Subagents?
+## 为何使用子 Agent？
 
-### Offloading Context-Heavy Tasks
+### 卸载上下文密集的任务
 
-Some tasks require exploring large amounts of information—reading files, searching codebases, or researching topics. Running these in the main agent consumes context quickly, making the agent less coherent over time.
+某些任务需要探索大量信息——读取文件、搜索代码库或研究主题。在主 Agent 中运行这些任务会快速消耗上下文，使 Agent 随时间变得不那么连贯。
 
-With subagents, you can:
+使用子 Agent，你可以：
 
-- Spin up a dedicated agent that uses hundreds of thousands of tokens
-- Have it return only a focused summary (perhaps 1,000 tokens)
-- Keep your main agent's context clean and coherent
+- 启动使用数十万 token 的专用 Agent
+- 让它仅返回聚焦的摘要（也许 1,000 个 token）
+- 保持主 Agent 的上下文清晰连贯
 
-The subagent does the heavy lifting while the main agent stays focused on orchestration.
+子 Agent 承担繁重工作，主 Agent 专注于编排。
 
-### Parallelizing Independent Work
+### 并行化独立工作
 
-For tasks like exploring a codebase, you can spawn multiple subagents to research different areas simultaneously. Each returns a summary, and the main agent synthesizes the findings—without paying the context cost of all that exploration.
+对于探索代码库等任务，你可以同时启动多个子 Agent 研究不同区域。每个返回摘要，主 Agent 综合发现——而无需承担所有探索的上下文成本。
 
-### Specialized Orchestration
+### 专用编排
 
-A less common but valid pattern is using a main agent purely for orchestration, delegating to specialized subagents for different types of work. For example:
+一种较少见但有效的模式是使用主 Agent 纯粹进行编排，将不同类型的工作委托给专用子 Agent。例如：
 
-- An exploration subagent with read-only tools for researching codebases
-- A coding subagent with file editing tools
-- An integration subagent with tools for a specific platform or API
+- 带有只读工具用于研究代码库的探索子 Agent
+- 带有文件编辑工具的编码子 Agent
+- 带有特定平台或 API 工具的集成子 Agent
 
-This creates a clear separation of concerns, though context offloading and parallelization are the more common motivations for subagents.
+这创建了清晰的关注点分离，尽管上下文卸载和并行化是子 Agent 更常见的动机。
 
-## Basic Subagent Without Streaming
+## 无流式的基础子 Agent
 
-The simplest subagent pattern requires no special machinery. Your main agent has a tool that calls another agent in its `execute` function:
+最简单的子 Agent 模式不需要特殊机制。主 Agent 有一个在其 `execute` 函数中调用另一个 Agent 的工具：
 
 ```ts
 import { ToolLoopAgent, tool } from 'ai';
@@ -99,11 +99,11 @@ const mainAgent = new ToolLoopAgent({
 });
 ```
 
-This works well when you don't need to show the subagent's progress in the UI. The tool call blocks until the subagent completes, then returns the final text response.
+当你不需要在 UI 中显示子 Agent 的进度时，这很有效。工具调用会阻塞直到子 Agent 完成，然后返回最终文本响应。
 
-### Handling Cancellation
+### 处理取消
 
-When the user cancels a request, the `abortSignal` propagates to the subagent. Always pass it through to ensure cleanup:
+当用户取消请求时，`abortSignal` 会传播到子 Agent。始终传递它以确保清理：
 
 ```ts
 execute: async ({ task }, { abortSignal }) => {
@@ -115,9 +115,9 @@ execute: async ({ task }, { abortSignal }) => {
 },
 ```
 
-If you abort the signal, the subagent stops executing and throws an `AbortError`. The main agent's tool execution fails, which stops the main loop.
+如果你中止信号，子 Agent 停止执行并抛出 `AbortError`。主 Agent 的工具执行失败，这会停止主循环。
 
-To avoid errors about incomplete tool calls in subsequent messages, use `convertToModelMessages` with `ignoreIncompleteToolCalls`:
+为避免后续消息中出现不完整工具调用的错误，请使用带有 `ignoreIncompleteToolCalls` 的 `convertToModelMessages`：
 
 ```ts
 import { convertToModelMessages } from 'ai';
@@ -127,15 +127,15 @@ const modelMessages = await convertToModelMessages(messages, {
 });
 ```
 
-This filters out tool calls that don't have corresponding results. Learn more in the [convertToModelMessages](/docs/reference/ai-sdk-ui/convert-to-model-messages) reference.
+这会过滤掉没有对应结果的工具调用。了解更多请参阅 [convertToModelMessages](/docs/reference/ai-sdk-ui/convert-to-model-messages) 参考。
 
-## Streaming Subagent Progress
+## 流式传输子 Agent 进度
 
-When you want to show incremental progress as the subagent works, use [**preliminary tool results**](/docs/ai-sdk-core/tools-and-tool-calling#preliminary-tool-results). This pattern uses a generator function that yields partial updates to the UI.
+当你希望在子 Agent 工作时显示增量进度时，请使用[**初步工具结果**](/docs/ai-sdk-core/tools-and-tool-calling#preliminary-tool-results)。此模式使用生成器函数，向 UI 产生部分更新。
 
-### How Preliminary Tool Results Work
+### 初步工具结果如何工作
 
-Change your `execute` function from a regular function to an async generator (`async function*`). Each `yield` sends a preliminary result to the frontend:
+将 `execute` 函数从常规函数改为异步生成器（`async function*`）。每次 `yield` 向前端发送初步结果：
 
 ```ts
 execute: async function* ({ /* input */ }) {
@@ -146,11 +146,11 @@ execute: async function* ({ /* input */ }) {
 }
 ```
 
-### Building the Complete Message
+### 构建完整消息
 
-Each `yield` **replaces** the previous output entirely (it does not append). This means you need a way to accumulate the subagent's response into a complete message that grows over time.
+每次 `yield` **完全替换**先前的输出（不会追加）。这意味着你需要一种方式将子 Agent 的响应累积为随时间增长的完整消息。
 
-The `readUIMessageStream` utility handles this. It reads each chunk from the stream and builds an ever-growing `UIMessage` containing all parts received so far:
+`readUIMessageStream` 实用程序处理这一点。它读取流中的每个块，并构建包含迄今收到的所有部分的不断增长的 `UIMessage`：
 
 ```ts
 import { readUIMessageStream, tool } from 'ai';
@@ -178,15 +178,15 @@ const researchTool = tool({
 });
 ```
 
-Each yielded `message` is a complete `UIMessage` containing all the subagent's parts up to that point (text, tool calls, and tool results). The frontend simply replaces its display with each new message.
+每个产生的 `message` 是完整的 `UIMessage`，包含子 Agent 迄今的所有部分（文本、工具调用和工具结果）。前端只需用每条新消息替换其显示。
 
-## Controlling What the Model Sees
+## 控制模型看到的内容
 
-Here's where subagents become powerful for context management. The full `UIMessage` with all the subagent's work is stored in the message history and displayed in the UI. But you can control what the main agent's model actually sees using `toModelOutput`.
+这正是子 Agent 在上下文管理方面变得强大的地方。包含子 Agent 全部工作的完整 `UIMessage` 存储在消息历史中并显示在 UI 中。但你可以使用 `toModelOutput` 控制主 Agent 的模型实际看到的内容。
 
-### How It Works
+### 工作原理
 
-The `toModelOutput` function maps the tool's output to the tokens sent to the model:
+`toModelOutput` 函数将工具的输出映射为发送给模型的 token：
 
 ```ts
 const researchTool = tool({
@@ -217,16 +217,16 @@ const researchTool = tool({
 });
 ```
 
-With this setup:
+使用此设置：
 
-- **Users see**: The full subagent execution—every tool call, every intermediate step
-- **The model sees**: Just the final summary text
+- **用户看到**：子 Agent 的完整执行——每个工具调用、每个中间步骤
+- **模型看到**：仅最终摘要文本
 
-The subagent might use 100,000 tokens exploring and reasoning, but the main agent only consumes the summary. This keeps the main agent coherent and focused.
+子 Agent 可能使用 100,000 个 token 进行探索和推理，但主 Agent 仅消耗摘要。这使主 Agent 保持连贯和专注。
 
-### Write Subagent Instructions for Summarization
+### 编写用于摘要的子 Agent 指令
 
-For `toModelOutput` to extract a useful summary, your subagent must produce one. Add explicit instructions like this:
+为使 `toModelOutput` 提取有用的摘要，你的子 Agent 必须产生一个。添加类似以下的显式指令：
 
 ```ts
 const researchSubagent = new ToolLoopAgent({
@@ -242,22 +242,22 @@ This summary will be returned to the main agent, so include all relevant informa
 });
 ```
 
-Without this instruction, the subagent might not produce a comprehensive summary. It could simply say "Done", leaving `toModelOutput` with nothing useful to extract.
+没有此指令，子 Agent 可能不会产生全面的摘要。它可能只说 "Done"，使 `toModelOutput` 无法提取有用的内容。
 
-## Rendering Subagents in the UI (with useChat)
+## 在 UI 中渲染子 Agent（使用 useChat）
 
-To display streaming progress, check the tool part's `state` and `preliminary` flag.
+要显示流式进度，请检查工具部分的 `state` 和 `preliminary` 标志。
 
-### Tool Part States
+### 工具部分状态
 
-| State              | Description                                |
+| 状态              | 描述                                |
 | ------------------ | ------------------------------------------ |
-| `input-streaming`  | Tool input being generated                 |
-| `input-available`  | Tool ready to execute                      |
-| `output-available` | Tool produced output (check `preliminary`) |
-| `output-error`     | Tool execution failed                      |
+| `input-streaming`  | 正在生成工具输入                 |
+| `input-available`  | 工具准备执行                      |
+| `output-available` | 工具已产生输出（检查 `preliminary`） |
+| `output-error`     | 工具执行失败                      |
 
-### Detecting Streaming vs Complete
+### 检测流式 vs 完成
 
 ```tsx
 const hasOutput = part.state === 'output-available';
@@ -265,9 +265,9 @@ const isStreaming = hasOutput && part.preliminary === true;
 const isComplete = hasOutput && !part.preliminary;
 ```
 
-### Type Safety for Subagent Output
+### 子 Agent 输出的类型安全
 
-Export types alongside your agents for use in UI components:
+在 UI 组件中导出与 Agent 一起使用的类型：
 
 ```ts filename="lib/agents.ts"
 import { ToolLoopAgent, InferAgentUIMessage } from 'ai';
@@ -280,9 +280,9 @@ export const mainAgent = new ToolLoopAgent({
 export type MainAgentMessage = InferAgentUIMessage<typeof mainAgent>;
 ```
 
-### Render Messages and Subagent Output
+### 渲染消息和子 Agent 输出
 
-This example uses the types defined above to render both the main agent's messages and the subagent's streamed output:
+此示例使用上面定义的类型渲染主 Agent 的消息和子 Agent 的流式输出：
 
 ```tsx
 'use client';
@@ -330,19 +330,17 @@ export function Chat() {
 }
 ```
 
-## Caveats
+## 注意事项
 
-### No Tool Approvals in Subagents
+### 子 Agent 中不支持工具审批
 
-Subagent tools cannot use approval flows such as `toolApproval` (or the
-deprecated `needsApproval`). All tools must execute automatically without user
-confirmation.
+子 Agent 工具不能使用 `toolApproval`（或已弃用的 `needsApproval`）等审批流程。所有工具必须自动执行，无需用户确认。
 
-### Subagent Context is Isolated
+### 子 Agent 上下文是隔离的
 
-Each subagent invocation starts with a fresh context window. This is one of the key benefits of subagents: they don't inherit the accumulated context from the main agent, which is exactly what allows them to do heavy exploration without bloating the main conversation.
+每次子 Agent 调用都从零开始的全新上下文窗口开始。这是子 Agent 的关键优势之一：它们不会继承主 Agent 的累积上下文，这正是它们能够进行繁重探索而不膨胀主对话的原因。
 
-If you need to give a subagent access to the conversation history, the `messages` are available in the tool's execute function alongside `abortSignal`:
+如果你需要让子 Agent 访问对话历史，`messages` 在工具的 execute 函数中与 `abortSignal` 一起可用：
 
 ```ts
 execute: async ({ task }, { abortSignal, messages }) => {
@@ -357,8 +355,8 @@ execute: async ({ task }, { abortSignal, messages }) => {
 },
 ```
 
-Use this sparingly since passing full history defeats some of the context isolation benefits.
+请谨慎使用，因为传递完整历史会削弱部分上下文隔离的好处。
 
-### Streaming Adds Complexity
+### 流式传输增加复杂度
 
-The basic pattern (no streaming) is simpler to implement and debug. Only add streaming when you need to show real-time progress in the UI.
+基础模式（无流式）实现和调试更简单。仅当你需要在 UI 中显示实时进度时才添加流式传输。

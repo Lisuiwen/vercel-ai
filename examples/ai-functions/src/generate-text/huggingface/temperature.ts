@@ -13,15 +13,15 @@ run(async () => {
   console.log();
   console.log('Low temp usage:', lowTemp.usage);
 
-  // TODO: currently fails with gateway timeout @dancer
+  // TODO：目前因网关超时而失败@dancer
   // console.log('High temperature (1.5) - More creative:');
-  // const highTemp = await generateText({
+  // const highTemp = 等待生成文本({
   //   model: huggingface('meta-llama/Llama-3.1-8B-Instruct'),
   //   prompt: 'Write a creative story about a robot learning to paint.',
-  //   temperature: 1.5,
+  //   温度：1.5，
   // });
   // console.log(highTemp.text);
-  // console.log();
+  // 控制台.log();
 
   // console.log('Usage comparison:');
   // console.log('High temp usage:', highTemp.usage);

@@ -5,12 +5,12 @@ import { run } from '../../lib/run';
 
 run(async () => {
   // Ctrl+C aborts the call, which fires `POST /interactions/{id}/cancel` on
-  // Google's side so the agent stops billing instead of running to
-  // completion in the background.
+  // Google 方面因此代理停止计费而不是跑去
+  // 在后台完成。
   const ac = cancelOnSigint();
 
-  // The deep-research agent runs a multi-step research workflow on the
-  // server. Expect this call to take a while (often a minute or more).
+  // 深度研究代理在
+  // 服务器。预计此呼叫需要一段时间（通常是一分钟或更长时间）。
   const result = await generateText({
     model: google.interactions({
       agent: 'deep-research-pro-preview-12-2025',

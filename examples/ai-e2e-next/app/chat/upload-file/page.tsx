@@ -209,7 +209,7 @@ export default function UploadFilePage() {
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar */}
+      {/* 侧边栏 */}
       <div className="w-64 border-r border-gray-200 p-4 flex flex-col gap-4">
         <h2 className="font-bold text-sm">Uploaded Files</h2>
 
@@ -279,9 +279,9 @@ export default function UploadFilePage() {
         </div>
       </div>
 
-      {/* Main area */}
+      {/* 主区域 */}
       <div className="flex-1 flex flex-col">
-        {/* Top bar */}
+        {/* 顶部栏 */}
         <div className="border-b border-gray-200 p-4 flex items-center gap-4">
           <h1 className="font-bold">Upload File Chat</h1>
           <select
@@ -297,7 +297,7 @@ export default function UploadFilePage() {
           </select>
         </div>
 
-        {/* Messages */}
+        {/* 消息 */}
         <div className="flex-1 overflow-y-auto p-4">
           <div className="max-w-2xl mx-auto flex flex-col gap-4 pb-20">
             {messages.map(message => (
@@ -350,7 +350,7 @@ export default function UploadFilePage() {
           </div>
         </div>
 
-        {/* Input */}
+        {/* 输入 */}
         <div className="border-t border-gray-200 p-4">
           <div className="max-w-2xl mx-auto">
             <ChatInput status={status} onSubmit={handleSend} />

@@ -1,46 +1,43 @@
 ---
-title: Versioning
-description: Understand how the AI SDK approaches versioning.
+title: 版本策略
+description: 了解 AI SDK 的版本管理方式。
 ---
 
-# Versioning
+# 版本策略
 
-Each version number follows the format: `MAJOR.MINOR.PATCH`
+版本号遵循：`MAJOR.MINOR.PATCH`
 
-- **Major**: Breaking API updates that require code changes.
-- **Minor**: Blog post that aggregates new features and improvements into a public release that highlights benefits.
-- **Patch**: New features and bug fixes.
+- **主版本（Major）**：破坏性 API 变更，需要修改代码。
+- **次版本（Minor）**：通过博文汇总新功能与改进，并公开发布以突出收益。
+- **修订版本（Patch）**：新功能与缺陷修复。
 
-## API Stability
+## API 稳定性
 
-We communicate the stability of our APIs as follows:
+我们通过以下方式说明 API 的稳定性：
 
-### Stable APIs
+### 稳定 API
 
-All APIs without special prefixes are considered stable and ready for production use. We maintain backward compatibility for stable features and only introduce breaking changes in major releases.
+凡是没有特殊前缀的 API 均视为稳定，可用于生产环境。我们对稳定功能保持向后兼容，仅在主版本中引入破坏性变更。
 
-### Experimental APIs
+### 实验性 API
 
-APIs prefixed with `experimental_` or `Experimental_` (e.g. `experimental_generateImage()`) are in development and can change in any releases. To use experimental APIs safely:
+带有 `experimental_` 或 `Experimental_` 前缀的 API（例如 `experimental_generateImage()`）仍在演进，可能在任意版本中发生变化。若要安全使用实验性 API：
 
-1. Test them first in development, not production
-2. Review release notes before upgrading
-3. Prepare for potential code updates
+1. 先在开发环境验证，而不是直接用于生产
+2. 升级前查阅发行说明
+3. 为可能的代码调整做好准备
 
 <Note type="warning">
-  If you use experimental APIs, make sure to pin your AI SDK version number
-  exactly (avoid using ^ or ~ version ranges) to prevent unexpected breaking
-  changes.
+  如果使用实验性 API，请将 AI SDK 的版本号精确固定（避免使用 ^ 或 ~ 这类版本范围），以防出现意外的破坏性变更。
 </Note>
 
-### Deprecated APIs
+### 已弃用 API
 
-APIs marked as `deprecated` will be removed in future major releases. You can wait until the major release to update your code. To handle deprecations:
+标记为 `deprecated` 的 API 将在未来的主版本中移除。你可以等到主版本发布后再更新代码。处理弃用项时可以：
 
-1. Switch to the recommended alternative API
-2. Follow the migration guide (released alongside major releases)
+1. 切换到推荐的替代 API
+2. 遵循迁移指南（随主版本一同发布）
 
 <Note>
-  For major releases, we provide automated codemods where possible to help
-  migrate your code to the new version.
+  对于主版本升级，我们会在可行的情况下提供自动化 codemod，帮助你迁移到新版本。
 </Note>

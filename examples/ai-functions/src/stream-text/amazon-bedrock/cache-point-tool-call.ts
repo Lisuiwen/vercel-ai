@@ -10,7 +10,7 @@ const weatherTool = tool({
   inputSchema: z.object({
     location: z.string().describe('The location to get the weather for'),
   }),
-  // location below is inferred to be a string:
+  // 下面的位置被推断为一个字符串：
   execute: async ({ location }) => ({
     location,
     temperature: weatherData[location],

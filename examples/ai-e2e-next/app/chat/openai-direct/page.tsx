@@ -6,16 +6,13 @@ import { createOpenAI } from '@ai-sdk/openai';
 import ChatInput from '@/components/chat-input';
 
 /**
- * WARNING: This example is for testing/demonstration purposes only.
+ * 警告：此示例仅用于测试/演示。
  *
- * DO NOT USE IN PRODUCTION! Exposing your OpenAI API key in client-side code
- * is a security risk. Anyone can view the key in the browser and use it for
- * their own purposes, potentially incurring charges on your account.
+ * 请勿用于生产环境！在客户端代码中暴露 OpenAI API 密钥存在安全风险。任何人都可以在浏览器中查看该密钥并用于自己的目的，可能在你的账户上产生费用。
  *
- * For production, use DefaultChatTransport with a server-side API route.
+ * 生产环境请使用 DefaultChatTransport 配合服务端 API 路由。
  *
- * You might want to use direct calls when there are no API keys, e.g.
- * when calling on-device, in-browser, or local models.
+ * 在没有 API 密钥时（例如调用设备端、浏览器内或本地模型）可使用直接调用。
  */
 const openai = createOpenAI({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,

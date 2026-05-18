@@ -9,7 +9,7 @@ run(async () => {
     model: amazonBedrock('anthropic.claude-3-5-sonnet-20241022-v2:0'),
     tools: {
       updateIssueList: tool({
-        inputSchema: z.object({}), // empty input schema
+        inputSchema: z.object({}), // 空输入模式
       }),
     },
     prompt: 'Update the issue list',

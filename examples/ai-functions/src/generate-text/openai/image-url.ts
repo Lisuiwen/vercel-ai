@@ -15,7 +15,7 @@ run(async () => {
             mediaType: 'image',
             data: 'https://github.com/vercel/ai/blob/main/examples/ai-functions/data/comic-cat.png?raw=true',
 
-            // OpenAI specific option - image detail:
+            // OpenAI 特定选项 - 图像细节：
             providerOptions: {
               openai: { imageDetail: 'low' },
             },

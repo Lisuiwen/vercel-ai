@@ -156,29 +156,29 @@ const originalGenerateCallId = createIdGenerator({
 
 export type StreamTextInclude = {
   /**
-   * Whether to retain the request body in step results.
-   * The request body can be large when sending images or files.
+   * 是否在步骤结果中保留请求正文。
+   * 发送图像或文件时，请求正文可能很大。
    *
    * @default false
    */
   requestBody?: boolean;
 
   /**
-   * Whether to retain the request messages in step results.
-   * The request messages can be large when sending images or files.
+   * 是否保留步骤结果中的请求消息。
+   * 发送图像或文件时，请求消息可能很大。
    *
    * @default false
    */
   requestMessages?: boolean;
 
   /**
-   * Whether to include raw chunks from the provider in the stream.
+   * 是否在流中包含来自提供者的原始块。
    *
-   * When enabled, you will receive raw chunks with type 'raw' that contain
-   * the unprocessed data from the provider.
+   * 启用后，您将收到类型为“raw”的原始块，其中包含
+   * 来自提供商的未处理的数据。
    *
-   * This allows access to cutting-edge provider features not yet wrapped by
-   * the AI SDK.
+   * 这允许访问尚未包含的尖端提供商功能
+   * 人工智能 SDK。
    *
    * @default false
    */
@@ -186,18 +186,18 @@ export type StreamTextInclude = {
 };
 
 /**
- * A transformation that is applied to the stream.
+ * 应用于流的转换。
  *
  * @param stopStream - A function that stops the source stream.
  * @param tools - The tools that are accessible to and can be called by the model. The model needs to support calling tools.
  */
 export type StreamTextTransform<TOOLS extends ToolSet> = (options: {
-  tools: TOOLS; // for type inference
+  tools: TOOLS; // 用于类型推断
   stopStream: () => void;
 }) => TransformStream<TextStreamPart<TOOLS>, TextStreamPart<TOOLS>>;
 
 /**
- * Callback that is set using the `onError` option.
+ * 使用“onError”选项设置的回调。
  *
  * @param event - The event that is passed to the callback.
  */
@@ -206,7 +206,7 @@ export type StreamTextOnErrorCallback = Callback<{
 }>;
 
 /**
- * Callback that is set using the `onChunk` option.
+ * 使用“onChunk”选项设置的回调。
  *
  * @param event - The event that is passed to the callback.
  */
@@ -229,7 +229,7 @@ export type StreamTextOnChunkCallback<TOOLS extends ToolSet> = (event: {
 }) => PromiseLike<void> | void;
 
 /**
- * Callback that is set using the `onAbort` option.
+ * 使用“onAbort”选项设置的回调。
  *
  * @param event - The event that is passed to the callback.
  */
@@ -238,15 +238,15 @@ export type StreamTextOnAbortCallback<
   RUNTIME_CONTEXT extends Context,
 > = Callback<{
   /**
-   * Details for all previously finished steps.
+   * 所有先前完成的步骤的详细信息。
    */
   readonly steps: StepResult<TOOLS, RUNTIME_CONTEXT>[];
 }>;
 
 /**
- * Generate a text and call tools for a given prompt using a language model.
+ * 使用语言模型为给定提示生成文本并调用工具。
  *
- * This function streams the output. If you do not want to stream the output, use `generateText` instead.
+ * 该函数输出流。如果您不想流式传输输出，请改用“generateText”。
  *
  * @param model - The language model to use.
  * @param tools - Tools that are accessible to and can be called by the model. The model needs to support calling tools.
@@ -258,24 +258,24 @@ export type StreamTextOnAbortCallback<
  *
  * @param maxOutputTokens - Maximum number of tokens to generate.
  * @param temperature - Temperature setting.
- * The value is passed through to the provider. The range depends on the provider and model.
- * It is recommended to set either `temperature` or `topP`, but not both.
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * 建议设置“温度”或“topP”，但不能同时设置两者。
  * @param topP - Nucleus sampling.
- * The value is passed through to the provider. The range depends on the provider and model.
- * It is recommended to set either `temperature` or `topP`, but not both.
+ * 该值被传递给提供者。范围取决于提供商和型号。
+ * 建议设置“温度”或“topP”，但不能同时设置两者。
  * @param topK - Only sample from the top K options for each subsequent token.
- * Used to remove "long tail" low probability responses.
- * Recommended for advanced use cases only. You usually only need to use temperature.
+ * 用于删除“长尾”低概率响应。
+ * 仅推荐用于高级用例。通常您只需要使用温度。
  * @param presencePenalty - Presence penalty setting.
- * It affects the likelihood of the model to repeat information that is already in the prompt.
- * The value is passed through to the provider. The range depends on the provider and model.
+ * 它会影响模型重复提示中已有信息的可能性。
+ * 该值被传递给提供者。范围取决于提供商和型号。
  * @param frequencyPenalty - Frequency penalty setting.
- * It affects the likelihood of the model to repeatedly use the same words or phrases.
- * The value is passed through to the provider. The range depends on the provider and model.
+ * 它影响模型重复使用相同单词或短语的可能性。
+ * 该值被传递给提供者。范围取决于提供商和型号。
  * @param stopSequences - Stop sequences.
- * If set, the model will stop generating text when one of the stop sequences is generated.
+ * 如果设置，模型将在生成停止序列之一时停止生成文本。
  * @param seed - The seed (integer) to use for random sampling.
- * If set and supported by the model, calls will generate deterministic results.
+ * 如果模型设置并支持，调用将生成确定性结果。
  *
  * @param maxRetries - Maximum number of retries. Set to 0 to disable retries. Default: 2.
  * @param abortSignal - An optional abort signal that can be used to cancel the call.
@@ -296,7 +296,7 @@ export type StreamTextOnAbortCallback<
  * @param onFinish - Callback that is called when all steps are finished and the response is complete.
  *
  * @returns
- * A result object for accessing different stream types and additional information.
+ * 用于访问不同流类型和附加信息的结果对象。
  */
 export function streamText<
   TOOLS extends ToolSet,
@@ -359,73 +359,73 @@ export function streamText<
   Prompt &
   ToolsContextParameter<TOOLS> & {
     /**
-     * The language model to use.
+     * 要使用的语言模型。
      */
     model: LanguageModel;
 
     /**
-     * The tool choice strategy. Default: 'auto'.
+     * 工具选择策略。默认值：“自动”。
      */
     toolChoice?: ToolChoice<TOOLS>;
 
     /**
-     * Condition for stopping the generation when there are tool results in the last step.
-     * When the condition is an array, any of the conditions can be met to stop the generation.
+     * 最后一步有工具结果时停止生成的条件。
+     * 当条件是数组时，满足任何一个条件都可以停止生成。
      *
      * @default isStepCount(1)
      */
     stopWhen?: Arrayable<StopCondition<NoInfer<TOOLS>, RUNTIME_CONTEXT>>;
 
     /**
-     * Optional telemetry configuration.
+     * 可选遥测配置。
      */
     telemetry?: TelemetryOptions<RUNTIME_CONTEXT, NoInfer<TOOLS>>;
 
     /**
-     * Optional telemetry configuration.
+     * 可选遥测配置。
      *
-     * @deprecated Use `telemetry` instead. This alias will be removed in a future major release.
+     * @deprecated 请改用“遥测”。该别名将在未来的主要版本中删除。
      */
     experimental_telemetry?: TelemetryOptions<RUNTIME_CONTEXT, NoInfer<TOOLS>>;
 
     /**
-     * Additional provider-specific options. They are passed through
-     * to the provider from the AI SDK and enable provider-specific
-     * functionality that can be fully encapsulated in the provider.
+     * 其他特定于提供商的选项。他们通过
+     * 从 AI SDK 发送给提供商并启用特定于提供商的
+     * 可以完全封装在提供者中的功能。
      */
     providerOptions?: ProviderOptions;
 
     /**
-     * The sandbox environment that is passed through to tool execution.
+     * 传递到工具执行的沙箱环境。
      */
     experimental_sandbox?: Sandbox;
 
     /**
-     * Runtime context. Treat runtime context as immutable.
-     * If you need to mutate runtime context, update it in `prepareStep`.
+     * 运行时上下文。将运行时上下文视为不可变。
+     * 如果您需要改变运行时上下文，请在“prepareStep”中更新它。
      */
     runtimeContext?: RUNTIME_CONTEXT;
 
     /**
-     * Limits the tools that are available for the model to call without
-     * changing the tool call and result types in the result.
+     * 限制模型可以调用的工具，无需
+     * 更改结果中的工具调用和结果类型。
      */
     activeTools?: ActiveTools<NoInfer<TOOLS>>;
 
     /**
-     * Optional specification for parsing structured outputs from the LLM response.
+     * 用于解析 LLM 响应的结构化输出的可选规范。
      */
     output?: OUTPUT;
 
     /**
-     * Optional tool approval configuration.
+     * 可选工具审批配置。
      *
-     * This configuration takes precedence over tool-defined approval settings.
+     * 此配置优先于工具定义的批准设置。
      */
     toolApproval?: ToolApprovalConfiguration<TOOLS, RUNTIME_CONTEXT>;
 
     /**
-     * Optional function that you can use to provide different settings for a step.
+     * 您可以使用可选函数为步骤提供不同的设置。
      *
      * @param options - The options for the step.
      * @param options.steps - The steps that have been executed so far.
@@ -433,65 +433,65 @@ export function streamText<
      * @param options.model - The model that is being used.
      *
      * @returns An object that contains the settings for the step.
-     * If you return undefined (or for undefined settings), the settings from the outer level will be used.
+     * 如果返回未定义（或未定义的设置），则将使用外层的设置。
      */
     prepareStep?: PrepareStepFunction<NoInfer<TOOLS>, RUNTIME_CONTEXT>;
 
     /**
-     * A function that attempts to repair a tool call that failed to parse.
+     * 尝试修复无法解析的工具调用的函数。
      */
     experimental_repairToolCall?: ToolCallRepairFunction<TOOLS>;
 
     /**
-     * Optional mapping of tool names to functions that refine parsed tool inputs.
+     * 工具名称到优化已解析工具输入的函数的可选映射。
      *
-     * The refined input must have the same type shape as the tool input. Refined
-     * inputs are used for tool execution, stream parts, callbacks, and telemetry.
+     * 精炼输入必须与工具输入具有相同的类型形状。精致
+     * 输入用于工具执行、流部分、回调和遥测。
      */
     experimental_refineToolInput?: ToolInputRefinement<NoInfer<TOOLS>>;
 
     /**
-     * Optional stream transformations.
-     * They are applied in the order they are provided.
-     * The stream transformations must maintain the stream structure for streamText to work correctly.
+     * 可选的流转换。
+     * 它们按照提供的顺序应用。
+     * 流转换必须维护流结构，streamText 才能正常工作。
      */
     experimental_transform?: Arrayable<StreamTextTransform<TOOLS>>;
 
     /**
-     * Custom download function to use for URLs.
+     * 用于 URL 的自定义下载功能。
      *
-     * By default, files are downloaded if the model does not support the URL for the given media type.
+     * 默认情况下，如果模型不支持给定媒体类型的 URL，则会下载文件。
      */
     experimental_download?: DownloadFunction | undefined;
 
     /**
-     * Whether to include raw chunks from the provider in the stream.
-     * When enabled, you will receive raw chunks with type 'raw' that contain the unprocessed data from the provider.
-     * This allows access to cutting-edge provider features not yet wrapped by the AI SDK.
-     * Defaults to false.
+     * 是否在流中包含来自提供者的原始块。
+     * 启用后，您将收到类型为“raw”的原始块，其中包含来自提供商的未处理的数据。
+     * 这允许访问 AI SDK 尚未包含的尖端提供商功能。
+     * 默认为 false。
      *
-     * @deprecated Use `include.rawChunks` instead.
+     * @deprecated 请改用“include.rawChunks”。
      */
     includeRawChunks?: boolean;
 
     /**
-     * Callback that is called for each chunk of the stream.
-     * The stream processing will pause until the callback promise is resolved.
+     * 为流的每个块调用的回调。
+     * 流处理将暂停，直到回调承诺得到解决。
      */
     onChunk?: StreamTextOnChunkCallback<TOOLS>;
 
     /**
-     * Callback that is invoked when an error occurs during streaming.
-     * You can use it to log errors.
-     * The stream processing will pause until the callback promise is resolved.
+     * 流式传输过程中发生错误时调用的回调。
+     * 您可以使用它来记录错误。
+     * 流处理将暂停，直到回调承诺得到解决。
      */
     onError?: StreamTextOnErrorCallback;
 
     /**
-     * Callback that is called when the LLM response and all request tool executions
-     * (for tools that have an `execute` function) are finished.
+     * 当LLM响应和所有请求工具执行时调用的回调
+     * （对于具有“执行”功能的工具）已完成。
      *
-     * The usage is the combined usage of all steps.
+     * 使用量是所有步骤的组合使用量。
      */
     onFinish?: GenerateTextOnFinishCallback<
       NoInfer<TOOLS>,
@@ -504,7 +504,7 @@ export function streamText<
     >;
 
     /**
-     * Callback that is called when each step (LLM call) is finished, including intermediate steps.
+     * 每个步骤（LLM 调用）完成时调用的回调，包括中间步骤。
      */
     onStepFinish?: GenerateTextOnStepFinishCallback<
       NoInfer<TOOLS>,
@@ -512,8 +512,8 @@ export function streamText<
     >;
 
     /**
-     * Callback that is called when the streamText operation begins,
-     * before any LLM calls are made.
+     * 当streamText操作开始时调用的回调，
+     * 在拨打任何 LLM 电话之前。
      */
     experimental_onStart?: GenerateTextOnStartCallback<
       NoInfer<TOOLS>,
@@ -522,8 +522,8 @@ export function streamText<
     >;
 
     /**
-     * Callback that is called when a step (LLM call) begins,
-     * before the provider is called.
+     * 步骤（LLM 调用）开始时调用的回调，
+     * 在调用提供者之前。
      */
     experimental_onStepStart?: GenerateTextOnStepStartCallback<
       NoInfer<TOOLS>,
@@ -532,60 +532,60 @@ export function streamText<
     >;
 
     /**
-     * Callback that is called immediately before the provider model call begins.
+     * 在提供者模型调用开始之前立即调用的回调。
      */
     experimental_onLanguageModelCallStart?: OnLanguageModelCallStartCallback;
 
     /**
-     * Callback that is called after the model response has been normalized and parsed,
-     * but before any client-side tool execution begins.
+     * 模型响应标准化和解析后调用的回调，
+     * 但在任何客户端工具执行开始之前。
      */
     experimental_onLanguageModelCallEnd?: OnLanguageModelCallEndCallback<
       NoInfer<TOOLS>
     >;
 
     /**
-     * Callback that is called right before a tool's execute function runs.
+     * 在工具的执行函数运行之前调用的回调。
      */
     onToolExecutionStart?: OnToolExecutionStartCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called right before a tool's execute function runs.
+     * 在工具的执行函数运行之前调用的回调。
      *
-     * @deprecated Use `onToolExecutionStart` instead.
+     * @deprecated 请改用“onToolExecutionStart”。
      */
     experimental_onToolCallStart?: OnToolExecutionStartCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called right after a tool's execute function completes (or errors).
+     * 在工具的执行函数完成（或出错）后立即调用的回调。
      */
     onToolExecutionEnd?: OnToolExecutionEndCallback<NoInfer<TOOLS>>;
 
     /**
-     * Callback that is called right after a tool's execute function completes (or errors).
+     * 在工具的执行函数完成（或出错）后立即调用的回调。
      *
-     * @deprecated Use `onToolExecutionEnd` instead.
+     * @deprecated 请改用“onToolExecutionEnd”。
      */
     experimental_onToolCallFinish?: OnToolExecutionEndCallback<NoInfer<TOOLS>>;
 
     /**
-     * Settings for controlling what data is included in step results.
-     * Disabling inclusion can help reduce memory usage when processing
-     * large payloads like images.
+     * 用于控制步骤结果中包含哪些数据的设置。
+     * 禁用包含可以帮助减少处理时的内存使用量
+     * 图像等大型有效负载。
      *
-     * By default, request bodies and request messages are excluded.
+     * 默认情况下，不包括请求正文和请求消息。
      */
     include?: StreamTextInclude;
 
     /**
-     * Settings for controlling what data is included in step results.
+     * 用于控制步骤结果中包含哪些数据的设置。
      *
-     * @deprecated Use `include` instead.
+     * @deprecated 请改用“include”。
      */
     experimental_include?: StreamTextInclude;
 
     /**
-     * Internal. For test use only. May change without notice.
+     * 内部的。仅供测试使用。可能会更改，恕不另行通知。
      */
     _internal?: {
       now?: () => number;
@@ -656,7 +656,7 @@ export function streamText<
     generateCallId,
     download,
 
-    // assign default values to include:
+    // 分配默认值以包括：
     include: {
       requestBody: include?.requestBody ?? false,
       requestMessages: include?.requestMessages ?? false,
@@ -711,7 +711,7 @@ function createOutputTransformStream<
     EnrichedStreamPart<TOOLS, InferPartialOutput<OUTPUT>>
   >({
     async transform(chunk, controller) {
-      // ensure that we publish the last text chunk before the step finish:
+      // 确保我们在步骤完成之前发布最后一个文本块：
       if (chunk.type === 'finish-step' && textChunk.length > 0) {
         publishTextChunk({ controller });
       }
@@ -725,8 +725,8 @@ function createOutputTransformStream<
         return;
       }
 
-      // we have to pick a text chunk which contains the json text
-      // since we are streaming, we have to pick the first text chunk
+      // 我们必须选择一个包含 json 文本的文本块
+      // 由于我们正在流式传输，因此我们必须选择第一个文本块
       if (firstTextChunkId == null) {
         firstTextChunkId = chunk.id;
       } else if (chunk.id !== firstTextChunkId) {
@@ -751,13 +751,13 @@ function createOutputTransformStream<
       textChunk += chunk.text;
       textProviderMetadata = chunk.providerMetadata ?? textProviderMetadata;
 
-      // only publish if partial json can be parsed:
+      // 仅在可以解析部分 json 的情况下发布：
       const result = await output.parsePartialOutput({ text });
 
-      // null should be allowed (valid JSON value) but undefined should not:
+      // 应该允许 null（有效的 JSON 值），但不应该允许 undefined：
       if (result !== undefined) {
-        // only send new value if it has changed:
-        // For string partials (text output), compare directly to avoid unnecessary JSON.stringify overhead
+        // 仅在更改时发送新值：
+        // 对于字符串部分（文本输出），直接比较以避免不必要的 JSON.stringify 开销
         const currentValue =
           typeof result.partial === 'string'
             ? result.partial
@@ -894,7 +894,7 @@ class DefaultStreamTextResult<
     download: DownloadFunction | undefined;
     include: Required<StreamTextInclude>;
 
-    // callbacks:
+    // 回调：
     onChunk: undefined | StreamTextOnChunkCallback<TOOLS>;
     onError: StreamTextOnErrorCallback;
     onFinish:
@@ -943,9 +943,9 @@ class DefaultStreamTextResult<
       includeToolsContext: telemetry?.includeToolsContext,
     });
 
-    // promise to ensure that the step has been fully processed by the event processor
-    // before a new step is started. This is required because the continuation condition
-    // needs the updated steps to determine if another step is needed.
+    // 承诺确保事件处理器已完全处理该步骤
+    // 在开始新的步骤之前。这是必需的，因为继续条件
+    // 需要更新的步骤来确定是否需要另一个步骤。
     let stepFinish!: DelayedPromise<void>;
 
     let recordedContent: Array<ContentPart<TOOLS>> = [];
@@ -960,9 +960,9 @@ class DefaultStreamTextResult<
     let stepMessagesForNextStep: Array<ModelMessage> | undefined;
     let currentStepMessages: Array<ModelMessage> = [];
 
-    // Track provider-executed tool calls that support deferred results
-    // (e.g., code_execution in programmatic tool calling scenarios).
-    // These tools may not return their results in the same turn as their call.
+    // 跟踪提供者执行的支持延迟结果的工具调用
+    // （例如，编程工具调用场景中的 code_execution）。
+    // 这些工具可能不会在调用的同时返回结果。
     const pendingDeferredToolCalls = new Map<string, { toolName: string }>();
 
     let activeTextContent: Record<
@@ -988,7 +988,7 @@ class DefaultStreamTextResult<
       EnrichedStreamPart<TOOLS, InferPartialOutput<OUTPUT>>
     >({
       async transform(chunk, controller) {
-        controller.enqueue(chunk); // forward the chunk to the next stream
+        controller.enqueue(chunk); // 将块转发到下一个流
 
         const { part } = chunk;
 
@@ -1134,7 +1134,7 @@ class DefaultStreamTextResult<
         }
 
         if (part.type === 'start-step') {
-          // reset the recorded data when a new step starts:
+          // 当新的步骤开始时重置记录的数据：
           recordedContent = [];
           activeReasoningContent = {};
           activeTextContent = {};
@@ -1149,7 +1149,7 @@ class DefaultStreamTextResult<
             tools,
           });
 
-          // Add step information (after response messages are updated):
+          // 添加步骤信息（响应消息更新后）：
           const currentStepResult: StepResult<TOOLS, RUNTIME_CONTEXT> =
             new DefaultStepResult({
               callId,
@@ -1194,8 +1194,8 @@ class DefaultStreamTextResult<
             ...stepResponseMessages,
           ];
 
-          // resolve the promise to signal that the step has been fully processed
-          // by the event processor:
+          // 解决承诺以表明该步骤已完全处理
+          // 通过事件处理器：
           stepFinish.resolve();
         }
 
@@ -1221,23 +1221,23 @@ class DefaultStreamTextResult<
             self._steps.reject(error);
             self._initialResponseMessages.reject(error);
 
-            return; // no steps recorded (e.g. in error scenario)
+            return; // 没有记录任何步骤（例如，在错误情况下）
           }
 
-          // derived:
+          // 衍生的：
           const finishReason = recordedFinishReason ?? 'other';
           const totalUsage =
             recordedTotalUsage ?? createNullLanguageModelUsage();
 
-          // from finish:
+          // 从完成：
           self._finishReason.resolve(finishReason);
           self._rawFinishReason.resolve(recordedRawFinishReason);
           self._totalUsage.resolve(totalUsage);
 
-          // aggregate results:
+          // 汇总结果：
           self._steps.resolve(recordedSteps);
 
-          // call onFinish callback:
+          // 调用 onFinish 回调：
           const finalStep = recordedSteps[recordedSteps.length - 1];
           const files = recordedSteps.flatMap(step => step.files);
           const warnings = recordedSteps.flatMap(step => step.warnings ?? []);
@@ -1283,28 +1283,28 @@ class DefaultStreamTextResult<
       },
     });
 
-    // initialize the stitchable stream and the transformed stream:
+    // 初始化可缝合流和转换后的流：
     const stitchableStream = createStitchableStream<TextStreamPart<TOOLS>>();
     this.addStream = stitchableStream.addStream;
     this.closeStream = stitchableStream.close;
 
-    // resilient stream that handles abort signals and errors:
+    // 处理中止信号和错误的弹性流：
     const reader = stitchableStream.stream.getReader();
     let stream = new ReadableStream<TextStreamPart<TOOLS>>({
       async start(controller) {
-        // send start event:
+        // 发送开始事件：
         controller.enqueue({ type: 'start' });
       },
 
       async pull(controller) {
-        // abort handling:
+        // 中止处理：
         function abort() {
           onAbort?.({ steps: recordedSteps });
           controller.enqueue({
             type: 'abort',
-            // The `reason` is usually of type DOMException, but it can also be of any type,
-            // so we use getErrorMessage for serialization because it is already designed to accept values of the unknown type.
-            // See: https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal/reason
+            // `reason` 通常是 DOMException 类型，但也可以是任何类型，
+            // 因此我们使用 getErrorMessage 进行序列化，因为它已经被设计为接受未知类型的值。
+            // 请参阅：https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal/reason
             ...(abortSignal?.reason !== undefined
               ? { reason: getErrorMessage(abortSignal.reason) }
               : {}),
@@ -1340,8 +1340,8 @@ class DefaultStreamTextResult<
       },
     });
 
-    // introduce a gate that prevent further tokens from
-    // being emitted after a transform calls stopStream
+    // 引入一个门来防止进一步的令牌
+    // 在转换调用 stopStream 后发出
     let isRunning = true;
     stream = stream.pipeThrough(
       new TransformStream({
@@ -1353,8 +1353,8 @@ class DefaultStreamTextResult<
       }),
     );
 
-    // transform the stream before output parsing
-    // to enable replacement of stream segments:
+    // 在输出解析之前转换流
+    // 启用流段替换：
     for (const transform of transforms) {
       stream = stream.pipeThrough(
         transform({
@@ -1428,7 +1428,7 @@ class DefaultStreamTextResult<
       const { approvedToolApprovals, deniedToolApprovals } =
         collectToolApprovals<TOOLS>({ messages: initialMessages });
 
-      // initial tool execution step stream
+      // 初始工具执行步骤流
       if (deniedToolApprovals.length > 0 || approvedToolApprovals.length > 0) {
         const localApprovedToolApprovals = approvedToolApprovals.filter(
           toolApproval => !toolApproval.toolCall.providerExecuted,
@@ -1500,11 +1500,11 @@ class DefaultStreamTextResult<
             }),
           );
 
-          // Local tool results (approved + denied) are sent as tool results:
+          // 本地工具结果（批准+拒绝）作为工具结果发送：
           if (toolOutputs.length > 0 || localDeniedToolApprovals.length > 0) {
             const localToolContent: ToolContent = [];
 
-            // add regular tool results for approved tool calls:
+            // 为批准的工具调用添加常规工具结果：
             for (const output of toolOutputs) {
               localToolContent.push({
                 type: 'tool-result' as const,
@@ -1555,14 +1555,14 @@ class DefaultStreamTextResult<
         currentStep: number;
         usage: LanguageModelUsage;
       }) {
-        // Set up step timeout if configured
+        // 如果已配置，请设置步骤超时
         const stepTimeoutId = setAbortTimeout({
           abortController: stepAbortController,
           label: 'Step',
           timeoutMs: stepTimeoutMs,
         });
 
-        // Set up chunk timeout tracking (will be reset on each chunk)
+        // 设置块超时跟踪（将在每个块上重置）
         let chunkTimeoutId: ReturnType<typeof setTimeout> | undefined =
           undefined;
 
@@ -1636,7 +1636,7 @@ class DefaultStreamTextResult<
 
           const stepTools = await prepareTools({
             tools: stepActiveTools,
-            // active tools context is a subset of the tools context, so we can cast to the unknown type
+            // 活动工具上下文是工具上下文的子集，因此我们可以转换为未知类型
             toolsContext: toolsContext as unknown as InferToolSetContext<
               ActiveToolSubset<TOOLS, ActiveTools<NoInfer<TOOLS>>>
             >,
@@ -1752,8 +1752,8 @@ class DefaultStreamTextResult<
             runtimeContext,
             generateId,
 
-            // the callbacks need to be passed down and handled by executeToolCall
-            // to guarantee that the onToolExecutionStart callback is invoked before the tool execute function
+            // 回调需要由executeToolCall向下传递和处理
+            // 确保在工具执行函数之前调用 onToolExecutionStart 回调
             onToolExecutionStart: filterNullable(
               onToolExecutionStart,
               telemetryDispatcher.onToolExecutionStart,
@@ -1766,8 +1766,8 @@ class DefaultStreamTextResult<
             executeToolInTelemetryContext: telemetryDispatcher.executeTool,
           });
 
-          // Conditionally include request.body based on include settings.
-          // Large payloads (e.g., base64-encoded images) can cause memory issues.
+          // 根据包含设置有条件地包含 request.body。
+          // 大负载（例如，base64 编码的图像）可能会导致内存问题。
           const stepRequest: LanguageModelRequestMetadata = {
             ...request,
             body: include.requestBody ? request?.body : undefined,
@@ -1812,13 +1812,13 @@ class DefaultStreamTextResult<
 
                   if (chunk.type === 'model-call-start') {
                     warnings = chunk.warnings;
-                    return; // stream start chunks are sent immediately and do not count as first chunk
+                    return; // 流起始块立即发送，不计为第一个块
                   }
 
                   if (stepFirstChunk) {
                     stepFirstChunk = false;
 
-                    // Step start:
+                    // 步骤开始：
                     controller.enqueue({
                       type: 'start-step',
                       request: stepRequest,
@@ -1854,7 +1854,7 @@ class DefaultStreamTextResult<
 
                     case 'tool-call': {
                       controller.enqueue(chunk);
-                      // store tool calls for onFinish callback and toolCalls promise:
+                      // 存储工具调用 onFinish 回调和 toolCalls 承诺：
                       stepToolCalls.push(chunk);
                       break;
                     }
@@ -1896,8 +1896,8 @@ class DefaultStreamTextResult<
                     }
 
                     case 'model-call-end': {
-                      // Note: tool executions might not be finished yet when the finish event is emitted.
-                      // store usage and finish reason for promises and onFinish callback:
+                      // 注意：发出完成事件时，工具执行可能尚未完成。
+                      // 存储承诺和 onFinish 回调的使用情况和完成原因：
                       stepUsage = chunk.usage;
                       stepFinishReason = chunk.finishReason;
                       stepRawFinishReason = chunk.rawFinishReason;
@@ -1937,7 +1937,7 @@ class DefaultStreamTextResult<
                   }
                 },
 
-                // invoke onFinish callback and resolve toolResults promise when the stream is about to close:
+                // 当流即将关闭时调用 onFinish 回调并解析 toolResults 承诺：
                 async flush(controller) {
                   const stepTimeMs = now() - stepStartTimestampMs;
 
@@ -1967,8 +1967,8 @@ class DefaultStreamTextResult<
 
                   const combinedUsage = addLanguageModelUsage(usage, stepUsage);
 
-                  // wait for the step to be fully processed by the event processor
-                  // to ensure that the recorded steps are complete:
+                  // 等待事件处理器完全处理该步骤
+                  // 确保记录的步骤完整：
                   await stepFinish.promise;
 
                   const clientToolCalls = stepToolCalls.filter(
@@ -1983,10 +1983,10 @@ class DefaultStreamTextResult<
                         toolApprovalResponse.approved === false,
                     );
 
-                  // Track provider-executed tool calls that support deferred results.
-                  // In programmatic tool calling, a server tool (e.g., code_execution) may
-                  // trigger a client tool, and the server tool's result is deferred until
-                  // the client tool's result is sent back.
+                  // 跟踪提供者执行的支持延迟结果的工具调用。
+                  // 在编程工具调用中，服务器工具（例如，code_execution）可以
+                  // 触发客户端工具，并且服务器工具的结果被推迟到
+                  // 客户端工具的结果被发回。
                   for (const toolCall of stepToolCalls) {
                     if (toolCall.providerExecuted !== true) continue;
                     const tool = tools?.[toolCall.toolName];
@@ -1994,7 +1994,7 @@ class DefaultStreamTextResult<
                       tool?.type === 'provider' &&
                       tool.supportsDeferredResults
                     ) {
-                      // Check if this tool call already has a result in the current step
+                      // 检查此工具调用在当前步骤中是否已有结果
                       const hasResultInStep = stepToolOutputs.some(
                         output =>
                           (output.type === 'tool-result' ||
@@ -2009,7 +2009,7 @@ class DefaultStreamTextResult<
                     }
                   }
 
-                  // Mark deferred tool calls as resolved when we receive their results
+                  // 当我们收到结果时，将延迟的工具调用标记为已解决
                   for (const output of stepToolOutputs) {
                     if (
                       output.type === 'tool-result' ||
@@ -2019,20 +2019,20 @@ class DefaultStreamTextResult<
                     }
                   }
 
-                  // Clear the step and chunk timeouts before the next step is started
+                  // 在开始下一步之前清除步骤和块超时
                   clearStepTimeout();
                   clearChunkTimeout();
 
                   if (
-                    // Continue if:
-                    // 1. There are client tool calls that have all been executed or denied, OR
-                    // 2. There are pending deferred results from provider-executed tools, OR
+                    // 如果出现以下情况，请继续：
+                    // 1. 存在已全部执行或拒绝的客户端工具调用，或者
+                    // 2. 提供商执行的工具有待处理的延迟结果，或者
                     ((clientToolCalls.length > 0 &&
                       clientToolCalls.length ===
                         clientToolOutputs.length +
                           deniedToolApprovalResponses.length) ||
                       pendingDeferredToolCalls.size > 0) &&
-                    // continue until a stop condition is met:
+                    // 继续直到满足停止条件：
                     !(await isStopConditionMet({
                       stopConditions,
                       steps: recordedSteps,
@@ -2059,7 +2059,7 @@ class DefaultStreamTextResult<
                       totalUsage: combinedUsage,
                     });
 
-                    self.closeStream(); // close the stitchable stream
+                    self.closeStream(); // 关闭可缝合流
                   }
                 },
               }),
@@ -2071,7 +2071,7 @@ class DefaultStreamTextResult<
         }
       }
 
-      // add the initial stream to the stitchable stream
+      // 将初始流添加到可缝合流
       await streamStep({
         currentStep: 0,
         usage: createNullLanguageModelUsage(),
@@ -2080,7 +2080,7 @@ class DefaultStreamTextResult<
       await telemetryDispatcher.onError?.({ callId, error });
       self._initialResponseMessages.reject(error);
 
-      // add an error stream part and close the streams:
+      // 添加错误流部分并关闭流：
       self.addStream(
         new ReadableStream({
           start(controller) {
@@ -2094,8 +2094,8 @@ class DefaultStreamTextResult<
   }
 
   get steps() {
-    // when any of the promises are accessed, the stream is consumed
-    // so it resolves without needing to consume the stream separately
+    // 当任何一个 Promise 被访问时，流就会被消耗
+    // 所以它不需要单独消耗流就可以解决
     this.consumeStream();
 
     return this._steps.promise;
@@ -2194,36 +2194,36 @@ class DefaultStreamTextResult<
   }
 
   get totalUsage() {
-    // when any of the promises are accessed, the stream is consumed
-    // so it resolves without needing to consume the stream separately
+    // 当任何一个 Promise 被访问时，流就会被消耗
+    // 所以它不需要单独消耗流就可以解决
     this.consumeStream();
 
     return this._totalUsage.promise;
   }
 
   get finishReason() {
-    // when any of the promises are accessed, the stream is consumed
-    // so it resolves without needing to consume the stream separately
+    // 当任何一个 Promise 被访问时，流就会被消耗
+    // 所以它不需要单独消耗流就可以解决
     this.consumeStream();
 
     return this._finishReason.promise;
   }
 
   get rawFinishReason() {
-    // when any of the promises are accessed, the stream is consumed
-    // so it resolves without needing to consume the stream separately
+    // 当任何一个 Promise 被访问时，流就会被消耗
+    // 所以它不需要单独消耗流就可以解决
     this.consumeStream();
 
     return this._rawFinishReason.promise;
   }
 
   /**
-   * Split out a new stream from the original stream.
-   * The original stream is replaced to allow for further splitting,
-   * since we do not know how many times the stream will be split.
+   * 从原始流中分离出一个新流。
+   * 原始流被替换以允许进一步分割，
+   * 因为我们不知道流将被分割多少次。
    *
-   * Note: this leads to buffering the stream content on the server.
-   * However, the LLM results are expected to be small enough to not cause issues.
+   * 注意：这会导致在服务器上缓冲流内容。
+   * 然而，法学硕士的结果预计足够小，不会引起问题。
    */
   private teeStream() {
     const [stream1, stream2] = this.baseStream.tee();
@@ -2346,11 +2346,11 @@ class DefaultStreamTextResult<
           })
         : undefined;
 
-    // TODO simplify once dynamic is no longer needed for invalid tool inputs
+    // 一旦无效工具输入不再需要动态，TODO 就会简化
     const isDynamic = (part: { toolName: string; dynamic?: boolean }) => {
       const tool = this.tools?.[part.toolName];
 
-      // provider-executed, dynamic tools are not listed in the tools object
+      // 提供者执行的动态工具未在工具对象中列出
       if (tool == null) {
         return part.dynamic;
       }
@@ -2701,8 +2701,8 @@ class DefaultStreamTextResult<
             }
 
             case 'raw': {
-              // Raw chunks are not included in UI message streams
-              // as they contain provider-specific data for developer use
+              // 原始块不包含在 UI 消息流中
+              // 因为它们包含供开发人员使用的特定于提供商的数据
               break;
             }
 
@@ -2712,8 +2712,8 @@ class DefaultStreamTextResult<
             }
           }
 
-          // start and finish events already have metadata
-          // so we only need to send metadata for other parts
+          // 开始和结束事件已经有元数据
+          // 所以我们只需要发送其他部分的元数据
           if (
             messageMetadataValue != null &&
             partType !== 'start' &&

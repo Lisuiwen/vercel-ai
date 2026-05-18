@@ -7,7 +7,7 @@ import { presentVideos } from '../../lib/present-video';
 import { run } from '../../lib/run';
 import { withSpinner } from '../../lib/spinner';
 
-// Note: Requires GOOGLE_VERTEX_LOCATION to be set to a specific region (e.g., us-central1)
+// 注意：需要将 GOOGLE_VERTEX_LOCATION 设置为特定区域（例如 us-central1）
 // Veo models are not available in the 'global' region
 run(async () => {
   const { video } = await withSpinner('Generating video...', () =>
@@ -19,7 +19,7 @@ run(async () => {
       duration: 8,
       providerOptions: {
         vertex: {
-          pollTimeoutMs: 600000, // 10 minutes
+          pollTimeoutMs: 600000, // 10分钟
         } satisfies GoogleVertexVideoModelOptions,
       },
     }),

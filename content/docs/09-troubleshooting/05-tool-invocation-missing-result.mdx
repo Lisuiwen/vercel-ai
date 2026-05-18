@@ -1,25 +1,25 @@
 ---
-title: Tool Invocation Missing Result Error
-description: How to fix the "ToolInvocation must have a result" error when using tools without execute functions
+title: 工具调用缺少结果错误
+description: 在使用没有 execute 函数的工具时，如何修复「ToolInvocation must have a result」错误
 ---
 
-# Tool Invocation Missing Result Error
+# 工具调用缺少结果错误
 
-## Issue
+## 问题
 
-When using `generateText()` or `streamText()`, you may encounter the error "ToolInvocation must have a result" when a tool without an `execute` function is called.
+使用 `generateText()` 或 `streamText()` 时，若调用了没有 `execute` 函数的工具，可能会遇到错误 `"ToolInvocation must have a result"`。
 
-## Cause
+## 原因
 
-The error occurs when you define a tool without an `execute` function and don't provide the result through other means (like `useChat`'s `onToolCall` or `addToolOutput` functions).
+当你在工具定义中省略 `execute`，且未通过其他方式提供结果（例如 `useChat` 的 `onToolCall` 或 `addToolOutput`）时会出现该错误。
 
-Each time a tool is invoked, the model expects to receive a result before continuing the conversation. Without a result, the model cannot determine if the tool call succeeded or failed and the conversation state becomes invalid.
+每次工具被调用，模型都希望在继续对话前收到结果。没有结果时，模型无法判断调用成功与否，对话状态会无效。
 
-## Solution
+## 解决方案
 
-You have two options for handling tool results:
+处理工具结果有两种方式：
 
-1. Server-side execution using tools with an `execute` function:
+1. 在服务端使用带 `execute` 函数的工具执行：
 
 ```tsx
 const tools = {
@@ -38,7 +38,7 @@ const tools = {
 };
 ```
 
-2. Client-side execution with `useChat` (omitting the `execute` function), you must provide results using `addToolOutput`:
+2. 在客户端用 `useChat` 执行（省略 `execute`）时，必须用 `addToolOutput` 提供结果：
 
 ```tsx
 import { useChat } from '@ai-sdk/react';
@@ -101,6 +101,5 @@ const { messages, sendMessage, addToolOutput } = useChat({
 ```
 
 <Note type="warning">
-  Whether handling tools on the server or client, each tool call must have a
-  corresponding result before the conversation can continue.
+  无论在服务端还是客户端处理工具，每次工具调用在对话继续前都必须有对应的结果。
 </Note>

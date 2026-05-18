@@ -5,8 +5,8 @@ import { run } from '../../lib/run';
 run(async () => {
   console.log('=== Amazon Bedrock API Key Authentication Example ===\n');
 
-  // Example 1: Using API key via environment variable (AWS_BEARER_TOKEN_BEDROCK)
-  // This is the recommended approach for production applications
+  // 示例 1：通过环境变量 (AWS_BEARER_TOKEN_BEDROCK) 使用 API 密钥
+  // 这是生产应用程序的推荐方法
   console.log(
     'Example 1: Using API key from environment variable (AWS_BEARER_TOKEN_BEDROCK)',
   );
@@ -14,7 +14,7 @@ run(async () => {
     const result1 = await generateText({
       model: amazonBedrock('anthropic.claude-3-haiku-20240307-v1:0'),
       prompt: 'Write a haiku about API keys.',
-      // Note: API key is automatically loaded from AWS_BEARER_TOKEN_BEDROCK environment variable
+      // 注意：API 密钥自动从 AWS_BEARER_TOKEN_BEDROCK 环境变量加载
     });
 
     console.log('Generated haiku:', result1.text);
@@ -29,20 +29,20 @@ run(async () => {
 
   console.log('\n' + '='.repeat(60) + '\n');
 
-  // Example 2: Using API key directly in provider configuration
-  // This demonstrates how to pass the API key directly (not recommended for production)
+  // 示例 2：直接在提供程序配置中使用 API 密钥
+  // 这演示了如何直接传递 API 密钥（不建议用于生产）
   console.log('Example 2: Using API key directly in provider configuration');
 
-  // For demonstration purposes - in real applications, load from secure environment
+  // 出于演示目的 - 在实际应用中，从安全环境加载
   const exampleApiKey =
     process.env.AWS_BEARER_TOKEN_BEDROCK || 'your-api-key-here';
 
   try {
-    // Create provider with explicit API key
+    // 使用显式 API 密钥创建提供程序
     const { createAmazonBedrock } = await import('@ai-sdk/amazon-bedrock');
     const bedrockWithApiKey = createAmazonBedrock({
       apiKey: exampleApiKey,
-      region: 'us-east-1', // Optional: specify region
+      region: 'us-east-1', // 可选：指定区域
     });
 
     const result2 = await generateText({
@@ -61,7 +61,7 @@ run(async () => {
 
   console.log('\n' + '='.repeat(60) + '\n');
 
-  // Example 3: Comparison with SigV4 authentication
+  // 示例 3：与 SigV4 身份验证的比较
   console.log('Example 3: Comparison - API Key vs SigV4 Authentication');
 
   console.log(`
@@ -84,12 +84,12 @@ API Key authentication is ideal for:
 - Reduced complexity in authentication flow
   `);
 
-  // Example 4: Error handling and fallback
+  // 示例 4：错误处理和回退
   console.log('Example 4: Demonstrating fallback behavior');
 
   try {
-    // This will use API key if AWS_BEARER_TOKEN_BEDROCK is set,
-    // otherwise fall back to SigV4 authentication
+    // 如果设置了 AWS_BEARER_TOKEN_BEDROCK，这将使用 API 密钥，
+    // 否则回退到 SigV4 身份验证
     const result4 = await generateText({
       model: amazonBedrock('anthropic.claude-3-haiku-20240307-v1:0'),
       prompt: 'Write a short poem about authentication methods.',

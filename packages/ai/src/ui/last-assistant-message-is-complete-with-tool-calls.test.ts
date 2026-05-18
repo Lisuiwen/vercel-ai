@@ -250,7 +250,7 @@ describe('lastAssistantMessageIsCompleteWithToolCalls', () => {
                 type: 'dynamic-tool',
                 toolName: 'getDynamicWeather',
                 toolCallId: 'call_dynamic_123',
-                state: 'input-available', // incomplete
+                state: 'input-available', // 不完整的
                 input: {
                   location: 'San Francisco',
                 },
@@ -270,7 +270,7 @@ describe('lastAssistantMessageIsCompleteWithToolCalls', () => {
             id: '1',
             role: 'assistant',
             parts: [
-              // First step with regular tool
+              // 第一步使用常规工具
               { type: 'step-start' },
               {
                 type: 'tool-getLocation',
@@ -279,7 +279,7 @@ describe('lastAssistantMessageIsCompleteWithToolCalls', () => {
                 input: {},
                 output: 'New York',
               },
-              // Second step with dynamic tool
+              // 第二步使用动态工具
               { type: 'step-start' },
               {
                 type: 'dynamic-tool',
@@ -311,7 +311,7 @@ describe('lastAssistantMessageIsCompleteWithToolCalls', () => {
             id: '1',
             role: 'assistant',
             parts: [
-              // First step with regular tool
+              // 第一步使用常规工具
               { type: 'step-start' },
               {
                 type: 'tool-getLocation',
@@ -320,13 +320,13 @@ describe('lastAssistantMessageIsCompleteWithToolCalls', () => {
                 input: {},
                 output: 'New York',
               },
-              // Second step with incomplete dynamic tool
+              // 第二步使用不完整的动态工具
               { type: 'step-start' },
               {
                 type: 'dynamic-tool',
                 toolName: 'getDynamicWeather',
                 toolCallId: 'call_dynamic_456',
-                state: 'input-streaming', // incomplete
+                state: 'input-streaming', // 不完整的
                 input: {
                   location: 'New York',
                 },

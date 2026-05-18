@@ -4,10 +4,10 @@ import { presentVideos } from '../../lib/present-video';
 import { run } from '../../lib/run';
 import { withSpinner } from '../../lib/spinner';
 
-// Reference-to-video (R2V): provide reference images to guide the video's
-// style and content. The model incorporates the visual elements from those
-// images without using them as the first frame (unlike image-to-video).
-// Each reference image can be a public HTTPS URL or a base64 data URI.
+// 视频参考 (R2V)：提供参考图像来指导视频的
+// 风格和内容。该模型融合了这些视觉元素
+// 图像而不将它们用作第一帧（与图像到视频不同）。
+// 每个参考图像可以是公共 HTTPS URL 或 base64 数据 URI。
 run(async () => {
   const { video } = await withSpinner(
     'Generating xAI reference-to-video with grok-imagine-video...',
@@ -27,7 +27,7 @@ run(async () => {
               'https://raw.githubusercontent.com/vercel/ai/refs/heads/main/examples/ai-functions/data/comic-cat.png',
               'https://raw.githubusercontent.com/vercel/ai/refs/heads/main/examples/ai-functions/data/comic-dog.png',
             ],
-            pollTimeoutMs: 600000, // 10 minutes
+            pollTimeoutMs: 600000, // 10分钟
           } satisfies XaiVideoModelOptions,
         },
       }),

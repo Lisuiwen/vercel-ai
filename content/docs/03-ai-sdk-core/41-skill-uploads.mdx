@@ -1,21 +1,19 @@
 ---
-title: Skill Uploads
-description: Learn how to upload skills and use provider references with the AI SDK.
+title: Skill 上传
+description: 了解如何使用 AI SDK 上传 skill 并使用提供商引用。
 ---
 
-# Skill Uploads
+# Skill 上传
 
-The AI SDK provides the [`uploadSkill`](/docs/reference/ai-sdk-core/upload-skill)
-function to upload custom skills to a provider and get back a `ProviderReference` that
-can be passed to subsequent inference calls.
+AI SDK 提供 [`uploadSkill`](/docs/reference/ai-sdk-core/upload-skill)
+函数，用于将自定义 skill 上传到提供商并获取可传给后续推理调用的 `ProviderReference`。
 
-A **skill** is a bundle of files (e.g. a `SKILL.md` describing the skill's behavior)
-that providers can load, e.g. in sandboxed container environments.
+**Skill** 是一组文件（例如描述 skill 行为的 `SKILL.md`），
+提供商可加载它们，例如在沙箱容器环境中。
 
-In the AI SDK, the uploaded skill is identified by a `ProviderReference` — a
-`Record<string, string>` mapping provider names to provider-specific identifiers.
-This concept is used for other provider specific asset references too, such as
-uploaded media files.
+在 AI SDK 中，已上传 skill 由 `ProviderReference` 标识——
+将提供商名称映射到提供商特定标识符的 `Record<string, string>`。
+该概念也用于其他提供商特定资产引用，例如已上传的媒体文件。
 
 ```ts
 import { uploadSkill, generateText } from 'ai';
@@ -52,7 +50,7 @@ const { text } = await generateText({
 });
 ```
 
-As a shorthand, you can pass a provider instance directly to `api` instead of calling `.skills()` explicitly — the SDK will call `.skills()` for you:
+作为简写，可将提供商实例直接传给 `api`，而无需显式调用 `.skills()`——SDK 会为你调用 `.skills()`：
 
 ```ts highlight="2"
 const { providerReference } = await uploadSkill({
@@ -62,11 +60,10 @@ const { providerReference } = await uploadSkill({
 });
 ```
 
-## Skill Files
+## Skill 文件
 
-A skill is composed of one or more files, each with a relative `path` and `content`.
-File content can be provided as a `Uint8Array` (e.g. from `fs.readFileSync`) or as a
-base64-encoded string:
+Skill 由一个或多个文件组成，每个文件具有相对 `path` 和 `content`。
+文件内容可作为 `Uint8Array`（例如来自 `fs.readFileSync`）或 base64 编码字符串提供：
 
 ```ts
 const { providerReference } = await uploadSkill({
@@ -84,24 +81,23 @@ const { providerReference } = await uploadSkill({
 });
 ```
 
-## Upload Result
+## 上传结果
 
-`uploadSkill` returns an `UploadSkillResult` with the following fields:
+`uploadSkill` 返回包含以下字段的 `UploadSkillResult`：
 
-| Field               | Type                | Description                                                      |
+| 字段                | 类型                | 说明                                                             |
 | ------------------- | ------------------- | ---------------------------------------------------------------- |
-| `providerReference` | `ProviderReference` | Maps provider names to provider-specific skill IDs               |
-| `displayTitle`      | `string?`           | Human-readable title (if supported and provided)                 |
-| `name`              | `string?`           | Name inferred by the provider from the skill files               |
-| `description`       | `string?`           | Description inferred by the provider from the skill files        |
-| `latestVersion`     | `string?`           | Latest version identifier assigned by the provider               |
-| `providerMetadata`  | `object?`           | Additional provider-specific metadata (e.g. timestamps)          |
-| `warnings`          | `Warning[]`         | Warnings for unsupported options (e.g. `displayTitle` on OpenAI) |
+| `providerReference` | `ProviderReference` | 将提供商名称映射到提供商特定 skill ID                            |
+| `displayTitle`      | `string?`           | 人类可读标题（若支持且已提供）                                   |
+| `name`              | `string?`           | 提供商从 skill 文件推断的名称                                    |
+| `description`       | `string?`           | 提供商从 skill 文件推断的描述                                    |
+| `latestVersion`     | `string?`           | 提供商分配的最新版本标识符                                       |
+| `providerMetadata`  | `object?`           | 额外提供商特定元数据（例如时间戳）                               |
+| `warnings`          | `Warning[]`         | 不支持选项的警告（例如在 OpenAI 上使用 `displayTitle`）          |
 
-## Provider References
+## 提供商引用
 
-A `ProviderReference` is a `Record<string, string>` mapping provider names to
-provider-specific skill identifiers:
+`ProviderReference` 是将提供商名称映射到提供商特定 skill 标识符的 `Record<string, string>`：
 
 ```ts
 // Example ProviderReference
@@ -110,14 +106,11 @@ provider-specific skill identifiers:
 }
 ```
 
-Pass the `providerReference` when referencing the skill during inference. Each provider
-looks up its own skill ID from the reference. If no entry exists for the current
-provider, an error is thrown.
+在推理时引用 skill 时传入 `providerReference`。各提供商从引用中查找自己的 skill ID。若当前提供商没有对应条目，将抛出错误。
 
-## Multi-Provider Usage
+## 多提供商用法
 
-If you want to use the same skill across multiple providers, upload it to each one and
-merge the references:
+若要在多个提供商间使用同一 skill，请分别上传并合并引用：
 
 ```ts
 const [openaiUpload, anthropicUpload] = await Promise.all([
@@ -140,16 +133,15 @@ const mergedReference = {
 // mergedReference: { openai: 'sk_...', anthropic: 'sk_...' }
 ```
 
-The merged reference can then be used in inference calls regardless of which provider
-processes the request — each provider will find its own skill ID.
+合并后的引用可在推理调用中使用，无论由哪个提供商处理请求——各提供商都会找到自己的 skill ID。
 
-## Using Skills in Inference Calls
+## 在推理调用中使用 Skill
 
-How you attach a skill to an inference call depends on the provider.
+如何将 skill 附加到推理调用取决于提供商。
 
 ### Anthropic
 
-Pass the `providerReference` inside the `container.skills` array in `providerOptions`:
+在 `providerOptions` 的 `container.skills` 数组中传入 `providerReference`：
 
 ```ts
 await generateText({
@@ -170,7 +162,7 @@ await generateText({
 
 ### OpenAI
 
-Pass the `providerReference` inside the `shell` tool's `environment.skills` array:
+在 `shell` 工具的 `environment.skills` 数组中传入 `providerReference`：
 
 ```ts
 await generateText({
@@ -187,11 +179,11 @@ await generateText({
 });
 ```
 
-## Supported Providers
+## 支持的提供商
 
-The following providers support `skills()` and skill uploads:
+以下提供商支持 `skills()` 与 skill 上传：
 
-| Provider  | Factory Method       |
+| 提供商    | 工厂方法             |
 | --------- | -------------------- |
 | Anthropic | `anthropic.skills()` |
 | OpenAI    | `openai.skills()`    |

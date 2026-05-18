@@ -17,15 +17,15 @@ import { run } from '../../lib/run';
 
 run(async () => {
   try {
-    // Create an undici Agent with extremely short timeouts
-    // Using 1ms to ensure timeout before response arrives
-    // For streaming, bodyTimeout will trigger while reading the stream
+    // 创建具有极短超时时间的undici代理
+    // 使用 1ms 确保响应到达之前超时
+    // 对于流式传输，bodyTimeout 将在读取流时触发
     const agent = new Agent({
-      headersTimeout: 1, // 1ms - will timeout waiting for headers
-      bodyTimeout: 1, // 1ms - will timeout reading response body
+      headersTimeout: 1, // 1ms - 等待标头将超时
+      bodyTimeout: 1, // 1ms - 读取响应正文将超时
     });
 
-    // Create custom fetch using undici with the configured agent
+    // 使用 undici 和配置的代理创建自定义提取
     const customFetch = (
       url: string | URL | Request,
       options?: RequestInit,
@@ -36,7 +36,7 @@ run(async () => {
       }) as Promise<Response>;
     };
 
-    // Create gateway provider with custom fetch
+    // 创建具有自定义获取的网关提供商
     const gateway = createGateway({
       fetch: customFetch,
     });
@@ -77,7 +77,7 @@ run(async () => {
     console.error((error as Error).message);
     console.error('─'.repeat(70));
 
-    // Log the cause to see the original undici error
+    // 记录原因以查看原始undici错误
     if ((error as any).cause) {
       console.error('\n📋 Original Error (cause):');
       console.error('  Name:', ((error as any).cause as Error).name);

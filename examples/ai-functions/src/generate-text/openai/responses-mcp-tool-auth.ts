@@ -6,7 +6,7 @@ import { getMCPToken } from '../../lib/mcp-oauth';
 run(async () => {
   const serverUrl = 'https://mcp.vercel.com/';
 
-  // Get OAuth token
+  // 获取 OAuth 令牌
   const accessToken = await getMCPToken(serverUrl);
 
   const result = await generateText({

@@ -24,7 +24,7 @@ export default function Chat() {
           </div>
           <div className="pl-4 space-y-2">
             {m.parts.map((part, index) => {
-              // Handle text parts
+              // 处理文本 parts
               if (part.type === 'text') {
                 return (
                   <div key={index} className="whitespace-pre-wrap">
@@ -50,7 +50,7 @@ export default function Chat() {
                 const mcpTitle = mcpMetadata?.title;
                 const mcpClientName = mcpMetadata?.clientName;
 
-                // Display tool title if available, fallback to tool name
+                // 若有 tool 标题则显示，否则回退到 tool 名称
                 const displayName = mcpTitle || toolPart.title || toolName;
 
                 return (

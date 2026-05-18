@@ -4,70 +4,70 @@ import type { EmbeddingModelUsage } from '../types/usage';
 import type { Warning } from '../types/warning';
 
 /**
- * Event passed to the `onStart` callback for embed and embedMany operations.
+ * 事件传递给 embed 和 embedMany 操作的`onStart`回调。
  *
- * Called when the operation begins, before the embedding model is called.
+ * 在操作开始时、调用嵌入模型之前调用。
  */
 export type EmbedStartEvent = {
-  /** Unique identifier for this embed call, used to correlate events. */
+  /* * 此嵌入调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Identifies the operation type (e.g. 'ai.embed' or 'ai.embedMany'). */
+  /* * 操作标识类型（例如`ai.embed`或`ai.embedMany`）。 */
   readonly operationId: string;
 
-  /** The provider identifier (e.g., 'openai', 'anthropic'). */
+  /* * 提供者标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'text-embedding-3-small'). */
+  /* * 特定模型标识符（例如`text-embedding-3-small`）。 */
   readonly modelId: string;
 
-  /** The value(s) being embedded. A string for embed, an array for embedMany. */
+  /* * 嵌入的值。用于嵌入的字符串，用于嵌入Many的数据库。 */
   readonly value: string | Array<string>;
 
-  /** Maximum number of retries for failed requests. */
+  /* * 失败请求的最大重试次数。 */
   readonly maxRetries: number;
 
-  /** Additional HTTP headers sent with the request. */
+  /* * 随请求一起发送的附加 HTTP 标头。 */
   readonly headers: Record<string, string | undefined> | undefined;
 
-  /** Additional provider-specific options. */
+  /* * 其他特定于提供商的选项。 */
   readonly providerOptions: ProviderOptions | undefined;
 };
 
 /**
- * Event passed to the `experimental_onEnd` callback for embed and embedMany operations.
+ * 事件传递给`experimental_onEnd`回调以执行 embed 和 embedMany 操作。
  *
- * Called when the operation completes, after the embedding model returns.
+ * 操作完成时、嵌入模型返回后调用。
  */
 export type EmbedEndEvent = {
-  /** Unique identifier for this embed call, used to correlate events. */
+  /* * 此嵌入调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Identifies the operation type (e.g. 'ai.embed' or 'ai.embedMany'). */
+  /* * 操作标识类型（例如`ai.embed`或`ai.embedMany`）。 */
   readonly operationId: string;
 
-  /** The provider identifier (e.g., 'openai', 'anthropic'). */
+  /* * 提供者标识符（例如`openai`、`anthropic`）。 */
   readonly provider: string;
 
-  /** The specific model identifier (e.g., 'text-embedding-3-small'). */
+  /* * 特定模型标识符（例如`text-embedding-3-small`）。 */
   readonly modelId: string;
 
-  /** The value(s) that were embedded. A string for embed, an array for embedMany. */
+  /* * 嵌入的值。用于嵌入的字符串，用于嵌入Many的数据库。 */
   readonly value: string | Array<string>;
 
-  /** The resulting embedding(s). A single vector for embed, an array for embedMany. */
+  /* * 生成的嵌入。一个用于嵌入的单个管理，一个用于嵌入多个的集群。 */
   readonly embedding: Embedding | Array<Embedding>;
 
-  /** Token usage for the embedding operation. */
+  /* * 嵌入操作的令牌使用情况。 */
   readonly usage: EmbeddingModelUsage;
 
-  /** Warnings from the embedding model, e.g. unsupported settings. */
+  /* * 来自嵌入模型的警告，例如不支持的设置。 */
   readonly warnings: Array<Warning>;
 
-  /** Optional provider-specific metadata. */
+  /* * 可选的特定于提供商的元数据。 */
   readonly providerMetadata: ProviderMetadata | undefined;
 
-  /** Response data including headers and body. A single response for embed, an array for embedMany. */
+  /* * 响应包括数据标头和正文。embed的单个响应，embedMany的集群。 */
   readonly response:
     | { headers?: Record<string, string>; body?: unknown }
     | Array<{ headers?: Record<string, string>; body?: unknown } | undefined>
@@ -75,58 +75,58 @@ export type EmbedEndEvent = {
 };
 
 /**
- * Event fired when an individual embedding model call (inner operation doEmbed) begins.
+ * 当单独的嵌入模型调用（内部操作 doEmbed）开始时触发事件。
  *
- * For `embed`, there is one call. For `embedMany`, there may be multiple
- * calls when values are chunked.
+ * 对于`embed`，只有一个调用。对于`embedMany`，可能有多个
+ * 当值被分块时调用。
  */
 export type EmbeddingModelCallStartEvent = {
-  /** Unique identifier for this embed call, used to correlate events. */
+  /* * 此嵌入调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Unique identifier for this individual doEmbed invocation, used to correlate start/finish within parallel chunks. */
+  /* * 此单独 doEmbed 调用的唯一标识符，用于关联工具块内的开始/结束。 */
   readonly embedCallId: string;
 
-  /** Identifies the inner operation (e.g. 'ai.embed.doEmbed' or 'ai.embedMany.doEmbed'). */
+  /* * 标识操作内部（例如`ai.embed.doEmbed`或`ai.embedMany.doEmbed`）。 */
   readonly operationId: string;
 
-  /** The provider identifier. */
+  /* * 提供商标识符。 */
   readonly provider: string;
 
-  /** The specific model identifier. */
+  /* * 具体型号标识符。 */
   readonly modelId: string;
 
-  /** The values being embedded in this particular model call. */
+  /* * 嵌入到该特定模型调用中的值。 */
   readonly values: Array<string>;
 };
 
 /**
- * Event fired when an individual embedding model call (doEmbed) completes.
+ * 当单个嵌入式模型调用（doEmbed）完成时触发事件。
  *
- * Contains the embeddings, usage, and any warnings from the model response.
+ * 包含嵌入、用法以及模型响应中的任何警告。
  */
 export type EmbeddingModelCallEndEvent = {
-  /** Unique identifier for this embed call, used to correlate events. */
+  /* * 此嵌入调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Unique identifier for this individual doEmbed invocation, used to correlate start/finish within parallel chunks. */
+  /* * 此单独 doEmbed 调用的唯一标识符，用于关联工具块内的开始/结束。 */
   readonly embedCallId: string;
 
-  /** Identifies the inner operation (e.g. 'ai.embed.doEmbed' or 'ai.embedMany.doEmbed'). */
+  /* * 标识操作内部（例如`ai.embed.doEmbed`或`ai.embedMany.doEmbed`）。 */
   readonly operationId: string;
 
-  /** The provider identifier. */
+  /* * 提供商标识符。 */
   readonly provider: string;
 
-  /** The specific model identifier. */
+  /* * 具体型号标识符。 */
   readonly modelId: string;
 
-  /** The values that were embedded in this particular model call. */
+  /* * 嵌入到该特定模型调用中的值。 */
   readonly values: Array<string>;
 
-  /** The resulting embeddings from the model call. */
+  /* * 模型调用产生的嵌入。 */
   readonly embeddings: Array<Embedding>;
 
-  /** Token usage for this model call. */
+  /* * 此模型调用的令牌使用情况。 */
   readonly usage: EmbeddingModelUsage;
 };

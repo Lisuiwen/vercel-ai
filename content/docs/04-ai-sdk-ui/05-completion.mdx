@@ -1,19 +1,19 @@
 ---
-title: Completion
-description: Learn how to use the useCompletion hook.
+title: 文本补全
+description: 学习如何使用 useCompletion hook。
 ---
 
-# Completion
+# 文本补全
 
-The `useCompletion` hook allows you to create a user interface to handle text completions in your application. It enables the streaming of text completions from your AI provider, manages the state for chat input, and updates the UI automatically as new messages are received.
+`useCompletion` hook 允许你在应用中创建用于处理文本补全的用户界面。它支持从 AI 提供商流式传输文本补全、管理聊天输入状态，并在收到新消息时自动更新 UI。
 
 <Note>
-  The `useCompletion` hook is now part of the `@ai-sdk/react` package.
+  `useCompletion` hook 现属于 `@ai-sdk/react` 包。
 </Note>
 
-In this guide, you will learn how to use the `useCompletion` hook in your application to generate text completions and stream them in real-time to your users.
+本指南将介绍如何在应用中使用 `useCompletion` hook 生成文本补全并实时流式传输给用户。
 
-## Example
+## 示例
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -59,17 +59,17 @@ export async function POST(req: Request) {
 }
 ```
 
-In the `Page` component, the `useCompletion` hook will request to your AI provider endpoint whenever the user submits a message. The completion is then streamed back in real-time and displayed in the UI.
+在 `Page` 组件中，每当用户提交消息时，`useCompletion` hook 会向你的 AI 提供商端点发起请求。补全结果随后会实时流式返回并显示在 UI 中。
 
-This enables a seamless text completion experience where the user can see the AI response as soon as it is available, without having to wait for the entire response to be received.
+这提供了流畅的文本补全体验：用户无需等待完整响应即可看到 AI 回复。
 
-## Customized UI
+## 自定义 UI
 
-`useCompletion` also provides ways to manage the prompt via code, show loading and error states, and update messages without being triggered by user interactions.
+`useCompletion` 还提供通过代码管理提示、显示加载和错误状态，以及在不依赖用户交互的情况下更新消息的方式。
 
-### Loading and error states
+### 加载与错误状态
 
-To show a loading spinner while the chatbot is processing the user's message, you can use the `isLoading` state returned by the `useCompletion` hook:
+要在聊天机器人处理用户消息时显示加载动画，可使用 `useCompletion` hook 返回的 `isLoading` 状态：
 
 ```tsx
 const { isLoading, ... } = useCompletion()
@@ -81,7 +81,7 @@ return(
 )
 ```
 
-Similarly, the `error` state reflects the error object thrown during the fetch request. It can be used to display an error message, or show a toast notification:
+同样，`error` 状态反映 fetch 请求期间抛出的错误对象。可用于显示错误消息或 toast 通知：
 
 ```tsx
 const { error, ... } = useCompletion()
@@ -100,11 +100,11 @@ return (
 )
 ```
 
-### Controlled input
+### 受控输入
 
-In the initial example, we have `handleSubmit` and `handleInputChange` callbacks that manage the input changes and form submissions. These are handy for common use cases, but you can also use uncontrolled APIs for more advanced scenarios such as form validation or customized components.
+在初始示例中，我们使用 `handleSubmit` 和 `handleInputChange` 回调管理输入变更和表单提交。这些对常见场景很方便，但你也可以使用非受控 API 处理更高级的场景，例如表单验证或自定义组件。
 
-The following example demonstrates how to use more granular APIs like `setInput` with your custom input and submit button components:
+以下示例演示如何将 `setInput` 等更细粒度的 API 与自定义输入和提交按钮组件配合使用：
 
 ```tsx
 const { input, setInput } = useCompletion();
@@ -116,9 +116,9 @@ return (
 );
 ```
 
-### Cancelation
+### 取消
 
-It's also a common use case to abort the response message while it's still streaming back from the AI provider. You can do this by calling the `stop` function returned by the `useCompletion` hook.
+在 AI 提供商仍在流式返回响应时中止消息也是常见需求。可调用 `useCompletion` hook 返回的 `stop` 函数实现：
 
 ```tsx
 const { stop, isLoading, ... } = useCompletion()
@@ -130,14 +130,14 @@ return (
 )
 ```
 
-When the user clicks the "Stop" button, the fetch request will be aborted. This avoids consuming unnecessary resources and improves the UX of your application.
+当用户点击「Stop」按钮时，fetch 请求将被中止。这避免消耗不必要的资源并改善应用体验。
 
-### Throttling UI Updates
+### 节流 UI 更新
 
-<Note>This feature is currently only available for React.</Note>
+<Note>此功能目前仅适用于 React。</Note>
 
-By default, the `useCompletion` hook will trigger a render every time a new chunk is received.
-You can throttle the UI updates with the `experimental_throttle` option.
+默认情况下，`useCompletion` hook 在每次收到新块时都会触发渲染。
+你可以通过 `experimental_throttle` 选项对 UI 更新进行节流：
 
 ```tsx filename="page.tsx" highlight="2-3"
 const { completion, ... } = useCompletion({
@@ -146,9 +146,9 @@ const { completion, ... } = useCompletion({
 })
 ```
 
-## Event Callbacks
+## 事件回调
 
-`useCompletion` also provides optional event callbacks that you can use to handle different stages of the chatbot lifecycle. These callbacks can be used to trigger additional actions, such as logging, analytics, or custom UI updates.
+`useCompletion` 还提供可选的事件回调，用于处理聊天机器人生命周期的不同阶段。这些回调可用于触发额外操作，例如日志、分析或自定义 UI 更新。
 
 ```tsx
 const { ... } = useCompletion({
@@ -161,9 +161,9 @@ const { ... } = useCompletion({
 })
 ```
 
-## Configure Request Options
+## 配置请求选项
 
-By default, the `useCompletion` hook sends a HTTP POST request to the `/api/completion` endpoint with the prompt as part of the request body. You can customize the request by passing additional options to the `useCompletion` hook:
+默认情况下，`useCompletion` hook 会向 `/api/completion` 端点发送 HTTP POST 请求，并将 prompt 作为请求体的一部分。你可以向 `useCompletion` hook 传递额外选项来自定义请求：
 
 ```tsx
 const { messages, input, handleInputChange, handleSubmit } = useCompletion({
@@ -178,4 +178,4 @@ const { messages, input, handleInputChange, handleSubmit } = useCompletion({
 });
 ```
 
-In this example, the `useCompletion` hook sends a POST request to the `/api/completion` endpoint with the specified headers, additional body fields, and credentials for that fetch request. On your server side, you can handle the request with these additional information.
+在此示例中，`useCompletion` hook 向 `/api/completion` 端点发送 POST 请求，并附带指定的 headers、额外 body 字段以及该 fetch 请求的 credentials。在服务端，你可以使用这些额外信息处理请求。

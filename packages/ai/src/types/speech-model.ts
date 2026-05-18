@@ -5,7 +5,7 @@ import type {
 } from '@ai-sdk/provider';
 
 /**
- * Speech model that is used by the AI SDK.
+ * AI SDK使用的语音模型。
  */
 export type SpeechModel =
   | string

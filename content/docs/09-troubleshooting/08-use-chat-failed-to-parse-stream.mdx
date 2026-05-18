@@ -1,25 +1,25 @@
 ---
-title: useChat Failed to Parse Stream
-description: Troubleshooting errors related to the Use Chat Failed to Parse Stream error.
+title: useChat 解析流失败
+description: 排查「Use Chat Failed to Parse Stream」相关错误。
 ---
 
-# `useChat` "Failed to Parse Stream String" Error
+# `useChat`「Failed to Parse Stream String」错误
 
-## Issue
+## 问题
 
-I am using [`useChat`](/docs/reference/ai-sdk-ui/use-chat) or [`useCompletion`](/docs/reference/ai-sdk-ui/use-completion), and I am getting a `"Failed to parse stream string. Invalid code"` error. I am using version `3.0.20` or newer of the AI SDK.
+我在使用 [`useChat`](/docs/reference/ai-sdk-ui/use-chat) 或 [`useCompletion`](/docs/reference/ai-sdk-ui/use-completion)，出现 `"Failed to parse stream string. Invalid code"` 错误。AI SDK 版本为 `3.0.20` 或更新。
 
-## Background
+## 背景
 
-The AI SDK has switched to the stream data protocol in version `3.0.20`.
-[`useChat`](/docs/reference/ai-sdk-ui/use-chat) and [`useCompletion`](/docs/reference/ai-sdk-ui/use-completion) expect stream parts that support data, tool calls, etc.
-What you see is a failure to parse the stream.
-This can be caused by using an older version of the AI SDK in the backend, by providing a text stream using a custom provider, or by using a raw LangChain stream result.
+AI SDK 自 `3.0.20` 起切换到流数据协议。
+[`useChat`](/docs/reference/ai-sdk-ui/use-chat) 与 [`useCompletion`](/docs/reference/ai-sdk-ui/use-completion) 期望接收支持数据、工具调用等的流片段。
+该错误表示无法解析流。
+可能原因包括：后端仍使用较旧版 AI SDK、自定义 provider 提供的是文本流，或使用了原始 LangChain 流结果。
 
-## Solution
+## 解决方案
 
-You can switch [`useChat`](/docs/reference/ai-sdk-ui/use-chat) and [`useCompletion`](/docs/reference/ai-sdk-ui/use-completion) to raw text stream processing with the [`streamProtocol`](/docs/reference/ai-sdk-ui/use-completion#stream-protocol) parameter.
-Set it to `text` as follows:
+可将 [`useChat`](/docs/reference/ai-sdk-ui/use-chat) 与 [`useCompletion`](/docs/reference/ai-sdk-ui/use-completion) 切换为原始文本流处理，使用 [`streamProtocol`](/docs/reference/ai-sdk-ui/use-completion#stream-protocol) 参数。
+设为 `text` 即可：
 
 ```tsx
 const { messages, append } = useChat({ streamProtocol: 'text' });

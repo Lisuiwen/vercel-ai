@@ -1,13 +1,11 @@
 ---
 title: uploadFile
-description: API Reference for uploadFile.
+description: uploadFile 的 API 参考。
 ---
 
 # `uploadFile()`
 
-Uploads a file to a provider and returns a `ProviderReference` that can be used in
-subsequent API calls, such as in message content parts passed to `generateText` or
-`streamText`.
+将文件上传到提供商并返回 `ProviderReference`，可在后续 API 调用中使用，例如作为传给 `generateText` 或 `streamText` 的消息内容部分。
 
 ```ts
 import { uploadFile } from 'ai';
@@ -21,13 +19,13 @@ const { providerReference } = await uploadFile({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { uploadFile } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -35,38 +33,38 @@ const { providerReference } = await uploadFile({
       name: 'api',
       type: 'FilesV4 | ProviderV4',
       description:
-        'The files API interface to use for uploading. Can be a `FilesV4` instance (e.g. `openai.files()`) or a provider instance directly (e.g. `openai`), in which case `.files()` is called automatically.',
+        '用于上传的文件 API 接口。可为 `FilesV4` 实例（如 `openai.files()`），或直接传入提供商实例（如 `openai`），此时会自动调用 `.files()`。',
     },
     {
       name: 'data',
       type: 'DataContent',
       description:
-        'The file data to upload. Can be a `Uint8Array`, a base64-encoded string, an `ArrayBuffer`, or a `Buffer`. URLs are not supported — fetch the content first and pass the bytes.',
+        '要上传的文件数据。可为 `Uint8Array`、base64 字符串、`ArrayBuffer` 或 `Buffer`。不支持 URL — 请先拉取内容再传入字节。',
     },
     {
       name: 'mediaType',
       type: 'string',
       isOptional: true,
       description:
-        'IANA media type of the file (e.g. `image/png`, `application/pdf`). Auto-detected from the file bytes if not provided.',
+        '文件的 IANA 媒体类型（如 `image/png`、`application/pdf`）。未提供时会从文件字节自动检测。',
     },
     {
       name: 'filename',
       type: 'string',
       isOptional: true,
-      description: 'Filename for the uploaded file.',
+      description: '上传文件的文件名。',
     },
     {
       name: 'providerOptions',
       type: 'ProviderOptions',
       isOptional: true,
       description:
-        'Additional provider-specific options. For example, OpenAI requires a `purpose` field.',
+        '额外的提供商专用选项。例如 OpenAI 需要 `purpose` 字段。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
 <PropertiesTable
   content={[
@@ -74,19 +72,19 @@ const { providerReference } = await uploadFile({
       name: 'providerReference',
       type: 'ProviderReference',
       description:
-        'A `Record<string, string>` mapping provider names to provider-specific file identifiers. Pass this as the `data` or `image` field in message content parts.',
+        '将提供商名称映射到提供商文件标识的 `Record<string, string>`。可作为消息内容部分的 `data` 或 `image` 字段传入。',
     },
     {
       name: 'providerMetadata',
       type: 'ProviderMetadata',
       isOptional: true,
       description:
-        'Additional provider-specific metadata returned from the upload.',
+        '上传返回的额外提供商专用元数据。',
     },
     {
       name: 'warnings',
       type: 'Warning[]',
-      description: 'Warnings from the provider (e.g. unsupported settings).',
+      description: '提供商的警告（例如不支持的设置）。',
     },
   ]}
 />

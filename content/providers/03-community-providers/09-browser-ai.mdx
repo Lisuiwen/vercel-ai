@@ -1,18 +1,18 @@
 ---
 title: Browser AI
-description: Learn how to use browser AI model providers for the AI SDK.
+description: 了解如何在 AI SDK 中使用浏览器端 AI 模型提供商。
 ---
 
-# Browser AI model providers
+# 浏览器端 AI 模型提供商
 
-[jakobhoeg/browser-ai](https://github.com/jakobhoeg/browser-ai) is a community provider that serves as the base AI SDK provider for client side in-browser AI models.
-It currently provides a model provider for Chrome & Edge's native browser AI models via the JavaScript [Prompt API](https://github.com/webmachinelearning/prompt-api), as well as a model provider for using open-source in-browser models with both [🤗 Transformers.js](https://github.com/huggingface/transformers.js) and [WebLLM](https://github.com/mlc-ai/web-llm).
+[jakobhoeg/browser-ai](https://github.com/jakobhoeg/browser-ai) 是社区提供商，作为在浏览器中使用客户端 AI 模型的 AI SDK 基础提供商。
+当前提供两类能力：其一，通过 JavaScript [Prompt API](https://github.com/webmachinelearning/prompt-api) 调用 Chrome / Edge 内置 AI 模型；其二，借助 [🤗 Transformers.js](https://github.com/huggingface/transformers.js) 与 [WebLLM](https://github.com/mlc-ai/web-llm) 使用开源浏览器内模型。
 
-<Note>We support both v5 and v6 of the AI SDK.</Note>
+<Note>我们同时支持 AI SDK v5 与 v6。</Note>
 
-### Installation
+### 安装
 
-The `@browser-ai/core` (formerly `@built-in-ai`) package is the AI SDK provider for Chrome and Edge browser's built-in AI models. You can install it with:
+`@browser-ai/core`（原 `@built-in-ai`）是 Chrome / Edge 内置 AI 的 AI SDK 提供商。安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -29,7 +29,7 @@ The `@browser-ai/core` (formerly `@built-in-ai`) package is the AI SDK provider 
   </Tab>
 </Tabs>
 
-The `@browser-ai/web-llm` package is the AI SDK provider for popular open-source models using the WebLLM inference engine. You can install it with:
+`@browser-ai/web-llm` 基于 WebLLM 推理引擎，用于流行开源模型。安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -46,7 +46,7 @@ The `@browser-ai/web-llm` package is the AI SDK provider for popular open-source
   </Tab>
 </Tabs>
 
-The `@browser-ai/transformers-js` package is the AI SDK provider for popular open-source models using Transformers.js. You can install it with:
+`@browser-ai/transformers-js` 基于 Transformers.js。安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -63,11 +63,11 @@ The `@browser-ai/transformers-js` package is the AI SDK provider for popular ope
   </Tab>
 </Tabs>
 
-## Provider Instances
+## 提供商实例
 
 ### `@browser-ai/core`
 
-You can import the default provider instance `browserAI` from `@browser-ai/core`:
+从 `@browser-ai/core` 导入默认实例 `browserAI`：
 
 ```ts
 import { browserAI } from '@browser-ai/core';
@@ -75,19 +75,19 @@ import { browserAI } from '@browser-ai/core';
 const model = browserAI();
 ```
 
-You can use the following optional settings to customize the model:
+可选设置：
 
 - **temperature** _number_
 
-  Controls randomness in the model's responses. For most models, `0` means almost deterministic results, and higher values mean more randomness.
+  控制输出的随机度。多数模型下 `0` 接近确定性，数值越高随机性越大。
 
 - **topK** _number_
 
-  Control the diversity and coherence of generated text by limiting the selection of the next token.
+  通过限制候选下一 token 控制多样性与连贯性。
 
 ### `@browser-ai/web-llm`
 
-You can import the default provider instance `webLLM` from `@browser-ai/web-llm`:
+从 `@browser-ai/web-llm` 导入默认实例 `webLLM`：
 
 ```ts
 import { webLLM } from '@browser-ai/web-llm';
@@ -97,7 +97,7 @@ const model = webLLM();
 
 ### `@browser-ai/transformers-js`
 
-You can import the default provider instance `transformersJS` from `@browser-ai/transformers-js`:
+从 `@browser-ai/transformers-js` 导入默认实例 `transformersJS`：
 
 ```ts
 import { transformersJS } from '@browser-ai/transformers-js';
@@ -105,22 +105,22 @@ import { transformersJS } from '@browser-ai/transformers-js';
 const model = transformersJS();
 ```
 
-## Language Models
+## 语言模型
 
 ### `@browser-ai/core`
 
-The provider will automatically work in all browsers that support the Prompt API since the browser handles model orchestration.
-For instance, if your client uses Edge, it will use [Phi4-mini](https://learn.microsoft.com/en-us/microsoft-edge/web-platform/prompt-api#the-phi-4-mini-model), and for Chrome it will use [Gemini Nano](https://developer.chrome.com/docs/ai/prompt-api#model_download).
+在支持 Prompt API 的浏览器中，由浏览器负责模型编排，提供商可直接工作。
+例如在 Edge 上会使用 [Phi4-mini](https://learn.microsoft.com/en-us/microsoft-edge/web-platform/prompt-api#the-phi-4-mini-model)，Chrome 使用 [Gemini Nano](https://developer.chrome.com/docs/ai/prompt-api#model_download)。
 
 ### `@browser-ai/web-llm`
 
-The provider allows using a ton of popular open-source models such as Llama3 and Qwen3. To see a complete list, please refer to the official [WebLLM documentation](https://github.com/mlc-ai/web-llm)
+可使用 Llama3、Qwen3 等众多开源模型。完整列表参见 [WebLLM 文档](https://github.com/mlc-ai/web-llm)。
 
 ### `@browser-ai/transformers-js`
 
-The provider allows using a ton of popular open-source models from Huggingface with the Transformers.js library.
+可使用 Hugging Face 上与 Transformers.js 兼容的大量开源模型。
 
-### Example usage
+### 示例
 
 #### `@browser-ai/core`
 
@@ -170,4 +170,4 @@ for await (const chunk of result.textStream) {
 }
 ```
 
-For more examples and API reference, check out the [documentation](https://www.browser-ai.dev/).
+更多示例与 API 参见 [documentation](https://www.browser-ai.dev/).

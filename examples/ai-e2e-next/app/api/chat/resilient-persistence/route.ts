@@ -10,12 +10,12 @@ export async function POST(req: Request) {
     messages: await convertToModelMessages(messages),
   });
 
-  // consume the stream to ensure it runs to completion and triggers onFinish
-  // even when the client response is aborted (e.g. when the browser tab is closed).
-  // no await
+  // 消费流以确保运行完成并触发 onFinish
+  // 即使客户端响应被中止（例如关闭浏览器标签页）。
+  // 不使用 await
   result.consumeStream({
     onError: error => {
-      console.log('Error during background stream consumption: ', error); // optional error callback
+      console.log('Error during background stream consumption: ', error); // 可选的错误回调
     },
   });
 

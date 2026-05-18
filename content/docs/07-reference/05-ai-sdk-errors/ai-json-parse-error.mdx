@@ -1,20 +1,20 @@
 ---
 title: AI_JSONParseError
-description: Learn how to fix AI_JSONParseError
+description: 了解如何修复 AI_JSONParseError
 ---
 
 # AI_JSONParseError
 
-This error occurs when JSON fails to parse.
+此错误在 JSON 解析失败时发生。
 
-## Properties
+## 属性
 
-- `text`: The text value that could not be parsed
-- `cause`: The underlying parsing error (required in constructor)
+- `text`：无法解析的文本值
+- `cause`：底层解析错误（构造函数中必填）
 
-## Checking for this Error
+## 如何检查此错误
 
-You can check if an error is an instance of `AI_JSONParseError` using:
+你可以通过以下方式检查错误是否为 `AI_JSONParseError` 的实例：
 
 ```typescript
 import { JSONParseError } from 'ai';

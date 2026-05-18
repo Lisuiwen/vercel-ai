@@ -7,100 +7,100 @@ import type { StandardizedPrompt } from '../prompt/standardize-prompt';
 import type { LanguageModelCallOptions } from '../prompt';
 
 /**
- * Common model information used across callback events.
+ * 跨回调事件使用的通用模型信息。
  */
 export type ModelInfo = {
-  /** The provider identifier (e.g., 'openai', 'anthropic'). */
+  /* * 提供者标识符（例如“openai”、“anthropic”）。 */
   readonly provider: string;
-  /** The specific model identifier (e.g., 'gpt-4o'). */
+  /* * 特定型号标识符（例如“gpt-4o”）。 */
   readonly modelId: string;
 };
 
 /**
- * Event passed to the `onLanguageModelCallStart` callback.
+ * 事件传递给“onLanguageModelCallStart”回调。
  *
- * Called immediately before the provider model call begins.
- * Unlike `onStepStart`, this only represents model invocation work.
+ * 在提供者模型调用开始之前立即调用。
+ * 与“onStepStart”不同，这仅代表模型调用工作。
  */
 export type LanguageModelCallStartEvent = ModelInfo & {
-  /** Unique identifier for this generation call, used to correlate events. */
+  /* * 本次生成调用的唯一标识符，用于关联事件。 */
   readonly callId: string;
 
-  /** Prepared tool definitions for the model call, if any. */
+  /* * 为模型调用准备工具定义（如果有）。 */
   readonly tools: ReadonlyArray<Record<string, unknown>> | undefined;
 } & StandardizedPrompt &
   LanguageModelCallOptions;
 
 /**
- * Event passed to the `onLanguageModelCallEnd` callback.
+ * 事件传递给“onLanguageModelCallEnd”回调。
  *
- * Called after the model response has been normalized and parsed, but before
- * any client-side tool execution begins.
+ * 在模型响应标准化和解析之后但之前调用
+ * 任何客户端工具开始执行。
  */
 export type LanguageModelCallEndEvent<TOOLS extends ToolSet = ToolSet> =
   ModelInfo & {
-    /** Unique identifier for this generation call, used to correlate events. */
+    /* * 本次生成调用的唯一标识符，用于关联事件。 */
     readonly callId: string;
 
-    /** The unified reason why the model call finished. */
+    /* * 模型调用完成的统一原因。 */
     readonly finishReason: FinishReason;
 
-    /** The token usage reported by the model call. */
+    /* * 模型调用报告的令牌使用情况。 */
     readonly usage: LanguageModelUsage;
 
-    /** The content parts produced by the model call. */
+    /* * 模型调用产生的内容部分。 */
     readonly content: ReadonlyArray<ContentPart<TOOLS>>;
 
-    /** The provider-returned response id for this model call. */
+    /* * 提供者为此模型调用返回的响应 ID。 */
     readonly responseId: string;
 
-    /** Performance metrics for the model call. */
+    /* * 模型调用的性能指标。 */
     readonly performance: {
-      /** Time spent waiting for the language model response in milliseconds. */
+      /* * 等待语言模型响应所花费的时间（以毫秒为单位）。 */
       readonly responseTimeMs: number;
 
       /**
-       * Effective number of output tokens per second over the full language
-       * model response.
+       * 完整语言每秒输出令牌的有效数量
+       * 模型响应。
        */
       readonly effectiveOutputTokensPerSecond: number;
 
       /**
-       * Number of output tokens per second after the first output token was
-       * received.
+       * 第一个输出令牌后每秒输出令牌的数量
+       * 收到。
        *
-       * Only available for streaming calls.
+       * 仅适用于流媒体通话。
        */
       readonly outputTokensPerSecond: number | undefined;
 
       /**
-       * Number of input tokens processed per second before the first output
-       * token was received.
+       * 第一次输出之前每秒处理的输入令牌数
+       * 收到令牌。
        *
-       * Only available for streaming calls.
+       * 仅适用于流媒体通话。
        */
       readonly inputTokensPerSecond: number | undefined;
 
       /**
-       * Effective number of input and output tokens per second over the full
-       * language model response.
+       * 每秒输入和输出令牌的有效数量
+       * 语言模型响应。
        */
       readonly effectiveTotalTokensPerSecond: number;
 
       /**
-       * Time until the first text, reasoning, or tool input delta was received
-       * in milliseconds.
+       * 收到第一个文本、推理或工具输入增量之前的时间
+       * 以毫秒为单位。
        */
       readonly timeToFirstOutputTokenMs: number | undefined;
     };
   };
 
 /**
- * Callback that is set using the `experimental_onLanguageModelCallStart` option.
+ * 使用“experimental_onLanguageModelCallStart”选项设置的回调。
  *
- * Called immediately before the provider model call begins.
- * Unlike step-start callbacks, this is scoped to model work only and
- * excludes any later client-side tool execution.
+ * 在提供者模型调用开始之前立即调用。
+ * 与逐步启动回调不同，这仅限于模型工作并且
+ * 排除任何后续的客户端工具执行。
  *
  * @param event - The event object containing model-call-specific inputs.
  */
@@ -108,10 +108,10 @@ export type OnLanguageModelCallStartCallback =
   Callback<LanguageModelCallStartEvent>;
 
 /**
- * Callback that is set using the `experimental_onLanguageModelCallEnd` option.
+ * 使用“experimental_onLanguageModelCallEnd”选项设置的回调。
  *
- * Called after the model response has been normalized and parsed, but before
- * any client-side tool execution begins.
+ * 在模型响应标准化和解析之后但之前调用
+ * 任何客户端工具开始执行。
  *
  * @param event - The event object containing model-call-specific outputs.
  */

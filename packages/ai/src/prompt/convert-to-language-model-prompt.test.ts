@@ -295,7 +295,7 @@ describe('convertToLanguageModelPrompt', () => {
             ],
           },
           supportedUrls: {
-            // PDF is not supported, but image/* is
+            // 不支持 PDF，但支持 image/*
             'image/*': [/^https:\/\/.*$/],
           },
           download: createDefaultDownloadFunction(async ({ url }) => {
@@ -322,7 +322,7 @@ describe('convertToLanguageModelPrompt', () => {
       });
 
       it('should handle file parts with base64 string data', async () => {
-        const base64Data = 'SGVsbG8sIFdvcmxkIQ=='; // "Hello, World!" in base64
+        const base64Data = 'SGVsbG8sIFdvcmxkIQ=='; // “你好世界！”以 64 为基数
         const result = await convertToLanguageModelPrompt({
           prompt: {
             instructions: undefined,
@@ -360,7 +360,7 @@ describe('convertToLanguageModelPrompt', () => {
       });
 
       it('should handle file parts with Uint8Array data', async () => {
-        const uint8Data = new Uint8Array([72, 101, 108, 108, 111]); // "Hello" in ASCII
+        const uint8Data = new Uint8Array([72, 101, 108, 108, 111]); // ASCII 格式的“你好”
         const result = await convertToLanguageModelPrompt({
           prompt: {
             instructions: undefined,
@@ -501,7 +501,7 @@ describe('convertToLanguageModelPrompt', () => {
           },
           supportedUrls: {
             'application/pdf': [
-              // everything except https://example.com/document.pdf
+              // 除 https://example.com/document.pdf 之外的所有内容
               /^(?!https:\/\/example\.com\/document\.pdf$).*$/,
             ],
           },
@@ -547,7 +547,7 @@ describe('convertToLanguageModelPrompt', () => {
           },
           supportedUrls: {
             'application/pdf': [
-              // match exactly https://example.com/document.pdf
+              // 完全匹配 https://example.com/document.pdf
               /^https:\/\/example\.com\/document\.pdf$/,
             ],
           },
@@ -622,7 +622,7 @@ describe('convertToLanguageModelPrompt', () => {
                 content: [
                   {
                     type: 'file',
-                    data: 'SGVsbG8sIFdvcmxkIQ==', // "Hello, World!" in base64
+                    data: 'SGVsbG8sIFdvcmxkIQ==', // “你好世界！”以 64 为基数
                     mediaType: 'text/plain',
                     filename: 'hello.txt',
                   },
@@ -891,20 +891,20 @@ describe('convertToLanguageModelPrompt', () => {
     });
 
     it('should download files when intermediate file cannot be downloaded', async () => {
-      const imageUrlA = `http://example.com/my-image-A.png`; // supported
-      const fileUrl = `http://127.0.0.1:3000/file`; // unsupported
-      const imageUrlB = `http://example.com/my-image-B.png`; // supported
+      const imageUrlA = `http://example.com/my-image-A.png`; // 支持
+      const fileUrl = `http://127.0.0.1:3000/file`; // 不支持的
+      const imageUrlB = `http://example.com/my-image-B.png`; // 支持
 
       const mockDownload = vi.fn().mockResolvedValue([
         {
           url: new URL(imageUrlA),
-          data: new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 0]), // empty png and 0
+          data: new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 0]), // 空 png 和 0
           mediaType: 'image/png',
         },
         null,
         {
           url: new URL(imageUrlB),
-          data: new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 1]), // empty png and 1
+          data: new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 1]), // 空 png 和 1
           mediaType: 'image/png',
         },
       ]);
@@ -1089,7 +1089,7 @@ describe('convertToLanguageModelPrompt', () => {
       const mockDownload = vi.fn().mockResolvedValue([
         {
           url: new URL('https://example.com/test-file.txt'),
-          data: new Uint8Array([72, 101, 108, 108, 111]), // "Hello" in ASCII
+          data: new Uint8Array([72, 101, 108, 108, 111]), // ASCII 格式的“你好”
           mediaType: 'text/plain',
         },
       ]);
@@ -1110,7 +1110,7 @@ describe('convertToLanguageModelPrompt', () => {
             },
           ],
         },
-        supportedUrls: {}, // No URL support, so download should be triggered
+        supportedUrls: {}, // 不支持 URL，因此应触发下载
         download: mockDownload,
       });
 
@@ -1431,7 +1431,7 @@ describe('convertToLanguageModelMessage', () => {
             content: [
               {
                 type: 'image',
-                // incorrect mediaType:
+                // 不正确的媒体类型：
                 image: 'data:image/png;base64,/9j/3Q==',
               },
             ],
@@ -2065,7 +2065,7 @@ describe('convertToLanguageModelMessage', () => {
             content: [
               {
                 type: 'file',
-                data: 'dGVzdA==', // "test" in base64
+                data: 'dGVzdA==', // Base64 中的“测试”
                 mediaType: 'application/pdf',
               },
             ],
@@ -2747,10 +2747,10 @@ describe('convertToLanguageModelMessage', () => {
       });
 
       it('should fall back when file-url extension collides with Object.prototype (e.g. `.constructor`)', () => {
-        // Regression: a previous implementation used `ext in URL_EXTENSION_TO_MEDIA_TYPE`,
-        // which traverses the prototype chain and returned the `Object`
-        // constructor (a function) for attacker-controlled extensions like
-        // `.constructor`, breaking the helper's `: string` contract.
+        // 回归：之前的实现使用了 `ext in URL_EXTENSION_TO_MEDIA_TYPE`，
+        // 它遍历原型链并返回“Object”
+        // 攻击者控制的扩展的构造函数（函数），例如
+        // `.constructor`，破坏了 helper 的 `: string` 契约。
         convertToLanguageModelMessage({
           message: {
             role: 'tool',

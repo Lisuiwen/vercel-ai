@@ -22,7 +22,7 @@ run(async () => {
     prompt: 'What is the current weather in San Francisco?',
   });
 
-  // consume the text stream
+  // 消耗文本流
   for await (const textPart of result.textStream) {
   }
 });

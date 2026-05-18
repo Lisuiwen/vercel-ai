@@ -1,26 +1,26 @@
 ---
-title: Migrate AI SDK 4.x to 5.0
-description: Learn how to upgrade AI SDK 4.x to 5.0.
+title: 将 AI SDK 从 4.x 迁移到 5.0
+description: 学习如何将 AI SDK 从 4.x 升级到 5.0。
 ---
 
-# Migrate AI SDK 4.x to 5.0
+# 将 AI SDK 从 4.x 迁移到 5.0
 
-## Recommended Migration Process
+## 推荐迁移流程
 
-1. Backup your project. If you use a versioning control system, make sure all previous versions are committed.
-1. Upgrade to AI SDK 5.0.
-1. Automatically migrate your code using one of these approaches:
-   - Use the [AI SDK 5 Migration MCP Server](#ai-sdk-5-migration-mcp-server) for AI-assisted migration in Cursor or other MCP-compatible coding agents
-   - Use [codemods](#codemods) to automatically transform your code
-1. Follow the breaking changes guide below.
-1. Verify your project is working as expected.
-1. Commit your changes.
+1. 备份项目。若使用版本控制系统，请确保先前版本均已提交。
+1. 升级到 AI SDK 5.0。
+1. 使用以下方式之一自动迁移代码：
+   - 在 Cursor 或其他支持 MCP 的编码 Agent 中使用 [AI SDK 5 Migration MCP Server](#ai-sdk-5-migration-mcp-server) 进行 AI 辅助迁移
+   - 使用 [codemods](#codemods) 自动转换代码
+1. 按下方破坏性变更指南调整。
+1. 确认项目运行正常。
+1. 提交变更。
 
 ## AI SDK 5 Migration MCP Server
 
-The [AI SDK 5 Migration Model Context Protocol (MCP) Server](https://github.com/vercel-labs/ai-sdk-5-migration-mcp-server) provides an automated way to migrate your project using a coding agent. This server has been designed for Cursor, but should work with any coding agent that supports MCP.
+[AI SDK 5 Migration Model Context Protocol (MCP) Server](https://github.com/vercel-labs/ai-sdk-5-migration-mcp-server) 可通过编码 Agent 自动迁移项目。该服务器面向 Cursor 设计，也适用于支持 MCP 的其他编码 Agent。
 
-To get started, create or edit `.cursor/mcp.json` in your project:
+开始前，在项目中创建或编辑 `.cursor/mcp.json`：
 
 ```json
 {

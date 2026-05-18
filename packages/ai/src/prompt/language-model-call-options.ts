@@ -1,78 +1,78 @@
 import type { LanguageModelV4CallOptions } from '@ai-sdk/provider';
 
 /**
- * Model-facing generation controls. These settings influence how the model
- * generates its response (token limits, sampling, penalties, stop sequences,
- * seed, reasoning).
+ * 面向模型的生成控制。这些设置影响模型的方式
+ * 生成其响应（令牌限制、采样、惩罚、停止序列、
+ * 种子、推理）。
  */
 export type LanguageModelCallOptions = {
   /**
-   * Maximum number of tokens to generate.
+   * 生成的最大令牌数。
    */
   maxOutputTokens?: number;
 
   /**
-   * Temperature setting. The range depends on the provider and model.
+   * 温度设定。范围取决于提供商和型号。
    *
-   * It is recommended to set either `temperature` or `topP`, but not both.
+   * 建议设置“温度”或“topP”，但不能同时设置两者。
    */
   temperature?: number;
 
   /**
-   * Nucleus sampling. This is a number between 0 and 1.
+   * 细胞核取样。这是一个 0 到 1 之间的数字。
    *
-   * E.g. 0.1 would mean that only tokens with the top 10% probability mass
-   * are considered.
+   * 例如0.1 意味着只有概率质量最高的 10% 的标记
+   * 被考虑。
    *
-   * It is recommended to set either `temperature` or `topP`, but not both.
+   * 建议设置“温度”或“topP”，但不能同时设置两者。
    */
   topP?: number;
 
   /**
-   * Only sample from the top K options for each subsequent token.
+   * 对于每个后续标记，仅从前 K 个选项中进行采样。
    *
-   * Used to remove "long tail" low probability responses.
-   * Recommended for advanced use cases only. You usually only need to use temperature.
+   * 用于删除“长尾”低概率响应。
+   * 仅推荐用于高级用例。通常您只需要使用温度。
    */
   topK?: number;
 
   /**
-   * Presence penalty setting. It affects the likelihood of the model to
-   * repeat information that is already in the prompt.
+   * 存在惩罚设置。它影响模型的可能性
+   * 重复提示中已有的信息。
    *
-   * The presence penalty is a number between -1 (increase repetition)
-   * and 1 (maximum penalty, decrease repetition). 0 means no penalty.
+   * 存在惩罚是 -1 之间的数字（增加重复）
+   * 1（最大惩罚，减少重复）。 0表示没有处罚。
    */
   presencePenalty?: number;
 
   /**
-   * Frequency penalty setting. It affects the likelihood of the model
-   * to repeatedly use the same words or phrases.
+   * 频率惩罚设置。它影响模型的可能性
+   * 重复使用相同的单词或短语。
    *
-   * The frequency penalty is a number between -1 (increase repetition)
-   * and 1 (maximum penalty, decrease repetition). 0 means no penalty.
+   * 频率惩罚是 -1 之间的数字（增加重复）
+   * 1（最大惩罚，减少重复）。 0表示没有处罚。
    */
   frequencyPenalty?: number;
 
   /**
-   * Stop sequences.
-   * If set, the model will stop generating text when one of the stop sequences is generated.
-   * Providers may have limits on the number of stop sequences.
+   * 停止序列。
+   * 如果设置，模型将在生成停止序列之一时停止生成文本。
+   * 提供商可能对停止序列的数量有限制。
    */
   stopSequences?: string[];
 
   /**
-   * The seed (integer) to use for random sampling. If set and supported
-   * by the model, calls will generate deterministic results.
+   * 用于随机采样的种子（整数）。如果设置并支持
+   * 根据模型，调用将生成确定性结果。
    */
   seed?: number;
 
   /**
-   * Reasoning effort level for the model. Controls how much reasoning
-   * the model performs before generating a response.
+   * 模型的推理努力水平。控制推理的多少
+   * 模型在生成响应之前执行。
    *
-   * Use `'provider-default'` to use the provider's default reasoning level.
-   * Use `'none'` to disable reasoning (if supported by the provider).
+   * 使用“provider-default”来使用提供者的默认推理级别。
+   * 使用“none”禁用推理（如果提供者支持）。
    */
   reasoning?: LanguageModelV4CallOptions['reasoning'];
 };

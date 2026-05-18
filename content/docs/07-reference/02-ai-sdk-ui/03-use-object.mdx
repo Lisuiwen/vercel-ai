@@ -1,17 +1,16 @@
 ---
 title: useObject
-description: API reference for the useObject hook.
+description: useObject hook 的 API 参考。
 ---
 
 # `experimental_useObject()`
 
 <Note>
-  `useObject` is an experimental feature and only available in React, Svelte,
-  and Vue.
+  `useObject` 是实验性功能，仅在 React、Svelte 和 Vue 中可用。
 </Note>
 
-Allows you to consume text streams that represent a JSON object and parse them into a complete object based on a schema.
-You can use it together with [`streamText`](/docs/reference/ai-sdk-core/stream-text) and [`Output.object()`](/docs/reference/ai-sdk-core/output#output-object) in the backend.
+允许你消费表示 JSON 对象的文本流，并基于 schema 将其解析为完整对象。
+你可以在后端将它与 [`streamText`](/docs/reference/ai-sdk-core/stream-text) 和 [`Output.object()`](/docs/reference/ai-sdk-core/output#output-object) 一起使用。
 
 ```tsx
 'use client';
@@ -33,7 +32,7 @@ export default function Page() {
 }
 ```
 
-## Import
+## 导入
 
 <Tabs items={['React', 'Svelte', 'Vue']}>
   <Tab>
@@ -59,9 +58,9 @@ export default function Page() {
   </Tab>
 </Tabs>
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -69,59 +68,59 @@ export default function Page() {
       name: 'api',
       type: 'string',
       description:
-        'The API endpoint that is called to generate objects. It should stream JSON that matches the schema as chunked text. It can be a relative path (starting with `/`) or an absolute URL.',
+        '用于生成对象的 API 端点。它应以分块文本形式流式传输符合 schema 的 JSON。它可以是相对路径（以 `/` 开头）或绝对 URL。',
     },
     {
       name: 'schema',
       type: 'Zod Schema | JSON Schema',
       description:
-        'A schema that defines the shape of the complete object. You can either pass in a Zod schema or a JSON schema (using the `jsonSchema` function).',
+        '定义完整对象形状的 schema。你可以传入 Zod schema，也可以传入 JSON schema（使用 `jsonSchema` 函数）。',
     },
     {
       name: 'id?',
       type: 'string',
       description:
-        'A unique identifier. If not provided, a random one will be generated. When provided, the `useObject` hook with the same `id` will have shared states across components.',
+        '唯一标识符。如果未提供，将生成一个随机标识符。提供后，具有相同 `id` 的 `useObject` hook 将在组件之间共享状态。',
     },
     {
       name: 'initialValue',
       type: 'DeepPartial<RESULT> | undefined',
       isOptional: true,
-      description: 'An value for the initial object. Optional.',
+      description: '初始对象的值。可选。',
     },
     {
       name: 'fetch',
       type: 'FetchFunction',
       isOptional: true,
       description:
-        'A custom fetch function to be used for the API call. Defaults to the global fetch function. Optional.',
+        '用于 API 调用的自定义 fetch 函数。默认使用全局 fetch 函数。可选。',
     },
     {
       name: 'headers',
       type: 'Record<string, string> | Headers',
       isOptional: true,
       description:
-        'A headers object to be passed to the API endpoint. Optional.',
+        '要传递给 API 端点的 headers 对象。可选。',
     },
     {
       name: 'credentials',
       type: 'RequestCredentials',
       isOptional: true,
       description:
-        'The credentials mode to be used for the fetch request. Possible values are: "omit", "same-origin", "include". Optional.',
+        'fetch 请求要使用的 credentials 模式。可选值为："omit"、"same-origin"、"include"。可选。',
     },
     {
       name: 'onError',
       type: '(error: Error) => void',
       isOptional: true,
       description:
-        'Callback function to be called when an error is encountered. Optional.',
+        '遇到错误时调用的回调函数。可选。',
     },
     {
       name: 'onFinish',
       type: '(result: OnFinishResult) => void',
       isOptional: true,
-      description: 'Called when the streaming response has finished.',
+      description: '流式响应完成时调用。',
       properties: [
         {
           type: 'OnFinishResult',
@@ -130,13 +129,13 @@ export default function Page() {
               name: 'object',
               type: 'T | undefined',
               description:
-                'The generated object (typed according to the schema). Can be undefined if the final object does not match the schema.',
+                '生成的对象（根据 schema 确定类型）。如果最终对象不匹配 schema，则可能为 undefined。',
             },
             {
               name: 'error',
               type: 'Error | undefined',
               description:
-                'Optional error object. This is e.g. a TypeValidationError when the final object does not match the schema.',
+                '可选错误对象。例如，当最终对象不匹配 schema 时，它会是 TypeValidationError。',
             },
           ],
         },
@@ -145,51 +144,51 @@ export default function Page() {
   ]}
 />
 
-### Returns
+### 返回值
 
 <PropertiesTable
   content={[
     {
       name: 'submit',
       type: '(input: INPUT) => void',
-      description: 'Calls the API with the provided input as JSON body.',
+      description: '使用提供的输入作为 JSON body 调用 API。',
     },
     {
       name: 'object',
       type: 'DeepPartial<RESULT> | undefined',
       description:
-        'The current value for the generated object. Updated as the API streams JSON chunks.',
+        '生成对象的当前值。会随着 API 流式传输 JSON chunks 而更新。',
     },
     {
       name: 'error',
       type: 'Error | undefined',
-      description: 'The error object if the API call fails.',
+      description: 'API 调用失败时的错误对象。',
     },
     {
       name: 'isLoading',
       type: 'boolean',
       description:
-        'Boolean flag indicating whether a request is currently in progress.',
+        '布尔标志，表示当前是否有请求正在进行。',
     },
     {
       name: 'stop',
       type: '() => void',
-      description: 'Function to abort the current API request.',
+      description: '用于中止当前 API 请求的函数。',
     },
     {
       name: 'clear',
       type: '() => void',
-      description: 'Function to clear the object state.',
+      description: '用于清除 object 状态的函数。',
     },
   ]}
 />
 
-## Examples
+## 示例
 
 <ExampleLinks
   examples={[
     {
-      title: 'Streaming Object Generation with useObject',
+      title: '使用 useObject 进行流式对象生成',
       link: '/examples/next-pages/basics/streaming-object-generation',
     },
   ]}

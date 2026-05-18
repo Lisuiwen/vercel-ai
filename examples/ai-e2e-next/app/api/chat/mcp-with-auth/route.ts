@@ -35,7 +35,7 @@ function setPendingAuthorizationUrl(url: string | null): void {
   getAuthState().pendingAuthorizationUrl = url;
 }
 
-// In-memory storage for OAuth state per server origin
+// 按服务器 origin 存储 OAuth 状态的内存存储
 const oauthStateStore = new Map<
   string,
   {
@@ -207,7 +207,7 @@ export async function POST(req: Request) {
           callbackPort,
         );
 
-        // Attempt auth; if redirect is needed, instruct client to open URL, then wait and complete.
+        // 尝试认证；若需重定向，指示客户端打开 URL，然后等待并完成。
         const result = await auth(authProvider, {
           serverUrl: new URL(serverUrl),
         });

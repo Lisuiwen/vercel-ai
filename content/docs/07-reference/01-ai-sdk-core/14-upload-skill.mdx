@@ -1,11 +1,11 @@
 ---
 title: uploadSkill
-description: API Reference for uploadSkill.
+description: uploadSkill 的 API 参考。
 ---
 
 # `uploadSkill()`
 
-Uploads a skill (a bundle of files) to a provider and returns a `ProviderReference` that can be used in subsequent inference calls.
+将技能（文件包）上传到提供商并返回 `ProviderReference`，可在后续推理调用中引用。
 
 ```ts
 import { uploadSkill } from 'ai';
@@ -24,13 +24,13 @@ const { providerReference } = await uploadSkill({
 });
 ```
 
-## Import
+## 导入
 
 <Snippet text={`import { uploadSkill } from "ai"`} prompt={false} />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -38,30 +38,30 @@ const { providerReference } = await uploadSkill({
       name: 'api',
       type: 'SkillsV4 | ProviderV4',
       description:
-        'The skills API interface to use for uploading. Can be a `SkillsV4` instance (e.g. `anthropic.skills()`) or a provider instance directly (e.g. `anthropic`), in which case `.skills()` is called automatically.',
+        '用于上传的技能 API 接口。可为 `SkillsV4` 实例（如 `anthropic.skills()`），或直接传入提供商实例（如 `anthropic`），此时会自动调用 `.skills()`。',
     },
     {
       name: 'files',
       type: 'SkillsV4File[]',
       description:
-        'The files that make up the skill. Each file has a relative `path` and `content` (either a `Uint8Array` or a base64-encoded string).',
+        '构成技能的文件列表。每项包含相对路径 `path` 与 `content`（`Uint8Array` 或 base64 字符串）。',
     },
     {
       name: 'displayTitle',
       type: 'string',
       isOptional: true,
-      description: 'Human-readable title for the skill.',
+      description: '人类可读的技能标题。',
     },
     {
       name: 'providerOptions',
       type: 'ProviderOptions',
       isOptional: true,
-      description: 'Additional provider-specific options.',
+      description: '额外的提供商专用选项。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
 <PropertiesTable
   content={[
@@ -69,46 +69,46 @@ const { providerReference } = await uploadSkill({
       name: 'providerReference',
       type: 'ProviderReference',
       description:
-        'A `Record<string, string>` mapping provider names to provider-specific skill identifiers. Pass this when referencing the skill in inference calls.',
+        '将提供商名称映射到提供商技能标识的 `Record<string, string>`。在推理中引用技能时传入。',
     },
     {
       name: 'displayTitle',
       type: 'string',
       isOptional: true,
       description:
-        'Human-readable title returned by the provider (if supported).',
+        '提供商返回的人类可读标题（若支持）。',
     },
     {
       name: 'name',
       type: 'string',
       isOptional: true,
       description:
-        'Skill name inferred by the provider from the uploaded files.',
+        '提供商根据上传文件推断的技能名称。',
     },
     {
       name: 'description',
       type: 'string',
       isOptional: true,
       description:
-        'Skill description inferred by the provider from the uploaded files.',
+        '提供商根据上传文件推断的技能描述。',
     },
     {
       name: 'latestVersion',
       type: 'string',
       isOptional: true,
-      description: 'Latest version identifier assigned by the provider.',
+      description: '提供商分配的最新版本标识。',
     },
     {
       name: 'providerMetadata',
       type: 'ProviderMetadata',
       isOptional: true,
       description:
-        'Additional provider-specific metadata returned from the upload.',
+        '上传返回的额外提供商专用元数据。',
     },
     {
       name: 'warnings',
       type: 'Warning[]',
-      description: 'Warnings from the provider (e.g. unsupported settings).',
+      description: '提供商的警告（例如不支持的设置）。',
     },
   ]}
 />

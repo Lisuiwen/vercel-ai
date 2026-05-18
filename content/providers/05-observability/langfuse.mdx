@@ -1,23 +1,23 @@
 ---
 title: Langfuse
-description: Monitor, evaluate and debug your AI SDK application with Langfuse
+description: 使用 Langfuse 监控、评估与调试 AI SDK 应用
 ---
 
-# Langfuse Observability
+# Langfuse 可观测性
 
-[Langfuse](https://langfuse.com/) ([GitHub](https://github.com/langfuse/langfuse)) is an open source LLM engineering platform that helps teams to collaboratively develop, monitor, and debug AI applications. Langfuse integrates with the AI SDK to provide:
+[Langfuse](https://langfuse.com/)（[GitHub](https://github.com/langfuse/langfuse)）是开源 LLM 工程平台，帮助团队协作开发、监控与调试 AI 应用。Langfuse 与 AI SDK 集成可提供：
 
-- [Application traces](https://langfuse.com/docs/tracing)
-- Usage patterns
-- Cost data by user and model
-- Replay sessions to debug issues
-- [Evaluations](https://langfuse.com/docs/scores/overview)
+- [应用 traces（追踪）](https://langfuse.com/docs/tracing)
+- 使用模式
+- 按用户与模型的成本数据
+- 回放会话以排查问题
+- [Evaluations（评估）](https://langfuse.com/docs/scores/overview)
 
-## Setup
+## 设置
 
-The AI SDK supports tracing via OpenTelemetry. With the `LangfuseSpanProcessor` you can collect these traces in Langfuse.
+AI SDK 通过 OpenTelemetry 支持 tracing。使用 `LangfuseSpanProcessor` 可将这些 traces 采集到 Langfuse。
 
-Install `@ai-sdk/otel` and register the `LegacyOpenTelemetry` in your `instrumentation.ts` file. Once registered, telemetry is emitted automatically for every AI SDK call:
+安装 `@ai-sdk/otel`，并在 `instrumentation.ts` 注册 `LegacyOpenTelemetry`。注册后，每次 AI SDK 调用会自动发出遥测：
 
 ```ts
 const result = await generateText({
@@ -26,11 +26,11 @@ const result = await generateText({
 });
 ```
 
-To collect the traces in Langfuse, you need to add the `LangfuseSpanProcessor` to your application.
+要将 traces 采集到 Langfuse，需要在应用中添加 `LangfuseSpanProcessor`。
 
-You can set the Langfuse credentials via environment variables or directly to the `LangfuseSpanProcessor` constructor.
+可通过环境变量或直接向 `LangfuseSpanProcessor` 构造函数传入 Langfuse 凭据。
 
-To get your Langfuse API keys, you can [self-host Langfuse](https://langfuse.com/docs/deployment/self-host) or sign up for Langfuse Cloud [here](https://cloud.langfuse.com). Create a project in the Langfuse dashboard to get your `secretKey` and `publicKey.`
+获取 Langfuse API keys：可 [自托管 Langfuse](https://langfuse.com/docs/deployment/self-host) 或 [在此](https://cloud.langfuse.com) 注册 Langfuse Cloud。在 Langfuse 控制台创建项目以获取 `secretKey` 与 `publicKey.`
 
 <Tabs items={["Environment Variables", "Constructor"]}>
 
@@ -60,20 +60,20 @@ new LangfuseSpanProcessor({
 </Tab>
 </Tabs>
 
-Now you need to register this span processor via the OpenTelemetry SDK.
+接下来需通过 OpenTelemetry SDK 注册该 span processor。
 
 <Tabs items={["Next.js","Node.js"]}>
 <Tab>
 
-Next.js has support for OpenTelemetry instrumentation on the framework level. Learn more about it in the [Next.js OpenTelemetry guide](https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry).
+Next.js 在框架层面支持 OpenTelemetry instrumentation，详见 [Next.js OpenTelemetry guide](https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry)。
 
-Install dependencies:
+安装依赖：
 
 ```bash
 npm install @langfuse/otel @langfuse/tracing @opentelemetry/sdk-trace-node @ai-sdk/otel
 ```
 
-Add `LangfuseSpanProcessor` to your instrumentation using a manual OpenTelemetry setup via `NodeTracerProvider`:
+使用 `NodeTracerProvider` 进行手动 OTel 设置，并向 instrumentation 添加 `LangfuseSpanProcessor`：
 
 ```ts filename="instrumentation.ts"
 import { registerTelemetry } from 'ai';
@@ -102,13 +102,13 @@ tracerProvider.register();
 </Tab>
 <Tab>
 
-Install dependencies:
+安装依赖：
 
 ```bash
 npm install ai @ai-sdk/openai @langfuse/otel @opentelemetry/sdk-node @ai-sdk/otel
 ```
 
-Add `LangfuseSpanProcessor` to your OpenTelemetry setup:
+在你的 OpenTelemetry 设置中加入 `LangfuseSpanProcessor`：
 
 ```ts highlight="3-6, 8-10, 13"
 import { openai } from '@ai-sdk/openai';
@@ -149,18 +149,17 @@ main().catch(console.error);
 </Tab>
 </Tabs>
 
-Done! All traces that contain AI SDK spans are automatically captured in Langfuse.
+完成！包含 AI SDK span 的所有 traces 会自动采集到 Langfuse。
 
-## Example Application
+## 示例应用
 
-Check out the sample repository ([langfuse/langfuse-vercel-ai-nextjs-example](https://github.com/langfuse/langfuse-vercel-ai-nextjs-example)) based
-on the [next-openai](https://github.com/vercel/ai/tree/main/examples/next-openai) template to showcase the integration of Langfuse with Next.js and AI SDK.
+请参阅基于 [next-openai](https://github.com/vercel/ai/tree/main/examples/next-openai) 模板的示例仓库（[langfuse/langfuse-vercel-ai-nextjs-example](https://github.com/langfuse/langfuse-vercel-ai-nextjs-example)），演示 Langfuse 与 Next.js、AI SDK 的集成。
 
-## Configuration
+## 配置
 
-### Group multiple executions in one trace
+### 将多次执行归入同一 trace
 
-You can open a Langfuse trace and pass the trace ID to AI SDK calls to group multiple execution spans under one trace. The passed name in `functionId` will be the root span name of the respective execution.
+可开启 Langfuse trace，并将 trace ID 传入 AI SDK 调用，把多次执行的 span 归到同一 trace 下。`functionId` 中传入的名称会成为对应执行的根 span 名称。
 
 ```ts
 import { randomUUID } from 'crypto';
@@ -195,17 +194,17 @@ await langfuse.flushAsync();
 await sdk.shutdown();
 ```
 
-The resulting trace hierarchy will be:
+得到的 trace 层级类似于：
 
 ![Vercel nested trace in Langfuse UI](https://langfuse.com/images/docs/vercel-nested-trace.png)
 
-### Disable Tracking of Input/Output
+### 关闭输入/输出记录
 
-By default, the exporter captures the input and output of each request. You can disable this behavior by setting the `recordInputs` and `recordOutputs` options to `false`.
+默认情况下，exporter 会记录每次请求的输入与输出。可将 `recordInputs` 与 `recordOutputs` 设为 `false` 以关闭。
 
-### Link Langfuse prompts to traces
+### 将 Langfuse prompts 关联到 traces
 
-You can link Langfuse prompts to AI SDK generations by setting the `langfusePrompt` property in the `metadata` field:
+可在 `metadata` 中设置 `langfusePrompt`，将 Langfuse prompt 关联到 AI SDK 的 generation：
 
 ```typescript
 import { generateText } from 'ai';
@@ -226,11 +225,11 @@ const result = await generateText({
 });
 ```
 
-The resulting generation will have the prompt linked to the trace in Langfuse. Learn more about prompts in Langfuse [here](https://langfuse.com/docs/prompts/get-started).
+对应的 generation 会在 Langfuse 的 trace 中关联该 prompt。关于 Langfuse prompts 详见 [此处](https://langfuse.com/docs/prompts/get-started)。
 
-### Pass Custom Attributes
+### 传入自定义属性
 
-All of the `metadata` fields are automatically captured by the exporter. You can also pass custom trace attributes to e.g. track users or sessions.
+exporter 会自动采集所有 `metadata` 字段。也可传入自定义 trace 属性（例如追踪用户或会话）。
 
 ```ts highlight="5-11"
 const result = await generateText({
@@ -249,19 +248,19 @@ const result = await generateText({
 });
 ```
 
-## Troubleshooting
+## 故障排除
 
-- If you deploy on Vercel, Vercel's OpenTelemetry Collector is only available on Pro and Enterprise Plans ([docs](https://vercel.com/docs/observability/otel-overview)).
-- You need to be on `"ai": "^7.0.0"` and install `@ai-sdk/otel` to use the telemetry feature. In case of any issues, please update to the latest version.
-- On Next.js, make sure that you only have a single instrumentation file.
-- If you use Sentry, make sure to either:
-  - set `skipOpenTelemetrySetup: true` in Sentry.init
-  - follow Sentry's docs on how to manually set up Sentry with OTEL
+- 若部署在 Vercel，Vercel 的 OpenTelemetry Collector 仅在 Pro 与企业套餐可用（[文档](https://vercel.com/docs/observability/otel-overview)）。
+- 需使用 `"ai": "^7.0.0"` 并安装 `@ai-sdk/otel` 才能使用遥测。若有问题请升级到最新版本。
+- Next.js 上请确保仅有一个 instrumentation 文件。
+- 若使用 Sentry，请确保：
+  - 在 `Sentry.init` 中设置 `skipOpenTelemetrySetup: true`，或
+  - 按 Sentry 文档手动将 Sentry 与 OTEL 配置在一起
 
-## Learn more
+## 延伸阅读
 
-- After setting up Langfuse Tracing for the AI SDK, you can utilize any of the other Langfuse [platform features](https://langfuse.com/docs):
-  - [Prompt Management](https://langfuse.com/docs/prompts): Collaboratively manage and iterate on prompts, use them with low-latency in production.
-  - [Evaluations](https://langfuse.com/docs/scores): Test the application holistically in development and production using user feedback, LLM-as-a-judge evaluators, manual reviews, or custom evaluation pipelines.
-  - [Experiments](https://langfuse.com/docs/datasets): Iterate on prompts, models, and application design in a structured manner with datasets and evaluations.
-- For more information, see the [telemetry documentation](/docs/ai-sdk-core/telemetry) of the AI SDK.
+- 为 AI SDK 配置 Langfuse Tracing 后，还可使用 Langfuse 其它 [platform features](https://langfuse.com/docs)：
+  - [Prompt Management](https://langfuse.com/docs/prompts)：协作管理与迭代 prompts，在生产中低延迟使用。
+  - [Evaluations](https://langfuse.com/docs/scores)：在开发与生产中用用户反馈、LLM-as-a-judge、人工复核或自定义评估管线整体测试应用。
+  - [Experiments](https://langfuse.com/docs/datasets)：用数据集与评估结构化迭代 prompts、模型与应用设计。
+- 更多信息见 AI SDK 的 [telemetry documentation](/docs/ai-sdk-core/telemetry)。

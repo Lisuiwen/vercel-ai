@@ -109,7 +109,7 @@ describe('filterActiveTools types', () => {
   it('should reject invalid active tool names', () => {
     filterActiveTools({
       tools: mockToolsWithProviderDefined,
-      // @ts-expect-error activeTools only accepts keys of the tool set
+      // @ts-expect-error activeTools 只接受工具集的键
       activeTools: ['unknownTool'] as const,
     });
   });

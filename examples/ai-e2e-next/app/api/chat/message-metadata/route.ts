@@ -10,22 +10,22 @@ export async function POST(req: Request) {
     agent: openaiMetadataAgent,
     uiMessages: messages,
     messageMetadata: ({ part }): ExampleMetadata | undefined => {
-      // send custom information to the client on start:
+      // 在 start 时向客户端发送自定义信息：
       if (part.type === 'start') {
         return {
           createdAt: Date.now(),
-          model: 'gpt-4o', // initial model id
+          model: 'gpt-4o', // 初始 model id
         };
       }
 
-      // send additional model information on finish-step:
+      // 在 finish-step 时发送额外 model 信息：
       if (part.type === 'finish-step') {
         return {
-          model: part.response.modelId, // update with the actual model id
+          model: part.response.modelId, // 使用实际 model id 更新
         };
       }
 
-      // when the message is finished, send additional information:
+      // 消息完成时，发送额外信息：
       if (part.type === 'finish') {
         return {
           totalTokens: part.totalUsage.totalTokens,

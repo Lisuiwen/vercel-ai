@@ -1,30 +1,26 @@
 ---
-title: Testing
-description: Learn how to use AI SDK Core mock providers for testing.
+title: 测试
+description: 了解如何使用 AI SDK Core 的 mock provider 进行测试。
 ---
 
-# Testing
+# 测试
 
-Testing language models can be challenging, because they are non-deterministic
-and calling them is slow and expensive.
+测试语言模型可能具有挑战性，因为它们非确定性，且调用缓慢、成本较高。
 
-To enable you to unit test your code that uses the AI SDK, the AI SDK Core
-includes mock providers and test helpers. You can import the following helpers from `ai/test`:
+为便于对使用 AI SDK 的代码进行单元测试，AI SDK Core 包含 mock provider 与测试辅助函数。可从 `ai/test` 导入：
 
-- `MockEmbeddingModelV4`: A mock embedding model using the [embedding model v4 specification](https://github.com/vercel/ai/blob/main/packages/provider/src/embedding-model/v4/embedding-model-v4.ts).
-- `MockLanguageModelV4`: A mock language model using the [language model v4 specification](https://github.com/vercel/ai/blob/main/packages/provider/src/language-model/v4/language-model-v4.ts).
-- `mockId`: Provides an incrementing integer ID.
-- `mockValues`: Iterates over an array of values with each call. Returns the last value when the array is exhausted.
+- `MockEmbeddingModelV4`：符合[嵌入模型 v4 规范](https://github.com/vercel/ai/blob/main/packages/provider/src/embedding-model/v4/embedding-model-v4.ts) 的 mock 嵌入模型。
+- `MockLanguageModelV4`：符合[语言模型 v4 规范](https://github.com/vercel/ai/blob/main/packages/provider/src/language-model/v4/language-model-v4.ts) 的 mock 语言模型。
+- `mockId`：提供递增的整数 ID。
+- `mockValues`：每次调用遍历数组中的值；数组用尽后返回最后一个值。
 
-You can also import [`simulateReadableStream`](/docs/reference/ai-sdk-core/simulate-readable-stream) from `ai` to simulate a readable stream with delays.
+也可从 `ai` 导入 [`simulateReadableStream`](/docs/reference/ai-sdk-core/simulate-readable-stream)，模拟带延迟的可读流。
 
-With mock providers and test helpers, you can control the output of the AI SDK
-and test your code in a repeatable and deterministic way without actually calling
-a language model provider.
+借助 mock provider 与测试辅助函数，可控制 AI SDK 的输出，以可重复、确定的方式测试代码，而无需实际调用语言模型 provider。
 
-## Examples
+## 示例
 
-You can use the test helpers with the AI Core functions in your unit tests:
+可在单元测试中将测试辅助函数与 AI Core 函数配合使用：
 
 ### generateText
 
@@ -99,7 +95,7 @@ const result = streamText({
 });
 ```
 
-### generateText with Output
+### 使用 Output 的 generateText
 
 ```ts
 import { generateText, Output } from 'ai';
@@ -132,7 +128,7 @@ const result = await generateText({
 });
 ```
 
-### streamText with Output
+### 使用 Output 的 streamText
 
 ```ts
 import { streamText, Output, simulateReadableStream } from 'ai';
@@ -179,12 +175,11 @@ const result = streamText({
 });
 ```
 
-### Simulate UI Message Stream Responses
+### 模拟 UI Message Stream 响应
 
-You can also simulate [UI Message Stream](/docs/ai-sdk-ui/stream-protocol#ui-message-stream) responses for testing,
-debugging, or demonstration purposes.
+也可模拟 [UI Message Stream](/docs/ai-sdk-ui/stream-protocol#ui-message-stream) 响应，用于测试、调试或演示。
 
-Here is a Next example:
+以下为 Next.js 示例：
 
 ```ts filename="route.ts"
 import { simulateReadableStream } from 'ai';

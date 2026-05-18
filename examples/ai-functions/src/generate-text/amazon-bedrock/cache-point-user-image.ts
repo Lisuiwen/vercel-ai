@@ -28,10 +28,10 @@ run(async () => {
   console.log(result.text);
   console.log();
   console.log('Token usage:', result.usage);
-  // TODO: no cache token usage for some reason
+  // TODO：由于某种原因没有使用缓存令牌
   // https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html
-  // the only delta is some of the lead-in to passing the message bytes, and
-  // perhaps the size of the image.
+  // 唯一的差异是传递消息字节的一些引入，并且
+  // 也许是图像的大小。
   console.log(
     'Cache token usage:',
     result.finalStep.providerMetadata?.bedrock?.usage,

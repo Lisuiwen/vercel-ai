@@ -10,24 +10,24 @@ import type { Instructions, Prompt } from './prompt';
 
 export type StandardizedPrompt = {
   /**
-   * Instructions.
+   * 指示。
    */
   instructions: Instructions | undefined;
 
   /**
-   * Messages.
+   * 消息。
    */
   messages: ModelMessage[];
 };
 
 /**
- * Converts a prompt input into a standardized prompt with validated model
- * messages.
+ * 将提示输入转换为具有经过验证的模型的标准化提示
+ * 消息。
  *
  * @param prompt - The prompt definition to standardize.
- * Set `allowSystemInMessages` to true to allow system messages in the
- * `prompt` or `messages` fields. System messages in the `instructions`
- * option are always allowed.
+ * 将“allowSystemInMessages”设置为 true 以允许系统消息
+ * “提示”或“消息”字段。 “说明”中的系统消息
+ * 选项始终是允许的。
  * @returns The standardized prompt.
  * @throws {InvalidPromptError} When the prompt is invalid.
  */
@@ -52,7 +52,7 @@ export async function standardizePrompt({
     });
   }
 
-  // validate that instructions is a string or a SystemModelMessage
+  // 验证指令是字符串还是 SystemModelMessage
   if (
     typeof instructions !== 'string' &&
     !asArray(instructions).every(message => message.role === 'system')

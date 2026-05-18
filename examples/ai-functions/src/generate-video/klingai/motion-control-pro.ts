@@ -17,19 +17,19 @@ run(async () => {
         },
         providerOptions: {
           klingai: {
-            // Required: URL to the reference motion video
+            // 必需：参考动态视频的 URL
             videoUrl: 'https://example.com/dance-reference.mp4',
-            // Match orientation from the reference video (allows up to 30s)
+            // 匹配参考视频的方向（最多允许 30 秒）
             characterOrientation: 'video',
-            // Pro mode: higher quality output
+            // 专业模式：更高质量的输出
             mode: 'pro',
-            // Keep original audio from the reference video
+            // 保留参考视频中的原始音频
             keepOriginalSound: 'yes',
-            // Enable watermark
+            // 启用水印
             watermarkEnabled: true,
-            // Custom polling settings
-            pollIntervalMs: 10000, // 10 seconds
-            pollTimeoutMs: 600000, // 10 minutes (pro mode takes longer)
+            // 自定义轮询设置
+            pollIntervalMs: 10000, // 10秒
+            pollTimeoutMs: 600000, // 10 分钟（专业模式需要更长的时间）
           } satisfies KlingAIVideoModelOptions,
         },
       }),

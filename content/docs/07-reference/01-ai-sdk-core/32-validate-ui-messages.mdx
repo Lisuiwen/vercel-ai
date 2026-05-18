@@ -1,15 +1,15 @@
 ---
 title: validateUIMessages
-description: API Reference for validateUIMessages
+description: validateUIMessages 的 API 参考
 ---
 
 # `validateUIMessages`
 
-`validateUIMessages` is an async function that validates UI messages against schemas for metadata, data parts, and tools. It ensures type safety and data integrity for your message arrays before processing or rendering.
+`validateUIMessages` 为异步函数，根据元数据、数据分片和工具的 schema 校验 UI 消息。在处理或渲染前确保消息数组的类型安全与数据完整性。
 
-## Basic Usage
+## 基本用法
 
-Simple validation without custom schemas:
+无自定义 schema 的简单校验：
 
 ```typescript
 import { validateUIMessages } from 'ai';
@@ -27,9 +27,9 @@ const validatedMessages = await validateUIMessages({
 });
 ```
 
-## Advanced Usage
+## 进阶用法
 
-Comprehensive validation with custom metadata, data parts, and tools:
+含自定义元数据、数据分片与工具的全面校验：
 
 ```typescript
 import { validateUIMessages, tool } from 'ai';

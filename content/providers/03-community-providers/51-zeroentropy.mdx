@@ -1,15 +1,15 @@
 ---
 title: ZeroEntropy
-description: Learn how to use the ZeroEntropy community provider.
+description: 介绍如何使用 ZeroEntropy 社区提供商。
 ---
 
-# ZeroEntropy Provider
+# ZeroEntropy 提供商
 
-[zeroentropy-ai/zeroentropy-ai-provider](https://github.com/zeroentropy-ai/zeroentropy-ai-provider) is a community provider that uses [ZeroEntropy](https://zeroentropy.dev) to provide text embedding and reranking support for the AI SDK.
+[zeroentropy-ai/zeroentropy-ai-provider](https://github.com/zeroentropy-ai/zeroentropy-ai-provider) 是社区提供商，通过 [ZeroEntropy](https://zeroentropy.dev) 为 AI SDK 提供文本嵌入与重排序支持。
 
-## Setup
+## 安装与配置
 
-The ZeroEntropy provider is available in the `zeroentropy-ai-provider` module. You can install it with:
+ZeroEntropy 提供商位于 `zeroentropy-ai-provider` 模块。可使用以下命令安装：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -26,15 +26,15 @@ The ZeroEntropy provider is available in the `zeroentropy-ai-provider` module. Y
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `zeroentropy` from `zeroentropy-ai-provider`:
+可从 `zeroentropy-ai-provider` 导入默认提供商实例 `zeroentropy`：
 
 ```ts
 import { zeroentropy } from 'zeroentropy-ai-provider';
 ```
 
-If you need a customized setup, you can import `createZeroEntropy` from `zeroentropy-ai-provider` and create a provider instance with your settings:
+如需自定义配置，可导入 `createZeroEntropy` 并创建实例：
 
 ```ts
 import { createZeroEntropy } from 'zeroentropy-ai-provider';
@@ -44,27 +44,27 @@ const zeroentropy = createZeroEntropy({
 });
 ```
 
-You can use the following optional settings to customize the ZeroEntropy provider instance:
+可使用以下可选设置自定义 ZeroEntropy 提供商实例：
 
 - **baseURL** _string_
 
-  The base URL of the ZeroEntropy API. The default prefix is `https://api.zeroentropy.dev/v1`.
+  ZeroEntropy API 的基础 URL。默认前缀为 `https://api.zeroentropy.dev/v1`。
 
 - **apiKey** _string_
 
-  API key that is being sent using the `Authorization` header. It defaults to the `ZEROENTROPY_API_KEY` environment variable. Obtain your API key from the [ZeroEntropy Dashboard](https://dashboard.zeroentropy.dev).
+  通过 `Authorization` 请求头发送的 API 密钥。默认读取 `ZEROENTROPY_API_KEY` 环境变量。在 [ZeroEntropy 控制台](https://dashboard.zeroentropy.dev) 获取密钥。
 
 - **headers** _Record&lt;string,string&gt;_
 
-  Custom headers to include in the requests.
+  请求中要包含的自定义标头。
 
 - **fetch** _(input: RequestInfo, init?: RequestInit) => Promise&lt;Response&gt;_
 
-  Custom [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) implementation. Defaults to the global `fetch` function. You can use it as a middleware to intercept requests, or to provide a custom fetch implementation for e.g. testing.
+  自定义 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/fetch) 实现。默认为全局 `fetch`。可用作中间件拦截请求，或为测试等场景提供自定义 fetch。
 
-## Text Embedding Models
+## 文本嵌入模型
 
-You can create models that call the [ZeroEntropy embeddings API](https://docs.zeroentropy.dev) using the `.textEmbeddingModel()` factory method.
+使用 `.textEmbeddingModel()` 工厂方法可创建调用 [ZeroEntropy embeddings API](https://docs.zeroentropy.dev) 的模型。
 
 ```ts
 import { zeroentropy } from 'zeroentropy-ai-provider';
@@ -72,7 +72,7 @@ import { zeroentropy } from 'zeroentropy-ai-provider';
 const embeddingModel = zeroentropy.textEmbeddingModel('zembed-1');
 ```
 
-You can use ZeroEntropy embedding models to generate embeddings with the `embed` or `embedMany` function:
+可使用 ZeroEntropy 嵌入模型配合 `embed` 或 `embedMany` 生成向量：
 
 ```ts
 import { zeroentropy } from 'zeroentropy-ai-provider';
@@ -91,7 +91,7 @@ const { embeddings } = await embedMany({
 });
 ```
 
-ZeroEntropy embedding models support additional provider options that can be passed via `providerOptions.zeroentropy`:
+ZeroEntropy 嵌入模型支持通过 `providerOptions.zeroentropy` 传入额外选项：
 
 ```ts
 import { zeroentropy } from 'zeroentropy-ai-provider';
@@ -109,29 +109,29 @@ const { embedding } = await embed({
 });
 ```
 
-The following provider options are available:
+可用提供商选项：
 
 - **inputType** _'query' | 'document'_
 
-  Whether the input is a search query or a document to index. Use `'query'` for retrieval queries and `'document'` for content being indexed. Defaults to `'document'`.
+  输入是检索查询还是待索引文档。检索查询使用 `'query'`，待索引内容使用 `'document'`。默认为 `'document'`。
 
 - **dimensions** _2560 | 1280 | 640 | 320 | 160 | 80 | 40_
 
-  Output vector dimensions. Defaults to `2560`. Supports Matryoshka representations for flexible dimensionality reduction.
+  输出向量维度。默认为 `2560`。支持 Matryoshka 表示以灵活降维。
 
 - **latency** _'fast' | 'slow'_
 
-  `'fast'` for sub-second latency; `'slow'` for higher throughput limits.
+  `'fast'` 侧重亚秒级延迟；`'slow'` 侧重更高吞吐上限。
 
-### Model Capabilities
+### 模型能力
 
-| Model      | Default Dimensions | Context Length | Description                                                  |
-| ---------- | ------------------ | -------------- | ------------------------------------------------------------ |
-| `zembed-1` | 2560               | 8192           | Multilingual embedding model, supports Matryoshka dimensions |
+| 模型       | 默认维度 | 上下文长度 | 说明                                       |
+| ---------- | -------- | ---------- | ------------------------------------------ |
+| `zembed-1` | 2560     | 8192       | 多语种嵌入模型，支持 Matryoshka 维度       |
 
-## Reranking Models
+## 重排序模型
 
-You can create models that call the [ZeroEntropy reranking API](https://docs.zeroentropy.dev) using the `.rerankingModel()` factory method.
+使用 `.rerankingModel()` 工厂方法可创建调用 [ZeroEntropy reranking API](https://docs.zeroentropy.dev) 的模型。
 
 ```ts
 import { zeroentropy } from 'zeroentropy-ai-provider';
@@ -145,7 +145,7 @@ const result = await rerank({
 });
 ```
 
-ZeroEntropy reranking models support additional provider options that can be passed via `providerOptions.zeroentropy`:
+ZeroEntropy 重排序模型支持通过 `providerOptions.zeroentropy` 传入额外选项：
 
 ```ts
 import { zeroentropy } from 'zeroentropy-ai-provider';
@@ -164,22 +164,21 @@ const result = await rerank({
 });
 ```
 
-The following provider option is available:
+可用提供商选项：
 
 - **latency** _'fast' | 'slow'_
 
-  `'fast'` for sub-second latency; `'slow'` for higher throughput limits.
+  `'fast'` 侧重亚秒级延迟；`'slow'` 侧重更高吞吐上限。
 
-### Model Capabilities
+### 模型能力
 
-| Model            | Description                                            |
-| ---------------- | ------------------------------------------------------ |
-| `zerank-2`       | Flagship state-of-the-art cross-encoder reranker       |
-| `zerank-2-nano`  | Compact `zerank-2` variant for lower-latency use cases |
-| `zerank-1`       | Previous generation reranker                           |
-| `zerank-1-small` | Lightweight reranker for lower-latency use cases       |
+| 模型             | 说明                                           |
+| ---------------- | ---------------------------------------------- |
+| `zerank-2`       | 旗舰级先进交叉编码器重排序器                   |
+| `zerank-2-nano`  | 紧凑版 `zerank-2`，更低延迟场景                |
+| `zerank-1`       | 上一代重排序器                                 |
+| `zerank-1-small` | 轻量重排序器，更低延迟场景                     |
 
 <Note>
-  Please see the [ZeroEntropy docs](https://docs.zeroentropy.dev) for the full
-  list of available models and options.
+  完整模型与选项列表请参阅 [ZeroEntropy 文档](https://docs.zeroentropy.dev)。
 </Note>

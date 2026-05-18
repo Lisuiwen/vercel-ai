@@ -1,31 +1,31 @@
 import type { ProviderMetadata } from '../types/provider-metadata';
 
 /**
- * The result of a `rerank` call.
- * It contains the original documents, the reranked documents, and additional information.
+ * “rerank”调用的结果。
+ * 它包含原始文档、重新排序的文档和附加信息。
  */
 export interface RerankResult<VALUE> {
   /**
-   * The original documents that were reranked.
+   * 重新排序的原始文档。
    */
   readonly originalDocuments: Array<VALUE>;
 
   /**
-   * Reranked documents.
+   * 重新排列文档。
    *
-   * Sorted by relevance score in descending order.
+   * 按相关性得分降序排序。
    *
-   * Can be less than the original documents if there was a topN limit.
+   * 如果有 topN 限制，则可以小于原始文档。
    */
   readonly rerankedDocuments: Array<VALUE>;
 
   /**
-   * The ranking is a list of objects with the original index,
-   * relevance score, and the reranked document.
+   * 排名是具有原始索引的对象列表，
+   * 相关性得分和重新排序的文档。
    *
-   * Sorted by relevance score in descending order.
+   * 按相关性得分降序排序。
    *
-   * Can be less than the original documents if there was a topN limit.
+   * 如果有 topN 限制，则可以小于原始文档。
    */
   readonly ranking: Array<{
     originalIndex: number;
@@ -34,36 +34,36 @@ export interface RerankResult<VALUE> {
   }>;
 
   /**
-   * Optional provider-specific metadata.
+   * 可选的特定于提供商的元数据。
    */
   readonly providerMetadata?: ProviderMetadata;
 
   /**
-   * Optional raw response data.
+   * 可选的原始响应数据。
    */
   readonly response: {
     /**
-     * ID for the generated response if the provider sends one.
+     * 生成的响应的 ID（如果提供商发送响应）。
      */
     id?: string;
 
     /**
-     * Timestamp of the generated response.
+     * 生成的响应的时间戳。
      */
     timestamp: Date;
 
     /**
-     * The ID of the model that was used to generate the response.
+     * 用于生成响应的模型的 ID。
      */
     modelId: string;
 
     /**
-     * Response headers.
+     * 响应标头。
      */
     headers?: Record<string, string>;
 
     /**
-     * The response body.
+     * 响应主体。
      */
     body?: unknown;
   };

@@ -1,40 +1,44 @@
-# AI SDK - Vercel Provider
+# AI SDK - Vercel 提供商
 
-The **[Vercel provider](https://ai-sdk.dev/providers/ai-sdk-providers/vercel)** for the [AI SDK](https://ai-sdk.dev/docs)
-gives you access to the v0 API, designed for building modern web applications. The `v0-1.0-md` model supports text and image inputs, provides fast streaming responses, and is compatible with the OpenAI Chat Completions API format.
+面向 [AI SDK](https://ai-sdk.dev/docs) 的 **[Vercel 提供商](https://ai-sdk.dev/providers/ai-sdk-providers/vercel)**
+可访问面向现代 Web 应用设计的 v0 API。`v0-1.0-md` 模型支持文本与图像输入、快速流式响应，并兼容 OpenAI Chat Completions API 格式。
 
 Key features include:
 
-- Framework aware completions: Optimized for modern stacks like Next.js and Vercel
-- Auto-fix: Identifies and corrects common coding issues during generation
-- Quick edit: Streams inline edits as they're available
-- Multimodal: Supports both text and image inputs
+- 框架感知补全：针对 Next.js、Vercel 等现代技术栈优化
+- 自动修复：在生成过程中识别并修正常见编码问题
+- 快速编辑：在可用时流式输出行内编辑
+- 多模态：支持文本与图像输入
 
-## Setup
+## 安装
 
-The Vercel provider is available in the `@ai-sdk/vercel` module. You can install it with
+Vercel 提供商位于 `@ai-sdk/vercel` 模块，安装方式：
+
+
 
 ```bash
 npm i @ai-sdk/vercel
 ```
 
-## Skill for Coding Agents
+## 编码代理 Skill
 
-If you use coding agents such as Claude Code or Cursor, we highly recommend adding the AI SDK skill to your repository:
+若你使用 Claude Code、Cursor 等编码代理，强烈建议在仓库中添加 AI SDK skill：
 
 ```shell
 npx skills add vercel/ai
 ```
 
-## Provider Instance
+## 提供商实例
 
-You can import the default provider instance `vercel` from `@ai-sdk/vercel`:
+可从 `@ai-sdk/vercel` 导入默认提供商实例 `vercel`：
+
+
 
 ```ts
 import { vercel } from '@ai-sdk/vercel';
 ```
 
-## Example
+## 示例
 
 ```ts
 import { vercel } from '@ai-sdk/vercel';
@@ -46,6 +50,6 @@ const { text } = await generateText({
 });
 ```
 
-## Documentation
+## 文档
 
-Please check out the **[Vercel provider documentation](https://ai-sdk.dev/providers/ai-sdk-providers/vercel)** for more information.
+更多信息请参阅 **[Vercel 提供商文档](https://ai-sdk.dev/providers/ai-sdk-providers/vercel)**。

@@ -6,8 +6,8 @@ import type { LanguageModelMiddleware } from '../types/language-model-middleware
 import { getPotentialStartIndex } from '../util/get-potential-start-index';
 
 /**
- * Extracts an XML-tagged reasoning section from the generated text and exposes it
- * as a `reasoning` property on the result.
+ * 从生成的文本中提取 XML 标记的推理部分并将其公开
+ * 作为结果的“推理”属性。
  *
  * @param tagName - The name of the XML tag to extract reasoning from.
  * @param separator - The separator to use between reasoning and text sections.
@@ -103,7 +103,7 @@ export function extractReasoningMiddleware({
             LanguageModelV4StreamPart
           >({
             transform: (chunk, controller) => {
-              // do not send `text-start` before `reasoning-start`
+              // 不要在“reasoning-start”之前发送“text-start”
               // https://github.com/vercel/ai/issues/7774
               if (chunk.type === 'text-start') {
                 delayedTextStart = chunk;
@@ -194,14 +194,14 @@ export function extractReasoningMiddleware({
                   nextTag,
                 );
 
-                // no opening or closing tag found, publish the buffer
+                // 未找到开始或结束标记，发布缓冲区
                 if (startIndex == null) {
                   publish(activeExtraction.buffer);
                   activeExtraction.buffer = '';
                   break;
                 }
 
-                // publish text before the tag
+                // 在标签之前发布文本
                 publish(activeExtraction.buffer.slice(0, startIndex));
 
                 const foundFullMatch =
@@ -213,10 +213,10 @@ export function extractReasoningMiddleware({
                   );
 
                   if (activeExtraction.isReasoning) {
-                    // Emit reasoning-start for empty reasoning blocks (no delta was published).
-                    // This handles both cases:
+                    // 为空推理块发出推理开始（未发布增量）。
+                    // 这可以处理两种情况：
                     // - startWithReasoning=false: <think></think> (afterSwitch=true)
-                    // - startWithReasoning=true: immediate </think> (afterSwitch=false)
+                    // - startWithReasoning=true：立即</think> (afterSwitch=false)
                     if (activeExtraction.isFirstReasoning) {
                       controller.enqueue({
                         type: 'reasoning-start',
@@ -224,7 +224,7 @@ export function extractReasoningMiddleware({
                       });
                     }
 
-                    // reasoning part finished:
+                    // 推理部分完成：
                     controller.enqueue({
                       type: 'reasoning-end',
                       id: `reasoning-${activeExtraction.idCounter++}`,

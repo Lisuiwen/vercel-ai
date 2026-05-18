@@ -122,10 +122,10 @@ export interface ProviderRegistryProvider<
 }
 
 /**
- * Creates a registry for the given providers with optional middleware functionality.
- * This function allows you to register multiple providers and optionally apply middleware
- * to all language models from the registry, enabling you to transform parameters, wrap generate
- * operations, and wrap stream operations for every language model accessed through the registry.
+ * 为具有可选中间件功能的给定提供者创建注册表。
+ * 此功能允许您注册多个提供商并可选择应用中间件
+ * 到注册表中的所有语言模型，使您能够转换参数、包装生成
+ * 操作，以及通过注册表访问的每种语言模型的包装流操作。
  *
  * @param providers - A record of provider instances to be registered in the registry.
  * @param options - Configuration options for the provider registry.
@@ -168,7 +168,7 @@ export function createProviderRegistry<
 }
 
 /**
- * @deprecated Use `createProviderRegistry` instead.
+ * @deprecated 请改用“createProviderRegistry”。
  */
 export const experimental_createProviderRegistry = createProviderRegistry;
 

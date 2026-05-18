@@ -1,21 +1,21 @@
 ---
 title: Firemoon
-description: Firemoon provider for the AI SDK.
+description: AI SDK 的 Firemoon 提供商。
 ---
 
-# Firemoon Provider
+# Firemoon 提供商
 
-[Firemoon Studio](https://firemoon.studio/) is an AI platform specializing in high-quality image and video generation models, specifically fine-tunes and state-of-the-art models.
+[Firemoon Studio](https://firemoon.studio/) 是专注高质量图像与视频生成模型的 AI 平台，提供微调与前沿模型。
 
-The Firemoon provider for the AI SDK enables you to use these models with a simple, consistent API:
+Firemoon 的 AI SDK 提供商让你用一致、简洁的 API 使用这些模型：
 
-- **Image generation**: Generate images today, with early video model support.
-- **Model variety**: Access multiple model families through a single provider.
-- **Provider options**: Pass model-specific parameters when you need more control.
+- **图像生成**：当前以图像为主，视频模型能力处于早期支持。
+- **模型多样**：单一提供商即可访问多族模型。
+- **提供商选项**：需要更细控制时可传入模型专属参数。
 
-## Setup
+## 安装
 
-The Firemoon provider is available via the `@firemoon/ai-provider` module. You can install it with:
+通过 `@firemoon/ai-provider` 模块提供：
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -32,9 +32,9 @@ The Firemoon provider is available via the `@firemoon/ai-provider` module. You c
   </Tab>
 </Tabs>
 
-## Provider Instance
+## 提供商实例
 
-Create a Firemoon provider instance with your API key:
+使用 API Key 创建 Firemoon 提供商实例：
 
 ```ts
 import { createFiremoon } from '@firemoon/ai-provider';
@@ -44,11 +44,11 @@ const firemoon = createFiremoon({
 });
 ```
 
-You can obtain your Firemoon API key from the [Firemoon Dashboard](https://firemoon.studio/keys).
+API Key 可在 [Firemoon Dashboard](https://firemoon.studio/keys) 获取。
 
-## Image Generation
+## 图像生成
 
-Firemoon supports various image generation models through the `image()` method:
+通过 `image()` 方法使用多种图像生成模型：
 
 ```ts
 import { generateImage } from 'ai';
@@ -62,22 +62,22 @@ const result = await generateImage({
 console.log(result.images[0]);
 ```
 
-### Available Models
+### 可用模型
 
-- `flux/dev` - Fast, high-quality image generation
-- `flux-2-dev/edit` - Fast, high-quality image editing with Flux 2
-- `nano-banana` - Fast, high-quality image generation
-- `nano-banana/edit` - High quality image editing by Gemini, also known as Gemini 2.5 Flash Image
-- `nano-banana-pro/edit` - High quality image editing by Gemini 3 Pro
-- `firemoon-studio/memphis-style` - Memphis style image generation
+- `flux/dev` — 快速、高质量图像生成
+- `flux-2-dev/edit` — 基于 Flux 2 的快速高质量编辑
+- `nano-banana` — 快速高质量图像生成
+- `nano-banana/edit` — Gemini 高质量编辑，亦称 Gemini 2.5 Flash Image
+- `nano-banana-pro/edit` — Gemini 3 Pro 高质量编辑
+- `firemoon-studio/memphis-style` — Memphis 风格图像生成
 
-You can browse all available models on the [Firemoon Studio Models](https://firemoon.studio/models) page.
+全部模型见 [Firemoon Studio Models](https://firemoon.studio/models)。
 
-### Parameters
+### 参数
 
-#### Size
+#### 尺寸（Size）
 
-You can specify the image size using the `size` parameter:
+使用 `size` 指定图像尺寸：
 
 ```ts
 const result = await generateImage({
@@ -87,7 +87,7 @@ const result = await generateImage({
 });
 ```
 
-Or use aspect ratio mapping:
+或使用宽高比映射：
 
 ```ts
 const result = await generateImage({
@@ -97,9 +97,9 @@ const result = await generateImage({
 });
 ```
 
-#### Seed
+#### 随机种子（Seed）
 
-For reproducible results, you can specify a seed:
+指定 `seed` 以提升可复现性：
 
 ```ts
 const result = await generateImage({
@@ -109,9 +109,9 @@ const result = await generateImage({
 });
 ```
 
-#### Custom Parameters
+#### 自定义参数
 
-You can pass additional parameters specific to Firemoon models:
+可传入 Firemoon 模型专属附加参数：
 
 ```ts
 const result = await generateImage({
@@ -125,9 +125,9 @@ const result = await generateImage({
 });
 ```
 
-#### Fine-tuned Models
+#### 微调模型
 
-You can use a fine-tuned model by passing the model id to the `image()` method:
+将模型 ID 传给 `image()` 以使用微调模型：
 
 ```ts
 const result = await generateImage({
@@ -148,7 +148,7 @@ const result = await generateImage({
 });
 ```
 
-## Quickstart Examples
+## 快速开始示例
 
 ### `generateImage`
 
@@ -169,15 +169,15 @@ const result = await generateImage({
 console.log(result.images[0]);
 ```
 
-## Advanced features
+## 高级特性
 
-1. **Aspect ratio mapping**: Use `aspectRatio` for convenient presets instead of hard-coding sizes.
-2. **Reproducible outputs**: Provide `seed` to make results more repeatable.
-3. **Model-specific options**: Use `providerOptions.firemoon` to pass through Firemoon parameters.
+1. **宽高比映射**：用 `aspectRatio` 使用预设，而无需硬编码尺寸。
+2. **可复现输出**：提供 `seed` 使结果更稳定。
+3. **模型专属选项**：通过 `providerOptions.firemoon` 透传 Firemoon 参数。
 
-## Error handling
+## 错误处理
 
-The Firemoon provider throws `APICallError` for API-related errors:
+API 相关错误会抛出 `APICallError`：
 
 ```ts
 import { APICallError } from 'ai';
@@ -195,7 +195,7 @@ try {
 }
 ```
 
-## Additional resources
+## 更多资源
 
 - [Firemoon Studio](https://firemoon.studio/)
 - [Firemoon Studio Models](https://firemoon.studio/models)

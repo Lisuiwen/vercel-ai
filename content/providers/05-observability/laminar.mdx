@@ -1,30 +1,29 @@
 ---
 title: Laminar
-description: Monitor your AI SDK applications with Laminar
+description: 使用 Laminar 监控 AI SDK 应用
 ---
 
-# Laminar observability
+# Laminar 可观测性
 
-[Laminar](https://laminar.sh) is the open-source platform for tracing and evaluating AI applications.
+[Laminar](https://laminar.sh) 是用于追踪与评估 AI 应用的开源平台。
 
-Laminar features:
+Laminar 提供：
 
-- [Tracing compatible with AI SDK and more](https://docs.lmnr.ai/tracing/introduction),
-- [Evaluations](https://docs.lmnr.ai/evaluations/introduction),
-- [Browser agent observability](https://docs.lmnr.ai/tracing/browser-agent-observability)
+- [与 AI SDK 等兼容的 Tracing](https://docs.lmnr.ai/tracing/introduction)，
+- [Evaluations（评估）](https://docs.lmnr.ai/evaluations/introduction)，
+- [浏览器智能体可观测性](https://docs.lmnr.ai/tracing/browser-agent-observability)
 
 <Note>
-  A version of this guide is available in [Laminar's
-  docs](https://docs.lmnr.ai/tracing/integrations/vercel-ai-sdk).
+  [Laminar 文档](https://docs.lmnr.ai/tracing/integrations/vercel-ai-sdk) 中亦有本指南版本。
 </Note>
 
-## Setup
+## 设置
 
-Laminar's tracing is based on OpenTelemetry. It supports AI SDK [telemetry](/docs/ai-sdk-core/telemetry).
+Laminar 的 tracing 基于 OpenTelemetry，支持 AI SDK [telemetry](/docs/ai-sdk-core/telemetry)。
 
-### Installation
+### 安装
 
-To start with Laminar's tracing, first [install](https://docs.lmnr.ai/installation) the `@lmnr-ai/lmnr` package.
+开始使用 Laminar tracing 时，请先 [安装](https://docs.lmnr.ai/installation) `@lmnr-ai/lmnr` 包。
 
 <Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
   <Tab>
@@ -42,13 +41,13 @@ To start with Laminar's tracing, first [install](https://docs.lmnr.ai/installati
   </Tab>
 </Tabs>
 
-### Get your project API key and set in the environment
+### 获取项目 API key 并配置环境变量
 
-Then, either sign up on [Laminar](https://laminar.sh) or self-host an instance ([github](https://github.com/lmnr-ai/lmnr)) and create a new project.
+在 [Laminar](https://laminar.sh) 注册，或自建实例（[github](https://github.com/lmnr-ai/lmnr)）并创建新项目。
 
-In the project settings, create and copy the API key.
+在项目设置中创建并复制 API key。
 
-In your .env
+在 `.env` 中：
 
 ```bash
 LMNR_PROJECT_API_KEY=...
@@ -56,9 +55,9 @@ LMNR_PROJECT_API_KEY=...
 
 ## Next.js
 
-### Initialize tracing
+### 初始化 tracing
 
-In Next.js, Laminar initialization and the AI SDK telemetry integration should both be done in `instrumentation.{ts,js}`:
+在 Next.js 中，Laminar 初始化与 AI SDK 遥测集成均应在 `instrumentation.{ts,js}` 中完成：
 
 ```javascript
 export async function register() {
@@ -76,9 +75,9 @@ export async function register() {
 }
 ```
 
-### Add @lmnr-ai/lmnr to your next.config
+### 将 @lmnr-ai/lmnr 加入 next.config
 
-In your `next.config.js` (`.ts` / `.mjs`), add the following lines:
+在 `next.config.js`（`.ts` / `.mjs`）中加入：
 
 ```javascript
 const nextConfig = {
@@ -88,11 +87,11 @@ const nextConfig = {
 export default nextConfig;
 ```
 
-This is because Laminar depends on OpenTelemetry, which uses some Node.js-specific functionality, and we need to inform Next.js about it. Learn more in the [Next.js docs](https://nextjs.org/docs/app/api-reference/config/next-config-js/serverExternalPackages).
+Laminar 依赖 OpenTelemetry，其中使用部分 Node.js 专有能力，需告知 Next.js。详见 [Next.js 文档](https://nextjs.org/docs/app/api-reference/config/next-config-js/serverExternalPackages)。
 
-### Tracing AI SDK calls
+### 追踪 AI SDK 调用
 
-Once the integration is registered, telemetry is captured automatically on every AI SDK call:
+注册集成后，每次 AI SDK 调用会自动采集遥测：
 
 ```javascript
 import { openai } from '@ai-sdk/openai';
@@ -104,19 +103,19 @@ const { text } = await generateText({
 });
 ```
 
-This will create spans for `ai.generateText`. Laminar collects and displays the following information:
+会为 `ai.generateText` 创建 span。Laminar 收集并展示：
 
-- LLM call input and output
-- Start and end time
-- Duration / latency
-- Provider and model used
-- Input and output tokens
-- Input and output price
-- Additional metadata and span attributes
+- LLM 调用输入与输出
+- 开始与结束时间
+- 耗时 / 延迟
+- 提供方与所用模型
+- 输入与输出 token
+- 输入与输出价格
+- 其他元数据与 span 属性
 
-### Older versions of Next.js
+### 较早版本的 Next.js
 
-If you are using 13.4 ≤ Next.js < 15, you will also need to enable the experimental instrumentation hook. Place the following in your `next.config.js`:
+若使用 13.4 ≤ Next.js &lt; 15，还需开启实验性 instrumentation hook。在 `next.config.js` 中加入：
 
 ```javascript
 module.exports = {
@@ -126,14 +125,14 @@ module.exports = {
 };
 ```
 
-For more information, see Laminar's [Next.js guide](https://docs.lmnr.ai/tracing/nextjs) and Next.js [instrumentation docs](https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation). You can also learn how to enable all traces for Next.js in the docs.
+更多信息见 Laminar 的 [Next.js guide](https://docs.lmnr.ai/tracing/nextjs) 与 Next.js [instrumentation 文档](https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation)。也可在文档中了解如何为 Next.js 启用全部 traces。
 
-### Usage with `@vercel/otel`
+### 与 `@vercel/otel` 共用
 
-Laminar can live alongside `@vercel/otel` and trace AI SDK calls. The default Laminar setup will ensure that
+Laminar 可与 `@vercel/otel` 共存并追踪 AI SDK 调用。默认 Laminar 配置会确保：
 
-- regular Next.js traces are sent via `@vercel/otel` to your Telemetry backend configured with Vercel,
-- AI SDK and other LLM or browser agent traces are sent via Laminar.
+- 常规 Next.js traces 经由 `@vercel/otel` 发往你在 Vercel 配置的 Telemetry 后端，
+- AI SDK 及其他 LLM 或浏览器智能体 traces 经由 Laminar 发送。
 
 ```javascript
 import { registerOTel } from '@vercel/otel';
@@ -153,16 +152,16 @@ export async function register() {
 }
 ```
 
-For an advanced configuration that allows you to trace all Next.js traces via Laminar, see an example [repo](https://github.com/lmnr-ai/lmnr-ts/tree/main/examples/nextjs).
+若需将 Next.js 全部 traces 经 Laminar 导出，参见示例 [仓库](https://github.com/lmnr-ai/lmnr-ts/tree/main/examples/nextjs)。
 
-### Usage with `@sentry/node`
+### 与 `@sentry/node` 共用
 
-Laminar can live alongside `@sentry/node` and trace AI SDK calls. Make sure to initialize Laminar **after** `Sentry.init`.
+Laminar 可与 `@sentry/node` 共存并追踪 AI SDK 调用。请在 `Sentry.init` **之后** 初始化 Laminar。
 
-This will ensure that
+这样会确保：
 
-- Whatever is instrumented by Sentry is sent to your Sentry backend,
-- AI SDK and other LLM or browser agent traces are sent via Laminar.
+- 由 Sentry 埋点的内容发往你的 Sentry 后端，
+- AI SDK 及其他 LLM 或浏览器智能体 traces 经由 Laminar 发送。
 
 ```javascript
 export async function register() {
@@ -187,9 +186,9 @@ export async function register() {
 
 ## Node.js
 
-### Initialize tracing
+### 初始化 tracing
 
-Then, initialize tracing in your application:
+在应用中初始化 tracing：
 
 ```javascript
 import { registerTelemetry } from 'ai';
@@ -200,13 +199,13 @@ Laminar.initialize();
 registerTelemetry(new LegacyOpenTelemetry({ tracer: getTracer() }));
 ```
 
-This must be done once in your application, as early as possible, but _after_ other tracing libraries (e.g. `@sentry/node`) are initialized.
+应用中只需执行一次，且应尽早执行，但须在其它 tracing 库（如 `@sentry/node`）初始化**之后**。
 
-Read more in Laminar [docs](https://docs.lmnr.ai/tracing/introduction).
+详见 Laminar [文档](https://docs.lmnr.ai/tracing/introduction)。
 
-### Tracing AI SDK calls
+### 追踪 AI SDK 调用
 
-Once the integration is registered, telemetry is captured automatically on every AI SDK call:
+注册集成后，每次 AI SDK 调用会自动采集遥测：
 
 ```javascript
 import { openai } from '@ai-sdk/openai';
@@ -218,19 +217,19 @@ const { text } = await generateText({
 });
 ```
 
-This will create spans for `ai.generateText`. Laminar collects and displays the following information:
+会为 `ai.generateText` 创建 span。Laminar 收集并展示：
 
-- LLM call input and output
-- Start and end time
-- Duration / latency
-- Provider and model used
-- Input and output tokens
-- Input and output price
-- Additional metadata and span attributes
+- LLM 调用输入与输出
+- 开始与结束时间
+- 耗时 / 延迟
+- 提供方与所用模型
+- 输入与输出 token
+- 输入与输出价格
+- 其他元数据与 span 属性
 
-### Usage with `@sentry/node`
+### 与 `@sentry/node` 共用
 
-Laminar can work with `@sentry/node` to trace AI SDK calls. Make sure to initialize Laminar **after** `Sentry.init`:
+Laminar 可与 `@sentry/node` 配合追踪 AI SDK 调用。请在 `Sentry.init` **之后** 初始化 Laminar：
 
 ```javascript
 const Sentry = await import('@sentry/node');
@@ -245,18 +244,18 @@ Laminar.initialize({
 });
 ```
 
-This will ensure that
+这样会确保：
 
-- Whatever is instrumented by Sentry is sent to your Sentry backend,
-- AI SDK and other LLM or browser agent traces are sent via Laminar.
+- 由 Sentry 埋点的内容发往你的 Sentry 后端，
+- AI SDK 及其他 LLM 或浏览器智能体 traces 经由 Laminar 发送。
 
-The two libraries allow for additional advanced configuration, but the default setup above is recommended.
+两库还支持更多高级配置，上述默认接入方式通常已足够。
 
-## Additional configuration
+## 额外配置
 
-### Span name
+### Span 名称
 
-If you want to override the default span name, you can set the `functionId` inside the `telemetry` option.
+若要覆盖默认 span 名称，可在 `telemetry` 选项中设置 `functionId`。
 
 ```javascript
 const { text } = await generateText({
@@ -268,9 +267,9 @@ const { text } = await generateText({
 });
 ```
 
-### Nested spans
+### 嵌套 span
 
-If you want to trace not just the AI SDK calls, but also other functions in your application, you can use Laminar's `observe` wrapper.
+若要追踪 AI SDK 调用之外的应用内其它函数，可使用 Laminar 的 `observe` 包装器。
 
 ```javascript highlight="3"
 import { observe } from '@lmnr-ai/lmnr';
@@ -284,9 +283,9 @@ const result = await observe({ name: 'my-function' }, async () => {
 });
 ```
 
-This will create a span with the name "my-function" and trace the function call. Inside it, you will see the nested `ai.generateText` spans.
+会创建名为 "my-function" 的 span 并追踪该函数调用；其内可看到嵌套的 `ai.generateText` span。
 
-To trace input arguments of the function that you wrap in `observe`, pass them to the wrapper as additional arguments. The return value of the function will be returned from the wrapper and traced as the span's output.
+若要追踪 `observe` 所包装函数的入参，请将其作为额外参数传入包装器；函数返回值会从包装器原样返回，并作为 span 的输出被记录。
 
 ```javascript
 const result = await observe(
@@ -303,9 +302,9 @@ const result = await observe(
 );
 ```
 
-### Metadata
+### 元数据（Metadata）
 
-In Laminar, metadata is set on the trace level. Metadata contains key-value pairs and can be used to filter traces.
+在 Laminar 中，metadata 设置在 trace 级别，为键值对，可用于筛选 traces。
 
 ```javascript
 const { text } = await generateText({
@@ -320,13 +319,13 @@ const { text } = await generateText({
 });
 ```
 
-This is converted to Laminar's [metadata](https://docs.lmnr.ai/tracing/structure/metadata) and stored in the trace.
+会转换为 Laminar 的 [metadata](https://docs.lmnr.ai/tracing/structure/metadata) 并存入 trace。
 
-### Tags
+### 标签（Tags）
 
-One of the reserved metadata keys is `tags`. It can be used to add [tags](https://docs.lmnr.ai/tracing/structure/tags) to the span.
+预留的 metadata 键之一是 `tags`，可用于向 span 添加 [tags](https://docs.lmnr.ai/tracing/structure/tags)。
 
-Tags can subsequently be used to filter traces in Laminar.
+随后可在 Laminar 中用标签筛选 traces。
 
 ```javascript
 const { text } = await generateText({
@@ -340,10 +339,9 @@ const { text } = await generateText({
 });
 ```
 
-### Session ID and User ID
+### Session ID 与 User ID
 
-Traces in Laminar can be grouped into [sessions](https://docs.lmnr.ai/tracing/structure/session) or by [user ID](https://docs.lmnr.ai/tracing/structure/user-id). These are also
-reserved metadata keys.
+Laminar 中的 traces 可按 [sessions](https://docs.lmnr.ai/tracing/structure/session) 或 [user ID](https://docs.lmnr.ai/tracing/structure/user-id) 分组，对应保留的 metadata 键。
 
 ```javascript
 const { text } = await generateText({

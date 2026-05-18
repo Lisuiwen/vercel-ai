@@ -29,7 +29,7 @@ run(async () => {
     },
     prompt: 'What is the weather in my current location?',
     onStepFinish: step => {
-      // typed tool calls:
+      // 键入工具调用：
       for (const toolCall of step.toolCalls) {
         if (toolCall.dynamic) {
           console.log('DYNAMIC CALL', JSON.stringify(toolCall, null, 2));
@@ -39,13 +39,13 @@ run(async () => {
         switch (toolCall.toolName) {
           case 'weather': {
             console.log('STATIC CALL', JSON.stringify(toolCall, null, 2));
-            toolCall.input.location; // string
+            toolCall.input.location; // 字符串
             break;
           }
         }
       }
 
-      // typed tool results for tools with execute method:
+      // 具有执行方法的工具的类型化工具结果：
       for (const toolResult of step.toolResults) {
         if (toolResult.dynamic) {
           console.log('DYNAMIC RESULT', JSON.stringify(toolResult, null, 2));
@@ -55,9 +55,9 @@ run(async () => {
         switch (toolResult.toolName) {
           case 'weather': {
             console.log('STATIC RESULT', JSON.stringify(toolResult, null, 2));
-            toolResult.input.location; // string
-            toolResult.output.location; // string
-            toolResult.output.temperature; // number
+            toolResult.input.location; // 字符串
+            toolResult.output.location; // 字符串
+            toolResult.output.temperature; // 数字
             break;
           }
         }
