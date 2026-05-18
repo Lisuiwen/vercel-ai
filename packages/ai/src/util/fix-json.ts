@@ -21,7 +21,7 @@ type State =
 // 理想情况下，这些状态应该与 JSON 规范中的相关状态匹配：
 // https://www.json.org/json-en.html
 //
-// 请注意，不考虑/覆盖无效的 JSON，因为它
+// 请注意，不要考虑/覆盖 JSON 的 JSON，因为它
 // 假设生成的 JSON 将由标准处理
 // JSON 解析器将检测任何无效的 JSON。
 export function fixJson(input: string): string {

@@ -1,14 +1,14 @@
 /**
- * 消耗 ReadableStream 直至完全读取。
+ * 消耗 ReadableStream 底座完全读取。
  *
  * 该函数逐块读取流，直到流耗尽。
  * 它不处理或返回流中的数据；它只是确保
  * 读取整个流。
  *
- * @param options - The options for consuming the stream.
- * @param options.stream - The ReadableStream to be consumed.
- * @param options.onError - Optional callback to handle errors that occur during consumption.
- * @returns A promise that resolves when the stream is fully consumed.
+ * @param options - 使用流的选项。
+ * @param options.stream - 要使用的 ReadableStream。
+ * @param options.onError - 用于处理消费期间发生的错误的可选回调。
+ * @returns 当流被完全消耗时解决的承诺。
  */
 export async function consumeStream({
   stream,

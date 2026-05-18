@@ -30,7 +30,7 @@ export function writeToServerResponse({
         const { done, value } = await reader.read();
         if (done) break;
 
-        // 尊重背压：如果 write() 返回 false，则等待“drain”事件
+        // 尊敬背压：如果 write() 返回 false，则等待`drain`事件
         const canContinue = response.write(value);
         if (!canContinue) {
           await new Promise<void>(resolve => {

@@ -5,8 +5,8 @@ import type { Callback } from '../util/callback';
  * 跳过未定义的回调，并抛出或拒绝回调错误
  * 被忽略。
  *
- * @param callbacks The callbacks to invoke for each event.
- * @returns A callback that forwards each event to all callbacks and waits for
+ * @param回调为每个事件调用的回调。
+ * @returns 将每个事件转发到所有回调并等待的回调
  * 他们去解决。
  */
 export function mergeCallbacks<EVENT>(

@@ -8,7 +8,7 @@ import type { UploadSkillResult } from './upload-skill-result';
 
 type UploadSkillFile = Omit<SkillsV4File, 'data'> & {
   /**
-   * 文件数据。接受标记为“{ type: 'data' | 'text' }` 形状，或者
+   * 数据。接受标记为“{ type: 'data' | 'text' }` 形状，或者
    * 简写`Uint8Array | string`（被视为“{ type: 'data', data }`）。
    */
   data: SkillsV4File['data'] | Uint8Array | string;

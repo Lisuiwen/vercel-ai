@@ -4,12 +4,12 @@ import { InvalidArgumentError } from '../error/invalid-argument-error';
  * 计算两个向量之间的余弦相似度。这是一个有用的指标
  * 比较两个向量的相似度，例如嵌入。
  *
- * @param vector1 - The first vector.
- * @param vector2 - The second vector.
+ * @param vector1 - 第一个向量。
+ * @param vector2 - 第二个向量。
  *
- * @returns The cosine similarity between vector1 and vector2, or 0 if either vector is the zero vector.
+ * @returns 矢量 1 和矢量 2 之间的余弦相似度，如果任一矢量都是零矢量，则为 0。
  *
- * @throws {InvalidArgumentError} If the vectors do not have the same length.
+ * @throws {InvalidArgumentError} 如果向量的长度不同。
  */
 export function cosineSimilarity(vector1: number[], vector2: number[]): number {
   if (vector1.length !== vector2.length) {

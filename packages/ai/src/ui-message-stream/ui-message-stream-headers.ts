@@ -3,5 +3,5 @@ export const UI_MESSAGE_STREAM_HEADERS = {
   'cache-control': 'no-cache',
   connection: 'keep-alive',
   'x-vercel-ai-ui-message-stream': 'v1',
-  'x-accel-buffering': 'no', // 禁用 nginx 缓冲
+  'x-accel-buffering': 'no', // 取消 nginx 缓冲
 };

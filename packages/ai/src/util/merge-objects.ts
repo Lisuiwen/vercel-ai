@@ -1,21 +1,21 @@
 /**
  * 将两个对象深度合并在一起。
- * - “overrides”对象中的属性会覆盖具有相同键的“base”对象中的属性。
+ * - `overrides`对象中的属性会覆盖具有相同键的`base`对象中的属性。
  * - 对于嵌套对象，合并以递归方式执行（深度合并）。
  * - 数组被替换，而不是合并。
  * - 原始值被替换。
  * - 如果 `base` 和 `overrides` 都未定义，则返回未定义。
- * - 如果“base”或“overrides”之一未定义，则返回另一个。
+ * - 如果`base`或`overrides`其中一个未定义，则返回另一个。
  *
- * @param base The target object to merge into
- * @param overrides The source object to merge from
- * @returns A new object with the merged properties, or undefined if both inputs are undefined
+ * @param base 要合并到的目标对象
+ * @param overrides 要合并的源对象
+ * @returns 具有合并属性的新对象，如果两个输入均未定义，则为未定义
  */
 export function mergeObjects<T extends object, U extends object>(
   base: T | undefined,
   overrides: U | undefined,
 ): (T & U) | T | U | undefined {
-  // 如果两个输入均未定义，则返回 undefined
+  // 如果输入均未定义，则返回两个未定义
   if (base === undefined && overrides === undefined) {
     return undefined;
   }

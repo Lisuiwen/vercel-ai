@@ -1,23 +1,23 @@
 ---
 title: UIMessage
-description: API Reference for UIMessage
+description: UIMessage 的 API 参考
 ---
 
 # `UIMessage`
 
-`UIMessage` serves as the source of truth for your application's state, representing the complete message history including metadata, data parts, and all contextual information. In contrast to `ModelMessage`, which represents the state or context passed to the model, `UIMessage` contains the full application state needed for UI rendering and client-side functionality.
+`UIMessage` 作为应用状态的事实来源，表示完整的消息历史，包括元数据、数据部分以及所有上下文信息。与表示传递给模型的状态或上下文的 `ModelMessage` 不同，`UIMessage` 包含 UI 渲染和客户端功能所需的完整应用状态。
 
-## Type Safety
+## 类型安全
 
-`UIMessage` is designed to be type-safe and accepts three generic parameters to ensure proper typing throughout your application:
+`UIMessage` 设计为类型安全，并接受三个泛型参数，以确保整个应用中的类型正确：
 
-1. **`METADATA`** - Custom metadata type for additional message information
-2. **`DATA_PARTS`** - Custom data part types for structured data components
-3. **`TOOLS`** - Tool definitions for type-safe tool interactions
+1. **`METADATA`** - 用于附加消息信息的自定义元数据类型
+2. **`DATA_PARTS`** - 用于结构化数据组件的自定义数据部分类型
+3. **`TOOLS`** - 用于类型安全工具交互的工具定义
 
-## Creating Your Own UIMessage Type
+## 创建你自己的 UIMessage 类型
 
-Here's an example of how to create a custom typed UIMessage for your application:
+下面是一个示例，展示如何为你的应用创建自定义类型的 UIMessage：
 
 ```typescript
 import { InferUITools, ToolSet, UIMessage, tool } from 'ai';
@@ -45,7 +45,7 @@ type MyTools = InferUITools<typeof tools>;
 export type MyUIMessage = UIMessage<MyMetadata, MyDataPart, MyTools>;
 ```
 
-## `UIMessage` Interface
+## `UIMessage` 接口
 
 ```typescript
 interface UIMessage<
@@ -75,11 +75,11 @@ interface UIMessage<
 }
 ```
 
-## `UIMessagePart` Types
+## `UIMessagePart` 类型
 
 ### `TextUIPart`
 
-A text part of a message.
+消息的文本部分。
 
 ```typescript
 type TextUIPart = {
@@ -97,7 +97,7 @@ type TextUIPart = {
 
 ### `ReasoningUIPart`
 
-A reasoning part of a message.
+消息的推理部分。
 
 ```typescript
 type ReasoningUIPart = {
@@ -119,11 +119,11 @@ type ReasoningUIPart = {
 
 ### `ToolUIPart`
 
-A tool part of a message that represents tool invocations and their results.
+消息的工具部分，表示工具调用及其结果。
 
 <Note>
-  The type is based on the name of the tool (e.g., `tool-someTool` for a tool
-  named `someTool`).
+  该类型基于工具的名称（例如，名为 `someTool` 的工具对应
+  `tool-someTool`）。
 </Note>
 
 ```typescript
@@ -166,7 +166,7 @@ type ToolUIPart<TOOLS extends UITools = UITools> = ValueOf<{
 
 ### `CustomContentUIPart`
 
-A provider-specific custom content part of a message.
+消息中特定于 provider 的自定义内容部分。
 
 ```typescript
 type CustomContentUIPart = {
@@ -184,7 +184,7 @@ type CustomContentUIPart = {
 
 ### `SourceUrlUIPart`
 
-A source URL part of a message.
+消息的来源 URL 部分。
 
 ```typescript
 type SourceUrlUIPart = {
@@ -198,7 +198,7 @@ type SourceUrlUIPart = {
 
 ### `SourceDocumentUIPart`
 
-A document source part of a message.
+消息的文档来源部分。
 
 ```typescript
 type SourceDocumentUIPart = {
@@ -213,7 +213,7 @@ type SourceDocumentUIPart = {
 
 ### `FileUIPart`
 
-A file part of a message.
+消息的文件部分。
 
 ```typescript
 type FileUIPart = {
@@ -236,11 +236,11 @@ type FileUIPart = {
 
 ### `DataUIPart`
 
-A data part of a message for custom data types.
+用于自定义数据类型的消息数据部分。
 
 <Note>
-  The type is based on the name of the data part (e.g., `data-someDataPart` for
-  a data part named `someDataPart`).
+  该类型基于数据部分的名称（例如，名为 `someDataPart` 的数据部分对应
+  `data-someDataPart`）。
 </Note>
 
 ```typescript
@@ -255,7 +255,7 @@ type DataUIPart<DATA_TYPES extends UIDataTypes> = ValueOf<{
 
 ### `StepStartUIPart`
 
-A step boundary part of a message.
+消息的步骤边界部分。
 
 ```typescript
 type StepStartUIPart = {

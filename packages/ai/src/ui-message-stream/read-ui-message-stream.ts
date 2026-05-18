@@ -12,14 +12,14 @@ import {
 import { consumeStream } from '../util/consume-stream';
 
 /**
- * 将“UIMessageChunk”流转换为“UIMessage”的“AsyncIterableStream”。
+ * 将`UIMessageChunk`流转换为`UIMessage`的`AsyncIterableStream`。
  *
- * @param options.message - The last assistant message to use as a starting point when the conversation is resumed. Otherwise undefined.
- * @param options.stream - The stream of `UIMessageChunk`s to read.
- * @param options.terminateOnError - Whether to terminate the stream if an error occurs.
- * @param options.onError - A function that is called when an error occurs.
+ * @param options.message - 恢复对话时用作起点的最后一条助理消息。否则未定义。
+ * @param options.stream - 要读取的`UIMessageChunk`流。
+ * @param options.terminateOnError - 发生错误时是否终止流。
+ * @param options.onError - 发生错误时调用的函数。
  *
- * @returns An `AsyncIterableStream` of `UIMessage`s. Each stream part is a different state of the same message
+ * @returns `UIMessage`的`AsyncIterableStream`。每个流部分是同一消息的不同状态
  * 因为它正在完成。
  */
 export function readUIMessageStream<UI_MESSAGE extends UIMessage>({
@@ -76,7 +76,7 @@ export function readUIMessageStream<UI_MESSAGE extends UIMessage>({
     }),
     onError: handleError,
   }).finally(() => {
-    // 仅在未发生错误时关闭。在出错的控制器上调用 close()
+    // 仅在未发生错误时关闭。在出现错误的控制器上调用 close()
     // 抛出“无效状态：控制器已关闭”类型错误。
     if (!hasErrored) {
       controller?.close();

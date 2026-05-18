@@ -3,8 +3,8 @@ import { createResolvablePromise } from './create-resolvable-promise';
 /**
  * 创建一个可缝合流，一次可以通过管道传输一个流。
  *
- * @template T - The type of values emitted by the streams.
- * @returns {Object} An object containing the stitchable stream and control methods.
+ * @template T - 流发出的值的类型。
+ * @returns {Object} 包含可缝合流和控制方法的对象。
  */
 export function createStitchableStream<T>(): {
   stream: ReadableStream<T>;

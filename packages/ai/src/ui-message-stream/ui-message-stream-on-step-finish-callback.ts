@@ -7,7 +7,7 @@ import type { UIMessage } from '../ui/ui-messages';
 export type UIMessageStreamOnStepFinishCallback<UI_MESSAGE extends UIMessage> =
   (event: {
     /**
-     * 此步骤结束时更新的 UI 消息列表。
+     * 此步骤结束时更新的UI消息列表。
      */
     messages: UI_MESSAGE[];
 

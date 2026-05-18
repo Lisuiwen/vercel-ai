@@ -20,8 +20,8 @@ export function handleUIMessageStreamFinish<UI_MESSAGE extends UIMessage>({
   stream: ReadableStream<InferUIMessageChunk<UI_MESSAGE>>;
 
   /**
-   * 用于响应消息的消息 ID。
-   * 如果未提供，则不会为响应消息设置 id。
+   * 用于响应消息的消息ID。
+   * 如果未提供，则不会为响应消息设置id。
    */
   messageId?: string;
 
@@ -45,7 +45,7 @@ export function handleUIMessageStreamFinish<UI_MESSAGE extends UIMessage>({
   if (lastMessage?.role !== 'assistant') {
     lastMessage = undefined;
   } else {
-    // 附加到最后一条消息，因此我们需要使用相同的 id
+    // 附加到最后一条消息，因此我们需要使用相同的id
     messageId = lastMessage.id;
   }
 

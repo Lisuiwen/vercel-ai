@@ -15,7 +15,7 @@
 //
 // 该软件按“原样”提供，不提供任何类型的明示或默示保证，包括但不限于
 // 对适销性、特定用途的适用性和不侵权的保证。在任何情况下都不得
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+// 作者或版权所有者应对任何索赔、损害或其他责任负责，无论是出于
 // 因本软件或使用或其他交易而产生、产生或与之相关的合同、侵权行为或其他行为
 // 在软件中。
 
@@ -56,7 +56,7 @@ type DeepPartialInternal<T> = T extends
         : T extends ReadonlySet<infer ItemType>
           ? PartialReadonlySet<ItemType>
           : T extends object
-            ? T extends ReadonlyArray<infer ItemType> // 测试数组/元组，按照 https://github.com/microsoft/TypeScript/issues/35156
+            ? T extends ReadonlyArray<infer ItemType> // 测试阵列/元组，按照https://github.com/microsoft/TypeScript/issues/35156
               ? ItemType[] extends T // 专门测试数组（非元组）
                 ? readonly ItemType[] extends T // 区分只读数组和可变数组
                   ? ReadonlyArray<DeepPartialInternal<ItemType | undefined>>

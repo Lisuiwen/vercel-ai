@@ -24,7 +24,7 @@ function getRetryDelayInMs({
 
   let ms: number | undefined;
 
-  // retry-ms 比 retry-after 更精确，例如被使用开放人工智能
+  // retry-ms 比 retry-after 更准确，例如被使用开放人工智能
   const retryAfterMs = headers['retry-after-ms'];
   if (retryAfterMs) {
     const timeoutMs = parseFloat(retryAfterMs);

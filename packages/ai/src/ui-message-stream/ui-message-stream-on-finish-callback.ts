@@ -4,7 +4,7 @@ import type { UIMessage } from '../ui/ui-messages';
 export type UIMessageStreamOnFinishCallback<UI_MESSAGE extends UIMessage> =
   (event: {
     /**
-     * 更新的 UI 消息列表。
+     * 更新的UI消息列表。
      */
     messages: UI_MESSAGE[];
 

@@ -1,10 +1,10 @@
 /**
  * 将数组拆分为指定大小的块。
  *
- * @template T - The type of elements in the array.
- * @param {T[]} array - The array to split.
- * @param {number} chunkSize - The size of each chunk.
- * @returns {T[][]} - A new array containing the chunks.
+ * @template T - 数组中元素的类型。
+ * @param {T[]} array - 要分割的数组。
+ * @param {number} chunkSize - 每个块的大小。
+ * @returns {T[][]} - 包含块的新数组。
  */
 export function splitArray<T>(array: T[], chunkSize: number): T[][] {
   if (chunkSize <= 0) {

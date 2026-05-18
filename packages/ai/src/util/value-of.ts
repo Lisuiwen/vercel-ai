@@ -15,16 +15,16 @@
 //
 // 该软件按“原样”提供，不提供任何类型的明示或默示保证，包括但不限于
 // 对适销性、特定用途的适用性和不侵权的保证。在任何情况下都不得
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+// 作者或版权所有者应对任何索赔、损害或其他责任负责，无论是出于
 // 因本软件或使用或其他交易而产生、产生或与之相关的合同、侵权行为或其他行为
 // 在软件中。
 
 /**
  * 创建给定对象值的并集，并可以选择指定从哪些键获取值。
  *
- * 如果您希望将此类型作为 TypeScript 的内置类型，请投票[此问题](https://github.com/microsoft/TypeScript/issues/31438)。
+ * 如果您希望以太类型作为 TypeScript 的内置类型，请投票[此问题](https://github.com/microsoft/TypeScript/issues/31438)。
  *
- * @example
+ * @例子
  * ```
  * // 数据.json
  * {

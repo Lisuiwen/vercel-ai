@@ -47,7 +47,7 @@ describe('handleUIMessageStreamFinish', () => {
 
     it('should inject messageId when not present in start chunk', async () => {
       const inputChunks: UIMessageChunk[] = [
-        { type: 'start' }, // 没有消息 ID
+        { type: 'start' }, // 没有消息ID
         { type: 'text-start', id: 'text-1' },
         { type: 'text-delta', id: 'text-1', delta: 'Test' },
         { type: 'text-end', id: 'text-1' },
@@ -509,7 +509,7 @@ describe('handleUIMessageStreamFinish', () => {
 
       expect(onStepFinishCallback).toHaveBeenCalledTimes(3);
 
-      // Verify each step has the correct accumulated content
+      // 验证每个步骤是否有正确的累积内容
       const step1Args = onStepFinishCallback.mock.calls[0][0];
       expect(step1Args.responseMessage.parts).toHaveLength(1);
 

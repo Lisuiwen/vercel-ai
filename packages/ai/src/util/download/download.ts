@@ -9,14 +9,14 @@ import {
 import { VERSION } from '../../version';
 
 /**
- * 从 URL 下载文件。
+ * 从URL下载文件。
  *
- * @param url - The URL to download from.
- * @param maxBytes - Maximum allowed download size in bytes. Defaults to 100 MiB.
- * @param abortSignal - An optional abort signal to cancel the download.
- * @returns The downloaded data and media type.
+ * @param url - 从中下载的 URL。
+ * @param maxBytes - 允许的最大下载大小（以字节为单位）。默认为 100 MiB。
+ * @param abortSignal - 用于取消下载的可选中止信号。
+ * @returns 下载的数据和媒体类型。
  *
- * @throws DownloadError if the download fails or exceeds maxBytes.
+ * 如果下载失败或超过 maxBytes，则@抛出 DownloadError。
  */
 export const download = async ({
   url,
@@ -39,7 +39,7 @@ export const download = async ({
       signal: abortSignal,
     });
 
-    // 重定向后验证最终 URL，以通过开放重定向防止 SSRF
+    // 重定向后验证最终URL，以通过开放重定向防止SSRF
     if (response.redirected) {
       validateDownloadUrl(response.url);
     }

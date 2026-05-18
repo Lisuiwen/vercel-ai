@@ -329,7 +329,7 @@ describe('retryWithExponentialBackoffRespectingRetryHeaders', () => {
       await vi.advanceTimersByTimeAsync(5000);
       expect(fn).toHaveBeenCalledTimes(2);
 
-      // 第二次重试 - 使用指数退避 (4000ms)，大于速率限制延迟 (2000ms)
+      // 第二次重试 - 使用指数退避(4000ms)，大于延迟限制延迟(2000ms)
       await vi.advanceTimersByTimeAsync(4000);
       expect(fn).toHaveBeenCalledTimes(3);
 

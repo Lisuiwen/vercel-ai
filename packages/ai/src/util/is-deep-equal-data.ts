@@ -1,9 +1,9 @@
 /**
- * 对两个已解析的 JSON 对象执行深度相等比较。
+ * 对解析的 JSON 对象执行两个已完成比较。
  *
- * @param {any} obj1 - The first object to compare.
- * @param {any} obj2 - The second object to compare.
- * @returns {boolean} - Returns true if the two objects are deeply equal, false otherwise.
+ * @param {any} obj1 - 要比较的第一个对象。
+ * @param {any} obj2 - 要比较的第二个对象。
+ * @returns {boolean} - 如果两个对象深度相等则返回 true，否则返回 false。
  */
 export function isDeepEqualData(obj1: any, obj2: any): boolean {
   // 首先检查严格相等
@@ -19,7 +19,7 @@ export function isDeepEqualData(obj1: any, obj2: any): boolean {
   // 如果它们不严格相等，则它们都需要是对象
   if (obj1.constructor !== obj2.constructor) return false;
 
-  // Date 对象的特殊处理
+  // Date对象的特殊处理
   if (obj1 instanceof Date && obj2 instanceof Date) {
     return obj1.getTime() === obj2.getTime();
   }
