@@ -1,16 +1,16 @@
 ---
-title: Share useChat State Across Components
-description: Learn how to share a chat instance across multiple components with useChat and easily reset the chat.
+title: 在组件间共享 useChat 状态
+description: 学习如何在多个组件间共享 useChat 聊天实例并轻松重置对话
 tags: ['next', 'useChat', 'context']
 ---
 
-# Share useChat State Across Components
+# 在组件间共享 useChat 状态
 
-When building chat applications, you may want to access the same chat instance across multiple components. This allows you to display messages in one component, handle input in another, and control the chat state from anywhere in your application.
+构建聊天应用时，你可能希望在多个组件中访问同一聊天实例：在一个组件展示消息，在另一个处理输入，并在应用任意位置控制聊天状态。
 
-## Create a Chat Context
+## 创建聊天 Context
 
-First, create a context that will hold your chat instance and provide methods to interact with it.
+首先创建一个 context，用于保存聊天实例并提供交互方法。
 
 ```tsx filename='app/chat-context.tsx'
 'use client';
@@ -63,9 +63,9 @@ export function useSharedChatContext() {
 }
 ```
 
-## Wrap Your App with the Provider
+## 用 Provider 包裹应用
 
-Add the ChatProvider to your layout to make the chat context available to all child components.
+在 layout 中加入 `ChatProvider`，使所有子组件都能访问聊天 context。
 
 ```tsx filename='app/layout.tsx'
 import { ChatProvider } from './chat-context';
@@ -75,9 +75,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 }
 ```
 
-## Display Messages and Clear Chat
+## 展示消息并清空聊天
 
-Create a component that displays messages and provides a button to clear the chat.
+创建一个组件用于展示消息，并提供清空聊天的按钮。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -115,9 +115,9 @@ export default function Chat() {
 }
 ```
 
-## Handle Input in a Separate Component
+## 在独立组件中处理输入
 
-Create an input component that uses the shared chat context to send messages.
+创建输入组件，通过共享的聊天 context 发送消息。
 
 ```tsx filename='app/chat-input.tsx'
 import { useChat } from '@ai-sdk/react';
@@ -154,9 +154,9 @@ export default function ChatInput() {
 }
 ```
 
-## Server
+## 服务端
 
-Create an API route to handle the chat messages using the AI SDK.
+使用 AI SDK 创建 API 路由以处理聊天消息。
 
 ```tsx filename='app/api/chat/route.ts'
 import { convertToModelMessages, streamText, UIMessage } from 'ai';

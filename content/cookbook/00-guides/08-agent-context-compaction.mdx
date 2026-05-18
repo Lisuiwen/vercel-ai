@@ -1,20 +1,20 @@
 ---
-title: Compact Agent Context
-description: Learn how to compact agent context by mutating message state between steps with prepareStep.
+title: 压缩 Agent 上下文
+description: 学习如何通过 prepareStep 在步骤之间变更消息状态以压缩 agent 上下文
 tags: ['agent', 'context', 'compaction', 'prepareStep']
 ---
 
-# Compact Agent Context
+# 压缩 Agent 上下文
 
-In this guide, you will learn how to compact an agent's context by returning a new `messages` array from `prepareStep`.
+本指南介绍如何通过从 `prepareStep` 返回新的 `messages` 数组来压缩 agent 上下文。
 
-The example uses `pruneMessages`, a built-in helper that removes selected messages and message parts. You can use any compaction logic you want. The core behavior is that `prepareStep` can mutate the message state that later steps receive.
+示例使用内置辅助函数 `pruneMessages` 移除选定的消息与消息部分。你可使用任意压缩逻辑；核心行为是 `prepareStep` 可变更后续步骤收到的消息状态。
 
-## Start With a Growing Agent Loop
+## 从不断增长的 Agent 循环开始
 
-Agents that call tools can build up large message histories. Each tool call and tool result becomes part of the context for the next step.
+会调用工具的 agent 会累积大量消息历史。每次工具调用与工具结果都会成为下一步的上下文。
 
-This example uses a tool that returns long results:
+本示例使用返回较长结果的工具：
 
 ```ts
 import { ToolLoopAgent, isStepCount, tool } from 'ai';
@@ -47,13 +47,13 @@ const result = await agent.generate({
 });
 ```
 
-This works, but the message list grows after each tool call. If the agent reads several large documents, later steps may send old tool results that the model no longer needs in full.
+这样可行，但每次工具调用后消息列表都会变长。若 agent 读取多份大文档，后续步骤可能仍发送模型已不再需要完整内容的旧工具结果。
 
-## Add a Compaction Trigger
+## 添加压缩触发条件
 
-You decide when compaction should happen.
+由你决定何时压缩。
 
-This example uses a simple token estimate:
+本示例使用简单的 token 估算：
 
 ```ts
 import type { ModelMessage } from 'ai';
@@ -65,13 +65,13 @@ const estimateTokens = (messages: ModelMessage[]) => {
 };
 ```
 
-Use a real tokenizer or provider usage data if you need tighter accounting. The exact trigger does not matter for the pattern.
+若需更精确统计，可使用真实分词器或提供商用量数据。具体触发条件不影响该模式本身。
 
-## Compact Messages in prepareStep
+## 在 prepareStep 中压缩消息
 
-`prepareStep` runs before each model step. It receives the `messages` that will be sent to the model for that step.
+`prepareStep` 在每次模型步骤之前运行，接收该步将发给模型的 `messages`。
 
-When you return a new `messages` array, the SDK uses it for the current step and as the base for following steps.
+返回新的 `messages` 数组时，SDK 会将其用于当前步骤，并作为后续步骤的基础。
 
 ```ts
 import {
@@ -128,13 +128,13 @@ const result = await agent.generate({
 });
 ```
 
-`pruneMessages` is only one way to compact. You can replace it with your own logic when you need a different message shape.
+`pruneMessages` 只是压缩方式之一；需要不同消息形状时可替换为自定义逻辑。
 
-## Understand What Persists
+## 理解持久化行为
 
-The `messages` parameter is the loop's current message state. If `prepareStep` returns `messages`, that changed list persists into later steps. New assistant and tool response messages are appended as the loop continues.
+`messages` 参数是循环当前的消息状态。若 `prepareStep` 返回 `messages`，该变更列表会延续到后续步骤；新的助手与工具响应消息会随循环继续追加。
 
-If you want to build a step from the original input plus the model responses so far, use `initialMessages` and `responseMessages`:
+若希望基于原始输入与迄今的模型响应构建某一步，可使用 `initialMessages` 与 `responseMessages`：
 
 ```ts
 prepareStep: ({ initialMessages, responseMessages, stepNumber }) => {
@@ -146,11 +146,11 @@ prepareStep: ({ initialMessages, responseMessages, stepNumber }) => {
 };
 ```
 
-This is useful when you do not want previous `messages` overrides to be the starting point for the next step.
+当你不希望上一次的 `messages` 覆盖成为下一步起点时，这很有用。
 
-## Use the Same Pattern With Core Functions
+## 在核心函数中使用相同模式
 
-The same `prepareStep` behavior works with `generateText` and `streamText`:
+`generateText` 与 `streamText` 同样支持上述 `prepareStep` 行为：
 
 ```ts
 import { generateText, isStepCount, pruneMessages } from 'ai';
@@ -178,8 +178,8 @@ const result = await generateText({
 });
 ```
 
-## Learn More
+## 延伸阅读
 
-- [Loop Control](/docs/agents/loop-control) for `prepareStep` with agents
-- [Tools and Tool Calling](/docs/ai-sdk-core/tools-and-tool-calling#preparestep-callback) for `prepareStep` with AI SDK Core
-- [`pruneMessages`](/docs/reference/ai-sdk-ui/prune-messages) for built-in message pruning options
+- [循环控制](/docs/agents/loop-control) — agent 与 `prepareStep`
+- [工具与工具调用](/docs/ai-sdk-core/tools-and-tool-calling#preparestep-callback) — AI SDK Core 与 `prepareStep`
+- [`pruneMessages`](/docs/reference/ai-sdk-ui/prune-messages) — 内置消息修剪选项

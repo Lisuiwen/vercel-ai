@@ -1,21 +1,18 @@
 ---
 title: useChat
-description: API reference for the useChat hook.
+description: useChat hook 的 API 参考。
 ---
 
 # `useChat()`
 
-Allows you to easily create a conversational user interface for your chatbot application. It enables the streaming of chat messages from your AI provider, manages the chat state, and updates the UI automatically as new messages are received.
+让你可以轻松为聊天机器人应用创建对话式用户界面。它支持从 AI provider 流式传输聊天消息、管理聊天状态，并在收到新消息时自动更新 UI。
 
 <Note>
-  The `useChat` API has been significantly updated in AI SDK 5.0. It now uses a
-  transport-based architecture and no longer manages input state internally. See
-  the [migration
-  guide](/docs/migration-guides/migration-guide-5-0#usechat-changes) for
-  details.
+  `useChat` API 在 AI SDK 5.0 中已有重大更新。它现在使用基于 transport
+  的架构，并且不再在内部管理输入状态。详情请参阅[迁移指南](/docs/migration-guides/migration-guide-5-0#usechat-changes)。
 </Note>
 
-## Import
+## 导入
 
 <Tabs items={['React', 'Svelte', 'Vue', 'Angular']}>
   <Tab>
@@ -40,9 +37,9 @@ Allows you to easily create a conversational user interface for your chatbot app
   </Tab>
 </Tabs>
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
@@ -51,14 +48,14 @@ Allows you to easily create a conversational user interface for your chatbot app
       type: 'Chat<UIMessage>',
       isOptional: true,
       description:
-        'An existing Chat instance to use. If provided, other parameters are ignored.',
+        '要使用的现有 Chat 实例。如果提供，其他参数将被忽略。',
     },
     {
       name: 'transport',
       type: 'ChatTransport',
       isOptional: true,
       description:
-        'The transport to use for sending messages. Defaults to DefaultChatTransport with `/api/chat` endpoint.',
+        '用于发送消息的 transport。默认为使用 `/api/chat` 端点的 DefaultChatTransport。',
       properties: [
         {
           type: 'DefaultChatTransport',
@@ -67,39 +64,39 @@ Allows you to easily create a conversational user interface for your chatbot app
               name: 'api',
               type: "string = '/api/chat'",
               isOptional: true,
-              description: 'The API endpoint for chat requests.',
+              description: '聊天请求的 API 端点。',
             },
             {
               name: 'credentials',
               type: 'RequestCredentials',
               isOptional: true,
-              description: 'The credentials mode for fetch requests.',
+              description: 'fetch 请求的 credentials 模式。',
             },
             {
               name: 'headers',
               type: 'Record<string, string> | Headers',
               isOptional: true,
-              description: 'HTTP headers to send with requests.',
+              description: '随请求发送的 HTTP headers。',
             },
             {
               name: 'body',
               type: 'object',
               isOptional: true,
-              description: 'Extra body object to send with requests.',
+              description: '随请求发送的额外 body 对象。',
             },
             {
               name: 'fetch',
               type: 'FetchFunction',
               isOptional: true,
               description:
-                'Custom fetch implementation. You can use it as a middleware to intercept requests, or to provide a custom fetch implementation for e.g. testing.',
+                '自定义 fetch 实现。你可以将其作为 middleware 来拦截请求，或提供自定义 fetch 实现，例如用于测试。',
             },
             {
               name: 'prepareSendMessagesRequest',
               type: 'PrepareSendMessagesRequest',
               isOptional: true,
               description:
-                'A function to customize the request before chat API calls.',
+                '在调用 chat API 之前自定义请求的函数。',
               properties: [
                 {
                   type: 'PrepareSendMessagesRequest',
@@ -107,7 +104,7 @@ Allows you to easily create a conversational user interface for your chatbot app
                     {
                       name: 'options',
                       type: 'PrepareSendMessageRequestOptions',
-                      description: 'Options for preparing the request',
+                      description: '用于准备请求的 options',
                       properties: [
                         {
                           type: 'PrepareSendMessageRequestOptions',
@@ -115,47 +112,47 @@ Allows you to easily create a conversational user interface for your chatbot app
                             {
                               name: 'id',
                               type: 'string',
-                              description: 'The chat ID',
+                              description: '聊天 ID',
                             },
                             {
                               name: 'messages',
                               type: 'UIMessage[]',
-                              description: 'Current messages in the chat',
+                              description: '聊天中的当前 messages',
                             },
                             {
                               name: 'requestMetadata',
                               type: 'unknown',
-                              description: 'The request metadata',
+                              description: '请求 metadata',
                             },
                             {
                               name: 'body',
                               type: 'Record<string, any> | undefined',
-                              description: 'The request body',
+                              description: '请求 body',
                             },
                             {
                               name: 'credentials',
                               type: 'RequestCredentials | undefined',
-                              description: 'The request credentials',
+                              description: '请求 credentials',
                             },
                             {
                               name: 'headers',
                               type: 'HeadersInit | undefined',
-                              description: 'The request headers',
+                              description: '请求 headers',
                             },
                             {
                               name: 'api',
                               type: 'string',
-                              description: `The API endpoint to use for the request. If not specified, it defaults to the transport’s API endpoint: /api/chat.`,
+                              description: `请求使用的 API 端点。如果未指定，则默认使用 transport 的 API 端点：/api/chat。`,
                             },
                             {
                               name: 'trigger',
                               type: "'submit-message' | 'regenerate-message'",
-                              description: 'The trigger for the request',
+                              description: '请求的 trigger',
                             },
                             {
                               name: 'messageId',
                               type: 'string | undefined',
-                              description: 'The message ID if applicable',
+                              description: '适用时的 message ID',
                             },
                           ],
                         },
@@ -170,7 +167,7 @@ Allows you to easily create a conversational user interface for your chatbot app
               type: 'PrepareReconnectToStreamRequest',
               isOptional: true,
               description:
-                'A function to customize the request before reconnect API call.',
+                '在调用 reconnect API 之前自定义请求的函数。',
               properties: [
                 {
                   type: 'PrepareReconnectToStreamRequest',
@@ -179,7 +176,7 @@ Allows you to easily create a conversational user interface for your chatbot app
                       name: 'options',
                       type: 'PrepareReconnectToStreamRequestOptions',
                       description:
-                        'Options for preparing the reconnect request',
+                        '用于准备 reconnect 请求的 options',
                       properties: [
                         {
                           type: 'PrepareReconnectToStreamRequestOptions',
@@ -187,32 +184,32 @@ Allows you to easily create a conversational user interface for your chatbot app
                             {
                               name: 'id',
                               type: 'string',
-                              description: 'The chat ID',
+                              description: '聊天 ID',
                             },
                             {
                               name: 'requestMetadata',
                               type: 'unknown',
-                              description: 'The request metadata',
+                              description: '请求 metadata',
                             },
                             {
                               name: 'body',
                               type: 'Record<string, any> | undefined',
-                              description: 'The request body',
+                              description: '请求 body',
                             },
                             {
                               name: 'credentials',
                               type: 'RequestCredentials | undefined',
-                              description: 'The request credentials',
+                              description: '请求 credentials',
                             },
                             {
                               name: 'headers',
                               type: 'HeadersInit | undefined',
-                              description: 'The request headers',
+                              description: '请求 headers',
                             },
                             {
                               name: 'api',
                               type: 'string',
-                              description: `The API endpoint to use for the request. If not specified, it defaults to the transport’s API endpoint combined with the chat ID: /api/chat/{chatId}/stream.`,
+                              description: `请求使用的 API 端点。如果未指定，则默认使用 transport 的 API 端点与 chat ID 组合而成：/api/chat/{chatId}/stream。`,
                             },
                           ],
                         },
@@ -231,52 +228,52 @@ Allows you to easily create a conversational user interface for your chatbot app
       type: 'string',
       isOptional: true,
       description:
-        'A unique identifier for the chat. If not provided, a random one will be generated.',
+        '聊天的唯一标识符。如果未提供，将生成一个随机标识符。',
     },
     {
       name: 'messages',
       type: 'UIMessage[]',
       isOptional: true,
-      description: 'Initial chat messages to populate the conversation with.',
+      description: '用于填充对话的初始聊天 messages。',
     },
     {
       name: 'messageMetadataSchema',
       type: 'FlexibleSchema',
       isOptional: true,
-      description: 'Schema for validating message metadata.',
+      description: '用于验证 message metadata 的 schema。',
     },
     {
       name: 'dataPartSchemas',
       type: 'UIDataTypesToSchemas',
       isOptional: true,
-      description: 'Schemas for validating data parts in messages.',
+      description: '用于验证 messages 中 data parts 的 schemas。',
     },
     {
       name: 'generateId',
       type: 'IdGenerator',
       isOptional: true,
       description:
-        'A function to generate unique IDs for messages and the chat. If not provided, the default AI SDK generateId is used.',
+        '为 messages 和聊天生成唯一 ID 的函数。如果未提供，则使用默认的 AI SDK generateId。',
     },
     {
       name: 'onToolCall',
       type: '({toolCall: ToolCall}) => void | Promise<void>',
       isOptional: true,
       description:
-        'Optional callback function that is invoked when a tool call is received. You must call addToolOutput to provide the tool result.',
+        '收到 tool call 时调用的可选 callback function。你必须调用 addToolOutput 来提供 tool result。',
     },
     {
       name: 'sendAutomaticallyWhen',
       type: '(options: { messages: UIMessage[] }) => boolean | PromiseLike<boolean>',
       isOptional: true,
       description:
-        'When provided, this function will be called when the stream is finished or a tool call is added to determine if the current messages should be resubmitted. You can use the lastAssistantMessageIsCompleteWithToolCalls helper for common scenarios.',
+        '提供后，此函数会在 stream 完成或添加 tool call 时被调用，用于判断是否应重新提交当前 messages。常见场景可以使用 lastAssistantMessageIsCompleteWithToolCalls helper。',
     },
     {
       name: 'onFinish',
       type: '(options: OnFinishOptions) => void',
       isOptional: true,
-      description: 'Called when the assistant response has finished streaming.',
+      description: '当 assistant response 完成流式传输时调用。',
       properties: [
         {
           type: 'OnFinishOptions',
@@ -284,36 +281,36 @@ Allows you to easily create a conversational user interface for your chatbot app
             {
               name: 'message',
               type: 'UIMessage',
-              description: 'The response message.',
+              description: '响应 message。',
             },
             {
               name: 'messages',
               type: 'UIMessage[]',
-              description: 'All messages including the response message',
+              description: '包含响应 message 在内的所有 messages',
             },
             {
               name: 'isAbort',
               type: 'boolean',
               description:
-                'True when the request has been aborted by the client.',
+                '当请求已被 client 中止时为 true。',
             },
             {
               name: 'isDisconnect',
               type: 'boolean',
               description:
-                'True if the server has been disconnected, e.g. because of a network error.',
+                '如果 server 已断开连接，则为 true，例如由于网络错误。',
             },
             {
               name: 'isError',
               type: 'boolean',
-              description: `True if errors during streaming caused the response to stop early.`,
+              description: `如果流式传输期间的错误导致响应提前停止，则为 true。`,
             },
             {
               name: 'finishReason',
               type: "'stop' | 'length' | 'content-filter' | 'tool-calls' | 'error' | 'other'",
               isOptional: true,
               description:
-                'The reason why the model finished generating the response. Undefined if the finish reason was not provided by the model.',
+                '模型结束生成响应的原因。如果模型未提供 finish reason，则为 undefined。',
             },
           ],
         },
@@ -324,45 +321,45 @@ Allows you to easily create a conversational user interface for your chatbot app
       type: '(error: Error) => void',
       isOptional: true,
       description:
-        'Callback function to be called when an error is encountered.',
+        '遇到错误时调用的 callback function。',
     },
     {
       name: 'onData',
       type: '(dataPart: DataUIPart) => void',
       isOptional: true,
       description:
-        'Optional callback function that is called when a data part is received.',
+        '收到 data part 时调用的可选 callback function。',
     },
     {
       name: 'experimental_throttle',
       type: 'number',
       isOptional: true,
       description:
-        'Custom throttle wait in ms for the chat messages and data updates. Default is undefined, which disables throttling.',
+        '用于聊天 messages 和 data 更新的自定义 throttle 等待时间，单位为 ms。默认为 undefined，即禁用 throttling。',
     },
     {
       name: 'resume',
       type: 'boolean',
       isOptional: true,
       description:
-        'Whether to resume an ongoing chat generation stream. Defaults to false.',
+        '是否恢复正在进行的聊天生成 stream。默认为 false。',
     },
   ]}
 />
 
-### Returns
+### 返回值
 
 <PropertiesTable
   content={[
     {
       name: 'id',
       type: 'string',
-      description: 'The id of the chat.',
+      description: '聊天的 id。',
     },
     {
       name: 'messages',
       type: 'UIMessage[]',
-      description: 'The current array of chat messages.',
+      description: '当前聊天 messages 数组。',
       properties: [
         {
           type: 'UIMessage',
@@ -370,24 +367,24 @@ Allows you to easily create a conversational user interface for your chatbot app
             {
               name: 'id',
               type: 'string',
-              description: 'A unique identifier for the message.',
+              description: 'message 的唯一标识符。',
             },
             {
               name: 'role',
               type: "'system' | 'user' | 'assistant'",
-              description: 'The role of the message.',
+              description: 'message 的 role。',
             },
             {
               name: 'parts',
               type: 'UIMessagePart[]',
               description:
-                'The parts of the message. Use this for rendering the message in the UI.',
+                'message 的 parts。使用它在 UI 中渲染 message。',
             },
             {
               name: 'metadata',
               type: 'unknown',
               isOptional: true,
-              description: 'The metadata of the message.',
+              description: 'message 的 metadata。',
             },
           ],
         },
@@ -397,18 +394,18 @@ Allows you to easily create a conversational user interface for your chatbot app
       name: 'status',
       type: "'submitted' | 'streaming' | 'ready' | 'error'",
       description:
-        'The current status of the chat: "ready" (idle), "submitted" (request sent), "streaming" (receiving response), or "error" (request failed).',
+        '聊天的当前 status："ready"（空闲）、"submitted"（请求已发送）、"streaming"（正在接收响应）或 "error"（请求失败）。',
     },
     {
       name: 'error',
       type: 'Error | undefined',
-      description: 'The error object if an error occurred.',
+      description: '发生错误时的 error 对象。',
     },
     {
       name: 'sendMessage',
       type: '(message?: { text: string; files?: FileList | FileUIPart[]; metadata?; messageId?: string } | CreateUIMessage, options?: ChatRequestOptions) => Promise<void>',
       description:
-        'Function to send a new message to the chat. This will trigger an API call to generate the assistant response. If a messageId is provided, the message will be replaced (useful for editing). If no message is provided, resubmits the current messages (useful after adding tool outputs).',
+        '向聊天发送新 message 的函数。这会触发 API 调用来生成 assistant response。如果提供了 messageId，则会替换该 message（适用于编辑）。如果未提供 message，则会重新提交当前 messages（适用于添加 tool outputs 后）。',
       properties: [
         {
           type: 'ChatRequestOptions',
@@ -418,20 +415,20 @@ Allows you to easily create a conversational user interface for your chatbot app
               type: 'Record<string, string> | Headers',
               isOptional: true,
               description:
-                'Additional headers that should be to be passed to the API endpoint.',
+                '应传递给 API 端点的额外 headers。',
             },
             {
               name: 'body',
               type: 'object',
               isOptional: true,
               description:
-                'Additional body JSON properties that should be sent to the API endpoint.',
+                '应发送到 API 端点的额外 body JSON 属性。',
             },
             {
               name: 'metadata',
               type: 'unknown',
               isOptional: true,
-              description: 'Additional data to be sent to the API endpoint.',
+              description: '要发送到 API 端点的额外 data。',
             },
           ],
         },
@@ -441,53 +438,53 @@ Allows you to easily create a conversational user interface for your chatbot app
       name: 'regenerate',
       type: '(options?: { messageId?: string } & ChatRequestOptions) => Promise<void>',
       description:
-        'Function to regenerate the last assistant message or a specific message. If no messageId is provided, regenerates the last assistant message. Accepts ChatRequestOptions for headers, body, and metadata.',
+        '重新生成最后一个 assistant message 或指定 message 的函数。如果未提供 messageId，则重新生成最后一个 assistant message。接受 ChatRequestOptions，用于 headers、body 和 metadata。',
     },
     {
       name: 'stop',
       type: '() => void',
       description:
-        'Function to abort the current streaming response from the assistant.',
+        '中止当前 assistant 流式响应的函数。',
     },
     {
       name: 'clearError',
       type: '() => void',
-      description: 'Clears the error state.',
+      description: '清除 error 状态。',
     },
     {
       name: 'resumeStream',
       type: '() => void',
       description:
-        'Function to resume an interrupted streaming response. Useful when a network error occurs during streaming.',
+        '恢复已中断流式响应的函数。适用于流式传输期间发生网络错误的情况。',
     },
     {
       name: 'addToolOutput',
       type: '(options: { tool: string; toolCallId: string; output: unknown } | { tool: string; toolCallId: string; state: "output-error", errorText: string }) => void',
       description:
-        'Function to add a tool result to the chat. This will update the chat messages with the tool result. If sendAutomaticallyWhen is configured, it may trigger an automatic submission.',
+        '向聊天添加 tool result 的函数。这会使用 tool result 更新聊天 messages。如果配置了 sendAutomaticallyWhen，可能会触发自动提交。',
     },
     {
       name: 'addToolApprovalResponse',
       type: '(options: { id: string; approved: boolean; reason?: string }) => void | PromiseLike<void>',
       description:
-        'Function to respond to a tool approval request. The id should match the approval id from the tool call. If sendAutomaticallyWhen is configured, it may trigger an automatic submission.',
+        '响应 tool approval request 的函数。id 应与 tool call 中的 approval id 匹配。如果配置了 sendAutomaticallyWhen，可能会触发自动提交。',
     },
     {
       name: 'addToolResult',
       type: '(options: { tool: string; toolCallId: string; output: unknown } | { tool: string; toolCallId: string; state: "output-error", errorText: string }) => void',
-      description: 'Deprecated. Use addToolOutput instead.',
+      description: '已弃用。请改用 addToolOutput。',
     },
     {
       name: 'setMessages',
       type: '(messages: UIMessage[] | ((messages: UIMessage[]) => UIMessage[])) => void',
       description:
-        'Function to update the messages state locally without triggering an API call. Useful for optimistic updates.',
+        '在本地更新 messages 状态而不触发 API 调用的函数。适用于 optimistic updates。',
     },
   ]}
 />
 
-## Learn more
+## 了解更多
 
-- [Chatbot](/docs/ai-sdk-ui/chatbot)
-- [Chatbot with Tools](/docs/ai-sdk-ui/chatbot-tool-usage)
+- [聊天机器人](/docs/ai-sdk-ui/chatbot)
+- [带工具的聊天机器人](/docs/ai-sdk-ui/chatbot-tool-usage)
 - [UIMessage](/docs/reference/ai-sdk-core/ui-message)

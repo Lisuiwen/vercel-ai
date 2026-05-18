@@ -1,24 +1,20 @@
 ---
-title: Generate Object with File Prompt through Form Submission
-description: Learn how to generate object with file prompt through form submission using the AI SDK and Next.js
+title: 通过表单提交使用文件提示生成对象
+description: 了解如何使用 AI SDK 与 Next.js，通过表单提交与文件提示生成结构化对象
 tags: ['next', 'multi-modal']
 ---
 
-# Generate Object with File Prompt through Form Submission
+# 通过表单提交使用文件提示生成对象
 
 <Note>
-  This feature is limited to models/providers that support PDF inputs
-  ([Anthropic](/providers/ai-sdk-providers/anthropic#pdf-support),
-  [OpenAI](/providers/ai-sdk-providers/openai#pdf-support), [Google
-  Gemini](/providers/ai-sdk-providers/google#file-inputs), and [Google
-  Vertex](/providers/ai-sdk-providers/google-vertex#file-inputs)).
+  此功能仅适用于支持 PDF 输入的模型/提供商（[Anthropic](/providers/ai-sdk-providers/anthropic#pdf-support)、[OpenAI](/providers/ai-sdk-providers/openai#pdf-support)、[Google Gemini](/providers/ai-sdk-providers/google#file-inputs) 与 [Google Vertex](/providers/ai-sdk-providers/google-vertex#file-inputs)）。
 </Note>
 
-With select models, you can send PDFs (files) as part of your prompt. Let's create a simple Next.js application that allows a user to upload a PDF send it to an LLM for summarization.
+部分模型支持在提示中附带 PDF（文件）。下面创建一个简单的 Next.js 应用：用户上传 PDF，由大模型进行摘要。
 
-## Client
+## 客户端
 
-On the frontend, create a form that allows the user to upload a PDF. When the form is submitted, send the PDF to the `/api/analyze` route.
+在前端创建表单供用户上传 PDF；提交时将 PDF 发送到 `/api/analyze` 路由。
 
 ```tsx file="app/page.tsx"
 'use client';
@@ -65,9 +61,9 @@ export default function Page() {
 }
 ```
 
-## Server
+## 服务端
 
-On the server, create an API route that receives the PDF, sends it to the LLM, and returns the result. This example uses the [ `generateText` ](/docs/reference/ai-sdk-core/generate-text) function with `Output.object` to generate the summary as part of a structured output.
+在服务端创建 API 路由：接收 PDF、发送给大模型并返回结果。本示例使用 [`generateText`](/docs/reference/ai-sdk-core/generate-text) 配合 `Output.object`，以结构化输出形式生成摘要。
 
 ```typescript file="app/api/analyze/route.ts"
 import { generateText, Output } from 'ai';

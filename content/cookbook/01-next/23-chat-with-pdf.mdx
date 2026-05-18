@@ -1,25 +1,22 @@
 ---
-title: Chat with PDFs
-description: Learn how to build a chatbot that can understand PDFs using the AI SDK and Next.js
+title: 与 PDF 聊天
+description: 了解如何使用 AI SDK 与 Next.js 构建能理解 PDF 的聊天机器人
 tags: ['next', 'pdf', 'multimodal']
 ---
 
-# Chat with PDFs
+# 与 PDF 聊天
 
-Some language models like Anthropic's Claude Sonnet 3.5 and Google's Gemini 2.0 can understand PDFs and respond to questions about their contents. In this example, we'll show you how to build a chat interface that accepts PDF uploads.
+Anthropic Claude Sonnet 3.5、Google Gemini 2.0 等模型可以理解 PDF 并回答与其内容相关的问题。本示例演示如何构建支持上传 PDF 的聊天界面。
 
 <Note>
-  This example requires a provider that supports PDFs, such as Anthropic's
-  Claude 3.7, Google's Gemini 2.5, or OpenAI's GPT-4.1. Check the [provider
-  documentation](/providers/ai-sdk-providers) for up-to-date support
-  information.
+  本示例需要支持 PDF 的提供商，例如 Anthropic Claude 3.7、Google Gemini 2.5 或 OpenAI GPT-4.1。请参阅[提供商文档](/providers/ai-sdk-providers)了解最新支持情况。
 </Note>
 
-## Implementation
+## 实现
 
-### Server
+### 服务端
 
-Create a route handler that will use Anthropic's Claude model to process messages and PDFs:
+创建路由处理器，使用 Anthropic Claude 模型处理消息与 PDF：
 
 ```tsx filename="app/api/chat/route.ts"
 import { convertToModelMessages, streamText, type UIMessage } from 'ai';
@@ -36,9 +33,9 @@ export async function POST(req: Request) {
 }
 ```
 
-### Client
+### 客户端
 
-Create a chat interface that allows uploading PDFs alongside messages:
+创建聊天界面，支持在发送消息时上传 PDF：
 
 ```tsx filename="app/page.tsx"
 'use client';
@@ -153,12 +150,12 @@ export default function Chat() {
 }
 ```
 
-The code uses the `useChat` hook which handles the file upload and message streaming. The `experimental_attachments` option allows you to send files alongside messages.
+代码使用 `useChat` hook 处理文件上传与消息流式传输。`experimental_attachments` 选项允许在消息中附带文件。
 
-Make sure to set up your environment variables with your Anthropic API key:
+请确保在环境变量中配置 Anthropic API 密钥：
 
 ```env filename=".env.local"
 ANTHROPIC_API_KEY=xxxxxxxxx
 ```
 
-Now you can upload PDFs and ask questions about their contents. The LLM will analyze the PDF and provide relevant responses based on the document's content.
+现在可以上传 PDF 并提问；大模型会分析 PDF，并根据文档内容给出相关回答。

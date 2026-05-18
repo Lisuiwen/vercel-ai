@@ -1,18 +1,18 @@
 ---
-title: Stream Text with Image Prompt
-description: Learn how to stream text with an image prompt using the AI SDK and Next.js
+title: 使用图像提示流式输出文本
+description: 了解如何使用 AI SDK 与 Next.js，在图像提示下流式输出文本
 tags: ['next', 'streaming', 'multimodal']
 ---
 
-# Stream Text with Image Prompt
+# 使用图像提示流式输出文本
 
-Vision models such as GPT-4o can process both text and images. In this example, we will show you how to send an image URL along with the user's message to the model with `useChat`.
+GPT-4o 等视觉模型可同时处理文本与图像。本示例演示如何通过 `useChat` 将图像 URL 与用户消息一并发送给模型。
 
-## Using Image URLs
+## 使用图像 URL
 
-### Server
+### 服务端
 
-The server route uses `convertToModelMessages` to handle the conversion from `UIMessage`s to model messages, which automatically handles multimodal content including images.
+服务端路由使用 `convertToModelMessages`，将 `UIMessage` 转为模型消息，并自动处理包括图像在内的多模态内容。
 
 ```tsx filename='app/api/chat/route.ts' highlight="8,9,23"
 import { streamText } from 'ai';
@@ -33,9 +33,9 @@ export async function POST(req: Request) {
 }
 ```
 
-### Client
+### 客户端
 
-On the client side, we use the new `useChat` hook and send multimodal messages using the `parts` array.
+在客户端使用 `useChat` hook，并通过 `parts` 数组发送多模态消息。
 
 ```typescript filename='app/page.tsx'
 'use client';

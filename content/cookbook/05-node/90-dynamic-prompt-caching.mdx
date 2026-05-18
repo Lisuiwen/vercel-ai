@@ -1,37 +1,37 @@
 ---
-title: Dynamic Prompt Caching
-description: Learn how to reduce API costs by implementing dynamic prompt caching for Anthropic models using cache control directives.
+title: 动态 Prompt 缓存
+description: 学习如何通过 cache control 指令为 Anthropic 模型实现动态 prompt 缓存以降低 API 成本
 tags: ['caching', 'cost-optimization']
 ---
 
-# Dynamic Prompt Caching
+# 动态 Prompt 缓存
 
-When building agents, API costs can add up quickly as conversations grow. Many providers offer prompt caching features that allow you to cache conversation prefixes, significantly reducing costs for repeated context.
+构建 agent 时，对话变长会迅速推高 API 成本。许多提供商提供 prompt 缓存，可缓存对话前缀，显著降低重复上下文的费用。
 
-This recipe shows a pattern you can copy into your project and customize for your specific providers and caching strategies. The example implementation covers Anthropic's recommended approach out of the box, but you can extend it to support other providers as needed.
+本示例展示可复制到项目中并按提供商与策略定制的模式。示例默认实现 Anthropic 推荐做法，也可按需扩展其他提供商。
 
-This pattern is particularly useful when:
+尤其适用于：
 
-1. **Building agents with long conversations** - Multi-turn agent interactions accumulate context that gets resent with every request.
-2. **Using tools heavily** - Tool calls and results add significant token overhead that benefits from caching.
+1. **长对话 agent** — 多轮交互会累积上下文，每次请求都会重发。
+2. **大量使用工具** — 工具调用与结果带来大量 token，适合缓存。
 
-For non-Anthropic models, messages pass through unchanged, making this safe to use in provider-agnostic code.
+非 Anthropic 模型时消息原样透传，可在与提供商无关的代码中安全使用。
 
-## Implementation
+## 实现
 
-The utility adds Anthropic's `cacheControl` directive to your messages, marking the final message with `{ type: "ephemeral" }`. This tells Anthropic to cache everything up to that point, so subsequent requests only pay full price for new content.
+该工具向消息添加 Anthropic 的 `cacheControl` 指令，在最终消息上标记 `{ type: "ephemeral" }`，告知 Anthropic 缓存此前全部内容，后续请求仅对新内容按全价计费。
 
-### How it works
+### 工作原理
 
-The function detects the model provider and applies the appropriate caching strategy. In this implementation, it checks for Anthropic models by examining the provider name and model ID. When it finds an Anthropic model, it adds `providerOptions` to the last message in your array with `cacheControl: { type: "ephemeral" }`. Per Anthropic's documentation: "Mark the final block of the final message with cache_control so the conversation can be incrementally cached."
+函数检测模型提供商并应用相应缓存策略。本实现通过提供商名与模型 ID 判断 Anthropic 模型，在消息数组最后一条上添加 `providerOptions` 与 `cacheControl: { type: "ephemeral" }`。Anthropic 文档要求：「在最终消息的最终块上标记 cache_control，以便对话可增量缓存。」
 
-For non-Anthropic models, the function returns your messages unchanged. You can extend this pattern to support other providers by adding detection logic and provider-specific options.
+非 Anthropic 模型时原样返回消息；可通过检测逻辑与提供商专属选项扩展其他提供商。
 
-### Message-level vs block-level cache control
+### 消息级与块级缓存控制
 
-You might notice this implementation adds `providerOptions` at the **message level**, while Anthropic's API expects `cache_control` at the **content block level**. The AI SDK handles this translation automatically.
+本实现在**消息级**设置 `providerOptions`，而 Anthropic API 在**内容块级**期望 `cache_control`。AI SDK 会自动完成转换。
 
-When you set `providerOptions` on a message, the SDK applies it to the last content block when constructing the API request. For example:
+在消息上设置 `providerOptions` 时，SDK 在构造 API 请求时将其应用到最后一个内容块。例如：
 
 ```ts
 // What you write (message-level)
@@ -56,9 +56,9 @@ When you set `providerOptions` on a message, the SDK applies it to the last cont
 }
 ```
 
-This behavior is intentional and consistent across user messages, assistant messages, and tool results. If you need finer control, you can also set `providerOptions` directly on individual content parts, which takes priority over message-level settings.
+该行为是有意设计，对用户消息、助手消息与工具结果一致。若需更细粒度控制，也可直接在单个内容部分设置 `providerOptions`，其优先级高于消息级设置。
 
-### Utility Function
+### 工具函数
 
 ```ts
 import type { ModelMessage, JSONValue, LanguageModel } from 'ai';
@@ -104,9 +104,9 @@ export function addCacheControlToMessages({
 }
 ```
 
-## Using the Utility
+## 使用工具函数
 
-Integrate the utility into your agent using the `prepareStep` callback with `generateText` and `stopWhen`:
+通过 `generateText` 的 `prepareStep` 回调与 `stopWhen` 将工具集成到 agent：
 
 ```ts
 import { anthropic } from '@ai-sdk/anthropic';
@@ -143,7 +143,7 @@ async function main() {
 main().catch(console.error);
 ```
 
-You can also customize the cache control options if needed:
+也可按需自定义 cache control 选项：
 
 ```ts
 prepareStep: ({ messages, model }) => ({
@@ -157,11 +157,11 @@ prepareStep: ({ messages, model }) => ({
 }),
 ```
 
-## Considerations
+## 注意事项
 
-When using this utility, keep these points in mind:
+使用时请注意：
 
-1. **Provider-specific behavior** - This implementation targets Anthropic models. For other providers, messages pass through unchanged. You can extend the pattern to support additional providers.
-2. **Minimum token threshold** - Anthropic requires a minimum number of tokens before caching activates. Short conversations may not benefit. Other providers may have similar requirements.
-3. **Cache lifetime** - Anthropic's ephemeral cache has a 5-minute TTL. Inactive conversations lose their cache. Check your provider's documentation for cache duration details.
-4. **Cost structure** - With Anthropic, cached tokens cost 10% of input tokens, but cache writes cost 25% more. You save money when cache hits exceed cache misses. Cost structures vary by provider.
+1. **提供商专属行为** — 本实现面向 Anthropic；其他提供商消息不变，可扩展模式以支持更多提供商。
+2. **最低 token 阈值** — Anthropic 需达到最少 token 才启用缓存，短对话可能无法受益；其他提供商或有类似要求。
+3. **缓存寿命** — Anthropic 临时缓存 TTL 为 5 分钟，不活跃对话会失效；请参阅各提供商文档。
+4. **成本结构** — Anthropic 缓存 token 按输入 token 的 10% 计费，写入缓存多 25%；命中多于未命中才省钱；各提供商成本结构不同。

@@ -1,19 +1,16 @@
 ---
-title: streamText Multi-Step Cookbook
-description: Learn how to create several streamText steps with different settings
+title: streamText 多步 Cookbook
+description: 了解如何创建多个具有不同配置的 streamText 步骤
 tags: ['next', 'streaming']
 ---
 
-# streamText Multi-Step Agent
+# streamText 多步 Agent
 
-You may want to have different steps in your stream where each step has different settings,
-e.g. models, tools, or system prompts.
+你可能希望在流式输出中包含多个步骤，且每一步使用不同配置，例如模型、工具或 system 提示。
 
-With `createUIMessageStream` and `sendFinish` / `sendStart` options when merging
-into the `UIMessageStream`, you can control when the finish and start events are sent to the client,
-allowing you to have different steps in a single assistant UI message.
+在合并到 `UIMessageStream` 时，通过 `createUIMessageStream` 以及 `sendFinish` / `sendStart` 选项，可控制何时向客户端发送 finish 与 start 事件，从而在单条助手 UI 消息中呈现多个步骤。
 
-## Server
+## 服务端
 
 ```typescript filename='app/api/chat/route.ts'
 import {
@@ -72,7 +69,7 @@ export async function POST(req: Request) {
 }
 ```
 
-## Client
+## 客户端
 
 ```tsx filename="app/page.tsx"
 'use client';

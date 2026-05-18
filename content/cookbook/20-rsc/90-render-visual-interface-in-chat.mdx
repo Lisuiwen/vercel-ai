@@ -1,16 +1,16 @@
 ---
-title: Render Visual Interface in Chat
-description: Learn how to generate text using the AI SDK and React Server Components.
+title: 在聊天中渲染可视化界面
+description: 学习如何使用 AI SDK 与 React Server Components 在聊天中渲染可视化界面
 tags: ['rsc', 'generative user interface']
 ---
 
-# Render Visual Interface in Chat
+# 在聊天中渲染可视化界面
 
-We've now seen how a language model can call a function and render a component based on a conversation with the user.
+语言模型可根据对话调用函数并渲染组件。
 
-When we define multiple functions in [`tools`](/docs/reference/ai-sdk-core/generate-text#tools), it is possible for the model to reason out the right functions to call based on whatever the user's intent is. This means that you can write a bunch of functions without the burden of implementing complex routing logic to run them.
+在 [`tools`](/docs/reference/ai-sdk-core/generate-text#tools) 中定义多个函数时，模型可根据用户意图推理应调用的函数，无需自行实现复杂的路由逻辑。
 
-## Client
+## 客户端
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -107,7 +107,7 @@ export async function Flight({ flightNumber }) {
 }
 ```
 
-## Server
+## 服务端
 
 ```tsx filename='app/actions.tsx'
 'use server';

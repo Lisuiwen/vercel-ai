@@ -1,22 +1,22 @@
 ---
-title: Track Agent Token Usage
-description: Learn how to track the active context window with ToolLoopAgent.
+title: 跟踪 Agent 的 Token 用量
+description: 学习如何使用 ToolLoopAgent 跟踪活跃上下文窗口
 tags: ['next']
 ---
 
-# Track Agent Token Usage
+# 跟踪 Agent 的 Token 用量
 
 <Note>
-  For more information about building agents, check out the [ToolLoopAgent
-  documentation](/docs/reference/ai-sdk-core/tool-loop-agent).
+  关于构建 agent 的更多信息，请参阅 [ToolLoopAgent
+  文档](/docs/reference/ai-sdk-core/tool-loop-agent)。
 </Note>
 
-Tracking token consumption in agentic applications helps you monitor costs and implement context management strategies.
-This recipe shows how to track usage across steps and make it available throughout your agent's lifecycle.
+在 agent 应用中跟踪 token 消耗有助于监控成本并实施上下文管理策略。
+本示例展示如何跨步骤跟踪用量，并在 agent 整个生命周期内使其可用。
 
-## Start with a Basic Agent
+## 从基础 Agent 开始
 
-First, set up a basic `ToolLoopAgent` with a tool. Define an `AgentUIMessage` type using `InferAgentUIMessage` to get type-safe messages on the frontend, including typed tool calls and results.
+首先搭建带工具的 `ToolLoopAgent`。使用 `InferAgentUIMessage` 定义 `AgentUIMessage` 类型，在前端获得类型安全的消息（含类型化的工具调用与结果）。
 
 ```typescript filename='ai/agent.ts'
 import { type InferAgentUIMessage, ToolLoopAgent, tool } from 'ai';
@@ -36,7 +36,7 @@ export const agent = new ToolLoopAgent({
 export type AgentUIMessage = InferAgentUIMessage<typeof agent>;
 ```
 
-Create a route handler that streams the agent's response. Use `AgentUIMessage` to type the messages coming from the client.
+创建路由处理器以流式返回 agent 回复。使用 `AgentUIMessage` 为来自客户端的消息提供类型。
 
 ```tsx filename='app/api/chat/route.ts'
 import { convertToModelMessages } from 'ai';
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
 }
 ```
 
-And a basic chat interface using `useChat`. Pass `AgentUIMessage` as a generic to get type-safe access to messages, including typed tool invocations and results.
+再搭建基于 `useChat` 的基础聊天界面。将 `AgentUIMessage` 作为泛型传入，以类型安全地访问消息（含类型化的工具调用与结果）。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -90,9 +90,9 @@ export default function Chat() {
 }
 ```
 
-## Access Usage Between Steps with Message Metadata
+## 通过消息元数据访问步骤间用量
 
-To track token usage, attach it to each message using the `messageMetadata` callback. First, define a metadata type and pass it as a second generic to `InferAgentUIMessage`.
+要跟踪 token 用量，可通过 `messageMetadata` 回调将其附加到每条消息。先定义元数据类型，并作为第二个泛型传给 `InferAgentUIMessage`。
 
 ```typescript filename='ai/agent.ts' highlight="1,15-16"
 import {
@@ -118,7 +118,7 @@ type AgentMetadata = { usage: LanguageModelUsage };
 export type AgentUIMessage = InferAgentUIMessage<typeof agent, AgentMetadata>;
 ```
 
-Now add the `messageMetadata` callback to the route handler. Pass `AgentUIMessage` as a generic to `toUIMessageStreamResponse` to type the callback. When a step finishes, the `finish-step` part contains usage data that you can include in the message metadata.
+在路由处理器中添加 `messageMetadata` 回调。向 `toUIMessageStreamResponse` 传入 `AgentUIMessage` 泛型以约束回调类型。步骤结束时，`finish-step` 部分包含用量数据，可写入消息元数据。
 
 ```tsx filename='app/api/chat/route.ts' highlight="11-17"
 import { convertToModelMessages } from 'ai';
@@ -141,7 +141,7 @@ export async function POST(req: Request) {
 }
 ```
 
-Now you can access the metadata on the client. The `AgentUIMessage` type already includes the metadata shape, giving you type-safe access to `m.metadata.usage`.
+现在可在客户端访问元数据。`AgentUIMessage` 已包含元数据结构，可类型安全地访问 `m.metadata.usage`。
 
 ```typescript filename='app/page.tsx' highlight="17-19"
 'use client';
@@ -177,13 +177,13 @@ export default function Chat() {
 }
 ```
 
-## Pass Usage Back to the Agent with Call Options
+## 通过 Call Options 将用量传回 Agent
 
-You now have usage data displayed in the UI. But what if you want to act on that data? For example, you might want to implement context compaction when approaching token limits.
+UI 已能展示用量数据。若要根据这些数据采取行动呢？例如接近 token 上限时实施上下文压缩。
 
-To manipulate messages or apply context management strategies, you'd use the `prepareStep` callback. However, `prepareStep` only has access to steps from the current run. On the first step of a new request, `steps` is empty, leaving you with no visibility into how many tokens the conversation has accumulated across previous requests.
+操纵消息或应用上下文管理策略时，会使用 `prepareStep` 回调。但 `prepareStep` 只能访问当前运行中的步骤；新请求的第一步 `steps` 为空，无法得知此前请求中对话已累计多少 token。
 
-To solve this, pass the usage from previous messages back to the agent. Use `callOptionsSchema` to define the data shape and `prepareCall` to make it available on `context`, where `prepareStep` can access it.
+解决方法是将先前消息的用量传回 agent：用 `callOptionsSchema` 定义数据结构，用 `prepareCall` 将其放到 `context` 上，供 `prepareStep` 访问。
 
 ```typescript filename='ai/agent.ts' highlight="11-13,21-26"
 import {
@@ -218,7 +218,7 @@ type AgentMetadata = { usage: LanguageModelUsage };
 export type AgentUIMessage = InferAgentUIMessage<typeof agent, AgentMetadata>;
 ```
 
-Extract the last input token count from previous messages and pass it to the agent.
+从先前消息中提取最后一次的 input token 数量并传给 agent。
 
 ```tsx filename='app/api/chat/route.ts' highlight="7-9,13-15"
 import { convertToModelMessages } from 'ai';
@@ -248,9 +248,9 @@ export async function POST(req: Request) {
 }
 ```
 
-## Access Usage in prepareStep and Tools
+## 在 prepareStep 与工具中访问用量
 
-With the usage on `context`, you can access it in `prepareStep` to make decisions about context management, or pass it to your tools.
+用量在 `context` 上后，可在 `prepareStep` 中用于上下文管理决策，或传给工具。
 
 ```typescript filename='ai/agent.ts' highlight="9-11,31-40"
 import {
@@ -304,9 +304,9 @@ type AgentMetadata = { usage: LanguageModelUsage };
 export type AgentUIMessage = InferAgentUIMessage<typeof agent, AgentMetadata>;
 ```
 
-The `prepareStep` callback runs before each step, giving you access to:
+`prepareStep` 在每一步之前运行，可访问：
 
-- `steps`: All previous steps with their usage data
-- `context`: The context set by `prepareCall` (usage from the previous request)
+- `steps`：此前所有步骤及其用量数据
+- `context`：由 `prepareCall` 设置的上下文（来自上一次请求的用量）
 
-This allows you to track token consumption across the entire conversation lifecycle and implement strategies like context compaction when approaching token limits.
+这样即可在整个对话生命周期内跟踪 token 消耗，并在接近上限时实施上下文压缩等策略。

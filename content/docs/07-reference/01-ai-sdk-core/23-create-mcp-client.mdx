@@ -1,36 +1,36 @@
 ---
 title: createMCPClient
-description: Create a client for connecting to MCP servers
+description: 创建用于连接 MCP 服务器的客户端
 ---
 
 # `createMCPClient()`
 
-Creates a lightweight Model Context Protocol (MCP) client that connects to an MCP server. The client provides:
+创建一个轻量级 Model Context Protocol (MCP) 客户端，用于连接 MCP 服务器。该客户端提供：
 
-- **Tools**: Automatic conversion between MCP tools and AI SDK tools
-- **Resources**: Methods to list, read, and discover resource templates from MCP servers
-- **Prompts**: Methods to list available prompts and retrieve prompt messages
-- **Elicitation**: Support for handling server requests for additional input during tool execution
+- **Tools**：在 MCP 工具与 AI SDK 工具之间自动转换
+- **Resources**：用于列出、读取和发现 MCP 服务器资源模板的方法
+- **Prompts**：用于列出可用提示和检索提示消息的方法
+- **Elicitation**：支持在工具执行期间处理服务器对额外输入的请求
 
-It currently does not support accepting notifications from an MCP server, and custom configuration of the client.
+它目前不支持接收来自 MCP 服务器的通知，也不支持客户端的自定义配置。
 
-## Import
+## 导入
 
 <Snippet
   text={`import { createMCPClient } from "@ai-sdk/mcp"`}
   prompt={false}
 />
 
-## API Signature
+## API 签名
 
-### Parameters
+### 参数
 
 <PropertiesTable
   content={[
     {
       name: 'config',
       type: 'MCPClientConfig',
-      description: 'Configuration for the MCP client.',
+      description: 'MCP 客户端的配置。',
       properties: [
         {
           type: 'MCPClientConfig',
@@ -38,46 +38,46 @@ It currently does not support accepting notifications from an MCP server, and cu
             {
               name: 'transport',
               type: 'MCPTransportConfig | MCPTransport',
-              description: 'Configuration for the message transport layer.',
+              description: '消息传输层的配置。',
               properties: [
                 {
                   type: 'MCPTransport',
                   description:
-                    'A client transport instance, used explicitly for stdio or custom transports',
+                    '客户端传输实例，显式用于 stdio 或自定义传输',
                   parameters: [
                     {
                       name: 'start',
                       type: '() => Promise<void>',
-                      description: 'A method that starts the transport',
+                      description: '启动传输的方法',
                     },
                     {
                       name: 'send',
                       type: '(message: JSONRPCMessage) => Promise<void>',
                       description:
-                        'A method that sends a message through the transport',
+                        '通过传输发送消息的方法',
                     },
                     {
                       name: 'close',
                       type: '() => Promise<void>',
-                      description: 'A method that closes the transport',
+                      description: '关闭传输的方法',
                     },
                     {
                       name: 'onclose',
                       type: '() => void',
                       description:
-                        'A method that is called when the transport is closed',
+                        '传输关闭时调用的方法',
                     },
                     {
                       name: 'onerror',
                       type: '(error: Error) => void',
                       description:
-                        'A method that is called when the transport encounters an error',
+                        '传输遇到错误时调用的方法',
                     },
                     {
                       name: 'onmessage',
                       type: '(message: JSONRPCMessage) => void',
                       description:
-                        'A method that is called when the transport receives a message',
+                        '传输收到消息时调用的方法',
                     },
                   ],
                 },
@@ -87,33 +87,33 @@ It currently does not support accepting notifications from an MCP server, and cu
                     {
                       name: 'type',
                       type: "'sse' | 'http",
-                      description: 'Use Server-Sent Events for communication',
+                      description: '使用 Server-Sent Events 进行通信',
                     },
                     {
                       name: 'url',
                       type: 'string',
-                      description: 'URL of the MCP server',
+                      description: 'MCP 服务器的 URL',
                     },
                     {
                       name: 'headers',
                       type: 'Record<string, string>',
                       isOptional: true,
                       description:
-                        'Additional HTTP headers to be sent with requests.',
+                        '随请求发送的附加 HTTP 标头。',
                     },
                     {
                       name: 'authProvider',
                       type: 'OAuthClientProvider',
                       isOptional: true,
                       description:
-                        'Optional OAuth provider for authorization to access protected remote MCP servers.',
+                        '可选的 OAuth provider，用于授权访问受保护的远程 MCP 服务器。',
                     },
                     {
                       name: 'redirect',
                       type: "'follow' | 'error'",
                       isOptional: true,
                       description:
-                        "Controls how HTTP redirects are handled for transport requests. Set to 'follow' to allow redirect responses. Defaults to 'error' to reject any redirect response, preventing servers from redirecting requests to unintended hosts.",
+                        "控制传输请求如何处理 HTTP 重定向。设置为 'follow' 可允许重定向响应。默认为 'error'，用于拒绝任何重定向响应，防止服务器将请求重定向到非预期主机。",
                     },
                   ],
                 },
@@ -123,33 +123,33 @@ It currently does not support accepting notifications from an MCP server, and cu
               name: 'clientName',
               type: 'string',
               isOptional: true,
-              description: 'Client name. Defaults to "ai-sdk-mcp-client".',
+              description: '客户端名称。默认为 "ai-sdk-mcp-client"。',
             },
             {
               name: 'name',
               type: 'string',
               isOptional: true,
               description:
-                'Deprecated. Use `clientName` instead. Defaults to "ai-sdk-mcp-client".',
+                '已弃用。请改用 `clientName`。默认为 "ai-sdk-mcp-client"。',
             },
             {
               name: 'version',
               type: 'string',
               isOptional: true,
-              description: 'Client version. Defaults to "1.0.0"',
+              description: '客户端版本。默认为 "1.0.0"',
             },
             {
               name: 'onUncaughtError',
               type: '(error: unknown) => void',
               isOptional: true,
-              description: 'Handler for uncaught errors',
+              description: '未捕获错误的处理程序',
             },
             {
               name: 'capabilities',
               type: 'ClientCapabilities',
               isOptional: true,
               description:
-                'Optional client capabilities to advertise during initialization. For example, set { elicitation: {} } to enable handling elicitation requests from the server.',
+                '初始化期间要声明的可选客户端能力。例如，设置 { elicitation: {} } 可启用对服务器 elicitation 请求的处理。',
             },
           ],
         },
@@ -158,9 +158,9 @@ It currently does not support accepting notifications from an MCP server, and cu
   ]}
 />
 
-### Returns
+### 返回值
 
-Returns a Promise that resolves to an `MCPClient` with the following properties and methods:
+返回一个 Promise，该 Promise 会解析为具有以下属性和方法的 `MCPClient`：
 
 <PropertiesTable
   content={[
@@ -168,21 +168,21 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
       name: 'serverInfo',
       type: 'Configuration',
       description:
-        'Information about the connected MCP server (name, version, optional title), as reported during the initialize handshake.',
+        '已连接 MCP 服务器的信息（名称、版本、可选标题），由初始化握手期间报告。',
     },
     {
       name: 'instructions',
       type: 'string',
       isOptional: true,
       description:
-        'Optional instructions provided by the server during the initialize handshake. Describes how to use the server and its features. Useful for inclusion in the LLM system prompt.',
+        '服务器在初始化握手期间提供的可选说明。描述如何使用服务器及其功能。适合包含在 LLM system prompt 中。',
     },
     {
       name: 'tools',
       type: `async (options?: {
         schemas?: TOOL_SCHEMAS
       }) => Promise<McpToolSet<TOOL_SCHEMAS>>`,
-      description: 'Gets the tools available from the MCP server.',
+      description: '获取 MCP 服务器提供的工具。',
       properties: [
         {
           type: 'options',
@@ -192,7 +192,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
               type: 'TOOL_SCHEMAS',
               isOptional: true,
               description:
-                'Schema definitions for compile-time type checking. When not provided, schemas are inferred from the server. Each tool schema can include inputSchema for typed inputs, and optionally outputSchema for typed outputs when the server returns structuredContent.',
+                '用于编译时类型检查的 schema 定义。未提供时，将从服务器推断 schema。每个工具 schema 可以包含用于类型化输入的 inputSchema；当服务器返回 structuredContent 时，也可以包含用于类型化输出的可选 outputSchema。',
             },
           ],
         },
@@ -203,14 +203,14 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
               name: 'inputSchema',
               type: 'FlexibleSchema',
               description:
-                'Zod schema or JSON schema defining the expected input parameters for the tool.',
+                '定义工具预期输入参数的 Zod schema 或 JSON schema。',
             },
             {
               name: 'outputSchema',
               type: 'FlexibleSchema',
               isOptional: true,
               description:
-                'Zod schema or JSON schema defining the expected output structure. When provided, the client extracts and validates structuredContent from tool results, giving you typed outputs.',
+                '定义预期输出结构的 Zod schema 或 JSON schema。提供后，客户端会从工具结果中提取并验证 structuredContent，为你提供类型化输出。',
             },
           ],
         },
@@ -223,7 +223,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         options?: RequestOptions;
       }) => Promise<ListToolsResult>`,
       description:
-        'Lists available tool definitions from the MCP server without converting them to AI SDK tools.',
+        '列出 MCP 服务器提供的工具定义，而不将其转换为 AI SDK 工具。',
       properties: [
         {
           type: 'options',
@@ -232,14 +232,14 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
               name: 'params',
               type: "PaginatedRequest['params']",
               isOptional: true,
-              description: 'Optional pagination parameters including cursor.',
+              description: '可选分页参数，包括 cursor。',
             },
             {
               name: 'options',
               type: 'RequestOptions',
               isOptional: true,
               description:
-                'Optional request options including signal and timeout.',
+                '可选请求选项，包括 signal 和 timeout。',
             },
           ],
         },
@@ -253,7 +253,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         options?: RequestOptions;
       }) => Promise<CallToolResult>`,
       description:
-        'Calls a tool on the MCP server. This is useful for host-mediated calls, such as MCP Apps iframe requests.',
+        '调用 MCP 服务器上的工具。这适用于由 host 中介的调用，例如 MCP Apps iframe 请求。',
       properties: [
         {
           type: 'args',
@@ -261,20 +261,20 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
             {
               name: 'name',
               type: 'string',
-              description: 'The name of the MCP tool to call.',
+              description: '要调用的 MCP 工具名称。',
             },
             {
               name: 'arguments',
               type: 'Record<string, unknown>',
               isOptional: true,
-              description: 'Arguments to pass to the MCP tool.',
+              description: '传递给 MCP 工具的 arguments。',
             },
             {
               name: 'options',
               type: 'RequestOptions',
               isOptional: true,
               description:
-                'Optional request options including signal and timeout.',
+                '可选请求选项，包括 signal 和 timeout。',
             },
           ],
         },
@@ -286,7 +286,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         schemas?: TOOL_SCHEMAS
       }) => McpToolSet<TOOL_SCHEMAS>`,
       description:
-        'Converts existing MCP tool definitions into AI SDK tools without listing tools again.',
+        '将现有 MCP 工具定义转换为 AI SDK 工具，而无需再次列出工具。',
       properties: [
         {
           type: 'parameters',
@@ -295,14 +295,14 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
               name: 'definitions',
               type: 'ListToolsResult',
               description:
-                'Tool definitions, typically returned by `listTools`.',
+                '工具定义，通常由 `listTools` 返回。',
             },
             {
               name: 'schemas',
               type: 'TOOL_SCHEMAS',
               isOptional: true,
               description:
-                'Optional schema definitions for compile-time type checking and typed outputs.',
+                '用于编译时类型检查和类型化输出的可选 schema 定义。',
             },
           ],
         },
@@ -314,7 +314,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         params?: PaginatedRequest['params'];
         options?: RequestOptions;
       }) => Promise<ListResourcesResult>`,
-      description: 'Lists all available resources from the MCP server.',
+      description: '列出 MCP 服务器提供的所有资源。',
       properties: [
         {
           type: 'options',
@@ -323,14 +323,14 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
               name: 'params',
               type: "PaginatedRequest['params']",
               isOptional: true,
-              description: 'Optional pagination parameters including cursor.',
+              description: '可选分页参数，包括 cursor。',
             },
             {
               name: 'options',
               type: 'RequestOptions',
               isOptional: true,
               description:
-                'Optional request options including signal and timeout.',
+                '可选请求选项，包括 signal 和 timeout。',
             },
           ],
         },
@@ -342,7 +342,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         uri: string;
         options?: RequestOptions;
       }) => Promise<ReadResourceResult>`,
-      description: 'Reads the contents of a specific resource by URI.',
+      description: '按 URI 读取特定资源的内容。',
       properties: [
         {
           type: 'args',
@@ -350,14 +350,14 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
             {
               name: 'uri',
               type: 'string',
-              description: 'The URI of the resource to read.',
+              description: '要读取的资源的 URI。',
             },
             {
               name: 'options',
               type: 'RequestOptions',
               isOptional: true,
               description:
-                'Optional request options including signal and timeout.',
+                '可选请求选项，包括 signal 和 timeout。',
             },
           ],
         },
@@ -369,7 +369,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         options?: RequestOptions;
       }) => Promise<ListResourceTemplatesResult>`,
       description:
-        'Lists all available resource templates from the MCP server.',
+        '列出 MCP 服务器提供的所有资源模板。',
       properties: [
         {
           type: 'options',
@@ -379,7 +379,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
               type: 'RequestOptions',
               isOptional: true,
               description:
-                'Optional request options including signal and timeout.',
+                '可选请求选项，包括 signal 和 timeout。',
             },
           ],
         },
@@ -392,7 +392,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         options?: RequestOptions;
       }) => Promise<ListPromptsResult>`,
       description:
-        'Lists available prompts from the MCP server. This method is experimental and may change in the future.',
+        '列出 MCP 服务器提供的提示。此方法是实验性的，未来可能会更改。',
       properties: [
         {
           type: 'options',
@@ -401,14 +401,14 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
               name: 'params',
               type: "PaginatedRequest['params']",
               isOptional: true,
-              description: 'Optional pagination parameters including cursor.',
+              description: '可选分页参数，包括 cursor。',
             },
             {
               name: 'options',
               type: 'RequestOptions',
               isOptional: true,
               description:
-                'Optional request options including signal and timeout.',
+                '可选请求选项，包括 signal 和 timeout。',
             },
           ],
         },
@@ -422,7 +422,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         options?: RequestOptions;
       }) => Promise<GetPromptResult>`,
       description:
-        'Retrieves a prompt by name, optionally passing arguments. This method is experimental and may change in the future.',
+        '按名称检索提示，并可选择传递 arguments。此方法是实验性的，未来可能会更改。',
       properties: [
         {
           type: 'args',
@@ -430,20 +430,20 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
             {
               name: 'name',
               type: 'string',
-              description: 'Prompt name to retrieve.',
+              description: '要检索的提示名称。',
             },
             {
               name: 'arguments',
               type: 'Record<string, unknown>',
               isOptional: true,
-              description: 'Optional arguments to fill into the prompt.',
+              description: '用于填充提示的可选 arguments。',
             },
             {
               name: 'options',
               type: 'RequestOptions',
               isOptional: true,
               description:
-                'Optional request options including signal and timeout.',
+                '可选请求选项，包括 signal 和 timeout。',
             },
           ],
         },
@@ -456,7 +456,7 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
         handler: (request: ElicitationRequest) => Promise<ElicitResult> | ElicitResult
       ) => void`,
       description:
-        'Registers a handler for elicitation requests from the MCP server. The handler receives requests when the server needs additional input during tool execution.',
+        '为来自 MCP 服务器的 elicitation 请求注册处理程序。当服务器在工具执行期间需要额外输入时，该处理程序会接收请求。',
       properties: [
         {
           type: 'parameters',
@@ -465,13 +465,13 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
               name: 'schema',
               type: 'typeof ElicitationRequestSchema',
               description:
-                'The schema to validate requests against. Must be ElicitationRequestSchema.',
+                '用于验证请求的 schema。必须是 ElicitationRequestSchema。',
             },
             {
               name: 'handler',
               type: '(request: ElicitationRequest) => Promise<ElicitResult> | ElicitResult',
               description:
-                'A function that handles the elicitation request. The request contains a message and requestedSchema. The handler must return an object with an action ("accept", "decline", or "cancel") and optionally content when accepting.',
+                '处理 elicitation 请求的函数。请求包含 message 和 requestedSchema。处理程序必须返回一个包含 action（"accept"、"decline" 或 "cancel"）的对象，并在接受时可选返回 content。',
             },
           ],
         },
@@ -481,12 +481,12 @@ Returns a Promise that resolves to an `MCPClient` with the following properties 
       name: 'close',
       type: '() => Promise<void>',
       description:
-        'Closes the connection to the MCP server and cleans up resources.',
+        '关闭与 MCP 服务器的连接并清理资源。',
     },
   ]}
 />
 
-## Example
+## 示例
 
 ```typescript
 import { createMCPClient } from '@ai-sdk/mcp';
@@ -521,15 +521,15 @@ try {
 }
 ```
 
-## Error Handling
+## 错误处理
 
-The client throws `MCPClientError` for:
+客户端会在以下情况下抛出 `MCPClientError`：
 
-- Client initialization failures
-- Protocol version mismatches
-- Missing server capabilities
-- Connection failures
+- 客户端初始化失败
+- 协议版本不匹配
+- 缺少服务器能力
+- 连接失败
 
-For tool execution, errors are propagated as `CallToolError` errors.
+对于工具执行，错误会作为 `CallToolError` 错误传播。
 
-For unknown errors, the client exposes an `onUncaughtError` callback that can be used to manually log or handle errors that are not covered by known error types.
+对于未知错误，客户端会暴露一个 `onUncaughtError` 回调，可用于手动记录或处理未被已知错误类型覆盖的错误。

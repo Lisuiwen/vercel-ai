@@ -1,14 +1,14 @@
 ---
-title: Stream Updates to Visual Interfaces
-description: Learn how to generate text using the AI SDK and React Server Components.
+title: 向可视化界面流式推送更新
+description: 学习如何使用 AI SDK 与 React Server Components 向可视化界面流式推送更新
 tags: ['rsc', 'streaming', 'generative user interface']
 ---
 
-# Stream Updates to Visual Interfaces
+# 向可视化界面流式推送更新
 
-In our previous example we've been streaming react components from the server to the client. By streaming the components, we open up the possibility to update these components based on state changes that occur in the server.
+先前示例从服务端向客户端流式传输 React 组件。流式传输使组件可根据服务端状态变化而更新。
 
-## Client
+## 客户端
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -67,7 +67,7 @@ export default function Home() {
 }
 ```
 
-## Server
+## 服务端
 
 ```tsx filename='app/actions.tsx'
 'use server';

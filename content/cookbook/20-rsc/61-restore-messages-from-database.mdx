@@ -1,14 +1,14 @@
 ---
-title: Restore Messages From Database
-description: Learn how to restore messages from an external database using the AI SDK and React Server Components
+title: 从数据库恢复消息
+description: 学习如何使用 AI SDK 与 React Server Components 从外部数据库恢复消息
 tags: ['rsc', 'tool use']
 ---
 
-# Restore Messages from Database
+# 从数据库恢复消息
 
-When building AI applications, you might want to restore previous conversations from a database to allow users to continue their conversations or review past interactions. The AI SDK provides mechanisms to restore conversation state through `initialAIState` and `onGetUIState`.
+构建 AI 应用时，你可能需要从数据库恢复历史对话，让用户继续聊天或查看过往交互。AI SDK 通过 `initialAIState` 与 `onGetUIState` 提供恢复对话状态的机制。
 
-## Client
+## 客户端
 
 ```tsx filename='app/layout.tsx'
 import { ServerMessage } from './actions';
@@ -92,9 +92,9 @@ export default function Home() {
 }
 ```
 
-## Server
+## 服务端
 
-The server-side implementation handles the restoration of messages and their transformation into the appropriate format for display.
+服务端负责恢复消息并将其转换为适合展示的格式。
 
 ```tsx filename='app/ai.ts'
 import { createAI } from '@ai-sdk/rsc';

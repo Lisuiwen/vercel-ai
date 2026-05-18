@@ -1,20 +1,18 @@
 ---
-title: Generate Object
-description: Learn how to generate object using the AI SDK and React Server Components.
+title: 生成对象
+description: 学习如何使用 AI SDK 与 React Server Components 生成对象
 tags: ['rsc', 'structured data']
 ---
 
-# Generate Object
+# 生成对象
 
 <Note>
-  This example uses React Server Components (RSC). If you want to client side
-  rendering and hooks instead, check out the ["generate object" example with
-  useState](/examples/next-pages/basics/generating-object).
+  本示例使用 React Server Components (RSC)。若需要客户端渲染与 hooks，请参阅[使用 useState 的「生成对象」示例](/examples/next-pages/basics/generating-object)。
 </Note>
 
-You can use `generateText` with `Output` to generate structured data like JSON. By providing a schema that describes the structure of your desired object, the SDK will validate the generated output and ensure that it conforms to the specified structure.
+可用 `generateText` 配合 `Output` 生成 JSON 等结构化数据。提供描述目标对象结构的 schema 后，SDK 会校验输出并确保符合指定结构。
 
-The `Output.object` function requires you to provide a schema using [zod](https://zod.dev), a library for defining schemas for JavaScript objects.
+`Output.object` 需使用 [zod](https://zod.dev) 提供 schema，用于定义 JavaScript 对象的 schema。
 
 <Browser>
   <ObjectGeneration
@@ -42,9 +40,9 @@ The `Output.object` function requires you to provide a schema using [zod](https:
   />
 </Browser>
 
-## Client
+## 客户端
 
-Let's create a simple React component that will call the `getNotifications` function when a button is clicked. The function will generate a list of notifications as described in the schema.
+创建简单 React 组件：点击按钮时调用 `getNotifications`，按 schema 生成通知列表。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -78,9 +76,9 @@ export default function Home() {
 }
 ```
 
-## Server
+## 服务端
 
-Now let's implement the `getNotifications` function. We'll use the `generateText` function with `Output.object` to generate the list of notifications based on the schema we defined earlier.
+实现 `getNotifications`：使用 `generateText` 与 `Output.object`，按先前定义的 schema 生成通知列表。
 
 ```typescript filename='app/actions.ts'
 'use server';

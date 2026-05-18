@@ -1,12 +1,12 @@
 ---
-title: Render Visual Interface in Chat
-description: Learn how to render visual interfaces in chat using the AI SDK and Next.js
+title: 在聊天中渲染可视化界面
+description: 学习如何在 Next.js 中使用 AI SDK 在聊天中渲染可视化界面
 tags: ['next', 'generative user interface']
 ---
 
-# Render Visual Interface in Chat
+# 在聊天中渲染可视化界面
 
-An interesting consequence of language models that can call [tools](/docs/ai-sdk-core/tools-and-tool-calling) is that this ability can be used to render visual interfaces by streaming React components to the client.
+能调用[工具](/docs/ai-sdk-core/tools-and-tool-calling)的语言模型，还可以将 React 组件流式传到客户端，从而在聊天中渲染可视化界面。
 
 <Browser>
   <ChatGeneration
@@ -37,9 +37,9 @@ An interesting consequence of language models that can call [tools](/docs/ai-sdk
   />
 </Browser>
 
-## Client
+## 客户端
 
-Let's build an assistant that gets the weather for any city by calling the `getWeatherInformation` tool. Instead of returning text during the tool call, you will render a React component that displays the weather information on the client.
+构建一个助手：通过调用 `getWeatherInformation` 工具获取任意城市天气。工具调用时不返回纯文本，而是在客户端渲染展示天气信息的 React 组件。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -202,7 +202,7 @@ export default function Chat() {
 }
 ```
 
-## Server
+## 服务端
 
 ```tsx filename='api/chat.ts'
 import {

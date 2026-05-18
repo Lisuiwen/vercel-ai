@@ -1,16 +1,16 @@
 ---
-title: Call Tools in Multiple Steps
-description: Learn how to call tools in multiple steps using the AI SDK and Next.js
+title: 多步调用工具
+description: 学习如何在 Next.js 中使用 AI SDK 多步调用工具
 tags: ['next', 'streaming', 'tool use']
 ---
 
-# Call Tools in Multiple Steps
+# 多步调用工具
 
-Some language models are great at calling tools in multiple steps to achieve a more complex task. This is particularly useful when the tools are dependent on each other and need to be executed in sequence during the same generation step.
+部分语言模型擅长通过多步调用工具完成更复杂的任务。当工具彼此依赖、且需要在同一次生成过程中按顺序执行时，这一点尤其有用。
 
-## Client
+## 客户端
 
-Let's create a React component that imports the `useChat` hook from the `@ai-sdk/react` module. The `useChat` hook will call the `/api/chat` endpoint when the user sends a message. The endpoint will generate the assistant's response based on the conversation history and stream it to the client. If the assistant responds with a tool call, the hook will automatically display them as well.
+创建一个 React 组件，从 `@ai-sdk/react` 导入 `useChat` hook。用户发送消息时，`useChat` 会请求 `/api/chat` 端点；端点根据对话历史生成助手回复并流式返回。若助手返回工具调用，hook 也会自动展示。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -69,15 +69,15 @@ export default function Page() {
 }
 ```
 
-## Server
+## 服务端
 
-You will create a new route at `/api/chat` that will use the `streamText` function from the `ai` module to generate the assistant's response based on the conversation history.
+在 `/api/chat` 新建路由，使用 `ai` 模块的 `streamText` 根据对话历史生成助手回复。
 
-You will use the [`tools`](/docs/reference/ai-sdk-core/generate-text#tools) parameter to specify two tools called `getLocation` and `getWeather` that will first get the user's location and then use it to get the weather.
+通过 [`tools`](/docs/reference/ai-sdk-core/generate-text#tools) 参数定义 `getLocation` 与 `getWeather` 两个工具：先获取用户位置，再据此查询天气。
 
-You will add the two functions mentioned earlier and use zod to specify the schema for its parameters.
+为上述工具添加实现，并用 zod 定义参数 schema。
 
-To call tools in multiple steps, you can use the `stopWhen` option to specify the stopping conditions for when the model generates a tool call. In this example, you will set it to `isStepCount(5)` to allow for multiple consecutive tool calls (steps).
+多步调用工具时，可用 `stopWhen` 指定模型生成工具调用时的停止条件。本示例设为 `isStepCount(5)`，以允许多次连续工具调用（步骤）。
 
 ```ts filename='app/api/chat/route.ts'
 import {

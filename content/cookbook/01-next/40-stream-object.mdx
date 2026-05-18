@@ -1,15 +1,12 @@
 ---
-title: Stream Object
-description: Learn how to stream object using the AI SDK and Next.js
+title: 流式输出对象
+description: 了解如何使用 AI SDK 与 Next.js 流式输出对象
 tags: ['next', 'streaming', 'structured data']
 ---
 
-# Stream Object
+# 流式输出对象
 
-Object generation can sometimes take a long time to complete, especially when you're generating a large schema.
-In such cases, it is useful to stream the object generation process to the client in real-time.
-This allows the client to display the generated object as it is being generated,
-rather than have users wait for it to complete before displaying the result.
+生成对象有时耗时较长，尤其是 schema 较大时。此时将生成过程实时流式传输到客户端很有用，用户可在生成过程中看到部分内容，而无需等待全部完成。
 
 <Browser>
   <ObjectGeneration
@@ -38,13 +35,13 @@ rather than have users wait for it to complete before displaying the result.
   />
 </Browser>
 
-## Object Mode
+## 对象模式（Object Mode）
 
-The `streamText` function with `Output` allows you to specify different output strategies. Using `Output.object`, it will generate exactly the structured object that you specify in the schema option.
+配合 `Output` 使用 `streamText` 可指定不同输出策略。使用 `Output.object` 时，将按 schema 选项生成精确的结构化对象。
 
 ### Schema
 
-It is helpful to set up the schema in a separate file that is imported on both the client and server.
+建议在单独文件中定义 schema，供客户端与服务端共同导入。
 
 ```ts filename='app/api/use-object/schema.ts'
 import { z } from 'zod';
@@ -60,12 +57,11 @@ export const notificationSchema = z.object({
 });
 ```
 
-### Client
+### 客户端
 
-The client uses [`useObject`](/docs/reference/ai-sdk-ui/use-object) to stream the object generation process.
+客户端使用 [`useObject`](/docs/reference/ai-sdk-ui/use-object) 流式接收对象生成过程。
 
-The results are partial and are displayed as they are received.
-Please note the code for handling `undefined` values in the JSX.
+结果为部分内容，随接收逐步展示。请注意 JSX 中处理 `undefined` 的代码。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -96,9 +92,9 @@ export default function Page() {
 }
 ```
 
-### Server
+### 服务端
 
-On the server, we use [`streamText`](/docs/reference/ai-sdk-core/stream-text) with `Output.object` to stream the object generation process.
+服务端使用 [`streamText`](/docs/reference/ai-sdk-core/stream-text) 配合 `Output.object` 流式生成对象。
 
 ```typescript filename='app/api/use-object/route.ts'
 import { streamText, Output } from 'ai';
@@ -120,10 +116,9 @@ export async function POST(req: Request) {
 }
 ```
 
-## Loading State and Stopping the Stream
+## 加载状态与停止流
 
-You can use the `loading` state to display a loading indicator while the object is being generated.
-You can also use the `stop` function to stop the object generation process.
+生成过程中可使用 `loading` 状态显示加载指示器，也可调用 `stop` 函数停止对象生成。
 
 ```tsx filename='app/page.tsx' highlight="7,16,21,24"
 'use client';
@@ -166,13 +161,13 @@ export default function Page() {
 }
 ```
 
-## Array Mode
+## 数组模式（Array Mode）
 
-The `Output.array` mode allows you to stream an array of objects one element at a time. This is particularly useful when generating lists of items.
+`Output.array` 模式可逐个元素流式输出对象数组，适合生成列表类内容。
 
 ### Schema
 
-First, update the schema to generate a single object (remove the `z.array()`).
+首先将 schema 改为生成单个对象（移除 `z.array()`）。
 
 ```ts filename='app/api/use-object/schema.ts'
 import { z } from 'zod';
@@ -184,9 +179,9 @@ export const notificationSchema = z.object({
 });
 ```
 
-### Client
+### 客户端
 
-On the client, you wrap the schema in `z.array()` to generate an array of objects.
+在客户端用 `z.array()` 包裹 schema，以生成对象数组。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -230,9 +225,9 @@ export default function Page() {
 }
 ```
 
-### Server
+### 服务端
 
-On the server, specify `Output.array` to generate an array of objects.
+在服务端指定 `Output.array` 以生成对象数组。
 
 ```typescript filename='app/api/use-object/route.ts'
 import { streamText, Output } from 'ai';
@@ -254,11 +249,11 @@ export async function POST(req: Request) {
 }
 ```
 
-## JSON Mode
+## JSON 模式
 
 `Output.json()` can be used when you don't want to specify a schema, for example when the data structure is defined by a dynamic user request. The model will still attempt to generate JSON data based on the prompt.
 
-### Client
+### 客户端
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -296,9 +291,9 @@ export default function Page() {
 }
 ```
 
-### Server
+### 服务端
 
-On the server, specify `Output.json()`.
+在服务端指定 `Output.json()`。
 
 ```typescript filename='app/api/use-object/route.ts'
 import { streamText, Output } from 'ai';

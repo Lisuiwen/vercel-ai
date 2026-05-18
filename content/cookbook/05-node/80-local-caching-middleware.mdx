@@ -1,39 +1,38 @@
 ---
-title: Local Caching Middleware
-description: Learn how to create a caching middleware for local development.
+title: 本地缓存中间件
+description: 学习如何为本地开发创建缓存中间件
 tags: ['streaming', 'caching', 'middleware']
 ---
 
-# Local Caching Middleware
+# 本地缓存中间件
 
-When developing AI applications, you'll often find yourself repeatedly making the same API calls during development. This can lead to increased costs and slower development cycles. A caching middleware allows you to store responses locally and reuse them when the same inputs are provided.
+开发 AI 应用时，常会重复发起相同 API 调用，导致成本上升、迭代变慢。缓存中间件可在本地存储响应，相同输入时直接复用。
 
-This approach is particularly useful in two scenarios:
+以下两种场景尤其适用：
 
-1. **Iterating on UI/UX** - When you're focused on styling and user experience, you don't want to regenerate AI responses for every code change.
-2. **Working on evals** - When developing evals, you need to repeatedly test the same prompts, but don't need new generations each time.
+1. **迭代 UI/UX** — 专注样式与体验时，不必每次改代码都重新生成 AI 回复。
+2. **开发 eval** — 需反复测试相同 prompt，但不必每次都重新生成。
 
-## Implementation
+## 实现
 
-In this implementation, you create a JSON file to store responses. When a request is made, you first check if you have already seen this exact request. If you have, you return the cached response immediately (as a one-off generation or chunks of tokens). If not, you trigger the generation, save the response, and return it.
+本实现用 JSON 文件存储响应。收到请求时先检查是否见过完全相同请求：若已缓存则立即返回（一次性生成或分块 token）；否则触发生成、保存并返回。
 
 <Note>
-  Make sure to add the path of your local cache to your `.gitignore` so you do
-  not commit it.
+  请将本地缓存路径加入 `.gitignore`，避免提交缓存文件。
 </Note>
 
-### How it works
+### 工作原理
 
-For regular generations, you store and retrieve complete responses. Instead, the streaming implementation captures each token as it arrives, stores the full sequence, and on cache hits uses the SDK's `simulateReadableStream` utility to recreate the token-by-token streaming experience at a controlled speed (defaults to 10ms between chunks).
+普通生成存储并读取完整响应。流式实现则在 token 到达时逐块记录完整序列；命中缓存时用 SDK 的 `simulateReadableStream` 以可控速度（默认块间隔 10ms）还原逐 token 流式体验。
 
-This approach gives you the best of both worlds:
+这样兼顾：
 
-- Instant responses for repeated queries
-- Preserved streaming behavior for UI development
+- 重复查询的即时响应
+- UI 开发所需的流式行为
 
-The middleware handles all transformations needed to make cached responses indistinguishable from fresh ones, including normalizing tool calls and fixing timestamp formats.
+中间件会处理使缓存响应与新鲜响应一致所需的转换，包括规范化工具调用与修正时间戳格式。
 
-### Middleware
+### 中间件
 
 ```ts
 import {
@@ -213,9 +212,9 @@ export const cacheMiddleware: LanguageModelV4Middleware = {
 };
 ```
 
-## Using the Middleware
+## 使用中间件
 
-The middleware can be easily integrated into your existing AI SDK setup:
+可轻松接入现有 AI SDK 配置：
 
 ```ts highlight="4,8"
 import { openai } from '@ai-sdk/openai';
@@ -244,10 +243,10 @@ async function main() {
 main().catch(console.error);
 ```
 
-## Considerations
+## 注意事项
 
-When using this caching middleware, keep these points in mind:
+使用本缓存中间件时请注意：
 
-1. **Development Only** - This approach is intended for local development, not production environments
-2. **Cache Invalidation** - You'll need to clear the cache (delete the cache file) when you want fresh responses
-3. **Multi-Step Flows** - When using `stopWhen`, be aware that caching occurs at the individual language model response level, not across the entire execution flow. This means that while the model's generation is cached, the tool call is not and will run on each generation.
+1. **仅用于开发** — 面向本地开发，不适用于生产环境
+2. **缓存失效** — 需要新响应时须清空缓存（删除缓存文件）
+3. **多步流程** — 使用 `stopWhen` 时，缓存在单次语言模型响应级别，而非整个执行流程；模型生成会被缓存，工具调用不会，每次生成仍会执行

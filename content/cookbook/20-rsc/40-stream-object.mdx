@@ -1,19 +1,16 @@
 ---
-title: Stream Object
-description: Learn how to stream object using the AI SDK and React Server Components.
+title: 流式生成对象
+description: 学习如何使用 AI SDK 与 React Server Components 流式生成对象
 tags: ['rsc', 'streaming', 'structured data']
 ---
 
-# Stream Object
+# 流式生成对象
 
 <Note>
-  This example uses React Server Components (RSC). If you want to client side
-  rendering and hooks instead, check out the ["streaming object generation"
-  example with
-  useObject](/examples/next-pages/basics/streaming-object-generation).
+  本示例使用 React Server Components (RSC)。若需要客户端渲染与 hooks，请参阅[使用 useObject 的「流式对象生成」示例](/examples/next-pages/basics/streaming-object-generation)。
 </Note>
 
-Object generation can sometimes take a long time to complete, especially when you're generating a large schema. In such cases, it is useful to stream the object generation process to the client in real-time. This allows the client to display the generated object as it is being generated, rather than have users wait for it to complete before displaying the result.
+对象生成有时耗时较长，尤其 schema 较大时。可将生成过程实时流式传到客户端，在生成过程中展示对象，而非等完成后再显示。
 
 <Browser>
   <ObjectGeneration
@@ -42,9 +39,9 @@ Object generation can sometimes take a long time to complete, especially when yo
   />
 </Browser>
 
-## Client
+## 客户端
 
-Let's create a simple React component that will call the `getNotifications` function when a button is clicked. The function will generate a list of notifications as described in the schema.
+创建简单 React 组件：点击按钮时调用 `getNotifications`，按 schema 生成通知列表。
 
 ```tsx filename='app/page.tsx'
 'use client';
@@ -83,9 +80,9 @@ export default function Home() {
 }
 ```
 
-## Server
+## 服务端
 
-Now let's implement the `generate` function. We'll use the `streamText` function with `Output.object` to stream the list of fictional notifications based on the schema we defined earlier.
+实现 `generate`：使用 `streamText` 与 `Output.object`，按先前定义的 schema 流式生成虚构通知列表。
 
 ```typescript filename='app/actions.ts'
 'use server';

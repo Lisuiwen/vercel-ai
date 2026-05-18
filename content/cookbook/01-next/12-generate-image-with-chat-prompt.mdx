@@ -1,16 +1,16 @@
 ---
-title: Generate Image with Chat Prompt
-description: Learn how to generate an image with a chat prompt using the AI SDK and Next.js
+title: 使用聊天提示生成图像
+description: 了解如何使用 AI SDK 与 Next.js，通过聊天提示生成图像
 tags: ['next', 'streaming', 'chat', 'image generation', 'tools']
 ---
 
-# Generate Image with Chat Prompt
+# 使用聊天提示生成图像
 
-When building a chatbot, you may want to allow the user to generate an image. This can be done by creating a tool that generates an image using the [`generateImage`](/docs/reference/ai-sdk-core/generate-image) function from the AI SDK.
+构建聊天机器人时，你可能希望允许用户生成图像。可通过定义工具，调用 AI SDK 的 [`generateImage`](/docs/reference/ai-sdk-core/generate-image) 函数来实现。
 
-## Server
+## 服务端
 
-Let's create an endpoint at `/api/chat` that generates the assistant's response based on the conversation history. You will also define a tool called `generateImage` that will generate an image based on the assistant's response.
+在 `/api/chat` 创建端点，根据对话历史生成助手回复，并定义名为 `generateImage` 的工具，由助手回复触发图像生成。
 
 ```typescript filename='tools/generate-image.ts'
 import { generateImage, tool } from 'ai';
@@ -64,14 +64,12 @@ export async function POST(request: Request) {
 ```
 
 <Note>
-  In production, you should save the generated image to a blob storage and
-  return a URL instead of the base64 image data. If you don't, the base64 image
-  data will be sent to the model which may cause the generation to fail.
+  生产环境中应将生成的图像保存到 blob 存储并返回 URL，而不是 base64 数据。否则 base64 会再次送入模型，可能导致生成失败。
 </Note>
 
-## Client
+## 客户端
 
-Let's create a simple chat interface with `useChat`. You will call the `/api/chat` endpoint to generate the assistant's response. If the assistant's response contains a `generateImage` tool invocation, you will display the tool result (the image in base64 format and the prompt) using the Next `Image` component.
+使用 `useChat` 创建简单聊天界面，调用 `/api/chat` 获取助手回复。若回复包含 `generateImage` 工具调用，则用 Next.js 的 `Image` 组件展示工具结果（base64 图像与 prompt）。
 
 ```tsx filename='app/page.tsx'
 'use client';
