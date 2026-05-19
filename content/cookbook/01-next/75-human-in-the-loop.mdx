@@ -1,20 +1,20 @@
 ---
-title: Human-in-the-Loop with Next.js
-description: Add a human approval step to your agentic system with Next.js and the AI SDK
+title: Next.js 人机协同（HITL）
+description: 在 Next.js 与 AI SDK 中为 agent 系统添加人工审批步骤
 tags: ['next', 'agents', 'tool use']
 ---
 
-# Human-in-the-Loop with Next.js
+# Next.js 人机协同（HITL）
 
-When building agentic systems, it's important to add human-in-the-loop (HITL) functionality to ensure that users can approve actions before the system executes them. The AI SDK provides built-in support for tool execution approval through the `needsApproval` property on tools.
+构建 agent 系统时，宜加入人机协同（HITL），让用户在系统执行操作前审批。AI SDK 通过工具上的 `needsApproval` 属性内置支持工具执行审批。
 
-This recipe shows how to add a human approval step to a Next.js chatbot using the AI SDK's native tool execution approval feature.
+本示例展示如何在 Next.js 聊天机器人中使用 AI SDK 原生工具执行审批。
 
-## Background
+## 背景
 
-To understand how to implement this functionality, let's look at how tool calling works in a Next.js chatbot application with the AI SDK.
+理解实现方式前，先看 AI SDK 在 Next.js 聊天应用中的工具调用流程。
 
-On the frontend, use the `useChat` hook to manage the message state and user interaction.
+前端使用 `useChat` hook 管理消息状态与用户交互。
 
 ```tsx filename="app/page.tsx"
 'use client';
@@ -68,7 +68,7 @@ export default function Chat() {
 }
 ```
 
-On the backend, create a route handler that uses `streamText` and returns a `UIMessageStreamResponse`. The tool has an `execute` function that runs automatically when the model calls it.
+后端创建使用 `streamText` 并返回 `UIMessageStreamResponse` 的路由处理器。工具含 `execute` 函数，模型调用时自动执行。
 
 ```ts filename="app/api/chat/route.ts"
 import { streamText, tool } from 'ai';
@@ -99,15 +99,15 @@ export async function POST(req: Request) {
 }
 ```
 
-When a user asks the LLM for the weather in New York, the model generates a tool call with the city parameter. The AI SDK then runs the `execute` function automatically and returns the result.
+用户向 LLM 询问纽约天气时，模型生成带城市参数的工具调用，AI SDK 自动运行 `execute` 并返回结果。
 
-To add a HITL step, you add an approval gate between the tool call and the tool execution using `needsApproval`.
+要加入 HITL 步骤，在工具调用与执行之间用 `needsApproval` 设置审批门控。
 
-## Adding Tool Execution Approval
+## 添加工具执行审批
 
-### Server Setup
+### 服务端配置
 
-Add `needsApproval: true` to the tool definition. The tool keeps its `execute` function, but the SDK pauses execution until the user approves.
+在工具定义中添加 `needsApproval: true`。工具仍保留 `execute`，但 SDK 会暂停执行直至用户批准。
 
 ```ts filename="app/api/chat/route.ts" highlight="14"
 import { streamText, tool } from 'ai';
@@ -139,11 +139,11 @@ export async function POST(req: Request) {
 }
 ```
 
-When the model calls this tool, instead of running the `execute` function, the SDK sends a tool part with the `approval-requested` state to the client. The tool only executes after the user responds.
+模型调用该工具时，SDK 不向客户端执行 `execute`，而是发送状态为 `approval-requested` 的工具部分。用户响应后才执行工具。
 
-### Client-Side Approval UI
+### 客户端审批 UI
 
-On the frontend, check for the `approval-requested` state and render approve/deny buttons. Use `addToolApprovalResponse` from the `useChat` hook to send the user's decision.
+前端检测 `approval-requested` 状态并渲染批准/拒绝按钮。使用 `useChat` 的 `addToolApprovalResponse` 发送用户决定。
 
 ```tsx filename="app/page.tsx"
 'use client';
@@ -253,9 +253,9 @@ Here's how the approval flow works:
 5. `sendAutomaticallyWhen` detects all approvals are responded to and sends the message
 6. On the server, if approved, the `execute` function runs and returns the result. If denied, the model receives the denial and responds accordingly.
 
-### Auto-Submit After Approval
+### 审批后自动提交
 
-The `sendAutomaticallyWhen` option with `lastAssistantMessageIsCompleteWithApprovalResponses` automatically sends a message after all tool approvals in the last step have been responded to. Without this, you would need to call `sendMessage()` manually after each approval.
+`sendAutomaticallyWhen` 配合 `lastAssistantMessageIsCompleteWithApprovalResponses` 可在上一步所有工具审批均已响应后自动发送消息；否则每次审批后需手动调用 `sendMessage()`。
 
 ```tsx
 import { useChat } from '@ai-sdk/react';
@@ -267,14 +267,12 @@ const { messages, addToolApprovalResponse } = useChat({
 ```
 
 <Note>
-  If nothing happens after you approve a tool execution, make sure you either
-  call `sendMessage` manually or configure `sendAutomaticallyWhen` on the
-  `useChat` hook.
+  批准工具执行后若无反应，请手动调用 `sendMessage` 或在 `useChat` 上配置 `sendAutomaticallyWhen`。
 </Note>
 
-### Dynamic Approval
+### 动态审批
 
-You can make approval conditional based on the tool's input by providing an async function to `needsApproval`:
+可向 `needsApproval` 传入异步函数，根据工具输入决定是否需审批：
 
 ```ts filename="app/api/chat/route.ts" highlight="15"
 import { streamText, tool } from 'ai';
@@ -306,11 +304,11 @@ export async function POST(req: Request) {
 }
 ```
 
-In this example, only payments over $1000 require approval. Smaller amounts execute automatically.
+本示例中仅超过 $1000 的支付需审批，较小金额自动执行。
 
-### Handling Denial
+### 处理拒绝
 
-When a user denies a tool execution, the model receives the denial and can respond accordingly. To prevent the model from retrying the same tool call, add an instruction:
+用户拒绝工具执行时，模型会收到拒绝信息并相应回复。为防止模型重试同一工具调用，可添加指令：
 
 ```ts highlight="5-6"
 const result = streamText({
@@ -325,8 +323,8 @@ const result = streamText({
 });
 ```
 
-## Full Example
+## 完整示例
 
-To see this code in action, check out the [`next-openai` example](https://github.com/vercel/ai/tree/main/examples/next-openai) in the AI SDK repository. Navigate to the `/test-tool-approval` page and associated route handler.
+可在 AI SDK 仓库的 [`next-openai` 示例](https://github.com/vercel/ai/tree/main/examples/next-openai) 中查看运行效果，访问 `/test-tool-approval` 页面及对应路由处理器。
 
-For more details on tool execution approval, see the [Tool Execution Approval](/docs/ai-sdk-core/tools-and-tool-calling#tool-execution-approval) and [Chatbot Tool Usage](/docs/ai-sdk-ui/chatbot-tool-usage#tool-execution-approval) documentation.
+工具执行审批详见[工具执行审批](/docs/ai-sdk-core/tools-and-tool-calling#tool-execution-approval)与[聊天机器人工具用法](/docs/ai-sdk-ui/chatbot-tool-usage#tool-execution-approval)文档。

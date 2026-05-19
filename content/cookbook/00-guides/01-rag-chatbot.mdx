@@ -1,6 +1,6 @@
 ---
 title: RAG Agent
-description: Learn how to build a RAG Agent with the AI SDK and Next.js
+description: 学习如何使用 AI SDK 与 Next.js 构建 RAG Agent
 tags:
   [
     'rag',
@@ -14,9 +14,9 @@ tags:
   ]
 ---
 
-# RAG Agent Guide
+# RAG Agent 指南
 
-In this guide, you will learn how to build a retrieval-augmented generation (RAG) agent.
+本指南介绍如何构建检索增强生成（RAG）agent。
 
 <video
   src="/images/rag-guide-demo.mp4"
@@ -27,17 +27,17 @@ In this guide, you will learn how to build a retrieval-augmented generation (RAG
   playsinline
 />
 
-Before we dive in, let's look at what RAG is, and why we would want to use it.
+深入之前，先了解什么是 RAG 以及为何使用它。
 
-### What is RAG?
+### 什么是 RAG？
 
-RAG stands for retrieval augmented generation. In simple terms, RAG is the process of providing a Large Language Model (LLM) with specific information relevant to the prompt.
+RAG 即检索增强生成（Retrieval Augmented Generation）。简单说，RAG 是在提示时向大语言模型（LLM）提供与问题相关的特定信息。
 
-### Why is RAG important?
+### 为何需要 RAG？
 
-While LLMs are powerful, the information they can reason on is restricted to the data they were trained on. This problem becomes apparent when asking an LLM for information outside of their training data, like proprietary data or common knowledge that has occurred after the model’s training cutoff. RAG solves this problem by fetching information relevant to the prompt and then passing that to the model as context.
+LLM 虽强大，但推理范围限于训练数据。询问训练数据之外的信息（专有数据或训练截止后的常识）时问题尤为明显。RAG 通过获取与提示相关的信息并作为上下文传给模型来解决这一问题。
 
-To illustrate with a basic example, imagine asking the model for your favorite food:
+用一个简单例子说明：假设询问模型你最喜欢的食物：
 
 ```txt
 **input**
@@ -60,29 +60,25 @@ context: user loves chicken nuggets
 Your favorite food is chicken nuggets!
 ```
 
-Just like that, you have augmented the model’s generation by providing relevant information to the query. Assuming the model has the appropriate information, it is now highly likely to return an accurate response to the users query. But how does it retrieve the relevant information? The answer relies on a concept called embedding.
+这样即可通过为查询提供相关信息来增强模型生成。只要模型拥有合适信息，就很可能对用户问题给出准确回答。那如何检索相关信息？答案依赖称为嵌入（embedding）的概念。
 
 <Note>
-  You could fetch any context for your RAG application (eg. Google search).
-  Embeddings and Vector Databases are just a specific retrieval approach to
-  achieve semantic search.
+  RAG 应用可获取任意上下文（例如 Google 搜索）。嵌入与向量数据库只是实现语义搜索的一种检索方式。
 </Note>
 
-### Embedding
+### 嵌入
 
-[Embeddings](/docs/ai-sdk-core/embeddings) are a way to represent words, phrases, or images as vectors in a high-dimensional space. In this space, similar words are close to each other, and the distance between words can be used to measure their similarity.
+[嵌入](/docs/ai-sdk-core/embeddings)将词、短语或图像表示为高维空间中的向量。空间中相近的词彼此接近，向量间距离可衡量相似度。
 
-In practice, this means that if you embedded the words `cat` and `dog`, you would expect them to be plotted close to each other in vector space. The process of calculating the similarity between two vectors is called ‘cosine similarity’ where a value of 1 would indicate high similarity and a value of -1 would indicate high opposition.
+实践中，嵌入 `cat` 与 `dog` 时，它们在向量空间中应彼此靠近。计算两向量相似度的过程称为「余弦相似度」，值为 1 表示高度相似，-1 表示高度相反。
 
 <Note>
-  Don’t worry if this seems complicated. a high level understanding is all you
-  need to get started! For a more in-depth introduction to embeddings, check out
-  [this guide](https://jalammar.github.io/illustrated-word2vec/).
+  若觉得复杂不必担心，入门只需高层理解即可！更深入的嵌入介绍请参阅[本指南](https://jalammar.github.io/illustrated-word2vec/)。
 </Note>
 
 As mentioned above, embeddings are a way to represent the semantic meaning of **words and phrases**. The implication here is that the larger the input to your embedding, the lower quality the embedding will be. So how would you approach embedding content longer than a simple phrase?
 
-### Chunking
+### 分块（Chunking）
 
 Chunking refers to the process of breaking down a particular source material into smaller pieces. There are many different approaches to chunking and it’s worth experimenting as the most effective approach can differ by use case. A simple and common approach to chunking (and what you will be using in this guide) is separating written content by sentences.
 
@@ -95,7 +91,7 @@ Once your source material is appropriately chunked, you can embed each one and t
   height={800}
 />
 
-### All Together Now
+### 整体串联
 
 Combining all of this together, RAG is the process of enabling the model to respond with information outside of it’s training data by embedding a users query, retrieving the relevant source material (chunks) with the highest semantic similarity, and then passing them alongside the initial query as context. Going back to the example where you ask the model for your favorite food, the prompt preparation process would look like this.
 
@@ -110,7 +106,7 @@ By passing the appropriate context and refining the model’s objective, you are
 
 Onto the project!
 
-## Project Setup
+## 项目设置
 
 In this project, you will build a agent that will only respond with information that it has within its knowledge base. The agent will be able to both store and retrieve information. This project has many interesting use cases from customer support through to building your own second brain!
 
@@ -123,7 +119,7 @@ This project will use the following stack:
 - [ Postgres ](https://www.postgresql.org/) with [ pgvector ](https://github.com/pgvector/pgvector)
 - [ shadcn-ui ](https://ui.shadcn.com) and [ TailwindCSS ](https://tailwindcss.com) for styling
 
-### Clone Repo
+### 克隆仓库
 
 To reduce the scope of this guide, you will be starting with a [repository](https://github.com/vercel/ai-sdk-rag-starter) that already has a few things set up for you:
 
@@ -144,7 +140,7 @@ First things first, run the following command to install the project’s depende
 
 <Snippet text="pnpm install" />
 
-### Create Database
+### 创建数据库
 
 You will need a Postgres database to complete this tutorial. If you don't have Postgres setup on your local machine you can:
 
@@ -173,7 +169,7 @@ To set up a Postgres instance on your Vercel account:
 1. In the Quick Start section, click **Show secrets**
 1. Copy the full `DATABASE_URL` environment variable
 
-### Migrate Database
+### 迁移数据库
 
 Once you have a Postgres database, you need to add the connection string as an environment secret.
 
@@ -194,7 +190,7 @@ This will first add the `pgvector` extension to your database. Then it will crea
   section](#troubleshooting-migration-error) below.
 </Note>
 
-### Vercel AI Gateway Key
+### Vercel AI Gateway 密钥
 
 For this guide, you will need a Vercel AI Gateway API key, which gives you access to hundreds of models from different providers with one API key. If you haven't obtained your Vercel AI Gateway API key, you can do so by [signing up](https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai&title=Go+to+AI+Gateway) on the Vercel website.
 
@@ -213,7 +209,7 @@ AI_GATEWAY_API_KEY=your-api-key
 
 Replace `your-api-key` with your actual Vercel AI Gateway API key.
 
-## Build
+## 构建
 
 Let’s build a quick task list of what needs to be done:
 
@@ -834,11 +830,11 @@ export async function POST(req: Request) {
 
 Head back to the browser, refresh the page, and ask for your favorite food. You should see the model call the `getInformation` tool, and then use the relevant information to formulate a response!
 
-## Conclusion
+## 总结
 
 Congratulations, you have successfully built an AI agent that can dynamically add and retrieve information to and from a knowledge base. Throughout this guide, you learned how to create and store embeddings, set up server actions to manage resources, and use tools to extend the capabilities of your agent.
 
-## Troubleshooting Migration Error
+## 迁移错误排查
 
 If you experience an error with the migration, open your migration file (`lib/db/migrations/0000_yielding_bloodaxe.sql`), cut (copy and remove) the first line, and run it directly on your postgres instance. You should now be able to run the updated migration.
 

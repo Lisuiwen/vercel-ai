@@ -1,23 +1,22 @@
 ---
-title: Multi-Modal Agent
-description: Learn how to build a multi-modal agent that can process images and PDFs with the AI SDK.
+title: 多模态 Agent
+description: 学习如何使用 AI SDK 构建可处理图像与 PDF 的多模态 agent
 tags: ['multi-modal', 'agent', 'images', 'pdf', 'vision', 'next']
 ---
 
-# Multi-Modal Agent
+# 多模态 Agent
 
-In this guide, you will build a multi-modal agent capable of understanding both images and PDFs.
+本指南将构建能理解图像与 PDF 的多模态 agent。
 
-Multi-modal refers to the ability of the agent to understand and generate responses in multiple formats. In this guide, we'll focus on images and PDFs - two common document types that modern language models can process natively.
+多模态指 agent 能以多种格式理解并生成回复。本指南聚焦图像与 PDF——现代语言模型可原生处理的常见文档类型。
 
 <Note>
-  For a complete list of providers and their multi-modal capabilities, visit the
-  [providers documentation](/providers/ai-sdk-providers).
+  各提供商多模态能力完整列表请参阅[提供商文档](/providers/ai-sdk-providers)。
 </Note>
 
-We'll build this agent using OpenAI's GPT-4o, but the same code works seamlessly with other providers - you can switch between them by changing just one line of code.
+示例使用 OpenAI 的 GPT-4o，但相同代码可无缝用于其他提供商——只需改一行即可切换。
 
-## Prerequisites
+## 前置条件
 
 To follow this quickstart, you'll need:
 
@@ -26,7 +25,7 @@ To follow this quickstart, you'll need:
 
 If you haven't obtained your Vercel AI Gateway API key, you can do so by [signing up](https://vercel.com/d?to=%2F%5Bteam%5D%2F%7E%2Fai&title=Go+to+AI+Gateway) on the Vercel website.
 
-## Create Your Application
+## 创建应用
 
 Start by creating a new Next.js application. This command will create a new directory named `multi-modal-agent` and set up a basic Next.js application inside it.
 
@@ -44,7 +43,7 @@ Navigate to the newly created directory:
 
 <Snippet text="cd multi-modal-agent" />
 
-### Install dependencies
+### 安装依赖
 
 Install `ai` and `@ai-sdk/react`, the AI SDK package and the AI SDK's React package respectively.
 
@@ -74,7 +73,7 @@ Install `ai` and `@ai-sdk/react`, the AI SDK package and the AI SDK's React pack
   </Tabs>
 </div>
 
-### Configure your Vercel AI Gateway API key
+### 配置 Vercel AI Gateway API 密钥
 
 Create a `.env.local` file in your project root and add your Vercel AI Gateway API key. This key authenticates your application with Vercel AI Gateway.
 
@@ -95,7 +94,7 @@ Replace `your_api_key_here` with your actual Vercel AI Gateway API key.
   management](/docs/ai-sdk-core/provider-management) documentation.
 </Note>
 
-## Implementation Plan
+## 实现计划
 
 To build a multi-modal agent, you will need to:
 
@@ -103,7 +102,7 @@ To build a multi-modal agent, you will need to:
 - Wire up the UI to display chat messages, provide a user input, and handle submitting new messages.
 - Add the ability to upload images and PDFs and attach them alongside the chat messages.
 
-## Create a Route Handler
+## 创建路由处理器
 
 Create a route handler, `app/api/chat/route.ts` and add the following code:
 
@@ -135,7 +134,7 @@ Let's take a look at what is happening in this code:
 
 This Route Handler creates a POST request endpoint at `/api/chat`.
 
-## Wire up the UI
+## 连接 UI
 
 Now that you have a Route Handler that can query a large language model (LLM), it's time to setup your frontend. [ AI SDK UI ](/docs/ai-sdk-ui) abstracts the complexity of a chat interface into one hook, [`useChat`](/docs/reference/ai-sdk-ui/use-chat).
 
@@ -206,7 +205,7 @@ This page utilizes the `useChat` hook, configured with `DefaultChatTransport` to
 - Each message contains a `parts` array that can include text, images, PDFs, and other content types.
 - Files are converted to data URLs before being sent to maintain compatibility across different environments.
 
-## Add File Upload
+## 添加文件上传
 
 To make your agent multi-modal, let's add the ability to upload and send both images and PDFs to the model. In v5, files are sent as part of the message's `parts` array. Files are converted to data URLs using the FileReader API before being sent to the server.
 
@@ -347,7 +346,7 @@ In this code, you:
 1. Update the `onSubmit` function to send messages with the `sendMessage` function, including both text and file parts.
 1. Add a file input field to the form, including an `onChange` handler to handle updating the files state.
 
-## Running Your Application
+## 运行应用
 
 With that, you have built everything you need for your multi-modal agent! To start your application, use the command:
 
@@ -357,7 +356,7 @@ Head to your browser and open http://localhost:3000. You should see an input fie
 
 Try uploading an image or PDF and asking the model questions about it. Watch as the model's response is streamed back to you!
 
-## Using Other Providers
+## 使用其他提供商
 
 With the AI SDK's unified provider interface you can easily switch to other providers that support multi-modal capabilities:
 
@@ -383,6 +382,6 @@ Install the provider package (`@ai-sdk/anthropic` or `@ai-sdk/google`) and updat
   documentation](/providers/ai-sdk-providers) for specific details.
 </Note>
 
-## Where to Next?
+## 下一步？
 
 You've built a multi-modal AI agent using the AI SDK! Experiment and extend the functionality of this application further by exploring [tool calling](/docs/ai-sdk-core/tools-and-tool-calling).

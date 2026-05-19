@@ -1,29 +1,29 @@
 ---
-title: Streaming with Custom Format
-description: Build a custom format to stream LLM responses
+title: 自定义格式流式输出
+description: 构建自定义格式以流式输出 LLM 响应
 tags: ['next', 'streaming', 'tool use']
 ---
 
-# Streaming with Custom Format
+# 自定义格式流式输出
 
-Create a custom stream to control the streaming format and structure of tool calls instead of using the built-in AI SDK data stream format (`toUIMessageStream()`).
+创建自定义流，控制流式格式与工具调用结构，而非使用 AI SDK 内置数据流格式（`toUIMessageStream()`）。
 
-`fullStream` (on `StreamTextResult`) gives you direct access to all model events. You can transform, filter, and structure these events into your own streaming format. This gives you the benefits of the AI SDK's unified provider interface without prescribing how you consume the stream.
+`StreamTextResult` 上的 `fullStream` 可直接访问所有模型事件，你可将其转换、过滤并构造成自己的流式格式，在享受 AI SDK 统一提供商接口的同时自由消费流。
 
-You can:
+你可以：
 
-- Define your own stream chunk format
-- Control how steps and tool calls are structured
-- Parse the stream manually on the client
-- Build custom UI from your stream data
+- 定义自己的流块格式
+- 控制步骤与工具调用的结构
+- 在客户端手动解析流
+- 根据流数据构建自定义 UI
 
-For complete control over both the streaming format and the execution loop, combine this pattern with a [manual agent loop](/cookbook/node/manual-agent-loop).
+若需同时完全控制流式格式与执行循环，可将本模式与[手动 agent 循环](/cookbook/node/manual-agent-loop)结合。
 
-## Implementation
+## 实现
 
-### Server
+### 服务端
 
-Create a route handler that calls a model and then streams the responses in a custom format:
+创建路由处理器：调用模型并以自定义格式流式返回响应：
 
 ```tsx filename="app/api/stream/route.ts"
 import { tools } from '@/ai/tools'; // your tools
@@ -85,11 +85,11 @@ export async function POST(request: Request) {
 }
 ```
 
-The route uses `streamText` to process the prompt with tools. Each event (text, tool calls, tool results) is encoded as a Server-Sent Event with a `data: ` prefix and sent to the client.
+路由使用 `streamText` 处理带工具的 prompt。每个事件（文本、工具调用、工具结果）编码为带 `data: ` 前缀的 Server-Sent Event 并发送给客户端。
 
-### Client
+### 客户端
 
-Create a simple interface that parses and displays the stream:
+创建简单界面以解析并展示流：
 
 ```tsx filename="app/page.tsx"
 'use client';
@@ -156,13 +156,13 @@ export default function Home() {
 }
 ```
 
-## How it works
+## 工作原理
 
-The client uses the Fetch API to stream responses from the server. Since the server sends Server-Sent Events (newline-delimited with `data: ` prefix), the client:
+客户端用 Fetch API 从服务端流式接收响应。服务端发送 Server-Sent Events（以换行分隔、带 `data: ` 前缀），客户端：
 
-1. Reads chunks from the stream using `getReader()`
-2. Decodes the binary chunks to text
-3. Splits by newlines to identify complete events
-4. Removes the `data: ` prefix and parses the JSON, then appends it to the events list
+1. 用 `getReader()` 读取流块
+2. 将二进制块解码为文本
+3. 按换行拆分以识别完整事件
+4. 去掉 `data: ` 前缀并解析 JSON，追加到事件列表
 
-Events are rendered in order as they arrive, giving you a linear representation of the AI's response.
+事件按到达顺序渲染，线性展示 AI 的响应。

@@ -1,29 +1,29 @@
 ---
-title: Knowledge Base Agent
-description: Build an AI agent that can read from and write to a knowledge base using Upstash Search and the AI SDK
+title: 知识库 Agent
+description: 使用 Upstash Search 与 AI SDK 构建可读写知识库的 AI agent
 tags: ['node', 'retrieval', 'tools']
 ---
 
-In this recipe, you'll learn how to build an AI agent that can interact with a knowledge base using [Upstash Search](https://upstash.com/docs/search). The agent will be able to both retrieve information from the knowledge base and add new resources to it, leveraging AI SDK tools.
+本示例介绍如何使用 [Upstash Search](https://upstash.com/docs/search) 构建可与知识库交互的 AI agent。Agent 既能检索知识库信息，也能添加新资源，依托 AI SDK 工具实现。
 
-Upstash Search offers input enrichment, reranking, semantic search, and full-text search for highly accurate results. It also provides a built-in embedding service, eliminating the need for a separate embedding provider. This makes it convenient for building and managing simple knowledge bases.
+Upstash Search 提供输入增强、重排序、语义搜索与全文搜索，结果准确；内置嵌入服务，无需单独嵌入提供商，便于构建与管理简单知识库。
 
-This example uses [the following essay](https://raw.githubusercontent.com/run-llama/llama_index/main/docs/docs/examples/data/paul_graham/paul_graham_essay.txt) as input data (`essay.txt`).
+本示例以[以下文章](https://raw.githubusercontent.com/run-llama/llama_index/main/docs/docs/examples/data/paul_graham/paul_graham_essay.txt) 为输入数据（`essay.txt`）。
 
-For a more in-depth guide, check out the [RAG Agent Guide](/cookbook/guides/rag-chatbot), which shows you how to build a RAG Agent with [Next.js](https://nextjs.org), [Drizzle ORM](https://orm.drizzle.team/), and [Postgres](https://postgresql.org).
+更深入的指南请参阅 [RAG Agent 指南](/cookbook/guides/rag-chatbot)，演示如何用 [Next.js](https://nextjs.org)、[Drizzle ORM](https://orm.drizzle.team/) 与 [Postgres](https://postgresql.org) 构建 RAG Agent。
 
-## Getting Started
+## 入门
 
-Create an Upstash Search database on [Upstash Console](https://console.upstash.com/search). Once created, you will get a REST URL and a token. Set these in your environment variables:
+在 [Upstash Console](https://console.upstash.com/search) 创建 Upstash Search 数据库，创建后会获得 REST URL 与 token，写入环境变量：
 
 ```bash
 UPSTASH_SEARCH_REST_URL="***"
 UPSTASH_SEARCH_REST_TOKEN="***"
 ```
 
-## Project Setup
+## 项目设置
 
-Create a new empty directory for your project and initialize pnpm:
+为项目新建空目录并初始化 pnpm：
 
 ```bash
 mkdir knowledge-base-agent
@@ -31,22 +31,22 @@ cd knowledge-base-agent
 pnpm init
 ```
 
-Install the AI SDK, OpenAI provider, Upstash Search packages, and tsx as a dev dependency:
+安装 AI SDK、OpenAI 提供商、Upstash Search 包，以及 tsx 开发依赖：
 
 ```bash
 pnpm i ai zod @ai-sdk/openai @upstash/search
 pnpm i -D tsx
 ```
 
-Finally, download and save the input essay:
+最后下载并保存输入文章：
 
 ```bash
 curl -o essay.txt https://raw.githubusercontent.com/run-llama/llama_index/main/docs/docs/examples/data/paul_graham/paul_graham_essay.txt
 ```
 
-## Setting Up the Knowledge Base
+## 设置知识库
 
-Next, let's set up the initial knowledge base by reading a file and uploading its content to Upstash Search. Create a script called `setup.ts`:
+接下来读取文件并将其内容上传到 Upstash Search 以建立初始知识库。创建名为 `setup.ts` 的脚本：
 
 ```ts filename="setup.ts"
 import fs from 'fs';
@@ -100,17 +100,17 @@ async function setupKnowledgeBase() {
 setupKnowledgeBase().catch(console.error);
 ```
 
-Run the setup script to populate your knowledge base:
+运行设置脚本填充知识库：
 
 ```bash
 pnpm tsx setup.ts
 ```
 
-Navigate to the Upstash Console and check the data browser of your Search database. You should see the essay has been indexed.
+在 Upstash Console 中打开 Search 数据库的数据浏览器，应能看到文章已建立索引。
 
-## Building the Knowledge Base Agent
+## 构建知识库 Agent
 
-Now let's create an agent that can interact with this knowledge base. Create a new file called `agent.ts`:
+创建可与该知识库交互的 agent。新建 `agent.ts`：
 
 ```ts filename="agent.ts"
 import { tool, isStepCount, generateText, generateId } from 'ai';
@@ -229,12 +229,12 @@ const question =
 main(question).then(console.log).catch(console.error);
 ```
 
-## Running the Agent
+## 运行 Agent
 
-Now let's run the agent:
+运行 agent：
 
 ```bash
 pnpm tsx agent.ts
 ```
 
-The agent will utilize the knowledge base to answer questions, add new resources, and delete existing ones as needed. You can modify the `question` variable to test different queries and interactions with the knowledge base.
+Agent 会利用知识库回答问题、添加新资源并按需删除已有资源。可修改 `question` 变量以测试不同查询与知识库交互。
